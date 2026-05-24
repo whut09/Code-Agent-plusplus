@@ -5,7 +5,7 @@ export function renderReadiness(context: ContextPackage): string {
   return [
     heading(1, "Agent Readiness"),
     "",
-    `Score: ${context.readiness.score}/100`,
+    `Agent Readiness: ${context.readiness.score}/100`,
     "",
     heading(2, "Strengths"),
     bullet(context.readiness.strengths),

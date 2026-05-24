@@ -9,7 +9,9 @@ import { renderModuleMap } from "./module-map.js";
 import { renderOnboarding } from "./onboarding.js";
 import { renderReadiness } from "./readiness.js";
 import { renderRepoSummary } from "./repo-summary.js";
+import { buildRagDocuments, buildRagManifest, renderRagReadme } from "./rag.js";
 import { renderTaskContext } from "./task-context.js";
+import { renderTokenSavings } from "./token-savings.js";
 
 export interface WriteResult {
   files: string[];
@@ -21,11 +23,13 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   const indexDir = path.join(contextDir, "index");
   const graphDir = path.join(contextDir, "graphs");
   const tasksDir = path.join(contextDir, "tasks");
+  const ragDir = path.join(contextDir, "rag");
   const written: string[] = [];
 
   mkdirSync(indexDir, { recursive: true });
   mkdirSync(graphDir, { recursive: true });
   mkdirSync(tasksDir, { recursive: true });
+  mkdirSync(ragDir, { recursive: true });
 
   write(root, resolveAgentsFileName(root), renderAgentsMd(context), written);
   write(contextDir, "repo-summary.md", renderRepoSummary(context), written);
@@ -35,16 +39,19 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   write(contextDir, "architecture.md", renderArchitecture(context), written);
   write(contextDir, "onboarding.md", renderOnboarding(context), written);
   write(contextDir, "readiness.md", renderReadiness(context), written);
+  write(contextDir, "token-savings.md", renderTokenSavings(context), written);
   write(tasksDir, "bugfix-context.md", renderTaskContext(context, "fix a bug or regression"), written);
   write(tasksDir, "feature-context.md", renderTaskContext(context, "add a feature or new behavior"), written);
   write(tasksDir, "refactor-context.md", renderTaskContext(context, "refactor code safely"), written);
   write(graphDir, "dependencies.mmd", renderMermaidGraph(context), written);
   writeJson(graphDir, "dependencies.json", context.graph, written);
   writeJson(contextDir, "readiness.json", context.readiness, written);
+  writeJson(contextDir, "token-savings.json", context.tokenSavings, written);
   writeJson(indexDir, "files.json", context.index.files.map(sanitizeIndexedFile), written);
   writeJson(indexDir, "symbols.json", context.index.symbols, written);
   writeJson(indexDir, "modules.json", context.index.modules, written);
   writeJson(indexDir, "chunks.json", buildChunks(context), written);
+  writeRagExport(ragDir, context, written);
 
   return { files: written };
 }
@@ -74,6 +81,17 @@ function write(baseDir: string, fileName: string, content: string, written: stri
 
 function writeJson(baseDir: string, fileName: string, value: unknown, written: string[]): void {
   write(baseDir, fileName, JSON.stringify(value, null, 2), written);
+}
+
+function writeJsonl(baseDir: string, fileName: string, values: unknown[], written: string[]): void {
+  write(baseDir, fileName, values.map((value) => JSON.stringify(value)).join("\n"), written);
+}
+
+function writeRagExport(baseDir: string, context: ContextPackage, written: string[]): void {
+  const documents = buildRagDocuments(context);
+  write(baseDir, "README.md", renderRagReadme(context), written);
+  writeJson(baseDir, "manifest.json", buildRagManifest(context, documents.length), written);
+  writeJsonl(baseDir, "documents.jsonl", documents, written);
 }
 
 function buildChunks(context: ContextPackage): Array<{

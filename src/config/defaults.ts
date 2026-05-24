@@ -35,11 +35,21 @@ export const DEFAULT_CONFIG: RepoContextConfig = {
     temperature: 0.2,
     maxTokens: 1200
   },
+  rag: {
+    enabled: false,
+    provider: "lightrag",
+    mode: "export",
+    serverUrl: "xx",
+    apiKey: "xx",
+    workspace: "default",
+    chunkTokenLimit: 900
+  },
   outputs: {
     agents: true,
     modules: true,
     graph: true,
     tasks: true,
-    readiness: true
+    readiness: true,
+    rag: true
   }
 };

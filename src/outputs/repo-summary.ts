@@ -1,12 +1,9 @@
 import type { ContextPackage } from "../core/types.js";
 import { bullet, code, heading } from "./markdown.js";
+import { formatTokenSavings } from "../core/token-savings.js";
 
 export function renderRepoSummary(context: ContextPackage): string {
   const { scan, index, keyFiles } = context;
-  const totalTokens = scan.files.reduce((sum, file) => sum + file.tokenEstimate, 0);
-  const contextTokens = keyFiles.slice(0, 25).reduce((sum, file) => sum + file.tokenEstimate, 0);
-  const compression = contextTokens ? Math.max(1, Math.round(totalTokens / contextTokens)) : 1;
-
   return [
     heading(1, "Repository Summary"),
     "",
@@ -23,11 +20,7 @@ export function renderRepoSummary(context: ContextPackage): string {
     ]),
     "",
     heading(2, "Token Compression Estimate"),
-    bullet([
-      `Repository estimate: ${totalTokens.toLocaleString()} tokens`,
-      `Top context estimate: ${contextTokens.toLocaleString()} tokens`,
-      `Approximate compression: ${compression}x`
-    ]),
+    formatTokenSavings(context.tokenSavings),
     "",
     heading(2, "Repository Summary"),
     context.summaries.repoSummary,

@@ -1,6 +1,6 @@
 # Agent Readiness
 
-Score: 100/100
+Agent Readiness: 100/100
 
 ## Strengths
 - Entrypoints detected.

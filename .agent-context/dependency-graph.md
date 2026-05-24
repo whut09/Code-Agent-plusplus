@@ -18,11 +18,11 @@ graph TD
 | From | To | Count |
 | --- | --- | --- |
 | analyzers | core | 4 |
-| cli | core | 4 |
-| cli | outputs | 3 |
+| cli | core | 5 |
+| cli | outputs | 4 |
 | config | core | 2 |
 | core | analyzers | 4 |
 | core | config | 1 |
 | core | llm | 1 |
 | llm | core | 1 |
-| outputs | core | 10 |
+| outputs | core | 14 |

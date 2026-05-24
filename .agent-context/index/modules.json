@@ -15,6 +15,7 @@
       "src/core/scanner.ts",
       "src/core/summarizer.ts",
       "src/core/token-estimator.ts",
+      "src/core/token-savings.ts",
       "src/core/types.ts"
     ],
     "imports": [
@@ -22,8 +23,8 @@
       "config",
       "llm"
     ],
-    "summary": "core contains 13 files and depends on analyzers, config, llm.",
-    "importanceScore": 443
+    "summary": "core contains 14 files and depends on analyzers, config, llm.",
+    "importanceScore": 483
   },
   {
     "name": "outputs",
@@ -36,16 +37,18 @@
       "src/outputs/markdown.ts",
       "src/outputs/module-map.ts",
       "src/outputs/onboarding.ts",
+      "src/outputs/rag.ts",
       "src/outputs/readiness.ts",
       "src/outputs/repo-summary.ts",
       "src/outputs/task-context.ts",
+      "src/outputs/token-savings.ts",
       "src/outputs/writer.ts"
     ],
     "imports": [
       "core"
     ],
-    "summary": "outputs contains 11 files and depends on core.",
-    "importanceScore": 299
+    "summary": "outputs contains 13 files and depends on core.",
+    "importanceScore": 357
   },
   {
     "name": "analyzers",
@@ -67,6 +70,7 @@
     "name": "root",
     "pathPrefix": ".",
     "files": [
+      ".gitattributes",
       ".gitignore",
       "AGENTS.md",
       "README.md",
@@ -78,7 +82,7 @@
       "tsconfig.json"
     ],
     "imports": [],
-    "summary": "root contains 9 files.",
+    "summary": "root contains 10 files.",
     "importanceScore": 90
   },
   {

@@ -6,12 +6,14 @@ export interface RepoContextConfig {
   include: string[];
   exclude: string[];
   llm: LlmConfig;
+  rag: RagConfig;
   outputs: {
     agents: boolean;
     modules: boolean;
     graph: boolean;
     tasks: boolean;
     readiness: boolean;
+    rag: boolean;
   };
 }
 
@@ -23,6 +25,16 @@ export interface LlmConfig {
   model: string;
   temperature: number;
   maxTokens: number;
+}
+
+export interface RagConfig {
+  enabled: boolean;
+  provider: "lightrag";
+  mode: "export" | "server";
+  serverUrl: string;
+  apiKey: string;
+  workspace: string;
+  chunkTokenLimit: number;
 }
 
 export interface RepoScan {
@@ -123,6 +135,7 @@ export interface ContextPackage {
   target: AgentTarget;
   readiness: AgentReadinessReport;
   summaries: SummaryBundle;
+  tokenSavings: TokenSavingsReport;
 }
 
 export interface SummaryBundle {
@@ -139,4 +152,12 @@ export interface AgentReadinessReport {
   score: number;
   missing: string[];
   strengths: string[];
+}
+
+export interface TokenSavingsReport {
+  originalTokens: number;
+  contextPackTokens: number;
+  compressionRatio: number;
+  selectedFiles: number;
+  totalFiles: number;
 }

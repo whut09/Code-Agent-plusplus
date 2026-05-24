@@ -59,10 +59,12 @@ repo-context init [repo]
 repo-context build [repo]
 repo-context graph [repo]
 repo-context explain <path> [repo]
+repo-context savings [repo]
 repo-context readiness [repo]
 repo-context task "<task>" [repo]
 repo-context diff [repo] --base main
 repo-context update [repo] --since main
+repo-context rag export [repo]
 ```
 
 Examples:
@@ -74,9 +76,44 @@ repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
+repo-context savings .
 repo-context task "fix login timeout bug" .
 repo-context diff . --base main
+repo-context rag export .
 ```
+
+## Token Savings Report
+
+Every build includes a token savings report:
+
+```txt
+Original repo: 2,400,000 tokens
+Context pack: 42,000 tokens
+Compression: 57x
+```
+
+Generated files:
+
+- `.agent-context/token-savings.md`
+- `.agent-context/token-savings.json`
+
+## Agent Readiness Score
+
+The readiness report makes missing context obvious:
+
+```txt
+Agent Readiness: 82/100
+
+Missing or weak signals:
+- No test/check command detected.
+- No architecture summary.
+- Large undocumented module: src/core.
+```
+
+Generated files:
+
+- `.agent-context/readiness.md`
+- `.agent-context/readiness.json`
 
 ## Optional LLM Summaries
 
@@ -112,6 +149,25 @@ repo-context build . --llm
 
 If the local key, URL, or model is missing or still set to `xx`, Repo-to-Agent-Context falls back to offline summaries.
 
+## Optional RAG With LightRAG
+
+RAG is useful, but it should not replace the static context pack. The recommended architecture is:
+
+```txt
+Static context pack first
+  -> AGENTS.md, summaries, dependency graph, key files
+Optional RAG adapter second
+  -> LightRAG-friendly JSONL export or LightRAG Server ingestion
+```
+
+Repo-to-Agent-Context generates:
+
+- `.agent-context/rag/documents.jsonl`
+- `.agent-context/rag/manifest.json`
+- `.agent-context/rag/README.md`
+
+LightRAG remains optional because it usually requires a separate Python/server environment and consistent embedding configuration between indexing and querying.
+
 ## Architecture
 
 See [docs/architecture.md](docs/architecture.md) for the implementation design, [docs/agents-md.md](docs/agents-md.md) for agent instruction usage, and [docs/roadmap.md](docs/roadmap.md) for planned phases.
@@ -140,4 +196,5 @@ outputs:
   graph: true
   tasks: true
   readiness: true
+  rag: true
 ```

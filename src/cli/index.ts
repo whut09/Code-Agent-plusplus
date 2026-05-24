@@ -8,6 +8,8 @@ import { changedFilesSince } from "../core/git.js";
 import { writeContextPackage } from "../outputs/writer.js";
 import { renderDependencyGraph } from "../outputs/dependency-graph.js";
 import { summarizeReadiness } from "../core/readiness.js";
+import { formatTokenSavings } from "../core/token-savings.js";
+import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
 import { renderTaskContext } from "../outputs/task-context.js";
 
 const program = new Command();
@@ -28,20 +30,47 @@ program
   .action(async (repo: string, options: { target?: AgentTarget; tokenBudget?: number; llm?: boolean }) => {
     const context = await buildContextPackage(repo, options);
     const result = writeContextPackage(context);
-    const totalTokens = context.scan.files.reduce((sum, file) => sum + file.tokenEstimate, 0);
-    const keyTokens = context.keyFiles.slice(0, 25).reduce((sum, file) => sum + file.tokenEstimate, 0);
-
     console.log(`Generated agent context for ${context.scan.root}`);
     console.log(`Files scanned: ${context.scan.files.length}`);
     console.log(`Languages: ${context.scan.languages.join(", ") || "none detected"}`);
     console.log(`Key files: ${context.keyFiles.length}`);
     console.log(`Agent readiness: ${context.readiness.score}/100`);
     console.log(`Summary mode: ${context.summaries.mode}`);
-    console.log(`Token estimate: ${totalTokens.toLocaleString()} -> ${keyTokens.toLocaleString()} for top context`);
+    console.log(formatTokenSavings(context.tokenSavings));
     console.log("Written:");
     for (const file of result.files) {
       console.log(`- ${path.relative(context.scan.root, file)}`);
     }
+  });
+
+program
+  .command("savings")
+  .argument("[repo]", "repository path", ".")
+  .description("Print the token savings report.")
+  .action(async (repo: string) => {
+    const context = await buildContextPackage(repo);
+    console.log(formatTokenSavings(context.tokenSavings));
+  });
+
+const rag = program
+  .command("rag")
+  .description("RAG integration commands.");
+
+rag
+  .command("export")
+  .argument("[repo]", "repository path", ".")
+  .description("Print a LightRAG-friendly export summary.")
+  .action(async (repo: string) => {
+    const context = await buildContextPackage(repo);
+    const documents = buildRagDocuments(context);
+    const manifest = buildRagManifest(context, documents.length);
+    console.log("# LightRAG Export");
+    console.log("");
+    console.log(`Documents: ${documents.length}`);
+    console.log(`Provider: ${manifest.provider}`);
+    console.log(`Mode: ${manifest.mode}`);
+    console.log("");
+    console.log("Run `repo-context build` to write `.agent-context/rag/documents.jsonl`.");
   });
 
 program

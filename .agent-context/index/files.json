@@ -1,5 +1,23 @@
 [
   {
+    "path": ".gitattributes",
+    "extension": "",
+    "sizeBytes": 19,
+    "kind": "unknown",
+    "language": null,
+    "tokenEstimate": 5,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": ".gitattributes is a unknown file.",
+    "moduleName": "root",
+    "importanceScore": 0,
+    "importanceReasons": []
+  },
+  {
     "path": ".gitignore",
     "extension": "",
     "sizeBytes": 213,
@@ -78,10 +96,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 3611,
+    "sizeBytes": 4933,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 903,
+    "tokenEstimate": 1234,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -98,10 +116,10 @@
   {
     "path": "README.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 3611,
+    "sizeBytes": 4900,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 903,
+    "tokenEstimate": 1225,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -118,10 +136,10 @@
   {
     "path": "repo-context.config.example.yml",
     "extension": ".yml",
-    "sizeBytes": 367,
+    "sizeBytes": 511,
     "kind": "unknown",
     "language": "YAML",
-    "tokenEstimate": 92,
+    "tokenEstimate": 128,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -136,10 +154,10 @@
   {
     "path": "repo-context.local.example.yml",
     "extension": ".yml",
-    "sizeBytes": 252,
+    "sizeBytes": 383,
     "kind": "unknown",
     "language": "YAML",
-    "tokenEstimate": 63,
+    "tokenEstimate": 96,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -210,10 +228,10 @@
   {
     "path": "docs/architecture.md",
     "extension": ".md",
-    "sizeBytes": 2573,
+    "sizeBytes": 3257,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 644,
+    "tokenEstimate": 815,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -733,10 +751,10 @@
   {
     "path": "src/cli/index.ts",
     "extension": ".ts",
-    "sizeBytes": 7846,
+    "sizeBytes": 8749,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 1962,
+    "tokenEstimate": 2188,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -787,6 +805,16 @@
         "isExternal": false
       },
       {
+        "specifier": "../core/token-savings.js",
+        "resolvedPath": "src/core/token-savings.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/rag.js",
+        "resolvedPath": "src/outputs/rag.ts",
+        "isExternal": false
+      },
+      {
         "specifier": "../outputs/task-context.js",
         "resolvedPath": "src/outputs/task-context.ts",
         "isExternal": false
@@ -798,52 +826,40 @@
         "name": "parseTarget",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 168
+        "line": 197
       },
       {
         "name": "parseInteger",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 176
+        "line": 205
       },
       {
         "name": "starterConfig",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 185
+        "line": 214
       },
       {
         "name": "printFileList",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 207
+        "line": 236
       },
       {
         "name": "program",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 13
+        "line": 15
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 29
-      },
-      {
-        "name": "result",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 30
-      },
-      {
-        "name": "totalTokens",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
         "line": 31
       },
       {
-        "name": "keyTokens",
+        "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
         "line": 32
@@ -852,37 +868,49 @@
         "name": "file",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 42
+        "line": 41
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 51
+      },
+      {
+        "name": "rag",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 55
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 64
+      },
+      {
+        "name": "documents",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 65
+      },
+      {
+        "name": "manifest",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 66
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 52
+        "line": 81
       },
       {
         "name": "configPath",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 53
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 69
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 78
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 88
+        "line": 82
       },
       {
         "name": "context",
@@ -891,100 +919,118 @@
         "line": 98
       },
       {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 107
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 117
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 127
+      },
+      {
         "name": "changed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 99
+        "line": 128
       },
       {
         "name": "files",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 100
+        "line": 129
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 114
+        "line": 143
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 115
+        "line": 144
       },
       {
         "name": "changed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 116
+        "line": 145
       },
       {
         "name": "file",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 120
+        "line": 149
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 131
+        "line": 160
       },
       {
         "name": "normalized",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 132
+        "line": 161
       },
       {
         "name": "file",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 133
+        "line": 162
       },
       {
         "name": "module",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 146
+        "line": 175
       },
       {
         "name": "moduleFile",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 153
+        "line": 182
       },
       {
         "name": "parsed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 177
+        "line": 206
       },
       {
         "name": "file",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 213
+        "line": 242
       }
     ],
-    "summary": "src/cli/index.ts contains 29 detected symbols, 10 imports, 0 exports.",
+    "summary": "src/cli/index.ts contains 32 detected symbols, 12 imports, 0 exports.",
     "moduleName": "cli",
     "importanceScore": 65,
     "importanceReasons": [
       "entrypoint",
-      "29 symbols",
-      "10 outbound dependencies"
+      "32 symbols",
+      "12 outbound dependencies"
     ]
   },
   {
     "path": "src/config/defaults.ts",
     "extension": ".ts",
-    "sizeBytes": 796,
+    "sizeBytes": 981,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 199,
+    "tokenEstimate": 246,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -1026,10 +1072,10 @@
   {
     "path": "src/config/load-config.ts",
     "extension": ".ts",
-    "sizeBytes": 2864,
+    "sizeBytes": 3090,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 716,
+    "tokenEstimate": 773,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -1074,25 +1120,25 @@
         "name": "readConfigFile",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 52
+        "line": 58
       },
       {
         "name": "normalizeConfig",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 61
+        "line": 67
       },
       {
         "name": "normalizeTarget",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 77
+        "line": 84
       },
       {
         "name": "toStringArray",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 85
+        "line": 92
       },
       {
         "name": "CONFIG_FILES",
@@ -1134,13 +1180,13 @@
         "name": "raw",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 53
+        "line": 59
       },
       {
         "name": "target",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 66
+        "line": 72
       }
     ],
     "summary": "src/config/load-config.ts contains 13 detected symbols, 5 imports, 1 export.",
@@ -1156,10 +1202,10 @@
   {
     "path": "src/core/context-builder.ts",
     "extension": ".ts",
-    "sizeBytes": 1433,
+    "sizeBytes": 1573,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 359,
+    "tokenEstimate": 394,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -1203,6 +1249,11 @@
         "specifier": "./summarizer.js",
         "resolvedPath": "src/core/summarizer.ts",
         "isExternal": false
+      },
+      {
+        "specifier": "./token-savings.js",
+        "resolvedPath": "src/core/token-savings.ts",
+        "isExternal": false
       }
     ],
     "exports": [
@@ -1214,71 +1265,77 @@
         "name": "buildContextPackage",
         "kind": "function",
         "filePath": "src/core/context-builder.ts",
-        "line": 16
+        "line": 17
       },
       {
         "name": "BuildOptions",
         "kind": "interface",
         "filePath": "src/core/context-builder.ts",
-        "line": 10
+        "line": 11
       },
       {
         "name": "overrides",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 17
+        "line": 18
       },
       {
         "name": "config",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 24
+        "line": 25
       },
       {
         "name": "scan",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 25
+        "line": 26
       },
       {
         "name": "index",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 26
+        "line": 27
       },
       {
         "name": "graph",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 27
+        "line": 28
       },
       {
         "name": "keyFiles",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 28
+        "line": 29
       },
       {
         "name": "readiness",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 29
+        "line": 30
       },
       {
         "name": "summaries",
         "kind": "const",
         "filePath": "src/core/context-builder.ts",
-        "line": 30
+        "line": 31
+      },
+      {
+        "name": "tokenSavings",
+        "kind": "const",
+        "filePath": "src/core/context-builder.ts",
+        "line": 32
       }
     ],
-    "summary": "src/core/context-builder.ts contains 10 detected symbols, 8 imports, 2 exports.",
+    "summary": "src/core/context-builder.ts contains 11 detected symbols, 9 imports, 2 exports.",
     "moduleName": "core",
     "importanceScore": 43,
     "importanceReasons": [
       "2 exports",
-      "10 symbols",
+      "11 symbols",
       "1 inbound dependency",
-      "8 outbound dependencies"
+      "9 outbound dependencies"
     ]
   },
   {
@@ -2488,12 +2545,75 @@
     ]
   },
   {
-    "path": "src/core/types.ts",
+    "path": "src/core/token-savings.ts",
     "extension": ".ts",
-    "sizeBytes": 2697,
+    "sizeBytes": 943,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 675,
+    "tokenEstimate": 236,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "./types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "calculateTokenSavings",
+      "formatTokenSavings"
+    ],
+    "symbols": [
+      {
+        "name": "calculateTokenSavings",
+        "kind": "function",
+        "filePath": "src/core/token-savings.ts",
+        "line": 3
+      },
+      {
+        "name": "formatTokenSavings",
+        "kind": "function",
+        "filePath": "src/core/token-savings.ts",
+        "line": 17
+      },
+      {
+        "name": "originalTokens",
+        "kind": "const",
+        "filePath": "src/core/token-savings.ts",
+        "line": 4
+      },
+      {
+        "name": "contextPackTokens",
+        "kind": "const",
+        "filePath": "src/core/token-savings.ts",
+        "line": 5
+      },
+      {
+        "name": "compressionRatio",
+        "kind": "const",
+        "filePath": "src/core/token-savings.ts",
+        "line": 6
+      }
+    ],
+    "summary": "src/core/token-savings.ts contains 5 detected symbols, 1 import, 2 exports.",
+    "moduleName": "core",
+    "importanceScore": 40,
+    "importanceReasons": [
+      "2 exports",
+      "5 symbols",
+      "4 inbound dependencies",
+      "1 outbound dependency"
+    ]
+  },
+  {
+    "path": "src/core/types.ts",
+    "extension": ".ts",
+    "sizeBytes": 3132,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 783,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -2509,12 +2629,14 @@
       "IndexedFile",
       "LlmConfig",
       "ModuleInfo",
+      "RagConfig",
       "RepoContextConfig",
       "RepoFile",
       "RepoIndex",
       "RepoScan",
       "SummaryBundle",
-      "SymbolInfo"
+      "SymbolInfo",
+      "TokenSavingsReport"
     ],
     "symbols": [
       {
@@ -2527,79 +2649,91 @@
         "name": "LlmConfig",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 18
+        "line": 20
+      },
+      {
+        "name": "RagConfig",
+        "kind": "interface",
+        "filePath": "src/core/types.ts",
+        "line": 30
       },
       {
         "name": "RepoScan",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 28
+        "line": 40
       },
       {
         "name": "RepoFile",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 40
+        "line": 52
       },
       {
         "name": "RepoIndex",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 63
+        "line": 75
       },
       {
         "name": "IndexedFile",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 70
+        "line": 82
       },
       {
         "name": "ImportRef",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 80
+        "line": 92
       },
       {
         "name": "ImportEdge",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 86
+        "line": 98
       },
       {
         "name": "SymbolInfo",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 93
+        "line": 105
       },
       {
         "name": "ModuleInfo",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 100
+        "line": 112
       },
       {
         "name": "DependencyGraph",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 109
+        "line": 121
       },
       {
         "name": "ContextPackage",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 118
+        "line": 130
       },
       {
         "name": "SummaryBundle",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 128
+        "line": 141
       },
       {
         "name": "AgentReadinessReport",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 138
+        "line": 151
+      },
+      {
+        "name": "TokenSavingsReport",
+        "kind": "interface",
+        "filePath": "src/core/types.ts",
+        "line": 157
       },
       {
         "name": "AgentTarget",
@@ -2611,16 +2745,16 @@
         "name": "FileKind",
         "kind": "type",
         "filePath": "src/core/types.ts",
-        "line": 53
+        "line": 65
       }
     ],
-    "summary": "src/core/types.ts contains 16 detected symbols, 0 imports, 16 exports.",
+    "summary": "src/core/types.ts contains 18 detected symbols, 0 imports, 18 exports.",
     "moduleName": "core",
     "importanceScore": 60,
     "importanceReasons": [
-      "16 exports",
-      "16 symbols",
-      "25 inbound dependencies"
+      "18 exports",
+      "18 symbols",
+      "28 inbound dependencies"
     ]
   },
   {
@@ -2713,10 +2847,10 @@
   {
     "path": "src/outputs/agents-md.ts",
     "extension": ".ts",
-    "sizeBytes": 2308,
+    "sizeBytes": 2390,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 577,
+    "tokenEstimate": 598,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3035,7 +3169,7 @@
     "importanceReasons": [
       "5 exports",
       "8 symbols",
-      "9 inbound dependencies"
+      "11 inbound dependencies"
     ]
   },
   {
@@ -3131,12 +3265,106 @@
     ]
   },
   {
-    "path": "src/outputs/readiness.ts",
+    "path": "src/outputs/rag.ts",
     "extension": ".ts",
-    "sizeBytes": 457,
+    "sizeBytes": 3735,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 115,
+    "tokenEstimate": 934,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./markdown.js",
+        "resolvedPath": "src/outputs/markdown.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "RagDocument",
+      "buildRagDocuments",
+      "buildRagManifest",
+      "renderRagReadme"
+    ],
+    "symbols": [
+      {
+        "name": "buildRagDocuments",
+        "kind": "function",
+        "filePath": "src/outputs/rag.ts",
+        "line": 15
+      },
+      {
+        "name": "renderRagReadme",
+        "kind": "function",
+        "filePath": "src/outputs/rag.ts",
+        "line": 56
+      },
+      {
+        "name": "buildRagManifest",
+        "kind": "function",
+        "filePath": "src/outputs/rag.ts",
+        "line": 82
+      },
+      {
+        "name": "fileToRagDocument",
+        "kind": "function",
+        "filePath": "src/outputs/rag.ts",
+        "line": 96
+      },
+      {
+        "name": "safeId",
+        "kind": "function",
+        "filePath": "src/outputs/rag.ts",
+        "line": 123
+      },
+      {
+        "name": "RagDocument",
+        "kind": "interface",
+        "filePath": "src/outputs/rag.ts",
+        "line": 4
+      },
+      {
+        "name": "docs",
+        "kind": "const",
+        "filePath": "src/outputs/rag.ts",
+        "line": 16
+      },
+      {
+        "name": "module",
+        "kind": "const",
+        "filePath": "src/outputs/rag.ts",
+        "line": 34
+      },
+      {
+        "name": "file",
+        "kind": "const",
+        "filePath": "src/outputs/rag.ts",
+        "line": 49
+      }
+    ],
+    "summary": "src/outputs/rag.ts contains 9 detected symbols, 2 imports, 4 exports.",
+    "moduleName": "outputs",
+    "importanceScore": 45,
+    "importanceReasons": [
+      "4 exports",
+      "9 symbols",
+      "2 inbound dependencies",
+      "2 outbound dependencies"
+    ]
+  },
+  {
+    "path": "src/outputs/readiness.ts",
+    "extension": ".ts",
+    "sizeBytes": 467,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 117,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3176,10 +3404,10 @@
   {
     "path": "src/outputs/repo-summary.ts",
     "extension": ".ts",
-    "sizeBytes": 2114,
+    "sizeBytes": 1732,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 529,
+    "tokenEstimate": 433,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3193,6 +3421,11 @@
         "specifier": "./markdown.js",
         "resolvedPath": "src/outputs/markdown.ts",
         "isExternal": false
+      },
+      {
+        "specifier": "../core/token-savings.js",
+        "resolvedPath": "src/core/token-savings.ts",
+        "isExternal": false
       }
     ],
     "exports": [
@@ -3203,35 +3436,17 @@
         "name": "renderRepoSummary",
         "kind": "function",
         "filePath": "src/outputs/repo-summary.ts",
-        "line": 4
-      },
-      {
-        "name": "totalTokens",
-        "kind": "const",
-        "filePath": "src/outputs/repo-summary.ts",
-        "line": 6
-      },
-      {
-        "name": "contextTokens",
-        "kind": "const",
-        "filePath": "src/outputs/repo-summary.ts",
-        "line": 7
-      },
-      {
-        "name": "compression",
-        "kind": "const",
-        "filePath": "src/outputs/repo-summary.ts",
-        "line": 8
+        "line": 5
       }
     ],
-    "summary": "src/outputs/repo-summary.ts contains 4 detected symbols, 2 imports, 1 export.",
+    "summary": "src/outputs/repo-summary.ts contains 1 detected symbol, 3 imports, 1 export.",
     "moduleName": "outputs",
-    "importanceScore": 21,
+    "importanceScore": 17,
     "importanceReasons": [
       "1 export",
-      "4 symbols",
+      "1 symbol",
       "1 inbound dependency",
-      "2 outbound dependencies"
+      "3 outbound dependencies"
     ]
   },
   {
@@ -3315,12 +3530,60 @@
     ]
   },
   {
-    "path": "src/outputs/writer.ts",
+    "path": "src/outputs/token-savings.ts",
     "extension": ".ts",
-    "sizeBytes": 4036,
+    "sizeBytes": 660,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 1009,
+    "tokenEstimate": 165,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../core/token-savings.js",
+        "resolvedPath": "src/core/token-savings.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./markdown.js",
+        "resolvedPath": "src/outputs/markdown.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "renderTokenSavings"
+    ],
+    "symbols": [
+      {
+        "name": "renderTokenSavings",
+        "kind": "function",
+        "filePath": "src/outputs/token-savings.ts",
+        "line": 5
+      }
+    ],
+    "summary": "src/outputs/token-savings.ts contains 1 detected symbol, 3 imports, 1 export.",
+    "moduleName": "outputs",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "1 inbound dependency",
+      "3 outbound dependencies"
+    ]
+  },
+  {
+    "path": "src/outputs/writer.ts",
+    "extension": ".ts",
+    "sizeBytes": 5027,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 1257,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3381,8 +3644,18 @@
         "isExternal": false
       },
       {
+        "specifier": "./rag.js",
+        "resolvedPath": "src/outputs/rag.ts",
+        "isExternal": false
+      },
+      {
         "specifier": "./task-context.js",
         "resolvedPath": "src/outputs/task-context.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./token-savings.js",
+        "resolvedPath": "src/outputs/token-savings.ts",
         "isExternal": false
       }
     ],
@@ -3395,107 +3668,131 @@
         "name": "writeContextPackage",
         "kind": "function",
         "filePath": "src/outputs/writer.ts",
-        "line": 18
+        "line": 20
       },
       {
         "name": "resolveAgentsFileName",
         "kind": "function",
         "filePath": "src/outputs/writer.ts",
-        "line": 52
+        "line": 59
       },
       {
         "name": "write",
         "kind": "function",
         "filePath": "src/outputs/writer.ts",
-        "line": 69
+        "line": 76
       },
       {
         "name": "writeJson",
         "kind": "function",
         "filePath": "src/outputs/writer.ts",
-        "line": 75
+        "line": 82
+      },
+      {
+        "name": "writeJsonl",
+        "kind": "function",
+        "filePath": "src/outputs/writer.ts",
+        "line": 86
+      },
+      {
+        "name": "writeRagExport",
+        "kind": "function",
+        "filePath": "src/outputs/writer.ts",
+        "line": 90
       },
       {
         "name": "buildChunks",
         "kind": "function",
         "filePath": "src/outputs/writer.ts",
-        "line": 79
+        "line": 97
       },
       {
         "name": "sanitizeIndexedFile",
         "kind": "function",
         "filePath": "src/outputs/writer.ts",
-        "line": 93
+        "line": 111
       },
       {
         "name": "WriteResult",
         "kind": "interface",
         "filePath": "src/outputs/writer.ts",
-        "line": 14
+        "line": 16
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 19
+        "line": 21
       },
       {
         "name": "contextDir",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 20
+        "line": 22
       },
       {
         "name": "indexDir",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 21
+        "line": 23
       },
       {
         "name": "graphDir",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 22
+        "line": 24
       },
       {
         "name": "tasksDir",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 23
+        "line": 25
+      },
+      {
+        "name": "ragDir",
+        "kind": "const",
+        "filePath": "src/outputs/writer.ts",
+        "line": 26
       },
       {
         "name": "written",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 24
+        "line": 27
       },
       {
         "name": "agentsPath",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 53
+        "line": 60
       },
       {
         "name": "existing",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 58
+        "line": 65
       },
       {
         "name": "filePath",
         "kind": "const",
         "filePath": "src/outputs/writer.ts",
-        "line": 70
+        "line": 77
+      },
+      {
+        "name": "documents",
+        "kind": "const",
+        "filePath": "src/outputs/writer.ts",
+        "line": 91
       }
     ],
-    "summary": "src/outputs/writer.ts contains 16 detected symbols, 12 imports, 2 exports.",
+    "summary": "src/outputs/writer.ts contains 20 detected symbols, 14 imports, 2 exports.",
     "moduleName": "outputs",
     "importanceScore": 43,
     "importanceReasons": [
       "2 exports",
-      "16 symbols",
+      "20 symbols",
       "1 inbound dependency",
-      "12 outbound dependencies"
+      "14 outbound dependencies"
     ]
   }
 ]

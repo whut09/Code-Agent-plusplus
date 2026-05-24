@@ -40,6 +40,12 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
       ...localConfig.llm,
       ...overrides.llm
     },
+    rag: {
+      ...DEFAULT_CONFIG.rag,
+      ...fileConfig.rag,
+      ...localConfig.rag,
+      ...overrides.rag
+    },
     outputs: {
       ...DEFAULT_CONFIG.outputs,
       ...fileConfig.outputs,
@@ -70,6 +76,7 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     include: toStringArray(input.include),
     exclude: toStringArray(input.exclude),
     llm: typeof input.llm === "object" && input.llm ? input.llm as RepoContextConfig["llm"] : undefined,
+    rag: typeof input.rag === "object" && input.rag ? input.rag as RepoContextConfig["rag"] : undefined,
     outputs: typeof input.outputs === "object" && input.outputs ? input.outputs as RepoContextConfig["outputs"] : undefined
   };
 }

@@ -45,7 +45,9 @@ export function renderAgentsMd(context: ContextPackage): string {
       code(".agent-context/architecture.md"),
       code(".agent-context/onboarding.md"),
       code(".agent-context/readiness.md"),
-      code(".agent-context/tasks/")
+      code(".agent-context/token-savings.md"),
+      code(".agent-context/tasks/"),
+      code(".agent-context/rag/")
     ]),
     "",
     heading(2, "Safety Rules For Agents"),

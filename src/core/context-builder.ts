@@ -6,6 +6,7 @@ import { buildDependencyGraph } from "./graph.js";
 import { rankFiles } from "./ranker.js";
 import { assessReadiness } from "./readiness.js";
 import { summarizeRepository } from "./summarizer.js";
+import { calculateTokenSavings } from "./token-savings.js";
 
 export interface BuildOptions {
   target?: AgentTarget;
@@ -28,6 +29,7 @@ export async function buildContextPackage(repoRoot: string, options: BuildOption
   const keyFiles = rankFiles(scan, index, graph);
   const readiness = assessReadiness(scan, index, graph);
   const summaries = await summarizeRepository(scan, index, config);
+  const tokenSavings = calculateTokenSavings(scan, keyFiles);
 
   return {
     scan,
@@ -36,6 +38,7 @@ export async function buildContextPackage(repoRoot: string, options: BuildOption
     keyFiles,
     target: config.target,
     readiness,
-    summaries
+    summaries,
+    tokenSavings
   };
 }

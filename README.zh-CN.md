@@ -59,10 +59,12 @@ repo-context init [repo]
 repo-context build [repo]
 repo-context graph [repo]
 repo-context explain <path> [repo]
+repo-context savings [repo]
 repo-context readiness [repo]
 repo-context task "<task>" [repo]
 repo-context diff [repo] --base main
 repo-context update [repo] --since main
+repo-context rag export [repo]
 ```
 
 示例：
@@ -74,9 +76,44 @@ repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
+repo-context savings .
 repo-context task "fix login timeout bug" .
 repo-context diff . --base main
+repo-context rag export .
 ```
+
+## Token Savings Report
+
+每次构建都会生成 token 节省报告：
+
+```txt
+Original repo: 2,400,000 tokens
+Context pack: 42,000 tokens
+Compression: 57x
+```
+
+生成文件：
+
+- `.agent-context/token-savings.md`
+- `.agent-context/token-savings.json`
+
+## Agent Readiness Score
+
+readiness 报告会把缺失上下文直接暴露出来：
+
+```txt
+Agent Readiness: 82/100
+
+Missing or weak signals:
+- No test/check command detected.
+- No architecture summary.
+- Large undocumented module: src/core.
+```
+
+生成文件：
+
+- `.agent-context/readiness.md`
+- `.agent-context/readiness.json`
 
 ## 可选的大模型摘要
 
@@ -112,6 +149,25 @@ repo-context build . --llm
 
 如果本地 key、URL、model 缺失，或者仍然是 `xx`，Repo-to-Agent-Context 会自动退回离线摘要。
 
+## 可选 RAG：LightRAG
+
+建议引入 RAG，但不要让 RAG 取代静态上下文包。推荐架构是：
+
+```txt
+先生成静态上下文包
+  -> AGENTS.md、摘要、依赖图、关键文件
+再接可选 RAG 适配层
+  -> LightRAG 友好的 JSONL 导出，或接入 LightRAG Server
+```
+
+Repo-to-Agent-Context 会生成：
+
+- `.agent-context/rag/documents.jsonl`
+- `.agent-context/rag/manifest.json`
+- `.agent-context/rag/README.md`
+
+LightRAG 保持可选，因为它通常需要单独的 Python/Server 环境，并且索引和查询阶段需要保持 embedding 配置一致。
+
 ## 架构
 
 实现设计见 [docs/architecture.md](docs/architecture.md)，`AGENTS.md` 使用说明见 [docs/agents-md.zh-CN.md](docs/agents-md.zh-CN.md)，后续规划见 [docs/roadmap.md](docs/roadmap.md)。
@@ -140,4 +196,5 @@ outputs:
   graph: true
   tasks: true
   readiness: true
+  rag: true
 ```

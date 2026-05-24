@@ -110,6 +110,18 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "../core/token-savings.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
+      "to": "src/outputs/rag.ts",
+      "specifier": "../outputs/rag.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/outputs/task-context.ts",
       "specifier": "../outputs/task-context.js",
       "isExternal": false
@@ -196,6 +208,12 @@
       "from": "src/core/context-builder.ts",
       "to": "src/core/summarizer.ts",
       "specifier": "./summarizer.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/context-builder.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "./token-savings.js",
       "isExternal": false
     },
     {
@@ -355,6 +373,12 @@
       "isExternal": false
     },
     {
+      "from": "src/core/token-savings.ts",
+      "to": "src/core/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/llm/provider.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -433,6 +457,18 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/rag.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/rag.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/readiness.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -457,6 +493,12 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/repo-summary.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "../core/token-savings.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/task-context.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -464,6 +506,24 @@
     },
     {
       "from": "src/outputs/task-context.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/token-savings.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/token-savings.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "../core/token-savings.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/token-savings.ts",
       "to": "src/outputs/markdown.ts",
       "specifier": "./markdown.js",
       "isExternal": false
@@ -536,8 +596,20 @@
     },
     {
       "from": "src/outputs/writer.ts",
+      "to": "src/outputs/rag.ts",
+      "specifier": "./rag.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/writer.ts",
       "to": "src/outputs/task-context.ts",
       "specifier": "./task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/writer.ts",
+      "to": "src/outputs/token-savings.ts",
+      "specifier": "./token-savings.js",
       "isExternal": false
     }
   ],
@@ -550,12 +622,12 @@
     {
       "from": "cli",
       "to": "core",
-      "count": 4
+      "count": 5
     },
     {
       "from": "cli",
       "to": "outputs",
-      "count": 3
+      "count": 4
     },
     {
       "from": "config",
@@ -585,7 +657,7 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 10
+      "count": 14
     }
   ]
 }

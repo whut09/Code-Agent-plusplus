@@ -9,10 +9,10 @@ This document is generated from static repository signals. Treat it as a startin
 - Internal modules: 8
 
 ## Important Modules
-- `core`: core contains 13 files and depends on analyzers, config, llm.
-- `outputs`: outputs contains 11 files and depends on core.
+- `core`: core contains 14 files and depends on analyzers, config, llm.
+- `outputs`: outputs contains 13 files and depends on core.
 - `analyzers`: analyzers contains 5 files and depends on core.
-- `root`: root contains 9 files.
+- `root`: root contains 10 files.
 - `cli`: cli contains 1 file and depends on core, outputs.
 - `config`: config contains 2 files and depends on core.
 - `llm`: llm contains 1 file and depends on core.

@@ -9,8 +9,10 @@ graph TD
   Indexer --> GraphBuilder
 GraphBuilder --> Ranker
 Ranker --> SummaryEngine
-SummaryEngine --> Composer
-Composer --> Outputs
+SummaryEngine --> ContextComposer
+ContextComposer --> Outputs
+ContextComposer --> RagAdapter
+RagAdapter --> LightRAG
 ```
 
 ## Scanner
@@ -84,6 +86,21 @@ The summary engine has two modes:
 - LLM mode: uses a local private `repo-context.local.yml` with an OpenAI-compatible `baseUrl`, `apiKey`, and `model`.
 
 Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `repo-context.local.yml`, which is ignored by git.
+
+## RAG Adapter
+
+RAG is introduced as an optional adapter, not as a required core dependency.
+
+The core package always produces deterministic static context first. The RAG adapter then exports agent-ready documents to `.agent-context/rag/documents.jsonl` for LightRAG ingestion.
+
+This keeps the CLI fast and portable while still supporting semantic retrieval for large repositories.
+
+Recommended LightRAG flow:
+
+1. Run `repo-context build`.
+2. Import `.agent-context/rag/documents.jsonl` into LightRAG.
+3. Query LightRAG for task-specific context.
+4. Feed retrieved snippets plus `AGENTS.md` into the coding agent.
 
 ## Design Principle
 
