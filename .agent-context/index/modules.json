@@ -1,0 +1,116 @@
+[
+  {
+    "name": "analyzers",
+    "pathPrefix": "analyzers",
+    "files": [
+      "src/analyzers/generic.ts",
+      "src/analyzers/javascript.ts",
+      "src/analyzers/python.ts",
+      "src/analyzers/resolve-import.ts",
+      "src/analyzers/types.ts"
+    ],
+    "imports": [
+      "core"
+    ],
+    "summary": "analyzers contains 5 files and depends on core.",
+    "importanceScore": 133
+  },
+  {
+    "name": "cli",
+    "pathPrefix": "cli",
+    "files": [
+      "src/cli/index.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs"
+    ],
+    "summary": "cli contains 1 file and depends on core, outputs.",
+    "importanceScore": 64
+  },
+  {
+    "name": "config",
+    "pathPrefix": "config",
+    "files": [
+      "src/config/defaults.ts",
+      "src/config/load-config.ts"
+    ],
+    "imports": [
+      "core"
+    ],
+    "summary": "config contains 2 files and depends on core.",
+    "importanceScore": 53
+  },
+  {
+    "name": "core",
+    "pathPrefix": "core",
+    "files": [
+      "src/core/context-builder.ts",
+      "src/core/file-classifier.ts",
+      "src/core/graph.ts",
+      "src/core/indexer.ts",
+      "src/core/language.ts",
+      "src/core/path-utils.ts",
+      "src/core/ranker.ts",
+      "src/core/scanner.ts",
+      "src/core/token-estimator.ts",
+      "src/core/types.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "config"
+    ],
+    "summary": "core contains 10 files and depends on analyzers, config.",
+    "importanceScore": 353
+  },
+  {
+    "name": "docs",
+    "pathPrefix": "docs",
+    "files": [
+      "docs/agents-md.md",
+      "docs/agents-md.zh-CN.md",
+      "docs/architecture.md",
+      "docs/roadmap.md"
+    ],
+    "imports": [],
+    "summary": "docs contains 4 files.",
+    "importanceScore": 0
+  },
+  {
+    "name": "outputs",
+    "pathPrefix": "outputs",
+    "files": [
+      "src/outputs/agents-md.ts",
+      "src/outputs/architecture.ts",
+      "src/outputs/dependency-graph.ts",
+      "src/outputs/key-files.ts",
+      "src/outputs/markdown.ts",
+      "src/outputs/module-map.ts",
+      "src/outputs/onboarding.ts",
+      "src/outputs/repo-summary.ts",
+      "src/outputs/writer.ts"
+    ],
+    "imports": [
+      "core"
+    ],
+    "summary": "outputs contains 9 files and depends on core.",
+    "importanceScore": 246
+  },
+  {
+    "name": "root",
+    "pathPrefix": ".",
+    "files": [
+      ".gitignore",
+      "AGENTS.md",
+      "README.md",
+      "README.zh-CN.md",
+      "package-lock.json",
+      "package.json",
+      "repo-context.config.example.yml",
+      "tsconfig.json"
+    ],
+    "imports": [],
+    "summary": "root contains 8 files.",
+    "importanceScore": 90
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "name": "repo-to-agent-context",
+  "version": "0.1.0",
+  "description": "Compress any repository into an agent-ready context package for Claude, Codex, Cursor, and similar tools.",
+  "type": "module",
+  "bin": {
+    "repo-context": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli/index.ts",
+    "check": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "agents",
+    "ai",
+    "claude",
+    "codex",
+    "cursor",
+    "context",
+    "repository"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^14.0.2",
+    "fast-glob": "^3.3.3",
+    "ignore": "^7.0.5",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.9.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

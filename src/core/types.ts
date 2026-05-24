@@ -1,0 +1,111 @@
+export type AgentTarget = "codex" | "claude" | "cursor" | "all";
+
+export interface RepoContextConfig {
+  target: AgentTarget;
+  tokenBudget: number;
+  include: string[];
+  exclude: string[];
+  outputs: {
+    agents: boolean;
+    modules: boolean;
+    graph: boolean;
+  };
+}
+
+export interface RepoScan {
+  root: string;
+  files: RepoFile[];
+  languages: string[];
+  frameworks: string[];
+  packageManagers: string[];
+  configFiles: string[];
+  entrypoints: string[];
+  testCommands: string[];
+  runCommands: string[];
+}
+
+export interface RepoFile {
+  path: string;
+  absolutePath: string;
+  extension: string;
+  sizeBytes: number;
+  kind: FileKind;
+  language: string | null;
+  tokenEstimate: number;
+  isBinary: boolean;
+  isGenerated: boolean;
+  isTest: boolean;
+}
+
+export type FileKind =
+  | "source"
+  | "test"
+  | "config"
+  | "docs"
+  | "lockfile"
+  | "asset"
+  | "generated"
+  | "unknown";
+
+export interface RepoIndex {
+  files: IndexedFile[];
+  symbols: SymbolInfo[];
+  imports: ImportEdge[];
+  modules: ModuleInfo[];
+}
+
+export interface IndexedFile extends RepoFile {
+  imports: ImportRef[];
+  exports: string[];
+  symbols: SymbolInfo[];
+  summary: string;
+  moduleName: string;
+  importanceScore: number;
+  importanceReasons: string[];
+}
+
+export interface ImportRef {
+  specifier: string;
+  resolvedPath: string | null;
+  isExternal: boolean;
+}
+
+export interface ImportEdge {
+  from: string;
+  to: string;
+  specifier: string;
+  isExternal: boolean;
+}
+
+export interface SymbolInfo {
+  name: string;
+  kind: "function" | "class" | "interface" | "type" | "const" | "export" | "route" | "unknown";
+  filePath: string;
+  line: number;
+}
+
+export interface ModuleInfo {
+  name: string;
+  pathPrefix: string;
+  files: string[];
+  imports: string[];
+  summary: string;
+  importanceScore: number;
+}
+
+export interface DependencyGraph {
+  fileEdges: ImportEdge[];
+  moduleEdges: Array<{
+    from: string;
+    to: string;
+    count: number;
+  }>;
+}
+
+export interface ContextPackage {
+  scan: RepoScan;
+  index: RepoIndex;
+  graph: DependencyGraph;
+  keyFiles: IndexedFile[];
+  target: AgentTarget;
+}

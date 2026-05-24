@@ -1,0 +1,8 @@
+graph TD
+  analyzers["analyzers"] --> core["core"]
+  cli["cli"] --> core["core"]
+  cli["cli"] --> outputs["outputs"]
+  config["config"] --> core["core"]
+  core["core"] --> analyzers["analyzers"]
+  core["core"] --> config["config"]
+  outputs["outputs"] --> core["core"]
