@@ -1,5 +1,53 @@
 [
   {
+    "name": "core",
+    "pathPrefix": "core",
+    "files": [
+      "src/core/context-builder.ts",
+      "src/core/file-classifier.ts",
+      "src/core/git.ts",
+      "src/core/graph.ts",
+      "src/core/indexer.ts",
+      "src/core/language.ts",
+      "src/core/path-utils.ts",
+      "src/core/ranker.ts",
+      "src/core/readiness.ts",
+      "src/core/scanner.ts",
+      "src/core/summarizer.ts",
+      "src/core/token-estimator.ts",
+      "src/core/types.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "config",
+      "llm"
+    ],
+    "summary": "core contains 13 files and depends on analyzers, config, llm.",
+    "importanceScore": 443
+  },
+  {
+    "name": "outputs",
+    "pathPrefix": "outputs",
+    "files": [
+      "src/outputs/agents-md.ts",
+      "src/outputs/architecture.ts",
+      "src/outputs/dependency-graph.ts",
+      "src/outputs/key-files.ts",
+      "src/outputs/markdown.ts",
+      "src/outputs/module-map.ts",
+      "src/outputs/onboarding.ts",
+      "src/outputs/readiness.ts",
+      "src/outputs/repo-summary.ts",
+      "src/outputs/task-context.ts",
+      "src/outputs/writer.ts"
+    ],
+    "imports": [
+      "core"
+    ],
+    "summary": "outputs contains 11 files and depends on core.",
+    "importanceScore": 299
+  },
+  {
     "name": "analyzers",
     "pathPrefix": "analyzers",
     "files": [
@@ -16,6 +64,24 @@
     "importanceScore": 133
   },
   {
+    "name": "root",
+    "pathPrefix": ".",
+    "files": [
+      ".gitignore",
+      "AGENTS.md",
+      "README.md",
+      "README.zh-CN.md",
+      "package-lock.json",
+      "package.json",
+      "repo-context.config.example.yml",
+      "repo-context.local.example.yml",
+      "tsconfig.json"
+    ],
+    "imports": [],
+    "summary": "root contains 9 files.",
+    "importanceScore": 90
+  },
+  {
     "name": "cli",
     "pathPrefix": "cli",
     "files": [
@@ -26,7 +92,7 @@
       "outputs"
     ],
     "summary": "cli contains 1 file and depends on core, outputs.",
-    "importanceScore": 64
+    "importanceScore": 65
   },
   {
     "name": "config",
@@ -42,26 +108,16 @@
     "importanceScore": 53
   },
   {
-    "name": "core",
-    "pathPrefix": "core",
+    "name": "llm",
+    "pathPrefix": "llm",
     "files": [
-      "src/core/context-builder.ts",
-      "src/core/file-classifier.ts",
-      "src/core/graph.ts",
-      "src/core/indexer.ts",
-      "src/core/language.ts",
-      "src/core/path-utils.ts",
-      "src/core/ranker.ts",
-      "src/core/scanner.ts",
-      "src/core/token-estimator.ts",
-      "src/core/types.ts"
+      "src/llm/provider.ts"
     ],
     "imports": [
-      "analyzers",
-      "config"
+      "core"
     ],
-    "summary": "core contains 10 files and depends on analyzers, config.",
-    "importanceScore": 353
+    "summary": "llm contains 1 file and depends on core.",
+    "importanceScore": 30
   },
   {
     "name": "docs",
@@ -75,42 +131,5 @@
     "imports": [],
     "summary": "docs contains 4 files.",
     "importanceScore": 0
-  },
-  {
-    "name": "outputs",
-    "pathPrefix": "outputs",
-    "files": [
-      "src/outputs/agents-md.ts",
-      "src/outputs/architecture.ts",
-      "src/outputs/dependency-graph.ts",
-      "src/outputs/key-files.ts",
-      "src/outputs/markdown.ts",
-      "src/outputs/module-map.ts",
-      "src/outputs/onboarding.ts",
-      "src/outputs/repo-summary.ts",
-      "src/outputs/writer.ts"
-    ],
-    "imports": [
-      "core"
-    ],
-    "summary": "outputs contains 9 files and depends on core.",
-    "importanceScore": 246
-  },
-  {
-    "name": "root",
-    "pathPrefix": ".",
-    "files": [
-      ".gitignore",
-      "AGENTS.md",
-      "README.md",
-      "README.zh-CN.md",
-      "package-lock.json",
-      "package.json",
-      "repo-context.config.example.yml",
-      "tsconfig.json"
-    ],
-    "imports": [],
-    "summary": "root contains 8 files.",
-    "importanceScore": 90
   }
 ]

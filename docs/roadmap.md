@@ -16,6 +16,8 @@
 - Diff/PR context mode
 - More language analyzers
 - Incremental cache
+- Agent readiness report
+- Safe local LLM configuration
 
 ## Phase 3: Smarter Summaries
 

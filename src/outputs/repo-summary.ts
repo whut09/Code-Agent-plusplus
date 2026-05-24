@@ -29,6 +29,21 @@ export function renderRepoSummary(context: ContextPackage): string {
       `Approximate compression: ${compression}x`
     ]),
     "",
+    heading(2, "Repository Summary"),
+    context.summaries.repoSummary,
+    "",
+    heading(2, "Summary Mode"),
+    bullet([
+      `Mode: ${context.summaries.mode}`,
+      "LLM summaries use local private configuration when `repo-context.local.yml` is present."
+    ]),
+    "",
+    heading(2, "Agent Readiness"),
+    bullet([
+      `Score: ${context.readiness.score}/100`,
+      `Missing signals: ${context.readiness.missing.length}`
+    ]),
+    "",
     heading(2, "Entrypoints"),
     bullet(scan.entrypoints.map(code)),
     "",

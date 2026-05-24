@@ -59,16 +59,58 @@ repo-context init [repo]
 repo-context build [repo]
 repo-context graph [repo]
 repo-context explain <path> [repo]
+repo-context readiness [repo]
+repo-context task "<task>" [repo]
+repo-context diff [repo] --base main
+repo-context update [repo] --since main
 ```
 
 示例：
 
 ```bash
 repo-context build . --target codex
+repo-context build . --llm
 repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
+repo-context readiness .
+repo-context task "fix login timeout bug" .
+repo-context diff . --base main
 ```
+
+## 可选的大模型摘要
+
+大模型是可选能力。CLI 默认离线可用。
+
+提交到仓库的配置只应该保留占位符：
+
+```yaml
+llm:
+  enabled: false
+  provider: openai-compatible
+  baseUrl: xx
+  apiKey: xx
+  model: xx
+```
+
+本地使用时，把 `repo-context.local.example.yml` 复制成 `repo-context.local.yml`，把真实 key 和 URL 写进去。`repo-context.local.yml` 已加入 `.gitignore`，不会被提交。
+
+```yaml
+llm:
+  enabled: true
+  provider: openai-compatible
+  baseUrl: xx
+  apiKey: xx
+  model: xx
+```
+
+然后运行：
+
+```bash
+repo-context build . --llm
+```
+
+如果本地 key、URL、model 缺失，或者仍然是 `xx`，Repo-to-Agent-Context 会自动退回离线摘要。
 
 ## 架构
 
@@ -96,4 +138,6 @@ outputs:
   agents: true
   modules: true
   graph: true
+  tasks: true
+  readiness: true
 ```

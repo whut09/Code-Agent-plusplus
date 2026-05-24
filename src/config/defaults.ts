@@ -26,9 +26,20 @@ export const DEFAULT_CONFIG: RepoContextConfig = {
   tokenBudget: 60000,
   include: ["**/*"],
   exclude: DEFAULT_EXCLUDES,
+  llm: {
+    enabled: false,
+    provider: "openai-compatible",
+    baseUrl: "xx",
+    apiKey: "xx",
+    model: "xx",
+    temperature: 0.2,
+    maxTokens: 1200
+  },
   outputs: {
     agents: true,
     modules: true,
-    graph: true
+    graph: true,
+    tasks: true,
+    readiness: true
   }
 };

@@ -10,23 +10,40 @@ const CONFIG_FILES = [
   "repo-context.config.json"
 ];
 
+const LOCAL_CONFIG_FILES = [
+  "repo-context.local.yml",
+  "repo-context.local.yaml",
+  "repo-context.local.json"
+];
+
 export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfig> = {}): RepoContextConfig {
   const configPath = CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
+  const localConfigPath = LOCAL_CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
   const fileConfig = configPath ? readConfigFile(configPath) : {};
+  const localConfig = localConfigPath ? readConfigFile(localConfigPath) : {};
 
   return {
     ...DEFAULT_CONFIG,
     ...fileConfig,
+    ...localConfig,
     ...overrides,
-    include: overrides.include ?? fileConfig.include ?? DEFAULT_CONFIG.include,
+    include: overrides.include ?? localConfig.include ?? fileConfig.include ?? DEFAULT_CONFIG.include,
     exclude: [
       ...DEFAULT_CONFIG.exclude,
       ...(fileConfig.exclude ?? []),
+      ...(localConfig.exclude ?? []),
       ...(overrides.exclude ?? [])
     ],
+    llm: {
+      ...DEFAULT_CONFIG.llm,
+      ...fileConfig.llm,
+      ...localConfig.llm,
+      ...overrides.llm
+    },
     outputs: {
       ...DEFAULT_CONFIG.outputs,
       ...fileConfig.outputs,
+      ...localConfig.outputs,
       ...overrides.outputs
     }
   };
@@ -52,6 +69,7 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     tokenBudget: typeof input.tokenBudget === "number" ? input.tokenBudget : undefined,
     include: toStringArray(input.include),
     exclude: toStringArray(input.exclude),
+    llm: typeof input.llm === "object" && input.llm ? input.llm as RepoContextConfig["llm"] : undefined,
     outputs: typeof input.outputs === "object" && input.outputs ? input.outputs as RepoContextConfig["outputs"] : undefined
   };
 }

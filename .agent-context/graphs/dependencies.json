@@ -86,6 +86,12 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/outputs/writer.ts",
       "specifier": "../outputs/writer.js",
       "isExternal": false
@@ -94,6 +100,18 @@
       "from": "src/cli/index.ts",
       "to": "src/outputs/dependency-graph.ts",
       "specifier": "../outputs/dependency-graph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
+      "to": "src/core/readiness.ts",
+      "specifier": "../core/readiness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "../outputs/task-context.js",
       "isExternal": false
     },
     {
@@ -169,6 +187,18 @@
       "isExternal": false
     },
     {
+      "from": "src/core/context-builder.ts",
+      "to": "src/core/readiness.ts",
+      "specifier": "./readiness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/context-builder.ts",
+      "to": "src/core/summarizer.ts",
+      "specifier": "./summarizer.js",
+      "isExternal": false
+    },
+    {
       "from": "src/core/file-classifier.ts",
       "to": "node:path",
       "specifier": "node:path",
@@ -185,6 +215,12 @@
       "to": "src/core/language.ts",
       "specifier": "./language.js",
       "isExternal": false
+    },
+    {
+      "from": "src/core/git.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
     },
     {
       "from": "src/core/graph.ts",
@@ -247,6 +283,12 @@
       "isExternal": false
     },
     {
+      "from": "src/core/readiness.ts",
+      "to": "src/core/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/core/scanner.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -301,6 +343,24 @@
       "isExternal": false
     },
     {
+      "from": "src/core/summarizer.ts",
+      "to": "src/core/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/summarizer.ts",
+      "to": "src/llm/provider.ts",
+      "specifier": "../llm/provider.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/agents-md.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -373,6 +433,18 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/readiness.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/readiness.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/repo-summary.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -380,6 +452,18 @@
     },
     {
       "from": "src/outputs/repo-summary.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-context.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-context.ts",
       "to": "src/outputs/markdown.ts",
       "specifier": "./markdown.js",
       "isExternal": false
@@ -440,8 +524,20 @@
     },
     {
       "from": "src/outputs/writer.ts",
+      "to": "src/outputs/readiness.ts",
+      "specifier": "./readiness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/writer.ts",
       "to": "src/outputs/repo-summary.ts",
       "specifier": "./repo-summary.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/writer.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "./task-context.js",
       "isExternal": false
     }
   ],
@@ -454,12 +550,12 @@
     {
       "from": "cli",
       "to": "core",
-      "count": 2
+      "count": 4
     },
     {
       "from": "cli",
       "to": "outputs",
-      "count": 2
+      "count": 3
     },
     {
       "from": "config",
@@ -477,9 +573,19 @@
       "count": 1
     },
     {
+      "from": "core",
+      "to": "llm",
+      "count": 1
+    },
+    {
+      "from": "llm",
+      "to": "core",
+      "count": 1
+    },
+    {
       "from": "outputs",
       "to": "core",
-      "count": 8
+      "count": 10
     }
   ]
 }

@@ -2,10 +2,13 @@
 import { existsSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { Command } from "commander";
-import type { AgentTarget } from "../core/types.js";
+import type { AgentTarget, IndexedFile } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
+import { changedFilesSince } from "../core/git.js";
 import { writeContextPackage } from "../outputs/writer.js";
 import { renderDependencyGraph } from "../outputs/dependency-graph.js";
+import { summarizeReadiness } from "../core/readiness.js";
+import { renderTaskContext } from "../outputs/task-context.js";
 
 const program = new Command();
 
@@ -19,8 +22,10 @@ program
   .argument("[repo]", "repository path", ".")
   .option("-t, --target <target>", "agent target: codex, claude, cursor, all", parseTarget)
   .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
+  .option("--llm", "enable LLM summaries using repo-context.local.yml")
+  .option("--no-llm", "disable LLM summaries")
   .description("Generate AGENTS.md and .agent-context outputs.")
-  .action(async (repo: string, options: { target?: AgentTarget; tokenBudget?: number }) => {
+  .action(async (repo: string, options: { target?: AgentTarget; tokenBudget?: number; llm?: boolean }) => {
     const context = await buildContextPackage(repo, options);
     const result = writeContextPackage(context);
     const totalTokens = context.scan.files.reduce((sum, file) => sum + file.tokenEstimate, 0);
@@ -30,6 +35,8 @@ program
     console.log(`Files scanned: ${context.scan.files.length}`);
     console.log(`Languages: ${context.scan.languages.join(", ") || "none detected"}`);
     console.log(`Key files: ${context.keyFiles.length}`);
+    console.log(`Agent readiness: ${context.readiness.score}/100`);
+    console.log(`Summary mode: ${context.summaries.mode}`);
     console.log(`Token estimate: ${totalTokens.toLocaleString()} -> ${keyTokens.toLocaleString()} for top context`);
     console.log("Written:");
     for (const file of result.files) {
@@ -61,6 +68,58 @@ program
   .action(async (repo: string) => {
     const context = await buildContextPackage(repo);
     console.log(renderDependencyGraph(context));
+  });
+
+program
+  .command("readiness")
+  .argument("[repo]", "repository path", ".")
+  .description("Print the agent readiness score and missing context signals.")
+  .action(async (repo: string) => {
+    const context = await buildContextPackage(repo);
+    console.log(summarizeReadiness(context));
+  });
+
+program
+  .command("task")
+  .argument("<task>", "task description")
+  .argument("[repo]", "repository path", ".")
+  .description("Generate a task-focused context recommendation.")
+  .action(async (task: string, repo: string) => {
+    const context = await buildContextPackage(repo);
+    console.log(renderTaskContext(context, task));
+  });
+
+program
+  .command("diff")
+  .argument("[repo]", "repository path", ".")
+  .option("--base <ref>", "base git ref", "main")
+  .description("Generate context for files changed since a git base ref.")
+  .action(async (repo: string, options: { base: string }) => {
+    const context = await buildContextPackage(repo);
+    const changed = new Set(changedFilesSince(context.scan.root, options.base));
+    const files = context.index.files.filter((file) => changed.has(file.path));
+    console.log("# Diff Context");
+    console.log("");
+    console.log(`Base: ${options.base}`);
+    console.log("");
+    printFileList(files);
+  });
+
+program
+  .command("update")
+  .argument("[repo]", "repository path", ".")
+  .option("--since <ref>", "show changed files since a git ref after rebuilding", "main")
+  .description("Rebuild the context package and report files changed since a git ref.")
+  .action(async (repo: string, options: { since: string }) => {
+    const context = await buildContextPackage(repo);
+    const result = writeContextPackage(context);
+    const changed = changedFilesSince(context.scan.root, options.since);
+    console.log(`Updated agent context for ${context.scan.root}`);
+    console.log(`Written files: ${result.files.length}`);
+    console.log(`Changed since ${options.since}:`);
+    for (const file of changed) {
+      console.log(`- ${file}`);
+    }
   });
 
 program
@@ -142,5 +201,18 @@ outputs:
   agents: true
   modules: true
   graph: true
-`;
+`; 
+}
+
+function printFileList(files: IndexedFile[]): void {
+  if (!files.length) {
+    console.log("No matching files detected.");
+    return;
+  }
+
+  for (const file of files.sort((a, b) => b.importanceScore - a.importanceScore || a.path.localeCompare(b.path))) {
+    console.log(`- ${file.path}`);
+    console.log(`  - Score: ${file.importanceScore}`);
+    console.log(`  - Summary: ${file.summary}`);
+  }
 }

@@ -9,6 +9,8 @@ graph TD
   config["config"] --> core["core"]
   core["core"] --> analyzers["analyzers"]
   core["core"] --> config["config"]
+  core["core"] --> llm["llm"]
+  llm["llm"] --> core["core"]
   outputs["outputs"] --> core["core"]
 ```
 
@@ -16,9 +18,11 @@ graph TD
 | From | To | Count |
 | --- | --- | --- |
 | analyzers | core | 4 |
-| cli | core | 2 |
-| cli | outputs | 2 |
+| cli | core | 4 |
+| cli | outputs | 3 |
 | config | core | 2 |
 | core | analyzers | 4 |
 | core | config | 1 |
-| outputs | core | 8 |
+| core | llm | 1 |
+| llm | core | 1 |
+| outputs | core | 10 |

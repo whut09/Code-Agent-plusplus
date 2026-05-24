@@ -7,9 +7,10 @@ graph TD
   CLI --> Scanner
   Scanner --> Indexer
   Indexer --> GraphBuilder
-  GraphBuilder --> Ranker
-  Ranker --> Composer
-  Composer --> Outputs
+GraphBuilder --> Ranker
+Ranker --> SummaryEngine
+SummaryEngine --> Composer
+Composer --> Outputs
 ```
 
 ## Scanner
@@ -69,9 +70,20 @@ The composer writes both human-friendly Markdown and machine-readable JSON:
 - `.agent-context/dependency-graph.md`
 - `.agent-context/architecture.md`
 - `.agent-context/onboarding.md`
+- `.agent-context/readiness.md`
+- `.agent-context/tasks/*.md`
 - `.agent-context/index/*.json`
 - `.agent-context/graphs/*.json`
 - `.agent-context/graphs/*.mmd`
+
+## Summary Engine
+
+The summary engine has two modes:
+
+- Offline mode: uses static repository signals and never calls an external model.
+- LLM mode: uses a local private `repo-context.local.yml` with an OpenAI-compatible `baseUrl`, `apiKey`, and `model`.
+
+Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `repo-context.local.yml`, which is ignored by git.
 
 ## Design Principle
 

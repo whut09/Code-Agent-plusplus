@@ -59,16 +59,58 @@ repo-context init [repo]
 repo-context build [repo]
 repo-context graph [repo]
 repo-context explain <path> [repo]
+repo-context readiness [repo]
+repo-context task "<task>" [repo]
+repo-context diff [repo] --base main
+repo-context update [repo] --since main
 ```
 
 Examples:
 
 ```bash
 repo-context build . --target codex
+repo-context build . --llm
 repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
+repo-context readiness .
+repo-context task "fix login timeout bug" .
+repo-context diff . --base main
 ```
+
+## Optional LLM Summaries
+
+LLM usage is optional. The CLI works offline by default.
+
+Committed configuration should only contain placeholders:
+
+```yaml
+llm:
+  enabled: false
+  provider: openai-compatible
+  baseUrl: xx
+  apiKey: xx
+  model: xx
+```
+
+For local use, copy `repo-context.local.example.yml` to `repo-context.local.yml` and put your real key and URL there. `repo-context.local.yml` is ignored by git.
+
+```yaml
+llm:
+  enabled: true
+  provider: openai-compatible
+  baseUrl: xx
+  apiKey: xx
+  model: xx
+```
+
+Then run:
+
+```bash
+repo-context build . --llm
+```
+
+If the local key, URL, or model is missing or still set to `xx`, Repo-to-Agent-Context falls back to offline summaries.
 
 ## Architecture
 
@@ -96,4 +138,6 @@ outputs:
   agents: true
   modules: true
   graph: true
+  tasks: true
+  readiness: true
 ```

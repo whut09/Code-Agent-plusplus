@@ -5,11 +5,24 @@ export interface RepoContextConfig {
   tokenBudget: number;
   include: string[];
   exclude: string[];
+  llm: LlmConfig;
   outputs: {
     agents: boolean;
     modules: boolean;
     graph: boolean;
+    tasks: boolean;
+    readiness: boolean;
   };
+}
+
+export interface LlmConfig {
+  enabled: boolean;
+  provider: "openai-compatible";
+  baseUrl: string;
+  apiKey: string;
+  model: string;
+  temperature: number;
+  maxTokens: number;
 }
 
 export interface RepoScan {
@@ -108,4 +121,22 @@ export interface ContextPackage {
   graph: DependencyGraph;
   keyFiles: IndexedFile[];
   target: AgentTarget;
+  readiness: AgentReadinessReport;
+  summaries: SummaryBundle;
+}
+
+export interface SummaryBundle {
+  mode: "offline" | "llm";
+  repoSummary: string;
+  moduleSummaries: Array<{
+    moduleName: string;
+    summary: string;
+    evidence: string[];
+  }>;
+}
+
+export interface AgentReadinessReport {
+  score: number;
+  missing: string[];
+  strengths: string[];
 }

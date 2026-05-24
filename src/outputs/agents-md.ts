@@ -20,7 +20,8 @@ export function renderAgentsMd(context: ContextPackage): string {
       `Languages: ${context.scan.languages.join(", ") || "none detected"}`,
       `Frameworks: ${context.scan.frameworks.join(", ") || "none detected"}`,
       `Package managers: ${context.scan.packageManagers.join(", ") || "none detected"}`,
-      `Entrypoints: ${context.scan.entrypoints.map(code).join(", ") || "none detected"}`
+      `Entrypoints: ${context.scan.entrypoints.map(code).join(", ") || "none detected"}`,
+      `Agent readiness: ${context.readiness.score}/100`
     ]),
     "",
     heading(2, "How To Run"),
@@ -42,7 +43,9 @@ export function renderAgentsMd(context: ContextPackage): string {
       code(".agent-context/module-map.md"),
       code(".agent-context/dependency-graph.md"),
       code(".agent-context/architecture.md"),
-      code(".agent-context/onboarding.md")
+      code(".agent-context/onboarding.md"),
+      code(".agent-context/readiness.md"),
+      code(".agent-context/tasks/")
     ]),
     "",
     heading(2, "Safety Rules For Agents"),

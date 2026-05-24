@@ -12,7 +12,18 @@ exclude:
   - .next/**
   - .venv/**
 
+llm:
+  enabled: false
+  provider: openai-compatible
+  baseUrl: xx
+  apiKey: xx
+  model: xx
+  temperature: 0.2
+  maxTokens: 1200
+
 outputs:
   agents: true
   modules: true
   graph: true
+  tasks: true
+  readiness: true

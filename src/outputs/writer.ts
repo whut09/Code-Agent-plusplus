@@ -7,7 +7,9 @@ import { renderDependencyGraph, renderMermaidGraph } from "./dependency-graph.js
 import { renderKeyFiles } from "./key-files.js";
 import { renderModuleMap } from "./module-map.js";
 import { renderOnboarding } from "./onboarding.js";
+import { renderReadiness } from "./readiness.js";
 import { renderRepoSummary } from "./repo-summary.js";
+import { renderTaskContext } from "./task-context.js";
 
 export interface WriteResult {
   files: string[];
@@ -18,10 +20,12 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   const contextDir = path.join(root, ".agent-context");
   const indexDir = path.join(contextDir, "index");
   const graphDir = path.join(contextDir, "graphs");
+  const tasksDir = path.join(contextDir, "tasks");
   const written: string[] = [];
 
   mkdirSync(indexDir, { recursive: true });
   mkdirSync(graphDir, { recursive: true });
+  mkdirSync(tasksDir, { recursive: true });
 
   write(root, resolveAgentsFileName(root), renderAgentsMd(context), written);
   write(contextDir, "repo-summary.md", renderRepoSummary(context), written);
@@ -30,9 +34,14 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   write(contextDir, "dependency-graph.md", renderDependencyGraph(context), written);
   write(contextDir, "architecture.md", renderArchitecture(context), written);
   write(contextDir, "onboarding.md", renderOnboarding(context), written);
+  write(contextDir, "readiness.md", renderReadiness(context), written);
+  write(tasksDir, "bugfix-context.md", renderTaskContext(context, "fix a bug or regression"), written);
+  write(tasksDir, "feature-context.md", renderTaskContext(context, "add a feature or new behavior"), written);
+  write(tasksDir, "refactor-context.md", renderTaskContext(context, "refactor code safely"), written);
   write(graphDir, "dependencies.mmd", renderMermaidGraph(context), written);
   writeJson(graphDir, "dependencies.json", context.graph, written);
-  writeJson(indexDir, "files.json", context.index.files, written);
+  writeJson(contextDir, "readiness.json", context.readiness, written);
+  writeJson(indexDir, "files.json", context.index.files.map(sanitizeIndexedFile), written);
   writeJson(indexDir, "symbols.json", context.index.symbols, written);
   writeJson(indexDir, "modules.json", context.index.modules, written);
   writeJson(indexDir, "chunks.json", buildChunks(context), written);
@@ -79,4 +88,10 @@ function buildChunks(context: ContextPackage): Array<{
     tokenEstimate: file.tokenEstimate,
     summary: file.summary
   }));
+}
+
+function sanitizeIndexedFile(file: ContextPackage["index"]["files"][number]): Omit<typeof file, "absolutePath"> {
+  const { absolutePath, ...safeFile } = file;
+  void absolutePath;
+  return safeFile;
 }

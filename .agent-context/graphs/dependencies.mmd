@@ -5,4 +5,6 @@ graph TD
   config["config"] --> core["core"]
   core["core"] --> analyzers["analyzers"]
   core["core"] --> config["config"]
+  core["core"] --> llm["llm"]
+  llm["llm"] --> core["core"]
   outputs["outputs"] --> core["core"]
