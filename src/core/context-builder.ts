@@ -29,7 +29,7 @@ export async function buildContextPackage(repoRoot: string, options: BuildOption
   const keyFiles = rankFiles(scan, index, graph);
   const readiness = assessReadiness(scan, index, graph);
   const summaries = await summarizeRepository(scan, index, config);
-  const tokenSavings = calculateTokenSavings(scan, keyFiles);
+  const tokenSavings = calculateTokenSavings(scan, keyFiles, { tokenBudget: config.tokenBudget });
 
   return {
     scan,

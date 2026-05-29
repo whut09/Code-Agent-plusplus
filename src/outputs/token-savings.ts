@@ -12,7 +12,7 @@ export function renderTokenSavings(context: ContextPackage): string {
     bullet([
       `Selected files: ${context.tokenSavings.selectedFiles}`,
       `Total scanned files: ${context.tokenSavings.totalFiles}`,
-      "The context pack estimate uses the top-ranked files plus generated summaries, not the entire repository."
+      "The context pack estimate uses compact file summaries, symbols, imports, module context, and graph hints rather than full source files."
     ])
   ].join("\n");
 }
