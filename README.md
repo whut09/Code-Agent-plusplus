@@ -87,9 +87,14 @@ repo-context rag export .
 Every build includes a token savings report:
 
 ```txt
-Original repo: 2,400,000 tokens
-Context pack: 42,000 tokens
-Compression: 57x
+生成统计：
+
+扫描文件：3104
+LLM 模式：已启用
+Agent readiness：85/100
+原始仓库估算：7,056,929 tokens
+压缩后上下文：23,984 tokens
+压缩比：294x
 ```
 
 Generated files:
