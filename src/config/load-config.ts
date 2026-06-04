@@ -22,7 +22,7 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
   const fileConfig = configPath ? readConfigFile(configPath) : {};
   const localConfig = localConfigPath ? readConfigFile(localConfigPath) : {};
 
-  return {
+  const config: RepoContextConfig = {
     ...DEFAULT_CONFIG,
     ...fileConfig,
     ...localConfig,
@@ -46,6 +46,12 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
       ...localConfig.rag,
       ...overrides.rag
     },
+    tokenizer: {
+      ...DEFAULT_CONFIG.tokenizer,
+      ...fileConfig.tokenizer,
+      ...localConfig.tokenizer,
+      ...overrides.tokenizer
+    },
     outputs: {
       ...DEFAULT_CONFIG.outputs,
       ...fileConfig.outputs,
@@ -53,15 +59,22 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
       ...overrides.outputs
     }
   };
+
+  validateConfig(config);
+  return config;
 }
 
 function readConfigFile(configPath: string): Partial<RepoContextConfig> {
   const raw = readFileSync(configPath, "utf8");
-  if (configPath.endsWith(".json")) {
-    return normalizeConfig(JSON.parse(raw));
+  try {
+    const parsed = configPath.endsWith(".json")
+      ? JSON.parse(raw) as Record<string, unknown>
+      : yaml.load(raw) as Record<string, unknown>;
+    validateRawConfig(parsed, configPath);
+    return normalizeConfig(parsed);
+  } catch (error) {
+    throw new Error(`Invalid config ${configPath}: ${error instanceof Error ? error.message : String(error)}`);
   }
-
-  return normalizeConfig(yaml.load(raw) as Record<string, unknown>);
 }
 
 function normalizeConfig(input: Record<string, unknown> | null | undefined): Partial<RepoContextConfig> {
@@ -69,24 +82,39 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     return {};
   }
 
-  const target = typeof input.target === "string" ? normalizeTarget(input.target) : undefined;
-  return {
+  const target = typeof input.target === "string" ? input.target as AgentTarget : undefined;
+  return stripUndefined({
     target,
     tokenBudget: typeof input.tokenBudget === "number" ? input.tokenBudget : undefined,
     include: toStringArray(input.include),
     exclude: toStringArray(input.exclude),
     llm: typeof input.llm === "object" && input.llm ? input.llm as RepoContextConfig["llm"] : undefined,
     rag: typeof input.rag === "object" && input.rag ? input.rag as RepoContextConfig["rag"] : undefined,
+    tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? input.tokenizer as RepoContextConfig["tokenizer"] : undefined,
     outputs: typeof input.outputs === "object" && input.outputs ? input.outputs as RepoContextConfig["outputs"] : undefined
-  };
+  }) as Partial<RepoContextConfig>;
 }
 
-function normalizeTarget(value: string): AgentTarget {
-  if (value === "claude" || value === "cursor" || value === "all") {
-    return value;
+export function validateConfig(config: RepoContextConfig): void {
+  if (!["codex", "claude", "cursor", "all"].includes(config.target)) {
+    throw new Error(`Invalid target "${config.target}". Expected one of: codex, claude, cursor, all.`);
   }
-
-  return "codex";
+  if (!Number.isFinite(config.tokenBudget) || config.tokenBudget <= 0) {
+    throw new Error("tokenBudget must be a positive number.");
+  }
+  if (config.rag.provider !== "lightrag" || !Number.isFinite(config.rag.chunkTokenLimit) || config.rag.chunkTokenLimit <= 0) {
+    throw new Error("rag.chunkTokenLimit must be a positive number and rag.provider must be lightrag.");
+  }
+  if (config.tokenizer.mode !== "chars_approx") {
+    throw new Error(`Invalid tokenizer.mode "${config.tokenizer.mode}". Expected: chars_approx.`);
+  }
+  if (config.llm.enabled) {
+    for (const [field, value] of [["baseUrl", config.llm.baseUrl], ["apiKey", config.llm.apiKey], ["model", config.llm.model]]) {
+      if (!value || value.trim().toLowerCase() === "xx") {
+        throw new Error(`llm.${field} must be configured when llm.enabled is true.`);
+      }
+    }
+  }
 }
 
 function toStringArray(value: unknown): string[] | undefined {
@@ -95,4 +123,72 @@ function toStringArray(value: unknown): string[] | undefined {
   }
 
   return value.filter((item): item is string => typeof item === "string");
+}
+
+function validateRawConfig(input: Record<string, unknown> | null | undefined, source: string): void {
+  if (!input || typeof input !== "object" || Array.isArray(input)) {
+    throw new Error("config root must be an object.");
+  }
+  if (input.target !== undefined && (typeof input.target !== "string" || !["codex", "claude", "cursor", "all"].includes(input.target))) {
+    throw new Error(`Invalid target "${String(input.target)}". Expected one of: codex, claude, cursor, all.`);
+  }
+  if (input.tokenBudget !== undefined && (typeof input.tokenBudget !== "number" || input.tokenBudget <= 0)) {
+    throw new Error("tokenBudget must be a positive number.");
+  }
+  for (const field of ["include", "exclude"]) {
+    const value = input[field];
+    if (value !== undefined && (!Array.isArray(value) || value.some((item) => typeof item !== "string"))) {
+      throw new Error(`${field} must be an array of strings.`);
+    }
+  }
+  validateBooleanObject(input.outputs, "outputs", new Set(["agents", "modules", "graph", "tasks", "readiness", "rag"]));
+  if (input.rag !== undefined) {
+    const rag = objectValue(input.rag, "rag");
+    if (rag.provider !== undefined && rag.provider !== "lightrag") {
+      throw new Error("rag.provider must be lightrag.");
+    }
+    if (rag.chunkTokenLimit !== undefined && (typeof rag.chunkTokenLimit !== "number" || rag.chunkTokenLimit <= 0)) {
+      throw new Error("rag.chunkTokenLimit must be a positive number.");
+    }
+  }
+  if (input.llm !== undefined) {
+    const llm = objectValue(input.llm, "llm");
+    if (llm.provider !== undefined && llm.provider !== "openai-compatible") {
+      throw new Error("llm.provider must be openai-compatible.");
+    }
+    if (llm.enabled !== undefined && typeof llm.enabled !== "boolean") {
+      throw new Error("llm.enabled must be boolean.");
+    }
+  }
+  if (input.tokenizer !== undefined) {
+    const tokenizer = objectValue(input.tokenizer, "tokenizer");
+    if (tokenizer.mode !== undefined && tokenizer.mode !== "chars_approx") {
+      throw new Error("tokenizer.mode must be chars_approx.");
+    }
+  }
+  void source;
+}
+
+function validateBooleanObject(value: unknown, name: string, allowedKeys: Set<string>): void {
+  if (value === undefined) return;
+  const record = objectValue(value, name);
+  for (const [key, item] of Object.entries(record)) {
+    if (!allowedKeys.has(key)) {
+      throw new Error(`Unknown ${name} option: ${key}.`);
+    }
+    if (typeof item !== "boolean") {
+      throw new Error(`${name}.${key} must be boolean.`);
+    }
+  }
+}
+
+function objectValue(value: unknown, name: string): Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error(`${name} must be an object.`);
+  }
+  return value as Record<string, unknown>;
+}
+
+function stripUndefined<T extends Record<string, unknown>>(value: T): Partial<T> {
+  return Object.fromEntries(Object.entries(value).filter(([, item]) => item !== undefined)) as Partial<T>;
 }

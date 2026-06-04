@@ -8,6 +8,14 @@ The first version is deliberately offline-first: it scans a repo, extracts light
 
 ## Quick Start
 
+After publishing the package to npm:
+
+```bash
+npx repo-to-agent-context build ./path/to/repo
+```
+
+From source:
+
 ```bash
 npm install
 npm run build
@@ -50,10 +58,15 @@ AGENTS.md
     bugfix-context.md
     feature-context.md
     refactor-context.md
+    bugfix.json
+    feature.json
+    refactor.json
   rag/
     README.md
     manifest.json
     documents.jsonl
+  evidence/
+    file-evidence.json
   index/
     files.json
     symbols.json
@@ -73,6 +86,7 @@ repo-context graph [repo]
 repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
+repo-context validate [repo]
 repo-context task "<task>" [repo]
 repo-context diff [repo] --base main
 repo-context update [repo] --since main
@@ -88,8 +102,9 @@ repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
+repo-context validate .
 repo-context savings . --token-budget 60000
-repo-context task "fix login timeout bug" .
+repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context diff . --base main
 repo-context rag export . --token-budget 60000
 ```
@@ -103,7 +118,10 @@ Original repo: 2,400,000 tokens
 Context pack: 42,000 tokens
 Compression: 57x
 Token budget: 60,000 (within budget)
+Actual generated output: 31,000 tokens (chars_approx)
 ```
+
+The report separates compact-pack estimates from actual generated Markdown, Mermaid, and RAG JSONL size. Machine-readable indexes are excluded from actual output tokens and documented in the report scope.
 
 Generated files:
 
@@ -115,12 +133,15 @@ Generated files:
 The readiness report makes missing context obvious:
 
 ```txt
-Agent Readiness: 82/100
+Agent Readiness: 76/100
 
-Missing or weak signals:
-- No test/check command detected.
-- No architecture summary.
-- Large undocumented module: src/core.
+Categories:
+- Structure: 90/100
+- Commands: 70/100
+- Tests: 50/100
+- Architecture: 80/100
+- Task Context: 65/100
+- Safety: 85/100
 ```
 
 Generated files:
@@ -160,7 +181,29 @@ Then run:
 repo-context build . --llm
 ```
 
-If the local key, URL, or model is missing or still set to `xx`, Repo-to-Agent-Context falls back to offline summaries.
+When LLM mode is disabled, Repo-to-Agent-Context uses offline summaries. When enabled, missing or `xx` credentials fail with an actionable error instead of silently falling back. Runtime request failures fall back to offline summaries and record the fallback reason.
+
+Run `repo-context validate .` to check config, generated JSON, dependency edges, confidence, and token budget.
+
+## Analysis Confidence And Evidence
+
+- TypeScript/JavaScript uses the TypeScript Compiler API for imports, exports, symbols, routes, barrel exports, and `tsconfig` path aliases.
+- Python resolves local absolute and relative imports.
+- Unsupported and fallback analysis is marked low-confidence.
+
+Each indexed file includes `analyzer`, `confidence`, and line-oriented `evidence`. Aggregated evidence is written to `.agent-context/evidence/file-evidence.json`.
+
+## Task Context Packs
+
+Task mode combines lexical retrieval, dependency graph expansion, related tests/entrypoints/configuration, and token-budgeted packing.
+
+```bash
+repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context task "add SSO login" . --type feature
+repo-context task "split auth module" . --type refactor
+```
+
+Machine-readable packs are generated under `.agent-context/tasks/*.json`.
 
 ## Optional RAG With LightRAG
 
@@ -195,6 +238,9 @@ Create `repo-context.config.yml`:
 target: codex
 tokenBudget: 60000
 
+tokenizer:
+  mode: chars_approx
+
 include:
   - src/**
   - docs/**
@@ -222,4 +268,5 @@ The `outputs` switches control optional generated artifacts. Disabling a switch 
 npm run build
 npm run check
 npm test
+npm pack --dry-run
 ```

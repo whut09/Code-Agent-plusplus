@@ -1,100 +1,181 @@
-import type { AgentReadinessReport, ContextPackage, DependencyGraph, RepoIndex, RepoScan } from "./types.js";
+import type { AgentReadinessReport, ContextPackage, DependencyGraph, ReadinessCategory, RepoIndex, RepoScan } from "./types.js";
 
 export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: DependencyGraph): AgentReadinessReport {
-  const missing: string[] = [];
-  const strengths: string[] = [];
-  let score = 32;
-
-  if (scan.entrypoints.length) {
-    score += 12;
-    strengths.push("Entrypoints detected.");
-  } else {
-    missing.push("No clear application entrypoint detected.");
-  }
-
-  if (scan.testCommands.length) {
-    score += 12;
-    strengths.push("Test or check commands detected.");
-  } else {
-    missing.push("No test/check command detected.");
-  }
-
-  if (index.modules.length > 1) {
-    score += 10;
-    strengths.push("Repository can be divided into modules.");
-  } else {
-    missing.push("Module boundaries are weak or not obvious.");
-  }
-
-  if (graph.moduleEdges.length || graph.fileEdges.length) {
-    score += 10;
-    strengths.push("Dependency graph generated.");
-  } else {
-    missing.push("No internal dependency edges detected.");
-  }
-
-  if (scan.files.some((file) => file.path.toLowerCase().includes("readme"))) {
-    score += 8;
-    strengths.push("README documentation detected.");
-  } else {
-    missing.push("No README detected.");
-  }
-
-  if (index.symbols.length) {
-    score += 8;
-    strengths.push("Code symbols extracted.");
-  } else {
-    missing.push("No code symbols extracted.");
-  }
-
-  if (hasArchitectureDocumentation(scan)) {
-    score += 8;
-    strengths.push("Architecture documentation detected.");
-  } else {
-    missing.push("No architecture summary detected.");
-  }
-
-  const docsText = index.files
-    .filter((file) => file.kind === "docs")
-    .map((file) => `${file.path} ${file.summary}`)
-    .join(" ")
-    .toLowerCase();
-  const largeModules = index.modules.filter((module) => (
-    module.files.length > 50
-    && module.name !== "root"
-    && !docsText.includes(module.name.toLowerCase())
-  ));
-  for (const module of largeModules.slice(0, 3)) {
-    missing.push(`Large undocumented module: ${module.pathPrefix}.`);
-    score -= 5;
-  }
+  const categories = [
+    assessStructure(scan, index, graph),
+    assessCommands(scan),
+    assessTests(scan),
+    assessArchitecture(scan, index),
+    assessTaskContext(index, graph),
+    assessSafety(scan)
+  ];
+  const score = Math.round(categories.reduce((sum, category) => sum + category.score, 0) / categories.length);
 
   return {
-    score: Math.max(0, Math.min(100, score)),
-    missing,
-    strengths
+    score,
+    categories,
+    missing: [...new Set(categories.flatMap((category) => category.missing))],
+    strengths: categories
+      .filter((category) => category.score >= 75)
+      .map((category) => `${title(category.category)} readiness: ${category.score}/100.`)
   };
-}
-
-function hasArchitectureDocumentation(scan: RepoScan): boolean {
-  return scan.files.some((file) => (
-    file.kind === "docs"
-    && /(^|\/)(architecture|design|adr|decisions?)(\.|\/|$)/i.test(file.path)
-  ));
 }
 
 export function summarizeReadiness(context: ContextPackage): string {
   return [
     `Agent Readiness: ${context.readiness.score}/100`,
     "",
-    "Strengths:",
-    ...list(context.readiness.strengths),
+    "Categories:",
+    ...context.readiness.categories.map((category) => `- ${title(category.category)}: ${category.score}/100`),
     "",
     "Missing or weak signals:",
     ...list(context.readiness.missing)
   ].join("\n");
 }
 
+function assessStructure(scan: RepoScan, index: RepoIndex, graph: DependencyGraph): ReadinessCategory {
+  let score = 20;
+  const evidence: string[] = [];
+  const missing: string[] = [];
+  if (scan.entrypoints.length) {
+    score += 25;
+    evidence.push(...scan.entrypoints.map((file) => `Entrypoint: ${file}`));
+  } else missing.push("No clear application entrypoint detected.");
+  if (index.modules.length > 1) {
+    score += 25;
+    evidence.push(`${index.modules.length} modules detected.`);
+  } else missing.push("Module boundaries are weak or not obvious.");
+  if (graph.moduleEdges.length || graph.fileEdges.length) {
+    score += 20;
+    evidence.push(`${graph.fileEdges.length} dependency edges detected.`);
+  } else missing.push("No internal dependency edges detected.");
+  const highConfidence = index.files.filter((file) => file.confidence === "high").length;
+  const confidenceRatio = index.files.length ? highConfidence / index.files.length : 0;
+  score += Math.round(confidenceRatio * 10);
+  evidence.push(`${Math.round(confidenceRatio * 100)}% of files have high-confidence analysis.`);
+  return category("structure", score, evidence, missing);
+}
+
+function assessCommands(scan: RepoScan): ReadinessCategory {
+  let score = 20;
+  const evidence: string[] = [];
+  const missing: string[] = [];
+  if (scan.runCommands.length) {
+    score += 25;
+    evidence.push(...scan.runCommands.map((command) => `Run command: ${command}`));
+  } else missing.push("No run/dev command detected.");
+  if ((scan.lintCommands ?? []).length) {
+    score += 25;
+    evidence.push(...(scan.lintCommands ?? []).map((command) => `Lint command: ${command}`));
+  } else missing.push("No lint/format command detected.");
+  if ((scan.typecheckCommands ?? []).length) {
+    score += 30;
+    evidence.push(...(scan.typecheckCommands ?? []).map((command) => `Typecheck command: ${command}`));
+  } else missing.push("No typecheck command detected.");
+  return category("commands", score, evidence, missing);
+}
+
+function assessTests(scan: RepoScan): ReadinessCategory {
+  let score = 10;
+  const evidence: string[] = [];
+  const missing: string[] = [];
+  const tests = scan.files.filter((file) => file.isTest);
+  if (scan.testCommands.length) {
+    score += 45;
+    evidence.push(...scan.testCommands.map((command) => `Test/check command: ${command}`));
+  } else missing.push("No test/check command detected.");
+  if (tests.length) {
+    score += 35;
+    evidence.push(`${tests.length} test files detected.`);
+  } else missing.push("No test files detected.");
+  if ((scan.ciFiles ?? []).length) {
+    score += 10;
+    evidence.push(...(scan.ciFiles ?? []).map((file) => `CI: ${file}`));
+  } else missing.push("No CI workflow detected.");
+  return category("tests", score, evidence, missing);
+}
+
+function assessArchitecture(scan: RepoScan, index: RepoIndex): ReadinessCategory {
+  let score = 20;
+  const evidence: string[] = [];
+  const missing: string[] = [];
+  if (scan.files.some((file) => file.path.toLowerCase().includes("readme"))) {
+    score += 25;
+    evidence.push("README documentation detected.");
+  } else missing.push("No README detected.");
+  if (hasArchitectureDocumentation(scan)) {
+    score += 35;
+    evidence.push("Architecture documentation detected.");
+  } else missing.push("No architecture summary detected.");
+  const docsText = index.files.filter((file) => file.kind === "docs").map((file) => `${file.path} ${file.summary}`).join(" ").toLowerCase();
+  const largeModules = index.modules.filter((module) => module.files.length > 50 && module.name !== "root" && !docsText.includes(module.name.toLowerCase()));
+  if (!largeModules.length) score += 20;
+  for (const module of largeModules.slice(0, 3)) missing.push(`Large undocumented module: ${module.pathPrefix}.`);
+  return category("architecture", score, evidence, missing);
+}
+
+function assessTaskContext(index: RepoIndex, graph: DependencyGraph): ReadinessCategory {
+  let score = 20;
+  const evidence: string[] = [];
+  const missing: string[] = [];
+  if (index.symbols.length) {
+    score += 25;
+    evidence.push(`${index.symbols.length} code symbols extracted.`);
+  } else missing.push("No code symbols extracted.");
+  if (graph.fileEdges.some((edge) => !edge.isExternal)) {
+    score += 25;
+    evidence.push("Internal dependency neighbors are available.");
+  } else missing.push("Task context cannot expand through internal dependencies.");
+  const evidenceFiles = index.files.filter((file) => file.evidence?.length);
+  if (evidenceFiles.length) {
+    score += 30;
+    evidence.push(`${evidenceFiles.length} files include analysis evidence.`);
+  } else missing.push("No file-level evidence is available.");
+  return category("task-context", score, evidence, missing);
+}
+
+function assessSafety(scan: RepoScan): ReadinessCategory {
+  let score = 35;
+  const evidence: string[] = [];
+  const missing: string[] = [];
+  if ((scan.envExampleFiles ?? []).length) {
+    score += 25;
+    evidence.push(...(scan.envExampleFiles ?? []).map((file) => `Environment example: ${file}`));
+  } else missing.push("No environment variable example detected.");
+  if ((scan.ciFiles ?? []).length) {
+    score += 20;
+    evidence.push(...(scan.ciFiles ?? []).map((file) => `CI workflow: ${file}`));
+  } else missing.push("No CI workflow detected.");
+  const hasDatabaseSignals = scan.files.some((file) => /(^|\/)(prisma|database|db|schema\.sql)(\/|\.|$)/i.test(file.path));
+  if ((scan.migrationFiles ?? []).length) {
+    score += 20;
+    evidence.push(`${(scan.migrationFiles ?? []).length} migration-related files detected.`);
+  } else if (hasDatabaseSignals) {
+    missing.push("Database signals detected but no migration guidance found.");
+  } else {
+    score += 20;
+    evidence.push("No database signals detected; migration guidance is not applicable.");
+  }
+  return category("safety", score, evidence, missing);
+}
+
+function category(
+  name: ReadinessCategory["category"],
+  score: number,
+  evidence: string[],
+  missing: string[]
+): ReadinessCategory {
+  return { category: name, score: Math.max(0, Math.min(100, score)), evidence, missing };
+}
+
+function hasArchitectureDocumentation(scan: RepoScan): boolean {
+  return scan.files.some((file) => file.kind === "docs" && /(^|\/)(architecture|design|adr|decisions?)(\.|\/|$)/i.test(file.path));
+}
+
 function list(items: string[]): string[] {
   return items.length ? items.map((item) => `- ${item}`) : ["- None."];
+}
+
+function title(value: string): string {
+  return value.split("-").map((part) => `${part[0]?.toUpperCase() ?? ""}${part.slice(1)}`).join(" ");
 }

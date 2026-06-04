@@ -30,17 +30,22 @@ export function calculateTokenSavings(
     compressionRatio,
     withinBudget: contextPackTokens <= tokenBudget,
     selectedFiles: selectedFiles.length,
-    totalFiles: scan.files.length
+    totalFiles: scan.files.length,
+    estimatedTokenSavings: Math.max(0, originalTokens - contextPackTokens)
   };
 }
 
 export function formatTokenSavings(report: TokenSavingsReport): string {
-  return [
+  const lines = [
     `Original repo: ${report.originalTokens.toLocaleString()} tokens`,
     `Context pack: ${report.contextPackTokens.toLocaleString()} tokens`,
     `Compression: ${report.compressionRatio}x`,
     `Token budget: ${report.tokenBudget.toLocaleString()} (${report.withinBudget ? "within budget" : "over budget"})`
-  ].join("\n");
+  ];
+  if (report.actualOutputTokens) {
+    lines.push(`Actual generated output: ${report.actualOutputTokens.totalTokens.toLocaleString()} tokens (${report.actualOutputTokens.mode})`);
+  }
+  return lines.join("\n");
 }
 
 function selectFilesForBudget(scan: RepoScan, keyFiles: IndexedFile[], tokenBudget: number): IndexedFile[] {

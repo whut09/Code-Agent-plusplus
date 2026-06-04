@@ -48,6 +48,9 @@ function indexedFile(index: number): IndexedFile {
       line: symbol + 1
     })),
     summary: `Module ${index} handles repository context processing and related operations.`,
+    analyzer: "typescript-compiler-api",
+    confidence: "high",
+    evidence: [],
     moduleName: `module-${index}`,
     importanceScore: 100 - index,
     importanceReasons: ["entrypoint", "shared dependency"]
@@ -64,6 +67,11 @@ function repoScan(files: IndexedFile[]): RepoScan {
     configFiles: ["package.json"],
     entrypoints: ["src/module-0.ts"],
     testCommands: ["npm test"],
-    runCommands: ["npm start"]
+    runCommands: ["npm start"],
+    lintCommands: [],
+    typecheckCommands: [],
+    ciFiles: [],
+    envExampleFiles: [],
+    migrationFiles: []
   };
 }

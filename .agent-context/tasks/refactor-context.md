@@ -1,33 +1,48 @@
 # Task Context
 
 Task: refactor code safely
+Type: refactor
+Budget: 2,797 / 12,000 estimated tokens
 
 ## Relevant Files
 | File | Score | Why | Summary |
 | --- | --- | --- | --- |
-| `src/outputs/markdown.ts` | 60 | 5 exports, 8 symbols, 11 inbound dependencies | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
-| `src/cli/index.ts` | 65 | entrypoint, 32 symbols, 12 outbound dependencies | src/cli/index.ts contains 32 detected symbols, 12 imports, 0 exports. |
-| `src/core/types.ts` | 60 | 18 exports, 18 symbols, 30 inbound dependencies | src/core/types.ts contains 18 detected symbols, 0 imports, 18 exports. |
-| `test/writer.test.ts` | 57 | 6 exports, 14 symbols, 7 outbound dependencies, test coverage signal | test/writer.test.ts contains 14 detected symbols, 7 imports, 6 exports. |
-| `src/core/token-savings.ts` | 56 | 3 exports, 27 symbols, 5 inbound dependencies, 2 outbound dependencies | src/core/token-savings.ts contains 27 detected symbols, 2 imports, 3 exports. |
-| `src/core/path-utils.ts` | 51 | 5 exports, 7 symbols, 3 inbound dependencies, 1 outbound dependency | src/core/path-utils.ts contains 7 detected symbols, 1 import, 5 exports. |
-| `src/core/context-builder.ts` | 48 | 2 exports, 11 symbols, 2 inbound dependencies, 9 outbound dependencies | src/core/context-builder.ts contains 11 detected symbols, 9 imports, 2 exports. |
-| `src/outputs/writer.ts` | 48 | 2 exports, 26 symbols, 2 inbound dependencies, 14 outbound dependencies | src/outputs/writer.ts contains 26 detected symbols, 14 imports, 2 exports. |
-| `src/outputs/rag.ts` | 47 | 4 exports, 17 symbols, 2 inbound dependencies, 3 outbound dependencies | src/outputs/rag.ts contains 17 detected symbols, 3 imports, 4 exports. |
-| `src/core/scanner.ts` | 44 | 1 export, 45 symbols, 2 inbound dependencies, 9 outbound dependencies | src/core/scanner.ts contains 45 detected symbols, 9 imports, 1 export. |
-| `src/core/readiness.ts` | 40 | 2 exports, 9 symbols, 3 inbound dependencies, 1 outbound dependency | src/core/readiness.ts contains 9 detected symbols, 1 import, 2 exports. |
-| `src/core/file-classifier.ts` | 38 | 3 exports, 8 symbols, 1 inbound dependency, 3 outbound dependencies | src/core/file-classifier.ts contains 8 detected symbols, 3 imports, 3 exports. |
-| `src/core/indexer.ts` | 38 | 1 export, 23 symbols, 1 inbound dependency, 7 outbound dependencies | src/core/indexer.ts contains 23 detected symbols, 7 imports, 1 export. |
-| `src/outputs/dependency-graph.ts` | 37 | 2 exports, 9 symbols, 2 inbound dependencies, 2 outbound dependencies | src/outputs/dependency-graph.ts contains 9 detected symbols, 2 imports, 2 exports. |
-| `src/outputs/task-context.ts` | 36 | 2 exports, 7 symbols, 2 inbound dependencies, 2 outbound dependencies | src/outputs/task-context.ts contains 7 detected symbols, 2 imports, 2 exports. |
-| `src/analyzers/types.ts` | 34 | 2 exports, 2 symbols, 4 inbound dependencies, 1 outbound dependency | src/analyzers/types.ts contains 2 detected symbols, 1 import, 2 exports. |
-| `src/config/load-config.ts` | 34 | 1 export, 13 symbols, 1 inbound dependency, 5 outbound dependencies | src/config/load-config.ts contains 13 detected symbols, 5 imports, 1 export. |
-| `src/analyzers/javascript.ts` | 30 | 1 export, 25 symbols, 1 inbound dependency, 3 outbound dependencies | src/analyzers/javascript.ts contains 25 detected symbols, 3 imports, 1 export. |
-| `src/llm/provider.ts` | 30 | 2 exports, 9 symbols, 1 inbound dependency, 1 outbound dependency | src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports. |
-| `test/token-savings.test.ts` | 30 | 7 symbols, 4 outbound dependencies, test coverage signal | test/token-savings.test.ts contains 7 detected symbols, 4 imports, 0 exports. |
+| `src/outputs/markdown.ts` | 164 | lexical match: code, shared API/refactor risk | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
+| `src/outputs/rag.ts` | 46 | caller/importer of src/outputs/markdown.ts, shared API/refactor risk | src/outputs/rag.ts contains 15 detected symbols, 3 imports, 4 exports. |
+| `src/cli/index.ts` | 30 | entrypoint, shared API/refactor risk | src/cli/index.ts contains 30 detected symbols, 14 imports, 0 exports. |
+| `src/outputs/task-context.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/task-context.ts contains 37 detected symbols, 3 imports, 3 exports. |
+| `src/outputs/dependency-graph.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/dependency-graph.ts contains 7 detected symbols, 2 imports, 2 exports. |
+| `src/outputs/agents-md.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/agents-md.ts contains 4 detected symbols, 2 imports, 1 export. |
+| `src/outputs/architecture.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/architecture.ts contains 3 detected symbols, 2 imports, 1 export. |
+| `src/outputs/key-files.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/key-files.ts contains 2 detected symbols, 2 imports, 1 export. |
+| `src/outputs/module-map.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/module-map.ts contains 2 detected symbols, 2 imports, 1 export. |
+| `src/outputs/onboarding.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/onboarding.ts contains 2 detected symbols, 2 imports, 1 export. |
+| `src/outputs/repo-summary.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/repo-summary.ts contains 1 detected symbol, 3 imports, 1 export. |
+| `src/outputs/token-savings.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/token-savings.ts contains 1 detected symbol, 3 imports, 1 export. |
+| `src/outputs/readiness.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/readiness.ts contains 1 detected symbol, 2 imports, 1 export. |
+| `src/core/context-builder.ts` | 18 | shared API/refactor risk | src/core/context-builder.ts contains 11 detected symbols, 9 imports, 2 exports. |
+| `src/core/types.ts` | 18 | shared API/refactor risk | src/core/types.ts contains 25 detected symbols, 0 imports, 25 exports. |
+| `src/outputs/writer.ts` | 18 | shared API/refactor risk | src/outputs/writer.ts contains 31 detected symbols, 15 imports, 2 exports. |
+| `src/core/path-utils.ts` | 18 | shared API/refactor risk | src/core/path-utils.ts contains 7 detected symbols, 1 import, 5 exports. |
+| `src/core/scanner.ts` | 18 | shared API/refactor risk | src/core/scanner.ts contains 44 detected symbols, 9 imports, 1 export. |
+| `src/config/load-config.ts` | 18 | shared API/refactor risk | src/config/load-config.ts contains 24 detected symbols, 5 imports, 2 exports. |
+| `src/core/indexer.ts` | 18 | shared API/refactor risk | src/core/indexer.ts contains 25 detected symbols, 9 imports, 1 export. |
+| `test/writer.test.ts` | 18 | shared API/refactor risk | test/writer.test.ts contains 9 detected symbols, 7 imports, 0 exports. |
+| `src/analyzers/javascript.ts` | 18 | shared API/refactor risk | src/analyzers/javascript.ts contains 36 detected symbols, 4 imports, 1 export. |
+| `test/config.test.ts` | 18 | shared API/refactor risk | test/config.test.ts contains 6 detected symbols, 7 imports, 0 exports. |
+| `test/task-context.test.ts` | 18 | shared API/refactor risk | test/task-context.test.ts contains 4 detected symbols, 7 imports, 0 exports. |
+| `test/token-savings.test.ts` | 18 | shared API/refactor risk | test/token-savings.test.ts contains 7 detected symbols, 4 imports, 0 exports. |
+| `test/validator.test.ts` | 18 | shared API/refactor risk | test/validator.test.ts contains 3 detected symbols, 8 imports, 0 exports. |
+| `test/analyzers.test.ts` | 18 | shared API/refactor risk | test/analyzers.test.ts contains 5 detected symbols, 5 imports, 0 exports. |
+| `test/fixtures.test.ts` | 18 | shared API/refactor risk | test/fixtures.test.ts contains 6 detected symbols, 4 imports, 0 exports. |
+| `test/readiness.test.ts` | 18 | shared API/refactor risk | test/readiness.test.ts contains 6 detected symbols, 4 imports, 0 exports. |
+| `test/scanner.test.ts` | 18 | shared API/refactor risk | test/scanner.test.ts contains 2 detected symbols, 7 imports, 0 exports. |
+| `test/snapshot.test.ts` | 18 | shared API/refactor risk | test/snapshot.test.ts contains 3 detected symbols, 4 imports, 0 exports. |
+| `package.json` | 8 | configuration | package.json is a config file written as JSON. |
+| `tsconfig.json` | 8 | configuration | tsconfig.json is a config file written as JSON. |
 
 ## Suggested Agent Workflow
-- Read `AGENTS.md` first.
-- Open the relevant files above and nearby tests before editing.
-- Check `dependency-graph.md` when changing shared modules or exports.
-- Run detected test/check commands from `repo-summary.md` after edits.
+- Preserve exported APIs and inspect callers before moving code.
+- Read `AGENTS.md` and inspect evidence before editing.
+- Open the selected files and dependency neighbors.
+- Run detected test/check commands after edits.

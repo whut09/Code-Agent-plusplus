@@ -1,13 +1,81 @@
 {
-  "score": 100,
-  "missing": [],
+  "score": 86,
+  "categories": [
+    {
+      "category": "structure",
+      "score": 97,
+      "evidence": [
+        "Entrypoint: src/cli/index.ts",
+        "9 modules detected.",
+        "174 dependency edges detected.",
+        "69% of files have high-confidence analysis."
+      ],
+      "missing": []
+    },
+    {
+      "category": "commands",
+      "score": 75,
+      "evidence": [
+        "Run command: npm run dev",
+        "Typecheck command: npm run build",
+        "Typecheck command: npm run check"
+      ],
+      "missing": [
+        "No lint/format command detected."
+      ]
+    },
+    {
+      "category": "tests",
+      "score": 90,
+      "evidence": [
+        "Test/check command: npm run test",
+        "22 test files detected."
+      ],
+      "missing": [
+        "No CI workflow detected."
+      ]
+    },
+    {
+      "category": "architecture",
+      "score": 100,
+      "evidence": [
+        "README documentation detected.",
+        "Architecture documentation detected."
+      ],
+      "missing": []
+    },
+    {
+      "category": "task-context",
+      "score": 100,
+      "evidence": [
+        "542 code symbols extracted.",
+        "Internal dependency neighbors are available.",
+        "54 files include analysis evidence."
+      ],
+      "missing": []
+    },
+    {
+      "category": "safety",
+      "score": 55,
+      "evidence": [
+        "No database signals detected; migration guidance is not applicable."
+      ],
+      "missing": [
+        "No environment variable example detected.",
+        "No CI workflow detected."
+      ]
+    }
+  ],
+  "missing": [
+    "No lint/format command detected.",
+    "No CI workflow detected.",
+    "No environment variable example detected."
+  ],
   "strengths": [
-    "Entrypoints detected.",
-    "Test or check commands detected.",
-    "Repository can be divided into modules.",
-    "Dependency graph generated.",
-    "README documentation detected.",
-    "Code symbols extracted.",
-    "Architecture documentation detected."
+    "Structure readiness: 97/100.",
+    "Commands readiness: 75/100.",
+    "Tests readiness: 90/100.",
+    "Architecture readiness: 100/100.",
+    "Task Context readiness: 100/100."
   ]
 }

@@ -3,19 +3,19 @@
 This document is generated from static repository signals. Treat it as a starting map, not a final design document.
 
 ## High-Level Shape
-- Primary languages: JSON, Markdown, TypeScript, YAML
+- Primary languages: JSON, Markdown, Python, TOML, TypeScript, YAML
 - Detected frameworks: none detected
 - Main entrypoints: `src/cli/index.ts`
 - Internal modules: 9
 
 ## Important Modules
-- `core`: core contains 14 files and depends on analyzers, config, llm.
+- `core`: core contains 15 files and depends on analyzers, config, llm.
+- `test`: test contains 22 files and depends on analyzers, config, core, outputs.
 - `outputs`: outputs contains 13 files and depends on core.
-- `test`: test contains 4 files and depends on config, core, outputs.
 - `analyzers`: analyzers contains 5 files and depends on core.
-- `root`: root contains 10 files.
-- `cli`: cli contains 1 file and depends on core, outputs.
-- `config`: config contains 2 files and depends on core.
+- `config`: config contains 3 files and depends on core.
+- `cli`: cli contains 1 file and depends on config, core, outputs.
+- `root`: root contains 11 files.
 - `llm`: llm contains 1 file and depends on core.
 - `docs`: docs contains 4 files.
 

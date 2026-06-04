@@ -14,7 +14,7 @@ test("readiness reports missing architecture documentation and large undocumente
 test("readiness recognizes architecture documentation and documented modules", () => {
   const report = assessReadiness(scan(["README.md", "docs/architecture.md", "docs/core.md"]), index(true), graph());
 
-  assert.ok(report.strengths.includes("Architecture documentation detected."));
+  assert.ok(report.categories.find((category) => category.category === "architecture")?.evidence.includes("Architecture documentation detected."));
   assert.equal(report.missing.some((item) => item.includes("Large undocumented module")), false);
 });
 
@@ -39,7 +39,12 @@ function scan(paths: string[]): RepoScan {
     configFiles: [],
     entrypoints: ["src/index.ts"],
     testCommands: ["npm test"],
-    runCommands: ["npm start"]
+    runCommands: ["npm start"],
+    lintCommands: [],
+    typecheckCommands: [],
+    ciFiles: [],
+    envExampleFiles: [],
+    migrationFiles: []
   };
 }
 
@@ -61,6 +66,9 @@ function index(documentCore: boolean): RepoIndex {
       exports: [],
       symbols: [],
       summary: "Documents the core module.",
+      analyzer: "generic",
+      confidence: "low",
+      evidence: [],
       moduleName: "docs",
       importanceScore: 0,
       importanceReasons: []

@@ -10,7 +10,9 @@ export const genericAnalyzer: LanguageAnalyzer = {
       imports: [],
       exports: [],
       symbols: [],
-      summary: `${file.path} is a ${file.kind} file${file.language ? ` written as ${file.language}` : ""}.`
+      summary: `${file.path} is a ${file.kind} file${file.language ? ` written as ${file.language}` : ""}.`,
+      confidence: "low",
+      evidence: []
     };
   }
 };

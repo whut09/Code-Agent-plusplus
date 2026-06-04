@@ -3,29 +3,31 @@
 Generated for target: `codex`.
 
 ## Detected Stack
-- Languages: JSON, Markdown, TypeScript, YAML
+- Languages: JSON, Markdown, Python, TOML, TypeScript, YAML
 - Frameworks: none detected
 - Package managers: npm
-- Files scanned: 54
-- Symbols detected: 408
-- Dependency edges detected: 126
+- Files scanned: 75
+- Symbols detected: 542
+- Dependency edges detected: 174
 
 ## Token Compression Estimate
-Original repo: 35,547 tokens
-Context pack: 8,350 tokens
-Compression: 4x
+Original repo: 48,762 tokens
+Context pack: 10,588 tokens
+Compression: 5x
 Token budget: 60,000 (within budget)
 
 ## Repository Summary
-This repository contains 54 scanned files. Detected languages: JSON, Markdown, TypeScript, YAML. Detected frameworks: none. Detected modules: 9. Detected symbols: 408.
+This repository contains 75 scanned files. Detected languages: JSON, Markdown, Python, TOML, TypeScript, YAML. Detected frameworks: none. Detected modules: 9. Detected symbols: 542.
 
 ## Summary Mode
 - Mode: offline
+- LLM attempted: no
+- Fallback reason: disabled
 - LLM summaries use local private configuration when `repo-context.local.yml` is present.
 
 ## Agent Readiness
-- Score: 100/100
-- Missing signals: 0
+- Score: 86/100
+- Missing signals: 3
 
 ## Entrypoints
 - `src/cli/index.ts`
@@ -34,5 +36,4 @@ This repository contains 54 scanned files. Detected languages: JSON, Markdown, T
 - `npm run dev`
 
 ## Test Commands
-- `npm run check`
 - `npm run test`

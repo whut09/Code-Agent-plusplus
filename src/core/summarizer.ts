@@ -9,7 +9,11 @@ export async function summarizeRepository(
   const offline = buildOfflineSummary(scan, index);
   const client = createLlmClient(config.llm);
   if (!client) {
-    return offline;
+    return {
+      ...offline,
+      llmAttempted: config.llm.enabled,
+      fallbackReason: config.llm.enabled ? "missing_configuration" : "disabled"
+    };
   }
 
   try {
@@ -17,10 +21,16 @@ export async function summarizeRepository(
     return {
       ...offline,
       mode: "llm",
+      llmAttempted: true,
+      fallbackReason: undefined,
       repoSummary
     };
   } catch {
-    return offline;
+    return {
+      ...offline,
+      llmAttempted: true,
+      fallbackReason: "request_failed"
+    };
   }
 }
 
@@ -43,6 +53,8 @@ function buildOfflineSummary(scan: RepoScan, index: RepoIndex): SummaryBundle {
 
   return {
     mode: "offline",
+    llmAttempted: false,
+    fallbackReason: "disabled",
     repoSummary,
     moduleSummaries
   };

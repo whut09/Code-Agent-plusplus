@@ -12,16 +12,18 @@
 ## Phase 2: Better Context Selection
 
 - Token budget aware selection
-- Task context mode
+- Task context mode with graph expansion and typed task packs
 - Diff/PR context mode
 - More language analyzers
 - Incremental cache
 - Agent readiness report
 - Safe local LLM configuration
+- Strict config validation and `repo-context validate`
 
 ## Phase 3: Smarter Summaries
 
 - Tree-sitter analyzers
+- Richer Python AST/tree-sitter analysis
 - Optional LLM provider interface
 - Evidence-linked summaries
 - Architecture drift detection

@@ -28,6 +28,8 @@ export function renderRepoSummary(context: ContextPackage): string {
     heading(2, "Summary Mode"),
     bullet([
       `Mode: ${context.summaries.mode}`,
+      `LLM attempted: ${context.summaries.llmAttempted ? "yes" : "no"}`,
+      `Fallback reason: ${context.summaries.fallbackReason ?? "none"}`,
       "LLM summaries use local private configuration when `repo-context.local.yml` is present."
     ]),
     "",

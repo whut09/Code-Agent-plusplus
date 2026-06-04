@@ -59,7 +59,12 @@ export async function scanRepository(root: string, config: RepoContextConfig): P
     configFiles: files.filter((file) => file.kind === "config").map((file) => file.path),
     entrypoints: detectEntrypoints(files, packageJson),
     testCommands: detectTestCommands(packageJson, scriptRunner),
-    runCommands: detectRunCommands(packageJson, scriptRunner)
+    runCommands: detectRunCommands(packageJson, scriptRunner),
+    lintCommands: detectNamedCommands(packageJson, scriptRunner, /lint|format/i),
+    typecheckCommands: detectNamedCommands(packageJson, scriptRunner, /typecheck|type-check|check-types|tsc/i),
+    ciFiles: files.filter((file) => file.path.startsWith(".github/workflows/") || /(^|\/)(gitlab-ci|Jenkinsfile|azure-pipelines)/i.test(file.path)).map((file) => file.path),
+    envExampleFiles: files.filter((file) => /(^|\/)\.env(\.example|\.sample|\.template)$|(^|\/)env\.example$/i.test(file.path)).map((file) => file.path),
+    migrationFiles: files.filter((file) => /(^|\/)(migrations?|prisma|db\/migrate)\//i.test(file.path)).map((file) => file.path)
   };
 }
 
@@ -123,6 +128,10 @@ function detectFrameworks(files: RepoFile[], packageJson: Record<string, unknown
   if ("express" in deps) names.add("Express");
   if ("fastify" in deps) names.add("Fastify");
   if ("vite" in deps || files.some((file) => file.path.startsWith("vite.config."))) names.add("Vite");
+  if (fileSet.has("turbo.json")) names.add("Turborepo");
+  if (fileSet.has("nx.json")) names.add("Nx");
+  if (fileSet.has("pnpm-workspace.yaml")) names.add("pnpm Workspace");
+  if (Array.isArray(packageJson?.workspaces) || typeof packageJson?.workspaces === "object") names.add("JavaScript Workspace");
   if (fileSet.has("pyproject.toml")) names.add("Python Project");
   if (fileSet.has("Cargo.toml")) names.add("Rust Cargo");
   if (fileSet.has("go.mod")) names.add("Go Module");
@@ -189,7 +198,7 @@ function detectEntrypoints(files: RepoFile[], packageJson: Record<string, unknow
 function detectTestCommands(packageJson: Record<string, unknown> | null, scriptRunner: string | null): string[] {
   const scripts = objectValue(packageJson?.scripts);
   return Object.entries(scripts)
-    .filter(([name]) => /test|spec|check/i.test(name))
+    .filter(([name]) => /test|spec|coverage|e2e|integration/i.test(name))
     .map(([name]) => formatScriptCommand(scriptRunner, name));
 }
 
@@ -197,6 +206,13 @@ function detectRunCommands(packageJson: Record<string, unknown> | null, scriptRu
   const scripts = objectValue(packageJson?.scripts);
   return Object.entries(scripts)
     .filter(([name]) => /^(dev|start|serve|preview)$/i.test(name))
+    .map(([name]) => formatScriptCommand(scriptRunner, name));
+}
+
+function detectNamedCommands(packageJson: Record<string, unknown> | null, scriptRunner: string | null, pattern: RegExp): string[] {
+  const scripts = objectValue(packageJson?.scripts);
+  return Object.entries(scripts)
+    .filter(([name, command]) => pattern.test(name) || (typeof command === "string" && pattern.test(command)))
     .map(([name]) => formatScriptCommand(scriptRunner, name));
 }
 

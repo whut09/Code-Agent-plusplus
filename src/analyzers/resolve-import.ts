@@ -3,9 +3,15 @@ import { dirnamePosix, stripLeadingDotSlash, withoutExtension } from "../core/pa
 
 const RESOLUTION_EXTENSIONS = [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".py", ".go", ".rs", ".json"];
 
-export function resolveImport(fromPath: string, specifier: string, allPaths: Set<string>): string | null {
+export function resolveImport(
+  fromPath: string,
+  specifier: string,
+  allPaths: Set<string>,
+  pathAliases: Array<{ pattern: string; targets: string[] }> = []
+): string | null {
   if (!specifier.startsWith(".") && !specifier.startsWith("/")) {
-    return null;
+    const aliasCandidates = expandAliasCandidates(specifier, pathAliases);
+    return aliasCandidates.flatMap(expandCandidates).find((candidate) => allPaths.has(candidate)) ?? null;
   }
 
   const baseDir = dirnamePosix(fromPath);
@@ -15,6 +21,31 @@ export function resolveImport(fromPath: string, specifier: string, allPaths: Set
   const candidates = expandCandidates(raw);
 
   return candidates.find((candidate) => allPaths.has(candidate)) ?? null;
+}
+
+function expandAliasCandidates(
+  specifier: string,
+  pathAliases: Array<{ pattern: string; targets: string[] }>
+): string[] {
+  const candidates: string[] = [];
+  for (const alias of pathAliases) {
+    const starIndex = alias.pattern.indexOf("*");
+    if (starIndex === -1 && alias.pattern === specifier) {
+      candidates.push(...alias.targets);
+      continue;
+    }
+    if (starIndex === -1) continue;
+    const prefix = alias.pattern.slice(0, starIndex);
+    const suffix = alias.pattern.slice(starIndex + 1);
+    if (!specifier.startsWith(prefix) || !specifier.endsWith(suffix)) continue;
+    const wildcard = specifier.slice(prefix.length, specifier.length - suffix.length);
+    candidates.push(...alias.targets.map((target) => target.replace("*", wildcard)));
+  }
+
+  if (specifier.startsWith("@/")) {
+    candidates.push(`src/${specifier.slice(2)}`);
+  }
+  return candidates.map(stripLeadingDotSlash);
 }
 
 function expandCandidates(raw: string): string[] {

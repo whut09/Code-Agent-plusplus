@@ -23,7 +23,8 @@ test("scanner reports commands using the repository package manager", async () =
 
     assert.deepEqual(scan.packageManagers, ["pnpm"]);
     assert.deepEqual(scan.runCommands, ["pnpm run dev"]);
-    assert.deepEqual(scan.testCommands, ["pnpm run test", "pnpm run check"]);
+    assert.deepEqual(scan.testCommands, ["pnpm run test"]);
+    assert.deepEqual(scan.typecheckCommands, ["pnpm run check"]);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

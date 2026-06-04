@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage } from "../core/types.js";
+import { estimateTokens } from "../core/token-estimator.js";
 import { renderAgentsMd } from "./agents-md.js";
 import { renderArchitecture } from "./architecture.js";
 import { renderDependencyGraph, renderMermaidGraph } from "./dependency-graph.js";
@@ -10,7 +11,7 @@ import { renderOnboarding } from "./onboarding.js";
 import { renderReadiness } from "./readiness.js";
 import { renderRepoSummary } from "./repo-summary.js";
 import { buildRagDocuments, buildRagManifest, renderRagReadme } from "./rag.js";
-import { renderTaskContext } from "./task-context.js";
+import { buildTaskPack, renderTaskContext } from "./task-context.js";
 import { renderTokenSavings } from "./token-savings.js";
 
 export interface WriteResult {
@@ -21,6 +22,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   const root = context.scan.root;
   const contextDir = path.join(root, ".agent-context");
   const indexDir = path.join(contextDir, "index");
+  const evidenceDir = path.join(contextDir, "evidence");
   const graphDir = path.join(contextDir, "graphs");
   const tasksDir = path.join(contextDir, "tasks");
   const ragDir = path.join(contextDir, "rag");
@@ -28,6 +30,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
 
   cleanupDisabledOutputs(context, contextDir, root);
   mkdirSync(indexDir, { recursive: true });
+  mkdirSync(evidenceDir, { recursive: true });
   if (context.config.outputs.graph) mkdirSync(graphDir, { recursive: true });
   if (context.config.outputs.tasks) mkdirSync(tasksDir, { recursive: true });
   if (context.config.outputs.rag) mkdirSync(ragDir, { recursive: true });
@@ -51,22 +54,60 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
     write(contextDir, "readiness.md", renderReadiness(context), written);
     writeJson(contextDir, "readiness.json", context.readiness, written);
   }
-  write(contextDir, "token-savings.md", renderTokenSavings(context), written);
   if (context.config.outputs.tasks) {
     write(tasksDir, "bugfix-context.md", renderTaskContext(context, "fix a bug or regression"), written);
     write(tasksDir, "feature-context.md", renderTaskContext(context, "add a feature or new behavior"), written);
     write(tasksDir, "refactor-context.md", renderTaskContext(context, "refactor code safely"), written);
+    writeJson(tasksDir, "bugfix.json", buildTaskPack(context, "fix a bug or regression", { type: "bugfix" }), written);
+    writeJson(tasksDir, "feature.json", buildTaskPack(context, "add a feature or new behavior", { type: "feature" }), written);
+    writeJson(tasksDir, "refactor.json", buildTaskPack(context, "refactor code safely", { type: "refactor" }), written);
   }
-  writeJson(contextDir, "token-savings.json", context.tokenSavings, written);
   writeJson(indexDir, "files.json", context.index.files.map(sanitizeIndexedFile), written);
   writeJson(indexDir, "symbols.json", context.index.symbols, written);
   writeJson(indexDir, "modules.json", context.index.modules, written);
   writeJson(indexDir, "chunks.json", buildChunks(context), written);
+  writeJson(evidenceDir, "file-evidence.json", context.index.files.map((file) => ({
+    path: file.path,
+    analyzer: file.analyzer,
+    confidence: file.confidence,
+    evidence: file.evidence
+  })), written);
   if (context.config.outputs.rag) {
     writeRagExport(ragDir, context, written);
   }
+  context.tokenSavings.actualOutputTokens = measureActualOutputs(root, written, context.config.tokenizer.mode);
+  if (context.config.outputs.rag) {
+    const documents = buildRagDocuments(context);
+    rewriteJson(path.join(ragDir, "manifest.json"), buildRagManifest(context, documents.length));
+  }
+  write(contextDir, "token-savings.md", renderTokenSavings(context), written);
+  writeJson(contextDir, "token-savings.json", context.tokenSavings, written);
 
   return { files: written };
+}
+
+function rewriteJson(filePath: string, value: unknown): void {
+  writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
+function measureActualOutputs(
+  root: string,
+  written: string[],
+  mode: ContextPackage["config"]["tokenizer"]["mode"]
+): NonNullable<ContextPackage["tokenSavings"]["actualOutputTokens"]> {
+  const files = written
+    .filter((filePath) => /\.(md|mmd|jsonl)$/i.test(filePath))
+    .filter((filePath) => !filePath.endsWith("token-savings.md"))
+    .map((filePath) => ({
+      path: path.relative(root, filePath).replaceAll("\\", "/"),
+      tokens: estimateTokens(readFileSync(filePath, "utf8"))
+    }));
+  return {
+    mode,
+    totalTokens: files.reduce((sum, file) => sum + file.tokens, 0),
+    scope: "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
+    files
+  };
 }
 
 function cleanupDisabledOutputs(context: ContextPackage, contextDir: string, root: string): void {

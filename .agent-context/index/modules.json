@@ -16,15 +16,52 @@
       "src/core/summarizer.ts",
       "src/core/token-estimator.ts",
       "src/core/token-savings.ts",
-      "src/core/types.ts"
+      "src/core/types.ts",
+      "src/core/validator.ts"
     ],
     "imports": [
       "analyzers",
       "config",
       "llm"
     ],
-    "summary": "core contains 14 files and depends on analyzers, config, llm.",
-    "importanceScore": 525
+    "summary": "core contains 15 files and depends on analyzers, config, llm.",
+    "importanceScore": 667
+  },
+  {
+    "name": "test",
+    "pathPrefix": "test",
+    "files": [
+      "test/analyzers.test.ts",
+      "test/config.test.ts",
+      "test/fixtures.test.ts",
+      "test/fixtures/monorepo/package.json",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/pnpm-workspace.yaml",
+      "test/fixtures/monorepo/turbo.json",
+      "test/fixtures/next-app/package.json",
+      "test/fixtures/next-app/src/app/api/login/route.ts",
+      "test/fixtures/next-app/src/auth/session.ts",
+      "test/fixtures/next-app/tsconfig.json",
+      "test/fixtures/python-package/pyproject.toml",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "test/readiness.test.ts",
+      "test/scanner.test.ts",
+      "test/snapshot.test.ts",
+      "test/task-context.test.ts",
+      "test/token-savings.test.ts",
+      "test/validator.test.ts",
+      "test/writer.test.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "config",
+      "core",
+      "outputs"
+    ],
+    "summary": "test contains 22 files and depends on analyzers, config, core, outputs.",
+    "importanceScore": 475
   },
   {
     "name": "outputs",
@@ -48,24 +85,7 @@
       "core"
     ],
     "summary": "outputs contains 13 files and depends on core.",
-    "importanceScore": 368
-  },
-  {
-    "name": "test",
-    "pathPrefix": "test",
-    "files": [
-      "test/readiness.test.ts",
-      "test/scanner.test.ts",
-      "test/token-savings.test.ts",
-      "test/writer.test.ts"
-    ],
-    "imports": [
-      "config",
-      "core",
-      "outputs"
-    ],
-    "summary": "test contains 4 files and depends on config, core, outputs.",
-    "importanceScore": 141
+    "importanceScore": 449
   },
   {
     "name": "analyzers",
@@ -81,7 +101,35 @@
       "core"
     ],
     "summary": "analyzers contains 5 files and depends on core.",
-    "importanceScore": 133
+    "importanceScore": 183
+  },
+  {
+    "name": "config",
+    "pathPrefix": "config",
+    "files": [
+      "src/config/defaults.ts",
+      "src/config/load-config.ts",
+      "src/config/starter-config.ts"
+    ],
+    "imports": [
+      "core"
+    ],
+    "summary": "config contains 3 files and depends on core.",
+    "importanceScore": 98
+  },
+  {
+    "name": "cli",
+    "pathPrefix": "cli",
+    "files": [
+      "src/cli/index.ts"
+    ],
+    "imports": [
+      "config",
+      "core",
+      "outputs"
+    ],
+    "summary": "cli contains 1 file and depends on config, core, outputs.",
+    "importanceScore": 70
   },
   {
     "name": "root",
@@ -96,37 +144,12 @@
       "package.json",
       "repo-context.config.example.yml",
       "repo-context.local.example.yml",
-      "tsconfig.json"
+      "tsconfig.json",
+      "tsconfig.test.json"
     ],
     "imports": [],
-    "summary": "root contains 10 files.",
-    "importanceScore": 90
-  },
-  {
-    "name": "cli",
-    "pathPrefix": "cli",
-    "files": [
-      "src/cli/index.ts"
-    ],
-    "imports": [
-      "core",
-      "outputs"
-    ],
-    "summary": "cli contains 1 file and depends on core, outputs.",
-    "importanceScore": 65
-  },
-  {
-    "name": "config",
-    "pathPrefix": "config",
-    "files": [
-      "src/config/defaults.ts",
-      "src/config/load-config.ts"
-    ],
-    "imports": [
-      "core"
-    ],
-    "summary": "config contains 2 files and depends on core.",
-    "importanceScore": 58
+    "summary": "root contains 11 files.",
+    "importanceScore": 70
   },
   {
     "name": "llm",
@@ -138,7 +161,7 @@
       "core"
     ],
     "summary": "llm contains 1 file and depends on core.",
-    "importanceScore": 30
+    "importanceScore": 35
   },
   {
     "name": "docs",

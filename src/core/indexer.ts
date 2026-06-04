@@ -1,4 +1,6 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import ts from "typescript";
 import type { IndexedFile, ImportEdge, ModuleInfo, RepoIndex, RepoScan, SymbolInfo } from "./types.js";
 import { moduleNameFor } from "./path-utils.js";
 import { javascriptAnalyzer } from "../analyzers/javascript.js";
@@ -14,6 +16,10 @@ const ANALYZERS: LanguageAnalyzer[] = [
 
 export function indexRepository(scan: RepoScan): RepoIndex {
   const allPaths = new Set(scan.files.map((file) => file.path));
+  const analysisContext = {
+    allPaths,
+    pathAliases: loadPathAliases(scan.root)
+  };
   const files: IndexedFile[] = [];
   const imports: ImportEdge[] = [];
   const symbols: SymbolInfo[] = [];
@@ -23,7 +29,7 @@ export function indexRepository(scan: RepoScan): RepoIndex {
       ? readFileSync(file.absolutePath, "utf8")
       : "";
     const analyzer = ANALYZERS.find((candidate) => candidate.supports(file)) ?? genericAnalyzer;
-    const analysis = analyzer.analyze(file, content, allPaths);
+    const analysis = analyzer.analyze(file, content, analysisContext);
     const moduleName = moduleNameFor(file.path);
 
     const indexed: IndexedFile = {
@@ -32,6 +38,9 @@ export function indexRepository(scan: RepoScan): RepoIndex {
       exports: analysis.exports,
       symbols: analysis.symbols,
       summary: analysis.summary,
+      analyzer: analyzer.name,
+      confidence: analysis.confidence,
+      evidence: analysis.evidence,
       moduleName,
       importanceScore: 0,
       importanceReasons: []
@@ -53,6 +62,28 @@ export function indexRepository(scan: RepoScan): RepoIndex {
     symbols,
     modules: buildModules(files, imports)
   };
+}
+
+function loadPathAliases(root: string): Array<{ pattern: string; targets: string[] }> {
+  const configPath = ["tsconfig.json", "jsconfig.json"]
+    .map((name) => path.join(root, name))
+    .find(existsSync);
+  if (!configPath) return [];
+
+  try {
+    const parsed = ts.parseConfigFileTextToJson(configPath, readFileSync(configPath, "utf8"));
+    const compilerOptions = parsed.config?.compilerOptions as {
+      baseUrl?: string;
+      paths?: Record<string, string[]>;
+    } | undefined;
+    const baseUrl = compilerOptions?.baseUrl ?? ".";
+    return Object.entries(compilerOptions?.paths ?? {}).map(([pattern, targets]) => ({
+      pattern,
+      targets: targets.map((target) => path.posix.normalize(path.posix.join(baseUrl.replaceAll("\\", "/"), target)))
+    }));
+  } catch {
+    return [];
+  }
 }
 
 function shouldRead(sizeBytes: number, isBinary: boolean): boolean {

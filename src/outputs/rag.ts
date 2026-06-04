@@ -123,7 +123,10 @@ function fileToRagDocument(file: IndexedFile, tokenLimit: number): RagDocument {
       exports: file.exports,
       symbols: file.symbols,
       importanceScore: file.importanceScore,
-      importanceReasons: file.importanceReasons
+      importanceReasons: file.importanceReasons,
+      analyzer: file.analyzer,
+      confidence: file.confidence,
+      evidence: file.evidence
     }
   };
 }

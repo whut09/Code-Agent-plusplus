@@ -6,6 +6,7 @@ export function renderKeyFiles(context: ContextPackage): string {
     code(file.path),
     String(file.importanceScore),
     file.kind,
+    file.confidence,
     file.importanceReasons.join(", ") || "ranked signal",
     file.summary.replace(/\|/g, "\\|")
   ]);
@@ -15,6 +16,6 @@ export function renderKeyFiles(context: ContextPackage): string {
     "",
     "These files are ranked as the most useful starting context for an agent.",
     "",
-    table(["File", "Score", "Kind", "Why", "Summary"], rows)
+    table(["File", "Score", "Kind", "Confidence", "Why", "Summary"], rows)
   ].join("\n");
 }

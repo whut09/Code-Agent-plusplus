@@ -2,7 +2,7 @@
 import { existsSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { Command } from "commander";
-import type { AgentTarget, IndexedFile } from "../core/types.js";
+import type { AgentTarget, IndexedFile, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { changedFilesSince } from "../core/git.js";
 import { writeContextPackage } from "../outputs/writer.js";
@@ -11,6 +11,8 @@ import { summarizeReadiness } from "../core/readiness.js";
 import { formatTokenSavings } from "../core/token-savings.js";
 import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
 import { renderTaskContext } from "../outputs/task-context.js";
+import { validateContextPackage } from "../core/validator.js";
+import { starterConfig } from "../config/starter-config.js";
 
 const program = new Command();
 
@@ -36,6 +38,9 @@ program
     console.log(`Key files: ${context.keyFiles.length}`);
     console.log(`Agent readiness: ${context.readiness.score}/100`);
     console.log(`Summary mode: ${context.summaries.mode}`);
+    if (context.summaries.fallbackReason && context.summaries.fallbackReason !== "disabled") {
+      console.log(`LLM fallback reason: ${context.summaries.fallbackReason}`);
+    }
     console.log(formatTokenSavings(context.tokenSavings));
     console.log("Written:");
     for (const file of result.files) {
@@ -111,13 +116,29 @@ program
   });
 
 program
+  .command("validate")
+  .argument("[repo]", "repository path", ".")
+  .description("Validate config, generated JSON, dependency edges, confidence, and token budget.")
+  .action(async (repo: string) => {
+    const context = await buildContextPackage(repo);
+    const report = validateContextPackage(context);
+    console.log(report.valid ? "Validation: passed" : "Validation: failed");
+    for (const issue of report.issues) {
+      console.log(`- ${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
+    }
+    if (!report.valid) process.exitCode = 1;
+  });
+
+program
   .command("task")
   .argument("<task>", "task description")
   .argument("[repo]", "repository path", ".")
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
   .description("Generate a task-focused context recommendation.")
-  .action(async (task: string, repo: string) => {
+  .action(async (task: string, repo: string, options: { type: TaskType; tokenBudget?: number }) => {
     const context = await buildContextPackage(repo);
-    console.log(renderTaskContext(context, task));
+    console.log(renderTaskContext(context, task, options));
   });
 
 program
@@ -168,6 +189,7 @@ program
       console.log(file.summary);
       console.log(`Kind: ${file.kind}`);
       console.log(`Module: ${file.moduleName}`);
+      console.log(`Analyzer: ${file.analyzer} (${file.confidence} confidence)`);
       console.log(`Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`);
       console.log(`Imports: ${file.imports.map((item) => item.specifier).join(", ") || "none"}`);
       console.log(`Exports: ${file.exports.join(", ") || "none"}`);
@@ -213,29 +235,9 @@ function parseInteger(value: string): number {
   return parsed;
 }
 
-function starterConfig(): string {
-  return `target: codex
-tokenBudget: 60000
-
-include:
-  - "**/*"
-
-exclude:
-  - node_modules/**
-  - dist/**
-  - build/**
-  - coverage/**
-  - .next/**
-  - .venv/**
-
-outputs:
-  agents: true
-  modules: true
-  graph: true
-  tasks: true
-  readiness: true
-  rag: true
-`; 
+function parseTaskType(value: string): TaskType {
+  if (value === "auto" || value === "bugfix" || value === "feature" || value === "refactor") return value;
+  throw new Error(`Unsupported task type: ${value}`);
 }
 
 function printFileList(files: IndexedFile[]): void {

@@ -31,13 +31,13 @@ It detects:
 
 ## Indexer
 
-The indexer reads source files and applies lightweight language analyzers. The MVP supports:
+The indexer reads source files and applies analyzers with explicit confidence and evidence:
 
-- TypeScript and JavaScript imports, exports, classes, functions, types, interfaces, constants, and route-like calls
-- Python imports, functions, async functions, and classes
+- TypeScript Compiler API for TypeScript/JavaScript imports, exports, symbols, routes, barrel exports, and path aliases
+- Python local absolute/relative import resolution plus lightweight symbol extraction
 - Generic metadata for all other files
 
-Future versions can replace or augment these analyzers with Tree-sitter.
+Fallback analysis is marked low-confidence. Evidence is exported to `.agent-context/evidence/file-evidence.json`.
 
 ## Graph Builder
 
@@ -60,6 +60,15 @@ The ranker scores files using repository signals:
 - Import centrality
 - Test signal
 - Generated/asset/lockfile penalty
+- Analysis confidence
+
+## Task Context
+
+Task packs use lexical retrieval, dependency graph expansion, related tests/entrypoints/configuration, and token-budgeted packing. Bugfix, feature, and refactor tasks use different priorities.
+
+## Readiness
+
+Readiness categories include structure, commands, tests, architecture, task context, and safety. Each category contains a score, evidence, and missing signals.
 
 ## Composer
 

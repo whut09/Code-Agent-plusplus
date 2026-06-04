@@ -1,4 +1,6 @@
 export type AgentTarget = "codex" | "claude" | "cursor" | "all";
+export type AnalysisConfidence = "high" | "medium" | "low";
+export type TaskType = "bugfix" | "feature" | "refactor" | "auto";
 
 export interface RepoContextConfig {
   target: AgentTarget;
@@ -7,6 +9,7 @@ export interface RepoContextConfig {
   exclude: string[];
   llm: LlmConfig;
   rag: RagConfig;
+  tokenizer: TokenizerConfig;
   outputs: {
     agents: boolean;
     modules: boolean;
@@ -32,6 +35,10 @@ export interface RagConfig {
   chunkTokenLimit: number;
 }
 
+export interface TokenizerConfig {
+  mode: "chars_approx";
+}
+
 export interface RepoScan {
   root: string;
   files: RepoFile[];
@@ -42,6 +49,11 @@ export interface RepoScan {
   entrypoints: string[];
   testCommands: string[];
   runCommands: string[];
+  lintCommands: string[];
+  typecheckCommands: string[];
+  ciFiles: string[];
+  envExampleFiles: string[];
+  migrationFiles: string[];
 }
 
 export interface RepoFile {
@@ -79,6 +91,9 @@ export interface IndexedFile extends RepoFile {
   exports: string[];
   symbols: SymbolInfo[];
   summary: string;
+  analyzer: string;
+  confidence: AnalysisConfidence;
+  evidence: AnalysisEvidence[];
   moduleName: string;
   importanceScore: number;
   importanceReasons: string[];
@@ -99,9 +114,16 @@ export interface ImportEdge {
 
 export interface SymbolInfo {
   name: string;
-  kind: "function" | "class" | "interface" | "type" | "const" | "export" | "route" | "unknown";
+  kind: "function" | "class" | "interface" | "type" | "const" | "export" | "route" | "enum" | "namespace" | "unknown";
   filePath: string;
   line: number;
+}
+
+export interface AnalysisEvidence {
+  line: number;
+  kind: "import" | "export" | "symbol" | "route" | "structure";
+  symbol?: string;
+  detail: string;
 }
 
 export interface ModuleInfo {
@@ -136,6 +158,8 @@ export interface ContextPackage {
 
 export interface SummaryBundle {
   mode: "offline" | "llm";
+  llmAttempted: boolean;
+  fallbackReason?: "disabled" | "missing_configuration" | "request_failed";
   repoSummary: string;
   moduleSummaries: Array<{
     moduleName: string;
@@ -148,6 +172,14 @@ export interface AgentReadinessReport {
   score: number;
   missing: string[];
   strengths: string[];
+  categories: ReadinessCategory[];
+}
+
+export interface ReadinessCategory {
+  category: "structure" | "commands" | "tests" | "architecture" | "task-context" | "safety";
+  score: number;
+  evidence: string[];
+  missing: string[];
 }
 
 export interface TokenSavingsReport {
@@ -158,4 +190,28 @@ export interface TokenSavingsReport {
   withinBudget: boolean;
   selectedFiles: number;
   totalFiles: number;
+  estimatedTokenSavings: number;
+  actualOutputTokens?: ActualOutputTokenReport;
+}
+
+export interface ActualOutputTokenReport {
+  mode: TokenizerConfig["mode"];
+  totalTokens: number;
+  scope: string;
+  files: Array<{
+    path: string;
+    tokens: number;
+  }>;
+}
+
+export interface TaskPack {
+  task: string;
+  type: Exclude<TaskType, "auto">;
+  tokenBudget: number;
+  estimatedTokens: number;
+  files: Array<{
+    path: string;
+    score: number;
+    reasons: string[];
+  }>;
 }

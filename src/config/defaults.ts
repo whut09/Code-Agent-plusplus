@@ -39,6 +39,9 @@ export const DEFAULT_CONFIG: RepoContextConfig = {
     provider: "lightrag",
     chunkTokenLimit: 900
   },
+  tokenizer: {
+    mode: "chars_approx"
+  },
   outputs: {
     agents: true,
     modules: true,

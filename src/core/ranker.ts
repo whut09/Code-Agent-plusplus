@@ -51,6 +51,13 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
       score += 8;
       reasons.push("test coverage signal");
     }
+    if (file.confidence === "high") {
+      score += 5;
+      reasons.push("high-confidence analysis");
+    } else if (file.confidence === "low") {
+      score -= 5;
+      reasons.push("low-confidence analysis");
+    }
     if (file.kind === "lockfile" || file.isGenerated || file.kind === "asset") {
       score -= 30;
       reasons.push("low-value generated/asset/lockfile");

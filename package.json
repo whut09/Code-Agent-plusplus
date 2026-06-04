@@ -6,11 +6,26 @@
   "bin": {
     "repo-context": "./dist/cli/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "README.zh-CN.md",
+    "repo-context.config.example.yml",
+    "repo-context.local.example.yml"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli/index.ts",
-    "check": "tsc -p tsconfig.json --noEmit",
-    "test": "tsx --test test/**/*.test.ts"
+    "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
+    "test": "tsx --test test/**/*.test.ts",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whut09/Repo-to-Agent-Context.git"
   },
   "keywords": [
     "agents",
@@ -26,12 +41,12 @@
     "commander": "^14.0.2",
     "fast-glob": "^3.3.3",
     "ignore": "^7.0.5",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.9.1",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "tsx": "^4.20.6"
   }
 }
