@@ -42,6 +42,18 @@ AGENTS.md
   dependency-graph.md
   architecture.md
   onboarding.md
+  readiness.md
+  readiness.json
+  token-savings.md
+  token-savings.json
+  tasks/
+    bugfix-context.md
+    feature-context.md
+    refactor-context.md
+  rag/
+    README.md
+    manifest.json
+    documents.jsonl
   index/
     files.json
     symbols.json
@@ -76,10 +88,10 @@ repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
-repo-context savings .
+repo-context savings . --token-budget 60000
 repo-context task "fix login timeout bug" .
 repo-context diff . --base main
-repo-context rag export .
+repo-context rag export . --token-budget 60000
 ```
 
 ## Token Savings Report
@@ -87,14 +99,10 @@ repo-context rag export .
 Every build includes a token savings report:
 
 ```txt
-生成统计：
-
-扫描文件：3104
-LLM 模式：已启用
-Agent readiness：85/100
-原始仓库估算：7,056,929 tokens
-压缩后上下文：23,984 tokens
-压缩比：294x
+Original repo: 2,400,000 tokens
+Context pack: 42,000 tokens
+Compression: 57x
+Token budget: 60,000 (within budget)
 ```
 
 Generated files:
@@ -162,7 +170,7 @@ RAG is useful, but it should not replace the static context pack. The recommende
 Static context pack first
   -> AGENTS.md, summaries, dependency graph, key files
 Optional RAG adapter second
-  -> LightRAG-friendly JSONL export or LightRAG Server ingestion
+  -> LightRAG-friendly JSONL export for later LightRAG Server ingestion
 ```
 
 Repo-to-Agent-Context generates:
@@ -172,6 +180,8 @@ Repo-to-Agent-Context generates:
 - `.agent-context/rag/README.md`
 
 LightRAG remains optional because it usually requires a separate Python/server environment and consistent embedding configuration between indexing and querying.
+
+This version exports LightRAG-ready documents but does not directly synchronize with a LightRAG Server.
 
 ## Architecture
 
@@ -202,4 +212,14 @@ outputs:
   tasks: true
   readiness: true
   rag: true
+```
+
+The `outputs` switches control optional generated artifacts. Disabling a switch also removes previously generated artifacts in that optional group. Repository summary, key files, onboarding, token savings, and machine-readable indexes are always generated.
+
+## Development
+
+```bash
+npm run build
+npm run check
+npm test
 ```

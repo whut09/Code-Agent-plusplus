@@ -3,7 +3,7 @@ import type { AgentReadinessReport, ContextPackage, DependencyGraph, RepoIndex, 
 export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: DependencyGraph): AgentReadinessReport {
   const missing: string[] = [];
   const strengths: string[] = [];
-  let score = 40;
+  let score = 32;
 
   if (scan.entrypoints.length) {
     score += 12;
@@ -47,9 +47,25 @@ export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: Depende
     missing.push("No code symbols extracted.");
   }
 
-  const largeModules = index.modules.filter((module) => module.files.length > 50);
+  if (hasArchitectureDocumentation(scan)) {
+    score += 8;
+    strengths.push("Architecture documentation detected.");
+  } else {
+    missing.push("No architecture summary detected.");
+  }
+
+  const docsText = index.files
+    .filter((file) => file.kind === "docs")
+    .map((file) => `${file.path} ${file.summary}`)
+    .join(" ")
+    .toLowerCase();
+  const largeModules = index.modules.filter((module) => (
+    module.files.length > 50
+    && module.name !== "root"
+    && !docsText.includes(module.name.toLowerCase())
+  ));
   for (const module of largeModules.slice(0, 3)) {
-    missing.push(`Large module may need manual explanation: ${module.name}.`);
+    missing.push(`Large undocumented module: ${module.pathPrefix}.`);
     score -= 5;
   }
 
@@ -58,6 +74,13 @@ export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: Depende
     missing,
     strengths
   };
+}
+
+function hasArchitectureDocumentation(scan: RepoScan): boolean {
+  return scan.files.some((file) => (
+    file.kind === "docs"
+    && /(^|\/)(architecture|design|adr|decisions?)(\.|\/|$)/i.test(file.path)
+  ));
 }
 
 export function summarizeReadiness(context: ContextPackage): string {

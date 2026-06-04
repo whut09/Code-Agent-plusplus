@@ -19,14 +19,16 @@ export function calculateTokenSavings(
 ): TokenSavingsReport {
   const originalTokens = scan.files.reduce((sum, file) => sum + file.tokenEstimate, 0);
   const tokenBudget = options.tokenBudget ?? DEFAULT_TOKEN_BUDGET;
-  const selectedFiles = selectFilesForBudget(keyFiles, tokenBudget);
+  const selectedFiles = selectFilesForBudget(scan, keyFiles, tokenBudget);
   const contextPackTokens = estimateContextPackTokens(scan, selectedFiles);
   const compressionRatio = contextPackTokens ? Math.max(1, Math.round(originalTokens / contextPackTokens)) : 1;
 
   return {
+    tokenBudget,
     originalTokens,
     contextPackTokens,
     compressionRatio,
+    withinBudget: contextPackTokens <= tokenBudget,
     selectedFiles: selectedFiles.length,
     totalFiles: scan.files.length
   };
@@ -36,32 +38,26 @@ export function formatTokenSavings(report: TokenSavingsReport): string {
   return [
     `Original repo: ${report.originalTokens.toLocaleString()} tokens`,
     `Context pack: ${report.contextPackTokens.toLocaleString()} tokens`,
-    `Compression: ${report.compressionRatio}x`
+    `Compression: ${report.compressionRatio}x`,
+    `Token budget: ${report.tokenBudget.toLocaleString()} (${report.withinBudget ? "within budget" : "over budget"})`
   ].join("\n");
 }
 
-function selectFilesForBudget(keyFiles: IndexedFile[], tokenBudget: number): IndexedFile[] {
+function selectFilesForBudget(scan: RepoScan, keyFiles: IndexedFile[], tokenBudget: number): IndexedFile[] {
   const selected: IndexedFile[] = [];
-  let usedTokens = SUMMARY_OVERHEAD_TOKENS;
-
   for (const file of keyFiles.slice(0, MAX_SELECTED_FILES)) {
-    const fileTokens = estimateCompactFileTokens(file);
-    if (selected.length && usedTokens + fileTokens > tokenBudget) {
+    const candidate = [...selected, file];
+    if (selected.length && estimateContextPackTokens(scan, candidate) > tokenBudget) {
       break;
     }
 
     selected.push(file);
-    usedTokens += fileTokens;
   }
 
   return selected;
 }
 
 function estimateContextPackTokens(scan: RepoScan, selectedFiles: IndexedFile[]): number {
-  const selectedModules = new Set(selectedFiles.map((file) => file.moduleName));
-  const fileTokens = selectedFiles.reduce((sum, file) => sum + estimateCompactFileTokens(file), 0);
-  const moduleTokens = selectedModules.size * MODULE_OVERHEAD_TOKENS;
-  const graphTokens = Math.min(MAX_GRAPH_EDGES, selectedFiles.reduce((sum, file) => sum + file.imports.length, 0)) * GRAPH_EDGE_TOKENS;
   const scanTokens = estimateTokens([
     scan.languages.join(", "),
     scan.frameworks.join(", "),
@@ -71,7 +67,16 @@ function estimateContextPackTokens(scan: RepoScan, selectedFiles: IndexedFile[])
     scan.runCommands.join("\n")
   ].join("\n"));
 
-  return Math.max(1, Math.ceil(SUMMARY_OVERHEAD_TOKENS + scanTokens + fileTokens + moduleTokens + graphTokens));
+  return Math.max(1, Math.ceil(scanTokens + estimateContextPackTokensForFiles(selectedFiles)));
+}
+
+function estimateContextPackTokensForFiles(selectedFiles: IndexedFile[]): number {
+  const selectedModules = new Set(selectedFiles.map((file) => file.moduleName));
+  const fileTokens = selectedFiles.reduce((sum, file) => sum + estimateCompactFileTokens(file), 0);
+  const moduleTokens = selectedModules.size * MODULE_OVERHEAD_TOKENS;
+  const graphTokens = Math.min(MAX_GRAPH_EDGES, selectedFiles.reduce((sum, file) => sum + file.imports.length, 0)) * GRAPH_EDGE_TOKENS;
+
+  return SUMMARY_OVERHEAD_TOKENS + fileTokens + moduleTokens + graphTokens;
 }
 
 function estimateCompactFileTokens(file: IndexedFile): number {

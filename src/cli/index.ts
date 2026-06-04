@@ -46,9 +46,10 @@ program
 program
   .command("savings")
   .argument("[repo]", "repository path", ".")
+  .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
   .description("Print the token savings report.")
-  .action(async (repo: string) => {
-    const context = await buildContextPackage(repo);
+  .action(async (repo: string, options: { tokenBudget?: number }) => {
+    const context = await buildContextPackage(repo, options);
     console.log(formatTokenSavings(context.tokenSavings));
   });
 
@@ -59,9 +60,10 @@ const rag = program
 rag
   .command("export")
   .argument("[repo]", "repository path", ".")
+  .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
   .description("Print a LightRAG-friendly export summary.")
-  .action(async (repo: string) => {
-    const context = await buildContextPackage(repo);
+  .action(async (repo: string, options: { tokenBudget?: number }) => {
+    const context = await buildContextPackage(repo, options);
     const documents = buildRagDocuments(context);
     const manifest = buildRagManifest(context, documents.length);
     console.log("# LightRAG Export");
@@ -230,6 +232,9 @@ outputs:
   agents: true
   modules: true
   graph: true
+  tasks: true
+  readiness: true
+  rag: true
 `; 
 }
 

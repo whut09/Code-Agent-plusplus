@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage } from "../core/types.js";
 import { renderAgentsMd } from "./agents-md.js";
@@ -26,34 +26,93 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   const ragDir = path.join(contextDir, "rag");
   const written: string[] = [];
 
+  cleanupDisabledOutputs(context, contextDir, root);
   mkdirSync(indexDir, { recursive: true });
-  mkdirSync(graphDir, { recursive: true });
-  mkdirSync(tasksDir, { recursive: true });
-  mkdirSync(ragDir, { recursive: true });
+  if (context.config.outputs.graph) mkdirSync(graphDir, { recursive: true });
+  if (context.config.outputs.tasks) mkdirSync(tasksDir, { recursive: true });
+  if (context.config.outputs.rag) mkdirSync(ragDir, { recursive: true });
 
-  write(root, resolveAgentsFileName(root), renderAgentsMd(context), written);
+  if (context.config.outputs.agents) {
+    write(root, resolveAgentsFileName(root), renderAgentsMd(context), written);
+  }
   write(contextDir, "repo-summary.md", renderRepoSummary(context), written);
   write(contextDir, "key-files.md", renderKeyFiles(context), written);
-  write(contextDir, "module-map.md", renderModuleMap(context), written);
-  write(contextDir, "dependency-graph.md", renderDependencyGraph(context), written);
-  write(contextDir, "architecture.md", renderArchitecture(context), written);
+  if (context.config.outputs.modules) {
+    write(contextDir, "module-map.md", renderModuleMap(context), written);
+    write(contextDir, "architecture.md", renderArchitecture(context), written);
+  }
+  if (context.config.outputs.graph) {
+    write(contextDir, "dependency-graph.md", renderDependencyGraph(context), written);
+    write(graphDir, "dependencies.mmd", renderMermaidGraph(context), written);
+    writeJson(graphDir, "dependencies.json", context.graph, written);
+  }
   write(contextDir, "onboarding.md", renderOnboarding(context), written);
-  write(contextDir, "readiness.md", renderReadiness(context), written);
+  if (context.config.outputs.readiness) {
+    write(contextDir, "readiness.md", renderReadiness(context), written);
+    writeJson(contextDir, "readiness.json", context.readiness, written);
+  }
   write(contextDir, "token-savings.md", renderTokenSavings(context), written);
-  write(tasksDir, "bugfix-context.md", renderTaskContext(context, "fix a bug or regression"), written);
-  write(tasksDir, "feature-context.md", renderTaskContext(context, "add a feature or new behavior"), written);
-  write(tasksDir, "refactor-context.md", renderTaskContext(context, "refactor code safely"), written);
-  write(graphDir, "dependencies.mmd", renderMermaidGraph(context), written);
-  writeJson(graphDir, "dependencies.json", context.graph, written);
-  writeJson(contextDir, "readiness.json", context.readiness, written);
+  if (context.config.outputs.tasks) {
+    write(tasksDir, "bugfix-context.md", renderTaskContext(context, "fix a bug or regression"), written);
+    write(tasksDir, "feature-context.md", renderTaskContext(context, "add a feature or new behavior"), written);
+    write(tasksDir, "refactor-context.md", renderTaskContext(context, "refactor code safely"), written);
+  }
   writeJson(contextDir, "token-savings.json", context.tokenSavings, written);
   writeJson(indexDir, "files.json", context.index.files.map(sanitizeIndexedFile), written);
   writeJson(indexDir, "symbols.json", context.index.symbols, written);
   writeJson(indexDir, "modules.json", context.index.modules, written);
   writeJson(indexDir, "chunks.json", buildChunks(context), written);
-  writeRagExport(ragDir, context, written);
+  if (context.config.outputs.rag) {
+    writeRagExport(ragDir, context, written);
+  }
 
   return { files: written };
+}
+
+function cleanupDisabledOutputs(context: ContextPackage, contextDir: string, root: string): void {
+  if (!context.config.outputs.agents) {
+    removeGeneratedAgentFile(path.join(root, "AGENTS.md"));
+    removeGeneratedAgentFile(path.join(root, "AGENTS.generated.md"));
+  }
+  if (!context.config.outputs.modules) {
+    removeGeneratedPath(contextDir, "module-map.md");
+    removeGeneratedPath(contextDir, "architecture.md");
+  }
+  if (!context.config.outputs.graph) {
+    removeGeneratedPath(contextDir, "dependency-graph.md");
+    removeGeneratedPath(contextDir, "graphs");
+  }
+  if (!context.config.outputs.tasks) {
+    removeGeneratedPath(contextDir, "tasks");
+  }
+  if (!context.config.outputs.readiness) {
+    removeGeneratedPath(contextDir, "readiness.md");
+    removeGeneratedPath(contextDir, "readiness.json");
+  }
+  if (!context.config.outputs.rag) {
+    removeGeneratedPath(contextDir, "rag");
+  }
+}
+
+function removeGeneratedAgentFile(filePath: string): void {
+  if (!existsSync(filePath)) {
+    return;
+  }
+
+  const content = readFileSync(filePath, "utf8");
+  if (content.includes("generated-by: repo-to-agent-context")) {
+    rmSync(filePath, { force: true });
+  }
+}
+
+function removeGeneratedPath(contextDir: string, relativePath: string): void {
+  const resolvedContextDir = path.resolve(contextDir);
+  const target = path.resolve(contextDir, relativePath);
+  if (target !== resolvedContextDir && !target.startsWith(`${resolvedContextDir}${path.sep}`)) {
+    throw new Error(`Refusing to remove path outside generated context directory: ${target}`);
+  }
+
+  rmSync(target, { recursive: true, force: true });
 }
 
 function resolveAgentsFileName(root: string): string {

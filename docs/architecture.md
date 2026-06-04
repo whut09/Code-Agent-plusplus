@@ -105,3 +105,13 @@ Recommended LightRAG flow:
 ## Design Principle
 
 The MVP avoids LLM dependency. It should produce useful context in offline CI, local dev, and open-source workflows. LLM summaries can be layered on later as an optional enhancement.
+
+Optional output groups are controlled by `outputs.*`. Disabling a group removes its previously generated artifacts. Core summaries, key files, token savings, onboarding, and machine-readable indexes are always generated.
+
+## Verification
+
+```bash
+npm run build
+npm run check
+npm test
+```

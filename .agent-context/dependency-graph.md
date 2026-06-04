@@ -12,6 +12,9 @@ graph TD
   core["core"] --> llm["llm"]
   llm["llm"] --> core["core"]
   outputs["outputs"] --> core["core"]
+  test["test"] --> config["config"]
+  test["test"] --> core["core"]
+  test["test"] --> outputs["outputs"]
 ```
 
 ## Module Edges
@@ -25,4 +28,7 @@ graph TD
 | core | config | 1 |
 | core | llm | 1 |
 | llm | core | 1 |
-| outputs | core | 14 |
+| outputs | core | 15 |
+| test | config | 1 |
+| test | core | 6 |
+| test | outputs | 1 |

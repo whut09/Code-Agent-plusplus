@@ -16,6 +16,6 @@ Repo-to-Agent-Context does not require LightRAG at runtime. The recommended arch
 
 ## Config
 
-Provider: codex
+Provider: LightRAG
 
-Private LightRAG server URLs and keys belong in `repo-context.local.yml`, not committed config files.
+Direct LightRAG server synchronization is not implemented yet. Import `documents.jsonl` using your LightRAG deployment workflow.

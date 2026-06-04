@@ -9,6 +9,7 @@ Agent Readiness: 100/100
 - Dependency graph generated.
 - README documentation detected.
 - Code symbols extracted.
+- Architecture documentation detected.
 
 ## Missing Or Weak Signals
 - None detected.

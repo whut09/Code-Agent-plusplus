@@ -36,12 +36,7 @@ export const DEFAULT_CONFIG: RepoContextConfig = {
     maxTokens: 1200
   },
   rag: {
-    enabled: false,
     provider: "lightrag",
-    mode: "export",
-    serverUrl: "xx",
-    apiKey: "xx",
-    workspace: "default",
     chunkTokenLimit: 900
   },
   outputs: {

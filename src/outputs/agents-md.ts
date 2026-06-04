@@ -3,6 +3,27 @@ import { bullet, code, heading } from "./markdown.js";
 
 export function renderAgentsMd(context: ContextPackage): string {
   const keyFiles = context.keyFiles.slice(0, 12).map((file) => `${code(file.path)} - ${file.importanceReasons.slice(0, 3).join(", ") || file.kind}`);
+  const generatedContext = [
+    code(".agent-context/repo-summary.md"),
+    code(".agent-context/key-files.md"),
+    code(".agent-context/onboarding.md"),
+    code(".agent-context/token-savings.md")
+  ];
+  if (context.config.outputs.modules) {
+    generatedContext.push(code(".agent-context/module-map.md"), code(".agent-context/architecture.md"));
+  }
+  if (context.config.outputs.graph) {
+    generatedContext.push(code(".agent-context/dependency-graph.md"));
+  }
+  if (context.config.outputs.readiness) {
+    generatedContext.push(code(".agent-context/readiness.md"));
+  }
+  if (context.config.outputs.tasks) {
+    generatedContext.push(code(".agent-context/tasks/"));
+  }
+  if (context.config.outputs.rag) {
+    generatedContext.push(code(".agent-context/rag/"));
+  }
   const modules = [...context.index.modules]
     .sort((a, b) => b.importanceScore - a.importanceScore)
     .slice(0, 8)
@@ -37,18 +58,7 @@ export function renderAgentsMd(context: ContextPackage): string {
     bullet(modules),
     "",
     heading(2, "Generated Context"),
-    bullet([
-      code(".agent-context/repo-summary.md"),
-      code(".agent-context/key-files.md"),
-      code(".agent-context/module-map.md"),
-      code(".agent-context/dependency-graph.md"),
-      code(".agent-context/architecture.md"),
-      code(".agent-context/onboarding.md"),
-      code(".agent-context/readiness.md"),
-      code(".agent-context/token-savings.md"),
-      code(".agent-context/tasks/"),
-      code(".agent-context/rag/")
-    ]),
+    bullet(generatedContext),
     "",
     heading(2, "Safety Rules For Agents"),
     bullet([

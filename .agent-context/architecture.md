@@ -6,11 +6,12 @@ This document is generated from static repository signals. Treat it as a startin
 - Primary languages: JSON, Markdown, TypeScript, YAML
 - Detected frameworks: none detected
 - Main entrypoints: `src/cli/index.ts`
-- Internal modules: 8
+- Internal modules: 9
 
 ## Important Modules
 - `core`: core contains 14 files and depends on analyzers, config, llm.
 - `outputs`: outputs contains 13 files and depends on core.
+- `test`: test contains 4 files and depends on config, core, outputs.
 - `analyzers`: analyzers contains 5 files and depends on core.
 - `root`: root contains 10 files.
 - `cli`: cli contains 1 file and depends on core, outputs.

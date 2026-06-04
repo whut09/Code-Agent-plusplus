@@ -1,6 +1,138 @@
 {
   "fileEdges": [
     {
+      "from": "test/readiness.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/readiness.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/readiness.test.ts",
+      "to": "src/core/readiness.ts",
+      "specifier": "../src/core/readiness.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/readiness.test.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../src/core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "../src/config/defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/scanner.test.ts",
+      "to": "src/core/scanner.ts",
+      "specifier": "../src/core/scanner.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/token-savings.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/token-savings.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/token-savings.test.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "../src/core/token-savings.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/token-savings.test.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../src/core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../src/core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/writer.test.ts",
+      "to": "src/outputs/writer.ts",
+      "specifier": "../src/outputs/writer.js",
+      "isExternal": false
+    },
+    {
       "from": "src/analyzers/generic.ts",
       "to": "src/analyzers/types.ts",
       "specifier": "./types.js",
@@ -379,6 +511,12 @@
       "isExternal": false
     },
     {
+      "from": "src/core/token-savings.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "./token-estimator.js",
+      "isExternal": false
+    },
+    {
       "from": "src/llm/provider.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -460,6 +598,12 @@
       "from": "src/outputs/rag.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/rag.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "../core/token-estimator.js",
       "isExternal": false
     },
     {
@@ -657,7 +801,22 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 14
+      "count": 15
+    },
+    {
+      "from": "test",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "test",
+      "to": "core",
+      "count": 6
+    },
+    {
+      "from": "test",
+      "to": "outputs",
+      "count": 1
     }
   ]
 }

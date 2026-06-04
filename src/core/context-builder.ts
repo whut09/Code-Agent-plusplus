@@ -32,6 +32,7 @@ export async function buildContextPackage(repoRoot: string, options: BuildOption
   const tokenSavings = calculateTokenSavings(scan, keyFiles, { tokenBudget: config.tokenBudget });
 
   return {
+    config,
     scan,
     index,
     graph,

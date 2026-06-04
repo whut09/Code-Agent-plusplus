@@ -15,4 +15,4 @@
 
 ## Detected Commands
 - Run: `npm run dev`
-- Test: `npm run check`
+- Test: `npm run check`, `npm run test`

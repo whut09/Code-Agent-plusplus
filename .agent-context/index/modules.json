@@ -24,7 +24,7 @@
       "llm"
     ],
     "summary": "core contains 14 files and depends on analyzers, config, llm.",
-    "importanceScore": 483
+    "importanceScore": 525
   },
   {
     "name": "outputs",
@@ -48,7 +48,24 @@
       "core"
     ],
     "summary": "outputs contains 13 files and depends on core.",
-    "importanceScore": 357
+    "importanceScore": 368
+  },
+  {
+    "name": "test",
+    "pathPrefix": "test",
+    "files": [
+      "test/readiness.test.ts",
+      "test/scanner.test.ts",
+      "test/token-savings.test.ts",
+      "test/writer.test.ts"
+    ],
+    "imports": [
+      "config",
+      "core",
+      "outputs"
+    ],
+    "summary": "test contains 4 files and depends on config, core, outputs.",
+    "importanceScore": 141
   },
   {
     "name": "analyzers",
@@ -109,7 +126,7 @@
       "core"
     ],
     "summary": "config contains 2 files and depends on core.",
-    "importanceScore": 53
+    "importanceScore": 58
   },
   {
     "name": "llm",

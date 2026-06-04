@@ -2,17 +2,25 @@ import type { ContextPackage } from "../core/types.js";
 import { bullet, code, heading } from "./markdown.js";
 
 export function renderOnboarding(context: ContextPackage): string {
+  const firstReads = [
+    code(".agent-context/repo-summary.md"),
+    code(".agent-context/key-files.md")
+  ];
+  if (context.config.outputs.agents) {
+    firstReads.unshift(code("AGENTS.md"));
+  }
+  if (context.config.outputs.modules) {
+    firstReads.push(code(".agent-context/module-map.md"));
+  }
+  if (context.config.outputs.graph) {
+    firstReads.push(code(".agent-context/dependency-graph.md"));
+  }
+
   return [
     heading(1, "Agent Onboarding"),
     "",
     heading(2, "First Reads"),
-    bullet([
-      code("AGENTS.md"),
-      code(".agent-context/repo-summary.md"),
-      code(".agent-context/key-files.md"),
-      code(".agent-context/module-map.md"),
-      code(".agent-context/dependency-graph.md")
-    ]),
+    bullet(firstReads),
     "",
     heading(2, "Suggested Workflow"),
     bullet([

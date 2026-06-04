@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import fg from "fast-glob";
 import ignore from "ignore";
@@ -35,6 +35,7 @@ export async function scanRepository(root: string, config: RepoContextConfig): P
     dot: true,
     onlyFiles: true,
     unique: true,
+    followSymbolicLinks: false,
     ignore: config.exclude
   });
 
@@ -45,24 +46,27 @@ export async function scanRepository(root: string, config: RepoContextConfig): P
 
   const packageJson = readPackageJson(absoluteRoot);
   const languages = unique(files.map((file) => file.language).filter(Boolean) as string[]);
+  const packageManagers = detectPackageManagers(files);
+  const scriptRunner = packageManagers.find((manager) => ["pnpm", "yarn", "npm"].includes(manager))
+    ?? (packageJson ? "npm" : null);
 
   return {
     root: absoluteRoot,
     files,
     languages,
     frameworks: detectFrameworks(files, packageJson),
-    packageManagers: detectPackageManagers(files),
+    packageManagers,
     configFiles: files.filter((file) => file.kind === "config").map((file) => file.path),
     entrypoints: detectEntrypoints(files, packageJson),
-    testCommands: detectTestCommands(packageJson),
-    runCommands: detectRunCommands(packageJson)
+    testCommands: detectTestCommands(packageJson, scriptRunner),
+    runCommands: detectRunCommands(packageJson, scriptRunner)
   };
 }
 
 function createRepoFile(root: string, filePath: string): RepoFile {
   const absolutePath = path.join(root, filePath);
   const extension = path.extname(filePath);
-  const stats = existsSync(absolutePath) ? { size: readFileSize(absolutePath) } : { size: 0 };
+  const stats = existsSync(absolutePath) ? statSync(absolutePath) : { size: 0 };
   const language = languageForExtension(extension);
   const isBinary = BINARY_EXTENSIONS.has(extension.toLowerCase());
   const kind = classifyFile(filePath, extension, language);
@@ -89,10 +93,6 @@ function loadGitignore(root: string): ReturnType<typeof ignore> {
   }
 
   return ig;
-}
-
-function readFileSize(filePath: string): number {
-  return readFileSync(filePath).byteLength;
 }
 
 function readPackageJson(root: string): Record<string, unknown> | null {
@@ -186,18 +186,26 @@ function detectEntrypoints(files: RepoFile[], packageJson: Record<string, unknow
   return [...candidates];
 }
 
-function detectTestCommands(packageJson: Record<string, unknown> | null): string[] {
+function detectTestCommands(packageJson: Record<string, unknown> | null, scriptRunner: string | null): string[] {
   const scripts = objectValue(packageJson?.scripts);
   return Object.entries(scripts)
     .filter(([name]) => /test|spec|check/i.test(name))
-    .map(([name]) => `npm run ${name}`);
+    .map(([name]) => formatScriptCommand(scriptRunner, name));
 }
 
-function detectRunCommands(packageJson: Record<string, unknown> | null): string[] {
+function detectRunCommands(packageJson: Record<string, unknown> | null, scriptRunner: string | null): string[] {
   const scripts = objectValue(packageJson?.scripts);
   return Object.entries(scripts)
     .filter(([name]) => /^(dev|start|serve|preview)$/i.test(name))
-    .map(([name]) => `npm run ${name}`);
+    .map(([name]) => formatScriptCommand(scriptRunner, name));
+}
+
+function formatScriptCommand(scriptRunner: string | null, scriptName: string): string {
+  if (scriptRunner === "yarn") {
+    return `yarn ${scriptName}`;
+  }
+
+  return `${scriptRunner ?? "npm"} run ${scriptName}`;
 }
 
 function objectValue(value: unknown): Record<string, unknown> {

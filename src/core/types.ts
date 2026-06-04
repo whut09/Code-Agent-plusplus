@@ -28,12 +28,7 @@ export interface LlmConfig {
 }
 
 export interface RagConfig {
-  enabled: boolean;
   provider: "lightrag";
-  mode: "export" | "server";
-  serverUrl: string;
-  apiKey: string;
-  workspace: string;
   chunkTokenLimit: number;
 }
 
@@ -128,6 +123,7 @@ export interface DependencyGraph {
 }
 
 export interface ContextPackage {
+  config: RepoContextConfig;
   scan: RepoScan;
   index: RepoIndex;
   graph: DependencyGraph;
@@ -155,9 +151,11 @@ export interface AgentReadinessReport {
 }
 
 export interface TokenSavingsReport {
+  tokenBudget: number;
   originalTokens: number;
   contextPackTokens: number;
   compressionRatio: number;
+  withinBudget: boolean;
   selectedFiles: number;
   totalFiles: number;
 }

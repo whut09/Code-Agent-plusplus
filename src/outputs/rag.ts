@@ -1,4 +1,5 @@
 import type { ContextPackage, IndexedFile } from "../core/types.js";
+import { estimateTokens } from "../core/token-estimator.js";
 import { heading } from "./markdown.js";
 
 export interface RagDocument {
@@ -14,6 +15,10 @@ export interface RagDocument {
 
 export function buildRagDocuments(context: ContextPackage): RagDocument[] {
   const docs: RagDocument[] = [];
+  const tokenLimit = context.config.rag.chunkTokenLimit;
+  const repoText = limitText(context.summaries.repoSummary, tokenLimit);
+  const selectedFiles = context.keyFiles.slice(0, context.tokenSavings.selectedFiles);
+  const selectedModules = new Set(selectedFiles.map((file) => file.moduleName));
 
   docs.push({
     id: "repo-summary",
@@ -21,8 +26,8 @@ export function buildRagDocuments(context: ContextPackage): RagDocument[] {
     path: ".agent-context/repo-summary.md",
     moduleName: "repo",
     kind: "summary",
-    tokens: 0,
-    text: context.summaries.repoSummary,
+    tokens: estimateTokens(repoText),
+    text: repoText,
     metadata: {
       target: context.target,
       languages: context.scan.languages,
@@ -31,23 +36,24 @@ export function buildRagDocuments(context: ContextPackage): RagDocument[] {
     }
   });
 
-  for (const module of context.summaries.moduleSummaries) {
+  for (const module of context.summaries.moduleSummaries.filter((item) => selectedModules.has(item.moduleName))) {
+    const moduleText = limitText(`${module.summary}\n\nEvidence:\n${module.evidence.map((file) => `- ${file}`).join("\n")}`, tokenLimit);
     docs.push({
       id: `module-${safeId(module.moduleName)}`,
       title: `Module: ${module.moduleName}`,
       path: `.agent-context/modules/${module.moduleName}`,
       moduleName: module.moduleName,
       kind: "module-summary",
-      tokens: 0,
-      text: `${module.summary}\n\nEvidence:\n${module.evidence.map((file) => `- ${file}`).join("\n")}`,
+      tokens: estimateTokens(moduleText),
+      text: moduleText,
       metadata: {
         evidence: module.evidence
       }
     });
   }
 
-  for (const file of context.keyFiles.slice(0, 60)) {
-    docs.push(fileToRagDocument(file));
+  for (const file of selectedFiles) {
+    docs.push(fileToRagDocument(file, tokenLimit));
   }
 
   return docs;
@@ -73,9 +79,9 @@ export function renderRagReadme(context: ContextPackage): string {
     "",
     heading(2, "Config"),
     "",
-    `Provider: ${context.target}`,
+    "Provider: LightRAG",
     "",
-    "Private LightRAG server URLs and keys belong in `repo-context.local.yml`, not committed config files."
+    "Direct LightRAG server synchronization is not implemented yet. Import `documents.jsonl` using your LightRAG deployment workflow."
   ].join("\n");
 }
 
@@ -93,23 +99,25 @@ export function buildRagManifest(context: ContextPackage, documentCount: number)
   };
 }
 
-function fileToRagDocument(file: IndexedFile): RagDocument {
+function fileToRagDocument(file: IndexedFile, tokenLimit: number): RagDocument {
+  const text = limitText([
+    `Path: ${file.path}`,
+    `Module: ${file.moduleName}`,
+    `Kind: ${file.kind}`,
+    `Summary: ${file.summary}`,
+    `Exports: ${file.exports.join(", ") || "none"}`,
+    `Symbols: ${file.symbols.map((symbol) => symbol.name).join(", ") || "none"}`,
+    `Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`
+  ].join("\n"), tokenLimit);
+
   return {
     id: `file-${safeId(file.path)}`,
     title: file.path,
     path: file.path,
     moduleName: file.moduleName,
     kind: file.kind,
-    tokens: file.tokenEstimate,
-    text: [
-      `Path: ${file.path}`,
-      `Module: ${file.moduleName}`,
-      `Kind: ${file.kind}`,
-      `Summary: ${file.summary}`,
-      `Exports: ${file.exports.join(", ") || "none"}`,
-      `Symbols: ${file.symbols.map((symbol) => symbol.name).join(", ") || "none"}`,
-      `Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`
-    ].join("\n"),
+    tokens: estimateTokens(text),
+    text,
     metadata: {
       imports: file.imports,
       exports: file.exports,
@@ -122,4 +130,13 @@ function fileToRagDocument(file: IndexedFile): RagDocument {
 
 function safeId(value: string): string {
   return value.replace(/[^A-Za-z0-9_-]+/g, "-").replace(/^-|-$/g, "") || "root";
+}
+
+function limitText(text: string, tokenLimit: number): string {
+  const characterLimit = Math.max(1, tokenLimit) * 4;
+  if (text.length <= characterLimit) {
+    return text;
+  }
+
+  return `${text.slice(0, characterLimit - 16).trimEnd()}\n[truncated]`;
 }

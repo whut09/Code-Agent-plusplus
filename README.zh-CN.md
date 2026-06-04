@@ -42,6 +42,18 @@ AGENTS.md
   dependency-graph.md
   architecture.md
   onboarding.md
+  readiness.md
+  readiness.json
+  token-savings.md
+  token-savings.json
+  tasks/
+    bugfix-context.md
+    feature-context.md
+    refactor-context.md
+  rag/
+    README.md
+    manifest.json
+    documents.jsonl
   index/
     files.json
     symbols.json
@@ -76,10 +88,10 @@ repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
-repo-context savings .
+repo-context savings . --token-budget 60000
 repo-context task "fix login timeout bug" .
 repo-context diff . --base main
-repo-context rag export .
+repo-context rag export . --token-budget 60000
 ```
 
 ## Token Savings Report
@@ -90,6 +102,7 @@ repo-context rag export .
 Original repo: 2,400,000 tokens
 Context pack: 42,000 tokens
 Compression: 57x
+Token budget: 60,000 (within budget)
 ```
 
 生成文件：
@@ -157,7 +170,7 @@ repo-context build . --llm
 先生成静态上下文包
   -> AGENTS.md、摘要、依赖图、关键文件
 再接可选 RAG 适配层
-  -> LightRAG 友好的 JSONL 导出，或接入 LightRAG Server
+  -> 导出 LightRAG 友好的 JSONL，后续再导入 LightRAG Server
 ```
 
 Repo-to-Agent-Context 会生成：
@@ -167,6 +180,8 @@ Repo-to-Agent-Context 会生成：
 - `.agent-context/rag/README.md`
 
 LightRAG 保持可选，因为它通常需要单独的 Python/Server 环境，并且索引和查询阶段需要保持 embedding 配置一致。
+
+当前版本会导出适合 LightRAG 摄入的文档，但尚未直接同步到 LightRAG Server。
 
 ## 架构
 
@@ -197,4 +212,14 @@ outputs:
   tasks: true
   readiness: true
   rag: true
+```
+
+`outputs` 开关控制可选生成物。关闭开关时，也会清理该分组中之前生成的文件。仓库摘要、关键文件、onboarding、token 节省报告和机器可读索引会始终生成。
+
+## 开发
+
+```bash
+npm run build
+npm run check
+npm test
 ```
