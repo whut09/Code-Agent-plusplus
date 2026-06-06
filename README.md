@@ -33,10 +33,12 @@ npm run dev -- build ./path/to/repo
 你也可以直接让 Codex、Claude Code、Cursor 或其他编程 Agent 代你运行这个项目。例如在 Codex 里可以直接说：
 
 ```txt
-使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具，运行生成命令，最后说明生成了哪些文件。
+使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具。请强制启用 LLM 摘要：在目标仓库创建或更新 repo-context.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置或我提供的 key/baseUrl/model；如果缺少配置，请先问我。然后运行 repo-context build <目标仓库> --target codex --llm，再运行 repo-context validate <目标仓库>，最后说明生成了哪些文件和 LLM 摘要模式是否成功。
 ```
 
 把 `xxx 项目` 替换成本地路径、GitHub 仓库或当前工作区名称即可。如果只需要根目录说明，就说“生成 AGENTS.md”；如果需要完整上下文包，就说“生成 AGENTS.md 和 .agent-context”。
+
+注意：当前 AI 工具必须能提供可调用的模型 API key、base URL 和 model，Repo-to-Agent-Context 才能真正执行 LLM 摘要。如果 Codex/Claude/Cursor 没有把自身模型暴露成 API，就让 Agent 先向你索取配置；真实 key 只写入 `repo-context.local.yml`。
 
 ## 大模型会自动读取 AGENTS.md 吗？
 

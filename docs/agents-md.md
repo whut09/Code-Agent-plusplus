@@ -11,10 +11,12 @@ Repo-to-Agent-Context writes a root `AGENTS.md` plus deeper context under `.agen
 You do not have to run the CLI by hand. You can ask a coding agent to use [whut09/Repo-to-Agent-Context](https://github.com/whut09/Repo-to-Agent-Context) against another repository:
 
 ```txt
-Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, install or clone the tool if needed, run the generator, then summarize the generated files.
+Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, then install or clone the tool if needed. Force LLM summaries: create or update repo-context.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first. Then run repo-context build <target-repo> --target codex --llm, run repo-context validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
 ```
 
 Replace `xxx project` with a local path, GitHub repository, or workspace name. This works especially well in Codex because Codex can run commands in the workspace and then read the generated `AGENTS.md` before making later edits.
+
+The agent should handle the local LLM configuration for the user. Real credentials belong in `repo-context.local.yml`, which is ignored by git. If the current AI tool does not expose its own model through a callable API, the agent should ask for the provider, base URL, model, and key before running `--llm`.
 
 ## Does the Model Read It Automatically?
 
