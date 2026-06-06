@@ -28,6 +28,16 @@ node dist/cli/index.js build ./path/to/repo
 npm run dev -- build ./path/to/repo
 ```
 
+## 通过 AI Agent 使用
+
+你也可以直接让 Codex、Claude Code、Cursor 或其他编程 Agent 代你运行这个项目。例如在 Codex 里可以直接说：
+
+```txt
+使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具，运行生成命令，最后说明生成了哪些文件。
+```
+
+把 `xxx 项目` 替换成本地路径、GitHub 仓库或当前工作区名称即可。如果只需要根目录说明，就说“生成 AGENTS.md”；如果需要完整上下文包，就说“生成 AGENTS.md 和 .agent-context”。
+
 ## 大模型会自动读取 AGENTS.md 吗？
 
 要看你使用的编程工具，而不是大模型本身。`AGENTS.md` 是 Agent 客户端用于把仓库说明注入模型上下文的一种约定。

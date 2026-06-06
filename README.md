@@ -28,6 +28,16 @@ During development:
 npm run dev -- build ./path/to/repo
 ```
 
+## Use It Through an AI Agent
+
+You can also ask Codex, Claude Code, Cursor, or another coding agent to run this project for you. For example, in Codex:
+
+```txt
+Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, install or clone the tool if needed, run the generator, then summarize the generated files.
+```
+
+Replace `xxx project` with a local path, GitHub repository, or workspace name. If you only need the root guide, say `generate AGENTS.md`; if you want the full context pack, ask for `AGENTS.md and .agent-context`.
+
 ## Does the Agent Read AGENTS.md Automatically?
 
 It depends on the coding tool, not the model itself. `AGENTS.md` is a convention used by agent clients to inject repository instructions into the model context.

@@ -6,6 +6,16 @@
 
 Repo-to-Agent-Context writes a root `AGENTS.md` plus deeper context under `.agent-context/`.
 
+## Generate It With an AI Agent
+
+You do not have to run the CLI by hand. You can ask a coding agent to use [whut09/Repo-to-Agent-Context](https://github.com/whut09/Repo-to-Agent-Context) against another repository:
+
+```txt
+Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, install or clone the tool if needed, run the generator, then summarize the generated files.
+```
+
+Replace `xxx project` with a local path, GitHub repository, or workspace name. This works especially well in Codex because Codex can run commands in the workspace and then read the generated `AGENTS.md` before making later edits.
+
 ## Does the Model Read It Automatically?
 
 The model does not magically read local files by itself. The agent client decides which files to load and then passes their contents into the model context.

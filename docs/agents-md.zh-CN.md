@@ -6,6 +6,16 @@
 
 Repo-to-Agent-Context 会生成根目录 `AGENTS.md`，并把更详细的上下文放到 `.agent-context/`。
 
+## 让 AI Agent 帮你生成
+
+你不一定要手动运行 CLI，也可以直接让编程 Agent 使用 [whut09/Repo-to-Agent-Context](https://github.com/whut09/Repo-to-Agent-Context) 去处理另一个仓库：
+
+```txt
+使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具，运行生成命令，最后说明生成了哪些文件。
+```
+
+把 `xxx 项目` 替换成本地路径、GitHub 仓库或当前工作区名称即可。这种方式在 Codex 里尤其自然，因为 Codex 可以在工作区运行命令，并在后续修改代码前读取生成的 `AGENTS.md`。
+
 ## 大模型会自动读取吗？
 
 大模型本身不会凭空读取本地文件。是否自动读取，取决于你使用的 Agent 客户端。客户端会发现说明文件，并把内容注入模型上下文。
