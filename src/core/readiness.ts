@@ -134,10 +134,10 @@ function assessStructure(scan: RepoScan, index: RepoIndex, graph: DependencyGrap
     score += 20;
     evidence.push(`${graph.fileEdges.length} dependency edges detected.`);
   } else missing.push("No internal dependency edges detected.");
-  const highConfidence = index.files.filter((file) => file.confidence === "high").length;
-  const confidenceRatio = index.files.length ? highConfidence / index.files.length : 0;
+  const usableAnalysis = index.files.filter((file) => file.confidence !== "low").length;
+  const confidenceRatio = index.files.length ? usableAnalysis / index.files.length : 0;
   score += Math.round(confidenceRatio * 10);
-  evidence.push(`${Math.round(confidenceRatio * 100)}% of files have high-confidence analysis.`);
+  evidence.push(`${Math.round(confidenceRatio * 100)}% of files have medium/high-confidence analysis.`);
   return category("structure", score, evidence, missing);
 }
 

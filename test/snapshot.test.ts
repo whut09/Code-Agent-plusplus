@@ -26,7 +26,7 @@ test("Next fixture context snapshot remains stable", async () => {
     typecheckCommands: ["npm run typecheck"],
     routeConfidence: "high",
     routeImports: [["@/auth/session", "src/auth/session.ts"]],
-    routeSymbols: ["POST"],
+    routeSymbols: ["POST", "POST /api/login"],
     categories: ["structure", "commands", "tests", "architecture", "task-context", "safety"]
   });
 });

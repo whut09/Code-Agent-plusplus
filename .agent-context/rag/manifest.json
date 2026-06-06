@@ -1,7 +1,7 @@
 {
   "provider": "lightrag",
   "mode": "export",
-  "documentCount": 75,
+  "documentCount": 77,
   "generatedFrom": "repo-to-agent-context",
   "target": "codex",
   "languages": [
@@ -15,67 +15,67 @@
   "frameworks": [],
   "tokenSavings": {
     "tokenBudget": 60000,
-    "originalTokens": 62614,
-    "contextPackTokenEstimate": 10994,
+    "originalTokens": 66750,
+    "contextPackTokenEstimate": 11277,
     "contextPackTokens": {
       "mode": "actual",
       "tokenizer": "chars_approx",
-      "totalTokens": 58866,
-      "total": 58866,
+      "totalTokens": 43278,
+      "total": 43278,
       "scope": "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
       "files": {
         "AGENTS.md": 436,
         ".agent-context/repo-summary.md": 272,
-        ".agent-context/key-files.md": 2219,
+        ".agent-context/key-files.md": 2562,
         ".agent-context/module-map.md": 230,
         ".agent-context/architecture.md": 314,
         ".agent-context/dependency-graph.md": 233,
         ".agent-context/graphs/dependencies.mmd": 128,
         ".agent-context/onboarding.md": 131,
-        ".agent-context/readiness.md": 734,
+        ".agent-context/readiness.md": 740,
         ".agent-context/tasks/bugfix-context.md": 177,
         ".agent-context/tasks/feature-context.md": 186,
-        ".agent-context/tasks/refactor-context.md": 1506,
+        ".agent-context/tasks/refactor-context.md": 1541,
         ".agent-context/rag/README.md": 167,
-        ".agent-context/rag/documents.jsonl": 52133
+        ".agent-context/rag/documents.jsonl": 36161
       }
     },
-    "compressionRatio": 1,
+    "compressionRatio": 2,
     "withinBudget": true,
-    "selectedFiles": 66,
-    "totalFiles": 78,
-    "estimatedTokenSavings": 51620,
+    "selectedFiles": 68,
+    "totalFiles": 80,
+    "estimatedTokenSavings": 55473,
     "originalRepoTokens": {
       "mode": "estimated",
       "tokenizer": "chars_approx",
-      "tokens": 62614
+      "tokens": 66750
     },
     "estimatedContextPackTokens": {
       "mode": "estimated",
       "tokenizer": "chars_approx",
-      "tokens": 10994
+      "tokens": 11277
     },
     "actualOutputTokens": {
       "mode": "actual",
       "tokenizer": "chars_approx",
-      "totalTokens": 58866,
-      "total": 58866,
+      "totalTokens": 43278,
+      "total": 43278,
       "scope": "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
       "files": {
         "AGENTS.md": 436,
         ".agent-context/repo-summary.md": 272,
-        ".agent-context/key-files.md": 2219,
+        ".agent-context/key-files.md": 2562,
         ".agent-context/module-map.md": 230,
         ".agent-context/architecture.md": 314,
         ".agent-context/dependency-graph.md": 233,
         ".agent-context/graphs/dependencies.mmd": 128,
         ".agent-context/onboarding.md": 131,
-        ".agent-context/readiness.md": 734,
+        ".agent-context/readiness.md": 740,
         ".agent-context/tasks/bugfix-context.md": 177,
         ".agent-context/tasks/feature-context.md": 186,
-        ".agent-context/tasks/refactor-context.md": 1506,
+        ".agent-context/tasks/refactor-context.md": 1541,
         ".agent-context/rag/README.md": 167,
-        ".agent-context/rag/documents.jsonl": 52133
+        ".agent-context/rag/documents.jsonl": 36161
       }
     }
   },
@@ -89,13 +89,13 @@
         "evidence": [
           "Entrypoint: src/cli/index.ts",
           "10 modules detected.",
-          "186 dependency edges detected.",
-          "68% of files have high-confidence analysis.",
+          "188 dependency edges detected.",
+          "69% of files have medium/high-confidence analysis.",
           "Run command: npm run dev",
           "Typecheck command: npm run build",
           "Typecheck command: npm run check",
           "Test/check command: npm run test",
-          "23 test files detected."
+          "25 test files detected."
         ],
         "missing": [
           "No lint/format command detected.",
@@ -108,13 +108,13 @@
         "evidence": [
           "README documentation detected.",
           "Architecture documentation detected.",
-          "635 code symbols extracted.",
+          "694 code symbols extracted.",
           "Internal dependency neighbors are available.",
           "55 files include analysis evidence.",
           "Entrypoint: src/cli/index.ts",
           "10 modules detected.",
-          "186 dependency edges detected.",
-          "68% of files have high-confidence analysis."
+          "188 dependency edges detected.",
+          "69% of files have medium/high-confidence analysis."
         ],
         "missing": []
       },
@@ -124,7 +124,7 @@
         "evidence": [
           "No database signals detected; migration guidance is not applicable.",
           "Test/check command: npm run test",
-          "23 test files detected.",
+          "25 test files detected.",
           "Run command: npm run dev",
           "Typecheck command: npm run build",
           "Typecheck command: npm run check"
@@ -158,7 +158,7 @@
         "evidence": [
           "generic",
           "typescript-compiler-api",
-          "python"
+          "python-ast"
         ]
       },
       {
@@ -181,8 +181,8 @@
         "evidence": [
           "Entrypoint: src/cli/index.ts",
           "10 modules detected.",
-          "186 dependency edges detected.",
-          "68% of files have high-confidence analysis."
+          "188 dependency edges detected.",
+          "69% of files have medium/high-confidence analysis."
         ],
         "missing": []
       },
@@ -203,7 +203,7 @@
         "score": 90,
         "evidence": [
           "Test/check command: npm run test",
-          "23 test files detected."
+          "25 test files detected."
         ],
         "missing": [
           "No CI workflow detected."
@@ -222,7 +222,7 @@
         "category": "task-context",
         "score": 100,
         "evidence": [
-          "635 code symbols extracted.",
+          "694 code symbols extracted.",
           "Internal dependency neighbors are available.",
           "55 files include analysis evidence."
         ],

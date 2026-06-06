@@ -104,6 +104,7 @@ export interface IndexedFile extends RepoFile {
   summary: string;
   analyzer: string;
   confidence: AnalysisConfidence;
+  analysisStats: AnalysisStats;
   evidence: AnalysisEvidence[];
   moduleName: string;
   importanceScore: number;
@@ -128,6 +129,14 @@ export interface SymbolInfo {
   kind: "function" | "class" | "interface" | "type" | "const" | "export" | "route" | "enum" | "namespace" | "unknown";
   filePath: string;
   line: number;
+}
+
+export interface AnalysisStats {
+  parser: "typescript-compiler-api" | "python-ast" | "regex-fallback" | "generic";
+  importsResolved: number;
+  importsUnresolved: number;
+  symbolsDetected: number;
+  routesDetected: number;
 }
 
 export interface AnalysisEvidence {

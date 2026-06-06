@@ -1,4 +1,4 @@
-import type { AnalysisConfidence, AnalysisEvidence, ImportRef, RepoFile, SymbolInfo } from "../core/types.js";
+import type { AnalysisConfidence, AnalysisEvidence, AnalysisStats, ImportRef, RepoFile, SymbolInfo } from "../core/types.js";
 
 export interface AnalysisContext {
   allPaths: Set<string>;
@@ -14,6 +14,7 @@ export interface FileAnalysis {
   symbols: SymbolInfo[];
   summary: string;
   confidence: AnalysisConfidence;
+  stats: AnalysisStats;
   evidence: AnalysisEvidence[];
 }
 

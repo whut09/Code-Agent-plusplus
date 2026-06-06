@@ -11,7 +11,9 @@ test("Next fixture resolves tsconfig aliases and route handlers", async () => {
 
   assert.ok(route?.imports.some((item) => item.resolvedPath === "src/auth/session.ts"));
   assert.ok(route?.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "POST"));
+  assert.ok(route?.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "POST /api/login"));
   assert.equal(route?.confidence, "high");
+  assert.equal(route?.analysisStats.parser, "typescript-compiler-api");
 });
 
 test("Python fixture resolves local package imports", async () => {
@@ -20,6 +22,7 @@ test("Python fixture resolves local package imports", async () => {
 
   assert.ok(service?.imports.some((item) => item.resolvedPath === "src/app/models.py"));
   assert.equal(service?.confidence, "medium");
+  assert.ok(["python-ast", "regex-fallback"].includes(service?.analysisStats.parser ?? ""));
 });
 
 test("monorepo fixture detects workspace signals", async () => {
@@ -28,4 +31,6 @@ test("monorepo fixture detects workspace signals", async () => {
   assert.ok(context.scan.frameworks.includes("Turborepo"));
   assert.ok(context.scan.frameworks.includes("pnpm Workspace"));
   assert.ok(context.scan.frameworks.includes("JavaScript Workspace"));
+  const web = context.index.files.find((file) => file.path === "packages/web/src/index.ts");
+  assert.ok(web?.imports.some((item) => item.specifier === "@fixture/api" && item.resolvedPath === "packages/api/src/index.ts"));
 });

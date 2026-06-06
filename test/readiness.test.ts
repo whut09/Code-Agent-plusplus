@@ -46,6 +46,13 @@ test("readiness applies hard caps to keep scores diagnostic", () => {
         summary: "Entrypoint.",
         analyzer: "typescript-compiler-api",
         confidence: "high",
+        analysisStats: {
+          parser: "typescript-compiler-api",
+          importsResolved: 0,
+          importsUnresolved: 0,
+          symbolsDetected: 1,
+          routesDetected: 0
+        },
         evidence: [{ line: 1, kind: "symbol", symbol: "main", detail: "function main" }],
         moduleName: "src",
         importanceScore: 100,
@@ -111,6 +118,13 @@ function index(documentCore: boolean): RepoIndex {
       summary: "Documents the core module.",
       analyzer: "generic",
       confidence: "low",
+      analysisStats: {
+        parser: "generic",
+        importsResolved: 0,
+        importsUnresolved: 0,
+        symbolsDetected: 0,
+        routesDetected: 0
+      },
       evidence: [],
       moduleName: "docs",
       importanceScore: 0,

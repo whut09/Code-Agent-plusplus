@@ -33,11 +33,11 @@ It detects:
 
 The indexer reads source files and applies analyzers with explicit confidence and evidence:
 
-- TypeScript Compiler API for TypeScript/JavaScript imports, exports, symbols, routes, barrel exports, and path aliases
-- Python local absolute/relative import resolution plus lightweight symbol extraction
+- TypeScript Compiler API for TypeScript/JavaScript imports, `import type`, dynamic `import()`, re-exports, symbols, routes, barrel exports, `tsconfig` path aliases, workspace package aliases, and package `exports`
+- Python stdlib AST extraction when a Python runtime is available, including local absolute/relative import resolution, functions, classes, and decorator routes; lightweight parsing remains the fallback
 - Generic metadata for all other files
 
-Fallback analysis is marked low-confidence. Evidence is exported to `.agent-context/evidence/file-evidence.json`.
+Fallback analysis is marked low-confidence. Every indexed file carries `analysisStats` with the parser, resolved/unresolved import counts, symbol count, and route count. Evidence is exported to `.agent-context/evidence/file-evidence.json`.
 
 ## Graph Builder
 

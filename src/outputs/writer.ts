@@ -70,6 +70,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
     path: file.path,
     analyzer: file.analyzer,
     confidence: file.confidence,
+    stats: file.analysisStats,
     evidence: file.evidence
   })), written);
   if (context.config.outputs.rag) {

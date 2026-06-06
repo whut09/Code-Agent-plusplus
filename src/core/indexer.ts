@@ -18,7 +18,10 @@ export function indexRepository(scan: RepoScan): RepoIndex {
   const allPaths = new Set(scan.files.map((file) => file.path));
   const analysisContext = {
     allPaths,
-    pathAliases: loadPathAliases(scan.root)
+    pathAliases: [
+      ...loadPathAliases(scan.root),
+      ...loadPackageAliases(scan.root, scan.files.map((file) => file.path))
+    ]
   };
   const files: IndexedFile[] = [];
   const imports: ImportEdge[] = [];
@@ -40,6 +43,7 @@ export function indexRepository(scan: RepoScan): RepoIndex {
       summary: analysis.summary,
       analyzer: analyzer.name,
       confidence: analysis.confidence,
+      analysisStats: analysis.stats,
       evidence: analysis.evidence,
       moduleName,
       importanceScore: 0,
@@ -62,6 +66,87 @@ export function indexRepository(scan: RepoScan): RepoIndex {
     symbols,
     modules: buildModules(files, imports)
   };
+}
+
+function loadPackageAliases(root: string, paths: string[]): Array<{ pattern: string; targets: string[] }> {
+  const aliases: Array<{ pattern: string; targets: string[] }> = [];
+  for (const packagePath of paths.filter((filePath) => filePath.endsWith("package.json"))) {
+    const packageJson = readJson(path.join(root, packagePath));
+    if (!packageJson) continue;
+    const name = typeof packageJson?.name === "string" ? packageJson.name : null;
+    if (!name) continue;
+
+    const packageDir = path.posix.dirname(packagePath) === "." ? "" : path.posix.dirname(packagePath);
+    const qualify = (target: string) => path.posix.normalize(path.posix.join(packageDir, stripPackageTarget(target)));
+    const entryTargets = packageEntryTargets(packageJson);
+    aliases.push({
+      pattern: name,
+      targets: entryTargets.length ? entryTargets.map(qualify) : [qualify("src/index"), qualify("index")]
+    });
+    aliases.push({
+      pattern: `${name}/*`,
+      targets: [qualify("src/*"), qualify("*")]
+    });
+
+    for (const alias of packageExportAliases(name, packageJson, qualify)) {
+      aliases.push(alias);
+    }
+  }
+
+  return aliases;
+}
+
+function readJson(filePath: string): Record<string, unknown> | null {
+  try {
+    return existsSync(filePath) ? JSON.parse(readFileSync(filePath, "utf8")) as Record<string, unknown> : null;
+  } catch {
+    return null;
+  }
+}
+
+function packageEntryTargets(packageJson: Record<string, unknown>): string[] {
+  const fields = [packageJson.source, packageJson.types, packageJson.module, packageJson.main];
+  return fields.filter((field): field is string => typeof field === "string");
+}
+
+function packageExportAliases(
+  name: string,
+  packageJson: Record<string, unknown>,
+  qualify: (target: string) => string
+): Array<{ pattern: string; targets: string[] }> {
+  const exportsValue = packageJson.exports;
+  if (typeof exportsValue === "string") {
+    return [{ pattern: name, targets: [qualify(exportsValue)] }];
+  }
+  if (!exportsValue || typeof exportsValue !== "object" || Array.isArray(exportsValue)) {
+    return [];
+  }
+
+  const aliases: Array<{ pattern: string; targets: string[] }> = [];
+  for (const [key, value] of Object.entries(exportsValue as Record<string, unknown>)) {
+    const target = exportTarget(value);
+    if (!target) continue;
+    const subpath = key === "." ? "" : key.replace(/^\.\//, "/");
+    aliases.push({
+      pattern: `${name}${subpath}`,
+      targets: [qualify(target)]
+    });
+  }
+  return aliases;
+}
+
+function exportTarget(value: unknown): string | null {
+  if (typeof value === "string") return value;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  const object = value as Record<string, unknown>;
+  for (const key of ["source", "import", "module", "require", "default", "types"]) {
+    if (typeof object[key] === "string") return object[key];
+  }
+  return null;
+}
+
+function stripPackageTarget(target: string): string {
+  return target.replace(/^\.\//, "");
 }
 
 function loadPathAliases(root: string): Array<{ pattern: string; targets: string[] }> {

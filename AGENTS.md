@@ -14,7 +14,7 @@ This file is intentionally short. Treat it as operating constraints plus links t
 - Entrypoint: `src/cli/index.ts`
 - Anchor: `src/core/token-estimator.ts` - 5 exports, 9 symbols
 - Anchor: `src/core/context-builder.ts` - 2 exports, 11 symbols
-- Anchor: `src/core/types.ts` - 32 exports, 32 symbols
+- Anchor: `src/core/types.ts` - 33 exports, 33 symbols
 
 ## Commands
 - Run: `npm run dev`

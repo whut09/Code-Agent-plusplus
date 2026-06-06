@@ -433,6 +433,12 @@
       "isExternal": false
     },
     {
+      "from": "src/analyzers/python.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
       "from": "src/analyzers/resolve-import.ts",
       "to": "node:path",
       "specifier": "node:path",
@@ -1108,6 +1114,12 @@
       "from": "test/fixtures/python-package/src/app/service.py",
       "to": "test/fixtures/python-package/src/app/models.py",
       "specifier": ".models",
+      "isExternal": false
+    },
+    {
+      "from": "test/fixtures/monorepo/packages/web/src/index.ts",
+      "to": "test/fixtures/monorepo/packages/api/src/index.ts",
+      "specifier": "@fixture/api",
       "isExternal": false
     },
     {

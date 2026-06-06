@@ -3,7 +3,7 @@ import type { AnalysisEvidence, ImportRef, SymbolInfo } from "../core/types.js";
 import { resolveImport } from "./resolve-import.js";
 import type { AnalysisContext, FileAnalysis, LanguageAnalyzer } from "./types.js";
 
-const ROUTE_METHODS = new Set(["get", "post", "put", "patch", "delete", "options", "head"]);
+const ROUTE_METHODS = new Set(["get", "post", "put", "patch", "delete", "options", "head", "all"]);
 
 export const javascriptAnalyzer: LanguageAnalyzer = {
   name: "typescript-compiler-api",
@@ -48,6 +48,11 @@ function analyzeWithCompilerApi(
   const visit = (node: ts.Node) => {
     if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)) {
       addImport(node.moduleSpecifier.text, node);
+    } else if (ts.isImportEqualsDeclaration(node)) {
+      const specifier = importEqualsSpecifier(node);
+      if (specifier) addImport(specifier, node);
+    } else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument) && ts.isStringLiteral(node.argument.literal)) {
+      addImport(node.argument.literal.text, node);
     } else if (ts.isExportDeclaration(node)) {
       if (node.moduleSpecifier && ts.isStringLiteral(node.moduleSpecifier)) addImport(node.moduleSpecifier.text, node);
       if (node.exportClause && ts.isNamedExports(node.exportClause)) {
@@ -62,10 +67,18 @@ function analyzeWithCompilerApi(
     } else if (ts.isFunctionDeclaration(node) && node.name) {
       addSymbol(node.name.text, "function", node);
       if (isExported(node)) addExport(node.name.text, node);
-      if (isHttpHandlerName(node.name.text) && isExported(node)) addSymbol(node.name.text, "route", node);
+      if (isHttpHandlerName(node.name.text) && isExported(node)) {
+        addSymbol(node.name.text, "route", node);
+        const nextRoute = nextRouteFromFile(filePath, node.name.text);
+        if (nextRoute) addSymbol(nextRoute, "route", node);
+      }
     } else if (ts.isClassDeclaration(node) && node.name) {
       addSymbol(node.name.text, "class", node);
       if (isExported(node)) addExport(node.name.text, node);
+      for (const decorator of ts.canHaveDecorators(node) ? ts.getDecorators(node) ?? [] : []) {
+        const route = routeFromDecorator(decorator);
+        if (route) addSymbol(route, "route", decorator);
+      }
     } else if (ts.isInterfaceDeclaration(node)) {
       addSymbol(node.name.text, "interface", node);
       if (isExported(node)) addExport(node.name.text, node);
@@ -92,7 +105,7 @@ function analyzeWithCompilerApi(
     } else if (ts.isCallExpression(node)) {
       const specifier = importCallSpecifier(node);
       if (specifier) addImport(specifier, node);
-      const route = routeFromCall(node);
+      const route = routeFromCall(node) ?? routeFromRouteObjectCall(node);
       if (route) addSymbol(route, "route", node);
     }
 
@@ -106,6 +119,7 @@ function analyzeWithCompilerApi(
     symbols: uniqueSymbols(symbols),
     summary: summarize(filePath, imports.size, symbols.length, exports.size),
     confidence: "high",
+    stats: analysisStats("typescript-compiler-api", imports, symbols),
     evidence: evidence.slice(0, 120)
   };
 }
@@ -113,9 +127,13 @@ function analyzeWithCompilerApi(
 function routeFromDecorator(decorator: ts.Decorator): string | null {
   if (!ts.isCallExpression(decorator.expression) || !ts.isIdentifier(decorator.expression.expression)) return null;
   const method = decorator.expression.expression.text.toLowerCase();
+  if (method === "controller") {
+    const argument = decorator.expression.arguments[0];
+    return `CONTROLLER ${argument && ts.isStringLiteralLike(argument) ? normalizeRoutePath(argument.text) : "/"}`;
+  }
   if (!ROUTE_METHODS.has(method)) return null;
   const argument = decorator.expression.arguments[0];
-  return `${method.toUpperCase()} ${argument && ts.isStringLiteralLike(argument) ? argument.text : "/"}`;
+  return `${method.toUpperCase()} ${argument && ts.isStringLiteralLike(argument) ? normalizeRoutePath(argument.text) : "/"}`;
 }
 
 function analyzeWithRegexFallback(filePath: string, content: string, context: AnalysisContext): FileAnalysis {
@@ -139,6 +157,7 @@ function analyzeWithRegexFallback(filePath: string, content: string, context: An
     symbols,
     summary: summarize(filePath, imports.length, symbols.length, 0),
     confidence: "low",
+    stats: analysisStats("regex-fallback", new Map(imports.map((item) => [item.specifier, item])), symbols),
     evidence: symbols.slice(0, 40).map((symbol) => ({
       line: symbol.line,
       kind: "symbol",
@@ -146,6 +165,12 @@ function analyzeWithRegexFallback(filePath: string, content: string, context: An
       detail: `Regex fallback detected ${symbol.name}.`
     }))
   };
+}
+
+function importEqualsSpecifier(node: ts.ImportEqualsDeclaration): string | null {
+  if (!ts.isExternalModuleReference(node.moduleReference)) return null;
+  const expression = node.moduleReference.expression;
+  return ts.isStringLiteral(expression) ? expression.text : null;
 }
 
 function importCallSpecifier(node: ts.CallExpression): string | null {
@@ -162,7 +187,34 @@ function routeFromCall(node: ts.CallExpression): string | null {
   if (!ROUTE_METHODS.has(method)) return null;
   const argument = node.arguments[0];
   if (!argument || !ts.isStringLiteralLike(argument)) return null;
-  return `${method.toUpperCase()} ${argument.text}`;
+  return `${method.toUpperCase()} ${normalizeRoutePath(argument.text)}`;
+}
+
+function routeFromRouteObjectCall(node: ts.CallExpression): string | null {
+  if (!ts.isPropertyAccessExpression(node.expression) || node.expression.name.text !== "route") return null;
+  const argument = node.arguments[0];
+  if (!argument || !ts.isObjectLiteralExpression(argument)) return null;
+
+  const method = stringProperty(argument, ["method"]);
+  const routePath = stringProperty(argument, ["url", "path"]);
+  if (!method || !routePath) return null;
+  return `${method.toUpperCase()} ${normalizeRoutePath(routePath)}`;
+}
+
+function stringProperty(object: ts.ObjectLiteralExpression, names: string[]): string | null {
+  for (const property of object.properties) {
+    if (!ts.isPropertyAssignment(property)) continue;
+    const key = propertyName(property.name);
+    if (!key || !names.includes(key)) continue;
+    const initializer = property.initializer;
+    if (ts.isStringLiteralLike(initializer)) return initializer.text;
+  }
+  return null;
+}
+
+function propertyName(name: ts.PropertyName): string | null {
+  if (ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name)) return name.text;
+  return null;
 }
 
 function isExported(node: ts.Node): boolean {
@@ -171,6 +223,25 @@ function isExported(node: ts.Node): boolean {
 
 function isHttpHandlerName(name: string): boolean {
   return ROUTE_METHODS.has(name.toLowerCase());
+}
+
+function nextRouteFromFile(filePath: string, method: string): string | null {
+  if (!/(^|\/)app\/.+\/route\.[cm]?[jt]sx?$/.test(filePath)) return null;
+  const routePath = filePath
+    .replace(/\\/g, "/")
+    .replace(/^src\//, "")
+    .replace(/^app\//, "/")
+    .replace(/\/route\.[cm]?[jt]sx?$/, "")
+    .replace(/\/\([^)]+\)/g, "")
+    .replace(/\[\.{3}([^\]]+)\]/g, ":$1*")
+    .replace(/\[([^\]]+)\]/g, ":$1");
+  return `${method.toUpperCase()} ${normalizeRoutePath(routePath)}`;
+}
+
+function normalizeRoutePath(routePath: string): string {
+  const normalized = routePath.trim();
+  if (!normalized) return "/";
+  return normalized.startsWith("/") ? normalized : `/${normalized}`;
 }
 
 function lineOf(source: ts.SourceFile, node: ts.Node): number {
@@ -192,6 +263,21 @@ function uniqueSymbols(symbols: SymbolInfo[]): SymbolInfo[] {
     seen.add(key);
     return true;
   });
+}
+
+function analysisStats(
+  parser: "typescript-compiler-api" | "regex-fallback",
+  imports: Map<string, ImportRef>,
+  symbols: SymbolInfo[]
+) {
+  const values = [...imports.values()];
+  return {
+    parser,
+    importsResolved: values.filter((item) => !item.isExternal).length,
+    importsUnresolved: values.filter((item) => item.isExternal).length,
+    symbolsDetected: symbols.length,
+    routesDetected: symbols.filter((symbol) => symbol.kind === "route").length
+  };
 }
 
 function summarize(filePath: string, imports: number, symbols: number, exports: number): string {

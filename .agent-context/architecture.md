@@ -10,7 +10,7 @@ This document is generated from static repository signals. Treat it as a startin
 
 ## Important Modules
 - `core`: core contains 15 files and depends on analyzers, config, llm.
-- `test`: test contains 23 files and depends on analyzers, config, core, outputs.
+- `test`: test contains 25 files and depends on analyzers, config, core, outputs.
 - `outputs`: outputs contains 13 files and depends on core.
 - `analyzers`: analyzers contains 5 files and depends on core.
 - `config`: config contains 3 files and depends on core.

@@ -120,14 +120,23 @@ function fileToRagDocument(file: IndexedFile, tokenLimit: number): RagDocument {
     tokens: estimateTokens(text),
     text,
     metadata: {
-      imports: file.imports,
+      imports: file.imports.slice(0, 20).map((item) => ({
+        specifier: item.specifier,
+        resolvedPath: item.resolvedPath,
+        isExternal: item.isExternal
+      })),
       exports: file.exports,
-      symbols: file.symbols,
+      symbols: file.symbols.slice(0, 30).map((symbol) => ({
+        name: symbol.name,
+        kind: symbol.kind,
+        line: symbol.line
+      })),
       importanceScore: file.importanceScore,
       importanceReasons: file.importanceReasons,
       analyzer: file.analyzer,
       confidence: file.confidence,
-      evidence: file.evidence
+      analysisStats: file.analysisStats,
+      evidence: file.evidence.slice(0, 8)
     }
   };
 }

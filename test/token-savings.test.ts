@@ -65,6 +65,13 @@ function indexedFile(index: number): IndexedFile {
     summary: `Module ${index} handles repository context processing and related operations.`,
     analyzer: "typescript-compiler-api",
     confidence: "high",
+    analysisStats: {
+      parser: "typescript-compiler-api",
+      importsResolved: 5,
+      importsUnresolved: 0,
+      symbolsDetected: 10,
+      routesDetected: 0
+    },
     evidence: [],
     moduleName: `module-${index}`,
     importanceScore: 100 - index,

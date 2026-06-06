@@ -199,6 +199,7 @@ program
       console.log(`Kind: ${file.kind}`);
       console.log(`Module: ${file.moduleName}`);
       console.log(`Analyzer: ${file.analyzer} (${file.confidence} confidence)`);
+      console.log(`Analysis stats: ${file.analysisStats.parser}, imports ${file.analysisStats.importsResolved}/${file.imports.length} resolved, ${file.analysisStats.routesDetected} routes`);
       console.log(`Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`);
       console.log(`Imports: ${file.imports.map((item) => item.specifier).join(", ") || "none"}`);
       console.log(`Exports: ${file.exports.join(", ") || "none"}`);
