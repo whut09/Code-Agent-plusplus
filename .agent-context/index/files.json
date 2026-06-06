@@ -95,10 +95,10 @@
   {
     "path": "package.json",
     "extension": ".json",
-    "sizeBytes": 1242,
+    "sizeBytes": 1256,
     "kind": "config",
     "language": "JSON",
-    "tokenEstimate": 311,
+    "tokenEstimate": 314,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -119,10 +119,10 @@
   {
     "path": "README.en.md",
     "extension": ".md",
-    "sizeBytes": 8750,
+    "sizeBytes": 8883,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2188,
+    "tokenEstimate": 2221,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -143,10 +143,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 8548,
+    "sizeBytes": 8677,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2137,
+    "tokenEstimate": 2170,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -167,10 +167,10 @@
   {
     "path": "README.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 8548,
+    "sizeBytes": 8677,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2137,
+    "tokenEstimate": 2170,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -279,6 +279,30 @@
     "importanceScore": 0,
     "importanceReasons": [
       "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "assets/context-pack-demo.svg",
+    "extension": ".svg",
+    "sizeBytes": 8459,
+    "kind": "asset",
+    "language": null,
+    "tokenEstimate": 2115,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "assets/context-pack-demo.svg is a asset file.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "evidence": [],
+    "moduleName": "assets",
+    "importanceScore": 0,
+    "importanceReasons": [
+      "low-confidence analysis",
+      "low-value generated/asset/lockfile"
     ]
   },
   {
@@ -4059,169 +4083,6 @@
       "1 export",
       "1 symbol",
       "2 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/llm/provider.ts",
-    "extension": ".ts",
-    "sizeBytes": 1912,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 478,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "LlmClient",
-      "createLlmClient"
-    ],
-    "symbols": [
-      {
-        "name": "LlmClient",
-        "kind": "interface",
-        "filePath": "src/llm/provider.ts",
-        "line": 3
-      },
-      {
-        "name": "createLlmClient",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 7
-      },
-      {
-        "name": "OpenAiCompatibleClient",
-        "kind": "class",
-        "filePath": "src/llm/provider.ts",
-        "line": 15
-      },
-      {
-        "name": "url",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 19
-      },
-      {
-        "name": "response",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 20
-      },
-      {
-        "name": "payload",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 47
-      },
-      {
-        "name": "content",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 50
-      },
-      {
-        "name": "isPlaceholder",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 59
-      },
-      {
-        "name": "ensureTrailingSlash",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 63
-      }
-    ],
-    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "LlmClient",
-        "detail": "Declares interface LlmClient."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "LlmClient",
-        "detail": "Exports LlmClient."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "createLlmClient",
-        "detail": "Declares function createLlmClient."
-      },
-      {
-        "line": 7,
-        "kind": "export",
-        "symbol": "createLlmClient",
-        "detail": "Exports createLlmClient."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "OpenAiCompatibleClient",
-        "detail": "Declares class OpenAiCompatibleClient."
-      },
-      {
-        "line": 19,
-        "kind": "symbol",
-        "symbol": "url",
-        "detail": "Declares const url."
-      },
-      {
-        "line": 20,
-        "kind": "symbol",
-        "symbol": "response",
-        "detail": "Declares const response."
-      },
-      {
-        "line": 47,
-        "kind": "symbol",
-        "symbol": "payload",
-        "detail": "Declares const payload."
-      },
-      {
-        "line": 50,
-        "kind": "symbol",
-        "symbol": "content",
-        "detail": "Declares const content."
-      },
-      {
-        "line": 59,
-        "kind": "symbol",
-        "symbol": "isPlaceholder",
-        "detail": "Declares function isPlaceholder."
-      },
-      {
-        "line": 63,
-        "kind": "symbol",
-        "symbol": "ensureTrailingSlash",
-        "detail": "Declares function ensureTrailingSlash."
-      }
-    ],
-    "moduleName": "llm",
-    "importanceScore": 35,
-    "importanceReasons": [
-      "2 exports",
-      "9 symbols",
-      "1 inbound dependency",
-      "1 outbound dependency",
       "high-confidence analysis"
     ]
   },
@@ -8256,6 +8117,169 @@
       "10 symbols",
       "2 inbound dependencies",
       "3 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/llm/provider.ts",
+    "extension": ".ts",
+    "sizeBytes": 1912,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 478,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "LlmClient",
+      "createLlmClient"
+    ],
+    "symbols": [
+      {
+        "name": "LlmClient",
+        "kind": "interface",
+        "filePath": "src/llm/provider.ts",
+        "line": 3
+      },
+      {
+        "name": "createLlmClient",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 7
+      },
+      {
+        "name": "OpenAiCompatibleClient",
+        "kind": "class",
+        "filePath": "src/llm/provider.ts",
+        "line": 15
+      },
+      {
+        "name": "url",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 19
+      },
+      {
+        "name": "response",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 20
+      },
+      {
+        "name": "payload",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 47
+      },
+      {
+        "name": "content",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 50
+      },
+      {
+        "name": "isPlaceholder",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 59
+      },
+      {
+        "name": "ensureTrailingSlash",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 63
+      }
+    ],
+    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "LlmClient",
+        "detail": "Declares interface LlmClient."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "LlmClient",
+        "detail": "Exports LlmClient."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "createLlmClient",
+        "detail": "Declares function createLlmClient."
+      },
+      {
+        "line": 7,
+        "kind": "export",
+        "symbol": "createLlmClient",
+        "detail": "Exports createLlmClient."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "OpenAiCompatibleClient",
+        "detail": "Declares class OpenAiCompatibleClient."
+      },
+      {
+        "line": 19,
+        "kind": "symbol",
+        "symbol": "url",
+        "detail": "Declares const url."
+      },
+      {
+        "line": 20,
+        "kind": "symbol",
+        "symbol": "response",
+        "detail": "Declares const response."
+      },
+      {
+        "line": 47,
+        "kind": "symbol",
+        "symbol": "payload",
+        "detail": "Declares const payload."
+      },
+      {
+        "line": 50,
+        "kind": "symbol",
+        "symbol": "content",
+        "detail": "Declares const content."
+      },
+      {
+        "line": 59,
+        "kind": "symbol",
+        "symbol": "isPlaceholder",
+        "detail": "Declares function isPlaceholder."
+      },
+      {
+        "line": 63,
+        "kind": "symbol",
+        "symbol": "ensureTrailingSlash",
+        "detail": "Declares function ensureTrailingSlash."
+      }
+    ],
+    "moduleName": "llm",
+    "importanceScore": 35,
+    "importanceReasons": [
+      "2 exports",
+      "9 symbols",
+      "1 inbound dependency",
+      "1 outbound dependency",
       "high-confidence analysis"
     ]
   },

@@ -7,7 +7,7 @@ Budget: 2,797 / 12,000 estimated tokens
 ## Relevant Files
 | File | Score | Why | Summary |
 | --- | --- | --- | --- |
-| `src/outputs/markdown.ts` | 164 | lexical match: code, shared API/refactor risk | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
+| `src/outputs/markdown.ts` | 165 | lexical match: code, shared API/refactor risk | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
 | `src/outputs/rag.ts` | 46 | caller/importer of src/outputs/markdown.ts, shared API/refactor risk | src/outputs/rag.ts contains 15 detected symbols, 3 imports, 4 exports. |
 | `src/cli/index.ts` | 30 | entrypoint, shared API/refactor risk | src/cli/index.ts contains 30 detected symbols, 14 imports, 0 exports. |
 | `src/outputs/task-context.ts` | 28 | caller/importer of src/outputs/markdown.ts | src/outputs/task-context.ts contains 37 detected symbols, 3 imports, 3 exports. |

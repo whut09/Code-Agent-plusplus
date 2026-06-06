@@ -10,4 +10,5 @@
 | root | 12 | 85 | none | root contains 12 files. |
 | cli | 1 | 70 | `config`, `core`, `outputs` | cli contains 1 file and depends on config, core, outputs. |
 | llm | 1 | 35 | `core` | llm contains 1 file and depends on core. |
+| assets | 1 | 0 | none | assets contains 1 file. |
 | docs | 4 | 0 | none | docs contains 4 files. |

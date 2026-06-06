@@ -5,7 +5,7 @@ Agent Readiness: 86/100
 ## Dimensions
 | Category | Score | Evidence | Missing |
 | --- | --- | --- | --- |
-| structure | 97/100 | Entrypoint: src/cli/index.ts; 9 modules detected.; 174 dependency edges detected.; 68% of files have high-confidence analysis. | none |
+| structure | 97/100 | Entrypoint: src/cli/index.ts; 10 modules detected.; 174 dependency edges detected.; 68% of files have high-confidence analysis. | none |
 | commands | 75/100 | Run command: npm run dev; Typecheck command: npm run build; Typecheck command: npm run check | No lint/format command detected. |
 | tests | 90/100 | Test/check command: npm run test; 22 test files detected. | No CI workflow detected. |
 | architecture | 100/100 | README documentation detected.; Architecture documentation detected. | none |
