@@ -6,6 +6,10 @@ Turn any repository into a compact, structured, agent-ready context package for 
 
 The first version is deliberately offline-first: it scans a repo, extracts lightweight code structure, ranks important files, builds dependency graphs, and writes Markdown/JSON context files without requiring an LLM.
 
+<p align="center">
+  <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context final output animation">
+</p>
+
 ## Use It Through an AI Agent
 
 You can also ask Codex, Claude Code, Cursor, or another coding agent to run this project for you. For example, in Codex:

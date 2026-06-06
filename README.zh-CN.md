@@ -6,6 +6,10 @@
 
 第一版采用离线优先设计：扫描仓库、提取轻量代码结构、排序关键文件、构建依赖图，并输出 Markdown/JSON 上下文文件，不强依赖大模型。
 
+<p align="center">
+  <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context 最终输出动画">
+</p>
+
 ## 通过 AI Agent 使用
 
 你也可以直接让 Codex、Claude Code、Cursor 或其他编程 Agent 代你运行这个项目。例如在 Codex 里可以直接说：

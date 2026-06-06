@@ -1,0 +1,153 @@
+<svg width="960" height="540" viewBox="0 0 960 540" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Repo-to-Agent-Context output demo</title>
+  <desc id="desc">Animated preview showing a repository being compressed into AGENTS.md and .agent-context files for coding agents.</desc>
+  <style>
+    .bg { fill: #f7f9fc; }
+    .panel { fill: #ffffff; stroke: #d9e1ec; stroke-width: 1.4; }
+    .shadow { filter: drop-shadow(0 18px 34px rgba(24, 36, 58, .12)); }
+    .title { fill: #182230; font-family: "Segoe UI", Arial, sans-serif; font-weight: 750; font-size: 25px; }
+    .muted { fill: #667085; font-family: "Segoe UI", Arial, sans-serif; font-size: 14px; }
+    .label { fill: #344054; font-family: "Segoe UI", Arial, sans-serif; font-weight: 700; font-size: 15px; }
+    .code { fill: #d6e4ff; font-family: "SFMono-Regular", Consolas, monospace; font-size: 13px; }
+    .code2 { fill: #b9f6ca; font-family: "SFMono-Regular", Consolas, monospace; font-size: 13px; }
+    .doc { fill: #344054; font-family: "Segoe UI", Arial, sans-serif; font-size: 13px; }
+    .docStrong { fill: #182230; font-family: "Segoe UI", Arial, sans-serif; font-weight: 700; font-size: 15px; }
+    .chip { fill: #eff8ff; stroke: #84caff; }
+    .chip2 { fill: #ecfdf3; stroke: #75e0a7; }
+    .chip3 { fill: #fff6ed; stroke: #fdb022; }
+    .line { stroke: #98a2b3; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 8 10; }
+    .flow { stroke: #2563eb; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1 900; animation: flow 6.6s ease-in-out infinite; }
+    .scan { fill: #2563eb; opacity: .18; animation: scan 6.6s ease-in-out infinite; }
+    .pulse { animation: pulse 6.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .fade1 { animation: fade 6.6s ease-in-out infinite; animation-delay: 0s; }
+    .fade2 { animation: fade 6.6s ease-in-out infinite; animation-delay: .75s; }
+    .fade3 { animation: fade 6.6s ease-in-out infinite; animation-delay: 1.5s; }
+    .scroll { animation: scrollDoc 6.6s ease-in-out infinite; }
+    .bar { animation: grow 6.6s ease-in-out infinite; transform-box: fill-box; transform-origin: left center; }
+    @keyframes flow {
+      0%, 8% { stroke-dasharray: 1 900; }
+      56%, 100% { stroke-dasharray: 900 1; }
+    }
+    @keyframes scan {
+      0%, 10% { transform: translateY(0); opacity: .04; }
+      38% { transform: translateY(122px); opacity: .22; }
+      58%, 100% { transform: translateY(122px); opacity: .05; }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      45% { transform: scale(1.06); opacity: .88; }
+    }
+    @keyframes fade {
+      0%, 18% { opacity: .35; transform: translateY(8px); }
+      32%, 82% { opacity: 1; transform: translateY(0); }
+      100% { opacity: .35; transform: translateY(8px); }
+    }
+    @keyframes scrollDoc {
+      0%, 24% { transform: translateY(0); }
+      50%, 68% { transform: translateY(-88px); }
+      86%, 100% { transform: translateY(-162px); }
+    }
+    @keyframes grow {
+      0%, 18% { transform: scaleX(.08); }
+      48%, 100% { transform: scaleX(1); }
+    }
+  </style>
+
+  <defs>
+    <clipPath id="docClip">
+      <rect x="590" y="138" width="292" height="274" rx="12"/>
+    </clipPath>
+    <clipPath id="repoClip">
+      <rect x="74" y="153" width="214" height="180" rx="10"/>
+    </clipPath>
+  </defs>
+
+  <rect class="bg" width="960" height="540" rx="22"/>
+  <text x="40" y="52" class="title">Repo-to-Agent-Context final output</text>
+  <text x="40" y="78" class="muted">Compress a repository into AGENTS.md, module summaries, dependency graphs, task packs, and RAG-ready chunks.</text>
+
+  <path class="line" d="M306 260 H402 C432 260 432 185 462 185 H548"/>
+  <path class="line" d="M306 260 H402 C432 260 432 335 462 335 H548"/>
+  <path class="line" d="M548 185 H590"/>
+  <path class="line" d="M548 335 H590"/>
+  <path class="flow" d="M306 260 H402 C432 260 432 185 462 185 H548 M548 185 H590 M306 260 H402 C432 260 432 335 462 335 H548 M548 335 H590"/>
+
+  <g class="fade1 shadow">
+    <rect x="48" y="116" width="258" height="304" rx="16" class="panel"/>
+    <text x="74" y="148" class="label">Repository input</text>
+    <g clip-path="url(#repoClip)">
+      <rect x="74" y="153" width="214" height="180" rx="10" fill="#f8fafc" stroke="#d9e1ec"/>
+      <rect x="92" y="178" width="86" height="9" rx="4.5" fill="#2563eb"/>
+      <rect x="112" y="203" width="118" height="8" rx="4" fill="#98a2b3"/>
+      <rect x="112" y="226" width="92" height="8" rx="4" fill="#98a2b3"/>
+      <rect x="112" y="249" width="136" height="8" rx="4" fill="#98a2b3"/>
+      <rect x="112" y="272" width="104" height="8" rx="4" fill="#98a2b3"/>
+      <rect x="112" y="295" width="128" height="8" rx="4" fill="#98a2b3"/>
+      <rect x="88" y="170" width="174" height="45" class="scan"/>
+    </g>
+    <rect x="76" y="356" width="58" height="24" rx="12" class="chip"/>
+    <text x="91" y="373" class="muted">scan</text>
+    <rect x="144" y="356" width="66" height="24" rx="12" class="chip2"/>
+    <text x="158" y="373" class="muted">index</text>
+    <rect x="220" y="356" width="52" height="24" rx="12" class="chip3"/>
+    <text x="234" y="373" class="muted">rank</text>
+  </g>
+
+  <g class="fade2 shadow">
+    <rect x="462" y="123" width="86" height="124" rx="14" class="panel"/>
+    <circle cx="505" cy="167" r="24" fill="#2563eb" class="pulse"/>
+    <path d="M492 167 H518 M505 154 V180" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="481" y="214" class="label">LLM</text>
+    <text x="477" y="234" class="muted">summary</text>
+  </g>
+
+  <g class="fade3 shadow">
+    <rect x="462" y="273" width="86" height="124" rx="14" class="panel"/>
+    <circle cx="505" cy="317" r="24" fill="#12b76a" class="pulse"/>
+    <path d="M491 318 L501 328 L522 304" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="479" y="364" class="label">pack</text>
+    <text x="476" y="384" class="muted">validate</text>
+  </g>
+
+  <g class="shadow">
+    <rect x="590" y="116" width="322" height="304" rx="16" class="panel"/>
+    <text x="616" y="148" class="label">Agent-ready context package</text>
+    <rect x="616" y="166" width="142" height="10" rx="5" fill="#2563eb" class="bar"/>
+    <rect x="590" y="138" width="292" height="274" rx="12" fill="#ffffff"/>
+    <g clip-path="url(#docClip)">
+      <g class="scroll">
+        <text x="616" y="198" class="docStrong">AGENTS.md</text>
+        <text x="616" y="222" class="doc">Project overview, run commands, tests</text>
+        <text x="616" y="244" class="doc">Important files and safety rules</text>
+        <text x="616" y="276" class="docStrong">.agent-context/</text>
+        <text x="636" y="300" class="doc">repo-summary.md</text>
+        <text x="636" y="322" class="doc">key-files.md</text>
+        <text x="636" y="344" class="doc">dependency-graph.md</text>
+        <text x="636" y="366" class="doc">readiness.json</text>
+        <text x="636" y="388" class="doc">token-savings.json</text>
+
+        <text x="616" y="430" class="docStrong">Agent Readiness: 86/100</text>
+        <rect x="616" y="448" width="204" height="9" rx="4.5" fill="#e4e7ec"/>
+        <rect x="616" y="448" width="176" height="9" rx="4.5" fill="#12b76a"/>
+        <text x="616" y="484" class="docStrong">Token Savings</text>
+        <text x="616" y="508" class="doc">Original repo: 52k tokens</text>
+        <text x="616" y="530" class="doc">Context pack: 10k tokens</text>
+        <text x="616" y="552" class="doc">Compression: 5x</text>
+
+        <text x="616" y="596" class="docStrong">Task Packs</text>
+        <text x="636" y="620" class="doc">bugfix-context.md</text>
+        <text x="636" y="642" class="doc">feature-context.md</text>
+        <text x="636" y="664" class="doc">refactor-context.md</text>
+        <text x="616" y="702" class="docStrong">RAG Export</text>
+        <text x="636" y="726" class="doc">documents.jsonl</text>
+        <text x="636" y="748" class="doc">manifest.json</text>
+      </g>
+    </g>
+  </g>
+
+  <g class="shadow">
+    <rect x="92" y="440" width="776" height="58" rx="14" fill="#101828"/>
+    <text x="120" y="466" class="code">$ repo-context build ./my-repo --target codex --llm</text>
+    <text x="120" y="488" class="code2">Generated AGENTS.md, .agent-context/, task packs, graph, RAG export, token report</text>
+  </g>
+</svg>
