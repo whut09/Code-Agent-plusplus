@@ -6,6 +6,18 @@ Turn any repository into a compact, structured, agent-ready context package for 
 
 The first version is deliberately offline-first: it scans a repo, extracts lightweight code structure, ranks important files, builds dependency graphs, and writes Markdown/JSON context files without requiring an LLM.
 
+## Use It Through an AI Agent
+
+You can also ask Codex, Claude Code, Cursor, or another coding agent to run this project for you. For example, in Codex:
+
+```txt
+Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, then install or clone the tool if needed. Force LLM summaries: create or update repo-context.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first. Then run repo-context build <target-repo> --target codex --llm, run repo-context validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
+```
+
+Replace `xxx project` with a local path, GitHub repository, or workspace name. If you only need the root guide, say `generate AGENTS.md`; if you want the full context pack, ask for `AGENTS.md and .agent-context`.
+
+Note: the current AI tool must provide callable model API credentials, base URL, and model name for Repo-to-Agent-Context to run real LLM summaries. If Codex, Claude, or Cursor does not expose its own model as an API, ask the user for configuration first. Real keys should only go into `repo-context.local.yml`.
+
 ## Quick Start
 
 After publishing the package to npm:
@@ -27,18 +39,6 @@ During development:
 ```bash
 npm run dev -- build ./path/to/repo
 ```
-
-## Use It Through an AI Agent
-
-You can also ask Codex, Claude Code, Cursor, or another coding agent to run this project for you. For example, in Codex:
-
-```txt
-Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, then install or clone the tool if needed. Force LLM summaries: create or update repo-context.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first. Then run repo-context build <target-repo> --target codex --llm, run repo-context validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
-```
-
-Replace `xxx project` with a local path, GitHub repository, or workspace name. If you only need the root guide, say `generate AGENTS.md`; if you want the full context pack, ask for `AGENTS.md and .agent-context`.
-
-Note: the current AI tool must provide callable model API credentials, base URL, and model name for Repo-to-Agent-Context to run real LLM summaries. If Codex, Claude, or Cursor does not expose its own model as an API, ask the user for configuration first. Real keys should only go into `repo-context.local.yml`.
 
 ## Does the Agent Read AGENTS.md Automatically?
 
