@@ -78,6 +78,28 @@ agents:
   }
 });
 
+test("tokenizer config supports real tokenizer modes", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
+  try {
+    writeFileSync(path.join(root, "repo-context.config.yml"), `
+tokenizer:
+  mode: cl100k_base
+  model: gpt-4.1
+`, "utf8");
+    const config = loadConfig(root);
+    assert.equal(config.tokenizer.mode, "cl100k_base");
+    assert.equal(config.tokenizer.model, "gpt-4.1");
+
+    writeFileSync(path.join(root, "repo-context.config.yml"), `
+tokenizer:
+  mode: made_up
+`, "utf8");
+    assert.throws(() => loadConfig(root), /tokenizer\.mode must be one of/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("unknown output switches fail fast", () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
   try {

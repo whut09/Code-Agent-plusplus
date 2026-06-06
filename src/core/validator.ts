@@ -17,14 +17,14 @@ export function validateContextPackage(context: ContextPackage): ValidationRepor
   const issues: ValidationIssue[] = [];
   const paths = new Set(context.index.files.map((file) => file.path));
 
-  if (!context.tokenSavings.withinBudget) {
-    issues.push({ severity: "error", code: "token_budget_exceeded", message: `Estimated context exceeds token budget: ${context.tokenSavings.contextPackTokens}/${context.tokenSavings.tokenBudget}.` });
+  if (context.tokenSavings.estimatedContextPackTokens.tokens > context.tokenSavings.tokenBudget) {
+    issues.push({ severity: "error", code: "token_budget_exceeded", message: `Estimated context exceeds token budget: ${context.tokenSavings.estimatedContextPackTokens.tokens}/${context.tokenSavings.tokenBudget}.` });
   }
-  if (context.tokenSavings.actualOutputTokens && context.tokenSavings.actualOutputTokens.totalTokens > context.tokenSavings.tokenBudget) {
+  if (context.tokenSavings.actualOutputTokens && context.tokenSavings.actualOutputTokens.total > context.tokenSavings.tokenBudget) {
     issues.push({
       severity: "error",
       code: "actual_output_budget_exceeded",
-      message: `Actual generated output exceeds token budget: ${context.tokenSavings.actualOutputTokens.totalTokens}/${context.tokenSavings.tokenBudget}.`
+      message: `Actual generated output exceeds token budget: ${context.tokenSavings.actualOutputTokens.total}/${context.tokenSavings.tokenBudget}.`
     });
   }
   for (const edge of context.graph.fileEdges.filter((edge) => !edge.isExternal)) {
@@ -67,18 +67,19 @@ function validateGeneratedJson(context: ContextPackage, issues: ValidationIssue[
     if (!existsSync(filePath)) continue;
     try {
       const parsed = JSON.parse(readFileSync(filePath, "utf8")) as {
-        actualOutputTokens?: { totalTokens?: number };
+        actualOutputTokens?: { total?: number; totalTokens?: number };
       };
+      const actualTotal = parsed.actualOutputTokens?.total ?? parsed.actualOutputTokens?.totalTokens;
       if (
         relativePath === "token-savings.json"
-        && typeof parsed.actualOutputTokens?.totalTokens === "number"
-        && parsed.actualOutputTokens.totalTokens > context.tokenSavings.tokenBudget
+        && typeof actualTotal === "number"
+        && actualTotal > context.tokenSavings.tokenBudget
         && !issues.some((issue) => issue.code === "actual_output_budget_exceeded")
       ) {
         issues.push({
           severity: "error",
           code: "actual_output_budget_exceeded",
-          message: `Actual generated output exceeds token budget: ${parsed.actualOutputTokens.totalTokens}/${context.tokenSavings.tokenBudget}.`
+          message: `Actual generated output exceeds token budget: ${actualTotal}/${context.tokenSavings.tokenBudget}.`
         });
       }
     } catch {

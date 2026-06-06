@@ -40,7 +40,8 @@ export const DEFAULT_CONFIG: RepoContextConfig = {
     chunkTokenLimit: 900
   },
   tokenizer: {
-    mode: "chars_approx"
+    mode: "chars_approx",
+    model: undefined
   },
   agents: {
     mode: "minimal",

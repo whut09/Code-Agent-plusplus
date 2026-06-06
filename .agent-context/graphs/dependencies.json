@@ -535,6 +535,12 @@
       "isExternal": false
     },
     {
+      "from": "src/cli/index.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "../core/token-estimator.js",
+      "isExternal": false
+    },
+    {
       "from": "src/config/defaults.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -622,6 +628,12 @@
       "from": "src/core/context-builder.ts",
       "to": "src/core/token-savings.ts",
       "specifier": "./token-savings.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/context-builder.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "./token-estimator.js",
       "isExternal": false
     },
     {
@@ -790,6 +802,18 @@
       "from": "src/core/summarizer.ts",
       "to": "src/llm/provider.ts",
       "specifier": "../llm/provider.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/token-estimator.ts",
+      "to": "js-tiktoken",
+      "specifier": "js-tiktoken",
+      "isExternal": true
+    },
+    {
+      "from": "src/core/token-estimator.ts",
+      "to": "src/core/types.ts",
+      "specifier": "./types.js",
       "isExternal": false
     },
     {
@@ -1107,7 +1131,7 @@
     {
       "from": "cli",
       "to": "core",
-      "count": 6
+      "count": 7
     },
     {
       "from": "cli",

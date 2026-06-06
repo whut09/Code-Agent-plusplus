@@ -24,7 +24,7 @@ graph TD
 | --- | --- | --- |
 | analyzers | core | 4 |
 | cli | config | 1 |
-| cli | core | 6 |
+| cli | core | 7 |
 | cli | outputs | 4 |
 | config | core | 2 |
 | core | analyzers | 4 |

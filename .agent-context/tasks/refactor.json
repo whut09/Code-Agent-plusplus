@@ -2,11 +2,19 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 2986,
+  "estimatedTokens": 3323,
   "files": [
     {
+      "path": "src/core/token-estimator.ts",
+      "score": 149,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ]
+    },
+    {
       "path": "src/outputs/markdown.ts",
-      "score": 165,
+      "score": 149,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -14,36 +22,79 @@
     },
     {
       "path": "src/outputs/rag.ts",
-      "score": 46,
+      "score": 74,
       "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
         "caller/importer of src/outputs/markdown.ts",
         "shared API/refactor risk"
       ]
     },
     {
       "path": "src/cli/index.ts",
-      "score": 30,
+      "score": 58,
       "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
         "entrypoint",
         "shared API/refactor risk"
       ]
     },
     {
       "path": "src/outputs/task-context.ts",
-      "score": 28,
+      "score": 56,
       "reasons": [
-        "caller/importer of src/outputs/markdown.ts"
-      ]
-    },
-    {
-      "path": "src/outputs/dependency-graph.ts",
-      "score": 28,
-      "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
         "caller/importer of src/outputs/markdown.ts"
       ]
     },
     {
       "path": "src/outputs/agents-md.ts",
+      "score": 56,
+      "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
+        "caller/importer of src/outputs/markdown.ts"
+      ]
+    },
+    {
+      "path": "src/core/context-builder.ts",
+      "score": 46,
+      "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
+        "shared API/refactor risk"
+      ]
+    },
+    {
+      "path": "src/outputs/writer.ts",
+      "score": 46,
+      "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
+        "shared API/refactor risk"
+      ]
+    },
+    {
+      "path": "src/core/scanner.ts",
+      "score": 46,
+      "reasons": [
+        "caller/importer of src/core/token-estimator.ts",
+        "shared API/refactor risk"
+      ]
+    },
+    {
+      "path": "src/core/types.ts",
+      "score": 42,
+      "reasons": [
+        "dependency of src/core/token-estimator.ts",
+        "shared API/refactor risk"
+      ]
+    },
+    {
+      "path": "src/core/token-savings.ts",
+      "score": 28,
+      "reasons": [
+        "caller/importer of src/core/token-estimator.ts"
+      ]
+    },
+    {
+      "path": "src/outputs/dependency-graph.ts",
       "score": 28,
       "reasons": [
         "caller/importer of src/outputs/markdown.ts"
@@ -99,35 +150,7 @@
       ]
     },
     {
-      "path": "src/core/context-builder.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ]
-    },
-    {
-      "path": "src/core/types.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ]
-    },
-    {
-      "path": "src/outputs/writer.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ]
-    },
-    {
       "path": "src/core/path-utils.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ]
-    },
-    {
-      "path": "src/core/scanner.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
@@ -148,6 +171,13 @@
       ]
     },
     {
+      "path": "test/config.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ]
+    },
+    {
       "path": "test/writer.test.ts",
       "score": 18,
       "reasons": [
@@ -162,14 +192,14 @@
       ]
     },
     {
-      "path": "test/config.test.ts",
+      "path": "test/agents-md.test.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ]
     },
     {
-      "path": "test/agents-md.test.ts",
+      "path": "test/token-savings.test.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
@@ -184,13 +214,6 @@
     },
     {
       "path": "test/task-context.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ]
-    },
-    {
-      "path": "test/token-savings.test.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"

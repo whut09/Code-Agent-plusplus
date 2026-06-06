@@ -43,12 +43,16 @@ outputs:
     assert.equal(existsSync(path.join(root, ".agent-context", "repo-summary.md")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "token-savings.md")), true);
     const tokenReport = JSON.parse(readFileSync(path.join(root, ".agent-context", "token-savings.json"), "utf8")) as {
-      actualOutputTokens?: { totalTokens: number; files: Array<{ path: string }> };
+      originalRepoTokens?: { mode: string; tokenizer: string; tokens: number };
+      contextPackTokens?: { mode: string; total?: number; files?: Record<string, number> };
+      actualOutputTokens?: { total: number; totalTokens: number; files: Record<string, number> };
     };
+    assert.equal(tokenReport.originalRepoTokens?.mode, "estimated");
+    assert.equal(tokenReport.contextPackTokens?.mode, "actual");
     assert.ok(tokenReport.actualOutputTokens);
-    assert.ok(tokenReport.actualOutputTokens.totalTokens > 0);
-    assert.ok(tokenReport.actualOutputTokens.files.length > 0);
-    assert.equal(tokenReport.actualOutputTokens.files.some((file) => file.path.includes("index/files.json")), false);
+    assert.ok(tokenReport.actualOutputTokens.total > 0);
+    assert.ok(Object.keys(tokenReport.actualOutputTokens.files).length > 0);
+    assert.equal(Object.keys(tokenReport.actualOutputTokens.files).some((file) => file.includes("index/files.json")), false);
     const onboarding = readFileSync(path.join(root, ".agent-context", "onboarding.md"), "utf8");
     assert.equal(onboarding.includes("AGENTS.md"), false);
     assert.equal(onboarding.includes("dependency-graph.md"), false);

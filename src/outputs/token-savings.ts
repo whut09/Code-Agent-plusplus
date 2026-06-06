@@ -13,17 +13,25 @@ export function renderTokenSavings(context: ContextPackage): string {
       `Selected files: ${context.tokenSavings.selectedFiles}`,
       `Total scanned files: ${context.tokenSavings.totalFiles}`,
       `Token budget: ${context.tokenSavings.tokenBudget.toLocaleString()}`,
-      "The context pack estimate uses compact file summaries, symbols, imports, module context, and graph hints rather than full source files."
+      "Original repo tokens are estimated from scanned source sizes.",
+      "Estimated context pack tokens use compact file summaries, symbols, imports, module context, and graph hints.",
+      "Actual context pack tokens are counted from generated Markdown, Mermaid, and RAG JSONL files after writing."
+    ]),
+    "",
+    heading(2, "Estimated Tokens"),
+    bullet([
+      `Original repo: ${context.tokenSavings.originalRepoTokens.tokens.toLocaleString()} tokens (${context.tokenSavings.originalRepoTokens.tokenizer})`,
+      `Estimated context pack: ${context.tokenSavings.estimatedContextPackTokens.tokens.toLocaleString()} tokens (${context.tokenSavings.estimatedContextPackTokens.tokenizer})`
     ]),
     "",
     heading(2, "Actual Generated Output"),
     context.tokenSavings.actualOutputTokens
       ? [
-        `Tokenizer mode: ${context.tokenSavings.actualOutputTokens.mode}`,
-        `Actual output: ${context.tokenSavings.actualOutputTokens.totalTokens.toLocaleString()} tokens`,
+        `Tokenizer: ${context.tokenSavings.actualOutputTokens.tokenizer}${context.tokenSavings.actualOutputTokens.model ? ` (${context.tokenSavings.actualOutputTokens.model})` : ""}`,
+        `Actual output: ${context.tokenSavings.actualOutputTokens.total.toLocaleString()} tokens`,
         `Scope: ${context.tokenSavings.actualOutputTokens.scope}`,
         "",
-        ...context.tokenSavings.actualOutputTokens.files.map((file) => `- \`${file.path}\`: ${file.tokens.toLocaleString()} tokens`)
+        ...Object.entries(context.tokenSavings.actualOutputTokens.files).map(([file, tokens]) => `- \`${file}\`: ${tokens.toLocaleString()} tokens`)
       ].join("\n")
       : "Actual output tokens are calculated after files are written."
   ].join("\n");

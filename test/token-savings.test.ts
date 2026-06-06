@@ -12,7 +12,11 @@ test("token savings respects the configured budget when possible", () => {
   assert.equal(report.withinBudget, true);
   assert.ok(report.selectedFiles > 0);
   assert.ok(report.selectedFiles < files.length);
-  assert.ok(report.contextPackTokens <= report.tokenBudget);
+  assert.equal(report.originalRepoTokens.mode, "estimated");
+  assert.equal(report.originalRepoTokens.tokenizer, "chars_approx");
+  assert.equal(report.estimatedContextPackTokens.mode, "estimated");
+  assert.ok(report.estimatedContextPackTokens.tokens <= report.tokenBudget);
+  assert.equal(report.contextPackTokens.mode, "estimated");
 });
 
 test("token savings reports when even the minimum context exceeds budget", () => {
@@ -21,6 +25,17 @@ test("token savings reports when even the minimum context exceeds budget", () =>
 
   assert.equal(report.selectedFiles, 1);
   assert.equal(report.withinBudget, false);
+});
+
+test("token savings can estimate with a configured tokenizer", () => {
+  const files = Array.from({ length: 2 }, (_, index) => indexedFile(index));
+  const report = calculateTokenSavings(repoScan(files), files, {
+    tokenBudget: 2200,
+    tokenizer: { mode: "cl100k_base", model: "gpt-4.1" }
+  });
+
+  assert.equal(report.estimatedContextPackTokens.tokenizer, "cl100k_base");
+  assert.equal(report.estimatedContextPackTokens.model, "gpt-4.1");
 });
 
 function indexedFile(index: number): IndexedFile {

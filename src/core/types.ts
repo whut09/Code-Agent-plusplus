@@ -1,6 +1,7 @@
 export type AgentTarget = "codex" | "claude" | "cursor" | "all";
 export type AgentsMode = "minimal" | "balanced" | "full";
 export type AgentsSection = "commands" | "safety" | "entrypoints" | "contextLinks";
+export type TokenizerMode = "chars_approx" | "cl100k_base" | "o200k_base";
 export type AnalysisConfidence = "high" | "medium" | "low";
 export type TaskType = "bugfix" | "feature" | "refactor" | "auto";
 
@@ -45,7 +46,8 @@ export interface RagConfig {
 }
 
 export interface TokenizerConfig {
-  mode: "chars_approx";
+  mode: TokenizerMode;
+  model?: string;
 }
 
 export interface RepoScan {
@@ -211,23 +213,34 @@ export interface ReadinessCap {
 export interface TokenSavingsReport {
   tokenBudget: number;
   originalTokens: number;
-  contextPackTokens: number;
+  contextPackTokenEstimate: number;
+  contextPackTokens: TokenCountSummary | ActualOutputTokenReport;
   compressionRatio: number;
   withinBudget: boolean;
   selectedFiles: number;
   totalFiles: number;
   estimatedTokenSavings: number;
+  originalRepoTokens: TokenCountSummary;
+  estimatedContextPackTokens: TokenCountSummary;
+  contextPackTokenSummary?: ActualOutputTokenReport;
   actualOutputTokens?: ActualOutputTokenReport;
 }
 
 export interface ActualOutputTokenReport {
-  mode: TokenizerConfig["mode"];
+  mode: "actual";
+  tokenizer: TokenizerMode;
+  model?: string;
   totalTokens: number;
+  total: number;
   scope: string;
-  files: Array<{
-    path: string;
-    tokens: number;
-  }>;
+  files: Record<string, number>;
+}
+
+export interface TokenCountSummary {
+  mode: "estimated";
+  tokenizer: TokenizerMode;
+  model?: string;
+  tokens: number;
 }
 
 export interface TaskPack {

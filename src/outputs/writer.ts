@@ -1,7 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage } from "../core/types.js";
-import { estimateTokens } from "../core/token-estimator.js";
+import { countTokens } from "../core/token-estimator.js";
 import { renderAgentsMd } from "./agents-md.js";
 import { renderArchitecture } from "./architecture.js";
 import { renderDependencyGraph, renderMermaidGraph } from "./dependency-graph.js";
@@ -75,7 +75,12 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   if (context.config.outputs.rag) {
     writeRagExport(ragDir, context, written);
   }
-  context.tokenSavings.actualOutputTokens = measureActualOutputs(root, written, context.config.tokenizer.mode);
+  context.tokenSavings.actualOutputTokens = measureActualOutputs(root, written, context.config.tokenizer);
+  context.tokenSavings.contextPackTokens = context.tokenSavings.actualOutputTokens;
+  context.tokenSavings.compressionRatio = context.tokenSavings.actualOutputTokens.total
+    ? Math.max(1, Math.round(context.tokenSavings.originalRepoTokens.tokens / context.tokenSavings.actualOutputTokens.total))
+    : 1;
+  context.tokenSavings.withinBudget = context.tokenSavings.actualOutputTokens.total <= context.tokenSavings.tokenBudget;
   if (context.config.outputs.rag) {
     const documents = buildRagDocuments(context);
     rewriteJson(path.join(ragDir, "manifest.json"), buildRagManifest(context, documents.length));
@@ -93,18 +98,25 @@ function rewriteJson(filePath: string, value: unknown): void {
 function measureActualOutputs(
   root: string,
   written: string[],
-  mode: ContextPackage["config"]["tokenizer"]["mode"]
+  tokenizer: ContextPackage["config"]["tokenizer"]
 ): NonNullable<ContextPackage["tokenSavings"]["actualOutputTokens"]> {
-  const files = written
+  const files = Object.fromEntries(written
     .filter((filePath) => /\.(md|mmd|jsonl)$/i.test(filePath))
     .filter((filePath) => !filePath.endsWith("token-savings.md"))
-    .map((filePath) => ({
-      path: path.relative(root, filePath).replaceAll("\\", "/"),
-      tokens: estimateTokens(readFileSync(filePath, "utf8"))
+    .map((filePath) => {
+      const tokenCount = countTokens(readFileSync(filePath, "utf8"), tokenizer);
+      return [
+        path.relative(root, filePath).replaceAll("\\", "/"),
+        tokenCount.tokens
+      ];
     }));
+  const total = Object.values(files).reduce((sum, tokens) => sum + tokens, 0);
   return {
-    mode,
-    totalTokens: files.reduce((sum, file) => sum + file.tokens, 0),
+    mode: "actual",
+    tokenizer: tokenizer.mode,
+    model: tokenizer.model,
+    totalTokens: total,
+    total,
     scope: "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
     files
   };

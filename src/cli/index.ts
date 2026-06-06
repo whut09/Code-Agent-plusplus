@@ -13,6 +13,7 @@ import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
 import { renderTaskContext } from "../outputs/task-context.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
+import { parseTokenizerMode } from "../core/token-estimator.js";
 
 const program = new Command();
 
@@ -26,10 +27,12 @@ program
   .argument("[repo]", "repository path", ".")
   .option("-t, --target <target>", "agent target: codex, claude, cursor, all", parseTarget)
   .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
+  .option("--tokenizer <tokenizer>", "tokenizer: chars-approx, cl100k_base, o200k_base", parseTokenizerMode)
+  .option("--model <model>", "model name used to infer tokenizer, for example gpt-4.1")
   .option("--llm", "enable LLM summaries using repo-context.local.yml")
   .option("--no-llm", "disable LLM summaries")
   .description("Generate AGENTS.md and .agent-context outputs.")
-  .action(async (repo: string, options: { target?: AgentTarget; tokenBudget?: number; llm?: boolean }) => {
+  .action(async (repo: string, options: { target?: AgentTarget; tokenBudget?: number; tokenizer?: ReturnType<typeof parseTokenizerMode>; model?: string; llm?: boolean }) => {
     const context = await buildContextPackage(repo, options);
     const result = writeContextPackage(context);
     console.log(`Generated agent context for ${context.scan.root}`);
@@ -52,9 +55,15 @@ program
   .command("savings")
   .argument("[repo]", "repository path", ".")
   .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
+  .option("--actual", "write the context package first and report actual generated output tokens")
+  .option("--tokenizer <tokenizer>", "tokenizer: chars-approx, cl100k_base, o200k_base", parseTokenizerMode)
+  .option("--model <model>", "model name used to infer tokenizer, for example gpt-4.1")
   .description("Print the token savings report.")
-  .action(async (repo: string, options: { tokenBudget?: number }) => {
+  .action(async (repo: string, options: { tokenBudget?: number; actual?: boolean; tokenizer?: ReturnType<typeof parseTokenizerMode>; model?: string }) => {
     const context = await buildContextPackage(repo, options);
+    if (options.actual) {
+      writeContextPackage(context);
+    }
     console.log(formatTokenSavings(context.tokenSavings));
   });
 

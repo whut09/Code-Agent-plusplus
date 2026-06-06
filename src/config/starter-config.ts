@@ -15,6 +15,8 @@ exclude:
 
 tokenizer:
   mode: chars_approx
+  # mode: cl100k_base
+  # model: gpt-4.1
 
 agents:
   mode: minimal

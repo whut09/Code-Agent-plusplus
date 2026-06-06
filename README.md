@@ -115,6 +115,8 @@ repo-context rag export [repo]
 
 ```bash
 repo-context build . --target codex
+repo-context build . --target codex --tokenizer chars-approx
+repo-context build . --target codex --model gpt-4.1
 repo-context build . --llm
 repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
@@ -122,6 +124,7 @@ repo-context explain auth .
 repo-context readiness .
 repo-context validate .
 repo-context savings . --token-budget 60000
+repo-context savings . --actual --model gpt-4.1
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context diff . --base main
 repo-context rag export . --token-budget 60000
@@ -132,14 +135,14 @@ repo-context rag export . --token-budget 60000
 每次构建都会生成 token 节省报告：
 
 ```txt
-Original repo: 2,400,000 tokens
-Context pack: 42,000 tokens
+Original repo (estimated, chars_approx): 2,400,000 tokens
+Estimated context pack (chars_approx): 42,000 tokens
+Actual context pack (o200k_base, gpt-4.1): 41,832 tokens
 Compression: 57x
 Token budget: 60,000 (within budget)
-Actual generated output: 31,000 tokens (chars_approx)
 ```
 
-报告会区分紧凑上下文包估算与实际生成的 Markdown、Mermaid、RAG JSONL 大小。机器可读索引不会计入实际输出 token，具体范围会写在报告里。
+报告会区分原始仓库估算、理论紧凑上下文估算，以及实际写出的 Markdown、Mermaid、RAG JSONL token 数。机器可读索引不会计入实际输出 token，具体范围会写在报告里。配置真实 tokenizer 时会用 `js-tiktoken` 计数，无法识别时回退到 `chars_approx`。
 
 生成文件：
 
@@ -260,6 +263,8 @@ tokenBudget: 60000
 
 tokenizer:
   mode: chars_approx
+  # mode: cl100k_base
+  # model: gpt-4.1
 
 agents:
   mode: minimal # minimal | balanced | full

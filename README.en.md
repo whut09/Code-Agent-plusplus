@@ -115,6 +115,8 @@ Examples:
 
 ```bash
 repo-context build . --target codex
+repo-context build . --target codex --tokenizer chars-approx
+repo-context build . --target codex --model gpt-4.1
 repo-context build . --llm
 repo-context build ../my-app --target all --token-budget 80000
 repo-context explain src/server.ts .
@@ -122,6 +124,7 @@ repo-context explain auth .
 repo-context readiness .
 repo-context validate .
 repo-context savings . --token-budget 60000
+repo-context savings . --actual --model gpt-4.1
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context diff . --base main
 repo-context rag export . --token-budget 60000
@@ -132,14 +135,14 @@ repo-context rag export . --token-budget 60000
 Every build includes a token savings report:
 
 ```txt
-Original repo: 2,400,000 tokens
-Context pack: 42,000 tokens
+Original repo (estimated, chars_approx): 2,400,000 tokens
+Estimated context pack (chars_approx): 42,000 tokens
+Actual context pack (o200k_base, gpt-4.1): 41,832 tokens
 Compression: 57x
 Token budget: 60,000 (within budget)
-Actual generated output: 31,000 tokens (chars_approx)
 ```
 
-The report separates compact-pack estimates from actual generated Markdown, Mermaid, and RAG JSONL size. Machine-readable indexes are excluded from actual output tokens and documented in the report scope.
+The report separates original repository estimates, theoretical compact context estimates, and actual generated Markdown, Mermaid, and RAG JSONL token counts. Machine-readable indexes are excluded from actual output tokens and documented in the report scope. Real tokenizer modes use `js-tiktoken`; unsupported models fall back to `chars_approx`.
 
 Generated files:
 
@@ -260,6 +263,8 @@ tokenBudget: 60000
 
 tokenizer:
   mode: chars_approx
+  # mode: cl100k_base
+  # model: gpt-4.1
 
 agents:
   mode: minimal # minimal | balanced | full

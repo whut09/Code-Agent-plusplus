@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { DEFAULT_CONFIG } from "./defaults.js";
-import type { AgentTarget, AgentsMode, AgentsSection, RepoContextConfig } from "../core/types.js";
+import type { AgentTarget, AgentsMode, AgentsSection, RepoContextConfig, TokenizerMode } from "../core/types.js";
 
 const CONFIG_FILES = [
   "repo-context.config.yml",
@@ -96,7 +96,7 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     exclude: toStringArray(input.exclude),
     llm: typeof input.llm === "object" && input.llm ? input.llm as RepoContextConfig["llm"] : undefined,
     rag: typeof input.rag === "object" && input.rag ? input.rag as RepoContextConfig["rag"] : undefined,
-    tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? input.tokenizer as RepoContextConfig["tokenizer"] : undefined,
+    tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? normalizeTokenizerConfig(input.tokenizer as Record<string, unknown>) : undefined,
     agents: typeof input.agents === "object" && input.agents ? normalizeAgentsConfig(input.agents as Record<string, unknown>) : undefined,
     outputs: typeof input.outputs === "object" && input.outputs ? input.outputs as RepoContextConfig["outputs"] : undefined
   }) as Partial<RepoContextConfig>;
@@ -112,8 +112,8 @@ export function validateConfig(config: RepoContextConfig): void {
   if (config.rag.provider !== "lightrag" || !Number.isFinite(config.rag.chunkTokenLimit) || config.rag.chunkTokenLimit <= 0) {
     throw new Error("rag.chunkTokenLimit must be a positive number and rag.provider must be lightrag.");
   }
-  if (config.tokenizer.mode !== "chars_approx") {
-    throw new Error(`Invalid tokenizer.mode "${config.tokenizer.mode}". Expected: chars_approx.`);
+  if (!["chars_approx", "cl100k_base", "o200k_base"].includes(config.tokenizer.mode)) {
+    throw new Error(`Invalid tokenizer.mode "${config.tokenizer.mode}". Expected one of: chars_approx, cl100k_base, o200k_base.`);
   }
   if (!["minimal", "balanced", "full"].includes(config.agents.mode)) {
     throw new Error(`Invalid agents.mode "${config.agents.mode}". Expected one of: minimal, balanced, full.`);
@@ -181,8 +181,11 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
   }
   if (input.tokenizer !== undefined) {
     const tokenizer = objectValue(input.tokenizer, "tokenizer");
-    if (tokenizer.mode !== undefined && tokenizer.mode !== "chars_approx") {
-      throw new Error("tokenizer.mode must be chars_approx.");
+    if (tokenizer.mode !== undefined && (typeof tokenizer.mode !== "string" || !["chars_approx", "cl100k_base", "o200k_base"].includes(tokenizer.mode))) {
+      throw new Error("tokenizer.mode must be one of: chars_approx, cl100k_base, o200k_base.");
+    }
+    if (tokenizer.model !== undefined && typeof tokenizer.model !== "string") {
+      throw new Error("tokenizer.model must be a string.");
     }
   }
   if (input.agents !== undefined) {
@@ -199,6 +202,13 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
     }
   }
   void source;
+}
+
+function normalizeTokenizerConfig(input: Record<string, unknown>): Partial<RepoContextConfig["tokenizer"]> {
+  return stripUndefined({
+    mode: typeof input.mode === "string" ? input.mode as TokenizerMode : undefined,
+    model: typeof input.model === "string" ? input.model : undefined
+  });
 }
 
 function normalizeAgentsConfig(input: Record<string, unknown>): Partial<RepoContextConfig["agents"]> {
