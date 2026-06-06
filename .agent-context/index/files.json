@@ -154,10 +154,10 @@
   {
     "path": "README.en.md",
     "extension": ".md",
-    "sizeBytes": 10616,
+    "sizeBytes": 11058,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2654,
+    "tokenEstimate": 2765,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -185,10 +185,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 10279,
+    "sizeBytes": 10729,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2570,
+    "tokenEstimate": 2683,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -216,10 +216,10 @@
   {
     "path": "README.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 10279,
+    "sizeBytes": 10729,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2570,
+    "tokenEstimate": 2683,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -459,10 +459,10 @@
   {
     "path": "docs/architecture.md",
     "extension": ".md",
-    "sizeBytes": 5072,
+    "sizeBytes": 5436,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 1268,
+    "tokenEstimate": 1359,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -1619,10 +1619,10 @@
   {
     "path": "test/task-context.test.ts",
     "extension": ".ts",
-    "sizeBytes": 1787,
+    "sizeBytes": 2804,
     "kind": "test",
     "language": "TypeScript",
-    "tokenEstimate": 447,
+    "tokenEstimate": 701,
     "isBinary": false,
     "isGenerated": false,
     "isTest": true,
@@ -1688,16 +1688,28 @@
         "kind": "const",
         "filePath": "test/task-context.test.ts",
         "line": 29
+      },
+      {
+        "name": "markdown",
+        "kind": "const",
+        "filePath": "test/task-context.test.ts",
+        "line": 42
+      },
+      {
+        "name": "chinesePack",
+        "kind": "const",
+        "filePath": "test/task-context.test.ts",
+        "line": 48
       }
     ],
-    "summary": "test/task-context.test.ts contains 4 detected symbols, 7 imports, 0 exports.",
+    "summary": "test/task-context.test.ts contains 6 detected symbols, 7 imports, 0 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "analysisStats": {
       "parser": "typescript-compiler-api",
       "importsResolved": 2,
       "importsUnresolved": 5,
-      "symbolsDetected": 4,
+      "symbolsDetected": 6,
       "routesDetected": 0
     },
     "evidence": [
@@ -1759,12 +1771,24 @@
         "kind": "symbol",
         "symbol": "paths",
         "detail": "Declares const paths."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
+        "symbol": "markdown",
+        "detail": "Declares const markdown."
+      },
+      {
+        "line": 48,
+        "kind": "symbol",
+        "symbol": "chinesePack",
+        "detail": "Declares const chinesePack."
       }
     ],
     "moduleName": "test",
-    "importanceScore": 35,
+    "importanceScore": 39,
     "importanceReasons": [
-      "4 symbols",
+      "6 symbols",
       "7 outbound dependencies",
       "test coverage signal",
       "high-confidence analysis"
@@ -9357,10 +9381,10 @@
   {
     "path": "src/core/types.ts",
     "extension": ".ts",
-    "sizeBytes": 5887,
+    "sizeBytes": 6550,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 1472,
+    "tokenEstimate": 1638,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -9394,6 +9418,7 @@
       "SummaryBundle",
       "SymbolInfo",
       "TaskPack",
+      "TaskPackFile",
       "TaskType",
       "TokenCountSummary",
       "TokenSavingsReport",
@@ -9598,16 +9623,22 @@
         "kind": "interface",
         "filePath": "src/core/types.ts",
         "line": 255
+      },
+      {
+        "name": "TaskPackFile",
+        "kind": "interface",
+        "filePath": "src/core/types.ts",
+        "line": 284
       }
     ],
-    "summary": "src/core/types.ts contains 33 detected symbols, 0 imports, 33 exports.",
+    "summary": "src/core/types.ts contains 34 detected symbols, 0 imports, 34 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "analysisStats": {
       "parser": "typescript-compiler-api",
       "importsResolved": 0,
       "importsUnresolved": 0,
-      "symbolsDetected": 33,
+      "symbolsDetected": 34,
       "routesDetected": 0
     },
     "evidence": [
@@ -10006,13 +10037,25 @@
         "kind": "export",
         "symbol": "TaskPack",
         "detail": "Exports TaskPack."
+      },
+      {
+        "line": 284,
+        "kind": "symbol",
+        "symbol": "TaskPackFile",
+        "detail": "Declares interface TaskPackFile."
+      },
+      {
+        "line": 284,
+        "kind": "export",
+        "symbol": "TaskPackFile",
+        "detail": "Exports TaskPackFile."
       }
     ],
     "moduleName": "core",
     "importanceScore": 65,
     "importanceReasons": [
-      "33 exports",
-      "33 symbols",
+      "34 exports",
+      "34 symbols",
       "33 inbound dependencies",
       "high-confidence analysis"
     ]
@@ -11929,10 +11972,10 @@
   {
     "path": "src/outputs/task-context.ts",
     "extension": ".ts",
-    "sizeBytes": 7308,
+    "sizeBytes": 14947,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 1827,
+    "tokenEstimate": 3737,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -11987,209 +12030,371 @@
         "name": "buildTaskPack",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 36
+        "line": 57
       },
       {
         "name": "type",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 37
+        "line": 58
       },
       {
         "name": "tokenBudget",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 38
+        "line": 59
       },
       {
         "name": "scores",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 39
+        "line": 60
       },
       {
         "name": "terms",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 40
+        "line": 61
+      },
+      {
+        "name": "translatedTerms",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 62
       },
       {
         "name": "fileTerms",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 41
+        "line": 63
       },
       {
         "name": "frequencies",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 42
+        "line": 64
       },
       {
         "name": "haystack",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 45
+        "line": 67
       },
       {
         "name": "tokens",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 46
+        "line": 68
       },
       {
         "name": "tokenSet",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 48
+        "line": 70
       },
       {
         "name": "haystackTerms",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 57
+        "line": 79
       },
       {
         "name": "termSet",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 58
+        "line": 80
       },
       {
         "name": "matches",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 59
+        "line": 81
       },
       {
         "name": "lexicalScore",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 60
+        "line": 82
       },
       {
         "name": "frequency",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 61
+        "line": 83
       },
       {
         "name": "direct",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 67
+        "line": 89
+      },
+      {
+        "name": "graphExpansion",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 90
       },
       {
         "name": "ranked",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 75
+        "line": 97
       },
       {
         "name": "selected",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 80
+        "line": 109
       },
       {
         "name": "estimatedTokens",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 81
+        "line": 110
       },
       {
         "name": "tokens",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 83
+        "line": 112
+      },
+      {
+        "name": "budget",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 124
       },
       {
         "name": "expandGraph",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 92
+        "line": 145
       },
       {
         "name": "directSet",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 93
+        "line": 146
+      },
+      {
+        "name": "added",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 147
       },
       {
         "name": "addTaskSignals",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 101
+        "line": 162
       },
       {
         "name": "directFiles",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 107
+        "line": 168
       },
       {
         "name": "isRelatedTest",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 116
+        "line": 178
       },
       {
         "name": "testPath",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 117
+        "line": 179
       },
       {
         "name": "baseName",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 119
+        "line": 181
+      },
+      {
+        "name": "isModuleDoc",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 187
+      },
+      {
+        "name": "docPath",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 188
+      },
+      {
+        "name": "moduleName",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 190
       },
       {
         "name": "addScore",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 125
+        "line": 195
       },
       {
         "name": "current",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 126
+        "line": 196
       },
       {
         "name": "resolveTaskType",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 132
+        "line": 202
+      },
+      {
+        "name": "taskHaystack",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 209
+      },
+      {
+        "name": "expandTaskTerms",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 222
+      },
+      {
+        "name": "aliases",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 223
+      },
+      {
+        "name": "fieldWeight",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 244
+      },
+      {
+        "name": "path",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 245
+      },
+      {
+        "name": "categoryFor",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 255
+      },
+      {
+        "name": "categoryPriority",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 263
       },
       {
         "name": "taskFileTokens",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 139
+        "line": 273
+      },
+      {
+        "name": "buildBudget",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 277
+      },
+      {
+        "name": "definitions",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 278
+      },
+      {
+        "name": "buckets",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 285
+      },
+      {
+        "name": "bucketFiles",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 286
+      },
+      {
+        "name": "used",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 294
+      },
+      {
+        "name": "suggestedCommands",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 298
+      },
+      {
+        "name": "commands",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 299
+      },
+      {
+        "name": "focused",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 308
+      },
+      {
+        "name": "focusHint",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 312
+      },
+      {
+        "name": "likelyTerm",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 314
+      },
+      {
+        "name": "orderedFiles",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 320
+      },
+      {
+        "name": "readFirstReason",
+        "kind": "function",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 327
+      },
+      {
+        "name": "symbol",
+        "kind": "const",
+        "filePath": "src/outputs/task-context.ts",
+        "line": 328
       },
       {
         "name": "workflowFor",
         "kind": "function",
         "filePath": "src/outputs/task-context.ts",
-        "line": 143
+        "line": 333
       },
       {
         "name": "common",
         "kind": "const",
         "filePath": "src/outputs/task-context.ts",
-        "line": 144
+        "line": 334
       }
     ],
-    "summary": "src/outputs/task-context.ts contains 37 detected symbols, 3 imports, 3 exports.",
+    "summary": "src/outputs/task-context.ts contains 64 detected symbols, 3 imports, 3 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "analysisStats": {
       "parser": "typescript-compiler-api",
       "importsResolved": 3,
       "importsUnresolved": 0,
-      "symbolsDetected": 37,
+      "symbolsDetected": 64,
       "routesDetected": 0
     },
     "evidence": [
@@ -12245,205 +12450,367 @@
         "detail": "Declares const fileMap."
       },
       {
-        "line": 36,
+        "line": 57,
         "kind": "symbol",
         "symbol": "buildTaskPack",
         "detail": "Declares function buildTaskPack."
       },
       {
-        "line": 36,
+        "line": 57,
         "kind": "export",
         "symbol": "buildTaskPack",
         "detail": "Exports buildTaskPack."
       },
       {
-        "line": 37,
+        "line": 58,
         "kind": "symbol",
         "symbol": "type",
         "detail": "Declares const type."
       },
       {
-        "line": 38,
+        "line": 59,
         "kind": "symbol",
         "symbol": "tokenBudget",
         "detail": "Declares const tokenBudget."
       },
       {
-        "line": 39,
+        "line": 60,
         "kind": "symbol",
         "symbol": "scores",
         "detail": "Declares const scores."
       },
       {
-        "line": 40,
+        "line": 61,
         "kind": "symbol",
         "symbol": "terms",
         "detail": "Declares const terms."
       },
       {
-        "line": 41,
+        "line": 62,
+        "kind": "symbol",
+        "symbol": "translatedTerms",
+        "detail": "Declares const translatedTerms."
+      },
+      {
+        "line": 63,
         "kind": "symbol",
         "symbol": "fileTerms",
         "detail": "Declares const fileTerms."
       },
       {
-        "line": 42,
+        "line": 64,
         "kind": "symbol",
         "symbol": "frequencies",
         "detail": "Declares const frequencies."
       },
       {
-        "line": 45,
+        "line": 67,
         "kind": "symbol",
         "symbol": "haystack",
         "detail": "Declares const haystack."
       },
       {
-        "line": 46,
+        "line": 68,
         "kind": "symbol",
         "symbol": "tokens",
         "detail": "Declares const tokens."
       },
       {
-        "line": 48,
+        "line": 70,
         "kind": "symbol",
         "symbol": "tokenSet",
         "detail": "Declares const tokenSet."
       },
       {
-        "line": 57,
+        "line": 79,
         "kind": "symbol",
         "symbol": "haystackTerms",
         "detail": "Declares const haystackTerms."
       },
       {
-        "line": 58,
+        "line": 80,
         "kind": "symbol",
         "symbol": "termSet",
         "detail": "Declares const termSet."
       },
       {
-        "line": 59,
+        "line": 81,
         "kind": "symbol",
         "symbol": "matches",
         "detail": "Declares const matches."
       },
       {
-        "line": 60,
+        "line": 82,
         "kind": "symbol",
         "symbol": "lexicalScore",
         "detail": "Declares const lexicalScore."
       },
       {
-        "line": 61,
+        "line": 83,
         "kind": "symbol",
         "symbol": "frequency",
         "detail": "Declares const frequency."
       },
       {
-        "line": 67,
+        "line": 89,
         "kind": "symbol",
         "symbol": "direct",
         "detail": "Declares const direct."
       },
       {
-        "line": 75,
+        "line": 90,
+        "kind": "symbol",
+        "symbol": "graphExpansion",
+        "detail": "Declares const graphExpansion."
+      },
+      {
+        "line": 97,
         "kind": "symbol",
         "symbol": "ranked",
         "detail": "Declares const ranked."
       },
       {
-        "line": 80,
+        "line": 109,
         "kind": "symbol",
         "symbol": "selected",
         "detail": "Declares const selected."
       },
       {
-        "line": 81,
+        "line": 110,
         "kind": "symbol",
         "symbol": "estimatedTokens",
         "detail": "Declares const estimatedTokens."
       },
       {
-        "line": 83,
+        "line": 112,
         "kind": "symbol",
         "symbol": "tokens",
         "detail": "Declares const tokens."
       },
       {
-        "line": 92,
+        "line": 124,
+        "kind": "symbol",
+        "symbol": "budget",
+        "detail": "Declares const budget."
+      },
+      {
+        "line": 145,
         "kind": "symbol",
         "symbol": "expandGraph",
         "detail": "Declares function expandGraph."
       },
       {
-        "line": 93,
+        "line": 146,
         "kind": "symbol",
         "symbol": "directSet",
         "detail": "Declares const directSet."
       },
       {
-        "line": 101,
+        "line": 147,
+        "kind": "symbol",
+        "symbol": "added",
+        "detail": "Declares const added."
+      },
+      {
+        "line": 162,
         "kind": "symbol",
         "symbol": "addTaskSignals",
         "detail": "Declares function addTaskSignals."
       },
       {
-        "line": 107,
+        "line": 168,
         "kind": "symbol",
         "symbol": "directFiles",
         "detail": "Declares const directFiles."
       },
       {
-        "line": 116,
+        "line": 178,
         "kind": "symbol",
         "symbol": "isRelatedTest",
         "detail": "Declares function isRelatedTest."
       },
       {
-        "line": 117,
+        "line": 179,
         "kind": "symbol",
         "symbol": "testPath",
         "detail": "Declares const testPath."
       },
       {
-        "line": 119,
+        "line": 181,
         "kind": "symbol",
         "symbol": "baseName",
         "detail": "Declares const baseName."
       },
       {
-        "line": 125,
+        "line": 187,
+        "kind": "symbol",
+        "symbol": "isModuleDoc",
+        "detail": "Declares function isModuleDoc."
+      },
+      {
+        "line": 188,
+        "kind": "symbol",
+        "symbol": "docPath",
+        "detail": "Declares const docPath."
+      },
+      {
+        "line": 190,
+        "kind": "symbol",
+        "symbol": "moduleName",
+        "detail": "Declares const moduleName."
+      },
+      {
+        "line": 195,
         "kind": "symbol",
         "symbol": "addScore",
         "detail": "Declares function addScore."
       },
       {
-        "line": 126,
+        "line": 196,
         "kind": "symbol",
         "symbol": "current",
         "detail": "Declares const current."
       },
       {
-        "line": 132,
+        "line": 202,
         "kind": "symbol",
         "symbol": "resolveTaskType",
         "detail": "Declares function resolveTaskType."
       },
       {
-        "line": 139,
+        "line": 209,
+        "kind": "symbol",
+        "symbol": "taskHaystack",
+        "detail": "Declares function taskHaystack."
+      },
+      {
+        "line": 222,
+        "kind": "symbol",
+        "symbol": "expandTaskTerms",
+        "detail": "Declares function expandTaskTerms."
+      },
+      {
+        "line": 223,
+        "kind": "symbol",
+        "symbol": "aliases",
+        "detail": "Declares const aliases."
+      },
+      {
+        "line": 244,
+        "kind": "symbol",
+        "symbol": "fieldWeight",
+        "detail": "Declares function fieldWeight."
+      },
+      {
+        "line": 245,
+        "kind": "symbol",
+        "symbol": "path",
+        "detail": "Declares const path."
+      },
+      {
+        "line": 255,
+        "kind": "symbol",
+        "symbol": "categoryFor",
+        "detail": "Declares function categoryFor."
+      },
+      {
+        "line": 263,
+        "kind": "symbol",
+        "symbol": "categoryPriority",
+        "detail": "Declares function categoryPriority."
+      },
+      {
+        "line": 273,
         "kind": "symbol",
         "symbol": "taskFileTokens",
         "detail": "Declares function taskFileTokens."
       },
       {
-        "line": 143,
+        "line": 277,
+        "kind": "symbol",
+        "symbol": "buildBudget",
+        "detail": "Declares function buildBudget."
+      },
+      {
+        "line": 278,
+        "kind": "symbol",
+        "symbol": "definitions",
+        "detail": "Declares const definitions."
+      },
+      {
+        "line": 285,
+        "kind": "symbol",
+        "symbol": "buckets",
+        "detail": "Declares const buckets."
+      },
+      {
+        "line": 286,
+        "kind": "symbol",
+        "symbol": "bucketFiles",
+        "detail": "Declares const bucketFiles."
+      },
+      {
+        "line": 294,
+        "kind": "symbol",
+        "symbol": "used",
+        "detail": "Declares const used."
+      },
+      {
+        "line": 298,
+        "kind": "symbol",
+        "symbol": "suggestedCommands",
+        "detail": "Declares function suggestedCommands."
+      },
+      {
+        "line": 299,
+        "kind": "symbol",
+        "symbol": "commands",
+        "detail": "Declares const commands."
+      },
+      {
+        "line": 308,
+        "kind": "symbol",
+        "symbol": "focused",
+        "detail": "Declares const focused."
+      },
+      {
+        "line": 312,
+        "kind": "symbol",
+        "symbol": "focusHint",
+        "detail": "Declares function focusHint."
+      },
+      {
+        "line": 314,
+        "kind": "symbol",
+        "symbol": "likelyTerm",
+        "detail": "Declares const likelyTerm."
+      },
+      {
+        "line": 320,
+        "kind": "symbol",
+        "symbol": "orderedFiles",
+        "detail": "Declares function orderedFiles."
+      },
+      {
+        "line": 327,
+        "kind": "symbol",
+        "symbol": "readFirstReason",
+        "detail": "Declares function readFirstReason."
+      },
+      {
+        "line": 328,
+        "kind": "symbol",
+        "symbol": "symbol",
+        "detail": "Declares const symbol."
+      },
+      {
+        "line": 333,
         "kind": "symbol",
         "symbol": "workflowFor",
         "detail": "Declares function workflowFor."
       },
       {
-        "line": 144,
+        "line": 334,
         "kind": "symbol",
         "symbol": "common",
         "detail": "Declares const common."
@@ -12453,7 +12820,7 @@
     "importanceScore": 53,
     "importanceReasons": [
       "3 exports",
-      "37 symbols",
+      "64 symbols",
       "3 inbound dependencies",
       "3 outbound dependencies",
       "high-confidence analysis"
@@ -13393,6 +13760,61 @@
     ]
   },
   {
+    "path": "test/fixtures/next-app/src/auth/session.ts",
+    "extension": ".ts",
+    "sizeBytes": 64,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 16,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [],
+    "exports": [
+      "createSession"
+    ],
+    "symbols": [
+      {
+        "name": "createSession",
+        "kind": "function",
+        "filePath": "test/fixtures/next-app/src/auth/session.ts",
+        "line": 1
+      }
+    ],
+    "summary": "test/fixtures/next-app/src/auth/session.ts contains 1 detected symbol, 0 imports, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "createSession",
+        "detail": "Declares function createSession."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "createSession",
+        "detail": "Exports createSession."
+      }
+    ],
+    "moduleName": "test",
+    "importanceScore": 19,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "test/fixtures/python-package/src/app/models.py",
     "extension": ".py",
     "sizeBytes": 21,
@@ -13499,61 +13921,6 @@
       "1 symbol",
       "1 outbound dependency",
       "test coverage signal"
-    ]
-  },
-  {
-    "path": "test/fixtures/next-app/src/auth/session.ts",
-    "extension": ".ts",
-    "sizeBytes": 64,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 16,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [],
-    "exports": [
-      "createSession"
-    ],
-    "symbols": [
-      {
-        "name": "createSession",
-        "kind": "function",
-        "filePath": "test/fixtures/next-app/src/auth/session.ts",
-        "line": 1
-      }
-    ],
-    "summary": "test/fixtures/next-app/src/auth/session.ts contains 1 detected symbol, 0 imports, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "createSession",
-        "detail": "Declares function createSession."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "createSession",
-        "detail": "Exports createSession."
-      }
-    ],
-    "moduleName": "test",
-    "importanceScore": 19,
-    "importanceReasons": [
-      "1 export",
-      "1 symbol",
-      "test coverage signal",
-      "high-confidence analysis"
     ]
   },
   {

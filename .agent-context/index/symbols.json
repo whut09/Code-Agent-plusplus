@@ -258,6 +258,18 @@
     "line": 29
   },
   {
+    "name": "markdown",
+    "kind": "const",
+    "filePath": "test/task-context.test.ts",
+    "line": 42
+  },
+  {
+    "name": "chinesePack",
+    "kind": "const",
+    "filePath": "test/task-context.test.ts",
+    "line": 48
+  },
+  {
     "name": "files",
     "kind": "const",
     "filePath": "test/token-savings.test.ts",
@@ -3162,6 +3174,12 @@
     "line": 255
   },
   {
+    "name": "TaskPackFile",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 284
+  },
+  {
     "name": "ValidationIssue",
     "kind": "interface",
     "filePath": "src/core/validator.ts",
@@ -3711,199 +3729,361 @@
     "name": "buildTaskPack",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 36
+    "line": 57
   },
   {
     "name": "type",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 37
+    "line": 58
   },
   {
     "name": "tokenBudget",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 38
+    "line": 59
   },
   {
     "name": "scores",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 39
+    "line": 60
   },
   {
     "name": "terms",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 40
+    "line": 61
+  },
+  {
+    "name": "translatedTerms",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 62
   },
   {
     "name": "fileTerms",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 41
+    "line": 63
   },
   {
     "name": "frequencies",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 42
+    "line": 64
   },
   {
     "name": "haystack",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 45
+    "line": 67
   },
   {
     "name": "tokens",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 46
+    "line": 68
   },
   {
     "name": "tokenSet",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 48
+    "line": 70
   },
   {
     "name": "haystackTerms",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 57
+    "line": 79
   },
   {
     "name": "termSet",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 58
+    "line": 80
   },
   {
     "name": "matches",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 59
+    "line": 81
   },
   {
     "name": "lexicalScore",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 60
+    "line": 82
   },
   {
     "name": "frequency",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 61
+    "line": 83
   },
   {
     "name": "direct",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 67
+    "line": 89
+  },
+  {
+    "name": "graphExpansion",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 90
   },
   {
     "name": "ranked",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 75
+    "line": 97
   },
   {
     "name": "selected",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 80
+    "line": 109
   },
   {
     "name": "estimatedTokens",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 81
+    "line": 110
   },
   {
     "name": "tokens",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 83
+    "line": 112
+  },
+  {
+    "name": "budget",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 124
   },
   {
     "name": "expandGraph",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 92
+    "line": 145
   },
   {
     "name": "directSet",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 93
+    "line": 146
+  },
+  {
+    "name": "added",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 147
   },
   {
     "name": "addTaskSignals",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 101
+    "line": 162
   },
   {
     "name": "directFiles",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 107
+    "line": 168
   },
   {
     "name": "isRelatedTest",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 116
+    "line": 178
   },
   {
     "name": "testPath",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 117
+    "line": 179
   },
   {
     "name": "baseName",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 119
+    "line": 181
+  },
+  {
+    "name": "isModuleDoc",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 187
+  },
+  {
+    "name": "docPath",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 188
+  },
+  {
+    "name": "moduleName",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 190
   },
   {
     "name": "addScore",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 125
+    "line": 195
   },
   {
     "name": "current",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 126
+    "line": 196
   },
   {
     "name": "resolveTaskType",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 132
+    "line": 202
+  },
+  {
+    "name": "taskHaystack",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 209
+  },
+  {
+    "name": "expandTaskTerms",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 222
+  },
+  {
+    "name": "aliases",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 223
+  },
+  {
+    "name": "fieldWeight",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 244
+  },
+  {
+    "name": "path",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 245
+  },
+  {
+    "name": "categoryFor",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 255
+  },
+  {
+    "name": "categoryPriority",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 263
   },
   {
     "name": "taskFileTokens",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 139
+    "line": 273
+  },
+  {
+    "name": "buildBudget",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 277
+  },
+  {
+    "name": "definitions",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 278
+  },
+  {
+    "name": "buckets",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 285
+  },
+  {
+    "name": "bucketFiles",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 286
+  },
+  {
+    "name": "used",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 294
+  },
+  {
+    "name": "suggestedCommands",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 298
+  },
+  {
+    "name": "commands",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 299
+  },
+  {
+    "name": "focused",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 308
+  },
+  {
+    "name": "focusHint",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 312
+  },
+  {
+    "name": "likelyTerm",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 314
+  },
+  {
+    "name": "orderedFiles",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 320
+  },
+  {
+    "name": "readFirstReason",
+    "kind": "function",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 327
+  },
+  {
+    "name": "symbol",
+    "kind": "const",
+    "filePath": "src/outputs/task-context.ts",
+    "line": 328
   },
   {
     "name": "workflowFor",
     "kind": "function",
     "filePath": "src/outputs/task-context.ts",
-    "line": 143
+    "line": 333
   },
   {
     "name": "common",
     "kind": "const",
     "filePath": "src/outputs/task-context.ts",
-    "line": 144
+    "line": 334
   },
   {
     "name": "renderTokenSavings",
@@ -4110,6 +4290,12 @@
     "line": 224
   },
   {
+    "name": "createSession",
+    "kind": "function",
+    "filePath": "test/fixtures/next-app/src/auth/session.ts",
+    "line": 1
+  },
+  {
     "name": "User",
     "kind": "class",
     "line": 1,
@@ -4120,12 +4306,6 @@
     "kind": "function",
     "line": 3,
     "filePath": "test/fixtures/python-package/src/app/service.py"
-  },
-  {
-    "name": "createSession",
-    "kind": "function",
-    "filePath": "test/fixtures/next-app/src/auth/session.ts",
-    "line": 1
   },
   {
     "name": "api",

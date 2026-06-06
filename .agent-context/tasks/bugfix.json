@@ -2,28 +2,272 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 162,
+  "estimatedTokens": 1535,
+  "remainingBudget": 10465,
   "files": [
     {
-      "path": "src/cli/index.ts",
-      "score": 12,
+      "path": "src/core/token-estimator.ts",
+      "score": 69,
       "reasons": [
-        "entrypoint"
-      ]
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 104
+    },
+    {
+      "path": "src/core/context-builder.ts",
+      "score": 68,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 90
+    },
+    {
+      "path": "src/core/types.ts",
+      "score": 65,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 291
+    },
+    {
+      "path": "src/outputs/markdown.ts",
+      "score": 65,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 68
+    },
+    {
+      "path": "src/core/token-savings.ts",
+      "score": 61,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 198
+    },
+    {
+      "path": "src/outputs/writer.ts",
+      "score": 58,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 166
+    },
+    {
+      "path": "src/core/path-utils.ts",
+      "score": 56,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 91
+    },
+    {
+      "path": "src/outputs/task-context.ts",
+      "score": 53,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 252
+    },
+    {
+      "path": "src/outputs/rag.ts",
+      "score": 52,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 113
+    },
+    {
+      "path": "src/cli/index.ts",
+      "score": 82,
+      "reasons": [
+        "entrypoint",
+        "key file fallback"
+      ],
+      "category": "entrypoint",
+      "estimatedTokens": 111
     },
     {
       "path": "package.json",
       "score": 8,
       "reasons": [
         "configuration"
-      ]
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 25
     },
     {
       "path": "tsconfig.json",
       "score": 8,
       "reasons": [
         "configuration"
-      ]
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 26
     }
-  ]
+  ],
+  "readFirst": [
+    {
+      "path": "src/core/token-estimator.ts",
+      "score": 69,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 104
+    },
+    {
+      "path": "src/core/context-builder.ts",
+      "score": 68,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 90
+    },
+    {
+      "path": "src/core/types.ts",
+      "score": 65,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 291
+    },
+    {
+      "path": "src/outputs/markdown.ts",
+      "score": 65,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 68
+    },
+    {
+      "path": "src/core/token-savings.ts",
+      "score": 61,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 198
+    },
+    {
+      "path": "src/outputs/writer.ts",
+      "score": 58,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 166
+    },
+    {
+      "path": "src/core/path-utils.ts",
+      "score": 56,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 91
+    },
+    {
+      "path": "src/outputs/task-context.ts",
+      "score": 53,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 252
+    }
+  ],
+  "inspectIfNeeded": [
+    {
+      "path": "package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 25
+    },
+    {
+      "path": "tsconfig.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 26
+    }
+  ],
+  "budget": {
+    "total": 12000,
+    "used": 1535,
+    "remaining": 10465,
+    "buckets": [
+      {
+        "name": "direct-source",
+        "label": "Directly relevant source files",
+        "tokens": 1373,
+        "files": [
+          "src/core/token-estimator.ts",
+          "src/core/context-builder.ts",
+          "src/core/types.ts",
+          "src/outputs/markdown.ts",
+          "src/core/token-savings.ts",
+          "src/outputs/writer.ts",
+          "src/core/path-utils.ts",
+          "src/outputs/task-context.ts",
+          "src/outputs/rag.ts"
+        ]
+      },
+      {
+        "name": "tests",
+        "label": "Tests",
+        "tokens": 0,
+        "files": []
+      },
+      {
+        "name": "dependency-neighbors",
+        "label": "Dependency neighbors",
+        "tokens": 0,
+        "files": []
+      },
+      {
+        "name": "config-docs",
+        "label": "Config/docs",
+        "tokens": 51,
+        "files": [
+          "package.json",
+          "tsconfig.json"
+        ]
+      },
+      {
+        "name": "entrypoints",
+        "label": "Entrypoints",
+        "tokens": 111,
+        "files": [
+          "src/cli/index.ts"
+        ]
+      }
+    ]
+  },
+  "suggestedCommands": [
+    "npm run test -- regression"
+  ],
+  "retrieval": {
+    "directMatches": 0,
+    "dependencyNeighbors": 0,
+    "tests": 0,
+    "configDocs": 2
+  }
 }

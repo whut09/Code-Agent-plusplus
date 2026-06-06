@@ -3,7 +3,7 @@
 | Module | Files | Score | Depends On | Summary |
 | --- | --- | --- | --- | --- |
 | core | 15 | 704 | `analyzers`, `config`, `llm` | core contains 15 files and depends on analyzers, config, llm. |
-| test | 25 | 543 | `analyzers`, `config`, `core`, `outputs` | test contains 25 files and depends on analyzers, config, core, outputs. |
+| test | 25 | 547 | `analyzers`, `config`, `core`, `outputs` | test contains 25 files and depends on analyzers, config, core, outputs. |
 | outputs | 13 | 463 | `core` | outputs contains 13 files and depends on core. |
 | analyzers | 5 | 185 | `core` | analyzers contains 5 files and depends on core. |
 | config | 3 | 98 | `core` | config contains 3 files and depends on core. |

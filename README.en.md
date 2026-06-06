@@ -218,7 +218,11 @@ Each indexed file includes `analyzer`, `confidence`, `analysisStats` (`parser`, 
 
 ## Task Context Packs
 
-Task mode combines lexical retrieval, dependency graph expansion, related tests/entrypoints/configuration, and token-budgeted packing.
+Task mode is a three-stage context packer rather than a plain keyword file list:
+
+1. Direct retrieval matches the task against paths, modules, summaries, exports, symbols, tests, and docs.
+2. Graph expansion adds direct imports, direct importers, sibling tests, entrypoints, config files, and owning module docs.
+3. Budget packing groups selected files into direct source, tests, dependency neighbors, config/docs, and entrypoints.
 
 ```bash
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
@@ -226,7 +230,7 @@ repo-context task "add SSO login" . --type feature
 repo-context task "split auth module" . --type refactor
 ```
 
-Machine-readable packs are generated under `.agent-context/tasks/*.json`.
+The Markdown output gives agents `Read First`, `Then Inspect If Needed`, `Why These Files`, `Budget Packing`, and `Suggested Commands` sections. Machine-readable packs are generated under `.agent-context/tasks/*.json`.
 
 ## Optional RAG With LightRAG
 

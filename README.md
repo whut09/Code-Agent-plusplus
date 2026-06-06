@@ -218,7 +218,11 @@ repo-context build . --llm
 
 ## 任务上下文包
 
-task 模式结合词法检索、依赖图扩展、相关测试/入口/配置补充和 token budget 装包。
+task 模式不是简单关键词文件列表，而是三阶段上下文打包器：
+
+1. 直接检索：匹配 path、module、summary、exports、symbols、tests 和 docs。
+2. 图扩展：加入 direct imports、direct importers、sibling tests、entrypoints、config files 和 owning module docs。
+3. 预算装包：按 direct source、tests、dependency neighbors、config/docs、entrypoints 分桶放入 token budget。
 
 ```bash
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
@@ -226,7 +230,7 @@ repo-context task "add SSO login" . --type feature
 repo-context task "split auth module" . --type refactor
 ```
 
-机器可读 task pack 会生成在 `.agent-context/tasks/*.json`。
+Markdown 输出会给 agent `Read First`、`Then Inspect If Needed`、`Why These Files`、`Budget Packing` 和 `Suggested Commands`。机器可读 task pack 会生成在 `.agent-context/tasks/*.json`。
 
 ## 可选 RAG：LightRAG
 

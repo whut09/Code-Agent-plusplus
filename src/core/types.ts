@@ -257,9 +257,34 @@ export interface TaskPack {
   type: Exclude<TaskType, "auto">;
   tokenBudget: number;
   estimatedTokens: number;
-  files: Array<{
-    path: string;
-    score: number;
-    reasons: string[];
-  }>;
+  remainingBudget: number;
+  files: TaskPackFile[];
+  readFirst: TaskPackFile[];
+  inspectIfNeeded: TaskPackFile[];
+  budget: {
+    total: number;
+    used: number;
+    remaining: number;
+    buckets: Array<{
+      name: "direct-source" | "tests" | "dependency-neighbors" | "config-docs" | "entrypoints";
+      label: string;
+      tokens: number;
+      files: string[];
+    }>;
+  };
+  suggestedCommands: string[];
+  retrieval: {
+    directMatches: number;
+    dependencyNeighbors: number;
+    tests: number;
+    configDocs: number;
+  };
+}
+
+export interface TaskPackFile {
+  path: string;
+  score: number;
+  reasons: string[];
+  category: "direct-source" | "test" | "dependency-neighbor" | "config-doc" | "entrypoint";
+  estimatedTokens: number;
 }

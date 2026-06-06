@@ -64,7 +64,13 @@ The ranker scores files using repository signals:
 
 ## Task Context
 
-Task packs use lexical retrieval, dependency graph expansion, related tests/entrypoints/configuration, and token-budgeted packing. Bugfix, feature, and refactor tasks use different priorities.
+Task packs use a three-stage retrieval pipeline:
+
+1. Direct retrieval matches task text against paths, module names, summaries, exports, symbols, tests, docs, and analysis evidence.
+2. Graph expansion adds direct imports, direct importers, sibling tests, entrypoints, config files, and owning module docs.
+3. Budget packing groups selected files into direct source, tests, dependency neighbors, config/docs, and entrypoints before rendering an executable agent workflow.
+
+Bugfix, feature, and refactor tasks use different priorities and suggested commands.
 
 ## Readiness
 
