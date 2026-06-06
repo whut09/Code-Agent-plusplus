@@ -39,6 +39,11 @@ test("starter config is valid and contains all output switches", () => {
     writeFileSync(path.join(root, "repo-context.config.yml"), content, "utf8");
     const config = loadConfig(root);
     assert.equal(config.target, "codex");
+    assert.deepEqual(config.agents, {
+      mode: "minimal",
+      maxTokens: 1200,
+      include: ["commands", "safety", "entrypoints", "contextLinks"]
+    });
     assert.deepEqual(config.outputs, {
       agents: true,
       modules: true,
@@ -47,6 +52,27 @@ test("starter config is valid and contains all output switches", () => {
       readiness: true,
       rag: true
     });
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("agents config validates mode and sections", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
+  try {
+    writeFileSync(path.join(root, "repo-context.config.yml"), `
+agents:
+  mode: maximal
+`, "utf8");
+    assert.throws(() => loadConfig(root), /Invalid agents\.mode "maximal"/);
+
+    writeFileSync(path.join(root, "repo-context.config.yml"), `
+agents:
+  include:
+    - commands
+    - everything
+`, "utf8");
+    assert.throws(() => loadConfig(root), /agents\.include must be an array/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

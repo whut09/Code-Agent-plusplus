@@ -119,10 +119,10 @@
   {
     "path": "README.en.md",
     "extension": ".md",
-    "sizeBytes": 8883,
+    "sizeBytes": 9563,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2221,
+    "tokenEstimate": 2391,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -143,10 +143,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 8677,
+    "sizeBytes": 9288,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2170,
+    "tokenEstimate": 2322,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -167,10 +167,10 @@
   {
     "path": "README.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 8677,
+    "sizeBytes": 9288,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2170,
+    "tokenEstimate": 2322,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -191,10 +191,10 @@
   {
     "path": "repo-context.config.example.yml",
     "extension": ".yml",
-    "sizeBytes": 462,
+    "sizeBytes": 581,
     "kind": "unknown",
     "language": "YAML",
-    "tokenEstimate": 116,
+    "tokenEstimate": 146,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -308,10 +308,10 @@
   {
     "path": "docs/agents-md.md",
     "extension": ".md",
-    "sizeBytes": 4292,
+    "sizeBytes": 4764,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 1073,
+    "tokenEstimate": 1191,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -331,10 +331,10 @@
   {
     "path": "docs/agents-md.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 4183,
+    "sizeBytes": 4604,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 1046,
+    "tokenEstimate": 1151,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -395,6 +395,177 @@
     "importanceScore": 0,
     "importanceReasons": [
       "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "test/agents-md.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 2109,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 528,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "node:assert/strict",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:os",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:test",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../src/core/context-builder.js",
+        "resolvedPath": "src/core/context-builder.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../src/outputs/agents-md.js",
+        "resolvedPath": "src/outputs/agents-md.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "test/agents-md.test.ts",
+        "line": 10
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "test/agents-md.test.ts",
+        "line": 18
+      },
+      {
+        "name": "agents",
+        "kind": "const",
+        "filePath": "test/agents-md.test.ts",
+        "line": 19
+      },
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "test/agents-md.test.ts",
+        "line": 35
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "test/agents-md.test.ts",
+        "line": 47
+      },
+      {
+        "name": "agents",
+        "kind": "const",
+        "filePath": "test/agents-md.test.ts",
+        "line": 48
+      }
+    ],
+    "summary": "test/agents-md.test.ts contains 6 detected symbols, 7 imports, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:assert/strict."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports node:os."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports node:test."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../src/core/context-builder.js."
+      },
+      {
+        "line": 7,
+        "kind": "import",
+        "detail": "Imports ../src/outputs/agents-md.js."
+      },
+      {
+        "line": 10,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 18,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 19,
+        "kind": "symbol",
+        "symbol": "agents",
+        "detail": "Declares const agents."
+      },
+      {
+        "line": 35,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 47,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 48,
+        "kind": "symbol",
+        "symbol": "agents",
+        "detail": "Declares const agents."
+      }
+    ],
+    "moduleName": "test",
+    "importanceScore": 39,
+    "importanceReasons": [
+      "6 symbols",
+      "7 outbound dependencies",
+      "test coverage signal",
+      "high-confidence analysis"
     ]
   },
   {
@@ -539,10 +710,10 @@
   {
     "path": "test/config.test.ts",
     "extension": ".ts",
-    "sizeBytes": 2113,
+    "sizeBytes": 2872,
     "kind": "test",
     "language": "TypeScript",
-    "tokenEstimate": 529,
+    "tokenEstimate": 718,
     "isBinary": false,
     "isGenerated": false,
     "isTest": true,
@@ -619,10 +790,16 @@
         "name": "root",
         "kind": "const",
         "filePath": "test/config.test.ts",
-        "line": 56
+        "line": 61
+      },
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "test/config.test.ts",
+        "line": 82
       }
     ],
-    "summary": "test/config.test.ts contains 6 detected symbols, 7 imports, 0 exports.",
+    "summary": "test/config.test.ts contains 7 detected symbols, 7 imports, 0 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "evidence": [
@@ -692,16 +869,22 @@
         "detail": "Declares const config."
       },
       {
-        "line": 56,
+        "line": 61,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 82,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       }
     ],
     "moduleName": "test",
-    "importanceScore": 39,
+    "importanceScore": 41,
     "importanceReasons": [
-      "6 symbols",
+      "7 symbols",
       "7 outbound dependencies",
       "test coverage signal",
       "high-confidence analysis"
@@ -3579,10 +3762,10 @@
   {
     "path": "src/config/defaults.ts",
     "extension": ".ts",
-    "sizeBytes": 921,
+    "sizeBytes": 1047,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 231,
+    "tokenEstimate": 262,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3658,10 +3841,10 @@
   {
     "path": "src/config/load-config.ts",
     "extension": ".ts",
-    "sizeBytes": 7606,
+    "sizeBytes": 10074,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 1902,
+    "tokenEstimate": 2519,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3749,100 +3932,130 @@
         "name": "readConfigFile",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 67
+        "line": 73
       },
       {
         "name": "raw",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 68
+        "line": 74
       },
       {
         "name": "parsed",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 70
+        "line": 76
       },
       {
         "name": "normalizeConfig",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 80
+        "line": 86
       },
       {
         "name": "target",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 85
+        "line": 91
       },
       {
         "name": "validateConfig",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 98
+        "line": 105
+      },
+      {
+        "name": "allowedSections",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 124
       },
       {
         "name": "toStringArray",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 120
+        "line": 139
       },
       {
         "name": "validateRawConfig",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 128
+        "line": 147
       },
       {
         "name": "value",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 139
+        "line": 158
       },
       {
         "name": "rag",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 146
+        "line": 165
       },
       {
         "name": "llm",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 155
+        "line": 174
       },
       {
         "name": "tokenizer",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 164
+        "line": 183
+      },
+      {
+        "name": "agents",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 189
+      },
+      {
+        "name": "allowedSections",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 196
+      },
+      {
+        "name": "normalizeAgentsConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 204
+      },
+      {
+        "name": "toAgentsSectionArray",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 212
       },
       {
         "name": "validateBooleanObject",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 172
+        "line": 220
       },
       {
         "name": "record",
         "kind": "const",
         "filePath": "src/config/load-config.ts",
-        "line": 174
+        "line": 222
       },
       {
         "name": "objectValue",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 185
+        "line": 233
       },
       {
         "name": "stripUndefined",
         "kind": "function",
         "filePath": "src/config/load-config.ts",
-        "line": 192
+        "line": 240
       }
     ],
-    "summary": "src/config/load-config.ts contains 24 detected symbols, 5 imports, 2 exports.",
+    "summary": "src/config/load-config.ts contains 29 detected symbols, 5 imports, 2 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "evidence": [
@@ -3926,103 +4139,133 @@
         "detail": "Declares const config."
       },
       {
-        "line": 67,
+        "line": 73,
         "kind": "symbol",
         "symbol": "readConfigFile",
         "detail": "Declares function readConfigFile."
       },
       {
-        "line": 68,
+        "line": 74,
         "kind": "symbol",
         "symbol": "raw",
         "detail": "Declares const raw."
       },
       {
-        "line": 70,
+        "line": 76,
         "kind": "symbol",
         "symbol": "parsed",
         "detail": "Declares const parsed."
       },
       {
-        "line": 80,
+        "line": 86,
         "kind": "symbol",
         "symbol": "normalizeConfig",
         "detail": "Declares function normalizeConfig."
       },
       {
-        "line": 85,
+        "line": 91,
         "kind": "symbol",
         "symbol": "target",
         "detail": "Declares const target."
       },
       {
-        "line": 98,
+        "line": 105,
         "kind": "symbol",
         "symbol": "validateConfig",
         "detail": "Declares function validateConfig."
       },
       {
-        "line": 98,
+        "line": 105,
         "kind": "export",
         "symbol": "validateConfig",
         "detail": "Exports validateConfig."
       },
       {
-        "line": 120,
+        "line": 124,
+        "kind": "symbol",
+        "symbol": "allowedSections",
+        "detail": "Declares const allowedSections."
+      },
+      {
+        "line": 139,
         "kind": "symbol",
         "symbol": "toStringArray",
         "detail": "Declares function toStringArray."
       },
       {
-        "line": 128,
+        "line": 147,
         "kind": "symbol",
         "symbol": "validateRawConfig",
         "detail": "Declares function validateRawConfig."
       },
       {
-        "line": 139,
+        "line": 158,
         "kind": "symbol",
         "symbol": "value",
         "detail": "Declares const value."
       },
       {
-        "line": 146,
+        "line": 165,
         "kind": "symbol",
         "symbol": "rag",
         "detail": "Declares const rag."
       },
       {
-        "line": 155,
+        "line": 174,
         "kind": "symbol",
         "symbol": "llm",
         "detail": "Declares const llm."
       },
       {
-        "line": 164,
+        "line": 183,
         "kind": "symbol",
         "symbol": "tokenizer",
         "detail": "Declares const tokenizer."
       },
       {
-        "line": 172,
+        "line": 189,
+        "kind": "symbol",
+        "symbol": "agents",
+        "detail": "Declares const agents."
+      },
+      {
+        "line": 196,
+        "kind": "symbol",
+        "symbol": "allowedSections",
+        "detail": "Declares const allowedSections."
+      },
+      {
+        "line": 204,
+        "kind": "symbol",
+        "symbol": "normalizeAgentsConfig",
+        "detail": "Declares function normalizeAgentsConfig."
+      },
+      {
+        "line": 212,
+        "kind": "symbol",
+        "symbol": "toAgentsSectionArray",
+        "detail": "Declares function toAgentsSectionArray."
+      },
+      {
+        "line": 220,
         "kind": "symbol",
         "symbol": "validateBooleanObject",
         "detail": "Declares function validateBooleanObject."
       },
       {
-        "line": 174,
+        "line": 222,
         "kind": "symbol",
         "symbol": "record",
         "detail": "Declares const record."
       },
       {
-        "line": 185,
+        "line": 233,
         "kind": "symbol",
         "symbol": "objectValue",
         "detail": "Declares function objectValue."
       },
       {
-        "line": 192,
+        "line": 240,
         "kind": "symbol",
         "symbol": "stripUndefined",
         "detail": "Declares function stripUndefined."
@@ -4032,7 +4275,7 @@
     "importanceScore": 48,
     "importanceReasons": [
       "2 exports",
-      "24 symbols",
+      "29 symbols",
       "2 inbound dependencies",
       "5 outbound dependencies",
       "high-confidence analysis"
@@ -4041,10 +4284,10 @@
   {
     "path": "src/config/starter-config.ts",
     "extension": ".ts",
-    "sizeBytes": 340,
+    "sizeBytes": 459,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 85,
+    "tokenEstimate": 115,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -4348,7 +4591,7 @@
     "importanceReasons": [
       "2 exports",
       "11 symbols",
-      "6 inbound dependencies",
+      "7 inbound dependencies",
       "9 outbound dependencies",
       "high-confidence analysis"
     ]
@@ -7014,7 +7257,7 @@
     "importanceReasons": [
       "1 export",
       "1 symbol",
-      "5 inbound dependencies",
+      "6 inbound dependencies",
       "high-confidence analysis"
     ]
   },
@@ -7417,10 +7660,10 @@
   {
     "path": "src/core/types.ts",
     "extension": ".ts",
-    "sizeBytes": 4524,
+    "sizeBytes": 4794,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 1131,
+    "tokenEstimate": 1199,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -7429,6 +7672,9 @@
       "ActualOutputTokenReport",
       "AgentReadinessReport",
       "AgentTarget",
+      "AgentsConfig",
+      "AgentsMode",
+      "AgentsSection",
       "AnalysisConfidence",
       "AnalysisEvidence",
       "ContextPackage",
@@ -7460,151 +7706,169 @@
         "line": 1
       },
       {
-        "name": "AnalysisConfidence",
+        "name": "AgentsMode",
         "kind": "type",
         "filePath": "src/core/types.ts",
         "line": 2
       },
       {
-        "name": "TaskType",
+        "name": "AgentsSection",
         "kind": "type",
         "filePath": "src/core/types.ts",
         "line": 3
       },
       {
+        "name": "AnalysisConfidence",
+        "kind": "type",
+        "filePath": "src/core/types.ts",
+        "line": 4
+      },
+      {
+        "name": "TaskType",
+        "kind": "type",
+        "filePath": "src/core/types.ts",
+        "line": 5
+      },
+      {
         "name": "RepoContextConfig",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 5
+        "line": 7
+      },
+      {
+        "name": "AgentsConfig",
+        "kind": "interface",
+        "filePath": "src/core/types.ts",
+        "line": 26
       },
       {
         "name": "LlmConfig",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 23
+        "line": 32
       },
       {
         "name": "RagConfig",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 33
+        "line": 42
       },
       {
         "name": "TokenizerConfig",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 38
+        "line": 47
       },
       {
         "name": "RepoScan",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 42
+        "line": 51
       },
       {
         "name": "RepoFile",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 59
+        "line": 68
       },
       {
         "name": "FileKind",
         "kind": "type",
         "filePath": "src/core/types.ts",
-        "line": 72
+        "line": 81
       },
       {
         "name": "RepoIndex",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 82
+        "line": 91
       },
       {
         "name": "IndexedFile",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 89
+        "line": 98
       },
       {
         "name": "ImportRef",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 102
+        "line": 111
       },
       {
         "name": "ImportEdge",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 108
+        "line": 117
       },
       {
         "name": "SymbolInfo",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 115
+        "line": 124
       },
       {
         "name": "AnalysisEvidence",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 122
+        "line": 131
       },
       {
         "name": "ModuleInfo",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 129
+        "line": 138
       },
       {
         "name": "DependencyGraph",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 138
+        "line": 147
       },
       {
         "name": "ContextPackage",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 147
+        "line": 156
       },
       {
         "name": "SummaryBundle",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 159
+        "line": 168
       },
       {
         "name": "AgentReadinessReport",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 171
+        "line": 180
       },
       {
         "name": "ReadinessCategory",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 178
+        "line": 187
       },
       {
         "name": "TokenSavingsReport",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 185
+        "line": 194
       },
       {
         "name": "ActualOutputTokenReport",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 197
+        "line": 206
       },
       {
         "name": "TaskPack",
         "kind": "interface",
         "filePath": "src/core/types.ts",
-        "line": 207
+        "line": 216
       }
     ],
-    "summary": "src/core/types.ts contains 25 detected symbols, 0 imports, 25 exports.",
+    "summary": "src/core/types.ts contains 28 detected symbols, 0 imports, 28 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "evidence": [
@@ -7623,287 +7887,323 @@
       {
         "line": 2,
         "kind": "symbol",
+        "symbol": "AgentsMode",
+        "detail": "Declares type AgentsMode."
+      },
+      {
+        "line": 2,
+        "kind": "export",
+        "symbol": "AgentsMode",
+        "detail": "Exports AgentsMode."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "AgentsSection",
+        "detail": "Declares type AgentsSection."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "AgentsSection",
+        "detail": "Exports AgentsSection."
+      },
+      {
+        "line": 4,
+        "kind": "symbol",
         "symbol": "AnalysisConfidence",
         "detail": "Declares type AnalysisConfidence."
       },
       {
-        "line": 2,
+        "line": 4,
         "kind": "export",
         "symbol": "AnalysisConfidence",
         "detail": "Exports AnalysisConfidence."
       },
       {
-        "line": 3,
+        "line": 5,
         "kind": "symbol",
         "symbol": "TaskType",
         "detail": "Declares type TaskType."
       },
       {
-        "line": 3,
+        "line": 5,
         "kind": "export",
         "symbol": "TaskType",
         "detail": "Exports TaskType."
       },
       {
-        "line": 5,
+        "line": 7,
         "kind": "symbol",
         "symbol": "RepoContextConfig",
         "detail": "Declares interface RepoContextConfig."
       },
       {
-        "line": 5,
+        "line": 7,
         "kind": "export",
         "symbol": "RepoContextConfig",
         "detail": "Exports RepoContextConfig."
       },
       {
-        "line": 23,
+        "line": 26,
+        "kind": "symbol",
+        "symbol": "AgentsConfig",
+        "detail": "Declares interface AgentsConfig."
+      },
+      {
+        "line": 26,
+        "kind": "export",
+        "symbol": "AgentsConfig",
+        "detail": "Exports AgentsConfig."
+      },
+      {
+        "line": 32,
         "kind": "symbol",
         "symbol": "LlmConfig",
         "detail": "Declares interface LlmConfig."
       },
       {
-        "line": 23,
+        "line": 32,
         "kind": "export",
         "symbol": "LlmConfig",
         "detail": "Exports LlmConfig."
       },
       {
-        "line": 33,
+        "line": 42,
         "kind": "symbol",
         "symbol": "RagConfig",
         "detail": "Declares interface RagConfig."
       },
       {
-        "line": 33,
+        "line": 42,
         "kind": "export",
         "symbol": "RagConfig",
         "detail": "Exports RagConfig."
       },
       {
-        "line": 38,
+        "line": 47,
         "kind": "symbol",
         "symbol": "TokenizerConfig",
         "detail": "Declares interface TokenizerConfig."
       },
       {
-        "line": 38,
+        "line": 47,
         "kind": "export",
         "symbol": "TokenizerConfig",
         "detail": "Exports TokenizerConfig."
       },
       {
-        "line": 42,
+        "line": 51,
         "kind": "symbol",
         "symbol": "RepoScan",
         "detail": "Declares interface RepoScan."
       },
       {
-        "line": 42,
+        "line": 51,
         "kind": "export",
         "symbol": "RepoScan",
         "detail": "Exports RepoScan."
       },
       {
-        "line": 59,
+        "line": 68,
         "kind": "symbol",
         "symbol": "RepoFile",
         "detail": "Declares interface RepoFile."
       },
       {
-        "line": 59,
+        "line": 68,
         "kind": "export",
         "symbol": "RepoFile",
         "detail": "Exports RepoFile."
       },
       {
-        "line": 72,
+        "line": 81,
         "kind": "symbol",
         "symbol": "FileKind",
         "detail": "Declares type FileKind."
       },
       {
-        "line": 72,
+        "line": 81,
         "kind": "export",
         "symbol": "FileKind",
         "detail": "Exports FileKind."
       },
       {
-        "line": 82,
+        "line": 91,
         "kind": "symbol",
         "symbol": "RepoIndex",
         "detail": "Declares interface RepoIndex."
       },
       {
-        "line": 82,
+        "line": 91,
         "kind": "export",
         "symbol": "RepoIndex",
         "detail": "Exports RepoIndex."
       },
       {
-        "line": 89,
+        "line": 98,
         "kind": "symbol",
         "symbol": "IndexedFile",
         "detail": "Declares interface IndexedFile."
       },
       {
-        "line": 89,
+        "line": 98,
         "kind": "export",
         "symbol": "IndexedFile",
         "detail": "Exports IndexedFile."
       },
       {
-        "line": 102,
+        "line": 111,
         "kind": "symbol",
         "symbol": "ImportRef",
         "detail": "Declares interface ImportRef."
       },
       {
-        "line": 102,
+        "line": 111,
         "kind": "export",
         "symbol": "ImportRef",
         "detail": "Exports ImportRef."
       },
       {
-        "line": 108,
+        "line": 117,
         "kind": "symbol",
         "symbol": "ImportEdge",
         "detail": "Declares interface ImportEdge."
       },
       {
-        "line": 108,
+        "line": 117,
         "kind": "export",
         "symbol": "ImportEdge",
         "detail": "Exports ImportEdge."
       },
       {
-        "line": 115,
+        "line": 124,
         "kind": "symbol",
         "symbol": "SymbolInfo",
         "detail": "Declares interface SymbolInfo."
       },
       {
-        "line": 115,
+        "line": 124,
         "kind": "export",
         "symbol": "SymbolInfo",
         "detail": "Exports SymbolInfo."
       },
       {
-        "line": 122,
+        "line": 131,
         "kind": "symbol",
         "symbol": "AnalysisEvidence",
         "detail": "Declares interface AnalysisEvidence."
       },
       {
-        "line": 122,
+        "line": 131,
         "kind": "export",
         "symbol": "AnalysisEvidence",
         "detail": "Exports AnalysisEvidence."
       },
       {
-        "line": 129,
+        "line": 138,
         "kind": "symbol",
         "symbol": "ModuleInfo",
         "detail": "Declares interface ModuleInfo."
       },
       {
-        "line": 129,
+        "line": 138,
         "kind": "export",
         "symbol": "ModuleInfo",
         "detail": "Exports ModuleInfo."
       },
       {
-        "line": 138,
+        "line": 147,
         "kind": "symbol",
         "symbol": "DependencyGraph",
         "detail": "Declares interface DependencyGraph."
       },
       {
-        "line": 138,
+        "line": 147,
         "kind": "export",
         "symbol": "DependencyGraph",
         "detail": "Exports DependencyGraph."
       },
       {
-        "line": 147,
+        "line": 156,
         "kind": "symbol",
         "symbol": "ContextPackage",
         "detail": "Declares interface ContextPackage."
       },
       {
-        "line": 147,
+        "line": 156,
         "kind": "export",
         "symbol": "ContextPackage",
         "detail": "Exports ContextPackage."
       },
       {
-        "line": 159,
+        "line": 168,
         "kind": "symbol",
         "symbol": "SummaryBundle",
         "detail": "Declares interface SummaryBundle."
       },
       {
-        "line": 159,
+        "line": 168,
         "kind": "export",
         "symbol": "SummaryBundle",
         "detail": "Exports SummaryBundle."
       },
       {
-        "line": 171,
+        "line": 180,
         "kind": "symbol",
         "symbol": "AgentReadinessReport",
         "detail": "Declares interface AgentReadinessReport."
       },
       {
-        "line": 171,
+        "line": 180,
         "kind": "export",
         "symbol": "AgentReadinessReport",
         "detail": "Exports AgentReadinessReport."
       },
       {
-        "line": 178,
+        "line": 187,
         "kind": "symbol",
         "symbol": "ReadinessCategory",
         "detail": "Declares interface ReadinessCategory."
       },
       {
-        "line": 178,
+        "line": 187,
         "kind": "export",
         "symbol": "ReadinessCategory",
         "detail": "Exports ReadinessCategory."
       },
       {
-        "line": 185,
+        "line": 194,
         "kind": "symbol",
         "symbol": "TokenSavingsReport",
         "detail": "Declares interface TokenSavingsReport."
       },
       {
-        "line": 185,
+        "line": 194,
         "kind": "export",
         "symbol": "TokenSavingsReport",
         "detail": "Exports TokenSavingsReport."
       },
       {
-        "line": 197,
+        "line": 206,
         "kind": "symbol",
         "symbol": "ActualOutputTokenReport",
         "detail": "Declares interface ActualOutputTokenReport."
       },
       {
-        "line": 197,
+        "line": 206,
         "kind": "export",
         "symbol": "ActualOutputTokenReport",
         "detail": "Exports ActualOutputTokenReport."
       },
       {
-        "line": 207,
+        "line": 216,
         "kind": "symbol",
         "symbol": "TaskPack",
         "detail": "Declares interface TaskPack."
       },
       {
-        "line": 207,
+        "line": 216,
         "kind": "export",
         "symbol": "TaskPack",
         "detail": "Exports TaskPack."
@@ -7912,8 +8212,8 @@
     "moduleName": "core",
     "importanceScore": 65,
     "importanceReasons": [
-      "25 exports",
-      "25 symbols",
+      "28 exports",
+      "28 symbols",
       "32 inbound dependencies",
       "high-confidence analysis"
     ]
@@ -8286,14 +8586,19 @@
   {
     "path": "src/outputs/agents-md.ts",
     "extension": ".ts",
-    "sizeBytes": 2738,
+    "sizeBytes": 7266,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 685,
+    "tokenEstimate": 1817,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
     "imports": [
+      {
+        "specifier": "../core/token-estimator.js",
+        "resolvedPath": "src/core/token-estimator.ts",
+        "isExternal": false
+      },
       {
         "specifier": "../core/types.js",
         "resolvedPath": "src/core/types.ts",
@@ -8313,79 +8618,348 @@
         "name": "renderAgentsMd",
         "kind": "function",
         "filePath": "src/outputs/agents-md.ts",
-        "line": 4
-      },
-      {
-        "name": "keyFiles",
-        "kind": "const",
-        "filePath": "src/outputs/agents-md.ts",
         "line": 5
       },
       {
-        "name": "generatedContext",
+        "name": "mode",
         "kind": "const",
         "filePath": "src/outputs/agents-md.ts",
         "line": 6
       },
       {
+        "name": "sections",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 7
+      },
+      {
+        "name": "renderMinimalAgentsMd",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 14
+      },
+      {
+        "name": "include",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 15
+      },
+      {
+        "name": "sections",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 16
+      },
+      {
+        "name": "renderExpandedAgentsMd",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 64
+      },
+      {
+        "name": "keyFileLimit",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 65
+      },
+      {
+        "name": "moduleLimit",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 66
+      },
+      {
+        "name": "keyFiles",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 67
+      },
+      {
         "name": "modules",
         "kind": "const",
         "filePath": "src/outputs/agents-md.ts",
-        "line": 27
+        "line": 68
+      },
+      {
+        "name": "requiredCheckRules",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 111
+      },
+      {
+        "name": "checks",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 112
+      },
+      {
+        "name": "commandLines",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 125
+      },
+      {
+        "name": "commands",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 126
+      },
+      {
+        "name": "projectEntrypoints",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 136
+      },
+      {
+        "name": "entries",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 137
+      },
+      {
+        "name": "anchors",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 138
+      },
+      {
+        "name": "contextLinks",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 148
+      },
+      {
+        "name": "links",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 149
+      },
+      {
+        "name": "formatKeyFile",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 176
+      },
+      {
+        "name": "enforceAgentsBudget",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 180
+      },
+      {
+        "name": "kept",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 181
+      },
+      {
+        "name": "candidate",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 183
+      },
+      {
+        "name": "rendered",
+        "kind": "const",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 191
+      },
+      {
+        "name": "unique",
+        "kind": "function",
+        "filePath": "src/outputs/agents-md.ts",
+        "line": 199
       }
     ],
-    "summary": "src/outputs/agents-md.ts contains 4 detected symbols, 2 imports, 1 export.",
+    "summary": "src/outputs/agents-md.ts contains 26 detected symbols, 3 imports, 1 export.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "evidence": [
       {
         "line": 1,
         "kind": "import",
-        "detail": "Imports ../core/types.js."
+        "detail": "Imports ../core/token-estimator.js."
       },
       {
         "line": 2,
         "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 3,
+        "kind": "import",
         "detail": "Imports ./markdown.js."
       },
       {
-        "line": 4,
+        "line": 5,
         "kind": "symbol",
         "symbol": "renderAgentsMd",
         "detail": "Declares function renderAgentsMd."
       },
       {
-        "line": 4,
+        "line": 5,
         "kind": "export",
         "symbol": "renderAgentsMd",
         "detail": "Exports renderAgentsMd."
       },
       {
-        "line": 5,
+        "line": 6,
+        "kind": "symbol",
+        "symbol": "mode",
+        "detail": "Declares const mode."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "sections",
+        "detail": "Declares const sections."
+      },
+      {
+        "line": 14,
+        "kind": "symbol",
+        "symbol": "renderMinimalAgentsMd",
+        "detail": "Declares function renderMinimalAgentsMd."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "include",
+        "detail": "Declares const include."
+      },
+      {
+        "line": 16,
+        "kind": "symbol",
+        "symbol": "sections",
+        "detail": "Declares const sections."
+      },
+      {
+        "line": 64,
+        "kind": "symbol",
+        "symbol": "renderExpandedAgentsMd",
+        "detail": "Declares function renderExpandedAgentsMd."
+      },
+      {
+        "line": 65,
+        "kind": "symbol",
+        "symbol": "keyFileLimit",
+        "detail": "Declares const keyFileLimit."
+      },
+      {
+        "line": 66,
+        "kind": "symbol",
+        "symbol": "moduleLimit",
+        "detail": "Declares const moduleLimit."
+      },
+      {
+        "line": 67,
         "kind": "symbol",
         "symbol": "keyFiles",
         "detail": "Declares const keyFiles."
       },
       {
-        "line": 6,
-        "kind": "symbol",
-        "symbol": "generatedContext",
-        "detail": "Declares const generatedContext."
-      },
-      {
-        "line": 27,
+        "line": 68,
         "kind": "symbol",
         "symbol": "modules",
         "detail": "Declares const modules."
+      },
+      {
+        "line": 111,
+        "kind": "symbol",
+        "symbol": "requiredCheckRules",
+        "detail": "Declares function requiredCheckRules."
+      },
+      {
+        "line": 112,
+        "kind": "symbol",
+        "symbol": "checks",
+        "detail": "Declares const checks."
+      },
+      {
+        "line": 125,
+        "kind": "symbol",
+        "symbol": "commandLines",
+        "detail": "Declares function commandLines."
+      },
+      {
+        "line": 126,
+        "kind": "symbol",
+        "symbol": "commands",
+        "detail": "Declares const commands."
+      },
+      {
+        "line": 136,
+        "kind": "symbol",
+        "symbol": "projectEntrypoints",
+        "detail": "Declares function projectEntrypoints."
+      },
+      {
+        "line": 137,
+        "kind": "symbol",
+        "symbol": "entries",
+        "detail": "Declares const entries."
+      },
+      {
+        "line": 138,
+        "kind": "symbol",
+        "symbol": "anchors",
+        "detail": "Declares const anchors."
+      },
+      {
+        "line": 148,
+        "kind": "symbol",
+        "symbol": "contextLinks",
+        "detail": "Declares function contextLinks."
+      },
+      {
+        "line": 149,
+        "kind": "symbol",
+        "symbol": "links",
+        "detail": "Declares const links."
+      },
+      {
+        "line": 176,
+        "kind": "symbol",
+        "symbol": "formatKeyFile",
+        "detail": "Declares function formatKeyFile."
+      },
+      {
+        "line": 180,
+        "kind": "symbol",
+        "symbol": "enforceAgentsBudget",
+        "detail": "Declares function enforceAgentsBudget."
+      },
+      {
+        "line": 181,
+        "kind": "symbol",
+        "symbol": "kept",
+        "detail": "Declares const kept."
+      },
+      {
+        "line": 183,
+        "kind": "symbol",
+        "symbol": "candidate",
+        "detail": "Declares const candidate."
+      },
+      {
+        "line": 191,
+        "kind": "symbol",
+        "symbol": "rendered",
+        "detail": "Declares const rendered."
+      },
+      {
+        "line": 199,
+        "kind": "symbol",
+        "symbol": "unique",
+        "detail": "Declares function unique."
       }
     ],
     "moduleName": "outputs",
-    "importanceScore": 26,
+    "importanceScore": 40,
     "importanceReasons": [
       "1 export",
-      "4 symbols",
-      "1 inbound dependency",
-      "2 outbound dependencies",
+      "26 symbols",
+      "2 inbound dependencies",
+      "3 outbound dependencies",
       "high-confidence analysis"
     ]
   },

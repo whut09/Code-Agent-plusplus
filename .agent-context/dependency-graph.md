@@ -31,8 +31,8 @@ graph TD
 | core | config | 1 |
 | core | llm | 1 |
 | llm | core | 1 |
-| outputs | core | 17 |
+| outputs | core | 18 |
 | test | analyzers | 2 |
 | test | config | 3 |
-| test | core | 12 |
-| test | outputs | 3 |
+| test | core | 13 |
+| test | outputs | 4 |

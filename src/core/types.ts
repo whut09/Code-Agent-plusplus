@@ -1,4 +1,6 @@
 export type AgentTarget = "codex" | "claude" | "cursor" | "all";
+export type AgentsMode = "minimal" | "balanced" | "full";
+export type AgentsSection = "commands" | "safety" | "entrypoints" | "contextLinks";
 export type AnalysisConfidence = "high" | "medium" | "low";
 export type TaskType = "bugfix" | "feature" | "refactor" | "auto";
 
@@ -10,6 +12,7 @@ export interface RepoContextConfig {
   llm: LlmConfig;
   rag: RagConfig;
   tokenizer: TokenizerConfig;
+  agents: AgentsConfig;
   outputs: {
     agents: boolean;
     modules: boolean;
@@ -18,6 +21,12 @@ export interface RepoContextConfig {
     readiness: boolean;
     rag: boolean;
   };
+}
+
+export interface AgentsConfig {
+  mode: AgentsMode;
+  maxTokens: number;
+  include: AgentsSection[];
 }
 
 export interface LlmConfig {

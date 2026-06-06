@@ -48,6 +48,8 @@ npm run dev -- build ./path/to/repo
 
 It depends on the coding tool, not the model itself. `AGENTS.md` is a convention used by agent clients to inject repository instructions into the model context.
 
+- The generated `AGENTS.md` defaults to `agents.mode: minimal`, keeping only mandatory operating rules, entrypoints, required commands, and links into `.agent-context/`.
+- Longer repo summaries, module maps, dependency graphs, readiness details, and task packs live under `.agent-context/` so the root instruction file stays small.
 - Codex: yes. Codex reads `AGENTS.md` before doing work. It can combine global guidance from your Codex home directory with project-level `AGENTS.md` files.
 - Claude Code: not directly. Claude Code reads `CLAUDE.md`. To reuse the generated agent guide, create a root `CLAUDE.md` with `@AGENTS.md`, then add Claude-specific notes below it if needed.
 - Cursor: yes for straightforward project instructions. Place `AGENTS.md` at the project root. For scoped, conditional, or multi-file rules, prefer `.cursor/rules`.
@@ -257,6 +259,15 @@ tokenBudget: 60000
 tokenizer:
   mode: chars_approx
 
+agents:
+  mode: minimal # minimal | balanced | full
+  maxTokens: 1200
+  include:
+    - commands
+    - safety
+    - entrypoints
+    - contextLinks
+
 include:
   - src/**
   - docs/**
@@ -276,7 +287,7 @@ outputs:
   rag: true
 ```
 
-The `outputs` switches control optional generated artifacts. Disabling a switch also removes previously generated artifacts in that optional group. Repository summary, key files, onboarding, token savings, and machine-readable indexes are always generated.
+`agents` controls the density of the root `AGENTS.md`. The default `minimal` mode keeps it to operating constraints; use `balanced` or `full` only when you want more overview content in the root file. The `outputs` switches control optional generated artifacts. Disabling a switch also removes previously generated artifacts in that optional group. Repository summary, key files, onboarding, token savings, and machine-readable indexes are always generated.
 
 ## Development
 

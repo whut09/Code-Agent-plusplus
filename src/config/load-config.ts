@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { DEFAULT_CONFIG } from "./defaults.js";
-import type { AgentTarget, RepoContextConfig } from "../core/types.js";
+import type { AgentTarget, AgentsMode, AgentsSection, RepoContextConfig } from "../core/types.js";
 
 const CONFIG_FILES = [
   "repo-context.config.yml",
@@ -52,6 +52,12 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
       ...localConfig.tokenizer,
       ...overrides.tokenizer
     },
+    agents: {
+      ...DEFAULT_CONFIG.agents,
+      ...fileConfig.agents,
+      ...localConfig.agents,
+      ...overrides.agents
+    },
     outputs: {
       ...DEFAULT_CONFIG.outputs,
       ...fileConfig.outputs,
@@ -91,6 +97,7 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     llm: typeof input.llm === "object" && input.llm ? input.llm as RepoContextConfig["llm"] : undefined,
     rag: typeof input.rag === "object" && input.rag ? input.rag as RepoContextConfig["rag"] : undefined,
     tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? input.tokenizer as RepoContextConfig["tokenizer"] : undefined,
+    agents: typeof input.agents === "object" && input.agents ? normalizeAgentsConfig(input.agents as Record<string, unknown>) : undefined,
     outputs: typeof input.outputs === "object" && input.outputs ? input.outputs as RepoContextConfig["outputs"] : undefined
   }) as Partial<RepoContextConfig>;
 }
@@ -107,6 +114,18 @@ export function validateConfig(config: RepoContextConfig): void {
   }
   if (config.tokenizer.mode !== "chars_approx") {
     throw new Error(`Invalid tokenizer.mode "${config.tokenizer.mode}". Expected: chars_approx.`);
+  }
+  if (!["minimal", "balanced", "full"].includes(config.agents.mode)) {
+    throw new Error(`Invalid agents.mode "${config.agents.mode}". Expected one of: minimal, balanced, full.`);
+  }
+  if (!Number.isFinite(config.agents.maxTokens) || config.agents.maxTokens <= 0) {
+    throw new Error("agents.maxTokens must be a positive number.");
+  }
+  const allowedSections = new Set(["commands", "safety", "entrypoints", "contextLinks"]);
+  for (const section of config.agents.include) {
+    if (!allowedSections.has(section)) {
+      throw new Error(`Invalid agents.include item "${section}". Expected one of: commands, safety, entrypoints, contextLinks.`);
+    }
   }
   if (config.llm.enabled) {
     for (const [field, value] of [["baseUrl", config.llm.baseUrl], ["apiKey", config.llm.apiKey], ["model", config.llm.model]]) {
@@ -166,7 +185,36 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
       throw new Error("tokenizer.mode must be chars_approx.");
     }
   }
+  if (input.agents !== undefined) {
+    const agents = objectValue(input.agents, "agents");
+    if (agents.mode !== undefined && (typeof agents.mode !== "string" || !["minimal", "balanced", "full"].includes(agents.mode))) {
+      throw new Error(`Invalid agents.mode "${String(agents.mode)}". Expected one of: minimal, balanced, full.`);
+    }
+    if (agents.maxTokens !== undefined && (typeof agents.maxTokens !== "number" || agents.maxTokens <= 0)) {
+      throw new Error("agents.maxTokens must be a positive number.");
+    }
+    const allowedSections = new Set(["commands", "safety", "entrypoints", "contextLinks"]);
+    if (agents.include !== undefined && (!Array.isArray(agents.include) || agents.include.some((item) => typeof item !== "string" || !allowedSections.has(item)))) {
+      throw new Error("agents.include must be an array containing only: commands, safety, entrypoints, contextLinks.");
+    }
+  }
   void source;
+}
+
+function normalizeAgentsConfig(input: Record<string, unknown>): Partial<RepoContextConfig["agents"]> {
+  return stripUndefined({
+    mode: typeof input.mode === "string" ? input.mode as AgentsMode : undefined,
+    maxTokens: typeof input.maxTokens === "number" ? input.maxTokens : undefined,
+    include: toAgentsSectionArray(input.include)
+  });
+}
+
+function toAgentsSectionArray(value: unknown): AgentsSection[] | undefined {
+  if (!Array.isArray(value)) {
+    return undefined;
+  }
+
+  return value.filter((item): item is AgentsSection => typeof item === "string") as AgentsSection[];
 }
 
 function validateBooleanObject(value: unknown, name: string, allowedKeys: Set<string>): void {

@@ -6,18 +6,18 @@ Generated for target: `codex`.
 - Languages: JSON, Markdown, Python, TOML, TypeScript, YAML
 - Frameworks: none detected
 - Package managers: npm
-- Files scanned: 77
-- Symbols detected: 542
-- Dependency edges detected: 174
+- Files scanned: 78
+- Symbols detected: 579
+- Dependency edges detected: 182
 
 ## Token Compression Estimate
-Original repo: 54,485 tokens
-Context pack: 10,630 tokens
+Original repo: 57,807 tokens
+Context pack: 10,845 tokens
 Compression: 5x
 Token budget: 60,000 (within budget)
 
 ## Repository Summary
-This repository contains 77 scanned files. Detected languages: JSON, Markdown, Python, TOML, TypeScript, YAML. Detected frameworks: none. Detected modules: 10. Detected symbols: 542.
+This repository contains 78 scanned files. Detected languages: JSON, Markdown, Python, TOML, TypeScript, YAML. Detected frameworks: none. Detected modules: 10. Detected symbols: 579.
 
 ## Summary Mode
 - Mode: offline

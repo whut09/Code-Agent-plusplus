@@ -2,9 +2,24 @@
 
 [中文](agents-md.zh-CN.md) | English
 
-`AGENTS.md` is a plain Markdown guide for coding agents. It usually contains repository structure, commands, conventions, safety notes, and links to generated context files.
+`AGENTS.md` is a plain Markdown guide for coding agents. Repo-to-Agent-Context now defaults to generating it as a short operating-constraints file: mandatory rules, entrypoints, commands, and links to generated context.
 
 Repo-to-Agent-Context writes a root `AGENTS.md` plus deeper context under `.agent-context/`.
+
+Default configuration:
+
+```yaml
+agents:
+  mode: minimal # minimal | balanced | full
+  maxTokens: 1200
+  include:
+    - commands
+    - safety
+    - entrypoints
+    - contextLinks
+```
+
+Prefer `minimal`. Longer root instruction files do not automatically improve coding-agent success; deep summaries, module maps, readiness details, and task packs should be read from `.agent-context/` on demand.
 
 ## Generate It With an AI Agent
 
@@ -81,12 +96,10 @@ Before editing, read AGENTS.md and the relevant files under .agent-context/.
 
 Good content:
 
-- How to run, test, and build the project
-- Important files and modules
-- Architecture constraints
-- Code style and naming conventions
-- Safety rules, generated file warnings, and dependency rules
-- Links to deeper context files
+- Mandatory editing and safety rules
+- Required or preferred validation commands
+- Entrypoints or a few highest-value anchor files
+- Links into `.agent-context/` for deeper context
 
 Avoid:
 
@@ -94,6 +107,7 @@ Avoid:
 - Long generated dumps
 - Vague instructions like "write good code"
 - Duplicating the entire repository
+- Full module summaries, long dependency graphs, or large onboarding documents
 
 ## References
 

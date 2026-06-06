@@ -16,6 +16,15 @@ exclude:
 tokenizer:
   mode: chars_approx
 
+agents:
+  mode: minimal
+  maxTokens: 1200
+  include:
+    - commands
+    - safety
+    - entrypoints
+    - contextLinks
+
 outputs:
   agents: true
   modules: true
