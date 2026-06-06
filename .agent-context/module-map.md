@@ -7,7 +7,7 @@
 | outputs | 13 | 449 | `core` | outputs contains 13 files and depends on core. |
 | analyzers | 5 | 183 | `core` | analyzers contains 5 files and depends on core. |
 | config | 3 | 98 | `core` | config contains 3 files and depends on core. |
+| root | 12 | 85 | none | root contains 12 files. |
 | cli | 1 | 70 | `config`, `core`, `outputs` | cli contains 1 file and depends on config, core, outputs. |
-| root | 11 | 70 | none | root contains 11 files. |
 | llm | 1 | 35 | `core` | llm contains 1 file and depends on core. |
 | docs | 4 | 0 | none | docs contains 4 files. |

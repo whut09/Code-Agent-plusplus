@@ -1,20 +1,20 @@
 # Repo-to-Agent-Context
 
-[中文](README.zh-CN.md) | English
+中文 | [English](README.en.md)
 
-Turn any repository into a compact, structured, agent-ready context package for Claude, Codex, Cursor, and similar coding agents.
+把任意仓库压缩成结构化、紧凑、适合 Claude、Codex、Cursor 等 AI 编程 Agent 使用的上下文包。
 
-The first version is deliberately offline-first: it scans a repo, extracts lightweight code structure, ranks important files, builds dependency graphs, and writes Markdown/JSON context files without requiring an LLM.
+第一版采用离线优先设计：扫描仓库、提取轻量代码结构、排序关键文件、构建依赖图，并输出 Markdown/JSON 上下文文件，不强依赖大模型。
 
-## Quick Start
+## 快速开始
 
-After publishing the package to npm:
+发布到 npm 后可直接运行：
 
 ```bash
 npx repo-to-agent-context build ./path/to/repo
 ```
 
-From source:
+从源码运行：
 
 ```bash
 npm install
@@ -22,34 +22,34 @@ npm run build
 node dist/cli/index.js build ./path/to/repo
 ```
 
-During development:
+开发时可以直接运行：
 
 ```bash
 npm run dev -- build ./path/to/repo
 ```
 
-## Use It Through an AI Agent
+## 通过 AI Agent 使用
 
-You can also ask Codex, Claude Code, Cursor, or another coding agent to run this project for you. For example, in Codex:
+你也可以直接让 Codex、Claude Code、Cursor 或其他编程 Agent 代你运行这个项目。例如在 Codex 里可以直接说：
 
 ```txt
-Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, install or clone the tool if needed, run the generator, then summarize the generated files.
+使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具，运行生成命令，最后说明生成了哪些文件。
 ```
 
-Replace `xxx project` with a local path, GitHub repository, or workspace name. If you only need the root guide, say `generate AGENTS.md`; if you want the full context pack, ask for `AGENTS.md and .agent-context`.
+把 `xxx 项目` 替换成本地路径、GitHub 仓库或当前工作区名称即可。如果只需要根目录说明，就说“生成 AGENTS.md”；如果需要完整上下文包，就说“生成 AGENTS.md 和 .agent-context”。
 
-## Does the Agent Read AGENTS.md Automatically?
+## 大模型会自动读取 AGENTS.md 吗？
 
-It depends on the coding tool, not the model itself. `AGENTS.md` is a convention used by agent clients to inject repository instructions into the model context.
+要看你使用的编程工具，而不是大模型本身。`AGENTS.md` 是 Agent 客户端用于把仓库说明注入模型上下文的一种约定。
 
-- Codex: yes. Codex reads `AGENTS.md` before doing work. It can combine global guidance from your Codex home directory with project-level `AGENTS.md` files.
-- Claude Code: not directly. Claude Code reads `CLAUDE.md`. To reuse the generated agent guide, create a root `CLAUDE.md` with `@AGENTS.md`, then add Claude-specific notes below it if needed.
-- Cursor: yes for straightforward project instructions. Place `AGENTS.md` at the project root. For scoped, conditional, or multi-file rules, prefer `.cursor/rules`.
-- Other tools: support varies. If a tool does not auto-load `AGENTS.md`, attach or reference the file manually in your prompt.
+- Codex：会。Codex 会在开始工作前读取 `AGENTS.md`，并可以把全局说明和项目级说明合并进上下文。
+- Claude Code：不会直接读取 `AGENTS.md`。Claude Code 的项目说明文件是 `CLAUDE.md`。如果想复用本工具生成的说明，可以在仓库根目录创建 `CLAUDE.md`，内容写 `@AGENTS.md`，再追加 Claude 专用说明。
+- Cursor：支持。把 `AGENTS.md` 放在项目根目录即可作为简单项目规则使用。如果需要按路径作用域、条件触发、多文件规则，建议使用 `.cursor/rules`。
+- 其他工具：支持情况不同。如果工具不会自动加载 `AGENTS.md`，可以在提示词里手动引用或附上该文件。
 
-See [docs/agents-md.md](docs/agents-md.md) for detailed usage patterns and official references.
+详细用法见 [docs/agents-md.zh-CN.md](docs/agents-md.zh-CN.md)。
 
-## Outputs
+## 输出内容
 
 ```txt
 AGENTS.md
@@ -87,7 +87,7 @@ AGENTS.md
     dependencies.mmd
 ```
 
-## Commands
+## 命令
 
 ```bash
 repo-context init [repo]
@@ -103,7 +103,7 @@ repo-context update [repo] --since main
 repo-context rag export [repo]
 ```
 
-Examples:
+示例：
 
 ```bash
 repo-context build . --target codex
@@ -121,7 +121,7 @@ repo-context rag export . --token-budget 60000
 
 ## Token Savings Report
 
-Every build includes a token savings report:
+每次构建都会生成 token 节省报告：
 
 ```txt
 Original repo: 2,400,000 tokens
@@ -131,16 +131,16 @@ Token budget: 60,000 (within budget)
 Actual generated output: 31,000 tokens (chars_approx)
 ```
 
-The report separates compact-pack estimates from actual generated Markdown, Mermaid, and RAG JSONL size. Machine-readable indexes are excluded from actual output tokens and documented in the report scope.
+报告会区分紧凑上下文包估算与实际生成的 Markdown、Mermaid、RAG JSONL 大小。机器可读索引不会计入实际输出 token，具体范围会写在报告里。
 
-Generated files:
+生成文件：
 
 - `.agent-context/token-savings.md`
 - `.agent-context/token-savings.json`
 
 ## Agent Readiness Score
 
-The readiness report makes missing context obvious:
+readiness 报告会把缺失上下文直接暴露出来：
 
 ```txt
 Agent Readiness: 76/100
@@ -154,16 +154,16 @@ Categories:
 - Safety: 85/100
 ```
 
-Generated files:
+生成文件：
 
 - `.agent-context/readiness.md`
 - `.agent-context/readiness.json`
 
-## Optional LLM Summaries
+## 可选的大模型摘要
 
-LLM usage is optional. The CLI works offline by default.
+大模型是可选能力。CLI 默认离线可用。
 
-Committed configuration should only contain placeholders:
+提交到仓库的配置只应该保留占位符：
 
 ```yaml
 llm:
@@ -174,7 +174,7 @@ llm:
   model: xx
 ```
 
-For local use, copy `repo-context.local.example.yml` to `repo-context.local.yml` and put your real key and URL there. `repo-context.local.yml` is ignored by git.
+本地使用时，把 `repo-context.local.example.yml` 复制成 `repo-context.local.yml`，把真实 key 和 URL 写进去。`repo-context.local.yml` 已加入 `.gitignore`，不会被提交。
 
 ```yaml
 llm:
@@ -185,27 +185,27 @@ llm:
   model: xx
 ```
 
-Then run:
+然后运行：
 
 ```bash
 repo-context build . --llm
 ```
 
-When LLM mode is disabled, Repo-to-Agent-Context uses offline summaries. When enabled, missing or `xx` credentials fail with an actionable error instead of silently falling back. Runtime request failures fall back to offline summaries and record the fallback reason.
+未启用 LLM 时，Repo-to-Agent-Context 使用离线摘要。启用后，如果 key、URL、model 缺失或仍然是 `xx`，会直接给出可操作的配置错误；运行时请求失败则退回离线摘要并记录原因。
 
-Run `repo-context validate .` to check config, generated JSON, dependency edges, confidence, and token budget.
+运行 `repo-context validate .` 可以检查配置、生成 JSON、依赖边、分析置信度和 token 预算。
 
-## Analysis Confidence And Evidence
+## 分析置信度与证据
 
-- TypeScript/JavaScript uses the TypeScript Compiler API for imports, exports, symbols, routes, barrel exports, and `tsconfig` path aliases.
-- Python resolves local absolute and relative imports.
-- Unsupported and fallback analysis is marked low-confidence.
+- TypeScript/JavaScript 使用 TypeScript Compiler API 解析 import、export、symbol、route、barrel export 和 `tsconfig` path alias。
+- Python 支持解析本地绝对与相对 import。
+- 不支持或 fallback 的分析会标记为低置信度。
 
-Each indexed file includes `analyzer`, `confidence`, and line-oriented `evidence`. Aggregated evidence is written to `.agent-context/evidence/file-evidence.json`.
+每个索引文件包含 `analyzer`、`confidence` 和带行号的 `evidence`。汇总证据输出到 `.agent-context/evidence/file-evidence.json`。
 
-## Task Context Packs
+## 任务上下文包
 
-Task mode combines lexical retrieval, dependency graph expansion, related tests/entrypoints/configuration, and token-budgeted packing.
+task 模式结合词法检索、依赖图扩展、相关测试/入口/配置补充和 token budget 装包。
 
 ```bash
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
@@ -213,36 +213,36 @@ repo-context task "add SSO login" . --type feature
 repo-context task "split auth module" . --type refactor
 ```
 
-Machine-readable packs are generated under `.agent-context/tasks/*.json`.
+机器可读 task pack 会生成在 `.agent-context/tasks/*.json`。
 
-## Optional RAG With LightRAG
+## 可选 RAG：LightRAG
 
-RAG is useful, but it should not replace the static context pack. The recommended architecture is:
+建议引入 RAG，但不要让 RAG 取代静态上下文包。推荐架构是：
 
 ```txt
-Static context pack first
-  -> AGENTS.md, summaries, dependency graph, key files
-Optional RAG adapter second
-  -> LightRAG-friendly JSONL export for later LightRAG Server ingestion
+先生成静态上下文包
+  -> AGENTS.md、摘要、依赖图、关键文件
+再接可选 RAG 适配层
+  -> 导出 LightRAG 友好的 JSONL，后续再导入 LightRAG Server
 ```
 
-Repo-to-Agent-Context generates:
+Repo-to-Agent-Context 会生成：
 
 - `.agent-context/rag/documents.jsonl`
 - `.agent-context/rag/manifest.json`
 - `.agent-context/rag/README.md`
 
-LightRAG remains optional because it usually requires a separate Python/server environment and consistent embedding configuration between indexing and querying.
+LightRAG 保持可选，因为它通常需要单独的 Python/Server 环境，并且索引和查询阶段需要保持 embedding 配置一致。
 
-This version exports LightRAG-ready documents but does not directly synchronize with a LightRAG Server.
+当前版本会导出适合 LightRAG 摄入的文档，但尚未直接同步到 LightRAG Server。
 
-## Architecture
+## 架构
 
-See [docs/architecture.md](docs/architecture.md) for the implementation design, [docs/agents-md.md](docs/agents-md.md) for agent instruction usage, and [docs/roadmap.md](docs/roadmap.md) for planned phases.
+实现设计见 [docs/architecture.md](docs/architecture.md)，`AGENTS.md` 使用说明见 [docs/agents-md.zh-CN.md](docs/agents-md.zh-CN.md)，后续规划见 [docs/roadmap.md](docs/roadmap.md)。
 
-## Configuration
+## 配置
 
-Create `repo-context.config.yml`:
+创建 `repo-context.config.yml`：
 
 ```yaml
 target: codex
@@ -270,9 +270,9 @@ outputs:
   rag: true
 ```
 
-The `outputs` switches control optional generated artifacts. Disabling a switch also removes previously generated artifacts in that optional group. Repository summary, key files, onboarding, token savings, and machine-readable indexes are always generated.
+`outputs` 开关控制可选生成物。关闭开关时，也会清理该分组中之前生成的文件。仓库摘要、关键文件、onboarding、token 节省报告和机器可读索引会始终生成。
 
-## Development
+## 开发
 
 ```bash
 npm run build

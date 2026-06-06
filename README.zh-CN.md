@@ -1,6 +1,6 @@
 # Repo-to-Agent-Context
 
-中文 | [English](README.md)
+中文 | [English](README.en.md)
 
 把任意仓库压缩成结构化、紧凑、适合 Claude、Codex、Cursor 等 AI 编程 Agent 使用的上下文包。
 

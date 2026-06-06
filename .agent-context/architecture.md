@@ -14,8 +14,8 @@ This document is generated from static repository signals. Treat it as a startin
 - `outputs`: outputs contains 13 files and depends on core.
 - `analyzers`: analyzers contains 5 files and depends on core.
 - `config`: config contains 3 files and depends on core.
+- `root`: root contains 12 files.
 - `cli`: cli contains 1 file and depends on config, core, outputs.
-- `root`: root contains 11 files.
 - `llm`: llm contains 1 file and depends on core.
 - `docs`: docs contains 4 files.
 

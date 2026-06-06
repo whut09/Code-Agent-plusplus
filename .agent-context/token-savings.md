@@ -1,20 +1,20 @@
 # Token Savings Report
 
-Original repo: 49,439 tokens
-Context pack: 10,588 tokens
+Original repo: 51,414 tokens
+Context pack: 10,630 tokens
 Compression: 5x
 Token budget: 60,000 (within budget)
-Actual generated output: 52,822 tokens (chars_approx)
+Actual generated output: 52,936 tokens (chars_approx)
 
 ## Selection
-- Selected files: 64
-- Total scanned files: 75
+- Selected files: 65
+- Total scanned files: 76
 - Token budget: 60,000
 - The context pack estimate uses compact file summaries, symbols, imports, module context, and graph hints rather than full source files.
 
 ## Actual Generated Output
 Tokenizer mode: chars_approx
-Actual output: 52,822 tokens
+Actual output: 52,936 tokens
 Scope: Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.
 
 - `AGENTS.md`: 628 tokens
@@ -30,4 +30,4 @@ Scope: Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readab
 - `.agent-context/tasks/feature-context.md`: 186 tokens
 - `.agent-context/tasks/refactor-context.md`: 1,293 tokens
 - `.agent-context/rag/README.md`: 167 tokens
-- `.agent-context/rag/documents.jsonl`: 46,590 tokens
+- `.agent-context/rag/documents.jsonl`: 46,704 tokens
