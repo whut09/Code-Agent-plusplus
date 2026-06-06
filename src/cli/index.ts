@@ -36,7 +36,7 @@ program
     console.log(`Files scanned: ${context.scan.files.length}`);
     console.log(`Languages: ${context.scan.languages.join(", ") || "none detected"}`);
     console.log(`Key files: ${context.keyFiles.length}`);
-    console.log(`Agent readiness: ${context.readiness.score}/100`);
+    console.log(`Agent readiness: ${context.readiness.grade} / ${context.readiness.score}`);
     console.log(`Summary mode: ${context.summaries.mode}`);
     if (context.summaries.fallbackReason && context.summaries.fallbackReason !== "disabled") {
       console.log(`LLM fallback reason: ${context.summaries.fallbackReason}`);

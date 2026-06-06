@@ -179,9 +179,12 @@ export interface SummaryBundle {
 
 export interface AgentReadinessReport {
   score: number;
+  grade: "A" | "B" | "C" | "D" | "F";
   missing: string[];
   strengths: string[];
+  dimensions: ReadinessDimension[];
   categories: ReadinessCategory[];
+  capsApplied: ReadinessCap[];
 }
 
 export interface ReadinessCategory {
@@ -189,6 +192,20 @@ export interface ReadinessCategory {
   score: number;
   evidence: string[];
   missing: string[];
+}
+
+export interface ReadinessDimension {
+  category: "operational" | "context-quality" | "agent-safety";
+  score: number;
+  evidence: string[];
+  missing: string[];
+}
+
+export interface ReadinessCap {
+  cap: number;
+  applied: boolean;
+  reason: string;
+  evidence: string[];
 }
 
 export interface TokenSavingsReport {

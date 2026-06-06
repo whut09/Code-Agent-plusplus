@@ -15,16 +15,16 @@
   "frameworks": [],
   "tokenSavings": {
     "tokenBudget": 60000,
-    "originalTokens": 57807,
-    "contextPackTokens": 10845,
+    "originalTokens": 59801,
+    "contextPackTokens": 10884,
     "compressionRatio": 5,
     "withinBudget": true,
     "selectedFiles": 66,
     "totalFiles": 78,
-    "estimatedTokenSavings": 46962,
+    "estimatedTokenSavings": 48917,
     "actualOutputTokens": {
       "mode": "chars_approx",
-      "totalTokens": 55074,
+      "totalTokens": 57298,
       "scope": "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
       "files": [
         {
@@ -33,7 +33,7 @@
         },
         {
           "path": ".agent-context/repo-summary.md",
-          "tokens": 236
+          "tokens": 260
         },
         {
           "path": ".agent-context/key-files.md",
@@ -61,7 +61,7 @@
         },
         {
           "path": ".agent-context/readiness.md",
-          "tokens": 316
+          "tokens": 734
         },
         {
           "path": ".agent-context/tasks/bugfix-context.md",
@@ -81,13 +81,106 @@
         },
         {
           "path": ".agent-context/rag/documents.jsonl",
-          "tokens": 48983
+          "tokens": 50765
         }
       ]
     }
   },
   "readiness": {
     "score": 86,
+    "grade": "B",
+    "dimensions": [
+      {
+        "category": "operational",
+        "score": 87,
+        "evidence": [
+          "Entrypoint: src/cli/index.ts",
+          "10 modules detected.",
+          "182 dependency edges detected.",
+          "68% of files have high-confidence analysis.",
+          "Run command: npm run dev",
+          "Typecheck command: npm run build",
+          "Typecheck command: npm run check",
+          "Test/check command: npm run test",
+          "23 test files detected."
+        ],
+        "missing": [
+          "No lint/format command detected.",
+          "No CI workflow detected."
+        ]
+      },
+      {
+        "category": "context-quality",
+        "score": 99,
+        "evidence": [
+          "README documentation detected.",
+          "Architecture documentation detected.",
+          "614 code symbols extracted.",
+          "Internal dependency neighbors are available.",
+          "55 files include analysis evidence.",
+          "Entrypoint: src/cli/index.ts",
+          "10 modules detected.",
+          "182 dependency edges detected.",
+          "68% of files have high-confidence analysis."
+        ],
+        "missing": []
+      },
+      {
+        "category": "agent-safety",
+        "score": 66,
+        "evidence": [
+          "No database signals detected; migration guidance is not applicable.",
+          "Test/check command: npm run test",
+          "23 test files detected.",
+          "Run command: npm run dev",
+          "Typecheck command: npm run build",
+          "Typecheck command: npm run check"
+        ],
+        "missing": [
+          "No environment variable example detected.",
+          "No CI workflow detected.",
+          "No lint/format command detected."
+        ]
+      }
+    ],
+    "capsApplied": [
+      {
+        "cap": 90,
+        "applied": true,
+        "reason": "No CI workflow detected.",
+        "evidence": []
+      },
+      {
+        "cap": 90,
+        "applied": true,
+        "reason": "No model-specific tokenizer configured; token counts use chars_approx.",
+        "evidence": [
+          "tokenizer.mode: chars_approx"
+        ]
+      },
+      {
+        "cap": 85,
+        "applied": false,
+        "reason": "No high-confidence AST/compiler analyzer evidence detected.",
+        "evidence": [
+          "generic",
+          "typescript-compiler-api",
+          "python"
+        ]
+      },
+      {
+        "cap": 80,
+        "applied": false,
+        "reason": "No benchmark or fixture corpus detected.",
+        "evidence": []
+      },
+      {
+        "cap": 80,
+        "applied": false,
+        "reason": "Generated output validation was not confirmed.",
+        "evidence": []
+      }
+    ],
     "categories": [
       {
         "category": "structure",
@@ -136,7 +229,7 @@
         "category": "task-context",
         "score": 100,
         "evidence": [
-          "579 code symbols extracted.",
+          "614 code symbols extracted.",
           "Internal dependency neighbors are available.",
           "55 files include analysis evidence."
         ],
@@ -157,14 +250,12 @@
     "missing": [
       "No lint/format command detected.",
       "No CI workflow detected.",
-      "No environment variable example detected."
+      "No environment variable example detected.",
+      "No model-specific tokenizer configured; token counts use chars_approx."
     ],
     "strengths": [
-      "Structure readiness: 97/100.",
-      "Commands readiness: 75/100.",
-      "Tests readiness: 90/100.",
-      "Architecture readiness: 100/100.",
-      "Task Context readiness: 100/100."
+      "Operational readiness: 87/100.",
+      "Context Quality readiness: 99/100."
     ]
   }
 }

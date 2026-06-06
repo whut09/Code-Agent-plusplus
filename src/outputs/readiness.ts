@@ -5,9 +5,31 @@ export function renderReadiness(context: ContextPackage): string {
   return [
     heading(1, "Agent Readiness"),
     "",
-    `Agent Readiness: ${context.readiness.score}/100`,
+    `Agent Readiness: ${context.readiness.grade} / ${context.readiness.score}`,
     "",
     heading(2, "Dimensions"),
+    table(
+      ["Dimension", "Score", "Evidence", "Missing"],
+      context.readiness.dimensions.map((dimension) => [
+        dimension.category,
+        `${dimension.score}/100`,
+        dimension.evidence.join("; ").replace(/\|/g, "\\|") || "none",
+        dimension.missing.join("; ").replace(/\|/g, "\\|") || "none"
+      ])
+    ),
+    "",
+    heading(2, "Hard Caps"),
+    table(
+      ["Cap", "Status", "Condition", "Evidence"],
+      context.readiness.capsApplied.map((cap) => [
+        `${cap.cap}`,
+        cap.applied ? "applied" : "not applied",
+        cap.reason.replace(/\|/g, "\\|"),
+        cap.evidence.join("; ").replace(/\|/g, "\\|") || "none"
+      ])
+    ),
+    "",
+    heading(2, "Signal Categories"),
     table(
       ["Category", "Score", "Evidence", "Missing"],
       context.readiness.categories.map((category) => [

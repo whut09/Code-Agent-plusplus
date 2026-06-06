@@ -153,31 +153,37 @@
     "name": "report",
     "kind": "const",
     "filePath": "test/readiness.test.ts",
-    "line": 15
+    "line": 18
+  },
+  {
+    "name": "report",
+    "kind": "const",
+    "filePath": "test/readiness.test.ts",
+    "line": 25
   },
   {
     "name": "scan",
     "kind": "function",
     "filePath": "test/readiness.test.ts",
-    "line": 21
+    "line": 64
   },
   {
     "name": "index",
     "kind": "function",
     "filePath": "test/readiness.test.ts",
-    "line": 51
+    "line": 94
   },
   {
     "name": "coreFiles",
     "kind": "const",
     "filePath": "test/readiness.test.ts",
-    "line": 52
+    "line": 95
   },
   {
     "name": "graph",
     "kind": "function",
     "filePath": "test/readiness.test.ts",
-    "line": 99
+    "line": 142
   },
   {
     "name": "root",
@@ -1209,13 +1215,13 @@
     "name": "summaries",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
-    "line": 31
+    "line": 34
   },
   {
     "name": "tokenSavings",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
-    "line": 32
+    "line": 35
   },
   {
     "name": "DOC_EXTENSIONS",
@@ -1608,238 +1614,430 @@
     "line": 83
   },
   {
+    "name": "ReadinessAssessmentOptions",
+    "kind": "interface",
+    "filePath": "src/core/readiness.ts",
+    "line": 3
+  },
+  {
     "name": "assessReadiness",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 3
+    "line": 9
   },
   {
     "name": "categories",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 4
+    "line": 10
+  },
+  {
+    "name": "dimensions",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 18
+  },
+  {
+    "name": "rawScore",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 19
+  },
+  {
+    "name": "capsApplied",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 24
   },
   {
     "name": "score",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 12
+    "line": 25
   },
   {
     "name": "summarizeReadiness",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 24
+    "line": 43
   },
   {
-    "name": "assessStructure",
+    "name": "buildDimensions",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 36
+    "line": 58
   },
   {
-    "name": "score",
+    "name": "byName",
     "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 37
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 38
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 39
-  },
-  {
-    "name": "highConfidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 52
-  },
-  {
-    "name": "confidenceRatio",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 53
-  },
-  {
-    "name": "assessCommands",
-    "kind": "function",
     "filePath": "src/core/readiness.ts",
     "line": 59
   },
   {
-    "name": "score",
+    "name": "structure",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 60
   },
   {
-    "name": "evidence",
+    "name": "GET structure",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 60
+  },
+  {
+    "name": "commands",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 61
   },
   {
-    "name": "missing",
-    "kind": "const",
+    "name": "GET commands",
+    "kind": "route",
     "filePath": "src/core/readiness.ts",
-    "line": 62
-  },
-  {
-    "name": "assessTests",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 78
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 79
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 80
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 81
+    "line": 61
   },
   {
     "name": "tests",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 82
+    "line": 62
   },
   {
-    "name": "assessArchitecture",
+    "name": "GET tests",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 62
+  },
+  {
+    "name": "architecture",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 63
+  },
+  {
+    "name": "GET architecture",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 63
+  },
+  {
+    "name": "taskContext",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 64
+  },
+  {
+    "name": "GET task-context",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 64
+  },
+  {
+    "name": "safety",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 65
+  },
+  {
+    "name": "GET safety",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 65
+  },
+  {
+    "name": "dimension",
     "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 86
+  },
+  {
+    "name": "present",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 87
+  },
+  {
+    "name": "readinessCaps",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 96
+  },
+  {
+    "name": "hasCi",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 97
+  },
+  {
+    "name": "hasAstAnalyzer",
+    "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 98
   },
   {
-    "name": "score",
+    "name": "hasBenchmarkFixture",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 99
   },
   {
-    "name": "evidence",
+    "name": "hasGeneratedOutputValidation",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 100
   },
   {
-    "name": "missing",
+    "name": "hasRealTokenizer",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 101
   },
   {
-    "name": "docsText",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 110
-  },
-  {
-    "name": "largeModules",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 111
-  },
-  {
-    "name": "assessTaskContext",
+    "name": "cap",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
+    "line": 112
+  },
+  {
+    "name": "applyCaps",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 116
+  },
+  {
+    "name": "appliedCaps",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
     "line": 117
+  },
+  {
+    "name": "assessStructure",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 121
   },
   {
     "name": "score",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 118
+    "line": 122
   },
   {
     "name": "evidence",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 119
+    "line": 123
   },
   {
     "name": "missing",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 120
+    "line": 124
   },
   {
-    "name": "evidenceFiles",
+    "name": "highConfidence",
     "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 129
-  },
-  {
-    "name": "assessSafety",
-    "kind": "function",
     "filePath": "src/core/readiness.ts",
     "line": 137
   },
   {
-    "name": "score",
+    "name": "confidenceRatio",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
     "line": 138
   },
   {
+    "name": "assessCommands",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 144
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 145
+  },
+  {
     "name": "evidence",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 139
+    "line": 146
   },
   {
     "name": "missing",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 140
+    "line": 147
+  },
+  {
+    "name": "assessTests",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 163
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 164
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 165
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 166
+  },
+  {
+    "name": "tests",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 167
+  },
+  {
+    "name": "assessArchitecture",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 183
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 184
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 185
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 186
+  },
+  {
+    "name": "docsText",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 195
+  },
+  {
+    "name": "largeModules",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 196
+  },
+  {
+    "name": "assessTaskContext",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 202
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 203
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 204
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 205
+  },
+  {
+    "name": "evidenceFiles",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 214
+  },
+  {
+    "name": "assessSafety",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 222
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 223
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 224
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 225
   },
   {
     "name": "hasDatabaseSignals",
     "kind": "const",
     "filePath": "src/core/readiness.ts",
-    "line": 149
+    "line": 234
   },
   {
     "name": "category",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 162
+    "line": 247
+  },
+  {
+    "name": "weighted",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 256
+  },
+  {
+    "name": "dimensionScore",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 260
+  },
+  {
+    "name": "grade",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 264
   },
   {
     "name": "hasArchitectureDocumentation",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 171
+    "line": 272
   },
   {
     "name": "list",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 175
+    "line": 276
   },
   {
     "name": "title",
     "kind": "function",
     "filePath": "src/core/readiness.ts",
-    "line": 179
+    "line": 280
   },
   {
     "name": "BINARY_EXTENSIONS",
@@ -2481,25 +2679,37 @@
     "name": "ReadinessCategory",
     "kind": "interface",
     "filePath": "src/core/types.ts",
-    "line": 187
+    "line": 190
+  },
+  {
+    "name": "ReadinessDimension",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 197
+  },
+  {
+    "name": "ReadinessCap",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 204
   },
   {
     "name": "TokenSavingsReport",
     "kind": "interface",
     "filePath": "src/core/types.ts",
-    "line": 194
+    "line": 211
   },
   {
     "name": "ActualOutputTokenReport",
     "kind": "interface",
     "filePath": "src/core/types.ts",
-    "line": 206
+    "line": 223
   },
   {
     "name": "TaskPack",
     "kind": "interface",
     "filePath": "src/core/types.ts",
-    "line": 216
+    "line": 233
   },
   {
     "name": "ValidationIssue",
@@ -2961,49 +3171,49 @@
     "name": "moduleText",
     "kind": "const",
     "filePath": "src/outputs/rag.ts",
-    "line": 40
+    "line": 41
   },
   {
     "name": "renderRagReadme",
     "kind": "function",
     "filePath": "src/outputs/rag.ts",
-    "line": 62
+    "line": 63
   },
   {
     "name": "buildRagManifest",
     "kind": "function",
     "filePath": "src/outputs/rag.ts",
-    "line": 88
+    "line": 89
   },
   {
     "name": "fileToRagDocument",
     "kind": "function",
     "filePath": "src/outputs/rag.ts",
-    "line": 102
+    "line": 103
   },
   {
     "name": "text",
     "kind": "const",
     "filePath": "src/outputs/rag.ts",
-    "line": 103
+    "line": 104
   },
   {
     "name": "safeId",
     "kind": "function",
     "filePath": "src/outputs/rag.ts",
-    "line": 134
+    "line": 135
   },
   {
     "name": "limitText",
     "kind": "function",
     "filePath": "src/outputs/rag.ts",
-    "line": 138
+    "line": 139
   },
   {
     "name": "characterLimit",
     "kind": "const",
     "filePath": "src/outputs/rag.ts",
-    "line": 139
+    "line": 140
   },
   {
     "name": "renderReadiness",

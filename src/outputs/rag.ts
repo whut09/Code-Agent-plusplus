@@ -32,7 +32,8 @@ export function buildRagDocuments(context: ContextPackage): RagDocument[] {
       target: context.target,
       languages: context.scan.languages,
       frameworks: context.scan.frameworks,
-      readinessScore: context.readiness.score
+      readinessScore: context.readiness.score,
+      readinessGrade: context.readiness.grade
     }
   });
 

@@ -9,6 +9,9 @@ test("readiness reports missing architecture documentation and large undocumente
   assert.ok(report.missing.includes("No architecture summary detected."));
   assert.ok(report.missing.includes("Large undocumented module: src/core."));
   assert.ok(report.score < 100);
+  assert.ok(["C", "D", "F"].includes(report.grade));
+  assert.deepEqual(report.dimensions.map((dimension) => dimension.category), ["operational", "context-quality", "agent-safety"]);
+  assert.ok(report.capsApplied.some((cap) => cap.applied && cap.reason === "No CI workflow detected."));
 });
 
 test("readiness recognizes architecture documentation and documented modules", () => {
@@ -16,6 +19,46 @@ test("readiness recognizes architecture documentation and documented modules", (
 
   assert.ok(report.categories.find((category) => category.category === "architecture")?.evidence.includes("Architecture documentation detected."));
   assert.equal(report.missing.some((item) => item.includes("Large undocumented module")), false);
+});
+
+test("readiness applies hard caps to keep scores diagnostic", () => {
+  const report = assessReadiness(
+    {
+      ...scan(["README.md", "docs/architecture.md", "test/fixtures/app.ts"]),
+      ciFiles: []
+    },
+    {
+      ...index(true),
+      files: [{
+        path: "src/index.ts",
+        absolutePath: "C:/repo/src/index.ts",
+        extension: ".ts",
+        sizeBytes: 100,
+        kind: "source",
+        language: "TypeScript",
+        tokenEstimate: 25,
+        isBinary: false,
+        isGenerated: false,
+        isTest: false,
+        imports: [],
+        exports: ["main"],
+        symbols: [{ name: "main", kind: "function", filePath: "src/index.ts", line: 1 }],
+        summary: "Entrypoint.",
+        analyzer: "typescript-compiler-api",
+        confidence: "high",
+        evidence: [{ line: 1, kind: "symbol", symbol: "main", detail: "function main" }],
+        moduleName: "src",
+        importanceScore: 100,
+        importanceReasons: ["entrypoint"]
+      }]
+    },
+    graph(),
+    { tokenizerMode: "chars_approx", generatedOutputValidation: true, benchmarkFixture: true }
+  );
+
+  assert.ok(report.score <= 90);
+  assert.ok(report.capsApplied.some((cap) => cap.applied && cap.cap === 90 && cap.reason === "No CI workflow detected."));
+  assert.ok(report.capsApplied.some((cap) => cap.applied && cap.reason.includes("No model-specific tokenizer")));
 });
 
 function scan(paths: string[]): RepoScan {

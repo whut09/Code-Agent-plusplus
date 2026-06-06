@@ -35,7 +35,9 @@ export function renderRepoSummary(context: ContextPackage): string {
     "",
     heading(2, "Agent Readiness"),
     bullet([
-      `Score: ${context.readiness.score}/100`,
+      `Score: ${context.readiness.grade} / ${context.readiness.score}`,
+      `Dimensions: ${context.readiness.dimensions.map((dimension) => `${dimension.category} ${dimension.score}/100`).join("; ")}`,
+      `Caps applied: ${context.readiness.capsApplied.filter((cap) => cap.applied).length}`,
       `Missing signals: ${context.readiness.missing.length}`
     ]),
     "",

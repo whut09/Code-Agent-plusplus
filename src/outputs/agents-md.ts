@@ -91,7 +91,7 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
       `Frameworks: ${context.scan.frameworks.join(", ") || "none detected"}`,
       `Package managers: ${context.scan.packageManagers.join(", ") || "none detected"}`,
       `Entrypoints: ${context.scan.entrypoints.map(code).join(", ") || "none detected"}`,
-      `Agent readiness: ${context.readiness.score}/100`
+      `Agent readiness: ${context.readiness.grade} / ${context.readiness.score}`
     ]),
     "",
     heading(2, "Commands"),

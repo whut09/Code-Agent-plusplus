@@ -148,18 +148,20 @@ Generated files:
 
 ## Agent Readiness Score
 
-The readiness report makes missing context obvious:
+The readiness report is an engineering diagnostic, not a guarantee of agent task success. It rolls low-level signals into three dimensions and applies hard caps so repositories do not get easy 100s:
 
 ```txt
-Agent Readiness: 76/100
+Agent Readiness: B / 82
 
-Categories:
-- Structure: 90/100
-- Commands: 70/100
-- Tests: 50/100
-- Architecture: 80/100
-- Task Context: 65/100
-- Safety: 85/100
+Dimensions:
+- Operational: 90/100
+- Context Quality: 75/100
+- Agent Safety: 70/100
+
+Hard caps:
+- max 90 when no CI workflow is detected
+- max 90 when token counting uses chars_approx instead of a model tokenizer
+- max 85 when no high-confidence AST/compiler analyzer evidence exists
 ```
 
 Generated files:

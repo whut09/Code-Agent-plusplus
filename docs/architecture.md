@@ -68,7 +68,7 @@ Task packs use lexical retrieval, dependency graph expansion, related tests/entr
 
 ## Readiness
 
-Readiness categories include structure, commands, tests, architecture, task context, and safety. Each category contains a score, evidence, and missing signals.
+Readiness is a diagnostic, not a success guarantee. Low-level signal categories still include structure, commands, tests, architecture, task context, and safety. They roll up into Operational, Context Quality, and Agent Safety dimensions, then hard caps prevent easy 100s when important trust signals are missing, such as CI, real tokenizer accounting, high-confidence AST/compiler analysis, benchmark fixtures, or generated output validation.
 
 ## Composer
 

@@ -1,6 +1,12 @@
-import type { AgentReadinessReport, ContextPackage, DependencyGraph, ReadinessCategory, RepoIndex, RepoScan } from "./types.js";
+import type { AgentReadinessReport, ContextPackage, DependencyGraph, ReadinessCap, ReadinessCategory, ReadinessDimension, RepoIndex, RepoScan, TokenizerConfig } from "./types.js";
 
-export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: DependencyGraph): AgentReadinessReport {
+export interface ReadinessAssessmentOptions {
+  tokenizerMode?: TokenizerConfig["mode"];
+  generatedOutputValidation?: boolean;
+  benchmarkFixture?: boolean;
+}
+
+export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: DependencyGraph, options: ReadinessAssessmentOptions = {}): AgentReadinessReport {
   const categories = [
     assessStructure(scan, index, graph),
     assessCommands(scan),
@@ -9,28 +15,107 @@ export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: Depende
     assessTaskContext(index, graph),
     assessSafety(scan)
   ];
-  const score = Math.round(categories.reduce((sum, category) => sum + category.score, 0) / categories.length);
+  const dimensions = buildDimensions(categories);
+  const rawScore = Math.round(
+    dimensionScore(dimensions, "operational") * 0.4
+    + dimensionScore(dimensions, "context-quality") * 0.35
+    + dimensionScore(dimensions, "agent-safety") * 0.25
+  );
+  const capsApplied = readinessCaps(scan, index, options);
+  const score = applyCaps(rawScore, capsApplied);
 
   return {
     score,
+    grade: grade(score),
+    dimensions,
+    capsApplied,
     categories,
-    missing: [...new Set(categories.flatMap((category) => category.missing))],
-    strengths: categories
-      .filter((category) => category.score >= 75)
-      .map((category) => `${title(category.category)} readiness: ${category.score}/100.`)
+    missing: [...new Set([
+      ...dimensions.flatMap((dimension) => dimension.missing),
+      ...capsApplied.filter((cap) => cap.applied).map((cap) => cap.reason)
+    ])],
+    strengths: dimensions
+      .filter((dimension) => dimension.score >= 75)
+      .map((dimension) => `${title(dimension.category)} readiness: ${dimension.score}/100.`)
   };
 }
 
 export function summarizeReadiness(context: ContextPackage): string {
   return [
-    `Agent Readiness: ${context.readiness.score}/100`,
+    `Agent Readiness: ${context.readiness.grade} / ${context.readiness.score}`,
     "",
-    "Categories:",
-    ...context.readiness.categories.map((category) => `- ${title(category.category)}: ${category.score}/100`),
+    "Dimensions:",
+    ...context.readiness.dimensions.map((dimension) => `- ${title(dimension.category)}: ${dimension.score}/100`),
+    "",
+    "Caps:",
+    ...context.readiness.capsApplied.map((cap) => `- ${cap.applied ? "Applied" : "Not applied"}: max ${cap.cap} if ${cap.reason}`),
     "",
     "Missing or weak signals:",
     ...list(context.readiness.missing)
   ].join("\n");
+}
+
+function buildDimensions(categories: ReadinessCategory[]): ReadinessDimension[] {
+  const byName = new Map(categories.map((category) => [category.category, category]));
+  const structure = byName.get("structure");
+  const commands = byName.get("commands");
+  const tests = byName.get("tests");
+  const architecture = byName.get("architecture");
+  const taskContext = byName.get("task-context");
+  const safety = byName.get("safety");
+
+  return [
+    dimension("operational", weighted([
+      [structure?.score ?? 0, 0.25],
+      [commands?.score ?? 0, 0.35],
+      [tests?.score ?? 0, 0.40]
+    ]), [structure, commands, tests]),
+    dimension("context-quality", weighted([
+      [architecture?.score ?? 0, 0.35],
+      [taskContext?.score ?? 0, 0.45],
+      [structure?.score ?? 0, 0.20]
+    ]), [architecture, taskContext, structure]),
+    dimension("agent-safety", weighted([
+      [safety?.score ?? 0, 0.65],
+      [tests?.score ?? 0, 0.25],
+      [commands?.score ?? 0, 0.10]
+    ]), [safety, tests, commands])
+  ];
+}
+
+function dimension(name: ReadinessDimension["category"], score: number, categories: Array<ReadinessCategory | undefined>): ReadinessDimension {
+  const present = categories.filter((category): category is ReadinessCategory => Boolean(category));
+  return {
+    category: name,
+    score,
+    evidence: [...new Set(present.flatMap((category) => category.evidence))],
+    missing: [...new Set(present.flatMap((category) => category.missing))]
+  };
+}
+
+function readinessCaps(scan: RepoScan, index: RepoIndex, options: ReadinessAssessmentOptions): ReadinessCap[] {
+  const hasCi = (scan.ciFiles ?? []).length > 0;
+  const hasAstAnalyzer = index.files.some((file) => file.analyzer === "typescript-compiler-api" && file.confidence === "high");
+  const hasBenchmarkFixture = options.benchmarkFixture ?? scan.files.some((file) => /(^|\/)(test\/fixtures|fixtures|benchmarks?|examples?)\//i.test(file.path));
+  const hasGeneratedOutputValidation = options.generatedOutputValidation ?? false;
+  const hasRealTokenizer = options.tokenizerMode !== "chars_approx";
+
+  return [
+    cap(90, !hasCi, "No CI workflow detected.", scan.ciFiles),
+    cap(90, !hasRealTokenizer, "No model-specific tokenizer configured; token counts use chars_approx.", [`tokenizer.mode: ${options.tokenizerMode ?? "chars_approx"}`]),
+    cap(85, !hasAstAnalyzer, "No high-confidence AST/compiler analyzer evidence detected.", [...new Set(index.files.map((file) => file.analyzer))]),
+    cap(80, !hasBenchmarkFixture, "No benchmark or fixture corpus detected.", []),
+    cap(80, !hasGeneratedOutputValidation, "Generated output validation was not confirmed.", [])
+  ];
+}
+
+function cap(capValue: number, applied: boolean, reason: string, evidence: string[]): ReadinessCap {
+  return { cap: capValue, applied, reason, evidence };
+}
+
+function applyCaps(score: number, caps: ReadinessCap[]): number {
+  const appliedCaps = caps.filter((cap) => cap.applied).map((cap) => cap.cap);
+  return Math.min(score, ...(appliedCaps.length ? appliedCaps : [100]));
 }
 
 function assessStructure(scan: RepoScan, index: RepoIndex, graph: DependencyGraph): ReadinessCategory {
@@ -166,6 +251,22 @@ function category(
   missing: string[]
 ): ReadinessCategory {
   return { category: name, score: Math.max(0, Math.min(100, score)), evidence, missing };
+}
+
+function weighted(items: Array<[number, number]>): number {
+  return Math.round(items.reduce((sum, [score, weight]) => sum + score * weight, 0));
+}
+
+function dimensionScore(dimensions: ReadinessDimension[], name: ReadinessDimension["category"]): number {
+  return dimensions.find((dimension) => dimension.category === name)?.score ?? 0;
+}
+
+function grade(score: number): AgentReadinessReport["grade"] {
+  if (score >= 90) return "A";
+  if (score >= 80) return "B";
+  if (score >= 70) return "C";
+  if (score >= 60) return "D";
+  return "F";
 }
 
 function hasArchitectureDocumentation(scan: RepoScan): boolean {

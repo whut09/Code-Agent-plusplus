@@ -13,7 +13,7 @@ This file is intentionally short. Treat it as operating constraints plus links t
 ## Project Entrypoints
 - Entrypoint: `src/cli/index.ts`
 - Anchor: `src/core/context-builder.ts` - 2 exports, 11 symbols
-- Anchor: `src/core/types.ts` - 28 exports, 28 symbols
+- Anchor: `src/core/types.ts` - 30 exports, 30 symbols
 - Anchor: `src/outputs/markdown.ts` - 5 exports, 8 symbols
 
 ## Commands

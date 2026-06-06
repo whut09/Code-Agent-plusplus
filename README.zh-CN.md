@@ -148,18 +148,20 @@ Actual generated output: 31,000 tokens (chars_approx)
 
 ## Agent Readiness Score
 
-readiness 报告会把缺失上下文直接暴露出来：
+readiness 报告是工程诊断分，不是 agent 成功率保证。它会把六类底层信号汇总成三层，并应用硬上限，避免轻易给满分：
 
 ```txt
-Agent Readiness: 76/100
+Agent Readiness: B / 82
 
-Categories:
-- Structure: 90/100
-- Commands: 70/100
-- Tests: 50/100
-- Architecture: 80/100
-- Task Context: 65/100
-- Safety: 85/100
+Dimensions:
+- Operational: 90/100
+- Context Quality: 75/100
+- Agent Safety: 70/100
+
+Hard caps:
+- max 90 when no CI workflow is detected
+- max 90 when token counting uses chars_approx instead of a model tokenizer
+- max 85 when no high-confidence AST/compiler analyzer evidence exists
 ```
 
 生成文件：
