@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -18,7 +18,7 @@ test("default AGENTS.md is minimal operating constraints", async () => {
     const context = await buildContextPackage(root);
     const agents = renderAgentsMd(context);
 
-    assert.match(agents, /# AGENTS\.md/);
+    assert.match(agents, /# Generated Agent Guide/);
     assert.match(agents, /## Must-Read Rules/);
     assert.match(agents, /## Deep Context/);
     assert.match(agents, /npm run check/);
@@ -26,6 +26,32 @@ test("default AGENTS.md is minimal operating constraints", async () => {
     assert.doesNotMatch(agents, /## Project Overview/);
     assert.doesNotMatch(agents, /## Module Map/);
     assert.ok(agents.length < 4800);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("default AGENTS.md prefers source anchors over generic config anchors", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
+
+  try {
+    mkdirSync(path.join(root, "src", "auth"), { recursive: true });
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({
+      scripts: { typecheck: "tsc --noEmit", test: "node --test", dev: "node src/index.js" }
+    }), "utf8");
+    writeFileSync(path.join(root, "tsconfig.json"), JSON.stringify({ compilerOptions: { module: "esnext" } }), "utf8");
+    writeFileSync(path.join(root, "src", "index.ts"), `
+export { login } from "./auth/session.ts";
+`, "utf8");
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), `
+export function login() { return "ok"; }
+`, "utf8");
+
+    const context = await buildContextPackage(root);
+    const agents = renderAgentsMd(context);
+
+    assert.match(agents, /Anchor: `src\/index\.ts`|Anchor: `src\/auth\/session\.ts`/);
+    assert.doesNotMatch(agents, /Anchor: `tsconfig\.json`/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -47,7 +73,7 @@ agents:
     const context = await buildContextPackage(root);
     const agents = renderAgentsMd(context);
 
-    assert.match(agents, /# Agent Guide/);
+    assert.match(agents, /# Generated Agent Guide/);
     assert.match(agents, /## Project Overview/);
     assert.match(agents, /## Module Map/);
   } finally {

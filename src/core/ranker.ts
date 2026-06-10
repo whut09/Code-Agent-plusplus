@@ -20,13 +20,21 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
       score += 35;
       reasons.push("entrypoint");
     }
+    if (isApiOrRouteFile(file.path)) {
+      score += 18;
+      reasons.push("route/api surface");
+    }
     if (file.kind === "config") {
-      score += 25;
+      score += isHighSignalConfig(file.path) ? 22 : 8;
       reasons.push("configuration");
     }
     if (file.path.toLowerCase().includes("readme")) {
       score += 20;
       reasons.push("readme");
+    }
+    if (isArchitectureDoc(file.path)) {
+      score += 18;
+      reasons.push("architecture doc");
     }
     if (file.exports.length) {
       score += Math.min(20, file.exports.length * 4);
@@ -62,6 +70,18 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
       score -= 30;
       reasons.push("low-value generated/asset/lockfile");
     }
+    if (isGenericConfig(file)) {
+      score -= 8;
+      reasons.push("generic config");
+    }
+    if (isToolingConfig(file.path)) {
+      score -= 10;
+      reasons.push("tooling config");
+    }
+    if (file.kind === "docs" && !isArchitectureDoc(file.path) && !file.path.toLowerCase().includes("readme")) {
+      score -= 4;
+      reasons.push("secondary documentation");
+    }
 
     file.importanceScore = Math.max(0, score);
     file.importanceReasons = reasons;
@@ -82,4 +102,25 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
 
 function dependencyWord(count: number): string {
   return count === 1 ? "dependency" : "dependencies";
+}
+
+function isApiOrRouteFile(filePath: string): boolean {
+  return /(^|\/)(api|routes?)\//i.test(filePath)
+    || /(^|\/)(route|controller|handler)\.[cm]?[tj]sx?$/i.test(filePath);
+}
+
+function isArchitectureDoc(filePath: string): boolean {
+  return /(^|\/)(architecture|design|adr|decision[s]?)(\.|\/|$)/i.test(filePath);
+}
+
+function isHighSignalConfig(filePath: string): boolean {
+  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|next\.config\.[cm]?js|vite\.config\.[cm]?ts|tsconfig\.json)$/i.test(filePath);
+}
+
+function isGenericConfig(file: IndexedFile): boolean {
+  return file.kind === "config" && !isHighSignalConfig(file.path);
+}
+
+function isToolingConfig(filePath: string): boolean {
+  return /(^|\/)(tsconfig\.json|eslint\.config\.[cm]?js|prettier\.config\.[cm]?js|babel\.config\.[cm]?js|vitest\.config\.[cm]?ts|jest\.config\.[cm]?js)$/i.test(filePath);
 }

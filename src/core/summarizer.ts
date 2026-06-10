@@ -43,12 +43,27 @@ function buildOfflineSummary(scan: RepoScan, index: RepoIndex): SummaryBundle {
       evidence: module.files.slice(0, 8)
     }));
 
+  const topModules = moduleSummaries
+    .filter((module) => module.moduleName !== "root")
+    .slice(0, 4)
+    .map((module) => `${module.moduleName} (${module.evidence.slice(0, 2).join(", ")})`);
+  const topFiles = [...index.files]
+    .sort((a, b) => b.importanceScore - a.importanceScore || a.path.localeCompare(b.path))
+    .slice(0, 5)
+    .map((file) => `${file.path}: ${file.summary}`);
+  const commandSummary = [
+    ...scan.runCommands.slice(0, 2),
+    ...scan.typecheckCommands.slice(0, 1),
+    ...scan.lintCommands.slice(0, 1),
+    ...scan.testCommands.slice(0, 2)
+  ];
+
   const repoSummary = [
-    `This repository contains ${scan.files.length} scanned files.`,
-    `Detected languages: ${scan.languages.join(", ") || "none"}.`,
-    `Detected frameworks: ${scan.frameworks.join(", ") || "none"}.`,
-    `Detected modules: ${index.modules.length}.`,
-    `Detected symbols: ${index.symbols.length}.`
+    `This repository contains ${scan.files.length} scanned files with ${index.symbols.length} detected symbols across ${index.modules.length} modules.`,
+    `Detected stack: languages ${scan.languages.join(", ") || "none"}, frameworks ${scan.frameworks.join(", ") || "none"}, package managers ${scan.packageManagers.join(", ") || "none"}.`,
+    `Primary entrypoints: ${scan.entrypoints.join(", ") || "none detected"}. Common commands: ${commandSummary.join(", ") || "none detected"}.`,
+    `Highest-signal modules: ${topModules.join("; ") || "root only"}.`,
+    `Highest-signal files: ${topFiles.join("; ") || "none"}.`
   ].join(" ");
 
   return {

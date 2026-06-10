@@ -15,7 +15,13 @@ test("Next fixture context snapshot remains stable", async () => {
     routeConfidence: route?.confidence,
     routeImports: route?.imports.map((item) => [item.specifier, item.resolvedPath]),
     routeSymbols: route?.symbols.filter((symbol) => symbol.kind === "route").map((symbol) => symbol.name),
-    categories: context.readiness.categories.map((category) => category.category)
+    categories: context.readiness.categories.map((category) => category.category),
+    topKeyFiles: context.keyFiles.slice(0, 4).map((file) => file.path),
+    repoSummaryIncludes: {
+      entrypoint: context.summaries.repoSummary.includes("src/app/api/login/route.ts"),
+      module: context.summaries.repoSummary.includes("auth"),
+      command: context.summaries.repoSummary.includes("npm run dev")
+    }
   };
 
   assert.deepEqual(snapshot, {
@@ -27,6 +33,12 @@ test("Next fixture context snapshot remains stable", async () => {
     routeConfidence: "high",
     routeImports: [["@/auth/session", "src/auth/session.ts"]],
     routeSymbols: ["POST", "POST /api/login"],
-    categories: ["structure", "commands", "tests", "architecture", "task-context", "safety"]
+    categories: ["structure", "commands", "tests", "architecture", "task-context", "safety"],
+    topKeyFiles: ["src/app/api/login/route.ts", "package.json", "src/auth/session.ts", "tsconfig.json"],
+    repoSummaryIncludes: {
+      entrypoint: true,
+      module: true,
+      command: true
+    }
   });
 });

@@ -137,9 +137,7 @@ function commandLines(context: ContextPackage): string[] {
 
 function projectEntrypoints(context: ContextPackage): string[] {
   const entries = context.scan.entrypoints.map((entry) => `Entrypoint: ${code(entry)}`);
-  const anchors = context.keyFiles
-    .filter((file) => !context.scan.entrypoints.includes(file.path))
-    .slice(0, 3)
+  const anchors = selectAnchorFiles(context)
     .map((file) => `Anchor: ${formatKeyFile(file)}`);
 
   return [...entries, ...anchors].length > 0
@@ -177,6 +175,21 @@ function contextLinks(context: ContextPackage): string[] {
 
 function formatKeyFile(file: IndexedFile): string {
   return `${code(file.path)} - ${file.importanceReasons.slice(0, 2).join(", ") || file.kind}`;
+}
+
+function selectAnchorFiles(context: ContextPackage): IndexedFile[] {
+  return context.keyFiles
+    .filter((file) => !context.scan.entrypoints.includes(file.path))
+    .filter((file) => !isLowValueAnchor(file))
+    .slice(0, 3);
+}
+
+function isLowValueAnchor(file: IndexedFile): boolean {
+  if (file.kind !== "config") {
+    return false;
+  }
+
+  return !/(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml)$/i.test(file.path);
 }
 
 function enforceAgentsBudget(sections: string[], maxTokens: number): string {
