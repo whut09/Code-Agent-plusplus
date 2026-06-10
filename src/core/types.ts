@@ -28,6 +28,7 @@ export interface AgentsConfig {
   mode: AgentsMode;
   maxTokens: number;
   include: AgentsSection[];
+  manualSources: string[];
 }
 
 export interface LlmConfig {

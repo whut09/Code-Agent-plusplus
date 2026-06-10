@@ -56,7 +56,9 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
       ...DEFAULT_CONFIG.agents,
       ...fileConfig.agents,
       ...localConfig.agents,
-      ...overrides.agents
+      ...overrides.agents,
+      include: overrides.agents?.include ?? localConfig.agents?.include ?? fileConfig.agents?.include ?? DEFAULT_CONFIG.agents.include,
+      manualSources: overrides.agents?.manualSources ?? localConfig.agents?.manualSources ?? fileConfig.agents?.manualSources ?? DEFAULT_CONFIG.agents.manualSources
     },
     outputs: {
       ...DEFAULT_CONFIG.outputs,
@@ -120,6 +122,9 @@ export function validateConfig(config: RepoContextConfig): void {
   }
   if (!Number.isFinite(config.agents.maxTokens) || config.agents.maxTokens <= 0) {
     throw new Error("agents.maxTokens must be a positive number.");
+  }
+  if (!Array.isArray(config.agents.manualSources) || config.agents.manualSources.some((item) => typeof item !== "string" || item.trim() === "")) {
+    throw new Error("agents.manualSources must be an array of non-empty strings.");
   }
   const allowedSections = new Set(["commands", "safety", "entrypoints", "contextLinks"]);
   for (const section of config.agents.include) {
@@ -200,6 +205,9 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
     if (agents.include !== undefined && (!Array.isArray(agents.include) || agents.include.some((item) => typeof item !== "string" || !allowedSections.has(item)))) {
       throw new Error("agents.include must be an array containing only: commands, safety, entrypoints, contextLinks.");
     }
+    if (agents.manualSources !== undefined && (!Array.isArray(agents.manualSources) || agents.manualSources.some((item) => typeof item !== "string" || item.trim() === ""))) {
+      throw new Error("agents.manualSources must be an array of non-empty strings.");
+    }
   }
   void source;
 }
@@ -215,7 +223,8 @@ function normalizeAgentsConfig(input: Record<string, unknown>): Partial<RepoCont
   return stripUndefined({
     mode: typeof input.mode === "string" ? input.mode as AgentsMode : undefined,
     maxTokens: typeof input.maxTokens === "number" ? input.maxTokens : undefined,
-    include: toAgentsSectionArray(input.include)
+    include: toAgentsSectionArray(input.include),
+    manualSources: toStringArray(input.manualSources)
   });
 }
 

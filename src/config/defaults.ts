@@ -46,7 +46,8 @@ export const DEFAULT_CONFIG: RepoContextConfig = {
   agents: {
     mode: "minimal",
     maxTokens: 1200,
-    include: ["commands", "safety", "entrypoints", "contextLinks"]
+    include: ["commands", "safety", "entrypoints", "contextLinks"],
+    manualSources: ["AGENTS.manual.md"]
   },
   outputs: {
     agents: true,

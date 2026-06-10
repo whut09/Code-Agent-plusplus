@@ -21,6 +21,8 @@ tokenizer:
 agents:
   mode: minimal
   maxTokens: 1200
+  manualSources:
+    - AGENTS.manual.md
   include:
     - commands
     - safety

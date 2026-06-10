@@ -14,6 +14,19 @@ import { buildRagDocuments, buildRagManifest, renderRagReadme } from "./rag.js";
 import { buildTaskPack, renderTaskContext } from "./task-context.js";
 import { renderTokenSavings } from "./token-savings.js";
 
+const GENERATED_AGENTS_FILE = "AGENTS.generated.md";
+const COMPOSED_AGENTS_FILE = "AGENTS.md";
+const DEFAULT_MANUAL_FILE = "AGENTS.manual.md";
+const MIGRATION_HEADINGS = [
+  "环境依赖版本",
+  "安装步骤",
+  ".env/配置文件要求",
+  "Docker / Compose / PM2 / systemd 部署方式",
+  "启动命令",
+  "数据目录与日志目录",
+  "常见故障与恢复步骤"
+];
+
 export interface WriteResult {
   files: string[];
 }
@@ -36,7 +49,9 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   if (context.config.outputs.rag) mkdirSync(ragDir, { recursive: true });
 
   if (context.config.outputs.agents) {
-    write(root, resolveAgentsFileName(root), renderAgentsMd(context), written);
+    ensureManualAgentsLayer(root, context.config.agents.manualSources, written);
+    write(contextDir, GENERATED_AGENTS_FILE, renderAgentsMd(context), written);
+    write(root, COMPOSED_AGENTS_FILE, composeAgentsMd(root, context.config.agents.manualSources), written);
   }
   write(contextDir, "repo-summary.md", renderRepoSummary(context), written);
   write(contextDir, "key-files.md", renderKeyFiles(context), written);
@@ -89,7 +104,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   write(contextDir, "token-savings.md", renderTokenSavings(context), written);
   writeJson(contextDir, "token-savings.json", context.tokenSavings, written);
 
-  return { files: written };
+  return { files: dedupe(written) };
 }
 
 function rewriteJson(filePath: string, value: unknown): void {
@@ -101,7 +116,7 @@ function measureActualOutputs(
   written: string[],
   tokenizer: ContextPackage["config"]["tokenizer"]
 ): NonNullable<ContextPackage["tokenSavings"]["actualOutputTokens"]> {
-  const files = Object.fromEntries(written
+  const files = Object.fromEntries(dedupe(written)
     .filter((filePath) => /\.(md|mmd|jsonl)$/i.test(filePath))
     .filter((filePath) => !filePath.endsWith("token-savings.md"))
     .map((filePath) => {
@@ -125,8 +140,8 @@ function measureActualOutputs(
 
 function cleanupDisabledOutputs(context: ContextPackage, contextDir: string, root: string): void {
   if (!context.config.outputs.agents) {
-    removeGeneratedAgentFile(path.join(root, "AGENTS.md"));
-    removeGeneratedAgentFile(path.join(root, "AGENTS.generated.md"));
+    removeGeneratedAgentFile(path.join(root, COMPOSED_AGENTS_FILE));
+    removeGeneratedAgentFile(path.join(contextDir, GENERATED_AGENTS_FILE));
   }
   if (!context.config.outputs.modules) {
     removeGeneratedPath(contextDir, "module-map.md");
@@ -148,13 +163,113 @@ function cleanupDisabledOutputs(context: ContextPackage, contextDir: string, roo
   }
 }
 
+function ensureManualAgentsLayer(root: string, manualSources: string[], written: string[]): void {
+  if (manualSources.length === 0) {
+    return;
+  }
+
+  const primaryManualPath = path.join(root, manualSources[0]);
+  if (existsSync(primaryManualPath)) {
+    return;
+  }
+
+  const agentsPath = path.join(root, COMPOSED_AGENTS_FILE);
+  if (!existsSync(agentsPath)) {
+    return;
+  }
+
+  const existing = readFileSync(agentsPath, "utf8");
+  if (isGeneratedAgentFile(existing)) {
+    return;
+  }
+
+  const migrated = extractManualContent(existing);
+  writeFileSync(primaryManualPath, `${migrated.trim()}\n`, "utf8");
+  written.push(primaryManualPath);
+}
+
+function composeAgentsMd(root: string, manualSources: string[]): string {
+  const manualBlocks = manualSources
+    .map((source) => ({
+      source,
+      filePath: path.join(root, source)
+    }))
+    .filter((item) => existsSync(item.filePath))
+    .map((item) => ({
+      source: item.source,
+      content: readFileSync(item.filePath, "utf8").trim()
+    }))
+    .filter((item) => item.content.length > 0);
+
+  const generatedPath = path.join(root, ".agent-context", GENERATED_AGENTS_FILE);
+  const generated = existsSync(generatedPath) ? readFileSync(generatedPath, "utf8").trim() : "";
+  const composed: string[] = [
+    "<!-- generated-by: repo-to-agent-context -->",
+    "<!-- do-not-edit: edit AGENTS.manual.md or configured manual sources instead -->",
+    `<!-- manual-sources: ${manualSources.join(", ") || "(none)"} -->`,
+    `<!-- generated-source: .agent-context/${GENERATED_AGENTS_FILE} -->`
+  ];
+
+  if (manualBlocks.length > 0) {
+    composed.push("", "# Agent Guide", "", "## Manual Operations Context", "");
+    for (const block of manualBlocks) {
+      composed.push(`<!-- manual-source: ${block.source} -->`, "", block.content, "");
+    }
+  } else {
+    composed.push("", "# Agent Guide", "", "## Manual Operations Context", "", "_No manual agent notes configured yet. Add environment and deployment guidance to `AGENTS.manual.md`._", "");
+  }
+
+  if (generated) {
+    composed.push("## Generated Code Context", "", generated);
+  }
+
+  return composed.join("\n").trim();
+}
+
+function extractManualContent(existingAgents: string): string {
+  const normalized = existingAgents.replace(/\r\n/g, "\n").trim();
+  const extracted = MIGRATION_HEADINGS
+    .map((heading) => extractSection(normalized, heading))
+    .filter((section): section is string => Boolean(section));
+
+  if (extracted.length > 0) {
+    return [
+      "<!-- migrated-from: AGENTS.md -->",
+      "",
+      ...extracted.flatMap((section) => [section, ""])
+    ].join("\n").trim();
+  }
+
+  return [
+    "<!-- migrated-from: AGENTS.md -->",
+    "",
+    normalized
+  ].join("\n").trim();
+}
+
+function extractSection(content: string, heading: string): string | null {
+  const escaped = escapeRegExp(heading);
+  const pattern = new RegExp(`(^|\\n)(#{1,6}\\s*${escaped}\\s*\\n[\\s\\S]*?)(?=\\n#{1,6}\\s+|$)`, "i");
+  const match = content.match(pattern);
+  if (!match) {
+    return null;
+  }
+
+  return match[2].trim();
+}
+
+function isGeneratedAgentFile(content: string): boolean {
+  return content.includes("generated-by: repo-to-agent-context")
+    || content.includes("This file was generated by Repo-to-Agent-Context");
+}
+
 function removeGeneratedAgentFile(filePath: string): void {
   if (!existsSync(filePath)) {
     return;
   }
 
   const content = readFileSync(filePath, "utf8");
-  if (content.includes("generated-by: repo-to-agent-context")) {
+  if (isGeneratedAgentFile(content)) {
     rmSync(filePath, { force: true });
   }
 }
@@ -167,23 +282,6 @@ function removeGeneratedPath(contextDir: string, relativePath: string): void {
   }
 
   rmSync(target, { recursive: true, force: true });
-}
-
-function resolveAgentsFileName(root: string): string {
-  const agentsPath = path.join(root, "AGENTS.md");
-  if (!existsSync(agentsPath)) {
-    return "AGENTS.md";
-  }
-
-  const existing = readFileSync(agentsPath, "utf8");
-  if (
-    existing.includes("generated-by: repo-to-agent-context")
-    || existing.includes("This file was generated by Repo-to-Agent-Context")
-  ) {
-    return "AGENTS.md";
-  }
-
-  return "AGENTS.generated.md";
 }
 
 function write(baseDir: string, fileName: string, content: string, written: string[]): void {
@@ -225,4 +323,12 @@ function sanitizeIndexedFile(file: ContextPackage["index"]["files"][number]): Om
   const { absolutePath, ...safeFile } = file;
   void absolutePath;
   return safeFile;
+}
+
+function dedupe<T>(items: T[]): T[] {
+  return [...new Set(items)];
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

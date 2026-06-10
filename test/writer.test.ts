@@ -18,6 +18,8 @@ test("writer honors optional output switches", async () => {
     const initialContext = await buildContextPackage(root);
     writeContextPackage(initialContext);
     assert.equal(existsSync(path.join(root, "AGENTS.md")), true);
+    assert.equal(existsSync(path.join(root, "AGENTS.manual.md")), false);
+    assert.equal(existsSync(path.join(root, ".agent-context", "AGENTS.generated.md")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "graphs")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "rag")), true);
 
@@ -35,6 +37,7 @@ outputs:
     writeContextPackage(context);
 
     assert.equal(existsSync(path.join(root, "AGENTS.md")), false);
+    assert.equal(existsSync(path.join(root, ".agent-context", "AGENTS.generated.md")), false);
     assert.equal(existsSync(path.join(root, ".agent-context", "module-map.md")), false);
     assert.equal(existsSync(path.join(root, ".agent-context", "dependency-graph.md")), false);
     assert.equal(existsSync(path.join(root, ".agent-context", "readiness.md")), false);
@@ -56,6 +59,53 @@ outputs:
     const onboarding = readFileSync(path.join(root, ".agent-context", "onboarding.md"), "utf8");
     assert.equal(onboarding.includes("AGENTS.md"), false);
     assert.equal(onboarding.includes("dependency-graph.md"), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("writer migrates legacy AGENTS.md into AGENTS.manual.md and composes final AGENTS.md", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
+
+  try {
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({
+      scripts: { test: "node --test", start: "node src/index.js" }
+    }), "utf8");
+    writeFileSync(path.join(root, "src-index.ts"), "export const value = 1;\n", "utf8");
+    writeFileSync(path.join(root, "AGENTS.md"), `
+# Team Notes
+
+## 环境依赖版本
+Node 20
+
+## 安装步骤
+pnpm install
+
+## 启动命令
+pnpm dev
+
+## 常见故障与恢复步骤
+重启服务
+`, "utf8");
+
+    const context = await buildContextPackage(root);
+    writeContextPackage(context);
+
+    const manual = readFileSync(path.join(root, "AGENTS.manual.md"), "utf8");
+    const generated = readFileSync(path.join(root, ".agent-context", "AGENTS.generated.md"), "utf8");
+    const finalAgents = readFileSync(path.join(root, "AGENTS.md"), "utf8");
+
+    assert.equal(manual.includes("migrated-from: AGENTS.md"), true);
+    assert.equal(manual.includes("## 环境依赖版本"), true);
+    assert.equal(manual.includes("## 安装步骤"), true);
+    assert.equal(manual.includes("## 启动命令"), true);
+    assert.equal(generated.includes("generated-file: .agent-context/AGENTS.generated.md"), true);
+    assert.equal(finalAgents.includes("manual-sources: AGENTS.manual.md"), true);
+    assert.equal(finalAgents.includes("generated-source: .agent-context/AGENTS.generated.md"), true);
+    assert.equal(finalAgents.includes("## Manual Operations Context"), true);
+    assert.equal(finalAgents.includes("## Generated Code Context"), true);
+    assert.equal(finalAgents.includes("Node 20"), true);
+    assert.equal(finalAgents.includes("This generated section is intentionally short."), true);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

@@ -42,7 +42,8 @@ test("starter config is valid and contains all output switches", () => {
     assert.deepEqual(config.agents, {
       mode: "minimal",
       maxTokens: 1200,
-      include: ["commands", "safety", "entrypoints", "contextLinks"]
+      include: ["commands", "safety", "entrypoints", "contextLinks"],
+      manualSources: ["AGENTS.manual.md"]
     });
     assert.deepEqual(config.outputs, {
       agents: true,
@@ -73,6 +74,13 @@ agents:
     - everything
 `, "utf8");
     assert.throws(() => loadConfig(root), /agents\.include must be an array/);
+
+    writeFileSync(path.join(root, "repo-context.config.yml"), `
+agents:
+  manualSources:
+    - ""
+`, "utf8");
+    assert.throws(() => loadConfig(root), /agents\.manualSources must be an array of non-empty strings/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
