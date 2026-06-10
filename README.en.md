@@ -49,6 +49,8 @@ npm run dev -- build ./path/to/repo
 It depends on the coding tool, not the model itself. `AGENTS.md` is a convention used by agent clients to inject repository instructions into the model context.
 
 - The generated `AGENTS.md` defaults to `agents.mode: minimal`, keeping only mandatory operating rules, entrypoints, required commands, and links into `.agent-context/`.
+- Root instructions are now split into three layers: hand-maintained `AGENTS.manual.md`, generated `.agent-context/AGENTS.generated.md`, and composed `AGENTS.md`.
+- If a repository already has a hand-written legacy `AGENTS.md`, the first build migrates environment and deployment sections into `AGENTS.manual.md` before regenerating the composed root file.
 - Longer repo summaries, module maps, dependency graphs, readiness details, and task packs live under `.agent-context/` so the root instruction file stays small.
 - Codex: yes. Codex reads `AGENTS.md` before doing work. It can combine global guidance from your Codex home directory with project-level `AGENTS.md` files.
 - Claude Code: not directly. Claude Code reads `CLAUDE.md`. To reuse the generated agent guide, create a root `CLAUDE.md` with `@AGENTS.md`, then add Claude-specific notes below it if needed.
@@ -61,7 +63,9 @@ See [docs/agents-md.md](docs/agents-md.md) for detailed usage patterns and offic
 
 ```txt
 AGENTS.md
+AGENTS.manual.md
 .agent-context/
+  AGENTS.generated.md
   repo-summary.md
   key-files.md
   module-map.md
@@ -258,6 +262,26 @@ This version exports LightRAG-ready documents but does not directly synchronize 
 See [docs/architecture.md](docs/architecture.md) for the implementation design, [docs/agents-md.md](docs/agents-md.md) for agent instruction usage, and [docs/roadmap.md](docs/roadmap.md) for planned phases.
 
 ## Configuration
+
+Create `repo-context.config.yml`:
+
+```yaml
+target: codex
+tokenBudget: 60000
+
+agents:
+  mode: minimal # minimal | balanced | full
+  maxTokens: 1200
+  manualSources:
+    - AGENTS.manual.md
+  include:
+    - commands
+    - safety
+    - entrypoints
+    - contextLinks
+```
+
+`agents.manualSources` controls which hand-maintained files are composed ahead of generated agent guidance. Edit those files directly; do not hand-edit the final `AGENTS.md`.
 
 Create `repo-context.config.yml`:
 

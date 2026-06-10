@@ -49,6 +49,8 @@ npm run dev -- build ./path/to/repo
 要看你使用的编程工具，而不是大模型本身。`AGENTS.md` 是 Agent 客户端用于把仓库说明注入模型上下文的一种约定。
 
 - 默认生成的 `AGENTS.md` 使用 `agents.mode: minimal`，只保留必须遵守的操作规则、入口文件、必要命令和 `.agent-context/` 索引。
+- 根目录说明现在拆成三层：人工维护的 `AGENTS.manual.md`、自动生成的 `.agent-context/AGENTS.generated.md`，以及最终组合出来的 `AGENTS.md`。
+- 如果仓库里原本已经有手写的旧 `AGENTS.md`，首次构建会先把环境和部署相关章节迁移到 `AGENTS.manual.md`，再重新生成最终根文件。
 - 更长的仓库摘要、模块图、依赖图、readiness 和任务包都放在 `.agent-context/`，避免根上下文文件过长。
 - Codex：会。Codex 会在开始工作前读取 `AGENTS.md`，并可以把全局说明和项目级说明合并进上下文。
 - Claude Code：不会直接读取 `AGENTS.md`。Claude Code 的项目说明文件是 `CLAUDE.md`。如果想复用本工具生成的说明，可以在仓库根目录创建 `CLAUDE.md`，内容写 `@AGENTS.md`，再追加 Claude 专用说明。
@@ -61,7 +63,9 @@ npm run dev -- build ./path/to/repo
 
 ```txt
 AGENTS.md
+AGENTS.manual.md
 .agent-context/
+  AGENTS.generated.md
   repo-summary.md
   key-files.md
   module-map.md
@@ -273,6 +277,8 @@ tokenizer:
 agents:
   mode: minimal # minimal | balanced | full
   maxTokens: 1200
+  manualSources:
+    - AGENTS.manual.md
   include:
     - commands
     - safety
@@ -298,7 +304,7 @@ outputs:
   rag: true
 ```
 
-`agents` 控制根目录 `AGENTS.md` 的信息密度。默认 `minimal` 会把根文件限制成最小操作约束，`balanced`/`full` 才会写入更多概览内容。`outputs` 开关控制可选生成物。关闭开关时，也会清理该分组中之前生成的文件。仓库摘要、关键文件、onboarding、token 节省报告和机器可读索引会始终生成。
+`agents` 控制根目录 `AGENTS.md` 的信息密度。默认 `minimal` 会把根文件限制成最小操作约束，`balanced`/`full` 才会写入更多概览内容。`agents.manualSources` 指定人工维护的说明文件列表，这些文件会在生成时组合到最终 `AGENTS.md` 之前，应该直接编辑这些源文件，而不是手改最终 `AGENTS.md`。`outputs` 开关控制可选生成物。关闭开关时，也会清理该分组中之前生成的文件。仓库摘要、关键文件、onboarding、token 节省报告和机器可读索引会始终生成。
 
 ## 开发
 

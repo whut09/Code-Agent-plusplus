@@ -6,12 +6,20 @@
 
 Repo-to-Agent-Context writes a root `AGENTS.md` plus deeper context under `.agent-context/`.
 
+The root guide now has explicit ownership layers:
+
+- `AGENTS.manual.md`: hand-maintained operating notes such as environment, deployment, runbooks, and recovery steps
+- `.agent-context/AGENTS.generated.md`: generated code-facing instructions
+- `AGENTS.md`: composed final guide that agents read
+
 Default configuration:
 
 ```yaml
 agents:
   mode: minimal # minimal | balanced | full
   maxTokens: 1200
+  manualSources:
+    - AGENTS.manual.md
   include:
     - commands
     - safety
@@ -20,6 +28,22 @@ agents:
 ```
 
 Prefer `minimal`. Longer root instruction files do not automatically improve coding-agent success; deep summaries, module maps, readiness details, and task packs should be read from `.agent-context/` on demand.
+
+Do not edit the final `AGENTS.md` by hand. Edit `AGENTS.manual.md` or other files listed in `agents.manualSources`.
+
+## Legacy Migration
+
+If a repository already contains a hand-written legacy `AGENTS.md`, the first generated build migrates these sections into `AGENTS.manual.md` before composing the new root file:
+
+- Environment dependencies
+- Installation steps
+- `.env` / config requirements
+- Docker / Compose / PM2 / systemd deployment
+- Start commands
+- Data and log directories
+- Common failures and recovery steps
+
+If those headings are not found, the tool falls back to moving the whole legacy file into `AGENTS.manual.md`.
 
 ## Generate It With an AI Agent
 
@@ -100,6 +124,7 @@ Good content:
 - Required or preferred validation commands
 - Entrypoints or a few highest-value anchor files
 - Links into `.agent-context/` for deeper context
+- Environment and deployment notes in `AGENTS.manual.md`
 
 Avoid:
 
@@ -108,6 +133,7 @@ Avoid:
 - Vague instructions like "write good code"
 - Duplicating the entire repository
 - Full module summaries, long dependency graphs, or large onboarding documents
+- Hand-editing the final composed `AGENTS.md`
 
 ## References
 

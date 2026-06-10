@@ -84,6 +84,8 @@ Token savings are split into estimated and actual layers. `originalRepoTokens` i
 
 The composer writes both human-friendly Markdown and machine-readable JSON:
 
+- `AGENTS.manual.md` (hand-maintained source, never overwritten once created)
+- `.agent-context/AGENTS.generated.md`
 - `AGENTS.md`
 - `.agent-context/repo-summary.md`
 - `.agent-context/key-files.md`
@@ -96,6 +98,8 @@ The composer writes both human-friendly Markdown and machine-readable JSON:
 - `.agent-context/index/*.json`
 - `.agent-context/graphs/*.json`
 - `.agent-context/graphs/*.mmd`
+
+When a legacy hand-written `AGENTS.md` already exists, the composer migrates deployment-oriented sections into `AGENTS.manual.md`, then composes the final root file from `agents.manualSources` plus `.agent-context/AGENTS.generated.md`.
 
 ## Summary Engine
 
