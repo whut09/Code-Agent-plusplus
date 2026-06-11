@@ -72,6 +72,12 @@ AGENTS.md
   readiness.json
   token-savings.md
   token-savings.json
+  contracts/
+    architecture.contract.json
+    module-boundaries.json
+    commands.contract.json
+    test.contract.json
+    safety.contract.json
   tasks/
     bugfix-context.md
     feature-context.md

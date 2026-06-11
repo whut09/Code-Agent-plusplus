@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -59,6 +59,49 @@ outputs:
     const onboarding = readFileSync(path.join(root, ".agent-context", "onboarding.md"), "utf8");
     assert.equal(onboarding.includes("AGENTS.md"), false);
     assert.equal(onboarding.includes("dependency-graph.md"), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("writer emits repo contract files for agent constraints", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-contracts-"));
+
+  try {
+    mkdirSync(path.join(root, "src", "auth"), { recursive: true });
+    mkdirSync(path.join(root, "src", "payment"), { recursive: true });
+    mkdirSync(path.join(root, "test", "auth"), { recursive: true });
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({
+      scripts: { test: "node --test", check: "tsc --noEmit", lint: "eslint ." }
+    }), "utf8");
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), "export const session = 1;\n", "utf8");
+    writeFileSync(path.join(root, "src", "auth", "login.ts"), "import { session } from './session.js';\nexport const login = session;\n", "utf8");
+    writeFileSync(path.join(root, "src", "payment", "charge.ts"), "export const charge = 1;\n", "utf8");
+    writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { session } from '../../src/auth/session.js';\nsession;\n", "utf8");
+    writeFileSync(path.join(root, "package-lock.json"), "{}\n", "utf8");
+
+    const context = await buildContextPackage(root);
+    writeContextPackage(context);
+
+    const contractsDir = path.join(root, ".agent-context", "contracts");
+    for (const file of ["architecture.contract.json", "module-boundaries.json", "commands.contract.json", "test.contract.json", "safety.contract.json"]) {
+      assert.equal(existsSync(path.join(contractsDir, file)), true);
+    }
+
+    const commands = JSON.parse(readFileSync(path.join(contractsDir, "commands.contract.json"), "utf8")) as { requiredAfterChange: { source: string[] } };
+    assert.ok(commands.requiredAfterChange.source.includes("npm run test"));
+    assert.ok(commands.requiredAfterChange.source.includes("npm run check"));
+
+    const tests = JSON.parse(readFileSync(path.join(contractsDir, "test.contract.json"), "utf8")) as { sourceToRelatedTests: Record<string, string[]> };
+    assert.ok(Object.values(tests.sourceToRelatedTests).some((related) => related.includes("test/auth/session.test.ts")));
+
+    const safety = JSON.parse(readFileSync(path.join(contractsDir, "safety.contract.json"), "utf8")) as { protectedPaths: { lockfiles: string[] } };
+    assert.ok(safety.protectedPaths.lockfiles.includes("package-lock.json"));
+
+    const boundaries = JSON.parse(readFileSync(path.join(contractsDir, "module-boundaries.json"), "utf8")) as { modules: Record<string, { owns: string[]; allowedImports: string[]; forbiddenImports: string[] }> };
+    assert.ok(boundaries.modules.auth.owns.includes("src/auth/**"));
+    assert.ok(boundaries.modules.auth.allowedImports.includes("src/auth/**"));
+    assert.ok(boundaries.modules.auth.forbiddenImports.includes("src/payment/**"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

@@ -95,6 +95,7 @@ The composer writes both human-friendly Markdown and machine-readable JSON:
 - `.agent-context/onboarding.md`
 - `.agent-context/readiness.md`
 - `.agent-context/tasks/*.md`
+- `.agent-context/contracts/*.json`
 - `.agent-context/index/*.json`
 - `.agent-context/graphs/*.json`
 - `.agent-context/graphs/*.mmd`

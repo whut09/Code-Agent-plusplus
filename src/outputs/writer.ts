@@ -4,6 +4,7 @@ import type { ContextPackage } from "../core/types.js";
 import { countTokens } from "../core/token-estimator.js";
 import { renderAgentsMd } from "./agents-md.js";
 import { renderArchitecture } from "./architecture.js";
+import { buildRepoContracts } from "./contracts.js";
 import { renderDependencyGraph, renderMermaidGraph } from "./dependency-graph.js";
 import { renderKeyFiles } from "./key-files.js";
 import { renderModuleMap } from "./module-map.js";
@@ -37,6 +38,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   const indexDir = path.join(contextDir, "index");
   const evidenceDir = path.join(contextDir, "evidence");
   const graphDir = path.join(contextDir, "graphs");
+  const contractsDir = path.join(contextDir, "contracts");
   const tasksDir = path.join(contextDir, "tasks");
   const ragDir = path.join(contextDir, "rag");
   const written: string[] = [];
@@ -44,6 +46,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   cleanupDisabledOutputs(context, contextDir, root);
   mkdirSync(indexDir, { recursive: true });
   mkdirSync(evidenceDir, { recursive: true });
+  mkdirSync(contractsDir, { recursive: true });
   if (context.config.outputs.graph) mkdirSync(graphDir, { recursive: true });
   if (context.config.outputs.tasks) mkdirSync(tasksDir, { recursive: true });
   if (context.config.outputs.rag) mkdirSync(ragDir, { recursive: true });
@@ -88,6 +91,12 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
     stats: file.analysisStats,
     evidence: file.evidence
   })), written);
+  const contracts = buildRepoContracts(context);
+  writeJson(contractsDir, "architecture.contract.json", contracts.architecture, written);
+  writeJson(contractsDir, "module-boundaries.json", contracts.moduleBoundaries, written);
+  writeJson(contractsDir, "commands.contract.json", contracts.commands, written);
+  writeJson(contractsDir, "test.contract.json", contracts.test, written);
+  writeJson(contractsDir, "safety.contract.json", contracts.safety, written);
   if (context.config.outputs.rag) {
     writeRagExport(ragDir, context, written);
   }
