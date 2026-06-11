@@ -11,6 +11,9 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
   }
 
   const entrypoints = new Set(scan.entrypoints);
+  const sourceFileCount = index.files.filter((file) => file.kind === "source").length;
+  const smallRepo = scan.files.length <= 12 || sourceFileCount <= 4;
+  const hasSourceFiles = sourceFileCount > 0;
 
   for (const file of index.files) {
     const reasons: string[] = [];
@@ -83,6 +86,23 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
       reasons.push("secondary documentation");
     }
 
+    if (smallRepo && hasSourceFiles && isPackageManifest(file.path)) {
+      score -= 12;
+      reasons.push("small-repo manifest balance");
+    }
+    if (smallRepo && hasSourceFiles && file.kind === "config" && !isManifestOrDeploymentConfig(file.path)) {
+      score -= 14;
+      reasons.push("small-repo config balance");
+    }
+    if (smallRepo && hasSourceFiles && isToolingConfig(file.path)) {
+      score -= 12;
+      reasons.push("small-repo tooling balance");
+    }
+    if (smallRepo && hasSourceFiles && file.kind === "docs" && !isArchitectureDoc(file.path)) {
+      score -= file.path.toLowerCase().includes("readme") ? 8 : 12;
+      reasons.push("small-repo docs balance");
+    }
+
     file.importanceScore = Math.max(0, score);
     file.importanceReasons = reasons;
   }
@@ -114,7 +134,7 @@ function isArchitectureDoc(filePath: string): boolean {
 }
 
 function isHighSignalConfig(filePath: string): boolean {
-  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|next\.config\.[cm]?js|vite\.config\.[cm]?ts|tsconfig\.json)$/i.test(filePath);
+  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|next\.config\.[cm]?js|vite\.config\.[cm]?ts)$/i.test(filePath);
 }
 
 function isGenericConfig(file: IndexedFile): boolean {
@@ -123,4 +143,12 @@ function isGenericConfig(file: IndexedFile): boolean {
 
 function isToolingConfig(filePath: string): boolean {
   return /(^|\/)(tsconfig\.json|eslint\.config\.[cm]?js|prettier\.config\.[cm]?js|babel\.config\.[cm]?js|vitest\.config\.[cm]?ts|jest\.config\.[cm]?js)$/i.test(filePath);
+}
+
+function isManifestOrDeploymentConfig(filePath: string): boolean {
+  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|pm2\.config\.[cm]?js|ecosystem\.config\.[cm]?js)$/i.test(filePath);
+}
+
+function isPackageManifest(filePath: string): boolean {
+  return /(^|\/)package\.json$/i.test(filePath);
 }

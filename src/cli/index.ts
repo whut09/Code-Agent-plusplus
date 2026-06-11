@@ -14,6 +14,7 @@ import { renderTaskContext } from "../outputs/task-context.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
+import { resolveTaskArguments } from "./task-args.js";
 
 const program = new Command();
 
@@ -140,14 +141,15 @@ program
 
 program
   .command("task")
-  .argument("<task>", "task description")
-  .argument("[repo]", "repository path", ".")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
   .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
   .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
   .description("Generate a task-focused context recommendation.")
-  .action(async (task: string, repo: string, options: { type: TaskType; tokenBudget?: number }) => {
+  .action(async (args: string[], options: { repo?: string | string[]; type: TaskType; tokenBudget?: number }) => {
+    const { task, repo } = resolveTaskArguments(args, options.repo);
     const context = await buildContextPackage(repo);
-    console.log(renderTaskContext(context, task, options));
+    console.log(renderTaskContext(context, task, { type: options.type, tokenBudget: options.tokenBudget }));
   });
 
 program

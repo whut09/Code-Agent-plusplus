@@ -110,6 +110,7 @@ repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
 repo-context task "<task>" [repo]
+repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
 repo-context update [repo] --since main
 repo-context rag export [repo]
@@ -130,6 +131,7 @@ repo-context validate .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context task 修复 登录 超时 --repo "../my app/中文项目" --type bugfix
 repo-context diff . --base main
 repo-context rag export . --token-budget 60000
 ```
@@ -230,6 +232,7 @@ task 模式不是简单关键词文件列表，而是三阶段上下文打包器
 
 ```bash
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context task 修复 登录 超时 --repo "../my app/中文项目" --type bugfix
 repo-context task "add SSO login" . --type feature
 repo-context task "split auth module" . --type refactor
 ```

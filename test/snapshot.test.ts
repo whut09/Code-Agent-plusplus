@@ -34,7 +34,7 @@ test("Next fixture context snapshot remains stable", async () => {
     routeImports: [["@/auth/session", "src/auth/session.ts"]],
     routeSymbols: ["POST", "POST /api/login"],
     categories: ["structure", "commands", "tests", "architecture", "task-context", "safety"],
-    topKeyFiles: ["src/app/api/login/route.ts", "package.json", "src/auth/session.ts", "tsconfig.json"],
+    topKeyFiles: ["src/app/api/login/route.ts", "src/auth/session.ts", "package.json"],
     repoSummaryIncludes: {
       entrypoint: true,
       module: true,
