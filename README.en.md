@@ -109,6 +109,9 @@ repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
+repo-context plan "<task>" [repo]
+repo-context pack "<task>" [repo]
+repo-context verify --diff [repo]
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -130,6 +133,9 @@ repo-context readiness .
 repo-context validate .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
+repo-context plan "fix login timeout bug" . --type bugfix
+repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context verify --diff .
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context diff . --base main
@@ -224,13 +230,16 @@ Each indexed file includes `analyzer`, `confidence`, `analysisStats` (`parser`, 
 
 ## Task Context Packs
 
-Task mode is a three-stage context packer rather than a plain keyword file list:
+The task workflow is split into `plan`, `pack`, and `verify`; the older `task` command remains as a compatibility shortcut. Task mode is a three-stage context packer rather than a plain keyword file list:
 
 1. Direct retrieval matches the task against paths, modules, summaries, exports, symbols, tests, and docs.
 2. Graph expansion adds direct imports, direct importers, sibling tests, entrypoints, config files, and owning module docs.
 3. Budget packing groups selected files into direct source, tests, dependency neighbors, config/docs, and entrypoints.
 
 ```bash
+repo-context plan "fix login timeout bug" . --type bugfix
+repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context verify --diff .
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context task "add SSO login" . --type feature

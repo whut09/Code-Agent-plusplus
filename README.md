@@ -105,6 +105,9 @@ repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
+repo-context plan "<task>" [repo]
+repo-context pack "<task>" [repo]
+repo-context verify --diff [repo]
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -126,6 +129,9 @@ repo-context readiness .
 repo-context validate .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
+repo-context plan "fix login timeout bug" . --type bugfix
+repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context verify --diff .
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context diff . --base main
@@ -220,13 +226,16 @@ repo-context build . --llm
 
 ## 任务上下文包
 
-task 模式不是简单关键词文件列表，而是三阶段上下文打包器：
+任务工作流拆成 `plan`、`pack`、`verify` 三个阶段；旧的 `task` 命令仍保留为兼容入口。`task` 模式不是简单关键词文件列表，而是三阶段上下文打包器：
 
 1. 直接检索：匹配 path、module、summary、exports、symbols、tests 和 docs。
 2. 图扩展：加入 direct imports、direct importers、sibling tests、entrypoints、config files 和 owning module docs。
 3. 预算装包：按 direct source、tests、dependency neighbors、config/docs、entrypoints 分桶放入 token budget。
 
 ```bash
+repo-context plan "fix login timeout bug" . --type bugfix
+repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
+repo-context verify --diff .
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context task "add SSO login" . --type feature

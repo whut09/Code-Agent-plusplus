@@ -11,6 +11,7 @@ import { summarizeReadiness } from "../core/readiness.js";
 import { formatTokenSavings } from "../core/token-savings.js";
 import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
 import { renderTaskContext } from "../outputs/task-context.js";
+import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
@@ -137,6 +138,47 @@ program
       console.log(`- ${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
     }
     if (!report.valid) process.exitCode = 1;
+  });
+
+program
+  .command("plan")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task planning token budget", parseInteger)
+  .description("Generate a task plan with inspection, risk, and validation guidance.")
+  .action(async (args: string[], options: { repo?: string | string[]; type: TaskType; tokenBudget?: number }) => {
+    const { task, repo } = resolveTaskArguments(args, options.repo);
+    const context = await buildContextPackage(repo);
+    console.log(renderTaskPlan(context, task, { type: options.type, tokenBudget: options.tokenBudget }));
+  });
+
+program
+  .command("pack")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
+  .description("Write a task context pack under .agent-context/tasks/<task-id>.")
+  .action(async (args: string[], options: { repo?: string | string[]; type: TaskType; tokenBudget?: number }) => {
+    const { task, repo } = resolveTaskArguments(args, options.repo);
+    const context = await buildContextPackage(repo);
+    const result = writeTaskContextPack(context, task, { type: options.type, tokenBudget: options.tokenBudget });
+    console.log(`Wrote task pack: ${path.relative(context.scan.root, result.dir).replaceAll("\\", "/")}`);
+    for (const file of result.files) {
+      console.log(`- ${path.relative(context.scan.root, file).replaceAll("\\", "/")}`);
+    }
+  });
+
+program
+  .command("verify")
+  .argument("[repo]", "repository path", ".")
+  .option("--diff", "verify changed files from git diff and working tree", true)
+  .option("--base <ref>", "base git ref", "main")
+  .description("Verify changed files against affected modules, tests, and risk signals.")
+  .action(async (repo: string, options: { diff?: boolean; base: string }) => {
+    const context = await buildContextPackage(repo);
+    console.log(renderTaskVerify(context, { base: options.base, diff: options.diff }));
   });
 
 program
