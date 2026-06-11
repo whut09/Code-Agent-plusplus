@@ -12,6 +12,7 @@ import { formatTokenSavings } from "../core/token-savings.js";
 import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
 import { renderChangeImpactReport } from "../outputs/impact.js";
 import { renderTaskContext } from "../outputs/task-context.js";
+import { renderTestSelection } from "../outputs/test-selector.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
@@ -193,6 +194,18 @@ program
     const { task, repo } = resolveTaskArguments(args, options.repo);
     const context = await buildContextPackage(repo);
     console.log(renderTaskContext(context, task, { type: options.type, tokenBudget: options.tokenBudget }));
+  });
+
+program
+  .command("tests")
+  .argument("[repo]", "repository path", ".")
+  .option("--for <path...>", "select tests for one or more changed source files")
+  .option("--diff", "select tests for files changed from the base ref")
+  .option("--base <ref>", "base git ref for --diff", "main")
+  .description("Select minimal, regression, and full-confidence tests for a file or diff.")
+  .action(async (repo: string, options: { for?: string[]; diff?: boolean; base: string }) => {
+    const context = await buildContextPackage(repo);
+    console.log(renderTestSelection(context, { forPaths: options.for, diff: options.diff, base: options.base }));
   });
 
 program

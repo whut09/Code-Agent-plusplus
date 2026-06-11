@@ -115,6 +115,8 @@ repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context verify --diff [repo]
 repo-context impact [repo] --base main
+repo-context tests [repo] --for <path>
+repo-context tests [repo] --diff --base main
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -140,6 +142,8 @@ repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
 repo-context impact . --base main
+repo-context tests . --for src/auth/session.ts
+repo-context tests . --diff --base main
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context diff . --base main
@@ -234,7 +238,7 @@ repo-context build . --llm
 
 ## 任务上下文包
 
-任务工作流拆成 `plan`、`pack`、`verify` 三个阶段；旧的 `task` 命令仍保留为兼容入口。`task` 模式不是简单关键词文件列表，而是三阶段上下文打包器：
+任务工作流拆成 `plan`、`pack`、`verify`、`tests` 四个阶段；旧的 `task` 命令仍保留为兼容入口。`tests` 命令会为文件或 diff 选择最小测试、回归测试和全量信心命令。`task` 模式不是简单关键词文件列表，而是三阶段上下文打包器：
 
 1. 直接检索：匹配 path、module、summary、exports、symbols、tests 和 docs。
 2. 图扩展：加入 direct imports、direct importers、sibling tests、entrypoints、config files 和 owning module docs。
@@ -245,6 +249,8 @@ repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
 repo-context impact . --base main
+repo-context tests . --for src/auth/session.ts
+repo-context tests . --diff --base main
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context task "add SSO login" . --type feature

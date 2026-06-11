@@ -119,6 +119,8 @@ repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context verify --diff [repo]
 repo-context impact [repo] --base main
+repo-context tests [repo] --for <path>
+repo-context tests [repo] --diff --base main
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -144,6 +146,8 @@ repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
 repo-context impact . --base main
+repo-context tests . --for src/auth/session.ts
+repo-context tests . --diff --base main
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context diff . --base main
@@ -238,7 +242,7 @@ Each indexed file includes `analyzer`, `confidence`, `analysisStats` (`parser`, 
 
 ## Task Context Packs
 
-The task workflow is split into `plan`, `pack`, and `verify`; the older `task` command remains as a compatibility shortcut. Task mode is a three-stage context packer rather than a plain keyword file list:
+The task workflow is split into `plan`, `pack`, `verify`, and `tests`; the older `task` command remains as a compatibility shortcut. The `tests` command selects minimal, regression, and full-confidence test commands for a file or diff. Task mode is a three-stage context packer rather than a plain keyword file list:
 
 1. Direct retrieval matches the task against paths, modules, summaries, exports, symbols, tests, and docs.
 2. Graph expansion adds direct imports, direct importers, sibling tests, entrypoints, config files, and owning module docs.
@@ -249,6 +253,8 @@ repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
 repo-context impact . --base main
+repo-context tests . --for src/auth/session.ts
+repo-context tests . --diff --base main
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context task "add SSO login" . --type feature

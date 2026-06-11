@@ -23,7 +23,13 @@ export function runGit(cwd: string, args: string[]): string {
 }
 
 export function changedFilesSince(cwd: string, base: string): string[] {
-  return runGit(cwd, ["diff", "--name-only", base])
+  const changed = parseGitPathList(runGit(cwd, ["diff", "--name-only", base]));
+  const untracked = parseGitPathList(runGit(cwd, ["ls-files", "--others", "--exclude-standard"]));
+  return [...new Set([...changed, ...untracked])].sort();
+}
+
+function parseGitPathList(output: string): string[] {
+  return output
     .split(/\r?\n/)
     .map((line) => line.trim().replace(/\\/g, "/"))
     .filter(Boolean);
