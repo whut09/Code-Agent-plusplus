@@ -20,7 +20,7 @@ const program = new Command();
 
 program
   .name("repo-context")
-  .description("Compress a repository into an agent-ready context package.")
+  .description("Generate minimal, evidence-linked, task-aware context for coding agents.")
   .version("0.1.0");
 
 program

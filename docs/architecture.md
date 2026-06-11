@@ -1,6 +1,6 @@
 # Architecture
 
-Repo-to-Agent-Context turns a repository into a compact context package through a six-stage pipeline.
+Repo-to-Agent-Context is an Agent Context Harness: it turns a repository into minimal, evidence-linked, task-aware context packs through a validation-oriented pipeline.
 
 ```mermaid
 graph TD

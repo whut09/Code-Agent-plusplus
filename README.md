@@ -2,7 +2,7 @@
 
 中文 | [English](README.en.md)
 
-把任意仓库压缩成结构化、紧凑、适合 Claude、Codex、Cursor 等 AI 编程 Agent 使用的上下文包。
+Repo-to-Agent-Context 是面向编码 Agent 的仓库上下文 Harness：它为具体任务生成最小、可验证、带证据链的上下文包，并通过测试/变更/依赖约束降低无关上下文、误改和回归风险。
 
 第一版采用离线优先设计：扫描仓库、提取轻量代码结构、排序关键文件、构建依赖图，并输出 Markdown/JSON 上下文文件，不强依赖大模型。
 

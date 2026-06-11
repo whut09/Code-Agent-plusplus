@@ -2,7 +2,7 @@
 
 [中文](README.md) | English
 
-Turn any repository into a compact, structured, agent-ready context package for Claude, Codex, Cursor, and similar coding agents.
+Repo-to-Agent-Context is a repository context harness that generates minimal, evidence-linked, task-aware context packs for coding agents, with validation hooks to reduce irrelevant context, unsafe edits, and regression risk.
 
 The first version is deliberately offline-first: it scans a repo, extracts lightweight code structure, ranks important files, builds dependency graphs, and writes Markdown/JSON context files without requiring an LLM.
 
