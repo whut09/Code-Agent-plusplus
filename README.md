@@ -108,6 +108,7 @@ repo-context validate [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context verify --diff [repo]
+repo-context impact [repo] --base main
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -132,6 +133,7 @@ repo-context savings . --actual --model gpt-4.1
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
+repo-context impact . --base main
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context diff . --base main
@@ -236,6 +238,7 @@ repo-context build . --llm
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
+repo-context impact . --base main
 repo-context task "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context task fix login timeout bug --repo "../my app/中文项目" --type bugfix
 repo-context task "add SSO login" . --type feature

@@ -10,6 +10,7 @@ import { renderDependencyGraph } from "../outputs/dependency-graph.js";
 import { summarizeReadiness } from "../core/readiness.js";
 import { formatTokenSavings } from "../core/token-savings.js";
 import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
+import { renderChangeImpactReport } from "../outputs/impact.js";
 import { renderTaskContext } from "../outputs/task-context.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { validateContextPackage } from "../core/validator.js";
@@ -192,6 +193,16 @@ program
     const { task, repo } = resolveTaskArguments(args, options.repo);
     const context = await buildContextPackage(repo);
     console.log(renderTaskContext(context, task, { type: options.type, tokenBudget: options.tokenBudget }));
+  });
+
+program
+  .command("impact")
+  .argument("[repo]", "repository path", ".")
+  .option("--base <ref>", "base git ref", "main")
+  .description("Analyze changed files, dependents, related tests, and required verification.")
+  .action(async (repo: string, options: { base: string }) => {
+    const context = await buildContextPackage(repo);
+    console.log(renderChangeImpactReport(context, { base: options.base }));
   });
 
 program
