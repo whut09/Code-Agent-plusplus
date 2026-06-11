@@ -105,6 +105,17 @@ AGENTS.manual.md
     dependencies.mmd
 ```
 
+## Context Layers
+
+Generated context is split into L0-L3 so agents do not load the full `.agent-context/` directory by default:
+
+- L0: `AGENTS.md`, the shortest operating rules and default workflow, always loaded.
+- L1: `.agent-context/repo-summary.md`, `.agent-context/onboarding.md`, and `.agent-context/context-layers.md`, loaded when a new task starts.
+- L2: `.agent-context/tasks/<task>/`, loaded only for the concrete task.
+- L3: `.agent-context/key-files.md`, `index/`, `evidence/`, `graphs/`, and `rag/`, loaded on demand for deeper analysis, symbol lookup, or evidence tracing.
+
+`AGENTS.md` states the default workflow explicitly: read only `AGENTS.md` first; for a concrete task, run `repo-context plan` or inspect the task pack; do not load the full `.agent-context/` directory by default; prefer source files over generated summaries for behavior decisions. Manual environment and deployment notes stay in `AGENTS.manual.md` and are loaded only for environment, deployment, configuration, or operations tasks.
+
 ## 命令
 
 ```bash

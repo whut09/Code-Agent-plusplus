@@ -5,6 +5,7 @@ import { countTokens } from "../core/token-estimator.js";
 import { renderAgentsMd } from "./agents-md.js";
 import { renderArchitecture } from "./architecture.js";
 import { buildRepoContracts } from "./contracts.js";
+import { renderContextLayers } from "./context-layers.js";
 import { renderDependencyGraph, renderMermaidGraph } from "./dependency-graph.js";
 import { renderKeyFiles } from "./key-files.js";
 import { renderModuleMap } from "./module-map.js";
@@ -57,6 +58,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
     write(root, COMPOSED_AGENTS_FILE, composeAgentsMd(root, context.config.agents.manualSources), written);
   }
   write(contextDir, "repo-summary.md", renderRepoSummary(context), written);
+  write(contextDir, "context-layers.md", renderContextLayers(context), written);
   write(contextDir, "key-files.md", renderKeyFiles(context), written);
   if (context.config.outputs.modules) {
     write(contextDir, "module-map.md", renderModuleMap(context), written);
@@ -216,20 +218,25 @@ function composeAgentsMd(root: string, manualSources: string[]): string {
     "<!-- generated-by: repo-to-agent-context -->",
     "<!-- do-not-edit: edit AGENTS.manual.md or configured manual sources instead -->",
     `<!-- manual-sources: ${manualSources.join(", ") || "(none)"} -->`,
-    `<!-- generated-source: .agent-context/${GENERATED_AGENTS_FILE} -->`
+    `<!-- generated-source: .agent-context/${GENERATED_AGENTS_FILE} -->`,
+    "",
+    "# Agent Guide"
   ];
 
-  if (manualBlocks.length > 0) {
-    composed.push("", "# Agent Guide", "", "## Manual Operations Context", "");
-    for (const block of manualBlocks) {
-      composed.push(`<!-- manual-source: ${block.source} -->`, "", block.content, "");
-    }
-  } else {
-    composed.push("", "# Agent Guide", "", "## Manual Operations Context", "", "_No manual agent notes configured yet. Add environment and deployment guidance to `AGENTS.manual.md`._", "");
+  if (generated) {
+    composed.push("", generated);
   }
 
-  if (generated) {
-    composed.push("## Generated Code Context", "", generated);
+  composed.push("", "## Manual Operations Context", "");
+  if (manualBlocks.length > 0) {
+    composed.push(
+      "Manual environment, installation, configuration, deployment, data directory, log directory, and recovery notes are kept out of L0 by default.",
+      "Load these files only for environment, deployment, configuration, or operations tasks:",
+      "",
+      ...manualBlocks.map((block) => `- ${block.source}`)
+    );
+  } else {
+    composed.push("_No manual agent notes configured yet. Add environment and deployment guidance to `AGENTS.manual.md`._");
   }
 
   return composed.join("\n").trim();

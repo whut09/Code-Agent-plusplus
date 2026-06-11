@@ -31,6 +31,17 @@ agents:
 
 不要手工修改最终的 `AGENTS.md`。应当直接修改 `AGENTS.manual.md`，或 `agents.manualSources` 里配置的其他人工源文件。
 
+## Context Layers
+
+Generated context is split into L0-L3 so agents do not load the full `.agent-context/` directory by default:
+
+- L0: `AGENTS.md`, the shortest operating rules and default workflow, always loaded.
+- L1: `.agent-context/repo-summary.md`, `.agent-context/onboarding.md`, and `.agent-context/context-layers.md`, loaded when a new task starts.
+- L2: `.agent-context/tasks/<task>/`, loaded only for the concrete task.
+- L3: `.agent-context/key-files.md`, `index/`, `evidence/`, `graphs/`, and `rag/`, loaded on demand for deeper analysis, symbol lookup, or evidence tracing.
+
+`AGENTS.md` states the default workflow explicitly: read only `AGENTS.md` first; for a concrete task, run `repo-context plan` or inspect the task pack; do not load the full `.agent-context/` directory by default; prefer source files over generated summaries for behavior decisions. Manual environment and deployment notes stay in `AGENTS.manual.md` and are loaded only for environment, deployment, configuration, or operations tasks.
+
 ## 旧项目迁移
 
 如果仓库里已经存在手写的旧 `AGENTS.md`，第一次生成时会先把下面这些章节迁移到 `AGENTS.manual.md`，再组合新的根文件：

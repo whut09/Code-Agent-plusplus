@@ -15,7 +15,7 @@ export function renderKeyFiles(context: ContextPackage): string {
   return [
     heading(1, "Key Files"),
     "",
-    "These files are ranked as the most useful starting context for an agent.",
+    "L3 evidence index. Do not load this file by default; use it only after L1/L2 context identifies the task area.",
     "",
     table(["File", "Score", "Kind", "Analysis", "Resolved Imports", "Why", "Summary"], rows)
   ].join("\n");

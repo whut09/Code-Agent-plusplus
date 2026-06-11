@@ -20,9 +20,14 @@ test("default AGENTS.md is minimal operating constraints", async () => {
 
     assert.match(agents, /# Generated Agent Guide/);
     assert.match(agents, /## Must-Read Rules/);
-    assert.match(agents, /## Deep Context/);
+    assert.match(agents, /## Default Workflow/);
+    assert.match(agents, /## Context Layers/);
     assert.match(agents, /npm run check/);
-    assert.match(agents, /\.agent-context\/key-files\.md/);
+    assert.match(agents, /Do not load the full `\.agent-context\/` directory/);
+    assert.match(agents, /Prefer source files over generated summaries/);
+    assert.match(agents, /`L1 \.agent-context\/repo-summary\.md`/);
+    assert.match(agents, /`L2 \.agent-context\/tasks\/`/);
+    assert.match(agents, /`L3 \.agent-context\/key-files\.md`/);
     assert.doesNotMatch(agents, /## Project Overview/);
     assert.doesNotMatch(agents, /## Module Map/);
     assert.ok(agents.length < 4800);
@@ -74,8 +79,10 @@ agents:
     const agents = renderAgentsMd(context);
 
     assert.match(agents, /# Generated Agent Guide/);
+    assert.match(agents, /## Default Workflow/);
     assert.match(agents, /## Project Overview/);
     assert.match(agents, /## Module Map/);
+    assert.match(agents, /## Context Layers/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

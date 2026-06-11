@@ -20,6 +20,7 @@ test("writer honors optional output switches", async () => {
     assert.equal(existsSync(path.join(root, "AGENTS.md")), true);
     assert.equal(existsSync(path.join(root, "AGENTS.manual.md")), false);
     assert.equal(existsSync(path.join(root, ".agent-context", "AGENTS.generated.md")), true);
+    assert.equal(existsSync(path.join(root, ".agent-context", "context-layers.md")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "graphs")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "rag")), true);
 
@@ -57,7 +58,8 @@ outputs:
     assert.ok(Object.keys(tokenReport.actualOutputTokens.files).length > 0);
     assert.equal(Object.keys(tokenReport.actualOutputTokens.files).some((file) => file.includes("index/files.json")), false);
     const onboarding = readFileSync(path.join(root, ".agent-context", "onboarding.md"), "utf8");
-    assert.equal(onboarding.includes("AGENTS.md"), false);
+    assert.equal(onboarding.includes("AGENTS.md"), true);
+    assert.equal(onboarding.includes("context-layers.md"), true);
     assert.equal(onboarding.includes("dependency-graph.md"), false);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -146,9 +148,18 @@ pnpm dev
     assert.equal(finalAgents.includes("manual-sources: AGENTS.manual.md"), true);
     assert.equal(finalAgents.includes("generated-source: .agent-context/AGENTS.generated.md"), true);
     assert.equal(finalAgents.includes("## Manual Operations Context"), true);
-    assert.equal(finalAgents.includes("## Generated Code Context"), true);
-    assert.equal(finalAgents.includes("Node 20"), true);
-    assert.equal(finalAgents.includes("This generated section is intentionally short."), true);
+    assert.equal(finalAgents.includes("## Generated Code Context"), false);
+    assert.equal(finalAgents.includes("Load these files only for environment, deployment, configuration, or operations tasks"), true);
+    assert.equal(finalAgents.includes("- AGENTS.manual.md"), true);
+    assert.equal(finalAgents.includes("Node 20"), false);
+    assert.equal(finalAgents.includes("L0 operating rules"), true);
+
+    const layers = readFileSync(path.join(root, ".agent-context", "context-layers.md"), "utf8");
+    assert.equal(layers.includes("## L0 Always Loaded"), true);
+    assert.equal(layers.includes("## L1 Task Start"), true);
+    assert.equal(layers.includes("## L2 Task Pack"), true);
+    assert.equal(layers.includes("## L3 Deep Evidence"), true);
+    assert.equal(layers.includes("Do not load the full `.agent-context/` directory by default."), true);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

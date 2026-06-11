@@ -240,6 +240,17 @@ Run `repo-context validate .` to check config, generated JSON, dependency edges,
 
 Each indexed file includes `analyzer`, `confidence`, `analysisStats` (`parser`, resolved/unresolved imports, symbols, routes), and line-oriented `evidence`. Aggregated evidence is written to `.agent-context/evidence/file-evidence.json`.
 
+## Context Layers
+
+Generated context is split into L0-L3 so agents do not load the full `.agent-context/` directory by default:
+
+- L0: `AGENTS.md`, the shortest operating rules and default workflow, always loaded.
+- L1: `.agent-context/repo-summary.md`, `.agent-context/onboarding.md`, and `.agent-context/context-layers.md`, loaded when a new task starts.
+- L2: `.agent-context/tasks/<task>/`, loaded only for the concrete task.
+- L3: `.agent-context/key-files.md`, `index/`, `evidence/`, `graphs/`, and `rag/`, loaded on demand for deeper analysis, symbol lookup, or evidence tracing.
+
+`AGENTS.md` states the default workflow explicitly: read only `AGENTS.md` first; for a concrete task, run `repo-context plan` or inspect the task pack; do not load the full `.agent-context/` directory by default; prefer source files over generated summaries for behavior decisions. Manual environment and deployment notes stay in `AGENTS.manual.md` and are loaded only for environment, deployment, configuration, or operations tasks.
+
 ## Task Context Packs
 
 The task workflow is split into `plan`, `pack`, `verify`, and `tests`; the older `task` command remains as a compatibility shortcut. The `tests` command selects minimal, regression, and full-confidence test commands for a file or diff. Task mode is a three-stage context packer rather than a plain keyword file list:

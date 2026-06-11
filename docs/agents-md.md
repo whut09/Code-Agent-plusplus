@@ -6,11 +6,12 @@
 
 Repo-to-Agent-Context writes a root `AGENTS.md` plus deeper context under `.agent-context/`.
 
-The root guide now has explicit ownership layers:
+The root guide now has explicit ownership and loading layers:
 
-- `AGENTS.manual.md`: hand-maintained operating notes such as environment, deployment, runbooks, and recovery steps
-- `.agent-context/AGENTS.generated.md`: generated code-facing instructions
-- `AGENTS.md`: composed final guide that agents read
+- `AGENTS.md`: L0, shortest always-loaded operating rules and default workflow
+- `AGENTS.manual.md`: manual environment/deployment/runbook notes, loaded only for operations tasks
+- `.agent-context/AGENTS.generated.md`: generated L0 code-facing instructions used to compose the root guide
+- `.agent-context/context-layers.md`: L1 map that explains when to load L1, L2, and L3 files
 
 Default configuration:
 
@@ -27,7 +28,14 @@ agents:
     - contextLinks
 ```
 
-Prefer `minimal`. Longer root instruction files do not automatically improve coding-agent success; deep summaries, module maps, readiness details, and task packs should be read from `.agent-context/` on demand.
+Prefer `minimal`. Longer root instruction files do not automatically improve coding-agent success. Use the generated layers instead:
+
+- L0: read `AGENTS.md` only by default.
+- L1: read `.agent-context/repo-summary.md`, `.agent-context/onboarding.md`, and `.agent-context/context-layers.md` when a task starts.
+- L2: read `.agent-context/tasks/<task>/` only for the concrete task.
+- L3: read `.agent-context/key-files.md`, `index/`, `evidence/`, `graphs/`, and `rag/` only for targeted deep analysis.
+
+Manual environment and deployment content is kept in `AGENTS.manual.md`; the composed root guide points to it instead of inlining the whole runbook.
 
 Do not edit the final `AGENTS.md` by hand. Edit `AGENTS.manual.md` or other files listed in `agents.manualSources`.
 
@@ -113,7 +121,7 @@ Use `.cursor/rules` instead when you need:
 Support varies across tools. If your tool does not automatically load `AGENTS.md`, reference it explicitly:
 
 ```txt
-Before editing, read AGENTS.md and the relevant files under .agent-context/.
+Before editing, read AGENTS.md. For a concrete task, inspect the matching .agent-context/tasks/<task>/ files or the L1 summaries; do not load the full .agent-context directory unless needed.
 ```
 
 ## What To Put In AGENTS.md
@@ -123,8 +131,8 @@ Good content:
 - Mandatory editing and safety rules
 - Required or preferred validation commands
 - Entrypoints or a few highest-value anchor files
-- Links into `.agent-context/` for deeper context
-- Environment and deployment notes in `AGENTS.manual.md`
+- The L0-L3 loading workflow and links to layer-specific files
+- Environment and deployment notes in `AGENTS.manual.md`, referenced but not inlined
 
 Avoid:
 
