@@ -13,6 +13,7 @@ import { buildRagDocuments, buildRagManifest } from "../outputs/rag.js";
 import { renderChangeImpactReport } from "../outputs/impact.js";
 import { renderTaskContext } from "../outputs/task-context.js";
 import { renderTestSelection } from "../outputs/test-selector.js";
+import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
@@ -216,6 +217,17 @@ program
   .action(async (repo: string, options: { base: string }) => {
     const context = await buildContextPackage(repo);
     console.log(renderChangeImpactReport(context, { base: options.base }));
+  });
+
+program
+  .command("benchmark")
+  .argument("[benchmarkDir]", "benchmark directory", "benchmarks")
+  .option("-k, --top-k <count>", "top-K files used for recall/precision", parseInteger, 8)
+  .option("--json", "print machine-readable benchmark results")
+  .description("Run the context quality benchmark over benchmark fixtures.")
+  .action(async (benchmarkDir: string, options: { topK: number; json?: boolean }) => {
+    const result = await runBenchmark({ benchmarkDir, topK: options.topK });
+    console.log(options.json ? JSON.stringify(result, null, 2) : renderBenchmarkReport(result));
   });
 
 program

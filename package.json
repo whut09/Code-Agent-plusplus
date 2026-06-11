@@ -13,14 +13,16 @@
     "README.en.md",
     "README.zh-CN.md",
     "repo-context.config.example.yml",
-    "repo-context.local.example.yml"
+    "repo-context.local.example.yml",
+    "benchmarks"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli/index.ts",
     "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
     "test": "tsx --test test/**/*.test.ts",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "benchmark": "tsx src/cli/index.ts benchmark benchmarks"
   },
   "engines": {
     "node": ">=20"

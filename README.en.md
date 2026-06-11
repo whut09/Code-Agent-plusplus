@@ -121,6 +121,7 @@ repo-context verify --diff [repo]
 repo-context impact [repo] --base main
 repo-context tests [repo] --for <path>
 repo-context tests [repo] --diff --base main
+repo-context benchmark [benchmarkDir] --top-k 8
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -273,6 +274,18 @@ repo-context task "split auth module" . --type refactor
 ```
 
 The Markdown output gives agents `Read First`, `Then Inspect If Needed`, `Why These Files`, `Budget Packing`, and `Suggested Commands` sections. Machine-readable packs are generated under `.agent-context/tasks/*.json`.
+
+## Benchmark
+
+The repository includes a demo context-quality benchmark under `benchmarks/`. It evaluates task-aware context packs against expected relevant files and required tests across small TypeScript, React, FastAPI, and monorepo fixtures.
+
+```bash
+npm run benchmark
+repo-context benchmark benchmarks --top-k 8
+repo-context benchmark benchmarks --json
+```
+
+Reported metrics include `Recall@K`, `Precision@K`, token compression ratio, test recommendation accuracy, and an `agentSuccessDeltaProxy` comparing task-pack coverage with a non-task-aware key-file baseline. The proxy is deterministic and repeatable; it is not a live agent execution benchmark.
 
 ## Optional RAG With LightRAG
 
