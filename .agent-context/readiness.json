@@ -1,25 +1,27 @@
 {
-  "score": 86,
-  "grade": "B",
+  "score": 90,
+  "grade": "A",
   "dimensions": [
     {
       "category": "operational",
-      "score": 87,
+      "score": 99,
       "evidence": [
         "Entrypoint: src/cli/index.ts",
-        "10 modules detected.",
-        "188 dependency edges detected.",
-        "69% of files have medium/high-confidence analysis.",
+        "13 modules detected.",
+        "307 dependency edges detected.",
+        "68% of files have medium/high-confidence analysis.",
         "Run command: npm run dev",
+        "Lint command: npm run lint",
+        "Lint command: npm run format",
+        "Lint command: npm run format:check",
+        "Lint command: npm run prepublishOnly",
         "Typecheck command: npm run build",
         "Typecheck command: npm run check",
         "Test/check command: npm run test",
-        "25 test files detected."
+        "38 test files detected.",
+        "CI: .github/workflows/ci.yml"
       ],
-      "missing": [
-        "No lint/format command detected.",
-        "No CI workflow detected."
-      ]
+      "missing": []
     },
     {
       "category": "context-quality",
@@ -27,40 +29,45 @@
       "evidence": [
         "README documentation detected.",
         "Architecture documentation detected.",
-        "724 code symbols extracted.",
+        "1209 code symbols extracted.",
         "Internal dependency neighbors are available.",
-        "55 files include analysis evidence.",
+        "106 files include analysis evidence.",
         "Entrypoint: src/cli/index.ts",
-        "10 modules detected.",
-        "188 dependency edges detected.",
-        "69% of files have medium/high-confidence analysis."
+        "13 modules detected.",
+        "307 dependency edges detected.",
+        "68% of files have medium/high-confidence analysis."
       ],
       "missing": []
     },
     {
       "category": "agent-safety",
-      "score": 66,
+      "score": 100,
       "evidence": [
+        "Environment example: .env.example",
+        "CI workflow: .github/workflows/ci.yml",
         "No database signals detected; migration guidance is not applicable.",
         "Test/check command: npm run test",
-        "25 test files detected.",
+        "38 test files detected.",
+        "CI: .github/workflows/ci.yml",
         "Run command: npm run dev",
+        "Lint command: npm run lint",
+        "Lint command: npm run format",
+        "Lint command: npm run format:check",
+        "Lint command: npm run prepublishOnly",
         "Typecheck command: npm run build",
         "Typecheck command: npm run check"
       ],
-      "missing": [
-        "No environment variable example detected.",
-        "No CI workflow detected.",
-        "No lint/format command detected."
-      ]
+      "missing": []
     }
   ],
   "capsApplied": [
     {
       "cap": 90,
-      "applied": true,
+      "applied": false,
       "reason": "No CI workflow detected.",
-      "evidence": []
+      "evidence": [
+        ".github/workflows/ci.yml"
+      ]
     },
     {
       "cap": 90,
@@ -99,34 +106,35 @@
       "score": 97,
       "evidence": [
         "Entrypoint: src/cli/index.ts",
-        "10 modules detected.",
-        "188 dependency edges detected.",
-        "69% of files have medium/high-confidence analysis."
+        "13 modules detected.",
+        "307 dependency edges detected.",
+        "68% of files have medium/high-confidence analysis."
       ],
       "missing": []
     },
     {
       "category": "commands",
-      "score": 75,
+      "score": 100,
       "evidence": [
         "Run command: npm run dev",
+        "Lint command: npm run lint",
+        "Lint command: npm run format",
+        "Lint command: npm run format:check",
+        "Lint command: npm run prepublishOnly",
         "Typecheck command: npm run build",
         "Typecheck command: npm run check"
       ],
-      "missing": [
-        "No lint/format command detected."
-      ]
+      "missing": []
     },
     {
       "category": "tests",
-      "score": 90,
+      "score": 100,
       "evidence": [
         "Test/check command: npm run test",
-        "25 test files detected."
+        "38 test files detected.",
+        "CI: .github/workflows/ci.yml"
       ],
-      "missing": [
-        "No CI workflow detected."
-      ]
+      "missing": []
     },
     {
       "category": "architecture",
@@ -141,32 +149,29 @@
       "category": "task-context",
       "score": 100,
       "evidence": [
-        "724 code symbols extracted.",
+        "1209 code symbols extracted.",
         "Internal dependency neighbors are available.",
-        "55 files include analysis evidence."
+        "106 files include analysis evidence."
       ],
       "missing": []
     },
     {
       "category": "safety",
-      "score": 55,
+      "score": 100,
       "evidence": [
+        "Environment example: .env.example",
+        "CI workflow: .github/workflows/ci.yml",
         "No database signals detected; migration guidance is not applicable."
       ],
-      "missing": [
-        "No environment variable example detected.",
-        "No CI workflow detected."
-      ]
+      "missing": []
     }
   ],
   "missing": [
-    "No lint/format command detected.",
-    "No CI workflow detected.",
-    "No environment variable example detected.",
     "No model-specific tokenizer configured; token counts use chars_approx."
   ],
   "strengths": [
-    "Operational readiness: 87/100.",
-    "Context Quality readiness: 99/100."
+    "Operational readiness: 99/100.",
+    "Context Quality readiness: 99/100.",
+    "Agent Safety readiness: 100/100."
   ]
 }

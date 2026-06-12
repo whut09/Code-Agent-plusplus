@@ -11,11 +11,7 @@ export interface ResolveTaskArgumentOptions {
   pathExists?: (candidate: string) => boolean;
 }
 
-export function resolveTaskArguments(
-  words: string[],
-  repoOption?: string | string[],
-  options: ResolveTaskArgumentOptions = {}
-): ResolvedTaskArguments {
+export function resolveTaskArguments(words: string[], repoOption?: string | string[], options: ResolveTaskArgumentOptions = {}): ResolvedTaskArguments {
   const taskWords = words.filter((word) => word.length > 0);
   const task = taskWords.join(" ").trim();
   if (!task) {

@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "kind": "architecture-contract",
+  "purpose": "Constrain coding agents to preserve the detected repository architecture and dependency shape.",
+  "languages": [
+    "JSON",
+    "JavaScript",
+    "Markdown",
+    "Python",
+    "TOML",
+    "TypeScript",
+    "YAML"
+  ],
+  "frameworks": [],
+  "packageManagers": [
+    "npm"
+  ],
+  "entrypoints": [
+    "src/cli/index.ts"
+  ],
+  "modules": [
+    {
+      "name": "benchmarks",
+      "owns": [
+        "benchmarks/**"
+      ],
+      "imports": [
+        "core",
+        "outputs"
+      ],
+      "summary": "benchmarks contains 49 files and depends on core, outputs."
+    },
+    {
+      "name": "test",
+      "owns": [
+        "test/**"
+      ],
+      "imports": [
+        "analyzers",
+        "benchmarks",
+        "cli",
+        "config",
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "summary": "test contains 31 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers."
+    },
+    {
+      "name": "core",
+      "owns": [
+        "src/core/**"
+      ],
+      "imports": [
+        "analyzers",
+        "config",
+        "llm"
+      ],
+      "summary": "core contains 15 files and depends on analyzers, config, llm."
+    },
+    {
+      "name": "outputs",
+      "owns": [
+        "src/outputs/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "outputs contains 18 files and depends on core."
+    },
+    {
+      "name": "retrievers",
+      "owns": [
+        "src/retrievers/**"
+      ],
+      "imports": [
+        "core",
+        "outputs"
+      ],
+      "summary": "retrievers contains 6 files and depends on core, outputs."
+    },
+    {
+      "name": "analyzers",
+      "owns": [
+        "src/analyzers/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "analyzers contains 6 files and depends on core."
+    },
+    {
+      "name": "cli",
+      "owns": [
+        "src/cli/**"
+      ],
+      "imports": [
+        "benchmarks",
+        "config",
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "summary": "cli contains 2 files and depends on benchmarks, config, core, outputs, retrievers."
+    },
+    {
+      "name": "config",
+      "owns": [
+        "src/config/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "config contains 3 files and depends on core."
+    },
+    {
+      "name": "root",
+      "owns": [
+        "*"
+      ],
+      "imports": [],
+      "summary": "root contains 17 files."
+    },
+    {
+      "name": "llm",
+      "owns": [
+        "src/llm/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "llm contains 1 file and depends on core."
+    },
+    {
+      "name": "docs",
+      "owns": [
+        "docs/**"
+      ],
+      "imports": [],
+      "summary": "docs contains 4 files."
+    },
+    {
+      "name": ".github",
+      "owns": [
+        ".github/**"
+      ],
+      "imports": [],
+      "summary": ".github contains 1 file."
+    },
+    {
+      "name": "assets",
+      "owns": [
+        "assets/**"
+      ],
+      "imports": [],
+      "summary": "assets contains 4 files."
+    }
+  ],
+  "rules": [
+    "Preserve detected entrypoints unless the task explicitly changes application wiring.",
+    "Prefer extending existing modules over creating new top-level architecture.",
+    "Do not add cross-module dependencies that are absent from module-boundaries.json without task-specific justification.",
+    "Run commands from commands.contract.json after source or configuration edits."
+  ]
+}

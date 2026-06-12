@@ -8,11 +8,7 @@ import { pythonAnalyzer } from "../analyzers/python.js";
 import { genericAnalyzer } from "../analyzers/generic.js";
 import type { LanguageAnalyzer } from "../analyzers/types.js";
 
-const ANALYZERS: LanguageAnalyzer[] = [
-  javascriptAnalyzer,
-  pythonAnalyzer,
-  genericAnalyzer
-];
+const ANALYZERS: LanguageAnalyzer[] = [javascriptAnalyzer, pythonAnalyzer, genericAnalyzer];
 
 export function indexRepository(scan: RepoScan): RepoIndex {
   const allPaths = new Set(scan.files.map((file) => file.path));
@@ -20,7 +16,10 @@ export function indexRepository(scan: RepoScan): RepoIndex {
     allPaths,
     pathAliases: [
       ...loadPathAliases(scan.root),
-      ...loadPackageAliases(scan.root, scan.files.map((file) => file.path))
+      ...loadPackageAliases(
+        scan.root,
+        scan.files.map((file) => file.path)
+      )
     ]
   };
   const files: IndexedFile[] = [];
@@ -28,9 +27,7 @@ export function indexRepository(scan: RepoScan): RepoIndex {
   const symbols: SymbolInfo[] = [];
 
   for (const file of scan.files) {
-    const content = shouldRead(file.sizeBytes, file.isBinary)
-      ? readFileSync(file.absolutePath, "utf8")
-      : "";
+    const content = shouldRead(file.sizeBytes, file.isBinary) ? readFileSync(file.absolutePath, "utf8") : "";
     const analyzer = ANALYZERS.find((candidate) => candidate.supports(file)) ?? genericAnalyzer;
     const analysis = analyzer.analyze(file, content, analysisContext);
     const moduleName = moduleNameFor(file.path);
@@ -52,12 +49,14 @@ export function indexRepository(scan: RepoScan): RepoIndex {
 
     files.push(indexed);
     symbols.push(...analysis.symbols);
-    imports.push(...analysis.imports.map((importRef) => ({
-      from: file.path,
-      to: importRef.resolvedPath ?? importRef.specifier,
-      specifier: importRef.specifier,
-      isExternal: importRef.isExternal
-    })));
+    imports.push(
+      ...analysis.imports.map((importRef) => ({
+        from: file.path,
+        to: importRef.resolvedPath ?? importRef.specifier,
+        specifier: importRef.specifier,
+        isExternal: importRef.isExternal
+      }))
+    );
   }
 
   return {
@@ -98,7 +97,7 @@ function loadPackageAliases(root: string, paths: string[]): Array<{ pattern: str
 
 function readJson(filePath: string): Record<string, unknown> | null {
   try {
-    return existsSync(filePath) ? JSON.parse(readFileSync(filePath, "utf8")) as Record<string, unknown> : null;
+    return existsSync(filePath) ? (JSON.parse(readFileSync(filePath, "utf8")) as Record<string, unknown>) : null;
   } catch {
     return null;
   }
@@ -150,17 +149,17 @@ function stripPackageTarget(target: string): string {
 }
 
 function loadPathAliases(root: string): Array<{ pattern: string; targets: string[] }> {
-  const configPath = ["tsconfig.json", "jsconfig.json"]
-    .map((name) => path.join(root, name))
-    .find(existsSync);
+  const configPath = ["tsconfig.json", "jsconfig.json"].map((name) => path.join(root, name)).find(existsSync);
   if (!configPath) return [];
 
   try {
     const parsed = ts.parseConfigFileTextToJson(configPath, readFileSync(configPath, "utf8"));
-    const compilerOptions = parsed.config?.compilerOptions as {
-      baseUrl?: string;
-      paths?: Record<string, string[]>;
-    } | undefined;
+    const compilerOptions = parsed.config?.compilerOptions as
+      | {
+          baseUrl?: string;
+          paths?: Record<string, string[]>;
+        }
+      | undefined;
     const baseUrl = compilerOptions?.baseUrl ?? ".";
     return Object.entries(compilerOptions?.paths ?? {}).map(([pattern, targets]) => ({
       pattern,

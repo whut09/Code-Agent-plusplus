@@ -15,8 +15,16 @@ function createImpactRepo(): string {
   mkdirSync(path.join(root, "test", "api"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
   writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'ok'; }\n", "utf8");
-  writeFileSync(path.join(root, "src", "auth", "middleware.ts"), "import { loginSession } from './session.js';\nexport function authMiddleware() { return loginSession(); }\n", "utf8");
-  writeFileSync(path.join(root, "src", "api", "login.ts"), "import { authMiddleware } from '../auth/middleware.js';\nexport function loginApi() { return authMiddleware(); }\n", "utf8");
+  writeFileSync(
+    path.join(root, "src", "auth", "middleware.ts"),
+    "import { loginSession } from './session.js';\nexport function authMiddleware() { return loginSession(); }\n",
+    "utf8"
+  );
+  writeFileSync(
+    path.join(root, "src", "api", "login.ts"),
+    "import { authMiddleware } from '../auth/middleware.js';\nexport function loginApi() { return authMiddleware(); }\n",
+    "utf8"
+  );
   writeFileSync(path.join(root, "src", "app.ts"), "import { loginApi } from './api/login.js';\nexport function app() { return loginApi(); }\n", "utf8");
   writeFileSync(path.join(root, "src", "server.ts"), "import { app } from './app.js';\napp();\n", "utf8");
   writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { loginSession } from '../../src/auth/session.js';\nloginSession();\n", "utf8");

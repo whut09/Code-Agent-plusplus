@@ -4,9 +4,7 @@ import { bullet, code, heading } from "./markdown.js";
 
 export function renderAgentsMd(context: ContextPackage): string {
   const mode = context.config.agents.mode;
-  const sections = mode === "minimal"
-    ? renderMinimalAgentsMd(context)
-    : renderExpandedAgentsMd(context, mode === "full");
+  const sections = mode === "minimal" ? renderMinimalAgentsMd(context) : renderExpandedAgentsMd(context, mode === "full");
 
   return enforceAgentsBudget(sections, context.config.agents.maxTokens);
 }
@@ -39,27 +37,15 @@ function renderMinimalAgentsMd(context: ContextPackage): string[] {
   }
 
   if (include.has("entrypoints")) {
-    sections.push(
-      "",
-      heading(2, "Project Entrypoints"),
-      bullet(projectEntrypoints(context))
-    );
+    sections.push("", heading(2, "Project Entrypoints"), bullet(projectEntrypoints(context)));
   }
 
   if (include.has("commands")) {
-    sections.push(
-      "",
-      heading(2, "Commands"),
-      bullet(commandLines(context))
-    );
+    sections.push("", heading(2, "Commands"), bullet(commandLines(context)));
   }
 
   if (include.has("contextLinks")) {
-    sections.push(
-      "",
-      heading(2, "Context Layers"),
-      bullet(contextLinks(context))
-    );
+    sections.push("", heading(2, "Context Layers"), bullet(contextLinks(context)));
   }
 
   return sections;
@@ -121,18 +107,14 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
 function defaultWorkflow(): string[] {
   return [
     "Read `AGENTS.md` only before the task is concrete.",
-    "For a concrete task, run `repo-context plan \"<task>\" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.",
+    'For a concrete task, run `repo-context plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.',
     "Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.",
     "Prefer source files over generated summaries for behavior, API, and test decisions."
   ];
 }
 
 function requiredCheckRules(context: ContextPackage): string[] {
-  const checks = unique([
-    ...context.scan.typecheckCommands,
-    ...context.scan.lintCommands,
-    ...context.scan.testCommands
-  ]);
+  const checks = unique([...context.scan.typecheckCommands, ...context.scan.lintCommands, ...context.scan.testCommands]);
 
   if (checks.length === 0) {
     return ["No test/check command was detected; document what validation you performed before finishing."];
@@ -154,8 +136,7 @@ function commandLines(context: ContextPackage): string[] {
 
 function projectEntrypoints(context: ContextPackage): string[] {
   const entries = context.scan.entrypoints.map((entry) => `Entrypoint: ${code(entry)}`);
-  const anchors = selectAnchorFiles(context)
-    .map((file) => `Anchor: ${formatKeyFile(file)}`);
+  const anchors = selectAnchorFiles(context).map((file) => `Anchor: ${formatKeyFile(file)}`);
 
   return [...entries, ...anchors].length > 0
     ? [...entries, ...anchors]

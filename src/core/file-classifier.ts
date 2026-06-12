@@ -3,23 +3,7 @@ import type { FileKind } from "./types.js";
 import { isSourceLanguage } from "./language.js";
 
 const DOC_EXTENSIONS = new Set([".md", ".mdx", ".txt", ".rst", ".adoc"]);
-const ASSET_EXTENSIONS = new Set([
-  ".png",
-  ".jpg",
-  ".jpeg",
-  ".gif",
-  ".webp",
-  ".ico",
-  ".svg",
-  ".pdf",
-  ".zip",
-  ".gz",
-  ".woff",
-  ".woff2",
-  ".ttf",
-  ".mp4",
-  ".mp3"
-]);
+const ASSET_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".svg", ".pdf", ".zip", ".gz", ".woff", ".woff2", ".ttf", ".mp4", ".mp3"]);
 
 const CONFIG_NAMES = new Set([
   "package.json",
@@ -41,15 +25,7 @@ const CONFIG_NAMES = new Set([
   "repo-context.config.yaml"
 ]);
 
-const LOCK_NAMES = new Set([
-  "package-lock.json",
-  "pnpm-lock.yaml",
-  "yarn.lock",
-  "Cargo.lock",
-  "poetry.lock",
-  "Pipfile.lock",
-  "go.sum"
-]);
+const LOCK_NAMES = new Set(["package-lock.json", "pnpm-lock.yaml", "yarn.lock", "Cargo.lock", "poetry.lock", "Pipfile.lock", "go.sum"]);
 
 export function classifyFile(filePath: string, extension: string, language: string | null): FileKind {
   const base = path.posix.basename(filePath);
@@ -86,15 +62,15 @@ export function classifyFile(filePath: string, extension: string, language: stri
 }
 
 export function isTestPath(filePath: string): boolean {
-  return /(^|\/)(__tests__|tests?|spec)\//i.test(filePath)
-    || /\.(test|spec)\.[cm]?[tj]sx?$/i.test(filePath)
-    || /_test\.go$/i.test(filePath)
-    || /test_.*\.py$/i.test(path.posix.basename(filePath))
-    || /_test\.py$/i.test(path.posix.basename(filePath));
+  return (
+    /(^|\/)(__tests__|tests?|spec)\//i.test(filePath) ||
+    /\.(test|spec)\.[cm]?[tj]sx?$/i.test(filePath) ||
+    /_test\.go$/i.test(filePath) ||
+    /test_.*\.py$/i.test(path.posix.basename(filePath)) ||
+    /_test\.py$/i.test(path.posix.basename(filePath))
+  );
 }
 
 export function isGeneratedPath(filePath: string): boolean {
-  return /(^|\/)(generated|__generated__|gen)\//i.test(filePath)
-    || /\.generated\./i.test(filePath)
-    || /\.pb\.(go|ts|js)$/i.test(filePath);
+  return /(^|\/)(generated|__generated__|gen)\//i.test(filePath) || /\.generated\./i.test(filePath) || /\.pb\.(go|ts|js)$/i.test(filePath);
 }

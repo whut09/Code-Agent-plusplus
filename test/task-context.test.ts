@@ -12,17 +12,29 @@ test("task pack expands lexical matches through graph and related tests", async 
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
     mkdirSync(path.join(root, "test", "auth"), { recursive: true });
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test" } }), "utf8");
-    writeFileSync(path.join(root, "src", "auth", "session.ts"), `
+    writeFileSync(
+      path.join(root, "src", "auth", "session.ts"),
+      `
 export function loginSession() { return "ok"; }
-`, "utf8");
-    writeFileSync(path.join(root, "src", "auth", "middleware.ts"), `
+`,
+      "utf8"
+    );
+    writeFileSync(
+      path.join(root, "src", "auth", "middleware.ts"),
+      `
 import { loginSession } from "./session.js";
 export function authMiddleware() { return loginSession(); }
-`, "utf8");
-    writeFileSync(path.join(root, "test", "auth", "session.test.ts"), `
+`,
+      "utf8"
+    );
+    writeFileSync(
+      path.join(root, "test", "auth", "session.test.ts"),
+      `
 import { loginSession } from "../../src/auth/session.js";
 loginSession();
-`, "utf8");
+`,
+      "utf8"
+    );
 
     const context = await buildContextPackage(root);
     const pack = buildTaskPack(context, "fix login timeout bug", { type: "bugfix", tokenBudget: 2000 });

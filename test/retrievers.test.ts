@@ -13,9 +13,17 @@ function createRetrieverRepo(): string {
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
   writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function refreshSessionTimeout() { return 'session timeout'; }\n", "utf8");
-  writeFileSync(path.join(root, "src", "auth", "middleware.ts"), "import { refreshSessionTimeout } from './session.js';\nexport function authMiddleware() { return refreshSessionTimeout(); }\n", "utf8");
+  writeFileSync(
+    path.join(root, "src", "auth", "middleware.ts"),
+    "import { refreshSessionTimeout } from './session.js';\nexport function authMiddleware() { return refreshSessionTimeout(); }\n",
+    "utf8"
+  );
   writeFileSync(path.join(root, "src", "billing", "invoice.ts"), "export function invoiceTotal() { return 42; }\n", "utf8");
-  writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { refreshSessionTimeout } from '../../src/auth/session.js';\nrefreshSessionTimeout();\n", "utf8");
+  writeFileSync(
+    path.join(root, "test", "auth", "session.test.ts"),
+    "import { refreshSessionTimeout } from '../../src/auth/session.js';\nrefreshSessionTimeout();\n",
+    "utf8"
+  );
   return root;
 }
 
@@ -58,10 +66,7 @@ test("external retriever protocols fail with adapter guidance", async () => {
   try {
     const context = await buildContextPackage(root);
     const retriever = createContextRetriever(context, "lightrag");
-    await assert.rejects(
-      () => retriever.search("session timeout", { topK: 3 }),
-      /requires an external service adapter/
-    );
+    await assert.rejects(() => retriever.search("session timeout", { topK: 3 }), /requires an external service adapter/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

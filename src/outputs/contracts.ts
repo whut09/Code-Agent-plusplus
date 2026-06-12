@@ -43,15 +43,20 @@ function buildArchitectureContract(context: ContextPackage): unknown {
 }
 
 function buildModuleBoundariesContract(context: ContextPackage): unknown {
-  const modules = Object.fromEntries(context.index.modules
-    .filter((module) => module.name !== "root")
-    .map((module) => [module.name, {
-      owns: moduleOwns(module),
-      allowedImports: allowedImportsFor(context, module),
-      forbiddenImports: forbiddenImportsFor(context, module),
-      observedImports: module.imports,
-      publicFiles: publicFilesFor(context, module)
-    }]));
+  const modules = Object.fromEntries(
+    context.index.modules
+      .filter((module) => module.name !== "root")
+      .map((module) => [
+        module.name,
+        {
+          owns: moduleOwns(module),
+          allowedImports: allowedImportsFor(context, module),
+          forbiddenImports: forbiddenImportsFor(context, module),
+          observedImports: module.imports,
+          publicFiles: publicFilesFor(context, module)
+        }
+      ])
+  );
 
   return {
     schemaVersion: 1,
@@ -136,13 +141,9 @@ function moduleOwns(module: ModuleInfo): string[] {
 }
 
 function moduleRoot(module: ModuleInfo): string {
-  const dirs = module.files
-    .map((file) => file.split("/").slice(0, -1).join("/"))
-    .filter(Boolean);
+  const dirs = module.files.map((file) => file.split("/").slice(0, -1).join("/")).filter(Boolean);
   const prefix = module.pathPrefix.replace(/\/$/, "");
-  const matchingDir = dirs
-    .filter((dir) => dir === prefix || dir.endsWith(`/${prefix}`))
-    .sort((a, b) => a.length - b.length)[0];
+  const matchingDir = dirs.filter((dir) => dir === prefix || dir.endsWith(`/${prefix}`)).sort((a, b) => a.length - b.length)[0];
   return matchingDir ?? prefix;
 }
 
@@ -162,16 +163,15 @@ function forbiddenImportsFor(context: ContextPackage, module: ModuleInfo): strin
   const moduleName = module.name.toLowerCase();
   const sensitive = context.index.modules
     .filter((candidate) => candidate.name !== module.name)
-    .filter((candidate) => /(^|\/)(admin|payment|payments|billing|checkout|invoice|secret|secrets)(\/|$)/i.test(candidate.name) || /(^|\/)(admin|payment|payments|billing|checkout|invoice|secret|secrets)(\/|$)/i.test(candidate.pathPrefix))
+    .filter(
+      (candidate) =>
+        /(^|\/)(admin|payment|payments|billing|checkout|invoice|secret|secrets)(\/|$)/i.test(candidate.name) ||
+        /(^|\/)(admin|payment|payments|billing|checkout|invoice|secret|secrets)(\/|$)/i.test(candidate.pathPrefix)
+    )
     .filter((candidate) => !module.imports.includes(candidate.name))
     .flatMap(moduleOwns);
 
-  const defaults = [
-    "**/*.generated.*",
-    "**/generated/**",
-    "dist/**",
-    "build/**"
-  ];
+  const defaults = ["**/*.generated.*", "**/generated/**", "dist/**", "build/**"];
   if (!/admin|payment|billing|checkout|invoice/.test(moduleName)) {
     defaults.push("src/admin/**", "src/payment/**", "src/payments/**", "src/billing/**");
   }
@@ -196,13 +196,20 @@ function requiredCommands(context: ContextPackage, kinds: Array<"test" | "typech
 
 function relatedTestsFor(source: IndexedFile, tests: IndexedFile[]): IndexedFile[] {
   const sourcePath = source.path.toLowerCase();
-  const baseName = source.path.split("/").pop()?.replace(/\.[^.]+$/, "").toLowerCase() ?? "";
+  const baseName =
+    source.path
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "")
+      .toLowerCase() ?? "";
   return tests.filter((testFile) => {
     const testPath = testFile.path.toLowerCase();
-    return testFile.imports.some((item) => item.resolvedPath === source.path)
-      || (baseName.length >= 3 && testPath.includes(baseName))
-      || (source.moduleName !== "root" && source.moduleName !== "test" && testPath.includes(source.moduleName.toLowerCase()))
-      || sourcePath.split("/").some((segment) => segment.length >= 4 && testPath.includes(segment));
+    return (
+      testFile.imports.some((item) => item.resolvedPath === source.path) ||
+      (baseName.length >= 3 && testPath.includes(baseName)) ||
+      (source.moduleName !== "root" && source.moduleName !== "test" && testPath.includes(source.moduleName.toLowerCase())) ||
+      sourcePath.split("/").some((segment) => segment.length >= 4 && testPath.includes(segment))
+    );
   });
 }
 

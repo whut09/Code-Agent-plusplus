@@ -23,10 +23,7 @@ import { createContextRetriever, renderContextHits, type RetrieverProvider } fro
 
 const program = new Command();
 
-program
-  .name("repo-context")
-  .description("Generate minimal, evidence-linked, task-aware context for coding agents.")
-  .version("0.1.0");
+program.name("repo-context").description("Generate minimal, evidence-linked, task-aware context for coding agents.").version("0.1.0");
 
 program
   .command("build")
@@ -38,24 +35,29 @@ program
   .option("--llm", "enable LLM summaries using repo-context.local.yml")
   .option("--no-llm", "disable LLM summaries")
   .description("Generate AGENTS.md and .agent-context outputs.")
-  .action(async (repo: string, options: { target?: AgentTarget; tokenBudget?: number; tokenizer?: ReturnType<typeof parseTokenizerMode>; model?: string; llm?: boolean }) => {
-    const context = await buildContextPackage(repo, options);
-    const result = writeContextPackage(context);
-    console.log(`Generated agent context for ${context.scan.root}`);
-    console.log(`Files scanned: ${context.scan.files.length}`);
-    console.log(`Languages: ${context.scan.languages.join(", ") || "none detected"}`);
-    console.log(`Key files: ${context.keyFiles.length}`);
-    console.log(`Agent readiness: ${context.readiness.grade} / ${context.readiness.score}`);
-    console.log(`Summary mode: ${context.summaries.mode}`);
-    if (context.summaries.fallbackReason && context.summaries.fallbackReason !== "disabled") {
-      console.log(`LLM fallback reason: ${context.summaries.fallbackReason}`);
+  .action(
+    async (
+      repo: string,
+      options: { target?: AgentTarget; tokenBudget?: number; tokenizer?: ReturnType<typeof parseTokenizerMode>; model?: string; llm?: boolean }
+    ) => {
+      const context = await buildContextPackage(repo, options);
+      const result = writeContextPackage(context);
+      console.log(`Generated agent context for ${context.scan.root}`);
+      console.log(`Files scanned: ${context.scan.files.length}`);
+      console.log(`Languages: ${context.scan.languages.join(", ") || "none detected"}`);
+      console.log(`Key files: ${context.keyFiles.length}`);
+      console.log(`Agent readiness: ${context.readiness.grade} / ${context.readiness.score}`);
+      console.log(`Summary mode: ${context.summaries.mode}`);
+      if (context.summaries.fallbackReason && context.summaries.fallbackReason !== "disabled") {
+        console.log(`LLM fallback reason: ${context.summaries.fallbackReason}`);
+      }
+      console.log(formatTokenSavings(context.tokenSavings));
+      console.log("Written:");
+      for (const file of result.files) {
+        console.log(`- ${path.relative(context.scan.root, file)}`);
+      }
     }
-    console.log(formatTokenSavings(context.tokenSavings));
-    console.log("Written:");
-    for (const file of result.files) {
-      console.log(`- ${path.relative(context.scan.root, file)}`);
-    }
-  });
+  );
 
 program
   .command("savings")
@@ -73,9 +75,7 @@ program
     console.log(formatTokenSavings(context.tokenSavings));
   });
 
-const rag = program
-  .command("rag")
-  .description("RAG integration commands.");
+const rag = program.command("rag").description("RAG integration commands.");
 
 rag
   .command("export")
@@ -94,7 +94,6 @@ rag
     console.log("");
     console.log("Run `repo-context build` to write `.agent-context/rag/documents.jsonl`.");
   });
-
 
 rag
   .command("search")
@@ -250,7 +249,6 @@ program
     console.log(options.json ? JSON.stringify(result, null, 2) : renderBenchmarkReport(result));
   });
 
-
 program
   .command("retrieve")
   .argument("<task>", "task or search query")
@@ -318,7 +316,9 @@ program
       console.log(`Kind: ${file.kind}`);
       console.log(`Module: ${file.moduleName}`);
       console.log(`Analyzer: ${file.analyzer} (${file.confidence} confidence)`);
-      console.log(`Analysis stats: ${file.analysisStats.parser}, imports ${file.analysisStats.importsResolved}/${file.imports.length} resolved, ${file.analysisStats.routesDetected} routes`);
+      console.log(
+        `Analysis stats: ${file.analysisStats.parser}, imports ${file.analysisStats.importsResolved}/${file.imports.length} resolved, ${file.analysisStats.routesDetected} routes`
+      );
       console.log(`Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`);
       console.log(`Imports: ${file.imports.map((item) => item.specifier).join(", ") || "none"}`);
       console.log(`Exports: ${file.exports.join(", ") || "none"}`);
@@ -347,7 +347,6 @@ program.parseAsync().catch((error: unknown) => {
   process.exitCode = 1;
 });
 
-
 interface RetrieveCliOptions {
   provider: RetrieverProvider;
   topK: number;
@@ -367,7 +366,11 @@ function retrieveOptions(options: RetrieveCliOptions) {
 }
 
 function splitCsv(value: string | undefined): string[] | undefined {
-  const items = value?.split(",").map((item) => item.trim()).filter(Boolean) ?? [];
+  const items =
+    value
+      ?.split(",")
+      .map((item) => item.trim())
+      .filter(Boolean) ?? [];
   return items.length ? items : undefined;
 }
 

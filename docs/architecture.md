@@ -218,5 +218,11 @@ Optional output groups are controlled by `outputs.*`. Disabling a group removes 
 ```bash
 npm run build
 npm run check
+npm run lint
+npm run format
+npm run format:check
 npm test
+npm run benchmark
+npm run build
+npm run pack:dry-run
 ```

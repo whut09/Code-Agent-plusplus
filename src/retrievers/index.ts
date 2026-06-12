@@ -3,7 +3,7 @@ import { StaticContextRetriever } from "./static.js";
 import { RipgrepContextRetriever } from "./ripgrep.js";
 import { HybridContextRetriever } from "./hybrid.js";
 import { ExternalProtocolRetriever } from "./external.js";
-import type { ContextHit, ContextRetriever, ContextRetrieverOptions, RetrieverProvider } from "./types.js";
+import type { ContextHit, ContextRetriever, RetrieverProvider } from "./types.js";
 import { code, heading, table } from "../outputs/markdown.js";
 
 export type { ContextHit, ContextRetriever, ContextRetrieverOptions, RetrieverProvider } from "./types.js";

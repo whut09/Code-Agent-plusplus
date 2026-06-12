@@ -1,16 +1,17 @@
 # Agent Onboarding
 
+L1 startup context. Use this after `AGENTS.md` when a new task begins; keep L3 evidence files closed until the task boundary is clear.
+
 ## First Reads
 - `AGENTS.md`
 - `.agent-context/repo-summary.md`
-- `.agent-context/key-files.md`
-- `.agent-context/module-map.md`
-- `.agent-context/dependency-graph.md`
+- `.agent-context/context-layers.md`
 
 ## Suggested Workflow
-- Identify the task area and match it to a module in `module-map.md`.
-- Open the relevant key files and nearby tests.
-- Check dependency direction before changing exported APIs.
+- Start from `AGENTS.md`, then read this file and `repo-summary.md` for the repository shape.
+- For a concrete task, run `repo-context plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.
+- Open `key-files.md`, `index/`, `evidence/`, `graphs/`, or `rag/` only for targeted deep analysis.
+- Prefer relevant source files and nearby tests over generated summaries before editing.
 - Run the detected test/check command after edits when available.
 
 ## Detected Commands

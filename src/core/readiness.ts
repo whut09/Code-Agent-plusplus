@@ -1,4 +1,14 @@
-import type { AgentReadinessReport, ContextPackage, DependencyGraph, ReadinessCap, ReadinessCategory, ReadinessDimension, RepoIndex, RepoScan, TokenizerConfig } from "./types.js";
+import type {
+  AgentReadinessReport,
+  ContextPackage,
+  DependencyGraph,
+  ReadinessCap,
+  ReadinessCategory,
+  ReadinessDimension,
+  RepoIndex,
+  RepoScan,
+  TokenizerConfig
+} from "./types.js";
 
 export interface ReadinessAssessmentOptions {
   tokenizerMode?: TokenizerConfig["mode"];
@@ -17,9 +27,7 @@ export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: Depende
   ];
   const dimensions = buildDimensions(categories);
   const rawScore = Math.round(
-    dimensionScore(dimensions, "operational") * 0.4
-    + dimensionScore(dimensions, "context-quality") * 0.35
-    + dimensionScore(dimensions, "agent-safety") * 0.25
+    dimensionScore(dimensions, "operational") * 0.4 + dimensionScore(dimensions, "context-quality") * 0.35 + dimensionScore(dimensions, "agent-safety") * 0.25
   );
   const capsApplied = readinessCaps(scan, index, options);
   const score = applyCaps(rawScore, capsApplied);
@@ -30,13 +38,8 @@ export function assessReadiness(scan: RepoScan, index: RepoIndex, graph: Depende
     dimensions,
     capsApplied,
     categories,
-    missing: [...new Set([
-      ...dimensions.flatMap((dimension) => dimension.missing),
-      ...capsApplied.filter((cap) => cap.applied).map((cap) => cap.reason)
-    ])],
-    strengths: dimensions
-      .filter((dimension) => dimension.score >= 75)
-      .map((dimension) => `${title(dimension.category)} readiness: ${dimension.score}/100.`)
+    missing: [...new Set([...dimensions.flatMap((dimension) => dimension.missing), ...capsApplied.filter((cap) => cap.applied).map((cap) => cap.reason)])],
+    strengths: dimensions.filter((dimension) => dimension.score >= 75).map((dimension) => `${title(dimension.category)} readiness: ${dimension.score}/100.`)
   };
 }
 
@@ -65,21 +68,33 @@ function buildDimensions(categories: ReadinessCategory[]): ReadinessDimension[] 
   const safety = byName.get("safety");
 
   return [
-    dimension("operational", weighted([
-      [structure?.score ?? 0, 0.25],
-      [commands?.score ?? 0, 0.35],
-      [tests?.score ?? 0, 0.40]
-    ]), [structure, commands, tests]),
-    dimension("context-quality", weighted([
-      [architecture?.score ?? 0, 0.35],
-      [taskContext?.score ?? 0, 0.45],
-      [structure?.score ?? 0, 0.20]
-    ]), [architecture, taskContext, structure]),
-    dimension("agent-safety", weighted([
-      [safety?.score ?? 0, 0.65],
-      [tests?.score ?? 0, 0.25],
-      [commands?.score ?? 0, 0.10]
-    ]), [safety, tests, commands])
+    dimension(
+      "operational",
+      weighted([
+        [structure?.score ?? 0, 0.25],
+        [commands?.score ?? 0, 0.35],
+        [tests?.score ?? 0, 0.4]
+      ]),
+      [structure, commands, tests]
+    ),
+    dimension(
+      "context-quality",
+      weighted([
+        [architecture?.score ?? 0, 0.35],
+        [taskContext?.score ?? 0, 0.45],
+        [structure?.score ?? 0, 0.2]
+      ]),
+      [architecture, taskContext, structure]
+    ),
+    dimension(
+      "agent-safety",
+      weighted([
+        [safety?.score ?? 0, 0.65],
+        [tests?.score ?? 0, 0.25],
+        [commands?.score ?? 0, 0.1]
+      ]),
+      [safety, tests, commands]
+    )
   ];
 }
 
@@ -102,7 +117,9 @@ function readinessCaps(scan: RepoScan, index: RepoIndex, options: ReadinessAsses
 
   return [
     cap(90, !hasCi, "No CI workflow detected.", scan.ciFiles),
-    cap(90, !hasRealTokenizer, "No model-specific tokenizer configured; token counts use chars_approx.", [`tokenizer.mode: ${options.tokenizerMode ?? "chars_approx"}`]),
+    cap(90, !hasRealTokenizer, "No model-specific tokenizer configured; token counts use chars_approx.", [
+      `tokenizer.mode: ${options.tokenizerMode ?? "chars_approx"}`
+    ]),
     cap(85, !hasAstAnalyzer, "No high-confidence AST/compiler analyzer evidence detected.", [...new Set(index.files.map((file) => file.analyzer))]),
     cap(80, !hasBenchmarkFixture, "No benchmark or fixture corpus detected.", []),
     cap(80, !hasGeneratedOutputValidation, "Generated output validation was not confirmed.", [])
@@ -192,7 +209,11 @@ function assessArchitecture(scan: RepoScan, index: RepoIndex): ReadinessCategory
     score += 35;
     evidence.push("Architecture documentation detected.");
   } else missing.push("No architecture summary detected.");
-  const docsText = index.files.filter((file) => file.kind === "docs").map((file) => `${file.path} ${file.summary}`).join(" ").toLowerCase();
+  const docsText = index.files
+    .filter((file) => file.kind === "docs")
+    .map((file) => `${file.path} ${file.summary}`)
+    .join(" ")
+    .toLowerCase();
   const largeModules = index.modules.filter((module) => module.files.length > 50 && module.name !== "root" && !docsText.includes(module.name.toLowerCase()));
   if (!largeModules.length) score += 20;
   for (const module of largeModules.slice(0, 3)) missing.push(`Large undocumented module: ${module.pathPrefix}.`);
@@ -244,12 +265,7 @@ function assessSafety(scan: RepoScan): ReadinessCategory {
   return category("safety", score, evidence, missing);
 }
 
-function category(
-  name: ReadinessCategory["category"],
-  score: number,
-  evidence: string[],
-  missing: string[]
-): ReadinessCategory {
+function category(name: ReadinessCategory["category"], score: number, evidence: string[], missing: string[]): ReadinessCategory {
   return { category: name, score: Math.max(0, Math.min(100, score)), evidence, missing };
 }
 
@@ -278,5 +294,8 @@ function list(items: string[]): string[] {
 }
 
 function title(value: string): string {
-  return value.split("-").map((part) => `${part[0]?.toUpperCase() ?? ""}${part.slice(1)}`).join(" ");
+  return value
+    .split("-")
+    .map((part) => `${part[0]?.toUpperCase() ?? ""}${part.slice(1)}`)
+    .join(" ");
 }

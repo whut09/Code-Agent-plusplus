@@ -12,9 +12,5 @@ export function renderModuleMap(context: ContextPackage): string {
       module.summary
     ]);
 
-  return [
-    heading(1, "Module Map"),
-    "",
-    table(["Module", "Files", "Score", "Depends On", "Summary"], rows)
-  ].join("\n");
+  return [heading(1, "Module Map"), "", table(["Module", "Files", "Score", "Depends On", "Summary"], rows)].join("\n");
 }

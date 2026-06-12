@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "kind": "module-boundaries",
+  "purpose": "Constrain coding agents from crossing module ownership boundaries without explicit task justification.",
+  "modules": {
+    "benchmarks": {
+      "owns": [
+        "benchmarks/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs"
+      ],
+      "publicFiles": [
+        "benchmarks/fixtures/fastapi-app/app/admin.py",
+        "benchmarks/fixtures/fastapi-app/app/billing.py",
+        "benchmarks/fixtures/fastapi-app/app/models.py",
+        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
+        "benchmarks/fixtures/fastapi-app/app/schemas.py",
+        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+        "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
+        "benchmarks/fixtures/monorepo/packages/api/src/server.ts",
+        "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
+        "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
+        "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
+        "benchmarks/fixtures/react-app/src/App.tsx",
+        "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+        "benchmarks/fixtures/react-app/src/billing/audit.ts",
+        "benchmarks/fixtures/react-app/src/billing/invoice.ts",
+        "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+        "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+        "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+        "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+        "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+        "benchmarks/fixtures/small-ts-app/src/index.ts",
+        "src/benchmarks/benchmark.ts"
+      ]
+    },
+    "test": {
+      "owns": [
+        "test/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "src/analyzers/**",
+        "src/cli/**",
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**",
+        "src/retrievers/**",
+        "test/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "analyzers",
+        "benchmarks",
+        "cli",
+        "config",
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "test/fixtures/monorepo/packages/api/src/index.ts",
+        "test/fixtures/monorepo/packages/web/src/index.ts",
+        "test/fixtures/next-app/src/app/api/login/route.ts",
+        "test/fixtures/next-app/src/auth/session.ts",
+        "test/fixtures/python-package/src/app/models.py",
+        "test/fixtures/python-package/src/app/service.py"
+      ]
+    },
+    "core": {
+      "owns": [
+        "src/core/**"
+      ],
+      "allowedImports": [
+        "src/analyzers/**",
+        "src/config/**",
+        "src/core/**",
+        "src/llm/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "analyzers",
+        "config",
+        "llm"
+      ],
+      "publicFiles": [
+        "src/core/context-builder.ts",
+        "src/core/file-classifier.ts",
+        "src/core/git.ts",
+        "src/core/graph.ts",
+        "src/core/indexer.ts",
+        "src/core/language.ts",
+        "src/core/path-utils.ts",
+        "src/core/ranker.ts",
+        "src/core/readiness.ts",
+        "src/core/scanner.ts",
+        "src/core/summarizer.ts",
+        "src/core/token-estimator.ts",
+        "src/core/token-savings.ts",
+        "src/core/types.ts",
+        "src/core/validator.ts"
+      ]
+    },
+    "outputs": {
+      "owns": [
+        "src/outputs/**"
+      ],
+      "allowedImports": [
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core"
+      ],
+      "publicFiles": [
+        "src/outputs/agents-md.ts",
+        "src/outputs/architecture.ts",
+        "src/outputs/context-layers.ts",
+        "src/outputs/contracts.ts",
+        "src/outputs/dependency-graph.ts",
+        "src/outputs/impact.ts",
+        "src/outputs/key-files.ts",
+        "src/outputs/markdown.ts",
+        "src/outputs/module-map.ts",
+        "src/outputs/onboarding.ts",
+        "src/outputs/rag.ts",
+        "src/outputs/readiness.ts",
+        "src/outputs/repo-summary.ts",
+        "src/outputs/task-context.ts",
+        "src/outputs/task-harness.ts",
+        "src/outputs/test-selector.ts",
+        "src/outputs/token-savings.ts",
+        "src/outputs/writer.ts"
+      ]
+    },
+    "retrievers": {
+      "owns": [
+        "src/retrievers/**"
+      ],
+      "allowedImports": [
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs"
+      ],
+      "publicFiles": [
+        "src/retrievers/external.ts",
+        "src/retrievers/hybrid.ts",
+        "src/retrievers/index.ts",
+        "src/retrievers/ripgrep.ts",
+        "src/retrievers/static.ts",
+        "src/retrievers/types.ts"
+      ]
+    },
+    "analyzers": {
+      "owns": [
+        "src/analyzers/**"
+      ],
+      "allowedImports": [
+        "src/analyzers/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core"
+      ],
+      "publicFiles": [
+        "src/analyzers/generic.ts",
+        "src/analyzers/javascript.ts",
+        "src/analyzers/python.ts",
+        "src/analyzers/resolve-import.ts",
+        "src/analyzers/tree-sitter.ts",
+        "src/analyzers/types.ts"
+      ]
+    },
+    "cli": {
+      "owns": [
+        "src/cli/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "src/cli/**",
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "benchmarks",
+        "config",
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "src/cli/index.ts",
+        "src/cli/task-args.ts"
+      ]
+    },
+    "config": {
+      "owns": [
+        "src/config/**"
+      ],
+      "allowedImports": [
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core"
+      ],
+      "publicFiles": [
+        "src/config/defaults.ts",
+        "src/config/load-config.ts",
+        "src/config/starter-config.ts"
+      ]
+    },
+    "llm": {
+      "owns": [
+        "src/llm/**"
+      ],
+      "allowedImports": [
+        "src/config/**",
+        "src/core/**",
+        "src/llm/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core"
+      ],
+      "publicFiles": [
+        "src/llm/provider.ts"
+      ]
+    },
+    "docs": {
+      "owns": [
+        "docs/**"
+      ],
+      "allowedImports": [
+        "docs/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": []
+    },
+    ".github": {
+      "owns": [
+        ".github/**"
+      ],
+      "allowedImports": [
+        ".github/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": []
+    },
+    "assets": {
+      "owns": [
+        "assets/**"
+      ],
+      "allowedImports": [
+        "assets/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": []
+    }
+  },
+  "globalRules": [
+    "Do not edit files outside the owning module unless listed in the task plan or impact report.",
+    "Do not introduce imports from forbiddenImports.",
+    "Prefer existing public files and exported symbols before reaching into another module internals.",
+    "If a new cross-module import is required, update tests that cover both source and dependent modules."
+  ]
+}

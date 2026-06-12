@@ -1,14 +1,28 @@
 <!-- generated-by: repo-to-agent-context -->
+<!-- do-not-edit: edit AGENTS.manual.md or configured manual sources instead -->
+<!-- manual-sources: AGENTS.manual.md -->
+<!-- generated-source: .agent-context/AGENTS.generated.md -->
 
-# AGENTS.md
+# Agent Guide
 
-This file is intentionally short. Treat it as operating constraints plus links to deeper generated context.
+<!-- generated-by: repo-to-agent-context -->
+<!-- generated-file: .agent-context/AGENTS.generated.md -->
+
+# Generated Agent Guide
+
+L0 operating rules. Keep this file loaded by default; load deeper context only when the task requires it.
 
 ## Must-Read Rules
 - Inspect relevant source files before behavior-changing edits; generated summaries are not a source-of-truth replacement.
-- Before finishing, run the relevant detected checks: `npm run build`, `npm run check`, `npm run test`.
+- Before finishing, run the relevant detected checks: `npm run build`, `npm run check`, `npm run lint`, `npm run format`, `npm run format:check`, `npm run prepublishOnly`, `npm run test`.
 - Do not commit secrets, local config, dependency folders, or generated build output such as `repo-context.local.yml`, API keys, `node_modules/`, `dist/`, or coverage artifacts.
 - Preserve existing project conventions and command patterns unless the source code clearly requires a change.
+
+## Default Workflow
+- Read `AGENTS.md` only before the task is concrete.
+- For a concrete task, run `repo-context plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.
+- Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.
+- Prefer source files over generated summaries for behavior, API, and test decisions.
 
 ## Project Entrypoints
 - Entrypoint: `src/cli/index.ts`
@@ -20,16 +34,28 @@ This file is intentionally short. Treat it as operating constraints plus links t
 - Run: `npm run dev`
 - Typecheck: `npm run build`
 - Typecheck: `npm run check`
+- Lint: `npm run lint`
+- Lint: `npm run format`
+- Lint: `npm run format:check`
+- Lint: `npm run prepublishOnly`
 - Test: `npm run test`
 
-## Deep Context
-- `.agent-context/key-files.md` - highest-signal files to inspect first
-- `.agent-context/repo-summary.md` - compact repository overview
-- `.agent-context/onboarding.md` - first-read path for new agents
-- `.agent-context/token-savings.md` - estimated and actual context size
-- `.agent-context/module-map.md` - module responsibilities
-- `.agent-context/architecture.md` - architecture notes and evidence
-- `.agent-context/dependency-graph.md` - file and module dependency graph
-- `.agent-context/readiness.md` - agent-readiness gaps and evidence
-- `.agent-context/tasks/` - bugfix, feature, and refactor task packs
-- `.agent-context/rag/` - RAG-ready export documents
+## Context Layers
+- `L0 AGENTS.md` - always-loaded operating rules only
+- `L1 .agent-context/repo-summary.md` - compact repository overview for task start
+- `L1 .agent-context/onboarding.md` - first-read workflow and commands
+- `L1 .agent-context/context-layers.md` - layer map for all generated outputs
+- `L2 .agent-context/tasks/` - task packs generated or prebuilt for concrete work
+- `L3 .agent-context/key-files.md` - ranked evidence index; load only when needed
+- `L3 .agent-context/index/` - symbols, files, modules, and chunks for targeted lookup
+- `L3 .agent-context/evidence/` - analyzer evidence for deeper inspection
+- `L3 .agent-context/module-map.md` - module responsibilities after task scope is known
+- `L3 .agent-context/architecture.md` - architecture notes and evidence
+- `L3 .agent-context/dependency-graph.md` - file and module dependency graph
+- `L3 .agent-context/graphs/` - Mermaid and JSON graph artifacts
+- `L3 .agent-context/readiness.md` - agent-readiness gaps and evidence
+- `L3 .agent-context/rag/` - RAG-ready export documents
+
+## Manual Operations Context
+
+_No manual agent notes configured yet. Add environment and deployment guidance to `AGENTS.manual.md`._

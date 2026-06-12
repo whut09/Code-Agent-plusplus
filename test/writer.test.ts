@@ -10,9 +10,13 @@ test("writer honors optional output switches", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-"));
 
   try {
-    writeFileSync(path.join(root, "package.json"), JSON.stringify({
-      scripts: { test: "node --test", start: "node src/index.js" }
-    }), "utf8");
+    writeFileSync(
+      path.join(root, "package.json"),
+      JSON.stringify({
+        scripts: { test: "node --test", start: "node src/index.js" }
+      }),
+      "utf8"
+    );
     writeFileSync(path.join(root, "src-index.ts"), "export const value = 1;\n", "utf8");
 
     const initialContext = await buildContextPackage(root);
@@ -24,7 +28,9 @@ test("writer honors optional output switches", async () => {
     assert.equal(existsSync(path.join(root, ".agent-context", "graphs")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "rag")), true);
 
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 outputs:
   agents: false
   modules: false
@@ -32,7 +38,9 @@ outputs:
   tasks: false
   readiness: false
   rag: false
-`, "utf8");
+`,
+      "utf8"
+    );
 
     const context = await buildContextPackage(root);
     writeContextPackage(context);
@@ -56,7 +64,10 @@ outputs:
     assert.ok(tokenReport.actualOutputTokens);
     assert.ok(tokenReport.actualOutputTokens.total > 0);
     assert.ok(Object.keys(tokenReport.actualOutputTokens.files).length > 0);
-    assert.equal(Object.keys(tokenReport.actualOutputTokens.files).some((file) => file.includes("index/files.json")), false);
+    assert.equal(
+      Object.keys(tokenReport.actualOutputTokens.files).some((file) => file.includes("index/files.json")),
+      false
+    );
     const onboarding = readFileSync(path.join(root, ".agent-context", "onboarding.md"), "utf8");
     assert.equal(onboarding.includes("AGENTS.md"), true);
     assert.equal(onboarding.includes("context-layers.md"), true);
@@ -73,9 +84,13 @@ test("writer emits repo contract files for agent constraints", async () => {
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
     mkdirSync(path.join(root, "src", "payment"), { recursive: true });
     mkdirSync(path.join(root, "test", "auth"), { recursive: true });
-    writeFileSync(path.join(root, "package.json"), JSON.stringify({
-      scripts: { test: "node --test", check: "tsc --noEmit", lint: "eslint ." }
-    }), "utf8");
+    writeFileSync(
+      path.join(root, "package.json"),
+      JSON.stringify({
+        scripts: { test: "node --test", check: "tsc --noEmit", lint: "eslint ." }
+      }),
+      "utf8"
+    );
     writeFileSync(path.join(root, "src", "auth", "session.ts"), "export const session = 1;\n", "utf8");
     writeFileSync(path.join(root, "src", "auth", "login.ts"), "import { session } from './session.js';\nexport const login = session;\n", "utf8");
     writeFileSync(path.join(root, "src", "payment", "charge.ts"), "export const charge = 1;\n", "utf8");
@@ -100,7 +115,9 @@ test("writer emits repo contract files for agent constraints", async () => {
     const safety = JSON.parse(readFileSync(path.join(contractsDir, "safety.contract.json"), "utf8")) as { protectedPaths: { lockfiles: string[] } };
     assert.ok(safety.protectedPaths.lockfiles.includes("package-lock.json"));
 
-    const boundaries = JSON.parse(readFileSync(path.join(contractsDir, "module-boundaries.json"), "utf8")) as { modules: Record<string, { owns: string[]; allowedImports: string[]; forbiddenImports: string[] }> };
+    const boundaries = JSON.parse(readFileSync(path.join(contractsDir, "module-boundaries.json"), "utf8")) as {
+      modules: Record<string, { owns: string[]; allowedImports: string[]; forbiddenImports: string[] }>;
+    };
     assert.ok(boundaries.modules.auth.owns.includes("src/auth/**"));
     assert.ok(boundaries.modules.auth.allowedImports.includes("src/auth/**"));
     assert.ok(boundaries.modules.auth.forbiddenImports.includes("src/payment/**"));
@@ -113,11 +130,17 @@ test("writer migrates legacy AGENTS.md into AGENTS.manual.md and composes final 
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
 
   try {
-    writeFileSync(path.join(root, "package.json"), JSON.stringify({
-      scripts: { test: "node --test", start: "node src/index.js" }
-    }), "utf8");
+    writeFileSync(
+      path.join(root, "package.json"),
+      JSON.stringify({
+        scripts: { test: "node --test", start: "node src/index.js" }
+      }),
+      "utf8"
+    );
     writeFileSync(path.join(root, "src-index.ts"), "export const value = 1;\n", "utf8");
-    writeFileSync(path.join(root, "AGENTS.md"), `
+    writeFileSync(
+      path.join(root, "AGENTS.md"),
+      `
 # Team Notes
 
 ## 环境依赖版本
@@ -131,7 +154,9 @@ pnpm dev
 
 ## 常见故障与恢复步骤
 重启服务
-`, "utf8");
+`,
+      "utf8"
+    );
 
     const context = await buildContextPackage(root);
     writeContextPackage(context);
@@ -169,18 +194,26 @@ test("RAG export respects chunkTokenLimit", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-rag-"));
 
   try {
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 rag:
   provider: lightrag
   chunkTokenLimit: 12
-`, "utf8");
-    writeFileSync(path.join(root, "index.ts"), `
+`,
+      "utf8"
+    );
+    writeFileSync(
+      path.join(root, "index.ts"),
+      `
 export const alpha = 1;
 export const beta = 2;
 export const gamma = 3;
 export const delta = 4;
 export const epsilon = 5;
-`, "utf8");
+`,
+      "utf8"
+    );
 
     const context = await buildContextPackage(root);
     writeContextPackage(context);

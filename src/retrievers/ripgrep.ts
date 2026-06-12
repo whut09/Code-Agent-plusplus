@@ -47,7 +47,11 @@ function runRipgrep(root: string, term: string): Array<{ path: string; line: num
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
     });
-    return output.split(/\r?\n/).filter(Boolean).map((line) => parseRgLine(root, line)).filter((item): item is { path: string; line: number; text: string } => Boolean(item));
+    return output
+      .split(/\r?\n/)
+      .filter(Boolean)
+      .map((line) => parseRgLine(root, line))
+      .filter((item): item is { path: string; line: number; text: string } => Boolean(item));
   } catch {
     return [];
   }

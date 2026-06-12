@@ -27,12 +27,12 @@ export function renderTokenSavings(context: ContextPackage): string {
     heading(2, "Actual Generated Output"),
     context.tokenSavings.actualOutputTokens
       ? [
-        `Tokenizer: ${context.tokenSavings.actualOutputTokens.tokenizer}${context.tokenSavings.actualOutputTokens.model ? ` (${context.tokenSavings.actualOutputTokens.model})` : ""}`,
-        `Actual output: ${context.tokenSavings.actualOutputTokens.total.toLocaleString()} tokens`,
-        `Scope: ${context.tokenSavings.actualOutputTokens.scope}`,
-        "",
-        ...Object.entries(context.tokenSavings.actualOutputTokens.files).map(([file, tokens]) => `- \`${file}\`: ${tokens.toLocaleString()} tokens`)
-      ].join("\n")
+          `Tokenizer: ${context.tokenSavings.actualOutputTokens.tokenizer}${context.tokenSavings.actualOutputTokens.model ? ` (${context.tokenSavings.actualOutputTokens.model})` : ""}`,
+          `Actual output: ${context.tokenSavings.actualOutputTokens.total.toLocaleString()} tokens`,
+          `Scope: ${context.tokenSavings.actualOutputTokens.scope}`,
+          "",
+          ...Object.entries(context.tokenSavings.actualOutputTokens.files).map(([file, tokens]) => `- \`${file}\`: ${tokens.toLocaleString()} tokens`)
+        ].join("\n")
       : "Actual output tokens are calculated after files are written."
   ].join("\n");
 }

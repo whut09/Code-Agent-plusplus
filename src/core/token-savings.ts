@@ -1,5 +1,5 @@
 import type { IndexedFile, RepoScan, TokenizerConfig, TokenSavingsReport } from "./types.js";
-import { countTokens, estimateTokens } from "./token-estimator.js";
+import { countTokens } from "./token-estimator.js";
 
 const DEFAULT_TOKEN_BUDGET = 60000;
 const SUMMARY_OVERHEAD_TOKENS = 1200;
@@ -13,11 +13,7 @@ export interface TokenSavingsOptions {
   tokenizer?: TokenizerConfig;
 }
 
-export function calculateTokenSavings(
-  scan: RepoScan,
-  keyFiles: IndexedFile[],
-  options: TokenSavingsOptions = {}
-): TokenSavingsReport {
+export function calculateTokenSavings(scan: RepoScan, keyFiles: IndexedFile[], options: TokenSavingsOptions = {}): TokenSavingsReport {
   const originalTokens = scan.files.reduce((sum, file) => sum + file.tokenEstimate, 0);
   const tokenBudget = options.tokenBudget ?? DEFAULT_TOKEN_BUDGET;
   const tokenizer = options.tokenizer ?? { mode: "chars_approx" };
@@ -83,14 +79,17 @@ function selectFilesForBudget(scan: RepoScan, keyFiles: IndexedFile[], tokenBudg
 }
 
 function estimateContextPackTokens(scan: RepoScan, selectedFiles: IndexedFile[], tokenizer: TokenizerConfig): number {
-  const scanTokens = countTokens([
-    scan.languages.join(", "),
-    scan.frameworks.join(", "),
-    scan.packageManagers.join(", "),
-    scan.entrypoints.join("\n"),
-    scan.testCommands.join("\n"),
-    scan.runCommands.join("\n")
-  ].join("\n"), tokenizer).tokens;
+  const scanTokens = countTokens(
+    [
+      scan.languages.join(", "),
+      scan.frameworks.join(", "),
+      scan.packageManagers.join(", "),
+      scan.entrypoints.join("\n"),
+      scan.testCommands.join("\n"),
+      scan.runCommands.join("\n")
+    ].join("\n"),
+    tokenizer
+  ).tokens;
 
   return Math.max(1, Math.ceil(scanTokens + estimateContextPackTokensForFiles(selectedFiles, tokenizer)));
 }
@@ -99,7 +98,11 @@ function estimateContextPackTokensForFiles(selectedFiles: IndexedFile[], tokeniz
   const selectedModules = new Set(selectedFiles.map((file) => file.moduleName));
   const fileTokens = selectedFiles.reduce((sum, file) => sum + estimateCompactFileTokens(file, tokenizer), 0);
   const moduleTokens = selectedModules.size * MODULE_OVERHEAD_TOKENS;
-  const graphTokens = Math.min(MAX_GRAPH_EDGES, selectedFiles.reduce((sum, file) => sum + file.imports.length, 0)) * GRAPH_EDGE_TOKENS;
+  const graphTokens =
+    Math.min(
+      MAX_GRAPH_EDGES,
+      selectedFiles.reduce((sum, file) => sum + file.imports.length, 0)
+    ) * GRAPH_EDGE_TOKENS;
 
   return SUMMARY_OVERHEAD_TOKENS + fileTokens + moduleTokens + graphTokens;
 }
@@ -111,9 +114,15 @@ function estimateCompactFileTokens(file: IndexedFile, tokenizer: TokenizerConfig
     `Kind: ${file.kind}`,
     `Summary: ${file.summary}`,
     `Why: ${file.importanceReasons.join(", ")}`,
-    `Imports: ${file.imports.slice(0, 20).map((item) => item.specifier).join(", ")}`,
+    `Imports: ${file.imports
+      .slice(0, 20)
+      .map((item) => item.specifier)
+      .join(", ")}`,
     `Exports: ${file.exports.slice(0, 20).join(", ")}`,
-    `Symbols: ${file.symbols.slice(0, 40).map((symbol) => symbol.name).join(", ")}`
+    `Symbols: ${file.symbols
+      .slice(0, 40)
+      .map((symbol) => symbol.name)
+      .join(", ")}`
   ].join("\n");
 
   return countTokens(compactText, tokenizer).tokens;

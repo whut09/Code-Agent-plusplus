@@ -44,7 +44,7 @@ class OpenAiCompatibleClient implements LlmClient {
       throw new Error(`LLM request failed: ${response.status} ${response.statusText}`);
     }
 
-    const payload = await response.json() as {
+    const payload = (await response.json()) as {
       choices?: Array<{ message?: { content?: string } }>;
     };
     const content = payload.choices?.[0]?.message?.content?.trim();

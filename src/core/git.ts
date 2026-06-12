@@ -1,9 +1,6 @@
 import { execFileSync } from "node:child_process";
 
-const GIT_CANDIDATES = [
-  "git",
-  "D:\\Program Files\\Git\\cmd\\git.exe"
-];
+const GIT_CANDIDATES = ["git", "D:\\Program Files\\Git\\cmd\\git.exe"];
 
 export function runGit(cwd: string, args: string[]): string {
   const errors: string[] = [];

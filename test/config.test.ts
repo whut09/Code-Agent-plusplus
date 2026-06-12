@@ -19,13 +19,17 @@ test("invalid target fails instead of silently falling back", () => {
 test("enabled LLM requires non-placeholder credentials", () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
   try {
-    writeFileSync(path.join(root, "repo-context.local.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.local.yml"),
+      `
 llm:
   enabled: true
   baseUrl: xx
   apiKey: xx
   model: xx
-`, "utf8");
+`,
+      "utf8"
+    );
     assert.throws(() => loadConfig(root), /llm\.baseUrl must be configured/);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -61,25 +65,37 @@ test("starter config is valid and contains all output switches", () => {
 test("agents config validates mode and sections", () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
   try {
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 agents:
   mode: maximal
-`, "utf8");
+`,
+      "utf8"
+    );
     assert.throws(() => loadConfig(root), /Invalid agents\.mode "maximal"/);
 
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 agents:
   include:
     - commands
     - everything
-`, "utf8");
+`,
+      "utf8"
+    );
     assert.throws(() => loadConfig(root), /agents\.include must be an array/);
 
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 agents:
   manualSources:
     - ""
-`, "utf8");
+`,
+      "utf8"
+    );
     assert.throws(() => loadConfig(root), /agents\.manualSources must be an array of non-empty strings/);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -89,19 +105,27 @@ agents:
 test("tokenizer config supports real tokenizer modes", () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
   try {
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 tokenizer:
   mode: cl100k_base
   model: gpt-4.1
-`, "utf8");
+`,
+      "utf8"
+    );
     const config = loadConfig(root);
     assert.equal(config.tokenizer.mode, "cl100k_base");
     assert.equal(config.tokenizer.model, "gpt-4.1");
 
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 tokenizer:
   mode: made_up
-`, "utf8");
+`,
+      "utf8"
+    );
     assert.throws(() => loadConfig(root), /tokenizer\.mode must be one of/);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -111,10 +135,14 @@ tokenizer:
 test("unknown output switches fail fast", () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-config-"));
   try {
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 outputs:
   grahp: true
-`, "utf8");
+`,
+      "utf8"
+    );
     assert.throws(() => loadConfig(root), /Unknown outputs option: grahp/);
   } finally {
     rmSync(root, { recursive: true, force: true });

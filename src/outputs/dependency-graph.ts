@@ -3,11 +3,7 @@ import { fenced, heading, table } from "./markdown.js";
 
 export function renderDependencyGraph(context: ContextPackage): string {
   const mermaid = renderMermaidGraph(context);
-  const rows = context.graph.moduleEdges.map((edge) => [
-    edge.from,
-    edge.to,
-    String(edge.count)
-  ]);
+  const rows = context.graph.moduleEdges.map((edge) => [edge.from, edge.to, String(edge.count)]);
 
   return [
     heading(1, "Dependency Graph"),
@@ -41,5 +37,5 @@ function nodeId(value: string): string {
 }
 
 function escapeLabel(value: string): string {
-  return value.replace(/"/g, "\\\"");
+  return value.replace(/"/g, '\\"');
 }

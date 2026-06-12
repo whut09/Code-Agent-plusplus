@@ -10,9 +10,13 @@ test("default AGENTS.md is minimal operating constraints", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
 
   try {
-    writeFileSync(path.join(root, "package.json"), JSON.stringify({
-      scripts: { check: "tsc --noEmit", test: "node --test", dev: "tsx src/index.ts" }
-    }), "utf8");
+    writeFileSync(
+      path.join(root, "package.json"),
+      JSON.stringify({
+        scripts: { check: "tsc --noEmit", test: "node --test", dev: "tsx src/index.ts" }
+      }),
+      "utf8"
+    );
     writeFileSync(path.join(root, "src-index.ts"), "export const value = 1;\n", "utf8");
 
     const context = await buildContextPackage(root);
@@ -41,16 +45,28 @@ test("default AGENTS.md prefers source anchors over generic config anchors", asy
 
   try {
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
-    writeFileSync(path.join(root, "package.json"), JSON.stringify({
-      scripts: { typecheck: "tsc --noEmit", test: "node --test", dev: "node src/index.js" }
-    }), "utf8");
+    writeFileSync(
+      path.join(root, "package.json"),
+      JSON.stringify({
+        scripts: { typecheck: "tsc --noEmit", test: "node --test", dev: "node src/index.js" }
+      }),
+      "utf8"
+    );
     writeFileSync(path.join(root, "tsconfig.json"), JSON.stringify({ compilerOptions: { module: "esnext" } }), "utf8");
-    writeFileSync(path.join(root, "src", "index.ts"), `
+    writeFileSync(
+      path.join(root, "src", "index.ts"),
+      `
 export { login } from "./auth/session.ts";
-`, "utf8");
-    writeFileSync(path.join(root, "src", "auth", "session.ts"), `
+`,
+      "utf8"
+    );
+    writeFileSync(
+      path.join(root, "src", "auth", "session.ts"),
+      `
 export function login() { return "ok"; }
-`, "utf8");
+`,
+      "utf8"
+    );
 
     const context = await buildContextPackage(root);
     const agents = renderAgentsMd(context);
@@ -66,13 +82,21 @@ test("balanced AGENTS.md keeps expanded summary behind explicit mode", async () 
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
 
   try {
-    writeFileSync(path.join(root, "repo-context.config.yml"), `
+    writeFileSync(
+      path.join(root, "repo-context.config.yml"),
+      `
 agents:
   mode: balanced
-`, "utf8");
-    writeFileSync(path.join(root, "package.json"), JSON.stringify({
-      scripts: { check: "tsc --noEmit", test: "node --test" }
-    }), "utf8");
+`,
+      "utf8"
+    );
+    writeFileSync(
+      path.join(root, "package.json"),
+      JSON.stringify({
+        scripts: { check: "tsc --noEmit", test: "node --test" }
+      }),
+      "utf8"
+    );
     writeFileSync(path.join(root, "index.ts"), "export const value = 1;\n", "utf8");
 
     const context = await buildContextPackage(root);

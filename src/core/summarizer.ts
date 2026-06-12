@@ -1,11 +1,7 @@
 import type { RepoContextConfig, RepoIndex, RepoScan, SummaryBundle } from "./types.js";
 import { createLlmClient } from "../llm/provider.js";
 
-export async function summarizeRepository(
-  scan: RepoScan,
-  index: RepoIndex,
-  config: RepoContextConfig
-): Promise<SummaryBundle> {
+export async function summarizeRepository(scan: RepoScan, index: RepoIndex, config: RepoContextConfig): Promise<SummaryBundle> {
   const offline = buildOfflineSummary(scan, index);
   const client = createLlmClient(config.llm);
   if (!client) {

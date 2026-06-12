@@ -15,18 +15,13 @@ export function resolveImport(
   }
 
   const baseDir = dirnamePosix(fromPath);
-  const raw = specifier.startsWith("/")
-    ? stripLeadingDotSlash(specifier)
-    : path.posix.normalize(path.posix.join(baseDir, specifier));
+  const raw = specifier.startsWith("/") ? stripLeadingDotSlash(specifier) : path.posix.normalize(path.posix.join(baseDir, specifier));
   const candidates = expandCandidates(raw);
 
   return candidates.find((candidate) => allPaths.has(candidate)) ?? null;
 }
 
-function expandAliasCandidates(
-  specifier: string,
-  pathAliases: Array<{ pattern: string; targets: string[] }>
-): string[] {
+function expandAliasCandidates(specifier: string, pathAliases: Array<{ pattern: string; targets: string[] }>): string[] {
   const candidates: string[] = [];
   for (const alias of pathAliases) {
     const starIndex = alias.pattern.indexOf("*");

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "kind": "commands-contract",
+  "run": [
+    "npm run dev"
+  ],
+  "test": [
+    "npm run test"
+  ],
+  "lint": [
+    "npm run lint",
+    "npm run format",
+    "npm run format:check",
+    "npm run prepublishOnly"
+  ],
+  "typecheck": [
+    "npm run build",
+    "npm run check"
+  ],
+  "requiredAfterChange": {
+    "source": [
+      "npm run build",
+      "npm run test"
+    ],
+    "tests": [
+      "npm run test"
+    ],
+    "config": [
+      "npm run build",
+      "npm run lint",
+      "npm run test"
+    ],
+    "docs": []
+  },
+  "rules": [
+    "Run the nearest focused test first when the task or impact report identifies a module.",
+    "Run typecheck after TypeScript or configuration edits when a typecheck command exists.",
+    "Do not skip validation because generated context appears sufficient."
+  ]
+}

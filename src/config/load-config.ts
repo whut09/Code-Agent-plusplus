@@ -4,17 +4,9 @@ import yaml from "js-yaml";
 import { DEFAULT_CONFIG } from "./defaults.js";
 import type { AgentTarget, AgentsMode, AgentsSection, RepoContextConfig, TokenizerMode } from "../core/types.js";
 
-const CONFIG_FILES = [
-  "repo-context.config.yml",
-  "repo-context.config.yaml",
-  "repo-context.config.json"
-];
+const CONFIG_FILES = ["repo-context.config.yml", "repo-context.config.yaml", "repo-context.config.json"];
 
-const LOCAL_CONFIG_FILES = [
-  "repo-context.local.yml",
-  "repo-context.local.yaml",
-  "repo-context.local.json"
-];
+const LOCAL_CONFIG_FILES = ["repo-context.local.yml", "repo-context.local.yaml", "repo-context.local.json"];
 
 export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfig> = {}): RepoContextConfig {
   const configPath = CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
@@ -28,12 +20,7 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
     ...localConfig,
     ...overrides,
     include: overrides.include ?? localConfig.include ?? fileConfig.include ?? DEFAULT_CONFIG.include,
-    exclude: [
-      ...DEFAULT_CONFIG.exclude,
-      ...(fileConfig.exclude ?? []),
-      ...(localConfig.exclude ?? []),
-      ...(overrides.exclude ?? [])
-    ],
+    exclude: [...DEFAULT_CONFIG.exclude, ...(fileConfig.exclude ?? []), ...(localConfig.exclude ?? []), ...(overrides.exclude ?? [])],
     llm: {
       ...DEFAULT_CONFIG.llm,
       ...fileConfig.llm,
@@ -58,7 +45,8 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
       ...localConfig.agents,
       ...overrides.agents,
       include: overrides.agents?.include ?? localConfig.agents?.include ?? fileConfig.agents?.include ?? DEFAULT_CONFIG.agents.include,
-      manualSources: overrides.agents?.manualSources ?? localConfig.agents?.manualSources ?? fileConfig.agents?.manualSources ?? DEFAULT_CONFIG.agents.manualSources
+      manualSources:
+        overrides.agents?.manualSources ?? localConfig.agents?.manualSources ?? fileConfig.agents?.manualSources ?? DEFAULT_CONFIG.agents.manualSources
     },
     outputs: {
       ...DEFAULT_CONFIG.outputs,
@@ -75,9 +63,7 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
 function readConfigFile(configPath: string): Partial<RepoContextConfig> {
   const raw = readFileSync(configPath, "utf8");
   try {
-    const parsed = configPath.endsWith(".json")
-      ? JSON.parse(raw) as Record<string, unknown>
-      : yaml.load(raw) as Record<string, unknown>;
+    const parsed = configPath.endsWith(".json") ? (JSON.parse(raw) as Record<string, unknown>) : (yaml.load(raw) as Record<string, unknown>);
     validateRawConfig(parsed, configPath);
     return normalizeConfig(parsed);
   } catch (error) {
@@ -90,17 +76,17 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     return {};
   }
 
-  const target = typeof input.target === "string" ? input.target as AgentTarget : undefined;
+  const target = typeof input.target === "string" ? (input.target as AgentTarget) : undefined;
   return stripUndefined({
     target,
     tokenBudget: typeof input.tokenBudget === "number" ? input.tokenBudget : undefined,
     include: toStringArray(input.include),
     exclude: toStringArray(input.exclude),
-    llm: typeof input.llm === "object" && input.llm ? input.llm as RepoContextConfig["llm"] : undefined,
-    rag: typeof input.rag === "object" && input.rag ? input.rag as RepoContextConfig["rag"] : undefined,
+    llm: typeof input.llm === "object" && input.llm ? (input.llm as RepoContextConfig["llm"]) : undefined,
+    rag: typeof input.rag === "object" && input.rag ? (input.rag as RepoContextConfig["rag"]) : undefined,
     tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? normalizeTokenizerConfig(input.tokenizer as Record<string, unknown>) : undefined,
     agents: typeof input.agents === "object" && input.agents ? normalizeAgentsConfig(input.agents as Record<string, unknown>) : undefined,
-    outputs: typeof input.outputs === "object" && input.outputs ? input.outputs as RepoContextConfig["outputs"] : undefined
+    outputs: typeof input.outputs === "object" && input.outputs ? (input.outputs as RepoContextConfig["outputs"]) : undefined
   }) as Partial<RepoContextConfig>;
 }
 
@@ -133,7 +119,11 @@ export function validateConfig(config: RepoContextConfig): void {
     }
   }
   if (config.llm.enabled) {
-    for (const [field, value] of [["baseUrl", config.llm.baseUrl], ["apiKey", config.llm.apiKey], ["model", config.llm.model]]) {
+    for (const [field, value] of [
+      ["baseUrl", config.llm.baseUrl],
+      ["apiKey", config.llm.apiKey],
+      ["model", config.llm.model]
+    ]) {
       if (!value || value.trim().toLowerCase() === "xx") {
         throw new Error(`llm.${field} must be configured when llm.enabled is true.`);
       }
@@ -202,10 +192,16 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
       throw new Error("agents.maxTokens must be a positive number.");
     }
     const allowedSections = new Set(["commands", "safety", "entrypoints", "contextLinks"]);
-    if (agents.include !== undefined && (!Array.isArray(agents.include) || agents.include.some((item) => typeof item !== "string" || !allowedSections.has(item)))) {
+    if (
+      agents.include !== undefined &&
+      (!Array.isArray(agents.include) || agents.include.some((item) => typeof item !== "string" || !allowedSections.has(item)))
+    ) {
       throw new Error("agents.include must be an array containing only: commands, safety, entrypoints, contextLinks.");
     }
-    if (agents.manualSources !== undefined && (!Array.isArray(agents.manualSources) || agents.manualSources.some((item) => typeof item !== "string" || item.trim() === ""))) {
+    if (
+      agents.manualSources !== undefined &&
+      (!Array.isArray(agents.manualSources) || agents.manualSources.some((item) => typeof item !== "string" || item.trim() === ""))
+    ) {
       throw new Error("agents.manualSources must be an array of non-empty strings.");
     }
   }
@@ -214,14 +210,14 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
 
 function normalizeTokenizerConfig(input: Record<string, unknown>): Partial<RepoContextConfig["tokenizer"]> {
   return stripUndefined({
-    mode: typeof input.mode === "string" ? input.mode as TokenizerMode : undefined,
+    mode: typeof input.mode === "string" ? (input.mode as TokenizerMode) : undefined,
     model: typeof input.model === "string" ? input.model : undefined
   });
 }
 
 function normalizeAgentsConfig(input: Record<string, unknown>): Partial<RepoContextConfig["agents"]> {
   return stripUndefined({
-    mode: typeof input.mode === "string" ? input.mode as AgentsMode : undefined,
+    mode: typeof input.mode === "string" ? (input.mode as AgentsMode) : undefined,
     maxTokens: typeof input.maxTokens === "number" ? input.maxTokens : undefined,
     include: toAgentsSectionArray(input.include),
     manualSources: toStringArray(input.manualSources)

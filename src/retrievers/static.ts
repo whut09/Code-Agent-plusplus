@@ -45,7 +45,14 @@ export class StaticContextRetriever implements ContextRetriever {
 }
 
 export function taskTerms(task: string): string[] {
-  return [...new Set(task.toLowerCase().match(/[\p{L}\p{N}_/-]+/gu)?.filter((term) => term.length >= 2) ?? [])];
+  return [
+    ...new Set(
+      task
+        .toLowerCase()
+        .match(/[\p{L}\p{N}_/-]+/gu)
+        ?.filter((term) => term.length >= 2) ?? []
+    )
+  ];
 }
 
 export function scoreTerms(terms: string[], haystack: string): number {
@@ -55,7 +62,11 @@ export function scoreTerms(terms: string[], haystack: string): number {
 export function snippetFor(text: string, terms: string[]): string {
   const normalized = text.replace(/\s+/g, " ").trim();
   const lower = normalized.toLowerCase();
-  const index = terms.map((term) => lower.indexOf(term)).filter((item) => item >= 0).sort((a, b) => a - b)[0] ?? 0;
+  const index =
+    terms
+      .map((term) => lower.indexOf(term))
+      .filter((item) => item >= 0)
+      .sort((a, b) => a - b)[0] ?? 0;
   const start = Math.max(0, index - 80);
   const end = Math.min(normalized.length, index + 220);
   return `${start > 0 ? "..." : ""}${normalized.slice(start, end)}${end < normalized.length ? "..." : ""}`;

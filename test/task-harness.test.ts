@@ -12,17 +12,29 @@ function createTaskRepo(): string {
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
-  writeFileSync(path.join(root, "src", "auth", "session.ts"), `
+  writeFileSync(
+    path.join(root, "src", "auth", "session.ts"),
+    `
 export function loginSession() { return "ok"; }
-`, "utf8");
-  writeFileSync(path.join(root, "src", "auth", "middleware.ts"), `
+`,
+    "utf8"
+  );
+  writeFileSync(
+    path.join(root, "src", "auth", "middleware.ts"),
+    `
 import { loginSession } from "./session.js";
 export function authMiddleware() { return loginSession(); }
-`, "utf8");
-  writeFileSync(path.join(root, "test", "auth", "session.test.ts"), `
+`,
+    "utf8"
+  );
+  writeFileSync(
+    path.join(root, "test", "auth", "session.test.ts"),
+    `
 import { loginSession } from "../../src/auth/session.js";
 loginSession();
-`, "utf8");
+`,
+    "utf8"
+  );
   return root;
 }
 
@@ -69,9 +81,13 @@ test("task verify reports missing tests and risk for changed source files", asyn
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
-    writeFileSync(path.join(root, "src", "auth", "session.ts"), `
+    writeFileSync(
+      path.join(root, "src", "auth", "session.ts"),
+      `
 export function loginSession() { return "fixed"; }
-`, "utf8");
+`,
+      "utf8"
+    );
 
     const context = await buildContextPackage(root);
     const report = renderTaskVerify(context, { base: "main", diff: true });

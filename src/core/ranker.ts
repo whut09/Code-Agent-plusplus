@@ -115,9 +115,7 @@ export function rankFiles(scan: RepoScan, index: RepoIndex, graph: DependencyGra
     module.importanceScore = moduleScores.get(module.name) ?? 0;
   }
 
-  return [...index.files]
-    .filter((file) => file.importanceScore > 0)
-    .sort((a, b) => b.importanceScore - a.importanceScore || a.path.localeCompare(b.path));
+  return [...index.files].filter((file) => file.importanceScore > 0).sort((a, b) => b.importanceScore - a.importanceScore || a.path.localeCompare(b.path));
 }
 
 function dependencyWord(count: number): string {
@@ -125,8 +123,7 @@ function dependencyWord(count: number): string {
 }
 
 function isApiOrRouteFile(filePath: string): boolean {
-  return /(^|\/)(api|routes?)\//i.test(filePath)
-    || /(^|\/)(route|controller|handler)\.[cm]?[tj]sx?$/i.test(filePath);
+  return /(^|\/)(api|routes?)\//i.test(filePath) || /(^|\/)(route|controller|handler)\.[cm]?[tj]sx?$/i.test(filePath);
 }
 
 function isArchitectureDoc(filePath: string): boolean {
@@ -134,7 +131,9 @@ function isArchitectureDoc(filePath: string): boolean {
 }
 
 function isHighSignalConfig(filePath: string): boolean {
-  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|next\.config\.[cm]?js|vite\.config\.[cm]?ts)$/i.test(filePath);
+  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|next\.config\.[cm]?js|vite\.config\.[cm]?ts)$/i.test(
+    filePath
+  );
 }
 
 function isGenericConfig(file: IndexedFile): boolean {
@@ -142,11 +141,15 @@ function isGenericConfig(file: IndexedFile): boolean {
 }
 
 function isToolingConfig(filePath: string): boolean {
-  return /(^|\/)(tsconfig\.json|eslint\.config\.[cm]?js|prettier\.config\.[cm]?js|babel\.config\.[cm]?js|vitest\.config\.[cm]?ts|jest\.config\.[cm]?js)$/i.test(filePath);
+  return /(^|\/)(tsconfig\.json|eslint\.config\.[cm]?js|prettier\.config\.[cm]?js|babel\.config\.[cm]?js|vitest\.config\.[cm]?ts|jest\.config\.[cm]?js)$/i.test(
+    filePath
+  );
 }
 
 function isManifestOrDeploymentConfig(filePath: string): boolean {
-  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|pm2\.config\.[cm]?js|ecosystem\.config\.[cm]?js)$/i.test(filePath);
+  return /(^|\/)(package\.json|pyproject\.toml|Cargo\.toml|go\.mod|Dockerfile|docker-compose\.yml|docker-compose\.yaml|pm2\.config\.[cm]?js|ecosystem\.config\.[cm]?js)$/i.test(
+    filePath
+  );
 }
 
 function isPackageManifest(filePath: string): boolean {

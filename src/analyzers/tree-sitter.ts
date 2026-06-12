@@ -155,6 +155,8 @@ function uniqueBy<T>(items: T[], keyFor: (item: T) => string): T[] {
   });
 }
 
-function uniqueSymbols(symbols: Array<{ name: string; kind: SymbolInfo["kind"]; line: number }>): Array<{ name: string; kind: SymbolInfo["kind"]; line: number }> {
+function uniqueSymbols(
+  symbols: Array<{ name: string; kind: SymbolInfo["kind"]; line: number }>
+): Array<{ name: string; kind: SymbolInfo["kind"]; line: number }> {
   return uniqueBy(symbols, (symbol) => `${symbol.kind}:${symbol.name}:${symbol.line}`);
 }

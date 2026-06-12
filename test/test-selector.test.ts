@@ -15,8 +15,16 @@ function createTestSelectorRepo(): string {
   mkdirSync(path.join(root, "test", "api"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
   writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'ok'; }\n", "utf8");
-  writeFileSync(path.join(root, "src", "auth", "middleware.ts"), "import { loginSession } from './session.js';\nexport function authMiddleware() { return loginSession(); }\n", "utf8");
-  writeFileSync(path.join(root, "src", "api", "login.ts"), "import { authMiddleware } from '../auth/middleware.js';\nexport function loginApi() { return authMiddleware(); }\n", "utf8");
+  writeFileSync(
+    path.join(root, "src", "auth", "middleware.ts"),
+    "import { loginSession } from './session.js';\nexport function authMiddleware() { return loginSession(); }\n",
+    "utf8"
+  );
+  writeFileSync(
+    path.join(root, "src", "api", "login.ts"),
+    "import { authMiddleware } from '../auth/middleware.js';\nexport function loginApi() { return authMiddleware(); }\n",
+    "utf8"
+  );
   writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { loginSession } from '../../src/auth/session.js';\nloginSession();\n", "utf8");
   writeFileSync(path.join(root, "test", "api", "login.test.ts"), "import { loginApi } from '../../src/api/login.js';\nloginApi();\n", "utf8");
   return root;
@@ -77,7 +85,6 @@ test("test selector runs changed test files directly", async () => {
     rmSync(root, { recursive: true, force: true });
   }
 });
-
 
 test("test selector diff includes untracked runnable tests", async () => {
   const root = createTestSelectorRepo();

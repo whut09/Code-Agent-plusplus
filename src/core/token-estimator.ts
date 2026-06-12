@@ -25,9 +25,7 @@ export function countTokens(text: string, tokenizer: TokenizerConfig): TokenCoun
   }
 
   try {
-    const encoder = tokenizer.model
-      ? encodingForModel(tokenizer.model as TiktokenModel)
-      : getEncoding(tokenizer.mode as TiktokenEncoding);
+    const encoder = tokenizer.model ? encodingForModel(tokenizer.model as TiktokenModel) : getEncoding(tokenizer.mode as TiktokenEncoding);
     return {
       tokens: encoder.encode(text).length,
       tokenizer: tokenizer.mode,
@@ -53,13 +51,7 @@ export function countTokens(text: string, tokenizer: TokenizerConfig): TokenCoun
 
 export function tokenizerFromModel(model: string): TokenizerConfig {
   const normalized = model.toLowerCase();
-  if (
-    normalized.includes("gpt-4.1")
-    || normalized.includes("gpt-4o")
-    || normalized.includes("o1")
-    || normalized.includes("o3")
-    || normalized.includes("o4")
-  ) {
+  if (normalized.includes("gpt-4.1") || normalized.includes("gpt-4o") || normalized.includes("o1") || normalized.includes("o3") || normalized.includes("o4")) {
     return { mode: "o200k_base", model };
   }
 

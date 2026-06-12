@@ -32,8 +32,14 @@ export function buildTestSelection(context: ContextPackage, options: TestSelecti
     targetFiles: targets,
     minimalTests: minimalTests.map((file) => file.path),
     recommendedRegressionTests: regressionTests.map((file) => file.path),
-    minimalCommands: focusedTestCommands(context, minimalTests.map((file) => file.path)),
-    recommendedCommands: recommendedRegressionCommands(context, regressionTests.map((file) => file.path)),
+    minimalCommands: focusedTestCommands(
+      context,
+      minimalTests.map((file) => file.path)
+    ),
+    recommendedCommands: recommendedRegressionCommands(
+      context,
+      regressionTests.map((file) => file.path)
+    ),
     fullConfidenceCommands: fullConfidenceCommands(context)
   };
 }
@@ -96,12 +102,14 @@ function isRunnableTestFile(file: IndexedFile): boolean {
   if (!file.isTest) return false;
   const normalized = file.path.toLowerCase();
   const baseName = normalized.split("/").pop() ?? normalized;
-  return baseName.includes(".test.")
-    || baseName.includes(".spec.")
-    || baseName.startsWith("test_")
-    || baseName.endsWith("_test.py")
-    || baseName.endsWith("test.java")
-    || normalized.includes("/__tests__/");
+  return (
+    baseName.includes(".test.") ||
+    baseName.includes(".spec.") ||
+    baseName.startsWith("test_") ||
+    baseName.endsWith("_test.py") ||
+    baseName.endsWith("test.java") ||
+    normalized.includes("/__tests__/")
+  );
 }
 
 function isRelatedTest(testFile: IndexedFile, sourceFile: IndexedFile): boolean {
@@ -111,14 +119,21 @@ function isRelatedTest(testFile: IndexedFile, sourceFile: IndexedFile): boolean 
   const sourcePath = sourceFile.path.toLowerCase();
   const sourceDir = sourcePath.split("/").slice(0, -1).join("/");
   const sourceModuleDir = sourceDir.replace(/^src\//, "");
-  const baseName = sourceFile.path.split("/").pop()?.replace(/\.[^.]+$/, "").toLowerCase() ?? "";
+  const baseName =
+    sourceFile.path
+      .split("/")
+      .pop()
+      ?.replace(/\.[^.]+$/, "")
+      .toLowerCase() ?? "";
   const moduleName = sourceFile.moduleName.toLowerCase();
 
-  return (baseName.length >= 3 && testPath.includes(baseName))
-    || (sourceModuleDir.length >= 3 && testPath.includes(sourceModuleDir))
-    || (moduleName !== "root" && moduleName !== "test" && testPath.includes(moduleName))
-    || testPath.includes(sourceDir.replace(/^src\//, "test/"))
-    || testPath.includes(sourceDir.replace(/^src\//, "tests/"));
+  return (
+    (baseName.length >= 3 && testPath.includes(baseName)) ||
+    (sourceModuleDir.length >= 3 && testPath.includes(sourceModuleDir)) ||
+    (moduleName !== "root" && moduleName !== "test" && testPath.includes(moduleName)) ||
+    testPath.includes(sourceDir.replace(/^src\//, "test/")) ||
+    testPath.includes(sourceDir.replace(/^src\//, "tests/"))
+  );
 }
 
 function focusedTestCommands(context: ContextPackage, testPaths: string[]): string[] {

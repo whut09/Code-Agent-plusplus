@@ -1,10 +1,8 @@
 import type { LanguageAnalyzer } from "./types.js";
-import type { AnalysisEvidence, ImportRef, SymbolInfo } from "../core/types.js";
+import type { AnalysisEvidence, SymbolInfo } from "../core/types.js";
 import { resolveImport } from "./resolve-import.js";
 import { spawnSync } from "node:child_process";
 import { parsePythonWithTreeSitter } from "./tree-sitter.js";
-
-const ROUTE_METHODS = new Set(["get", "post", "put", "patch", "delete", "options", "head"]);
 
 export const pythonAnalyzer: LanguageAnalyzer = {
   name: "python-ast",
@@ -29,7 +27,10 @@ export const pythonAnalyzer: LanguageAnalyzer = {
     return {
       imports,
       symbols,
-      exports: symbols.filter((symbol) => !symbol.name.startsWith("_")).map((symbol) => symbol.name).sort(),
+      exports: symbols
+        .filter((symbol) => !symbol.name.startsWith("_"))
+        .map((symbol) => symbol.name)
+        .sort(),
       summary: `${file.path} contains ${symbols.length} detected Python symbol${symbols.length === 1 ? "" : "s"} and ${imports.length} import${imports.length === 1 ? "" : "s"}.`,
       confidence: symbols.length || imports.some((item) => !item.isExternal) ? "medium" : "low",
       stats: {
@@ -197,18 +198,11 @@ function resolvePythonImport(filePath: string, specifier: string, allPaths: Set<
   const leadingDots = specifier.match(/^\.+/)?.[0].length ?? 0;
   const modulePath = specifier.slice(leadingDots).replaceAll(".", "/");
   if (leadingDots) {
-    const relative = leadingDots === 1
-      ? `./${modulePath}`
-      : `${"../".repeat(leadingDots - 1)}${modulePath}`;
+    const relative = leadingDots === 1 ? `./${modulePath}` : `${"../".repeat(leadingDots - 1)}${modulePath}`;
     return resolveImport(filePath, relative || ".", allPaths);
   }
 
-  const candidates = [
-    `${modulePath}.py`,
-    `${modulePath}/__init__.py`,
-    `src/${modulePath}.py`,
-    `src/${modulePath}/__init__.py`
-  ];
+  const candidates = [`${modulePath}.py`, `${modulePath}/__init__.py`, `src/${modulePath}.py`, `src/${modulePath}/__init__.py`];
   return candidates.find((candidate) => allPaths.has(candidate)) ?? null;
 }
 
@@ -218,7 +212,7 @@ function extractSymbols(content: string): Array<Omit<SymbolInfo, "filePath">> {
     { kind: "function", pattern: /^\s*def\s+([A-Za-z_]\w*)\s*\(/gm },
     { kind: "function", pattern: /^\s*async\s+def\s+([A-Za-z_]\w*)\s*\(/gm },
     { kind: "class", pattern: /^\s*class\s+([A-Za-z_]\w*)\s*[:(]/gm },
-    { kind: "route", pattern: /^\s*@[\w.]+\.(get|post|put|patch|delete|options|head)\(\s*["']([^"']+)["']/gmi }
+    { kind: "route", pattern: /^\s*@[\w.]+\.(get|post|put|patch|delete|options|head)\(\s*["']([^"']+)["']/gim }
   ];
 
   for (const { kind, pattern } of patterns) {

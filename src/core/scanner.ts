@@ -47,8 +47,7 @@ export async function scanRepository(root: string, config: RepoContextConfig): P
   const packageJson = readPackageJson(absoluteRoot);
   const languages = unique(files.map((file) => file.language).filter(Boolean) as string[]);
   const packageManagers = detectPackageManagers(files);
-  const scriptRunner = packageManagers.find((manager) => ["pnpm", "yarn", "npm"].includes(manager))
-    ?? (packageJson ? "npm" : null);
+  const scriptRunner = packageManagers.find((manager) => ["pnpm", "yarn", "npm"].includes(manager)) ?? (packageJson ? "npm" : null);
 
   return {
     root: absoluteRoot,
@@ -62,7 +61,9 @@ export async function scanRepository(root: string, config: RepoContextConfig): P
     runCommands: detectRunCommands(packageJson, scriptRunner),
     lintCommands: detectNamedCommands(packageJson, scriptRunner, /lint|format/i),
     typecheckCommands: detectNamedCommands(packageJson, scriptRunner, /typecheck|type-check|check-types|tsc/i),
-    ciFiles: files.filter((file) => file.path.startsWith(".github/workflows/") || /(^|\/)(gitlab-ci|Jenkinsfile|azure-pipelines)/i.test(file.path)).map((file) => file.path),
+    ciFiles: files
+      .filter((file) => file.path.startsWith(".github/workflows/") || /(^|\/)(gitlab-ci|Jenkinsfile|azure-pipelines)/i.test(file.path))
+      .map((file) => file.path),
     envExampleFiles: files.filter((file) => /(^|\/)\.env(\.example|\.sample|\.template)$|(^|\/)env\.example$/i.test(file.path)).map((file) => file.path),
     migrationFiles: files.filter((file) => /(^|\/)(migrations?|prisma|db\/migrate)\//i.test(file.path)).map((file) => file.path)
   };
@@ -114,10 +115,12 @@ function readPackageJson(root: string): Record<string, unknown> | null {
 }
 
 function detectFrameworks(files: RepoFile[], packageJson: Record<string, unknown> | null): string[] {
-  const deps = packageJson ? {
-    ...objectValue(packageJson.dependencies),
-    ...objectValue(packageJson.devDependencies)
-  } : {};
+  const deps = packageJson
+    ? {
+        ...objectValue(packageJson.dependencies),
+        ...objectValue(packageJson.devDependencies)
+      }
+    : {};
   const names = new Set<string>();
   const fileSet = new Set(files.map((file) => file.path));
 
@@ -225,7 +228,7 @@ function formatScriptCommand(scriptRunner: string | null, scriptName: string): s
 }
 
 function objectValue(value: unknown): Record<string, unknown> {
-  return typeof value === "object" && value ? value as Record<string, unknown> : {};
+  return typeof value === "object" && value ? (value as Record<string, unknown>) : {};
 }
 
 function unique<T>(items: T[]): T[] {

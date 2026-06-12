@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "safety-contract",
+  "protectedPaths": {
+    "generated": [],
+    "lockfiles": [
+      "package-lock.json"
+    ],
+    "migrations": [],
+    "envExamples": [
+      ".env.example"
+    ],
+    "ci": [
+      ".github/workflows/ci.yml"
+    ]
+  },
+  "protectedFileCount": 1,
+  "rules": [
+    "Do not edit generated files unless the task explicitly asks to regenerate artifacts.",
+    "Do not edit lockfiles unless dependency changes are required and explained.",
+    "Do not change migrations, schemas, CI, deployment, or env files unless they are in scope for the task.",
+    "Do not introduce new global dependencies when local module code can satisfy the task.",
+    "Use repo-context impact --base <ref> after edits to identify affected dependents and required verification."
+  ]
+}

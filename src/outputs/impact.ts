@@ -69,10 +69,12 @@ export function renderChangeImpactReport(context: ContextPackage, options: Chang
 }
 
 function directDependentsOf(context: ContextPackage, changedSet: Set<string>): string[] {
-  return sortedUnique(context.graph.fileEdges
-    .filter((edge) => !edge.isExternal && changedSet.has(edge.to) && !changedSet.has(edge.from))
-    .map((edge) => edge.from)
-    .filter((filePath) => !isTestPath(context, filePath)));
+  return sortedUnique(
+    context.graph.fileEdges
+      .filter((edge) => !edge.isExternal && changedSet.has(edge.to) && !changedSet.has(edge.from))
+      .map((edge) => edge.from)
+      .filter((filePath) => !isTestPath(context, filePath))
+  );
 }
 
 function transitiveDependentsOf(context: ContextPackage, changedSet: Set<string>, directSet: Set<string>): string[] {
@@ -112,7 +114,13 @@ function relatedTestsFor(context: ContextPackage, changedSet: Set<string>, depen
   return sortedUnique([...related]);
 }
 
-function requiredVerification(context: ContextPackage, changedFiles: string[], directDependents: string[], transitiveDependents: string[], relatedTests: string[]): string[] {
+function requiredVerification(
+  context: ContextPackage,
+  changedFiles: string[],
+  directDependents: string[],
+  transitiveDependents: string[],
+  relatedTests: string[]
+): string[] {
   const commands = new Set<string>();
   const focusTerms = verificationFocusTerms(context, changedFiles, directDependents, transitiveDependents, relatedTests);
   const testCommands = context.scan.testCommands.slice(0, 2);
@@ -147,12 +155,16 @@ function verificationFocusTerms(context: ContextPackage, ...groups: string[][]):
   const preferred = ["auth", "login"].filter((term) => terms.has(term));
   if (preferred.length) return preferred;
 
-  return [...terms]
-    .filter((term) => !["src", "test", "tests", "index", "app", "server", "route", "middleware", "session"].includes(term))
-    .slice(0, 4);
+  return [...terms].filter((term) => !["src", "test", "tests", "index", "app", "server", "route", "middleware", "session"].includes(term)).slice(0, 4);
 }
 
-function impactRisk(context: ContextPackage, changedFiles: string[], directDependents: string[], transitiveDependents: string[], relatedTests: string[]): { level: ChangeImpactReport["risk"]; factors: string[] } {
+function impactRisk(
+  context: ContextPackage,
+  changedFiles: string[],
+  directDependents: string[],
+  transitiveDependents: string[],
+  relatedTests: string[]
+): { level: ChangeImpactReport["risk"]; factors: string[] } {
   let score = 0;
   const factors: string[] = [];
   const indexedChanged = indexedFiles(context, changedFiles);
@@ -194,16 +206,27 @@ function indexedFiles(context: ContextPackage, paths: string[]): IndexedFile[] {
 }
 
 function isTestPath(context: ContextPackage, filePath: string): boolean {
-  return Boolean(context.index.files.find((file) => file.path === filePath)?.isTest) || /(^|\/)(test|tests|__tests__)\//i.test(filePath) || /\.(test|spec)\.[cm]?[jt]sx?$/i.test(filePath);
+  return (
+    Boolean(context.index.files.find((file) => file.path === filePath)?.isTest) ||
+    /(^|\/)(test|tests|__tests__)\//i.test(filePath) ||
+    /\.(test|spec)\.[cm]?[jt]sx?$/i.test(filePath)
+  );
 }
 
 function isRelatedTest(testFile: IndexedFile, files: IndexedFile[]): boolean {
   const testPath = testFile.path.toLowerCase();
   return files.some((file) => {
-    const baseName = file.path.split("/").pop()?.replace(/\.[^.]+$/, "").toLowerCase() ?? "";
-    return (baseName.length >= 3 && testPath.includes(baseName))
-      || (file.moduleName !== "root" && file.moduleName !== "test" && testPath.includes(file.moduleName.toLowerCase()))
-      || file.path.split("/").some((segment) => segment.length >= 4 && testPath.includes(segment.toLowerCase()));
+    const baseName =
+      file.path
+        .split("/")
+        .pop()
+        ?.replace(/\.[^.]+$/, "")
+        .toLowerCase() ?? "";
+    return (
+      (baseName.length >= 3 && testPath.includes(baseName)) ||
+      (file.moduleName !== "root" && file.moduleName !== "test" && testPath.includes(file.moduleName.toLowerCase())) ||
+      file.path.split("/").some((segment) => segment.length >= 4 && testPath.includes(segment.toLowerCase()))
+    );
   });
 }
 

@@ -1,11 +1,12 @@
 {
   "provider": "lightrag",
   "mode": "export",
-  "documentCount": 77,
+  "documentCount": 90,
   "generatedFrom": "repo-to-agent-context",
   "target": "codex",
   "languages": [
     "JSON",
+    "JavaScript",
     "Markdown",
     "Python",
     "TOML",
@@ -14,93 +15,99 @@
   ],
   "frameworks": [],
   "tokenSavings": {
-    "tokenBudget": 60000,
-    "originalTokens": 69508,
-    "contextPackTokenEstimate": 11293,
+    "tokenBudget": 80000,
+    "originalTokens": 1511840,
+    "contextPackTokenEstimate": 14502,
     "contextPackTokens": {
       "mode": "actual",
       "tokenizer": "chars_approx",
-      "totalTokens": 45619,
-      "total": 45619,
+      "totalTokens": 67347,
+      "total": 67347,
       "scope": "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
       "files": {
-        "AGENTS.md": 436,
-        ".agent-context/repo-summary.md": 272,
-        ".agent-context/key-files.md": 2562,
-        ".agent-context/module-map.md": 230,
-        ".agent-context/architecture.md": 314,
-        ".agent-context/dependency-graph.md": 233,
-        ".agent-context/graphs/dependencies.mmd": 128,
-        ".agent-context/onboarding.md": 131,
-        ".agent-context/readiness.md": 740,
-        ".agent-context/tasks/bugfix-context.md": 857,
-        ".agent-context/tasks/feature-context.md": 868,
-        ".agent-context/tasks/refactor-context.md": 2401,
+        ".agent-context/AGENTS.generated.md": 691,
+        "AGENTS.md": 786,
+        ".agent-context/repo-summary.md": 745,
+        ".agent-context/context-layers.md": 519,
+        ".agent-context/key-files.md": 2670,
+        ".agent-context/module-map.md": 326,
+        ".agent-context/architecture.md": 350,
+        ".agent-context/dependency-graph.md": 388,
+        ".agent-context/graphs/dependencies.mmd": 226,
+        ".agent-context/onboarding.md": 207,
+        ".agent-context/readiness.md": 823,
+        ".agent-context/tasks/bugfix-context.md": 1797,
+        ".agent-context/tasks/feature-context.md": 1627,
+        ".agent-context/tasks/refactor-context.md": 4491,
         ".agent-context/rag/README.md": 167,
-        ".agent-context/rag/documents.jsonl": 36280
+        ".agent-context/rag/documents.jsonl": 51534
       }
     },
-    "compressionRatio": 2,
+    "compressionRatio": 22,
     "withinBudget": true,
-    "selectedFiles": 68,
-    "totalFiles": 80,
-    "estimatedTokenSavings": 58215,
+    "selectedFiles": 80,
+    "totalFiles": 157,
+    "estimatedTokenSavings": 1497338,
     "originalRepoTokens": {
       "mode": "estimated",
       "tokenizer": "chars_approx",
-      "tokens": 69508
+      "tokens": 1511840
     },
     "estimatedContextPackTokens": {
       "mode": "estimated",
       "tokenizer": "chars_approx",
-      "tokens": 11293
+      "tokens": 14502
     },
     "actualOutputTokens": {
       "mode": "actual",
       "tokenizer": "chars_approx",
-      "totalTokens": 45619,
-      "total": 45619,
+      "totalTokens": 67347,
+      "total": 67347,
       "scope": "Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.",
       "files": {
-        "AGENTS.md": 436,
-        ".agent-context/repo-summary.md": 272,
-        ".agent-context/key-files.md": 2562,
-        ".agent-context/module-map.md": 230,
-        ".agent-context/architecture.md": 314,
-        ".agent-context/dependency-graph.md": 233,
-        ".agent-context/graphs/dependencies.mmd": 128,
-        ".agent-context/onboarding.md": 131,
-        ".agent-context/readiness.md": 740,
-        ".agent-context/tasks/bugfix-context.md": 857,
-        ".agent-context/tasks/feature-context.md": 868,
-        ".agent-context/tasks/refactor-context.md": 2401,
+        ".agent-context/AGENTS.generated.md": 691,
+        "AGENTS.md": 786,
+        ".agent-context/repo-summary.md": 745,
+        ".agent-context/context-layers.md": 519,
+        ".agent-context/key-files.md": 2670,
+        ".agent-context/module-map.md": 326,
+        ".agent-context/architecture.md": 350,
+        ".agent-context/dependency-graph.md": 388,
+        ".agent-context/graphs/dependencies.mmd": 226,
+        ".agent-context/onboarding.md": 207,
+        ".agent-context/readiness.md": 823,
+        ".agent-context/tasks/bugfix-context.md": 1797,
+        ".agent-context/tasks/feature-context.md": 1627,
+        ".agent-context/tasks/refactor-context.md": 4491,
         ".agent-context/rag/README.md": 167,
-        ".agent-context/rag/documents.jsonl": 36280
+        ".agent-context/rag/documents.jsonl": 51534
       }
     }
   },
   "readiness": {
-    "score": 86,
-    "grade": "B",
+    "score": 90,
+    "grade": "A",
     "dimensions": [
       {
         "category": "operational",
-        "score": 87,
+        "score": 99,
         "evidence": [
           "Entrypoint: src/cli/index.ts",
-          "10 modules detected.",
-          "188 dependency edges detected.",
-          "69% of files have medium/high-confidence analysis.",
+          "13 modules detected.",
+          "307 dependency edges detected.",
+          "68% of files have medium/high-confidence analysis.",
           "Run command: npm run dev",
+          "Lint command: npm run lint",
+          "Lint command: npm run format",
+          "Lint command: npm run format:check",
+          "Lint command: npm run prepublishOnly",
           "Typecheck command: npm run build",
           "Typecheck command: npm run check",
           "Test/check command: npm run test",
-          "25 test files detected."
+          "38 test files detected.",
+          "CI: .github/workflows/ci.yml"
         ],
-        "missing": [
-          "No lint/format command detected.",
-          "No CI workflow detected."
-        ]
+        "missing": []
       },
       {
         "category": "context-quality",
@@ -108,40 +115,45 @@
         "evidence": [
           "README documentation detected.",
           "Architecture documentation detected.",
-          "724 code symbols extracted.",
+          "1209 code symbols extracted.",
           "Internal dependency neighbors are available.",
-          "55 files include analysis evidence.",
+          "106 files include analysis evidence.",
           "Entrypoint: src/cli/index.ts",
-          "10 modules detected.",
-          "188 dependency edges detected.",
-          "69% of files have medium/high-confidence analysis."
+          "13 modules detected.",
+          "307 dependency edges detected.",
+          "68% of files have medium/high-confidence analysis."
         ],
         "missing": []
       },
       {
         "category": "agent-safety",
-        "score": 66,
+        "score": 100,
         "evidence": [
+          "Environment example: .env.example",
+          "CI workflow: .github/workflows/ci.yml",
           "No database signals detected; migration guidance is not applicable.",
           "Test/check command: npm run test",
-          "25 test files detected.",
+          "38 test files detected.",
+          "CI: .github/workflows/ci.yml",
           "Run command: npm run dev",
+          "Lint command: npm run lint",
+          "Lint command: npm run format",
+          "Lint command: npm run format:check",
+          "Lint command: npm run prepublishOnly",
           "Typecheck command: npm run build",
           "Typecheck command: npm run check"
         ],
-        "missing": [
-          "No environment variable example detected.",
-          "No CI workflow detected.",
-          "No lint/format command detected."
-        ]
+        "missing": []
       }
     ],
     "capsApplied": [
       {
         "cap": 90,
-        "applied": true,
+        "applied": false,
         "reason": "No CI workflow detected.",
-        "evidence": []
+        "evidence": [
+          ".github/workflows/ci.yml"
+        ]
       },
       {
         "cap": 90,
@@ -180,34 +192,35 @@
         "score": 97,
         "evidence": [
           "Entrypoint: src/cli/index.ts",
-          "10 modules detected.",
-          "188 dependency edges detected.",
-          "69% of files have medium/high-confidence analysis."
+          "13 modules detected.",
+          "307 dependency edges detected.",
+          "68% of files have medium/high-confidence analysis."
         ],
         "missing": []
       },
       {
         "category": "commands",
-        "score": 75,
+        "score": 100,
         "evidence": [
           "Run command: npm run dev",
+          "Lint command: npm run lint",
+          "Lint command: npm run format",
+          "Lint command: npm run format:check",
+          "Lint command: npm run prepublishOnly",
           "Typecheck command: npm run build",
           "Typecheck command: npm run check"
         ],
-        "missing": [
-          "No lint/format command detected."
-        ]
+        "missing": []
       },
       {
         "category": "tests",
-        "score": 90,
+        "score": 100,
         "evidence": [
           "Test/check command: npm run test",
-          "25 test files detected."
+          "38 test files detected.",
+          "CI: .github/workflows/ci.yml"
         ],
-        "missing": [
-          "No CI workflow detected."
-        ]
+        "missing": []
       },
       {
         "category": "architecture",
@@ -222,33 +235,30 @@
         "category": "task-context",
         "score": 100,
         "evidence": [
-          "724 code symbols extracted.",
+          "1209 code symbols extracted.",
           "Internal dependency neighbors are available.",
-          "55 files include analysis evidence."
+          "106 files include analysis evidence."
         ],
         "missing": []
       },
       {
         "category": "safety",
-        "score": 55,
+        "score": 100,
         "evidence": [
+          "Environment example: .env.example",
+          "CI workflow: .github/workflows/ci.yml",
           "No database signals detected; migration guidance is not applicable."
         ],
-        "missing": [
-          "No environment variable example detected.",
-          "No CI workflow detected."
-        ]
+        "missing": []
       }
     ],
     "missing": [
-      "No lint/format command detected.",
-      "No CI workflow detected.",
-      "No environment variable example detected.",
       "No model-specific tokenizer configured; token counts use chars_approx."
     ],
     "strengths": [
-      "Operational readiness: 87/100.",
-      "Context Quality readiness: 99/100."
+      "Operational readiness: 99/100.",
+      "Context Quality readiness: 99/100.",
+      "Agent Safety readiness: 100/100."
     ]
   }
 }

@@ -2,9 +2,7 @@ import type { ContextPackage } from "../core/types.js";
 import { bullet, code, heading } from "./markdown.js";
 
 export function renderArchitecture(context: ContextPackage): string {
-  const topModules = [...context.index.modules]
-    .sort((a, b) => b.importanceScore - a.importanceScore)
-    .slice(0, 10);
+  const topModules = [...context.index.modules].sort((a, b) => b.importanceScore - a.importanceScore).slice(0, 10);
 
   return [
     heading(1, "Architecture Notes"),
@@ -20,10 +18,12 @@ export function renderArchitecture(context: ContextPackage): string {
     ]),
     "",
     heading(2, "Important Modules"),
-    bullet(topModules.map((module) => {
-      const generated = context.summaries.moduleSummaries.find((summary) => summary.moduleName === module.name);
-      return `${code(module.name)}: ${generated?.summary ?? module.summary}`;
-    })),
+    bullet(
+      topModules.map((module) => {
+        const generated = context.summaries.moduleSummaries.find((summary) => summary.moduleName === module.name);
+        return `${code(module.name)}: ${generated?.summary ?? module.summary}`;
+      })
+    ),
     "",
     heading(2, "Agent Guidance"),
     bullet([

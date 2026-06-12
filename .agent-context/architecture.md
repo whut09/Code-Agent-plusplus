@@ -3,22 +3,22 @@
 This document is generated from static repository signals. Treat it as a starting map, not a final design document.
 
 ## High-Level Shape
-- Primary languages: JSON, Markdown, Python, TOML, TypeScript, YAML
+- Primary languages: JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML
 - Detected frameworks: none detected
 - Main entrypoints: `src/cli/index.ts`
-- Internal modules: 10
+- Internal modules: 13
 
 ## Important Modules
+- `benchmarks`: benchmarks contains 49 files and depends on core, outputs.
+- `test`: test contains 31 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers.
 - `core`: core contains 15 files and depends on analyzers, config, llm.
-- `test`: test contains 25 files and depends on analyzers, config, core, outputs.
-- `outputs`: outputs contains 13 files and depends on core.
-- `analyzers`: analyzers contains 5 files and depends on core.
+- `outputs`: outputs contains 18 files and depends on core.
+- `retrievers`: retrievers contains 6 files and depends on core, outputs.
+- `analyzers`: analyzers contains 6 files and depends on core.
+- `cli`: cli contains 2 files and depends on benchmarks, config, core, outputs, retrievers.
 - `config`: config contains 3 files and depends on core.
-- `root`: root contains 12 files.
-- `cli`: cli contains 1 file and depends on config, core, outputs.
+- `root`: root contains 17 files.
 - `llm`: llm contains 1 file and depends on core.
-- `assets`: assets contains 1 file.
-- `docs`: docs contains 4 files.
 
 ## Agent Guidance
 - Start with `AGENTS.md`, then read `key-files.md` for the highest-signal files.

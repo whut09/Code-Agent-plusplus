@@ -81,15 +81,7 @@ export interface RepoFile {
   isTest: boolean;
 }
 
-export type FileKind =
-  | "source"
-  | "test"
-  | "config"
-  | "docs"
-  | "lockfile"
-  | "asset"
-  | "generated"
-  | "unknown";
+export type FileKind = "source" | "test" | "config" | "docs" | "lockfile" | "asset" | "generated" | "unknown";
 
 export interface RepoIndex {
   files: IndexedFile[];

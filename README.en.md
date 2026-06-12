@@ -296,12 +296,15 @@ RAG is modeled as a retrieval protocol, not just an export format. The core inte
 
 ```ts
 interface ContextRetriever {
-  search(task: string, options: {
-    topK: number;
-    modules?: string[];
-    changedFiles?: string[];
-    includeTests?: boolean;
-  }): Promise<ContextHit[]>;
+  search(
+    task: string,
+    options: {
+      topK: number;
+      modules?: string[];
+      changedFiles?: string[];
+      includeTests?: boolean;
+    }
+  ): Promise<ContextHit[]>;
 }
 ```
 
@@ -413,6 +416,11 @@ outputs:
 ```bash
 npm run build
 npm run check
+npm run lint
+npm run format
+npm run format:check
 npm test
-npm pack --dry-run
+npm run benchmark
+npm run build
+npm run pack:dry-run
 ```

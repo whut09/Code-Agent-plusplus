@@ -18,7 +18,11 @@ export function validateContextPackage(context: ContextPackage): ValidationRepor
   const paths = new Set(context.index.files.map((file) => file.path));
 
   if (context.tokenSavings.estimatedContextPackTokens.tokens > context.tokenSavings.tokenBudget) {
-    issues.push({ severity: "error", code: "token_budget_exceeded", message: `Estimated context exceeds token budget: ${context.tokenSavings.estimatedContextPackTokens.tokens}/${context.tokenSavings.tokenBudget}.` });
+    issues.push({
+      severity: "error",
+      code: "token_budget_exceeded",
+      message: `Estimated context exceeds token budget: ${context.tokenSavings.estimatedContextPackTokens.tokens}/${context.tokenSavings.tokenBudget}.`
+    });
   }
   if (context.tokenSavings.actualOutputTokens && context.tokenSavings.actualOutputTokens.total > context.tokenSavings.tokenBudget) {
     issues.push({
@@ -34,7 +38,11 @@ export function validateContextPackage(context: ContextPackage): ValidationRepor
   }
   const lowConfidence = context.index.files.filter((file) => file.confidence === "low");
   if (context.index.files.length && lowConfidence.length / context.index.files.length > 0.5) {
-    issues.push({ severity: "warning", code: "low_analysis_confidence", message: `${lowConfidence.length}/${context.index.files.length} files have low-confidence analysis.` });
+    issues.push({
+      severity: "warning",
+      code: "low_analysis_confidence",
+      message: `${lowConfidence.length}/${context.index.files.length} files have low-confidence analysis.`
+    });
   }
   validateGeneratedJson(context, issues);
 
@@ -50,19 +58,21 @@ function validateGeneratedJson(context: ContextPackage, issues: ValidationIssue[
     issues.push({ severity: "warning", code: "context_not_generated", message: "No .agent-context directory exists yet. Run repo-context build." });
     return;
   }
-  for (const relativePath of ["repo-summary.md", "key-files.md", "onboarding.md", "token-savings.md", "index/files.json", "index/symbols.json", "index/modules.json", "index/chunks.json"]) {
+  for (const relativePath of [
+    "repo-summary.md",
+    "key-files.md",
+    "onboarding.md",
+    "token-savings.md",
+    "index/files.json",
+    "index/symbols.json",
+    "index/modules.json",
+    "index/chunks.json"
+  ]) {
     if (!existsSync(path.join(contextDir, relativePath))) {
       issues.push({ severity: "error", code: "missing_generated_file", message: `Required generated file is missing: .agent-context/${relativePath}.` });
     }
   }
-  for (const relativePath of [
-    "index/files.json",
-    "index/symbols.json",
-    "index/modules.json",
-    "index/chunks.json",
-    "token-savings.json",
-    "readiness.json"
-  ]) {
+  for (const relativePath of ["index/files.json", "index/symbols.json", "index/modules.json", "index/chunks.json", "token-savings.json", "readiness.json"]) {
     const filePath = path.join(contextDir, relativePath);
     if (!existsSync(filePath)) continue;
     try {
@@ -71,10 +81,10 @@ function validateGeneratedJson(context: ContextPackage, issues: ValidationIssue[
       };
       const actualTotal = parsed.actualOutputTokens?.total ?? parsed.actualOutputTokens?.totalTokens;
       if (
-        relativePath === "token-savings.json"
-        && typeof actualTotal === "number"
-        && actualTotal > context.tokenSavings.tokenBudget
-        && !issues.some((issue) => issue.code === "actual_output_budget_exceeded")
+        relativePath === "token-savings.json" &&
+        typeof actualTotal === "number" &&
+        actualTotal > context.tokenSavings.tokenBudget &&
+        !issues.some((issue) => issue.code === "actual_output_budget_exceeded")
       ) {
         issues.push({
           severity: "error",

@@ -60,7 +60,7 @@ export function buildRagDocuments(context: ContextPackage): RagDocument[] {
   return docs;
 }
 
-export function renderRagReadme(context: ContextPackage): string {
+export function renderRagReadme(_context: ContextPackage): string {
   return [
     heading(1, "LightRAG Export"),
     "",
@@ -101,15 +101,18 @@ export function buildRagManifest(context: ContextPackage, documentCount: number)
 }
 
 function fileToRagDocument(file: IndexedFile, tokenLimit: number): RagDocument {
-  const text = limitText([
-    `Path: ${file.path}`,
-    `Module: ${file.moduleName}`,
-    `Kind: ${file.kind}`,
-    `Summary: ${file.summary}`,
-    `Exports: ${file.exports.join(", ") || "none"}`,
-    `Symbols: ${file.symbols.map((symbol) => symbol.name).join(", ") || "none"}`,
-    `Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`
-  ].join("\n"), tokenLimit);
+  const text = limitText(
+    [
+      `Path: ${file.path}`,
+      `Module: ${file.moduleName}`,
+      `Kind: ${file.kind}`,
+      `Summary: ${file.summary}`,
+      `Exports: ${file.exports.join(", ") || "none"}`,
+      `Symbols: ${file.symbols.map((symbol) => symbol.name).join(", ") || "none"}`,
+      `Importance: ${file.importanceScore} (${file.importanceReasons.join(", ") || "no ranking signals"})`
+    ].join("\n"),
+    tokenLimit
+  );
 
   return {
     id: `file-${safeId(file.path)}`,

@@ -19,12 +19,7 @@ export const javascriptAnalyzer: LanguageAnalyzer = {
   }
 };
 
-function analyzeWithCompilerApi(
-  filePath: string,
-  extension: string,
-  content: string,
-  context: AnalysisContext
-): FileAnalysis {
+function analyzeWithCompilerApi(filePath: string, extension: string, content: string, context: AnalysisContext): FileAnalysis {
   const source = ts.createSourceFile(filePath, content, ts.ScriptTarget.Latest, true, scriptKind(extension));
   const imports = new Map<string, ImportRef>();
   const exports = new Set<string>();
@@ -75,7 +70,7 @@ function analyzeWithCompilerApi(
     } else if (ts.isClassDeclaration(node) && node.name) {
       addSymbol(node.name.text, "class", node);
       if (isExported(node)) addExport(node.name.text, node);
-      for (const decorator of ts.canHaveDecorators(node) ? ts.getDecorators(node) ?? [] : []) {
+      for (const decorator of ts.canHaveDecorators(node) ? (ts.getDecorators(node) ?? []) : []) {
         const route = routeFromDecorator(decorator);
         if (route) addSymbol(route, "route", decorator);
       }
@@ -98,7 +93,7 @@ function analyzeWithCompilerApi(
         if (isExported(node)) addExport(declaration.name.text, declaration);
       }
     } else if (ts.isMethodDeclaration(node)) {
-      for (const decorator of ts.canHaveDecorators(node) ? ts.getDecorators(node) ?? [] : []) {
+      for (const decorator of ts.canHaveDecorators(node) ? (ts.getDecorators(node) ?? []) : []) {
         const route = routeFromDecorator(decorator);
         if (route) addSymbol(route, "route", decorator);
       }
@@ -144,13 +139,14 @@ function analyzeWithRegexFallback(filePath: string, content: string, context: An
       const resolvedPath = resolveImport(filePath, specifier, context.allPaths, context.pathAliases);
       return { specifier, resolvedPath, isExternal: !resolvedPath };
     });
-  const symbols = [...content.matchAll(/(?:function|class|interface|type|const)\s+([A-Za-z_$][\w$]*)/g)]
-    .map((match): SymbolInfo => ({
+  const symbols = [...content.matchAll(/(?:function|class|interface|type|const)\s+([A-Za-z_$][\w$]*)/g)].map(
+    (match): SymbolInfo => ({
       name: match[1],
       kind: "unknown",
       filePath,
       line: content.slice(0, match.index ?? 0).split(/\r?\n/).length
-    }));
+    })
+  );
   return {
     imports,
     exports: [],
@@ -265,11 +261,7 @@ function uniqueSymbols(symbols: SymbolInfo[]): SymbolInfo[] {
   });
 }
 
-function analysisStats(
-  parser: "typescript-compiler-api" | "regex-fallback",
-  imports: Map<string, ImportRef>,
-  symbols: SymbolInfo[]
-) {
+function analysisStats(parser: "typescript-compiler-api" | "regex-fallback", imports: Map<string, ImportRef>, symbols: SymbolInfo[]) {
   const values = [...imports.values()];
   return {
     parser,

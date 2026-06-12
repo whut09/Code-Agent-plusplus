@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile, TaskType } from "../core/types.js";
+import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile } from "../core/types.js";
 import { changedFilesSince, runGit } from "../core/git.js";
 import { buildTaskPack, renderTaskContext, type TaskContextOptions } from "./task-context.js";
 import { bullet, code, heading, table } from "./markdown.js";
@@ -48,9 +48,30 @@ export function writeTaskContextPack(context: ContextPackage, task: string, opti
   const fileMap = fileMapFor(context);
   const outputs: Array<[string, string]> = [
     ["task.md", renderTaskOverview(context, pack)],
-    ["relevant-files.md", renderPackFiles("Relevant Files", pack.files.filter((file) => file.category === "direct-source" || file.category === "entrypoint"), fileMap)],
-    ["dependency-neighbors.md", renderPackFiles("Dependency Neighbors", pack.files.filter((file) => file.category === "dependency-neighbor"), fileMap)],
-    ["tests.md", renderPackFiles("Tests", pack.files.filter((file) => file.category === "test"), fileMap)],
+    [
+      "relevant-files.md",
+      renderPackFiles(
+        "Relevant Files",
+        pack.files.filter((file) => file.category === "direct-source" || file.category === "entrypoint"),
+        fileMap
+      )
+    ],
+    [
+      "dependency-neighbors.md",
+      renderPackFiles(
+        "Dependency Neighbors",
+        pack.files.filter((file) => file.category === "dependency-neighbor"),
+        fileMap
+      )
+    ],
+    [
+      "tests.md",
+      renderPackFiles(
+        "Tests",
+        pack.files.filter((file) => file.category === "test"),
+        fileMap
+      )
+    ],
     ["risk.md", renderTaskRisk(context, pack)],
     ["prompt.md", renderTaskPrompt(context, pack)]
   ];
@@ -190,7 +211,12 @@ function doNotEditUnlessNecessary(context: ContextPackage, pack: TaskPack): stri
   const relevant = new Set(pack.files.map((file) => file.path));
   const items = ["generated files", "lockfiles unless dependency versions are part of the task"];
   if (context.scan.migrationFiles.some((file) => !relevant.has(file))) items.push("database schema and migrations");
-  if (context.index.modules.some((module) => /payment|billing|checkout|invoice/i.test(`${module.name} ${module.pathPrefix}`) && !pack.files.some((file) => file.path.startsWith(module.pathPrefix)))) {
+  if (
+    context.index.modules.some(
+      (module) =>
+        /payment|billing|checkout|invoice/i.test(`${module.name} ${module.pathPrefix}`) && !pack.files.some((file) => file.path.startsWith(module.pathPrefix))
+    )
+  ) {
     items.push("payment, billing, checkout, or invoice modules");
   }
   if (context.scan.configFiles.some((file) => !relevant.has(file))) items.push("deployment and infrastructure configuration");
@@ -227,7 +253,7 @@ function statusFiles(root: string): string[] {
       .split(/\r?\n/)
       .filter((line) => line.length > 3)
       .map((line) => line.slice(3).trim().replace(/\\/g, "/"))
-      .map((line) => line.includes(" -> ") ? line.split(" -> ").pop() ?? line : line)
+      .map((line) => (line.includes(" -> ") ? (line.split(" -> ").pop() ?? line) : line))
       .filter((line) => !line.startsWith(".agent-context/"));
   } catch {
     return [];
@@ -256,9 +282,11 @@ function missingTests(context: ContextPackage, changed: IndexedFile[], changedSe
     const relatedTests = context.index.files.filter((candidate) => candidate.isTest && isRelatedTest(candidate, [file]));
     const relatedChanged = relatedTests.some((testFile) => changedSet.has(testFile.path)) || changedTests.some((testFile) => isRelatedTest(testFile, [file]));
     if (!relatedChanged) {
-      missing.push(relatedTests.length
-        ? `${file.path} changed without updating related test ${relatedTests[0].path}`
-        : `${file.path} changed without a detected related test file`);
+      missing.push(
+        relatedTests.length
+          ? `${file.path} changed without updating related test ${relatedTests[0].path}`
+          : `${file.path} changed without a detected related test file`
+      );
     }
   }
   return missing;
@@ -266,15 +294,26 @@ function missingTests(context: ContextPackage, changed: IndexedFile[], changedSe
 
 function recommendedVerifyCommands(context: ContextPackage, changed: IndexedFile[], affected: string[]): string[] {
   const commands = new Set<string>();
-  const focus = affected.find((module) => /^[A-Za-z0-9_-]+$/.test(module.split("/").pop() ?? ""))?.split("/").pop();
-  for (const command of context.scan.testCommands.slice(0, 2)) commands.add(focus && /test|vitest|jest|pytest|node --test/i.test(command) ? `${command} -- ${focus}` : command);
+  const focus = affected
+    .find((module) => /^[A-Za-z0-9_-]+$/.test(module.split("/").pop() ?? ""))
+    ?.split("/")
+    .pop();
+  for (const command of context.scan.testCommands.slice(0, 2))
+    commands.add(focus && /test|vitest|jest|pytest|node --test/i.test(command) ? `${command} -- ${focus}` : command);
   for (const command of context.scan.typecheckCommands.slice(0, 1)) commands.add(command);
   for (const command of context.scan.lintCommands.slice(0, 1)) commands.add(command);
-  if (!commands.size && changed.some((file) => file.kind === "source")) commands.add("No test command detected; inspect project docs and run the nearest relevant tests manually.");
+  if (!commands.size && changed.some((file) => file.kind === "source"))
+    commands.add("No test command detected; inspect project docs and run the nearest relevant tests manually.");
   return [...commands];
 }
 
-function verifyRisk(context: ContextPackage, changed: IndexedFile[], rawChanged: string[], missing: string[], affected: string[]): { score: number; label: string; factors: string[] } {
+function verifyRisk(
+  context: ContextPackage,
+  changed: IndexedFile[],
+  rawChanged: string[],
+  missing: string[],
+  affected: string[]
+): { score: number; label: string; factors: string[] } {
   let score = 0;
   const factors: string[] = [];
   const sourceCount = changed.filter((file) => file.kind === "source" && !file.isTest).length;
@@ -311,9 +350,16 @@ function verifyRisk(context: ContextPackage, changed: IndexedFile[], rawChanged:
 function isRelatedTest(testFile: IndexedFile, directFiles: IndexedFile[]): boolean {
   const testPath = testFile.path.toLowerCase();
   return directFiles.some((file) => {
-    const baseName = file.path.split("/").pop()?.replace(/\.[^.]+$/, "").toLowerCase() ?? "";
-    return (baseName.length >= 3 && testPath.includes(baseName))
-      || (file.moduleName !== "root" && file.moduleName !== "test" && testPath.includes(file.moduleName.toLowerCase()));
+    const baseName =
+      file.path
+        .split("/")
+        .pop()
+        ?.replace(/\.[^.]+$/, "")
+        .toLowerCase() ?? "";
+    return (
+      (baseName.length >= 3 && testPath.includes(baseName)) ||
+      (file.moduleName !== "root" && file.moduleName !== "test" && testPath.includes(file.moduleName.toLowerCase()))
+    );
   });
 }
 

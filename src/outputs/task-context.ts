@@ -37,11 +37,7 @@ export function renderTaskContext(context: ContextPackage, task: string, options
     heading(2, "Budget Packing"),
     table(
       ["Bucket", "Tokens", "Files"],
-      pack.budget.buckets.map((bucket) => [
-        bucket.label,
-        bucket.tokens.toLocaleString(),
-        bucket.files.map(code).join(", ") || "none"
-      ])
+      pack.budget.buckets.map((bucket) => [bucket.label, bucket.tokens.toLocaleString(), bucket.files.map(code).join(", ") || "none"])
     ),
     "",
     `Remaining budget: ${pack.budget.remaining.toLocaleString()} estimated tokens`,
@@ -58,7 +54,11 @@ export function buildTaskPack(context: ContextPackage, task: string, options: Ta
   const type = resolveTaskType(task, options.type ?? "auto");
   const tokenBudget = options.tokenBudget ?? Math.min(context.config.tokenBudget, 12000);
   const scores = new Map<string, { score: number; reasons: string[] }>();
-  const terms = task.toLowerCase().match(/[\p{L}\p{N}_/-]+/gu)?.filter((term) => term.length >= 2) ?? [];
+  const terms =
+    task
+      .toLowerCase()
+      .match(/[\p{L}\p{N}_/-]+/gu)
+      ?.filter((term) => term.length >= 2) ?? [];
   const translatedTerms = expandTaskTerms(terms);
   const fileTerms = new Map<string, string[]>();
   const frequencies = new Map<string, number>();
@@ -86,7 +86,10 @@ export function buildTaskPack(context: ContextPackage, task: string, options: Ta
     if (matches.length) addScore(scores, file.path, lexicalScore, [`lexical match: ${matches.slice(0, 4).join(", ")}`]);
   }
 
-  const direct = [...scores.entries()].sort((a, b) => b[1].score - a[1].score).slice(0, 8).map(([path]) => path);
+  const direct = [...scores.entries()]
+    .sort((a, b) => b[1].score - a[1].score)
+    .slice(0, 8)
+    .map(([path]) => path);
   const graphExpansion = expandGraph(context, direct, scores);
   addTaskSignals(context, direct, type, scores);
 
@@ -102,9 +105,12 @@ export function buildTaskPack(context: ContextPackage, task: string, options: Ta
       direct: direct.includes(path)
     }))
     .filter((item): item is typeof item & { file: IndexedFile } => Boolean(item.file))
-    .sort((a, b) => categoryPriority(categoryFor(a.file, a.direct, context, a.reasons)) - categoryPriority(categoryFor(b.file, b.direct, context, b.reasons))
-      || b.score - a.score
-      || b.file.importanceScore - a.file.importanceScore);
+    .sort(
+      (a, b) =>
+        categoryPriority(categoryFor(a.file, a.direct, context, a.reasons)) - categoryPriority(categoryFor(b.file, b.direct, context, b.reasons)) ||
+        b.score - a.score ||
+        b.file.importanceScore - a.file.importanceScore
+    );
 
   const selected: TaskPackFile[] = [];
   let estimatedTokens = 0;
@@ -178,9 +184,16 @@ function addTaskSignals(
 function isRelatedTest(testFile: IndexedFile, directFiles: IndexedFile[]): boolean {
   const testPath = testFile.path.toLowerCase();
   return directFiles.some((file) => {
-    const baseName = file.path.split("/").pop()?.replace(/\.[^.]+$/, "").toLowerCase() ?? "";
-    return (baseName.length >= 3 && testPath.includes(baseName))
-      || (file.moduleName !== "root" && file.moduleName !== "test" && testPath.includes(file.moduleName.toLowerCase()));
+    const baseName =
+      file.path
+        .split("/")
+        .pop()
+        ?.replace(/\.[^.]+$/, "")
+        .toLowerCase() ?? "";
+    return (
+      (baseName.length >= 3 && testPath.includes(baseName)) ||
+      (file.moduleName !== "root" && file.moduleName !== "test" && testPath.includes(file.moduleName.toLowerCase()))
+    );
   });
 }
 
@@ -216,7 +229,9 @@ function taskHaystack(file: IndexedFile): string {
     ...file.exports,
     ...file.symbols.map((symbol) => `${symbol.name} ${symbol.kind}`),
     ...file.evidence.slice(0, 20).map((item) => item.detail)
-  ].join(" ").toLowerCase();
+  ]
+    .join(" ")
+    .toLowerCase();
 }
 
 function expandTaskTerms(terms: string[]): string[] {
@@ -232,13 +247,17 @@ function expandTaskTerms(terms: string[]): string[] {
     重构: ["refactor", "split", "cleanup"],
     修复: ["fix", "bug", "error"]
   };
-  return [...new Set(terms.flatMap((term) => [
-    term,
-    ...(aliases[term] ?? []),
-    ...Object.entries(aliases)
-      .filter(([key]) => term.includes(key))
-      .flatMap(([, values]) => values)
-  ]))];
+  return [
+    ...new Set(
+      terms.flatMap((term) => [
+        term,
+        ...(aliases[term] ?? []),
+        ...Object.entries(aliases)
+          .filter(([key]) => term.includes(key))
+          .flatMap(([, values]) => values)
+      ])
+    )
+  ];
 }
 
 function fieldWeight(file: IndexedFile, term: string): number {
@@ -271,7 +290,9 @@ function categoryPriority(category: TaskPackFile["category"]): number {
 }
 
 function taskFileTokens(file: IndexedFile): number {
-  return estimateTokens([file.path, file.summary, file.importanceReasons.join(", "), file.exports.join(", "), file.symbols.map((symbol) => symbol.name).join(", ")].join("\n"));
+  return estimateTokens(
+    [file.path, file.summary, file.importanceReasons.join(", "), file.exports.join(", "), file.symbols.map((symbol) => symbol.name).join(", ")].join("\n")
+  );
 }
 
 function buildBudget(total: number, files: TaskPackFile[]): TaskPack["budget"] {
@@ -312,16 +333,12 @@ function suggestedCommands(context: ContextPackage, type: Exclude<TaskType, "aut
 function focusHint(command: string, terms: string[]): string | null {
   if (!terms.length || command.startsWith("No test command")) return null;
   const likelyTerm = terms.find((term) => /^[A-Za-z0-9_-]+$/.test(term) && term.length >= 4);
-  return likelyTerm && /test|vitest|jest|pytest|node --test/i.test(command)
-    ? `${command} -- ${likelyTerm}`
-    : command;
+  return likelyTerm && /test|vitest|jest|pytest|node --test/i.test(command) ? `${command} -- ${likelyTerm}` : command;
 }
 
 function orderedFiles(files: TaskPackFile[], fileMap: Map<string, IndexedFile>): string {
   if (!files.length) return "- No direct source files fit the current budget.";
-  return files
-    .map((item, index) => `${index + 1}. ${code(item.path)} - ${readFirstReason(item, fileMap.get(item.path))}`)
-    .join("\n");
+  return files.map((item, index) => `${index + 1}. ${code(item.path)} - ${readFirstReason(item, fileMap.get(item.path))}`).join("\n");
 }
 
 function readFirstReason(item: TaskPackFile, file?: IndexedFile): string {
