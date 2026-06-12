@@ -296,7 +296,7 @@ repo-context benchmark benchmarks --top-k 8
 repo-context benchmark benchmarks --json
 ```
 
-Reported metrics include `Recall@K`, `Precision@K`, token compression ratio, test recommendation accuracy, and an `agentSuccessDeltaProxy` comparing task-pack coverage with a non-task-aware key-file baseline. The proxy is deterministic and repeatable; it is not a live agent execution benchmark.
+Reported metrics include `Recall@K`, `Precision@K`, token compression ratio, test recommendation accuracy, `agentSuccessDelta`, and `agentSuccessDeltaProxy`. `agentSuccessDelta` reads manual or automated Agent run records from `benchmarks/agent-runs/*.json` and compares the score gap across `no-context`, `agents-md`, `task-pack`, and `task-pack-contracts-verify`. The repository ships with `manual-eval` samples now; later runs can come from Codex or Claude Code. `agentSuccessDeltaProxy` remains the deterministic fallback when no agent-run records are available.
 
 ## Context Retrieval Protocol
 

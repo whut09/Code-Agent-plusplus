@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
@@ -21,6 +21,33 @@ export interface BenchmarkOptions {
   topK?: number;
 }
 
+export type AgentRunMode = "no-context" | "agents-md" | "task-pack" | "task-pack-contracts-verify";
+
+export interface AgentRunRecord {
+  task: string;
+  agent: string;
+  mode: AgentRunMode;
+  changedFiles: string[];
+  passedTests: boolean;
+  unrelatedChanges: number;
+  score: number;
+  foundCorrectFiles?: boolean;
+  modifiedCorrectLocation?: boolean;
+  tokenUsage?: number;
+  iterations?: number;
+  notes?: string;
+}
+
+export interface AgentRunModeSummary {
+  mode: AgentRunMode;
+  runs: number;
+  averageScore: number;
+  passRate: number;
+  averageUnrelatedChanges: number;
+  averageTokenUsage: number | null;
+  averageIterations: number | null;
+}
+
 export interface BenchmarkCaseResult {
   id: string;
   fixture: string;
@@ -32,6 +59,8 @@ export interface BenchmarkCaseResult {
   selectedTopK: string[];
   baselineTopK: string[];
   recommendedTests: string[];
+  agentRuns: AgentRunRecord[];
+  agentRunModes: AgentRunModeSummary[];
   metrics: {
     recallAtK: number;
     precisionAtK: number;
@@ -41,6 +70,7 @@ export interface BenchmarkCaseResult {
     contextPackSuccessProxy: number;
     baselineSuccessProxy: number;
     agentSuccessDeltaProxy: number;
+    agentSuccessDelta: number | null;
   };
 }
 
@@ -59,6 +89,8 @@ export interface BenchmarkSummary {
   averageTokenCompressionRatio: number;
   averageTestRecommendationAccuracy: number;
   averageAgentSuccessDeltaProxy: number;
+  averageAgentSuccessDelta: number | null;
+  agentRunCases: number;
 }
 
 export async function runBenchmark(options: BenchmarkOptions = {}): Promise<BenchmarkRunResult> {
@@ -67,6 +99,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
   const tasks = readTasks(path.join(benchmarkDir, "tasks"));
   const relevantFiles = readJson<Record<string, string[]>>(path.join(benchmarkDir, "expected", "relevant-files.json"));
   const requiredTests = readJson<Record<string, string[]>>(path.join(benchmarkDir, "expected", "required-tests.json"));
+  const agentRuns = readAgentRuns(path.join(benchmarkDir, "agent-runs"));
   const cases: BenchmarkCaseResult[] = [];
 
   for (const task of tasks) {
@@ -89,6 +122,9 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
     const contextPackSuccessProxy = recallAtK === 1 && testRecommendationAccuracy === 1 ? 1 : 0;
     const baselineSuccessProxy = baselineRecallAtK === 1 && baselineTestAccuracy === 1 ? 1 : 0;
     const tokenCompressionRatio = ratio(context.tokenSavings.originalRepoTokens.tokens, pack.estimatedTokens);
+    const caseAgentRuns = agentRuns.filter((run) => run.task === task.id || run.task === task.task);
+    const agentRunModes = summarizeAgentRuns(caseAgentRuns);
+    const agentSuccessDelta = realAgentSuccessDelta(agentRunModes);
 
     cases.push({
       id: task.id,
@@ -101,6 +137,8 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
       selectedTopK,
       baselineTopK,
       recommendedTests,
+      agentRuns: caseAgentRuns,
+      agentRunModes,
       metrics: {
         recallAtK,
         precisionAtK,
@@ -109,7 +147,8 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
         testRecommendationAccuracy,
         contextPackSuccessProxy,
         baselineSuccessProxy,
-        agentSuccessDeltaProxy: contextPackSuccessProxy - baselineSuccessProxy
+        agentSuccessDeltaProxy: contextPackSuccessProxy - baselineSuccessProxy,
+        agentSuccessDelta
       }
     });
   }
@@ -128,6 +167,7 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
     "",
     `Benchmark dir: ${code(result.benchmarkDir)}`,
     `Cases: ${result.summary.cases}`,
+    `Cases with agent runs: ${result.summary.agentRunCases}`,
     `Default K: ${result.topK}`,
     "",
     heading(2, "Summary"),
@@ -139,13 +179,14 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
         ["Baseline Recall@K", percent(result.summary.averageBaselineRecallAtK)],
         ["Token compression ratio", `${result.summary.averageTokenCompressionRatio.toFixed(1)}x`],
         ["Test recommendation accuracy", percent(result.summary.averageTestRecommendationAccuracy)],
+        ["Agent success delta", result.summary.averageAgentSuccessDelta === null ? "No agent-run records" : signed(result.summary.averageAgentSuccessDelta)],
         ["Agent success delta proxy", signed(result.summary.averageAgentSuccessDeltaProxy)]
       ]
     ),
     "",
     heading(2, "Cases"),
     table(
-      ["Task", "Fixture", "Recall@K", "Precision@K", "Tests", "Compression", "Delta Proxy"],
+      ["Task", "Fixture", "Recall@K", "Precision@K", "Tests", "Compression", "Agent Delta", "Delta Proxy"],
       result.cases.map((item) => [
         item.id,
         item.fixture,
@@ -153,9 +194,13 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
         percent(item.metrics.precisionAtK),
         percent(item.metrics.testRecommendationAccuracy),
         `${item.metrics.tokenCompressionRatio.toFixed(1)}x`,
+        item.metrics.agentSuccessDelta === null ? "n/a" : signed(item.metrics.agentSuccessDelta),
         signed(item.metrics.agentSuccessDeltaProxy)
       ])
     ),
+    "",
+    heading(2, "Agent Run Modes"),
+    renderAgentRunModes(result),
     "",
     heading(2, "Interpretation"),
     "- Recall@K: expected task-relevant files present in the task pack top K.",
@@ -163,8 +208,30 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
     "- Baseline Recall@K: same recall using non-task-aware key files as the baseline.",
     "- Token compression ratio: original fixture token estimate divided by selected task-pack token estimate.",
     "- Test recommendation accuracy: expected tests present in minimal or regression recommendations.",
-    "- Agent success delta proxy: deterministic proxy comparing task-pack coverage with baseline coverage; it is not a live agent run."
+    "- Agent success delta: average score improvement from `no-context` to `task-pack-contracts-verify` when `benchmarks/agent-runs/*.json` records are present.",
+    "- Agent success delta proxy: deterministic fallback comparing task-pack coverage with baseline coverage when no agent-run records exist."
   ].join("\n");
+}
+
+function renderAgentRunModes(result: BenchmarkRunResult): string {
+  const rows = result.cases.flatMap((item) =>
+    item.agentRunModes.map((mode) => [
+      item.id,
+      mode.mode,
+      mode.runs.toString(),
+      signed(mode.averageScore),
+      percent(mode.passRate),
+      mode.averageUnrelatedChanges.toFixed(1),
+      mode.averageTokenUsage === null ? "n/a" : Math.round(mode.averageTokenUsage).toLocaleString(),
+      mode.averageIterations === null ? "n/a" : mode.averageIterations.toFixed(1)
+    ])
+  );
+
+  if (!rows.length) {
+    return "No `benchmarks/agent-runs/*.json` records found.";
+  }
+
+  return table(["Task", "Mode", "Runs", "Score", "Pass", "Unrelated", "Tokens", "Iterations"], rows);
 }
 
 function readTasks(tasksDir: string): BenchmarkTaskDefinition[] {
@@ -172,6 +239,17 @@ function readTasks(tasksDir: string): BenchmarkTaskDefinition[] {
     .filter((fileName) => fileName.endsWith(".json"))
     .sort()
     .map((fileName) => readJson<BenchmarkTaskDefinition>(path.join(tasksDir, fileName)));
+}
+
+function readAgentRuns(agentRunsDir: string): AgentRunRecord[] {
+  if (!existsSync(agentRunsDir)) return [];
+  return readdirSync(agentRunsDir)
+    .filter((fileName) => fileName.endsWith(".json"))
+    .sort()
+    .flatMap((fileName) => {
+      const parsed = readJson<AgentRunRecord | AgentRunRecord[]>(path.join(agentRunsDir, fileName));
+      return (Array.isArray(parsed) ? parsed : [parsed]).filter(isAgentRunRecord);
+    });
 }
 
 function readJson<T>(filePath: string): T {
@@ -195,6 +273,7 @@ function ratio(numerator: number, denominator: number): number {
 }
 
 function summarize(cases: BenchmarkCaseResult[]): BenchmarkSummary {
+  const realDeltas = cases.map((item) => item.metrics.agentSuccessDelta).filter((value): value is number => typeof value === "number");
   return {
     cases: cases.length,
     averageRecallAtK: average(cases.map((item) => item.metrics.recallAtK)),
@@ -202,13 +281,61 @@ function summarize(cases: BenchmarkCaseResult[]): BenchmarkSummary {
     averageBaselineRecallAtK: average(cases.map((item) => item.metrics.baselineRecallAtK)),
     averageTokenCompressionRatio: average(cases.map((item) => item.metrics.tokenCompressionRatio)),
     averageTestRecommendationAccuracy: average(cases.map((item) => item.metrics.testRecommendationAccuracy)),
-    averageAgentSuccessDeltaProxy: average(cases.map((item) => item.metrics.agentSuccessDeltaProxy))
+    averageAgentSuccessDeltaProxy: average(cases.map((item) => item.metrics.agentSuccessDeltaProxy)),
+    averageAgentSuccessDelta: realDeltas.length ? average(realDeltas) : null,
+    agentRunCases: cases.filter((item) => item.agentRuns.length > 0).length
   };
+}
+
+function summarizeAgentRuns(runs: AgentRunRecord[]): AgentRunModeSummary[] {
+  const modes: AgentRunMode[] = ["no-context", "agents-md", "task-pack", "task-pack-contracts-verify"];
+  return modes
+    .map((mode) => {
+      const modeRuns = runs.filter((run) => run.mode === mode);
+      return {
+        mode,
+        runs: modeRuns.length,
+        averageScore: average(modeRuns.map((run) => run.score)),
+        passRate: average(modeRuns.map((run) => (run.passedTests ? 1 : 0))),
+        averageUnrelatedChanges: average(modeRuns.map((run) => run.unrelatedChanges)),
+        averageTokenUsage: nullableAverage(modeRuns.map((run) => run.tokenUsage).filter((value): value is number => typeof value === "number")),
+        averageIterations: nullableAverage(modeRuns.map((run) => run.iterations).filter((value): value is number => typeof value === "number"))
+      };
+    })
+    .filter((summary) => summary.runs > 0);
+}
+
+function realAgentSuccessDelta(modes: AgentRunModeSummary[]): number | null {
+  const baseline = modes.find((mode) => mode.mode === "no-context");
+  const harness =
+    modes.find((mode) => mode.mode === "task-pack-contracts-verify") ??
+    modes.find((mode) => mode.mode === "task-pack") ??
+    modes.find((mode) => mode.mode === "agents-md");
+  if (!baseline || !harness) return null;
+  return harness.averageScore - baseline.averageScore;
 }
 
 function average(values: number[]): number {
   if (!values.length) return 0;
   return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function nullableAverage(values: number[]): number | null {
+  return values.length ? average(values) : null;
+}
+
+function isAgentRunRecord(value: AgentRunRecord): value is AgentRunRecord {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as AgentRunRecord).task === "string" &&
+    typeof (value as AgentRunRecord).agent === "string" &&
+    ["no-context", "agents-md", "task-pack", "task-pack-contracts-verify"].includes((value as AgentRunRecord).mode) &&
+    Array.isArray((value as AgentRunRecord).changedFiles) &&
+    typeof (value as AgentRunRecord).passedTests === "boolean" &&
+    typeof (value as AgentRunRecord).unrelatedChanges === "number" &&
+    typeof (value as AgentRunRecord).score === "number"
+  );
 }
 
 function percent(value: number): string {

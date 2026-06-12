@@ -312,7 +312,7 @@ repo-context benchmark benchmarks --top-k 8
 repo-context benchmark benchmarks --json
 ```
 
-报告指标包括 `Recall@K`、`Precision@K`、token 压缩比、测试推荐准确率，以及 `agentSuccessDeltaProxy`。`agentSuccessDeltaProxy` 会比较 task pack 覆盖率和非任务感知 key-file baseline；它是确定性、可重复的代理指标，不是实时 Agent 执行 benchmark。
+报告指标包括 `Recall@K`、`Precision@K`、token 压缩比、测试推荐准确率、`agentSuccessDelta` 和 `agentSuccessDeltaProxy`。`agentSuccessDelta` 会读取 `benchmarks/agent-runs/*.json` 中的人工或自动 Agent 运行记录，对比 `no-context`、`agents-md`、`task-pack`、`task-pack-contracts-verify` 四种模式的得分差异；当前仓库提供 `manual-eval` 样例，后续可以替换为 Codex/Claude Code 自动运行记录。`agentSuccessDeltaProxy` 保留为没有 agent-run 记录时的确定性 fallback。
 
 ## 上下文检索协议
 
