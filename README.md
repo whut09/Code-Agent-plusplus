@@ -243,7 +243,7 @@ repo-context build . --llm
 ## 分析置信度与证据
 
 - TypeScript/JavaScript 使用 TypeScript Compiler API 解析 `import type`、动态 `import()`、re-export、symbol、barrel export、`tsconfig` path alias、workspace package alias，以及常见 Next.js/Express/Fastify/Hono/NestJS route 模式。
-- Python 在本机有 Python runtime 时优先使用 stdlib `ast`，失败时回退到轻量解析；支持解析 `from .models import User`、`from app.services.auth import login` 等本地绝对与相对 import。
+- Python uses the optional Tree-sitter backend first when the runtime provides `tree_sitter` and `tree_sitter_python`, then falls back to stdlib `ast`, then lightweight parsing. It resolves local absolute and relative imports such as `from .models import User` and `from app.services.auth import login`.
 - 不支持或 fallback 的分析会标记为低置信度。
 
 每个索引文件包含 `analyzer`、`confidence`、`analysisStats`（parser、resolved/unresolved imports、symbols、routes）和带行号的 `evidence`。汇总证据输出到 `.agent-context/evidence/file-evidence.json`。

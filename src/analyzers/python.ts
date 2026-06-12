@@ -2,6 +2,7 @@ import type { LanguageAnalyzer } from "./types.js";
 import type { AnalysisEvidence, ImportRef, SymbolInfo } from "../core/types.js";
 import { resolveImport } from "./resolve-import.js";
 import { spawnSync } from "node:child_process";
+import { parsePythonWithTreeSitter } from "./tree-sitter.js";
 
 const ROUTE_METHODS = new Set(["get", "post", "put", "patch", "delete", "options", "head"]);
 
@@ -11,7 +12,7 @@ export const pythonAnalyzer: LanguageAnalyzer = {
     return file.language === "Python";
   },
   analyze(file, content, context) {
-    const parsed = parsePythonAst(content) ?? parsePythonWithRegex(content);
+    const parsed = parsePythonTreeSitter(content) ?? parsePythonAst(content) ?? parsePythonWithRegex(content);
     const imports = parsed.imports.map((item) => {
       const resolvedPath = resolvePythonImport(file.path, item.specifier, context.allPaths);
       return { specifier: item.specifier, resolvedPath, isExternal: !resolvedPath };
@@ -44,10 +45,28 @@ export const pythonAnalyzer: LanguageAnalyzer = {
 };
 
 interface ParsedPython {
-  parser: "python-ast" | "regex-fallback";
+  parser: "tree-sitter-python" | "python-ast" | "regex-fallback";
   imports: Array<{ specifier: string }>;
   importLines: Map<string, number>;
   symbols: Array<Omit<SymbolInfo, "filePath">>;
+}
+
+function parsePythonTreeSitter(content: string): ParsedPython | null {
+  const parsed = parsePythonWithTreeSitter(content);
+  if (!parsed) return null;
+
+  const importLines = new Map<string, number>();
+  const imports = parsed.imports.map((item) => {
+    importLines.set(item.specifier, item.line);
+    return { specifier: item.specifier };
+  });
+
+  return {
+    parser: "tree-sitter-python",
+    imports,
+    importLines,
+    symbols: uniqueSymbols(parsed.symbols)
+  };
 }
 
 const PYTHON_AST_SCRIPT = `

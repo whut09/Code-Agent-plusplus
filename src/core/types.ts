@@ -133,7 +133,7 @@ export interface SymbolInfo {
 }
 
 export interface AnalysisStats {
-  parser: "typescript-compiler-api" | "python-ast" | "regex-fallback" | "generic";
+  parser: "typescript-compiler-api" | "tree-sitter-python" | "python-ast" | "regex-fallback" | "generic";
   importsResolved: number;
   importsUnresolved: number;
   symbolsDetected: number;

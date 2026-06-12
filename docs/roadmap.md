@@ -22,8 +22,11 @@
 
 ## Phase 3: Smarter Summaries
 
-- Tree-sitter analyzers
-- Richer Python AST/tree-sitter analysis
+- Optional Tree-sitter analyzer backend for Python
+- Go analyzer using `tree-sitter-go` plus `go.mod` package metadata
+- Rust analyzer using `tree-sitter-rust` plus `Cargo.toml` crate metadata
+- Java analyzer using `tree-sitter-java` plus Maven/Gradle metadata
+- C/C++ analyzer using `tree-sitter-cpp` plus `compile_commands.json`
 - Optional LLM provider interface
 - Evidence-linked summaries
 - Architecture drift detection

@@ -236,7 +236,7 @@ Run `repo-context validate .` to check config, generated JSON, dependency edges,
 ## Analysis Confidence And Evidence
 
 - TypeScript/JavaScript uses the TypeScript Compiler API for `import type`, dynamic `import()`, re-exports, symbols, barrel exports, `tsconfig` path aliases, workspace package aliases, and common Next.js/Express/Fastify/Hono/NestJS route patterns.
-- Python uses stdlib `ast` when a Python runtime is available, then falls back to lightweight parsing. It resolves local absolute and relative imports such as `from .models import User` and `from app.services.auth import login`.
+- Python uses the optional Tree-sitter backend first when the runtime provides `tree_sitter` and `tree_sitter_python`, then falls back to stdlib `ast`, then lightweight parsing. It resolves local absolute and relative imports such as `from .models import User` and `from app.services.auth import login`.
 - Unsupported and fallback analysis is marked low-confidence.
 
 Each indexed file includes `analyzer`, `confidence`, `analysisStats` (`parser`, resolved/unresolved imports, symbols, routes), and line-oriented `evidence`. Aggregated evidence is written to `.agent-context/evidence/file-evidence.json`.

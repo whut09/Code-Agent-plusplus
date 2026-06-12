@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { javascriptAnalyzer } from "../src/analyzers/javascript.js";
 import { pythonAnalyzer } from "../src/analyzers/python.js";
+import { parsePythonWithTreeSitter } from "../src/analyzers/tree-sitter.js";
 import type { RepoFile } from "../src/core/types.js";
 
 test("TypeScript compiler analyzer resolves aliases, barrel exports, and routes", () => {
@@ -50,7 +51,7 @@ def login(): pass
   assert.equal(result.imports.find((item) => item.specifier === ".models")?.resolvedPath, "app/auth/models.py");
   assert.equal(result.imports.find((item) => item.specifier === "shared.config")?.resolvedPath, "shared/config.py");
   assert.equal(result.confidence, "medium");
-  assert.ok(["python-ast", "regex-fallback"].includes(result.stats.parser));
+  assert.ok(["tree-sitter-python", "python-ast", "regex-fallback"].includes(result.stats.parser));
   assert.equal(result.stats.importsResolved, 2);
 });
 
@@ -68,3 +69,14 @@ function file(path: string, language: string, extension: string): RepoFile {
     isTest: false
   };
 }
+
+test("Tree-sitter Python adapter is optional and non-fatal when unavailable", () => {
+  const result = parsePythonWithTreeSitter("from app.models import User\ndef login(): pass\n");
+
+  if (result) {
+    assert.ok(result.imports.some((item) => item.specifier === "app.models"));
+    assert.ok(result.symbols.some((symbol) => symbol.name === "login"));
+  } else {
+    assert.equal(result, null);
+  }
+});
