@@ -117,6 +117,7 @@ repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
+repo-context validate-contracts [repo]
 repo-context run "<task>" [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
@@ -145,6 +146,7 @@ repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
 repo-context validate .
+repo-context validate-contracts .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
 repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
@@ -236,7 +238,7 @@ repo-context build . --llm
 
 When LLM mode is disabled, Repo-to-Agent-Context uses offline summaries. When enabled, missing or `xx` credentials fail with an actionable error instead of silently falling back. Runtime request failures fall back to offline summaries and record the fallback reason.
 
-Run `repo-context validate .` to check config, generated JSON, dependency edges, confidence, and token budget.
+Run `repo-context validate .` to check config, generated JSON, dependency edges, confidence, and token budget. Run `repo-context validate-contracts .` to treat `contracts/` as an edit boundary and fail on protected paths, illegal dependencies, lockfile mismatches, env-example drift, and missing test coverage.
 
 ## Analysis Confidence And Evidence
 
@@ -272,6 +274,7 @@ repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
+repo-context validate-contracts --diff .
 repo-context impact . --base main
 repo-context tests . --for src/auth/session.ts
 repo-context tests . --diff --base main

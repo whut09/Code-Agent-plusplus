@@ -10,8 +10,8 @@ This document is generated from static repository signals. Treat it as a startin
 
 ## Important Modules
 - `benchmarks`: benchmarks contains 49 files and depends on core, outputs.
-- `test`: test contains 31 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers.
-- `outputs`: outputs contains 19 files and depends on core.
+- `outputs`: outputs contains 20 files and depends on core.
+- `test`: test contains 32 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers.
 - `core`: core contains 15 files and depends on analyzers, config, llm.
 - `retrievers`: retrievers contains 6 files and depends on core, outputs.
 - `analyzers`: analyzers contains 6 files and depends on core.

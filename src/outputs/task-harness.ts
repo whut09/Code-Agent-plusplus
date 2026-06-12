@@ -3,6 +3,7 @@ import path from "node:path";
 import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile } from "../core/types.js";
 import { changedFilesSince, runGit } from "../core/git.js";
 import { buildTaskPack, renderTaskContext, type TaskContextOptions } from "./task-context.js";
+import { validateContracts } from "./contract-validator.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export interface TaskPackWriteResult {
@@ -96,6 +97,7 @@ export function renderTaskVerify(context: ContextPackage, options: TaskVerifyOpt
   const missing = missingTests(context, indexedChanged, changedSet);
   const recommended = recommendedVerifyCommands(context, indexedChanged, affected);
   const risk = verifyRisk(context, indexedChanged, changed, missing, affected);
+  const contracts = validateContracts(context, { base, diff: options.diff ?? true });
 
   return [
     heading(1, "Task Verify"),
@@ -114,6 +116,10 @@ export function renderTaskVerify(context: ContextPackage, options: TaskVerifyOpt
     "",
     heading(2, "Recommended tests"),
     bullet(recommended.map(code)),
+    "",
+    heading(2, "Contract check"),
+    `Contract check: ${contracts.passed ? "passed" : "failed"}`,
+    bullet(contracts.violations.map((violation) => `${violation.severity.toUpperCase()} ${code(violation.file)} - ${violation.reason} (${violation.rule})`)),
     "",
     heading(2, "Risk factors"),
     bullet(risk.factors)

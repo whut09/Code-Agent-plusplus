@@ -16,6 +16,7 @@ import { renderTestSelection } from "../outputs/test-selector.js";
 import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
+import { renderContractValidationReport, validateContracts } from "../outputs/contract-validator.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
@@ -161,6 +162,19 @@ program
       console.log(`- ${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
     }
     if (!report.valid) process.exitCode = 1;
+  });
+
+program
+  .command("validate-contracts")
+  .argument("[repo]", "repository path", ".")
+  .option("--diff", "validate changed files from git diff and working tree", true)
+  .option("--base <ref>", "base git ref", "main")
+  .description("Validate changed files against generated agent contracts and edit boundaries.")
+  .action(async (repo: string, options: { diff?: boolean; base: string }) => {
+    const context = await buildContextPackage(repo);
+    const report = validateContracts(context, { base: options.base, diff: options.diff });
+    console.log(renderContractValidationReport(context, { base: options.base, diff: options.diff }));
+    if (!report.passed) process.exitCode = 1;
   });
 
 program

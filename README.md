@@ -140,6 +140,7 @@ repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
+repo-context validate-contracts [repo]
 repo-context run "<task>" [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
@@ -168,6 +169,7 @@ repo-context explain src/server.ts .
 repo-context explain auth .
 repo-context readiness .
 repo-context validate .
+repo-context validate-contracts .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
 repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
@@ -259,7 +261,7 @@ repo-context build . --llm
 
 未启用 LLM 时，Repo-to-Agent-Context 使用离线摘要。启用后，如果 key、URL、model 缺失或仍然是 `xx`，会直接给出可操作的配置错误；运行时请求失败则退回离线摘要并记录原因。
 
-运行 `repo-context validate .` 可以检查配置、生成 JSON、依赖边、分析置信度和 token 预算。
+运行 `repo-context validate .` 可以检查配置、生成 JSON、依赖边、分析置信度和 token 预算。运行 `repo-context validate-contracts .` 可以把 `contracts/` 当作编辑边界校验 diff，并直接判断是否触碰受保护路径、非法依赖、lockfile 配套、环境变量说明和测试边界。
 
 ## 分析置信度与证据
 
@@ -284,6 +286,7 @@ repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
+repo-context validate-contracts --diff .
 repo-context impact . --base main
 repo-context tests . --for src/auth/session.ts
 repo-context tests . --diff --base main

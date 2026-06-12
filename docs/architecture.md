@@ -50,7 +50,7 @@ The v2 architecture is organized around five responsibilities:
 
 - Repo Scanner: builds file, symbol, dependency, test, command, and risk indexes from repository evidence.
 - Context Planner: converts repository indexes into global, task, diff, and impact contexts.
-- Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, complete task runs, verification packs, and RAG documents.
+- Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, complete task runs, verification packs, editable contracts, and RAG documents.
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, and regression guards.
 - Integration Layer: lets MCP, editor extensions, CLI adapters, and RAG backends call the same planning and retrieval contracts.
 
@@ -173,6 +173,7 @@ Composer output is layered:
 - Task Run: complete task execution context under `.agent-context/runs/<task-id>/`.
 - Task Pack: standalone task-specific context files under `.agent-context/tasks/`.
 - Verification Pack: changed files, missing tests, recommended commands, and risk report.
+- Contracts: machine-checkable edit boundaries under `.agent-context/contracts/`, validated by `repo-context validate-contracts`.
 - RAG Documents: retrievable context chunks for static, ripgrep, LightRAG, embedding, or hybrid retrievers.
 
 ## Summary Engine

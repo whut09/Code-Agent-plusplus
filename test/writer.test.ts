@@ -82,6 +82,7 @@ test("writer emits repo contract files for agent constraints", async () => {
 
   try {
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
+    mkdirSync(path.join(root, "src", "core"), { recursive: true });
     mkdirSync(path.join(root, "src", "payment"), { recursive: true });
     mkdirSync(path.join(root, "test", "auth"), { recursive: true });
     writeFileSync(
@@ -91,6 +92,7 @@ test("writer emits repo contract files for agent constraints", async () => {
       }),
       "utf8"
     );
+    writeFileSync(path.join(root, "src", "core", "indexer.ts"), "export const indexer = 1;\n", "utf8");
     writeFileSync(path.join(root, "src", "auth", "session.ts"), "export const session = 1;\n", "utf8");
     writeFileSync(path.join(root, "src", "auth", "login.ts"), "import { session } from './session.js';\nexport const login = session;\n", "utf8");
     writeFileSync(path.join(root, "src", "payment", "charge.ts"), "export const charge = 1;\n", "utf8");
@@ -114,6 +116,11 @@ test("writer emits repo contract files for agent constraints", async () => {
 
     const safety = JSON.parse(readFileSync(path.join(contractsDir, "safety.contract.json"), "utf8")) as { protectedPaths: { lockfiles: string[] } };
     assert.ok(safety.protectedPaths.lockfiles.includes("package-lock.json"));
+
+    const architecture = JSON.parse(readFileSync(path.join(contractsDir, "architecture.contract.json"), "utf8")) as {
+      layers: Array<{ name: string; forbiddenImports: string[] }>;
+    };
+    assert.ok(architecture.layers.some((layer) => layer.name === "core" && layer.forbiddenImports.includes("src/outputs/**")));
 
     const boundaries = JSON.parse(readFileSync(path.join(contractsDir, "module-boundaries.json"), "utf8")) as {
       modules: Record<string, { owns: string[]; allowedImports: string[]; forbiddenImports: string[] }>;

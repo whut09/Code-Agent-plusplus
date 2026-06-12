@@ -27,6 +27,7 @@ function buildArchitectureContract(context: ContextPackage): unknown {
     frameworks: context.scan.frameworks,
     packageManagers: context.scan.packageManagers,
     entrypoints: context.scan.entrypoints,
+    layers: architectureLayers(context),
     modules: context.index.modules.map((module) => ({
       name: module.name,
       owns: moduleOwns(module),
@@ -36,6 +37,7 @@ function buildArchitectureContract(context: ContextPackage): unknown {
     rules: [
       "Preserve detected entrypoints unless the task explicitly changes application wiring.",
       "Prefer extending existing modules over creating new top-level architecture.",
+      "Preserve layer direction rules in layers[].forbiddenImports.",
       "Do not add cross-module dependencies that are absent from module-boundaries.json without task-specific justification.",
       "Run commands from commands.contract.json after source or configuration edits."
     ]
@@ -184,6 +186,64 @@ function publicFilesFor(context: ContextPackage, module: ModuleInfo): string[] {
     if (module.files.includes(file.path) && file.exports.length > 0) files.add(file.path);
   }
   return [...files].sort();
+}
+
+function architectureLayers(context: ContextPackage): Array<{
+  name: string;
+  owns: string[];
+  allowedImports: string[];
+  forbiddenImports: string[];
+  rule: string;
+}> {
+  const layers = [
+    {
+      name: "core",
+      owns: ["src/core/**"],
+      allowedImports: ["src/core/**", "src/config/**"],
+      forbiddenImports: ["src/outputs/**", "src/cli/**", "test/**", "benchmarks/**"],
+      rule: "architecture.contract.json#layers.core"
+    },
+    {
+      name: "config",
+      owns: ["src/config/**"],
+      allowedImports: ["src/core/**", "src/config/**"],
+      forbiddenImports: ["src/outputs/**", "src/cli/**", "test/**", "benchmarks/**"],
+      rule: "architecture.contract.json#layers.config"
+    },
+    {
+      name: "outputs",
+      owns: ["src/outputs/**"],
+      allowedImports: ["src/core/**", "src/config/**", "src/outputs/**", "src/retrievers/**"],
+      forbiddenImports: ["src/cli/**", "test/**", "benchmarks/**"],
+      rule: "architecture.contract.json#layers.outputs"
+    },
+    {
+      name: "retrievers",
+      owns: ["src/retrievers/**"],
+      allowedImports: ["src/core/**", "src/config/**", "src/retrievers/**"],
+      forbiddenImports: ["src/cli/**", "test/**", "benchmarks/**"],
+      rule: "architecture.contract.json#layers.retrievers"
+    },
+    {
+      name: "cli",
+      owns: ["src/cli/**"],
+      allowedImports: ["src/**"],
+      forbiddenImports: ["test/**", "benchmarks/**"],
+      rule: "architecture.contract.json#layers.cli"
+    }
+  ];
+
+  const files = new Set(context.index.files.map((file) => file.path));
+  return layers.filter((layer) => layer.owns.some((glob) => [...files].some((file) => matchesGlob(file, glob))));
+}
+
+function matchesGlob(filePath: string, glob: string): boolean {
+  if (glob === "*") return true;
+  const escaped = glob
+    .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+    .replace(/\*\*/g, ".*")
+    .replace(/\*/g, "[^/]*");
+  return new RegExp(`^${escaped}$`).test(filePath);
 }
 
 function requiredCommands(context: ContextPackage, kinds: Array<"test" | "typecheck" | "lint">): string[] {

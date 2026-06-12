@@ -19,9 +19,9 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 
 ## Project Entrypoints
 - Entrypoint: `src/cli/index.ts`
+- Anchor: `src/outputs/task-harness.ts` - 5 exports, 67 symbols
 - Anchor: `src/core/token-estimator.ts` - 5 exports, 9 symbols
 - Anchor: `src/core/context-builder.ts` - 2 exports, 11 symbols
-- Anchor: `src/outputs/task-harness.ts` - 5 exports, 66 symbols
 
 ## Commands
 - Run: `npm run dev`

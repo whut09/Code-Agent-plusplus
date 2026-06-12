@@ -2,21 +2,21 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 2465,
-  "remainingBudget": 9535,
+  "estimatedTokens": 2859,
+  "remainingBudget": 9141,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 206,
+      "score": 207,
       "reasons": [
         "lexical match: regression"
       ],
       "category": "direct-source",
-      "estimatedTokens": 274
+      "estimatedTokens": 277
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 206,
+      "score": 207,
       "reasons": [
         "lexical match: regression"
       ],
@@ -32,7 +32,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 163
+      "estimatedTokens": 168
     },
     {
       "path": "test/task-harness.test.ts",
@@ -53,6 +53,15 @@
       ],
       "category": "test",
       "estimatedTokens": 84
+    },
+    {
+      "path": "test/contract-validator.test.ts",
+      "score": 28,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts"
+      ],
+      "category": "test",
+      "estimatedTokens": 71
     },
     {
       "path": "src/outputs/task-run.ts",
@@ -102,6 +111,15 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 246
+    },
+    {
+      "path": "src/outputs/contract-validator.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/outputs/task-harness.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 315
     },
     {
       "path": "src/outputs/task-context.ts",
@@ -176,15 +194,6 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 46
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
@@ -192,6 +201,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 46
     },
     {
       "path": ".env.example",
@@ -233,16 +251,16 @@
   "readFirst": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 206,
+      "score": 207,
       "reasons": [
         "lexical match: regression"
       ],
       "category": "direct-source",
-      "estimatedTokens": 274
+      "estimatedTokens": 277
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 206,
+      "score": 207,
       "reasons": [
         "lexical match: regression"
       ],
@@ -258,7 +276,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 163
+      "estimatedTokens": 168
     }
   ],
   "inspectIfNeeded": [
@@ -281,6 +299,15 @@
       ],
       "category": "test",
       "estimatedTokens": 84
+    },
+    {
+      "path": "test/contract-validator.test.ts",
+      "score": 28,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts"
+      ],
+      "category": "test",
+      "estimatedTokens": 71
     },
     {
       "path": "src/outputs/task-run.ts",
@@ -330,6 +357,15 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 246
+    },
+    {
+      "path": "src/outputs/contract-validator.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/outputs/task-harness.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 315
     },
     {
       "path": "src/outputs/task-context.ts",
@@ -393,35 +429,17 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 42
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 46
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 2465,
-    "remaining": 9535,
+    "used": 2859,
+    "remaining": 9141,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 500,
+        "tokens": 503,
         "files": [
           "src/outputs/task-harness.ts",
           "src/outputs/test-selector.ts"
@@ -430,22 +448,24 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 167,
+        "tokens": 238,
         "files": [
           "test/task-harness.test.ts",
-          "test/test-selector.test.ts"
+          "test/test-selector.test.ts",
+          "test/contract-validator.test.ts"
         ]
       },
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 1124,
+        "tokens": 1439,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
           "src/outputs/markdown.ts",
           "src/core/git.ts",
           "src/benchmarks/benchmark.ts",
+          "src/outputs/contract-validator.ts",
           "src/outputs/task-context.ts"
         ]
       },
@@ -461,8 +481,8 @@
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
-          "benchmarks/fixtures/monorepo/packages/web/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -472,7 +492,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 163,
+        "tokens": 168,
         "files": [
           "src/cli/index.ts"
         ]
@@ -484,8 +504,8 @@
   ],
   "retrieval": {
     "directMatches": 2,
-    "dependencyNeighbors": 14,
-    "tests": 2,
+    "dependencyNeighbors": 16,
+    "tests": 3,
     "configDocs": 13
   }
 }

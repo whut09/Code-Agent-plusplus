@@ -18,6 +18,91 @@
   "entrypoints": [
     "src/cli/index.ts"
   ],
+  "layers": [
+    {
+      "name": "core",
+      "owns": [
+        "src/core/**"
+      ],
+      "allowedImports": [
+        "src/core/**",
+        "src/config/**"
+      ],
+      "forbiddenImports": [
+        "src/outputs/**",
+        "src/cli/**",
+        "test/**",
+        "benchmarks/**"
+      ],
+      "rule": "architecture.contract.json#layers.core"
+    },
+    {
+      "name": "config",
+      "owns": [
+        "src/config/**"
+      ],
+      "allowedImports": [
+        "src/core/**",
+        "src/config/**"
+      ],
+      "forbiddenImports": [
+        "src/outputs/**",
+        "src/cli/**",
+        "test/**",
+        "benchmarks/**"
+      ],
+      "rule": "architecture.contract.json#layers.config"
+    },
+    {
+      "name": "outputs",
+      "owns": [
+        "src/outputs/**"
+      ],
+      "allowedImports": [
+        "src/core/**",
+        "src/config/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "src/cli/**",
+        "test/**",
+        "benchmarks/**"
+      ],
+      "rule": "architecture.contract.json#layers.outputs"
+    },
+    {
+      "name": "retrievers",
+      "owns": [
+        "src/retrievers/**"
+      ],
+      "allowedImports": [
+        "src/core/**",
+        "src/config/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "src/cli/**",
+        "test/**",
+        "benchmarks/**"
+      ],
+      "rule": "architecture.contract.json#layers.retrievers"
+    },
+    {
+      "name": "cli",
+      "owns": [
+        "src/cli/**"
+      ],
+      "allowedImports": [
+        "src/**"
+      ],
+      "forbiddenImports": [
+        "test/**",
+        "benchmarks/**"
+      ],
+      "rule": "architecture.contract.json#layers.cli"
+    }
+  ],
   "modules": [
     {
       "name": "benchmarks",
@@ -29,6 +114,16 @@
         "outputs"
       ],
       "summary": "benchmarks contains 49 files and depends on core, outputs."
+    },
+    {
+      "name": "outputs",
+      "owns": [
+        "src/outputs/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "outputs contains 20 files and depends on core."
     },
     {
       "name": "test",
@@ -44,17 +139,7 @@
         "outputs",
         "retrievers"
       ],
-      "summary": "test contains 31 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers."
-    },
-    {
-      "name": "outputs",
-      "owns": [
-        "src/outputs/**"
-      ],
-      "imports": [
-        "core"
-      ],
-      "summary": "outputs contains 19 files and depends on core."
+      "summary": "test contains 32 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers."
     },
     {
       "name": "core",
@@ -159,6 +244,7 @@
   "rules": [
     "Preserve detected entrypoints unless the task explicitly changes application wiring.",
     "Prefer extending existing modules over creating new top-level architecture.",
+    "Preserve layer direction rules in layers[].forbiddenImports.",
     "Do not add cross-module dependencies that are absent from module-boundaries.json without task-specific justification.",
     "Run commands from commands.contract.json after source or configuration edits."
   ]
