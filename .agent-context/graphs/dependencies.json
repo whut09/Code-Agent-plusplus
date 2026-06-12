@@ -115,6 +115,42 @@
       "isExternal": false
     },
     {
+      "from": "test/cache.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/cache.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/cache.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/cache.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/cache.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/cache.test.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../src/core/context-builder.js",
+      "isExternal": false
+    },
+    {
       "from": "test/config.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1141,6 +1177,36 @@
       "isExternal": false
     },
     {
+      "from": "src/core/cache.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/core/cache.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/core/cache.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/core/cache.ts",
+      "to": "src/core/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/cache.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "./token-estimator.js",
+      "isExternal": false
+    },
+    {
       "from": "src/core/context-builder.ts",
       "to": "src/config/load-config.ts",
       "specifier": "../config/load-config.js",
@@ -1162,6 +1228,12 @@
       "from": "src/core/context-builder.ts",
       "to": "src/core/indexer.ts",
       "specifier": "./indexer.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/core/context-builder.ts",
+      "to": "src/core/cache.ts",
+      "specifier": "./cache.js",
       "isExternal": false
     },
     {
@@ -1247,6 +1319,12 @@
       "to": "typescript",
       "specifier": "typescript",
       "isExternal": true
+    },
+    {
+      "from": "src/core/indexer.ts",
+      "to": "src/core/cache.ts",
+      "specifier": "./cache.js",
+      "isExternal": false
     },
     {
       "from": "src/core/indexer.ts",
@@ -1367,6 +1445,12 @@
       "to": "src/llm/provider.ts",
       "specifier": "../llm/provider.js",
       "isExternal": false
+    },
+    {
+      "from": "src/core/token-estimator.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
     },
     {
       "from": "src/core/token-estimator.ts",
@@ -2266,7 +2350,7 @@
     {
       "from": "test",
       "to": "core",
-      "count": 23
+      "count": 24
     },
     {
       "from": "test",

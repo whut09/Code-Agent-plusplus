@@ -63,7 +63,7 @@ graph TD
 | test | benchmarks | 1 |
 | test | cli | 1 |
 | test | config | 3 |
-| test | core | 23 |
+| test | core | 24 |
 | test | mcp | 1 |
 | test | outputs | 11 |
 | test | retrievers | 1 |

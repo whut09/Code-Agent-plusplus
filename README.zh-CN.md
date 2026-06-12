@@ -121,6 +121,11 @@ AGENTS.manual.md
   graphs/
     dependencies.json
     dependencies.mmd
+  cache/                 # ??????????? .gitignore
+    file-hashes.json
+    index-cache.json
+    graph-cache.json
+    tokenizer-cache.json
 ```
 
 ## 上下文分层

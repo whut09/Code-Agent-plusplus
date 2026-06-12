@@ -120,6 +120,60 @@
     "line": 21
   },
   {
+    "name": "FileHashesJson",
+    "kind": "interface",
+    "filePath": "test/cache.test.ts",
+    "line": 8
+  },
+  {
+    "name": "readJson",
+    "kind": "function",
+    "filePath": "test/cache.test.ts",
+    "line": 12
+  },
+  {
+    "name": "root",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 17
+  },
+  {
+    "name": "cacheDir",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 28
+  },
+  {
+    "name": "firstHashes",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 33
+  },
+  {
+    "name": "firstAHash",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 34
+  },
+  {
+    "name": "firstBHash",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 35
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 38
+  },
+  {
+    "name": "secondHashes",
+    "kind": "const",
+    "filePath": "test/cache.test.ts",
+    "line": 39
+  },
+  {
     "name": "root",
     "kind": "const",
     "filePath": "test/config.test.ts",
@@ -489,7 +543,7 @@
     "name": "scan",
     "kind": "const",
     "filePath": "test/scanner.test.ts",
-    "line": 27
+    "line": 33
   },
   {
     "name": "context",
@@ -3120,70 +3174,286 @@
     "line": 395
   },
   {
+    "name": "CACHE_VERSION",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 7
+  },
+  {
+    "name": "CACHE_DIR",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 8
+  },
+  {
+    "name": "HASHED_FILE_LIMIT_BYTES",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 9
+  },
+  {
+    "name": "FileHashEntry",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 11
+  },
+  {
+    "name": "FileHashesCache",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 17
+  },
+  {
+    "name": "IndexCacheEntry",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 24
+  },
+  {
+    "name": "IndexCacheFile",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 32
+  },
+  {
+    "name": "GraphCacheFile",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 37
+  },
+  {
+    "name": "TokenizerCacheFile",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 43
+  },
+  {
+    "name": "ContextCacheOptions",
+    "kind": "interface",
+    "filePath": "src/core/cache.ts",
+    "line": 48
+  },
+  {
+    "name": "ContextCache",
+    "kind": "class",
+    "filePath": "src/core/cache.ts",
+    "line": 52
+  },
+  {
+    "name": "absoluteRoot",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 86
+  },
+  {
+    "name": "dependencyFiles",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 92
+  },
+  {
+    "name": "fingerprint",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 93
+  },
+  {
+    "name": "current",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 100
+  },
+  {
+    "name": "previous",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 101
+  },
+  {
+    "name": "hash",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 106
+  },
+  {
+    "name": "entry",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 116
+  },
+  {
+    "name": "paths",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 133
+  },
+  {
+    "name": "tokenizerCacheKey",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 185
+  },
+  {
+    "name": "shouldPersistCache",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 189
+  },
+  {
+    "name": "isDependencyResolutionFile",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 193
+  },
+  {
+    "name": "shouldHashContent",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 199
+  },
+  {
+    "name": "hashFile",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 203
+  },
+  {
+    "name": "hashText",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 207
+  },
+  {
+    "name": "readJson",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 211
+  },
+  {
+    "name": "parsed",
+    "kind": "const",
+    "filePath": "src/core/cache.ts",
+    "line": 214
+  },
+  {
+    "name": "writeJson",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 221
+  },
+  {
+    "name": "normalizeFileHashes",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 225
+  },
+  {
+    "name": "cloneIndexedFile",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 234
+  },
+  {
+    "name": "cloneGraph",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 238
+  },
+  {
+    "name": "stableStringify",
+    "kind": "function",
+    "filePath": "src/core/cache.ts",
+    "line": 242
+  },
+  {
     "name": "BuildOptions",
     "kind": "interface",
     "filePath": "src/core/context-builder.ts",
-    "line": 12
+    "line": 13
   },
   {
     "name": "buildContextPackage",
     "kind": "function",
     "filePath": "src/core/context-builder.ts",
-    "line": 20
+    "line": 22
   },
   {
     "name": "overrides",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
-    "line": 21
+    "line": 23
   },
   {
     "name": "config",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
-    "line": 37
-  },
-  {
-    "name": "scan",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 38
-  },
-  {
-    "name": "index",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
     "line": 39
   },
   {
-    "name": "graph",
+    "name": "cache",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
     "line": 40
   },
   {
-    "name": "keyFiles",
+    "name": "scan",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
     "line": 41
   },
   {
-    "name": "readiness",
+    "name": "dependencyFingerprint",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
     "line": 42
   },
   {
-    "name": "summaries",
+    "name": "index",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 43
+  },
+  {
+    "name": "indexFingerprint",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 45
+  },
+  {
+    "name": "cachedGraph",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
     "line": 46
   },
   {
-    "name": "tokenSavings",
+    "name": "graph",
     "kind": "const",
     "filePath": "src/core/context-builder.ts",
     "line": 47
+  },
+  {
+    "name": "keyFiles",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 49
+  },
+  {
+    "name": "readiness",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 50
+  },
+  {
+    "name": "summaries",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 54
+  },
+  {
+    "name": "tokenSavings",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 55
   },
   {
     "name": "DOC_EXTENSIONS",
@@ -3270,10 +3540,16 @@
     "line": 24
   },
   {
-    "name": "parseGitPathList",
+    "name": "isGeneratedCachePath",
     "kind": "function",
     "filePath": "src/core/git.ts",
     "line": 28
+  },
+  {
+    "name": "parseGitPathList",
+    "kind": "function",
+    "filePath": "src/core/git.ts",
+    "line": 32
   },
   {
     "name": "buildDependencyGraph",
@@ -3327,301 +3603,325 @@
     "name": "ANALYZERS",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 11
+    "line": 12
+  },
+  {
+    "name": "IndexRepositoryOptions",
+    "kind": "interface",
+    "filePath": "src/core/indexer.ts",
+    "line": 14
   },
   {
     "name": "indexRepository",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 13
+    "line": 19
   },
   {
     "name": "allPaths",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 14
+    "line": 20
   },
   {
     "name": "packagePrefixes",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 15
+    "line": 21
+  },
+  {
+    "name": "dependencyFingerprint",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 22
   },
   {
     "name": "analysisContext",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 16
+    "line": 23
   },
   {
     "name": "files",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 26
+    "line": 33
   },
   {
     "name": "imports",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 27
+    "line": 34
   },
   {
     "name": "symbols",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 28
-  },
-  {
-    "name": "content",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 31
+    "line": 35
   },
   {
     "name": "analyzer",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 32
+    "line": 38
   },
   {
-    "name": "analysis",
+    "name": "cached",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 33
-  },
-  {
-    "name": "moduleName",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 34
+    "line": 39
   },
   {
     "name": "indexed",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 36
+    "line": 40
+  },
+  {
+    "name": "content",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 43
+  },
+  {
+    "name": "analysis",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 44
+  },
+  {
+    "name": "moduleName",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 45
+  },
+  {
+    "name": "analyzed",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 46
   },
   {
     "name": "loadPackageAliases",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 71
+    "line": 84
   },
   {
     "name": "aliases",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 72
+    "line": 85
   },
   {
     "name": "packageJson",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 74
+    "line": 87
   },
   {
     "name": "name",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 76
+    "line": 89
   },
   {
     "name": "packageDir",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 79
+    "line": 92
   },
   {
     "name": "qualify",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 80
+    "line": 93
   },
   {
     "name": "entryTargets",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 81
+    "line": 94
   },
   {
     "name": "loadPackagePrefixes",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 102
+    "line": 115
   },
   {
     "name": "readJson",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 110
+    "line": 123
   },
   {
     "name": "packageEntryTargets",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 118
+    "line": 131
   },
   {
     "name": "fields",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 119
+    "line": 132
   },
   {
     "name": "packageExportAliases",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 123
+    "line": 136
   },
   {
     "name": "exportsValue",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 128
+    "line": 141
   },
   {
     "name": "aliases",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 136
+    "line": 149
   },
   {
     "name": "target",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 138
+    "line": 151
   },
   {
     "name": "subpath",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 140
+    "line": 153
   },
   {
     "name": "packageImportAliases",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 149
+    "line": 162
   },
   {
     "name": "importsValue",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 150
+    "line": 163
   },
   {
     "name": "aliases",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 155
+    "line": 168
   },
   {
     "name": "target",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 158
+    "line": 171
   },
   {
     "name": "exportTarget",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 165
+    "line": 178
   },
   {
     "name": "target",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 169
+    "line": 182
   },
   {
     "name": "object",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 175
+    "line": 188
   },
   {
     "name": "stripPackageTarget",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 182
+    "line": 195
   },
   {
     "name": "loadPathAliases",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 186
+    "line": 199
   },
   {
     "name": "configPath",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 187
+    "line": 200
   },
   {
     "name": "parsed",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 191
+    "line": 204
   },
   {
     "name": "compilerOptions",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 192
+    "line": 205
   },
   {
     "name": "baseUrl",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 198
+    "line": 211
   },
   {
     "name": "shouldRead",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 208
+    "line": 221
   },
   {
     "name": "buildModules",
     "kind": "function",
     "filePath": "src/core/indexer.ts",
-    "line": 212
+    "line": 225
   },
   {
     "name": "moduleMap",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 213
+    "line": 226
   },
   {
     "name": "module",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 216
+    "line": 229
   },
   {
     "name": "fileToModule",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 228
+    "line": 241
   },
   {
     "name": "fromModule",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 231
+    "line": 244
   },
   {
     "name": "toModule",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 232
+    "line": 245
   },
   {
     "name": "module",
     "kind": "const",
     "filePath": "src/core/indexer.ts",
-    "line": 234
+    "line": 247
   },
   {
     "name": "LANGUAGE_BY_EXTENSION",
@@ -4635,55 +4935,91 @@
     "name": "estimateTokens",
     "kind": "function",
     "filePath": "src/core/token-estimator.ts",
-    "line": 4
+    "line": 5
   },
   {
     "name": "TokenCountResult",
     "kind": "interface",
     "filePath": "src/core/token-estimator.ts",
-    "line": 12
+    "line": 13
+  },
+  {
+    "name": "TokenCountCache",
+    "kind": "interface",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 19
+  },
+  {
+    "name": "countTokensCached",
+    "kind": "function",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 24
+  },
+  {
+    "name": "key",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 26
+  },
+  {
+    "name": "cached",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 27
+  },
+  {
+    "name": "counted",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 31
   },
   {
     "name": "countTokens",
     "kind": "function",
     "filePath": "src/core/token-estimator.ts",
-    "line": 18
-  },
-  {
-    "name": "encoder",
-    "kind": "const",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 28
-  },
-  {
-    "name": "encoder",
-    "kind": "const",
-    "filePath": "src/core/token-estimator.ts",
     "line": 36
+  },
+  {
+    "name": "encoder",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 46
+  },
+  {
+    "name": "encoder",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 54
   },
   {
     "name": "tokenizerFromModel",
     "kind": "function",
     "filePath": "src/core/token-estimator.ts",
-    "line": 52
+    "line": 70
   },
   {
     "name": "normalized",
     "kind": "const",
     "filePath": "src/core/token-estimator.ts",
-    "line": 53
+    "line": 71
   },
   {
     "name": "parseTokenizerMode",
     "kind": "function",
     "filePath": "src/core/token-estimator.ts",
-    "line": 61
+    "line": 79
   },
   {
     "name": "normalized",
     "kind": "const",
     "filePath": "src/core/token-estimator.ts",
-    "line": 62
+    "line": 80
+  },
+  {
+    "name": "tokenCacheKey",
+    "kind": "function",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 88
   },
   {
     "name": "DEFAULT_TOKEN_BUDGET",
@@ -4731,139 +5067,139 @@
     "name": "calculateTokenSavings",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 16
+    "line": 17
   },
   {
     "name": "originalTokens",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 17
+    "line": 18
   },
   {
     "name": "tokenBudget",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 18
+    "line": 19
   },
   {
     "name": "tokenizer",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 19
+    "line": 20
   },
   {
     "name": "selectedFiles",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 20
+    "line": 21
   },
   {
     "name": "contextPackTokens",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 21
+    "line": 22
   },
   {
     "name": "compressionRatio",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 22
+    "line": 23
   },
   {
     "name": "formatTokenSavings",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 53
+    "line": 54
   },
   {
     "name": "actual",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 54
+    "line": 55
   },
   {
     "name": "lines",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 55
+    "line": 56
   },
   {
     "name": "selectFilesForBudget",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 67
+    "line": 68
   },
   {
     "name": "selected",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 68
+    "line": 69
   },
   {
     "name": "candidate",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 70
+    "line": 71
   },
   {
     "name": "estimateContextPackTokens",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 81
+    "line": 82
   },
   {
     "name": "scanTokens",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 82
+    "line": 83
   },
   {
     "name": "estimateContextPackTokensForFiles",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 97
+    "line": 99
   },
   {
     "name": "selectedModules",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 98
+    "line": 100
   },
   {
     "name": "fileTokens",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 99
+    "line": 101
   },
   {
     "name": "moduleTokens",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 100
+    "line": 102
   },
   {
     "name": "graphTokens",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 101
+    "line": 103
   },
   {
     "name": "estimateCompactFileTokens",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 110
+    "line": 112
   },
   {
     "name": "compactText",
     "kind": "const",
     "filePath": "src/core/token-savings.ts",
-    "line": 111
+    "line": 113
   },
   {
     "name": "formatTokenizer",
     "kind": "function",
     "filePath": "src/core/token-savings.ts",
-    "line": 131
+    "line": 133
   },
   {
     "name": "AgentTarget",

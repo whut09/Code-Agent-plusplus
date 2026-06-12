@@ -1,7 +1,7 @@
 # Task Context: add a feature or new behavior
 
 Type: feature
-Budget: 2,522 / 12,000 estimated tokens
+Budget: 2,566 / 12,000 estimated tokens
 
 ## Read First
 1. `src/outputs/task-harness.ts` - key file fallback; defines TaskPackWriteResult
@@ -32,8 +32,8 @@ Budget: 2,522 / 12,000 estimated tokens
 | File | Category | Tokens | Why | Summary |
 | --- | --- | --- | --- | --- |
 | `src/outputs/task-harness.ts` | direct-source | 277 | key file fallback | src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports. |
-| `src/core/token-estimator.ts` | direct-source | 104 | key file fallback | src/core/token-estimator.ts contains 9 detected symbols, 2 imports, 5 exports. |
-| `src/core/context-builder.ts` | direct-source | 90 | key file fallback | src/core/context-builder.ts contains 11 detected symbols, 10 imports, 2 exports. |
+| `src/core/token-estimator.ts` | direct-source | 132 | key file fallback | src/core/token-estimator.ts contains 15 detected symbols, 3 imports, 7 exports. |
+| `src/core/context-builder.ts` | direct-source | 106 | key file fallback | src/core/context-builder.ts contains 15 detected symbols, 11 imports, 2 exports. |
 | `src/outputs/writer.ts` | direct-source | 246 | key file fallback | src/outputs/writer.ts contains 55 detected symbols, 17 imports, 2 exports. |
 | `src/outputs/contract-validator.ts` | direct-source | 315 | key file fallback | src/outputs/contract-validator.ts contains 61 detected symbols, 6 imports, 5 exports. |
 | `src/outputs/test-selector.ts` | direct-source | 226 | key file fallback | src/outputs/test-selector.ts contains 44 detected symbols, 3 imports, 4 exports. |
@@ -58,13 +58,13 @@ Budget: 2,522 / 12,000 estimated tokens
 ## Budget Packing
 | Bucket | Tokens | Files |
 | --- | --- | --- |
-| Directly relevant source files | 1,617 | `src/outputs/task-harness.ts`, `src/core/token-estimator.ts`, `src/core/context-builder.ts`, `src/outputs/writer.ts`, `src/outputs/contract-validator.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts`, `src/outputs/markdown.ts` |
+| Directly relevant source files | 1,661 | `src/outputs/task-harness.ts`, `src/core/token-estimator.ts`, `src/core/context-builder.ts`, `src/outputs/writer.ts`, `src/outputs/contract-validator.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts`, `src/outputs/markdown.ts` |
 | Tests | 0 | none |
 | Dependency neighbors | 0 | none |
 | Config/docs | 511 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
 | Entrypoints | 394 | `src/mcp/server.ts`, `src/cli/index.ts` |
 
-Remaining budget: 9,478 estimated tokens
+Remaining budget: 9,434 estimated tokens
 
 ## Suggested Commands
 - npm run test -- feature

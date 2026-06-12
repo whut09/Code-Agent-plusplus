@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { encodingForModel, getEncoding, type TiktokenEncoding, type TiktokenModel } from "js-tiktoken";
 import type { TokenizerConfig, TokenizerMode } from "./types.js";
 
@@ -13,6 +14,23 @@ export interface TokenCountResult {
   tokens: number;
   tokenizer: TokenizerMode;
   model?: string;
+}
+
+export interface TokenCountCache {
+  getTokenCount(key: string): number | undefined;
+  setTokenCount(key: string, tokens: number): void;
+}
+
+export function countTokensCached(text: string, tokenizer: TokenizerConfig, cache?: TokenCountCache | null): TokenCountResult {
+  if (!cache) return countTokens(text, tokenizer);
+  const key = tokenCacheKey(text, tokenizer);
+  const cached = cache.getTokenCount(key);
+  if (typeof cached === "number") {
+    return { tokens: cached, tokenizer: tokenizer.mode, model: tokenizer.model };
+  }
+  const counted = countTokens(text, tokenizer);
+  cache.setTokenCount(key, counted.tokens);
+  return counted;
 }
 
 export function countTokens(text: string, tokenizer: TokenizerConfig): TokenCountResult {
@@ -65,4 +83,8 @@ export function parseTokenizerMode(value: string): TokenizerMode {
   }
 
   throw new Error(`Unsupported tokenizer: ${value}. Expected chars-approx, cl100k_base, or o200k_base.`);
+}
+
+function tokenCacheKey(text: string, tokenizer: TokenizerConfig): string {
+  return `${tokenizer.mode}:${tokenizer.model ?? ""}:${createHash("sha256").update(text).digest("hex")}`;
 }

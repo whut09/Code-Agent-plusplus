@@ -2,6 +2,7 @@ import { loadConfig } from "../config/load-config.js";
 import type { AgentTarget, ContextPackage, RepoContextConfig } from "./types.js";
 import { scanRepository } from "./scanner.js";
 import { indexRepository } from "./indexer.js";
+import { ContextCache } from "./cache.js";
 import { buildDependencyGraph } from "./graph.js";
 import { rankFiles } from "./ranker.js";
 import { assessReadiness } from "./readiness.js";
@@ -15,6 +16,7 @@ export interface BuildOptions {
   llm?: boolean;
   tokenizer?: RepoContextConfig["tokenizer"]["mode"];
   model?: string;
+  cache?: boolean;
 }
 
 export async function buildContextPackage(repoRoot: string, options: BuildOptions = {}): Promise<ContextPackage> {
@@ -35,16 +37,23 @@ export async function buildContextPackage(repoRoot: string, options: BuildOption
   }
 
   const config = loadConfig(repoRoot, overrides);
+  const cache = ContextCache.open(repoRoot, config, { enabled: options.cache });
   const scan = await scanRepository(repoRoot, config);
-  const index = indexRepository(scan);
-  const graph = buildDependencyGraph(index);
+  const dependencyFingerprint = cache?.dependencyFingerprint(scan) ?? "";
+  const index = indexRepository(scan, { cache, dependencyFingerprint });
+  cache?.prune(scan);
+  const indexFingerprint = cache?.indexFingerprint(index.files);
+  const cachedGraph = indexFingerprint ? cache?.getGraph(indexFingerprint) : null;
+  const graph = cachedGraph ?? buildDependencyGraph(index);
+  if (cache && indexFingerprint && !cachedGraph) cache.setGraph(indexFingerprint, graph);
   const keyFiles = rankFiles(scan, index, graph);
   const readiness = assessReadiness(scan, index, graph, {
     tokenizerMode: config.tokenizer.mode,
     generatedOutputValidation: true
   });
   const summaries = await summarizeRepository(scan, index, config);
-  const tokenSavings = calculateTokenSavings(scan, keyFiles, { tokenBudget: config.tokenBudget, tokenizer: config.tokenizer });
+  const tokenSavings = calculateTokenSavings(scan, keyFiles, { tokenBudget: config.tokenBudget, tokenizer: config.tokenizer, tokenCache: cache });
+  cache?.flush();
 
   return {
     config,

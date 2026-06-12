@@ -93,6 +93,17 @@ Tree-sitter is intentionally introduced as an optional backend first. TypeScript
 
 The near-term focus is depth, not breadth. TypeScript/JavaScript should become materially better at Next.js app/router/pages routes, Express/Fastify/Hono/NestJS handlers, monorepo workspace boundaries, package `exports`/`imports`, `tsconfig` path aliases, and test-file-to-source relationships. Python should become materially better at FastAPI/Flask/Django routes, pytest fixtures, `pyproject.toml` scripts, local package imports, and CLI entrypoints before any broad expansion to more languages.
 
+## Incremental Cache
+
+The build pipeline uses `.agent-context/cache/` as a local incremental cache for large repositories and long-lived MCP/editor sessions:
+
+- `file-hashes.json` stores content hashes plus size/mtime metadata so unchanged files can reuse previous hashes without rereading the file body.
+- `index-cache.json` stores per-file analysis results keyed by file hash, analyzer, and dependency-resolution fingerprint.
+- `graph-cache.json` stores dependency graph output keyed by an index fingerprint.
+- `tokenizer-cache.json` stores token counts keyed by tokenizer, model, and text hash.
+
+Dependency resolution is invalidated when package manifests, lockfiles, workspace files, `tsconfig.json`, `jsconfig.json`, or `pyproject.toml` change. Repository configuration changes rerender outputs while still allowing scan/index reuse. Task-only changes reuse the cached repository context and regenerate only plan, pack, run, verification, impact, or retrieval output. Git diff helpers filter `.agent-context/cache/**` so cache writes do not appear as affected source changes.
+
 ## Graph Builder
 
 The graph builder creates:

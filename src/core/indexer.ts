@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import ts from "typescript";
+import type { ContextCache } from "./cache.js";
 import type { IndexedFile, ImportEdge, ModuleInfo, RepoIndex, RepoScan, SymbolInfo } from "./types.js";
 import { moduleNameFor } from "./path-utils.js";
 import { javascriptAnalyzer } from "../analyzers/javascript.js";
@@ -10,9 +11,15 @@ import type { LanguageAnalyzer } from "../analyzers/types.js";
 
 const ANALYZERS: LanguageAnalyzer[] = [javascriptAnalyzer, pythonAnalyzer, genericAnalyzer];
 
-export function indexRepository(scan: RepoScan): RepoIndex {
+export interface IndexRepositoryOptions {
+  cache?: ContextCache | null;
+  dependencyFingerprint?: string;
+}
+
+export function indexRepository(scan: RepoScan, options: IndexRepositoryOptions = {}): RepoIndex {
   const allPaths = new Set(scan.files.map((file) => file.path));
   const packagePrefixes = loadPackagePrefixes(scan.files.map((file) => file.path));
+  const dependencyFingerprint = options.dependencyFingerprint ?? "";
   const analysisContext = {
     allPaths,
     pathAliases: [
@@ -28,30 +35,36 @@ export function indexRepository(scan: RepoScan): RepoIndex {
   const symbols: SymbolInfo[] = [];
 
   for (const file of scan.files) {
-    const content = shouldRead(file.sizeBytes, file.isBinary) ? readFileSync(file.absolutePath, "utf8") : "";
     const analyzer = ANALYZERS.find((candidate) => candidate.supports(file)) ?? genericAnalyzer;
-    const analysis = analyzer.analyze(file, content, analysisContext);
-    const moduleName = moduleNameFor(file.path, packagePrefixes);
-
-    const indexed: IndexedFile = {
-      ...file,
-      imports: analysis.imports,
-      exports: analysis.exports,
-      symbols: analysis.symbols,
-      summary: analysis.summary,
-      analyzer: analyzer.name,
-      confidence: analysis.confidence,
-      analysisStats: analysis.stats,
-      evidence: analysis.evidence,
-      moduleName,
-      importanceScore: 0,
-      importanceReasons: []
-    };
+    const cached = options.cache?.getIndexedFile(file, dependencyFingerprint, analyzer.name);
+    const indexed =
+      cached ??
+      (() => {
+        const content = shouldRead(file.sizeBytes, file.isBinary) ? readFileSync(file.absolutePath, "utf8") : "";
+        const analysis = analyzer.analyze(file, content, analysisContext);
+        const moduleName = moduleNameFor(file.path, packagePrefixes);
+        const analyzed: IndexedFile = {
+          ...file,
+          imports: analysis.imports,
+          exports: analysis.exports,
+          symbols: analysis.symbols,
+          summary: analysis.summary,
+          analyzer: analyzer.name,
+          confidence: analysis.confidence,
+          analysisStats: analysis.stats,
+          evidence: analysis.evidence,
+          moduleName,
+          importanceScore: 0,
+          importanceReasons: []
+        };
+        options.cache?.setIndexedFile(file, dependencyFingerprint, analyzer.name, analyzed);
+        return analyzed;
+      })();
 
     files.push(indexed);
-    symbols.push(...analysis.symbols);
+    symbols.push(...indexed.symbols);
     imports.push(
-      ...analysis.imports.map((importRef) => ({
+      ...indexed.imports.map((importRef) => ({
         from: file.path,
         to: importRef.resolvedPath ?? importRef.specifier,
         specifier: importRef.specifier,

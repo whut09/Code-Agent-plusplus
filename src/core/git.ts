@@ -22,7 +22,11 @@ export function runGit(cwd: string, args: string[]): string {
 export function changedFilesSince(cwd: string, base: string): string[] {
   const changed = parseGitPathList(runGit(cwd, ["diff", "--name-only", base]));
   const untracked = parseGitPathList(runGit(cwd, ["ls-files", "--others", "--exclude-standard"]));
-  return [...new Set([...changed, ...untracked])].sort();
+  return [...new Set([...changed, ...untracked])].filter((file) => !isGeneratedCachePath(file)).sort();
+}
+
+function isGeneratedCachePath(filePath: string): boolean {
+  return filePath.startsWith(".agent-context/cache/");
 }
 
 function parseGitPathList(output: string): string[] {

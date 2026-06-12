@@ -31,6 +31,8 @@ Repo-to-Agent-Context should evolve from "generate files that help an agent read
 
 ## v0.5: Integration Layer
 
+- Incremental cache for file hashes, index entries, dependency graphs, and tokenizer counts
+
 - MCP server
 - VS Code/Cursor extension
 - Codex and Claude Code adapters
@@ -59,3 +61,4 @@ Repo-to-Agent-Context should evolve from "generate files that help an agent read
 - Token savings
 - RAG export and retrieval protocol
 - Task context, impact, test selection, and benchmark foundations
+- Incremental cache for repeated builds and MCP/editor sessions

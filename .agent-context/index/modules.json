@@ -31,12 +31,42 @@
     "importanceScore": 906
   },
   {
+    "name": "core",
+    "pathPrefix": "core",
+    "files": [
+      "src/core/cache.ts",
+      "src/core/context-builder.ts",
+      "src/core/file-classifier.ts",
+      "src/core/git.ts",
+      "src/core/graph.ts",
+      "src/core/indexer.ts",
+      "src/core/language.ts",
+      "src/core/path-utils.ts",
+      "src/core/ranker.ts",
+      "src/core/readiness.ts",
+      "src/core/scanner.ts",
+      "src/core/summarizer.ts",
+      "src/core/token-estimator.ts",
+      "src/core/token-savings.ts",
+      "src/core/types.ts",
+      "src/core/validator.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "config",
+      "llm"
+    ],
+    "summary": "core contains 16 files and depends on analyzers, config, llm.",
+    "importanceScore": 790
+  },
+  {
     "name": "test",
     "pathPrefix": "test",
     "files": [
       "test/agents-md.test.ts",
       "test/analyzers.test.ts",
       "test/benchmark.test.ts",
+      "test/cache.test.ts",
       "test/config.test.ts",
       "test/contract-validator.test.ts",
       "test/fixtures.test.ts",
@@ -67,36 +97,8 @@
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 22 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
-    "importanceScore": 749
-  },
-  {
-    "name": "core",
-    "pathPrefix": "core",
-    "files": [
-      "src/core/context-builder.ts",
-      "src/core/file-classifier.ts",
-      "src/core/git.ts",
-      "src/core/graph.ts",
-      "src/core/indexer.ts",
-      "src/core/language.ts",
-      "src/core/path-utils.ts",
-      "src/core/ranker.ts",
-      "src/core/readiness.ts",
-      "src/core/scanner.ts",
-      "src/core/summarizer.ts",
-      "src/core/token-estimator.ts",
-      "src/core/token-savings.ts",
-      "src/core/types.ts",
-      "src/core/validator.ts"
-    ],
-    "imports": [
-      "analyzers",
-      "config",
-      "llm"
-    ],
-    "summary": "core contains 15 files and depends on analyzers, config, llm.",
-    "importanceScore": 731
+    "summary": "test contains 23 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
+    "importanceScore": 789
   },
   {
     "name": "retrievers",

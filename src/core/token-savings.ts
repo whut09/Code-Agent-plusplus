@@ -1,5 +1,5 @@
 import type { IndexedFile, RepoScan, TokenizerConfig, TokenSavingsReport } from "./types.js";
-import { countTokens } from "./token-estimator.js";
+import { countTokensCached, type TokenCountCache } from "./token-estimator.js";
 
 const DEFAULT_TOKEN_BUDGET = 60000;
 const SUMMARY_OVERHEAD_TOKENS = 1200;
@@ -11,6 +11,7 @@ const MAX_SELECTED_FILES = 80;
 export interface TokenSavingsOptions {
   tokenBudget?: number;
   tokenizer?: TokenizerConfig;
+  tokenCache?: TokenCountCache | null;
 }
 
 export function calculateTokenSavings(scan: RepoScan, keyFiles: IndexedFile[], options: TokenSavingsOptions = {}): TokenSavingsReport {
@@ -18,7 +19,7 @@ export function calculateTokenSavings(scan: RepoScan, keyFiles: IndexedFile[], o
   const tokenBudget = options.tokenBudget ?? DEFAULT_TOKEN_BUDGET;
   const tokenizer = options.tokenizer ?? { mode: "chars_approx" };
   const selectedFiles = selectFilesForBudget(scan, keyFiles, tokenBudget);
-  const contextPackTokens = estimateContextPackTokens(scan, selectedFiles, tokenizer);
+  const contextPackTokens = estimateContextPackTokens(scan, selectedFiles, tokenizer, options.tokenCache);
   const compressionRatio = contextPackTokens ? Math.max(1, Math.round(originalTokens / contextPackTokens)) : 1;
 
   return {
@@ -68,7 +69,7 @@ function selectFilesForBudget(scan: RepoScan, keyFiles: IndexedFile[], tokenBudg
   const selected: IndexedFile[] = [];
   for (const file of keyFiles.slice(0, MAX_SELECTED_FILES)) {
     const candidate = [...selected, file];
-    if (selected.length && estimateContextPackTokens(scan, candidate, { mode: "chars_approx" }) > tokenBudget) {
+    if (selected.length && estimateContextPackTokens(scan, candidate, { mode: "chars_approx" }, null) > tokenBudget) {
       break;
     }
 
@@ -78,8 +79,8 @@ function selectFilesForBudget(scan: RepoScan, keyFiles: IndexedFile[], tokenBudg
   return selected;
 }
 
-function estimateContextPackTokens(scan: RepoScan, selectedFiles: IndexedFile[], tokenizer: TokenizerConfig): number {
-  const scanTokens = countTokens(
+function estimateContextPackTokens(scan: RepoScan, selectedFiles: IndexedFile[], tokenizer: TokenizerConfig, tokenCache?: TokenCountCache | null): number {
+  const scanTokens = countTokensCached(
     [
       scan.languages.join(", "),
       scan.frameworks.join(", "),
@@ -88,15 +89,16 @@ function estimateContextPackTokens(scan: RepoScan, selectedFiles: IndexedFile[],
       scan.testCommands.join("\n"),
       scan.runCommands.join("\n")
     ].join("\n"),
-    tokenizer
+    tokenizer,
+    tokenCache
   ).tokens;
 
-  return Math.max(1, Math.ceil(scanTokens + estimateContextPackTokensForFiles(selectedFiles, tokenizer)));
+  return Math.max(1, Math.ceil(scanTokens + estimateContextPackTokensForFiles(selectedFiles, tokenizer, tokenCache)));
 }
 
-function estimateContextPackTokensForFiles(selectedFiles: IndexedFile[], tokenizer: TokenizerConfig): number {
+function estimateContextPackTokensForFiles(selectedFiles: IndexedFile[], tokenizer: TokenizerConfig, tokenCache?: TokenCountCache | null): number {
   const selectedModules = new Set(selectedFiles.map((file) => file.moduleName));
-  const fileTokens = selectedFiles.reduce((sum, file) => sum + estimateCompactFileTokens(file, tokenizer), 0);
+  const fileTokens = selectedFiles.reduce((sum, file) => sum + estimateCompactFileTokens(file, tokenizer, tokenCache), 0);
   const moduleTokens = selectedModules.size * MODULE_OVERHEAD_TOKENS;
   const graphTokens =
     Math.min(
@@ -107,7 +109,7 @@ function estimateContextPackTokensForFiles(selectedFiles: IndexedFile[], tokeniz
   return SUMMARY_OVERHEAD_TOKENS + fileTokens + moduleTokens + graphTokens;
 }
 
-function estimateCompactFileTokens(file: IndexedFile, tokenizer: TokenizerConfig): number {
+function estimateCompactFileTokens(file: IndexedFile, tokenizer: TokenizerConfig, tokenCache?: TokenCountCache | null): number {
   const compactText = [
     `Path: ${file.path}`,
     `Module: ${file.moduleName}`,
@@ -125,7 +127,7 @@ function estimateCompactFileTokens(file: IndexedFile, tokenizer: TokenizerConfig
       .join(", ")}`
   ].join("\n");
 
-  return countTokens(compactText, tokenizer).tokens;
+  return countTokensCached(compactText, tokenizer, tokenCache).tokens;
 }
 
 function formatTokenizer(value: { tokenizer: string; model?: string }): string {

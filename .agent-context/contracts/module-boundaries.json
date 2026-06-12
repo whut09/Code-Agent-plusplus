@@ -50,6 +50,52 @@
         "src/outputs/writer.ts"
       ]
     },
+    "core": {
+      "owns": [
+        "src/core/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/analyzers/**",
+        "src/config/**",
+        "src/core/**",
+        "src/llm/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "analyzers",
+        "config",
+        "llm"
+      ],
+      "publicFiles": [
+        "src/core/cache.ts",
+        "src/core/context-builder.ts",
+        "src/core/file-classifier.ts",
+        "src/core/git.ts",
+        "src/core/graph.ts",
+        "src/core/indexer.ts",
+        "src/core/language.ts",
+        "src/core/path-utils.ts",
+        "src/core/ranker.ts",
+        "src/core/readiness.ts",
+        "src/core/scanner.ts",
+        "src/core/summarizer.ts",
+        "src/core/token-estimator.ts",
+        "src/core/token-savings.ts",
+        "src/core/types.ts",
+        "src/core/validator.ts"
+      ]
+    },
     "test": {
       "owns": [
         "test/**"
@@ -90,51 +136,6 @@
       "publicFiles": [
         "test/fixtures/python-package/src/app/models.py",
         "test/fixtures/python-package/src/app/service.py"
-      ]
-    },
-    "core": {
-      "owns": [
-        "src/core/**"
-      ],
-      "allowedImports": [
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/analyzers/**",
-        "src/config/**",
-        "src/core/**",
-        "src/llm/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "analyzers",
-        "config",
-        "llm"
-      ],
-      "publicFiles": [
-        "src/core/context-builder.ts",
-        "src/core/file-classifier.ts",
-        "src/core/git.ts",
-        "src/core/graph.ts",
-        "src/core/indexer.ts",
-        "src/core/language.ts",
-        "src/core/path-utils.ts",
-        "src/core/ranker.ts",
-        "src/core/readiness.ts",
-        "src/core/scanner.ts",
-        "src/core/summarizer.ts",
-        "src/core/token-estimator.ts",
-        "src/core/token-savings.ts",
-        "src/core/types.ts",
-        "src/core/validator.ts"
       ]
     },
     "retrievers": {

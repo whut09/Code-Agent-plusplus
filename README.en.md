@@ -105,6 +105,11 @@ AGENTS.manual.md
   graphs/
     dependencies.json
     dependencies.mmd
+  cache/                 # local incremental cache; ignore in git
+    file-hashes.json
+    index-cache.json
+    graph-cache.json
+    tokenizer-cache.json
 ```
 
 ## Commands
@@ -162,6 +167,17 @@ repo-context task fix login timeout bug --repo "../my app/中文项目" --type b
 repo-context diff . --base main
 repo-context rag export . --token-budget 60000
 ```
+
+## Incremental Cache
+
+Large repositories and MCP/editor integrations should not rebuild all context on every command. Builds write `.agent-context/cache/` when the target is a Git repository or already has `.agent-context/`:
+
+- `file-hashes.json`: file hashes, sizes, and mtimes; unchanged size/mtime reuses the previous hash and avoids rereading large files.
+- `index-cache.json`: reused scan/index/symbol/evidence results keyed by file hash and dependency-resolution fingerprint.
+- `graph-cache.json`: dependency graph reused by index fingerprint.
+- `tokenizer-cache.json`: token counts reused by tokenizer, model, and text hash.
+
+Invalidation rules: changed file hashes refresh only that file analysis; `package.json`, `tsconfig.json`, `jsconfig.json`, `pyproject.toml`, workspace files, or lockfiles refresh dependency resolution; config changes rerender outputs while reusing unaffected indexes; task changes only regenerate the plan/pack/run layer. `.agent-context/cache/**` is ignored by `diff`, `impact`, `tests --diff`, and `verify --diff` so cache files do not pollute change impact analysis.
 
 ## Token Savings Report
 

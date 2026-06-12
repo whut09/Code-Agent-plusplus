@@ -10,8 +10,8 @@ This document is generated from static repository signals. Treat it as a startin
 
 ## Important Modules
 - `outputs`: outputs contains 20 files and depends on core.
-- `test`: test contains 22 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
-- `core`: core contains 15 files and depends on analyzers, config, llm.
+- `core`: core contains 16 files and depends on analyzers, config, llm.
+- `test`: test contains 23 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
 - `retrievers`: retrievers contains 6 files and depends on core, outputs.
 - `analyzers`: analyzers contains 6 files and depends on core.
 - `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 9 files.
