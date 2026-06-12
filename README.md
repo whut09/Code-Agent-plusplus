@@ -103,16 +103,16 @@ AGENTS.md
     dependencies.mmd
 ```
 
-## Context Layers
+## 上下文分层
 
-Generated context is split into L0-L3 so agents do not load the full `.agent-context/` directory by default:
+生成的上下文按 L0-L3 分层，避免 Agent 默认加载完整 `.agent-context/` 目录：
 
-- L0: `AGENTS.md`, the shortest operating rules and default workflow, always loaded.
-- L1: `.agent-context/repo-summary.md`, `.agent-context/onboarding.md`, and `.agent-context/context-layers.md`, loaded when a new task starts.
-- L2: `.agent-context/tasks/<task>/`, loaded only for the concrete task.
-- L3: `.agent-context/key-files.md`, `index/`, `evidence/`, `graphs/`, and `rag/`, loaded on demand for deeper analysis, symbol lookup, or evidence tracing.
+- L0：`AGENTS.md`，最短操作规则和默认工作流，始终加载。
+- L1：`.agent-context/repo-summary.md`、`.agent-context/onboarding.md` 和 `.agent-context/context-layers.md`，新任务开始时加载。
+- L2：`.agent-context/tasks/<task>/`，只在处理具体任务时加载。
+- L3：`.agent-context/key-files.md`、`index/`、`evidence/`、`graphs/` 和 `rag/`，只在需要深入分析、符号查询或证据追踪时按需加载。
 
-`AGENTS.md` states the default workflow explicitly: read only `AGENTS.md` first; for a concrete task, run `repo-context plan` or inspect the task pack; do not load the full `.agent-context/` directory by default; prefer source files over generated summaries for behavior decisions. Manual environment and deployment notes stay in `AGENTS.manual.md` and are loaded only for environment, deployment, configuration, or operations tasks.
+`AGENTS.md` 会明确默认工作流：先只读 `AGENTS.md`；遇到具体任务时运行 `repo-context plan` 或查看任务包；默认不要加载完整 `.agent-context/` 目录；判断行为时优先看源码而不是生成摘要。人工维护的环境和部署说明保留在 `AGENTS.manual.md`，只在环境、部署、配置或运维类任务中加载。
 
 ## 命令
 
@@ -165,16 +165,16 @@ repo-context diff . --base main
 repo-context rag export . --token-budget 60000
 ```
 
-## Token Savings Report
+## Token 节省报告
 
 每次构建都会生成 token 节省报告：
 
 ```txt
-Original repo (estimated, chars_approx): 2,400,000 tokens
-Estimated context pack (chars_approx): 42,000 tokens
-Actual context pack (o200k_base, gpt-4.1): 41,832 tokens
-Compression: 57x
-Token budget: 60,000 (within budget)
+原始仓库（估算，chars_approx）：2,400,000 tokens
+上下文包估算（chars_approx）：42,000 tokens
+实际上下文包（o200k_base, gpt-4.1）：41,832 tokens
+压缩比：57x
+Token 预算：60,000（未超预算）
 ```
 
 报告会区分原始仓库估算、理论紧凑上下文估算，以及实际写出的 Markdown、Mermaid、RAG JSONL token 数。机器可读索引不会计入实际输出 token，具体范围会写在报告里。配置真实 tokenizer 时会用 `js-tiktoken` 计数，无法识别时回退到 `chars_approx`。
@@ -184,22 +184,22 @@ Token budget: 60,000 (within budget)
 - `.agent-context/token-savings.md`
 - `.agent-context/token-savings.json`
 
-## Agent Readiness Score
+## Agent 就绪度评分
 
-readiness 报告是工程诊断分，不是 agent 成功率保证。它会把六类底层信号汇总成三层，并应用硬上限，避免轻易给满分：
+readiness 报告是工程诊断分，不是 Agent 成功率保证。它会把六类底层信号汇总成三层，并应用硬上限，避免轻易给满分：
 
 ```txt
-Agent Readiness: B / 82
+Agent 就绪度：B / 82
 
-Dimensions:
-- Operational: 90/100
-- Context Quality: 75/100
-- Agent Safety: 70/100
+维度：
+- 操作可用性：90/100
+- 上下文质量：75/100
+- Agent 安全性：70/100
 
-Hard caps:
-- max 90 when no CI workflow is detected
-- max 90 when token counting uses chars_approx instead of a model tokenizer
-- max 85 when no high-confidence AST/compiler analyzer evidence exists
+硬上限：
+- 未检测到 CI workflow 时最高 90
+- token 计数使用 chars_approx 而不是模型 tokenizer 时最高 90
+- 缺少高置信度 AST/compiler 分析证据时最高 85
 ```
 
 生成文件：
@@ -246,7 +246,7 @@ repo-context build . --llm
 ## 分析置信度与证据
 
 - TypeScript/JavaScript 使用 TypeScript Compiler API 解析 `import type`、动态 `import()`、re-export、symbol、barrel export、`tsconfig` path alias、workspace package alias，以及常见 Next.js/Express/Fastify/Hono/NestJS route 模式。
-- Python uses the optional Tree-sitter backend first when the runtime provides `tree_sitter` and `tree_sitter_python`, then falls back to stdlib `ast`, then lightweight parsing. It resolves local absolute and relative imports such as `from .models import User` and `from app.services.auth import login`.
+- Python 会优先使用可选 Tree-sitter 后端（运行环境提供 `tree_sitter` 和 `tree_sitter_python` 时），再回退到标准库 `ast`，最后使用轻量解析。它能解析本地绝对/相对 import，例如 `from .models import User` 和 `from app.services.auth import login`。
 - 不支持或 fallback 的分析会标记为低置信度。
 
 每个索引文件包含 `analyzer`、`confidence`、`analysisStats`（parser、resolved/unresolved imports、symbols、routes）和带行号的 `evidence`。汇总证据输出到 `.agent-context/evidence/file-evidence.json`。
@@ -274,9 +274,9 @@ repo-context task "split auth module" . --type refactor
 
 Markdown 输出会给 agent `Read First`、`Then Inspect If Needed`、`Why These Files`、`Budget Packing` 和 `Suggested Commands`。机器可读 task pack 会生成在 `.agent-context/tasks/*.json`。
 
-## Benchmark
+## 上下文质量评测
 
-The repository includes a demo context-quality benchmark under `benchmarks/`. It evaluates task-aware context packs against expected relevant files and required tests across small TypeScript, React, FastAPI, and monorepo fixtures.
+仓库在 `benchmarks/` 下提供了演示用上下文质量评测。它会在 small TypeScript、React、FastAPI 和 monorepo fixture 上，把任务感知上下文包与预期相关文件、必跑测试进行对比。
 
 ```bash
 npm run benchmark
@@ -284,11 +284,11 @@ repo-context benchmark benchmarks --top-k 8
 repo-context benchmark benchmarks --json
 ```
 
-Reported metrics include `Recall@K`, `Precision@K`, token compression ratio, test recommendation accuracy, and an `agentSuccessDeltaProxy` comparing task-pack coverage with a non-task-aware key-file baseline. The proxy is deterministic and repeatable; it is not a live agent execution benchmark.
+报告指标包括 `Recall@K`、`Precision@K`、token 压缩比、测试推荐准确率，以及 `agentSuccessDeltaProxy`。`agentSuccessDeltaProxy` 会比较 task pack 覆盖率和非任务感知 key-file baseline；它是确定性、可重复的代理指标，不是实时 Agent 执行 benchmark。
 
-## ???????
+## 上下文检索协议
 
-RAG ??????????????????????????
+RAG 被建模为统一检索协议，而不只是导出格式。核心接口是：
 
 ```ts
 interface ContextRetriever {
@@ -301,20 +301,20 @@ interface ContextRetriever {
 }
 ```
 
-?? provider?
+内置 provider：
 
-- `static`????????????/???????????? RAG ???
-- `ripgrep`??????? `rg` ????????
-- `hybrid`??? static ? ripgrep ??????
-- `lightrag`???? LightRAG ???????????
-- `embedding`???? embedding/vector store ?????????
+- `static`：检索已生成的摘要、模块/文件元数据、符号、证据和 RAG 文档。
+- `ripgrep`：运行环境可用 `rg` 时检索源码文本。
+- `hybrid`：合并 static 和 ripgrep 的命中结果。
+- `lightrag`：预留给 LightRAG 服务适配器的协议槽位。
+- `embedding`：预留给 embedding/vector store 适配器的协议槽位。
 
 ```bash
 repo-context retrieve "fix login timeout" . --provider hybrid --top-k 8 --include-tests
 repo-context rag search "fix login timeout" . --provider static --json
 ```
 
-?? MCP?VS Code?Cursor?Codex CLI?LightRAG ??? embedding ??????????????????? Harness ?????? RAG ???
+这样 MCP、VS Code、Cursor、Codex CLI、LightRAG 和后续 embedding 存储都可以对齐同一个检索契约，而不是把 Harness 绑定到某一个 RAG 框架。
 
 ## 可选 RAG：LightRAG
 
