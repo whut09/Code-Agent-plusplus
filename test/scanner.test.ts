@@ -21,6 +21,13 @@ test("scanner reports commands using the repository package manager", async () =
       }),
       "utf8"
     );
+    writeFileSync(
+      path.join(root, "pyproject.toml"),
+      `[project.scripts]
+app = "app.cli:main"
+`,
+      "utf8"
+    );
     writeFileSync(path.join(root, "pnpm-lock.yaml"), "lockfileVersion: '9.0'\n", "utf8");
 
     const scan = await scanRepository(root, DEFAULT_CONFIG);
@@ -29,6 +36,7 @@ test("scanner reports commands using the repository package manager", async () =
     assert.deepEqual(scan.runCommands, ["pnpm run dev"]);
     assert.deepEqual(scan.testCommands, ["pnpm run test"]);
     assert.deepEqual(scan.typecheckCommands, ["pnpm run check"]);
+    assert.ok(scan.entrypoints.includes("pyproject.toml:app -> app.cli:main"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

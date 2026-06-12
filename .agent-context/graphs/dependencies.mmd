@@ -2,6 +2,8 @@ graph TD
   analyzers["analyzers"] --> core["core"]
   benchmarks["benchmarks"] --> core["core"]
   benchmarks["benchmarks"] --> outputs["outputs"]
+  benchmarks_fixtures_monorepo_packages_api["benchmarks/fixtures/monorepo/packages/api"] --> benchmarks_fixtures_monorepo_packages_config["benchmarks/fixtures/monorepo/packages/config"]
+  benchmarks_fixtures_monorepo_packages_web["benchmarks/fixtures/monorepo/packages/web"] --> benchmarks_fixtures_monorepo_packages_config["benchmarks/fixtures/monorepo/packages/config"]
   cli["cli"] --> benchmarks["benchmarks"]
   cli["cli"] --> config["config"]
   cli["cli"] --> core["core"]
@@ -26,3 +28,4 @@ graph TD
   test["test"] --> mcp["mcp"]
   test["test"] --> outputs["outputs"]
   test["test"] --> retrievers["retrievers"]
+  test_fixtures_monorepo_packages_web["test/fixtures/monorepo/packages/web"] --> test_fixtures_monorepo_packages_api["test/fixtures/monorepo/packages/api"]

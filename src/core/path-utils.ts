@@ -17,8 +17,16 @@ export function withoutExtension(filePath: string): string {
   return filePath.replace(/\.[^.]+$/, "");
 }
 
-export function moduleNameFor(filePath: string): string {
-  const parts = filePath.split("/");
+export function moduleNameFor(filePath: string, packagePrefixes: string[] = []): string {
+  const normalized = filePath.replace(/\\/g, "/");
+  const packagePrefix = [...packagePrefixes]
+    .sort((a, b) => b.length - a.length)
+    .find((prefix) => normalized === `${prefix}/package.json` || normalized.startsWith(`${prefix}/`));
+  if (packagePrefix) {
+    return packagePrefix;
+  }
+
+  const parts = normalized.split("/");
   if (parts[0] === "src" && parts.length > 2) {
     return parts[1];
   }

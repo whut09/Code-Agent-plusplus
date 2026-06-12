@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 7785,
-  "remainingBudget": 4215,
+  "estimatedTokens": 7882,
+  "remainingBudget": 4118,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -200,6 +200,15 @@
       "estimatedTokens": 99
     },
     {
+      "path": "test/analyzers.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 63
+    },
+    {
       "path": "test/impact.test.ts",
       "score": 18,
       "reasons": [
@@ -218,13 +227,13 @@
       "estimatedTokens": 59
     },
     {
-      "path": "test/analyzers.test.ts",
+      "path": "test/fixtures.test.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 56
+      "estimatedTokens": 60
     },
     {
       "path": "test/token-savings.test.ts",
@@ -234,15 +243,6 @@
       ],
       "category": "test",
       "estimatedTokens": 66
-    },
-    {
-      "path": "test/fixtures.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 59
     },
     {
       "path": "test/readiness.test.ts",
@@ -418,7 +418,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 186
+      "estimatedTokens": 211
     },
     {
       "path": "src/core/types.ts",
@@ -536,7 +536,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 91
+      "estimatedTokens": 98
     },
     {
       "path": "src/retrievers/types.ts",
@@ -563,7 +563,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 158
+      "estimatedTokens": 159
     },
     {
       "path": "src/core/indexer.ts",
@@ -572,7 +572,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 177
+      "estimatedTokens": 202
     },
     {
       "path": "src/analyzers/javascript.ts",
@@ -581,7 +581,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 229
+      "estimatedTokens": 260
     },
     {
       "path": "src/retrievers/ripgrep.ts",
@@ -944,19 +944,19 @@
       "estimatedTokens": 99
     },
     {
-      "path": "test/impact.test.ts",
+      "path": "test/analyzers.test.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 58
+      "estimatedTokens": 63
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 7785,
-    "remaining": 4215,
+    "used": 7882,
+    "remaining": 4118,
     "buckets": [
       {
         "name": "direct-source",
@@ -972,7 +972,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 1602,
+        "tokens": 1610,
         "files": [
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
@@ -989,11 +989,11 @@
           "test/mcp.test.ts",
           "test/retrievers.test.ts",
           "test/writer.test.ts",
+          "test/analyzers.test.ts",
           "test/impact.test.ts",
           "test/task-context.test.ts",
-          "test/analyzers.test.ts",
-          "test/token-savings.test.ts",
           "test/fixtures.test.ts",
+          "test/token-savings.test.ts",
           "test/readiness.test.ts",
           "test/validator.test.ts",
           "test/scanner.test.ts",
@@ -1004,7 +1004,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 4865,
+        "tokens": 4954,
         "files": [
           "src/outputs/rag.ts",
           "src/outputs/task-context.ts",

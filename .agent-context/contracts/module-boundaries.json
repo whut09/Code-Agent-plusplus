@@ -3,106 +3,13 @@
   "kind": "module-boundaries",
   "purpose": "Constrain coding agents from crossing module ownership boundaries without explicit task justification.",
   "modules": {
-    "benchmarks": {
-      "owns": [
-        "benchmarks/**"
-      ],
-      "allowedImports": [
-        "benchmarks/**",
-        "src/config/**",
-        "src/core/**",
-        "src/outputs/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "core",
-        "outputs"
-      ],
-      "publicFiles": [
-        "benchmarks/fixtures/fastapi-app/app/admin.py",
-        "benchmarks/fixtures/fastapi-app/app/billing.py",
-        "benchmarks/fixtures/fastapi-app/app/models.py",
-        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
-        "benchmarks/fixtures/fastapi-app/app/schemas.py",
-        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-        "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
-        "benchmarks/fixtures/monorepo/packages/api/src/server.ts",
-        "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-        "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
-        "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
-        "benchmarks/fixtures/react-app/src/App.tsx",
-        "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-        "benchmarks/fixtures/react-app/src/billing/audit.ts",
-        "benchmarks/fixtures/react-app/src/billing/invoice.ts",
-        "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-        "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-        "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-        "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-        "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-        "benchmarks/fixtures/small-ts-app/src/index.ts",
-        "src/benchmarks/benchmark.ts"
-      ]
-    },
-    "test": {
-      "owns": [
-        "test/**"
-      ],
-      "allowedImports": [
-        "benchmarks/**",
-        "src/analyzers/**",
-        "src/cli/**",
-        "src/config/**",
-        "src/core/**",
-        "src/mcp/**",
-        "src/outputs/**",
-        "src/retrievers/**",
-        "test/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "analyzers",
-        "benchmarks",
-        "cli",
-        "config",
-        "core",
-        "mcp",
-        "outputs",
-        "retrievers"
-      ],
-      "publicFiles": [
-        "test/fixtures/monorepo/packages/api/src/index.ts",
-        "test/fixtures/monorepo/packages/web/src/index.ts",
-        "test/fixtures/next-app/src/app/api/login/route.ts",
-        "test/fixtures/next-app/src/auth/session.ts",
-        "test/fixtures/python-package/src/app/models.py",
-        "test/fixtures/python-package/src/app/service.py"
-      ]
-    },
     "outputs": {
       "owns": [
         "src/outputs/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
         "src/outputs/**"
@@ -143,11 +50,55 @@
         "src/outputs/writer.ts"
       ]
     },
+    "test": {
+      "owns": [
+        "test/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/analyzers/**",
+        "src/cli/**",
+        "src/config/**",
+        "src/core/**",
+        "src/mcp/**",
+        "src/outputs/**",
+        "src/retrievers/**",
+        "test/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "analyzers",
+        "benchmarks",
+        "cli",
+        "config",
+        "core",
+        "mcp",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "test/fixtures/python-package/src/app/models.py",
+        "test/fixtures/python-package/src/app/service.py"
+      ]
+    },
     "core": {
       "owns": [
         "src/core/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/analyzers/**",
         "src/config/**",
         "src/core/**",
@@ -191,6 +142,8 @@
         "src/retrievers/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
         "src/outputs/**",
@@ -224,6 +177,8 @@
         "src/analyzers/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/analyzers/**",
         "src/config/**",
         "src/core/**"
@@ -250,12 +205,140 @@
         "src/analyzers/types.ts"
       ]
     },
+    "benchmarks/fixtures/small-ts-app": {
+      "owns": [
+        "benchmarks/fixtures/small-ts-app/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "benchmarks/fixtures/small-ts-app/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": [
+        "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+        "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+        "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+        "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+        "benchmarks/fixtures/small-ts-app/src/index.ts"
+      ]
+    },
+    "benchmarks": {
+      "owns": [
+        "benchmarks/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs"
+      ],
+      "publicFiles": [
+        "benchmarks/fixtures/fastapi-app/app/admin.py",
+        "benchmarks/fixtures/fastapi-app/app/billing.py",
+        "benchmarks/fixtures/fastapi-app/app/models.py",
+        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
+        "benchmarks/fixtures/fastapi-app/app/schemas.py",
+        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+        "src/benchmarks/benchmark.ts"
+      ]
+    },
+    "benchmarks/fixtures/monorepo/packages/api": {
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/api/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/api/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "benchmarks/fixtures/monorepo/packages/config"
+      ],
+      "publicFiles": [
+        "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
+        "benchmarks/fixtures/monorepo/packages/api/src/server.ts"
+      ]
+    },
+    "benchmarks/fixtures/react-app": {
+      "owns": [
+        "benchmarks/fixtures/react-app/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "benchmarks/fixtures/react-app/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": [
+        "benchmarks/fixtures/react-app/src/App.tsx",
+        "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+        "benchmarks/fixtures/react-app/src/billing/audit.ts",
+        "benchmarks/fixtures/react-app/src/billing/invoice.ts",
+        "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx"
+      ]
+    },
     "cli": {
       "owns": [
         "src/cli/**"
       ],
       "allowedImports": [
         "benchmarks/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/cli/**",
         "src/config/**",
         "src/core/**",
@@ -284,11 +367,40 @@
         "src/cli/task-args.ts"
       ]
     },
+    "test/fixtures/monorepo/packages/api": {
+      "owns": [
+        "test/fixtures/monorepo/packages/api/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "test/fixtures/monorepo/packages/api/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": [
+        "test/fixtures/monorepo/packages/api/src/config.ts",
+        "test/fixtures/monorepo/packages/api/src/index.ts"
+      ]
+    },
     "config": {
       "owns": [
         "src/config/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**"
       ],
@@ -316,6 +428,8 @@
         "src/mcp/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
         "src/mcp/**",
@@ -341,11 +455,94 @@
         "src/mcp/server.ts"
       ]
     },
+    "benchmarks/fixtures/monorepo/packages/config": {
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/config/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": [
+        "benchmarks/fixtures/monorepo/packages/config/src/loader.ts"
+      ]
+    },
+    "benchmarks/fixtures/monorepo/packages/web": {
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/web/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "benchmarks/fixtures/monorepo/packages/web/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "benchmarks/fixtures/monorepo/packages/config"
+      ],
+      "publicFiles": [
+        "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
+        "benchmarks/fixtures/monorepo/packages/web/src/config.ts"
+      ]
+    },
+    "test/fixtures/next-app": {
+      "owns": [
+        "test/fixtures/next-app/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "test/fixtures/next-app/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": [
+        "test/fixtures/next-app/src/app/api/login/route.ts",
+        "test/fixtures/next-app/src/auth/session.ts"
+      ]
+    },
     "llm": {
       "owns": [
         "src/llm/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
         "src/llm/**"
@@ -367,14 +564,118 @@
         "src/llm/provider.ts"
       ]
     },
+    "benchmarks/fixtures/monorepo/packages/shared": {
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/shared/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": [
+        "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts"
+      ]
+    },
+    "test/fixtures/monorepo/packages/web": {
+      "owns": [
+        "test/fixtures/monorepo/packages/web/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "test/fixtures/monorepo/packages/api/**",
+        "test/fixtures/monorepo/packages/web/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "test/fixtures/monorepo/packages/api"
+      ],
+      "publicFiles": [
+        "test/fixtures/monorepo/packages/web/src/index.ts"
+      ]
+    },
+    "benchmarks/fixtures/monorepo": {
+      "owns": [
+        "benchmarks/fixtures/monorepo/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": []
+    },
     "docs": {
       "owns": [
         "docs/**"
       ],
       "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "docs/**",
         "src/config/**",
         "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": []
+    },
+    "test/fixtures/monorepo": {
+      "owns": [
+        "test/fixtures/monorepo/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "test/fixtures/monorepo/**"
       ],
       "forbiddenImports": [
         "**/*.generated.*",
@@ -395,6 +696,8 @@
       ],
       "allowedImports": [
         ".github/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**"
       ],
@@ -417,6 +720,8 @@
       ],
       "allowedImports": [
         "assets/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**"
       ],

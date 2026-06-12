@@ -12,6 +12,7 @@ const ANALYZERS: LanguageAnalyzer[] = [javascriptAnalyzer, pythonAnalyzer, gener
 
 export function indexRepository(scan: RepoScan): RepoIndex {
   const allPaths = new Set(scan.files.map((file) => file.path));
+  const packagePrefixes = loadPackagePrefixes(scan.files.map((file) => file.path));
   const analysisContext = {
     allPaths,
     pathAliases: [
@@ -30,7 +31,7 @@ export function indexRepository(scan: RepoScan): RepoIndex {
     const content = shouldRead(file.sizeBytes, file.isBinary) ? readFileSync(file.absolutePath, "utf8") : "";
     const analyzer = ANALYZERS.find((candidate) => candidate.supports(file)) ?? genericAnalyzer;
     const analysis = analyzer.analyze(file, content, analysisContext);
-    const moduleName = moduleNameFor(file.path);
+    const moduleName = moduleNameFor(file.path, packagePrefixes);
 
     const indexed: IndexedFile = {
       ...file,
@@ -90,9 +91,20 @@ function loadPackageAliases(root: string, paths: string[]): Array<{ pattern: str
     for (const alias of packageExportAliases(name, packageJson, qualify)) {
       aliases.push(alias);
     }
+    for (const alias of packageImportAliases(packageJson, qualify)) {
+      aliases.push(alias);
+    }
   }
 
   return aliases;
+}
+
+function loadPackagePrefixes(paths: string[]): string[] {
+  return paths
+    .filter((filePath) => filePath.endsWith("package.json"))
+    .map((filePath) => path.posix.dirname(filePath))
+    .filter((dir) => dir !== ".")
+    .sort((a, b) => b.length - a.length || a.localeCompare(b));
 }
 
 function readJson(filePath: string): Record<string, unknown> | null {
@@ -134,9 +146,32 @@ function packageExportAliases(
   return aliases;
 }
 
+function packageImportAliases(packageJson: Record<string, unknown>, qualify: (target: string) => string): Array<{ pattern: string; targets: string[] }> {
+  const importsValue = packageJson.imports;
+  if (!importsValue || typeof importsValue !== "object" || Array.isArray(importsValue)) {
+    return [];
+  }
+
+  const aliases: Array<{ pattern: string; targets: string[] }> = [];
+  for (const [key, value] of Object.entries(importsValue as Record<string, unknown>)) {
+    if (!key.startsWith("#")) continue;
+    const target = exportTarget(value);
+    if (!target) continue;
+    aliases.push({ pattern: key, targets: [qualify(target)] });
+  }
+  return aliases;
+}
+
 function exportTarget(value: unknown): string | null {
   if (typeof value === "string") return value;
-  if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+  if (Array.isArray(value)) {
+    for (const candidate of value) {
+      const target = exportTarget(candidate);
+      if (target) return target;
+    }
+    return null;
+  }
+  if (!value || typeof value !== "object") return null;
   const object = value as Record<string, unknown>;
   for (const key of ["source", "import", "module", "require", "default", "types"]) {
     if (typeof object[key] === "string") return object[key];

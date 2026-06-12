@@ -78,48 +78,101 @@ imports = []
 symbols = []
 route_methods = {"get", "post", "put", "patch", "delete", "options", "head"}
 
-def add_import(specifier, line):
-    if specifier:
-        imports.append({"specifier": specifier, "line": line})
+def normalize_path(value):
+    if not value:
+        return "/"
+    if not value.startswith("/"):
+        value = "/" + value
+    return value
 
-def decorator_route(decorator):
+def constant_string(node):
+    return node.value if isinstance(node, ast.Constant) and isinstance(node.value, str) else None
+
+def call_name(node):
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    if isinstance(node, ast.Name):
+        return node.id
+    return None
+
+def decorator_name(node):
+    if isinstance(node, ast.Call):
+        return call_name(node.func)
+    return call_name(node)
+
+def route_methods_from_call(call):
+    methods = []
+    for keyword in call.keywords:
+        if keyword.arg != "methods":
+            continue
+        value = keyword.value
+        nodes = value.elts if isinstance(value, (ast.List, ast.Tuple, ast.Set)) else [value]
+        for item in nodes:
+            text = constant_string(item)
+            if text:
+                methods.append(text.upper())
+    return methods or ["GET"]
+
+def route_from_decorator(decorator):
     call = decorator if isinstance(decorator, ast.Call) else None
-    func = call.func if call else decorator
-    name = None
-    if isinstance(func, ast.Attribute):
-        name = func.attr
-    elif isinstance(func, ast.Name):
-        name = func.id
-    if not name or name.lower() not in route_methods:
-        return None
+    name = decorator_name(call if call else decorator)
+    if not name:
+        return []
+    lower = name.lower()
+    if lower == "route":
+        route_path = "/"
+        if call and call.args:
+            text = constant_string(call.args[0])
+            if text:
+                route_path = text
+        return [method + " " + normalize_path(route_path) for method in route_methods_from_call(call)]
+    if lower not in route_methods:
+        return []
     route_path = "/"
-    if call and call.args and isinstance(call.args[0], ast.Constant) and isinstance(call.args[0].value, str):
-        route_path = call.args[0].value
-    if not route_path.startswith("/"):
-        route_path = "/" + route_path
-    return name.upper() + " " + route_path
+    if call and call.args:
+        text = constant_string(call.args[0])
+        if text:
+            route_path = text
+    return [lower.upper() + " " + normalize_path(route_path)]
+
+def is_fixture_decorator(decorator):
+    name = decorator_name(decorator)
+    return bool(name) and name.lower().endswith("fixture")
+
+def is_main_guard(node):
+    test = getattr(node, "test", None)
+    if not isinstance(test, ast.Compare):
+        return False
+    if not isinstance(test.left, ast.Name) or test.left.id != "__name__":
+        return False
+    if len(test.ops) != 1 or not isinstance(test.ops[0], ast.Eq):
+        return False
+    if len(test.comparators) != 1:
+        return False
+    return constant_string(test.comparators[0]) == "__main__"
 
 class Visitor(ast.NodeVisitor):
     def visit_Import(self, node):
         for alias in node.names:
-            add_import(alias.name, node.lineno)
+            if alias.name:
+                imports.append({"specifier": alias.name, "line": node.lineno})
         self.generic_visit(node)
 
     def visit_ImportFrom(self, node):
         prefix = "." * node.level
         module = node.module or ""
         if module:
-            add_import(prefix + module, node.lineno)
+            imports.append({"specifier": prefix + module, "line": node.lineno})
         else:
             for alias in node.names:
-                add_import(prefix + alias.name, node.lineno)
+                imports.append({"specifier": prefix + alias.name, "line": node.lineno})
         self.generic_visit(node)
 
     def visit_FunctionDef(self, node):
-        symbols.append({"name": node.name, "kind": "function", "line": node.lineno})
+        fixture = any(is_fixture_decorator(decorator) for decorator in node.decorator_list)
+        symbols.append({"name": ("fixture " if fixture else "") + node.name, "kind": "fixture" if fixture else "function", "line": node.lineno})
         for decorator in node.decorator_list:
-            route = decorator_route(decorator)
-            if route:
+            for route in route_from_decorator(decorator):
                 symbols.append({"name": route, "kind": "route", "line": getattr(decorator, "lineno", node.lineno)})
         self.generic_visit(node)
 
@@ -128,6 +181,19 @@ class Visitor(ast.NodeVisitor):
 
     def visit_ClassDef(self, node):
         symbols.append({"name": node.name, "kind": "class", "line": node.lineno})
+        self.generic_visit(node)
+
+    def visit_Call(self, node):
+        name = call_name(node.func)
+        if name in {"path", "re_path"} and node.args:
+            text = constant_string(node.args[0])
+            if text:
+                symbols.append({"name": "DJANGO " + normalize_path(text), "kind": "route", "line": node.lineno})
+        self.generic_visit(node)
+
+    def visit_If(self, node):
+        if is_main_guard(node):
+            symbols.append({"name": "CLI __main__", "kind": "const", "line": node.lineno})
         self.generic_visit(node)
 
 Visitor().visit(tree)
@@ -212,13 +278,16 @@ function extractSymbols(content: string): Array<Omit<SymbolInfo, "filePath">> {
     { kind: "function", pattern: /^\s*def\s+([A-Za-z_]\w*)\s*\(/gm },
     { kind: "function", pattern: /^\s*async\s+def\s+([A-Za-z_]\w*)\s*\(/gm },
     { kind: "class", pattern: /^\s*class\s+([A-Za-z_]\w*)\s*[:(]/gm },
-    { kind: "route", pattern: /^\s*@[\w.]+\.(get|post|put|patch|delete|options|head)\(\s*["']([^"']+)["']/gim }
+    { kind: "fixture", pattern: /^\s*@(?:[\w.]+\.)?fixture\b/gm },
+    { kind: "route", pattern: /^\s*@.*?\.(?:route|get|post|put|patch|delete|options|head)\(\s*["']([^"']+)["']/gim },
+    { kind: "route", pattern: /^\s*(?:path|re_path)\(\s*["']([^"']+)["']/gim }
   ];
 
   for (const { kind, pattern } of patterns) {
     for (const match of content.matchAll(pattern)) {
+      const name = kind === "route" ? `ROUTE ${match[1]}` : kind === "fixture" ? "fixture" : match[1];
       symbols.push({
-        name: kind === "route" ? `${match[1].toUpperCase()} ${match[2]}` : match[1],
+        name,
         kind,
         line: lineNumber(content, match.index ?? 0)
       });

@@ -6,6 +6,8 @@ graph TD
   analyzers["analyzers"] --> core["core"]
   benchmarks["benchmarks"] --> core["core"]
   benchmarks["benchmarks"] --> outputs["outputs"]
+  benchmarks_fixtures_monorepo_packages_api["benchmarks/fixtures/monorepo/packages/api"] --> benchmarks_fixtures_monorepo_packages_config["benchmarks/fixtures/monorepo/packages/config"]
+  benchmarks_fixtures_monorepo_packages_web["benchmarks/fixtures/monorepo/packages/web"] --> benchmarks_fixtures_monorepo_packages_config["benchmarks/fixtures/monorepo/packages/config"]
   cli["cli"] --> benchmarks["benchmarks"]
   cli["cli"] --> config["config"]
   cli["cli"] --> core["core"]
@@ -30,6 +32,7 @@ graph TD
   test["test"] --> mcp["mcp"]
   test["test"] --> outputs["outputs"]
   test["test"] --> retrievers["retrievers"]
+  test_fixtures_monorepo_packages_web["test/fixtures/monorepo/packages/web"] --> test_fixtures_monorepo_packages_api["test/fixtures/monorepo/packages/api"]
 ```
 
 ## Module Edges
@@ -38,6 +41,8 @@ graph TD
 | analyzers | core | 5 |
 | benchmarks | core | 2 |
 | benchmarks | outputs | 3 |
+| benchmarks/fixtures/monorepo/packages/api | benchmarks/fixtures/monorepo/packages/config | 1 |
+| benchmarks/fixtures/monorepo/packages/web | benchmarks/fixtures/monorepo/packages/config | 1 |
 | cli | benchmarks | 1 |
 | cli | config | 1 |
 | cli | core | 7 |
@@ -62,3 +67,4 @@ graph TD
 | test | mcp | 1 |
 | test | outputs | 11 |
 | test | retrievers | 1 |
+| test/fixtures/monorepo/packages/web | test/fixtures/monorepo/packages/api | 1 |

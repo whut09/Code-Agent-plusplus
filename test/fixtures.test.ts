@@ -31,6 +31,11 @@ test("monorepo fixture detects workspace signals", async () => {
   assert.ok(context.scan.frameworks.includes("Turborepo"));
   assert.ok(context.scan.frameworks.includes("pnpm Workspace"));
   assert.ok(context.scan.frameworks.includes("JavaScript Workspace"));
+  const api = context.index.files.find((file) => file.path === "packages/api/src/index.ts");
   const web = context.index.files.find((file) => file.path === "packages/web/src/index.ts");
+
+  assert.equal(api?.moduleName, "packages/api");
+  assert.equal(web?.moduleName, "packages/web");
+  assert.ok(api?.imports.some((item) => item.specifier === "#config" && item.resolvedPath === "packages/api/src/config.ts"));
   assert.ok(web?.imports.some((item) => item.specifier === "@fixture/api" && item.resolvedPath === "packages/api/src/index.ts"));
 });

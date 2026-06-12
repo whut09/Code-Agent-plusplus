@@ -36,6 +36,28 @@ class UsersController {
   assert.ok(result.evidence.length > 0);
 });
 
+test("TypeScript analyzer identifies Next page routes and mounted routes", () => {
+  const result = javascriptAnalyzer.analyze(
+    file("src/app/dashboard/page.tsx", "TypeScript", ".tsx"),
+    `
+app.use("/api", routes);
+export default function DashboardPage() { return null; }
+`,
+    { allPaths: new Set(["src/app/dashboard/page.tsx"]), pathAliases: [] }
+  );
+  const apiResult = javascriptAnalyzer.analyze(
+    file("src/pages/api/login.ts", "TypeScript", ".ts"),
+    `
+export default function handler() { return new Response("ok"); }
+`,
+    { allPaths: new Set(["src/pages/api/login.ts"]), pathAliases: [] }
+  );
+
+  assert.ok(result.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "PAGE /dashboard"));
+  assert.ok(result.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "ROUTE /api"));
+  assert.ok(apiResult.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "API /api/login"));
+});
+
 test("Python analyzer resolves local absolute and relative imports", () => {
   const paths = new Set(["app/auth/service.py", "app/auth/models.py", "shared/config.py"]);
   const result = pythonAnalyzer.analyze(
@@ -53,6 +75,39 @@ def login(): pass
   assert.equal(result.confidence, "medium");
   assert.ok(["tree-sitter-python", "python-ast", "regex-fallback"].includes(result.stats.parser));
   assert.equal(result.stats.importsResolved, 2);
+});
+
+test("Python analyzer identifies Flask routes, pytest fixtures, Django routes, and CLI guards", () => {
+  const result = pythonAnalyzer.analyze(
+    file("app/main.py", "Python", ".py"),
+    `
+from pytest import fixture
+from django.urls import path, re_path
+
+@fixture
+def client():
+    return object()
+
+@app.route("/login", methods=["POST"])
+def login():
+    return "ok"
+
+urlpatterns = [
+    path("health/", health),
+    re_path(r"^items/(?P<id>\\d+)/$", item)
+]
+
+if __name__ == "__main__":
+    main()
+`,
+    { allPaths: new Set(["app/main.py"]), pathAliases: [] }
+  );
+
+  assert.ok(result.symbols.some((symbol) => symbol.kind === "fixture" && symbol.name === "fixture client"));
+  assert.ok(result.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "POST /login"));
+  assert.ok(result.symbols.some((symbol) => symbol.kind === "route" && symbol.name === "DJANGO /health/"));
+  assert.ok(result.symbols.some((symbol) => symbol.kind === "const" && symbol.name === "CLI __main__"));
+  assert.ok(result.stats.routesDetected >= 2);
 });
 
 function file(path: string, language: string, extension: string): RepoFile {

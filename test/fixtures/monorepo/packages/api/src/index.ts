@@ -1,1 +1,3 @@
-export const api = "api";
+import { apiConfig } from "#config";
+
+export const api = apiConfig;

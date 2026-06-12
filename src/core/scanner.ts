@@ -56,7 +56,7 @@ export async function scanRepository(root: string, config: RepoContextConfig): P
     frameworks: detectFrameworks(files, packageJson),
     packageManagers,
     configFiles: files.filter((file) => file.kind === "config").map((file) => file.path),
-    entrypoints: detectEntrypoints(files, packageJson),
+    entrypoints: detectEntrypoints(files, packageJson, absoluteRoot),
     testCommands: detectTestCommands(packageJson, scriptRunner),
     runCommands: detectRunCommands(packageJson, scriptRunner),
     lintCommands: detectNamedCommands(packageJson, scriptRunner, /lint|format/i),
@@ -157,7 +157,7 @@ function detectPackageManagers(files: RepoFile[]): string[] {
   return managers;
 }
 
-function detectEntrypoints(files: RepoFile[], packageJson: Record<string, unknown> | null): string[] {
+function detectEntrypoints(files: RepoFile[], packageJson: Record<string, unknown> | null, root: string): string[] {
   const candidates = new Set<string>();
   const fileSet = new Set(files.map((file) => file.path));
   const common = [
@@ -195,7 +195,38 @@ function detectEntrypoints(files: RepoFile[], packageJson: Record<string, unknow
     }
   }
 
+  for (const entrypoint of detectPythonEntrypoints(root)) {
+    candidates.add(entrypoint);
+  }
+
   return [...candidates];
+}
+
+function detectPythonEntrypoints(root: string): string[] {
+  const pyprojectPath = path.join(root, "pyproject.toml");
+  if (!existsSync(pyprojectPath)) return [];
+
+  try {
+    const lines = readFileSync(pyprojectPath, "utf8").split(/\r?\n/);
+    const sections = new Set(["project.scripts", "tool.poetry.scripts", "project.entry-points.console_scripts", "tool.poetry.plugins.console_scripts"]);
+    const entrypoints: string[] = [];
+    let section: string | null = null;
+    for (const line of lines) {
+      const sectionMatch = line.match(/^\[(.+)\]$/);
+      if (sectionMatch) {
+        section = sectionMatch[1];
+        continue;
+      }
+      if (!section || !sections.has(section)) continue;
+      const match = line.match(/^\s*([A-Za-z0-9_.-]+)\s*=\s*["']([^"']+)["']\s*$/);
+      if (match) {
+        entrypoints.push(`pyproject.toml:${match[1]} -> ${match[2]}`);
+      }
+    }
+    return [...new Set(entrypoints)].sort();
+  } catch {
+    return [];
+  }
 }
 
 function detectTestCommands(packageJson: Record<string, unknown> | null, scriptRunner: string | null): string[] {

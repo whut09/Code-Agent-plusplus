@@ -106,15 +106,14 @@
   ],
   "modules": [
     {
-      "name": "benchmarks",
+      "name": "outputs",
       "owns": [
-        "benchmarks/**"
+        "src/outputs/**"
       ],
       "imports": [
-        "core",
-        "outputs"
+        "core"
       ],
-      "summary": "benchmarks contains 50 files and depends on core, outputs."
+      "summary": "outputs contains 20 files and depends on core."
     },
     {
       "name": "test",
@@ -131,17 +130,7 @@
         "outputs",
         "retrievers"
       ],
-      "summary": "test contains 33 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers."
-    },
-    {
-      "name": "outputs",
-      "owns": [
-        "src/outputs/**"
-      ],
-      "imports": [
-        "core"
-      ],
-      "summary": "outputs contains 20 files and depends on core."
+      "summary": "test contains 22 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers."
     },
     {
       "name": "core",
@@ -177,6 +166,43 @@
       "summary": "analyzers contains 6 files and depends on core."
     },
     {
+      "name": "benchmarks/fixtures/small-ts-app",
+      "owns": [
+        "benchmarks/fixtures/small-ts-app/**"
+      ],
+      "imports": [],
+      "summary": "benchmarks/fixtures/small-ts-app contains 9 files."
+    },
+    {
+      "name": "benchmarks",
+      "owns": [
+        "benchmarks/**"
+      ],
+      "imports": [
+        "core",
+        "outputs"
+      ],
+      "summary": "benchmarks contains 17 files and depends on core, outputs."
+    },
+    {
+      "name": "benchmarks/fixtures/monorepo/packages/api",
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/api/**"
+      ],
+      "imports": [
+        "benchmarks/fixtures/monorepo/packages/config"
+      ],
+      "summary": "benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config."
+    },
+    {
+      "name": "benchmarks/fixtures/react-app",
+      "owns": [
+        "benchmarks/fixtures/react-app/**"
+      ],
+      "imports": [],
+      "summary": "benchmarks/fixtures/react-app contains 8 files."
+    },
+    {
       "name": "cli",
       "owns": [
         "src/cli/**"
@@ -189,6 +215,14 @@
         "retrievers"
       ],
       "summary": "cli contains 2 files and depends on benchmarks, config, core, outputs, retrievers."
+    },
+    {
+      "name": "test/fixtures/monorepo/packages/api",
+      "owns": [
+        "test/fixtures/monorepo/packages/api/**"
+      ],
+      "imports": [],
+      "summary": "test/fixtures/monorepo/packages/api contains 3 files."
     },
     {
       "name": "config",
@@ -213,12 +247,38 @@
       "summary": "mcp contains 1 file and depends on core, outputs, retrievers."
     },
     {
+      "name": "benchmarks/fixtures/monorepo/packages/config",
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/config/**"
+      ],
+      "imports": [],
+      "summary": "benchmarks/fixtures/monorepo/packages/config contains 4 files."
+    },
+    {
       "name": "root",
       "owns": [
         "*"
       ],
       "imports": [],
       "summary": "root contains 17 files."
+    },
+    {
+      "name": "benchmarks/fixtures/monorepo/packages/web",
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/web/**"
+      ],
+      "imports": [
+        "benchmarks/fixtures/monorepo/packages/config"
+      ],
+      "summary": "benchmarks/fixtures/monorepo/packages/web contains 4 files and depends on benchmarks/fixtures/monorepo/packages/config."
+    },
+    {
+      "name": "test/fixtures/next-app",
+      "owns": [
+        "test/fixtures/next-app/**"
+      ],
+      "imports": [],
+      "summary": "test/fixtures/next-app contains 4 files."
     },
     {
       "name": "llm",
@@ -231,12 +291,46 @@
       "summary": "llm contains 1 file and depends on core."
     },
     {
+      "name": "benchmarks/fixtures/monorepo/packages/shared",
+      "owns": [
+        "benchmarks/fixtures/monorepo/packages/shared/**"
+      ],
+      "imports": [],
+      "summary": "benchmarks/fixtures/monorepo/packages/shared contains 2 files."
+    },
+    {
+      "name": "test/fixtures/monorepo/packages/web",
+      "owns": [
+        "test/fixtures/monorepo/packages/web/**"
+      ],
+      "imports": [
+        "test/fixtures/monorepo/packages/api"
+      ],
+      "summary": "test/fixtures/monorepo/packages/web contains 2 files and depends on test/fixtures/monorepo/packages/api."
+    },
+    {
+      "name": "benchmarks/fixtures/monorepo",
+      "owns": [
+        "benchmarks/fixtures/monorepo/**"
+      ],
+      "imports": [],
+      "summary": "benchmarks/fixtures/monorepo contains 1 file."
+    },
+    {
       "name": "docs",
       "owns": [
         "docs/**"
       ],
       "imports": [],
       "summary": "docs contains 4 files."
+    },
+    {
+      "name": "test/fixtures/monorepo",
+      "owns": [
+        "test/fixtures/monorepo/**"
+      ],
+      "imports": [],
+      "summary": "test/fixtures/monorepo contains 3 files."
     },
     {
       "name": ".github",

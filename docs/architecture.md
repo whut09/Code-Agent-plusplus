@@ -91,6 +91,8 @@ Fallback analysis is marked low-confidence. Every indexed file carries `analysis
 
 Tree-sitter is intentionally introduced as an optional backend first. TypeScript/JavaScript stays on the TypeScript Compiler API because it provides stronger project-aware semantics today. Python uses Tree-sitter when available, with `python-ast` and regex fallback preserving portability. The next language targets are Go (`tree-sitter-go` plus `go.mod`), Rust (`tree-sitter-rust` plus `Cargo.toml`), Java (`tree-sitter-java` plus Maven/Gradle), and C/C++ (`tree-sitter-cpp` plus `compile_commands.json`).
 
+The near-term focus is depth, not breadth. TypeScript/JavaScript should become materially better at Next.js app/router/pages routes, Express/Fastify/Hono/NestJS handlers, monorepo workspace boundaries, package `exports`/`imports`, `tsconfig` path aliases, and test-file-to-source relationships. Python should become materially better at FastAPI/Flask/Django routes, pytest fixtures, `pyproject.toml` scripts, local package imports, and CLI entrypoints before any broad expansion to more languages.
+
 ## Graph Builder
 
 The graph builder creates:

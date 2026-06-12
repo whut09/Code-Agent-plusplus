@@ -1,118 +1,5 @@
 [
   {
-    "name": "benchmarks",
-    "pathPrefix": "benchmarks",
-    "files": [
-      "benchmarks/README.md",
-      "benchmarks/agent-runs/manual-eval.json",
-      "benchmarks/expected/relevant-files.json",
-      "benchmarks/expected/required-tests.json",
-      "benchmarks/fixtures/fastapi-app/app/admin.py",
-      "benchmarks/fixtures/fastapi-app/app/billing.py",
-      "benchmarks/fixtures/fastapi-app/app/main.py",
-      "benchmarks/fixtures/fastapi-app/app/models.py",
-      "benchmarks/fixtures/fastapi-app/app/routes/users.py",
-      "benchmarks/fixtures/fastapi-app/app/schemas.py",
-      "benchmarks/fixtures/fastapi-app/pyproject.toml",
-      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "benchmarks/fixtures/monorepo/package.json",
-      "benchmarks/fixtures/monorepo/packages/api/README.md",
-      "benchmarks/fixtures/monorepo/packages/api/package.json",
-      "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
-      "benchmarks/fixtures/monorepo/packages/api/src/server.ts",
-      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-      "benchmarks/fixtures/monorepo/packages/config/README.md",
-      "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "benchmarks/fixtures/monorepo/packages/shared/package.json",
-      "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-      "benchmarks/fixtures/monorepo/packages/web/README.md",
-      "benchmarks/fixtures/monorepo/packages/web/package.json",
-      "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
-      "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
-      "benchmarks/fixtures/react-app/package.json",
-      "benchmarks/fixtures/react-app/src/App.tsx",
-      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-      "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-      "benchmarks/fixtures/react-app/src/billing/audit.ts",
-      "benchmarks/fixtures/react-app/src/billing/invoice.ts",
-      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-      "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "benchmarks/fixtures/small-ts-app/package.json",
-      "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-      "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-      "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-      "benchmarks/fixtures/small-ts-app/src/index.ts",
-      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "benchmarks/tasks/add-api-field.json",
-      "benchmarks/tasks/fix-login-timeout.json",
-      "benchmarks/tasks/fix-react-auth-state.json",
-      "benchmarks/tasks/refactor-config-loader.json",
-      "src/benchmarks/benchmark.ts"
-    ],
-    "imports": [
-      "core",
-      "outputs"
-    ],
-    "summary": "benchmarks contains 50 files and depends on core, outputs.",
-    "importanceScore": 935
-  },
-  {
-    "name": "test",
-    "pathPrefix": "test",
-    "files": [
-      "test/agents-md.test.ts",
-      "test/analyzers.test.ts",
-      "test/benchmark.test.ts",
-      "test/config.test.ts",
-      "test/contract-validator.test.ts",
-      "test/fixtures.test.ts",
-      "test/fixtures/monorepo/package.json",
-      "test/fixtures/monorepo/packages/api/package.json",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/package.json",
-      "test/fixtures/monorepo/packages/web/src/index.ts",
-      "test/fixtures/monorepo/pnpm-workspace.yaml",
-      "test/fixtures/monorepo/turbo.json",
-      "test/fixtures/next-app/package.json",
-      "test/fixtures/next-app/src/app/api/login/route.ts",
-      "test/fixtures/next-app/src/auth/session.ts",
-      "test/fixtures/next-app/tsconfig.json",
-      "test/fixtures/python-package/pyproject.toml",
-      "test/fixtures/python-package/src/app/models.py",
-      "test/fixtures/python-package/src/app/service.py",
-      "test/impact.test.ts",
-      "test/mcp.test.ts",
-      "test/readiness.test.ts",
-      "test/retrievers.test.ts",
-      "test/scanner.test.ts",
-      "test/snapshot.test.ts",
-      "test/task-args.test.ts",
-      "test/task-context.test.ts",
-      "test/task-harness.test.ts",
-      "test/test-selector.test.ts",
-      "test/token-savings.test.ts",
-      "test/validator.test.ts",
-      "test/writer.test.ts"
-    ],
-    "imports": [
-      "analyzers",
-      "benchmarks",
-      "cli",
-      "config",
-      "core",
-      "mcp",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "test contains 33 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
-    "importanceScore": 912
-  },
-  {
     "name": "outputs",
     "pathPrefix": "outputs",
     "files": [
@@ -144,6 +31,46 @@
     "importanceScore": 906
   },
   {
+    "name": "test",
+    "pathPrefix": "test",
+    "files": [
+      "test/agents-md.test.ts",
+      "test/analyzers.test.ts",
+      "test/benchmark.test.ts",
+      "test/config.test.ts",
+      "test/contract-validator.test.ts",
+      "test/fixtures.test.ts",
+      "test/fixtures/python-package/pyproject.toml",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "test/impact.test.ts",
+      "test/mcp.test.ts",
+      "test/readiness.test.ts",
+      "test/retrievers.test.ts",
+      "test/scanner.test.ts",
+      "test/snapshot.test.ts",
+      "test/task-args.test.ts",
+      "test/task-context.test.ts",
+      "test/task-harness.test.ts",
+      "test/test-selector.test.ts",
+      "test/token-savings.test.ts",
+      "test/validator.test.ts",
+      "test/writer.test.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "benchmarks",
+      "cli",
+      "config",
+      "core",
+      "mcp",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "test contains 22 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
+    "importanceScore": 749
+  },
+  {
     "name": "core",
     "pathPrefix": "core",
     "files": [
@@ -169,7 +96,7 @@
       "llm"
     ],
     "summary": "core contains 15 files and depends on analyzers, config, llm.",
-    "importanceScore": 730
+    "importanceScore": 731
   },
   {
     "name": "retrievers",
@@ -207,6 +134,86 @@
     "importanceScore": 229
   },
   {
+    "name": "benchmarks/fixtures/small-ts-app",
+    "pathPrefix": "benchmarks/fixtures/small-ts-app",
+    "files": [
+      "benchmarks/fixtures/small-ts-app/package.json",
+      "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+      "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+      "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+      "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+      "benchmarks/fixtures/small-ts-app/src/index.ts",
+      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts"
+    ],
+    "imports": [],
+    "summary": "benchmarks/fixtures/small-ts-app contains 9 files.",
+    "importanceScore": 219
+  },
+  {
+    "name": "benchmarks",
+    "pathPrefix": "benchmarks",
+    "files": [
+      "benchmarks/README.md",
+      "benchmarks/agent-runs/manual-eval.json",
+      "benchmarks/expected/relevant-files.json",
+      "benchmarks/expected/required-tests.json",
+      "benchmarks/fixtures/fastapi-app/app/admin.py",
+      "benchmarks/fixtures/fastapi-app/app/billing.py",
+      "benchmarks/fixtures/fastapi-app/app/main.py",
+      "benchmarks/fixtures/fastapi-app/app/models.py",
+      "benchmarks/fixtures/fastapi-app/app/routes/users.py",
+      "benchmarks/fixtures/fastapi-app/app/schemas.py",
+      "benchmarks/fixtures/fastapi-app/pyproject.toml",
+      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "benchmarks/tasks/add-api-field.json",
+      "benchmarks/tasks/fix-login-timeout.json",
+      "benchmarks/tasks/fix-react-auth-state.json",
+      "benchmarks/tasks/refactor-config-loader.json",
+      "src/benchmarks/benchmark.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs"
+    ],
+    "summary": "benchmarks contains 17 files and depends on core, outputs.",
+    "importanceScore": 196
+  },
+  {
+    "name": "benchmarks/fixtures/monorepo/packages/api",
+    "pathPrefix": "benchmarks/fixtures/monorepo/packages/api",
+    "files": [
+      "benchmarks/fixtures/monorepo/packages/api/README.md",
+      "benchmarks/fixtures/monorepo/packages/api/package.json",
+      "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
+      "benchmarks/fixtures/monorepo/packages/api/src/server.ts",
+      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts"
+    ],
+    "imports": [
+      "benchmarks/fixtures/monorepo/packages/config"
+    ],
+    "summary": "benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config.",
+    "importanceScore": 173
+  },
+  {
+    "name": "benchmarks/fixtures/react-app",
+    "pathPrefix": "benchmarks/fixtures/react-app",
+    "files": [
+      "benchmarks/fixtures/react-app/package.json",
+      "benchmarks/fixtures/react-app/src/App.tsx",
+      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+      "benchmarks/fixtures/react-app/src/billing/audit.ts",
+      "benchmarks/fixtures/react-app/src/billing/invoice.ts",
+      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx"
+    ],
+    "imports": [],
+    "summary": "benchmarks/fixtures/react-app contains 8 files.",
+    "importanceScore": 154
+  },
+  {
     "name": "cli",
     "pathPrefix": "cli",
     "files": [
@@ -222,6 +229,18 @@
     ],
     "summary": "cli contains 2 files and depends on benchmarks, config, core, outputs, retrievers.",
     "importanceScore": 116
+  },
+  {
+    "name": "test/fixtures/monorepo/packages/api",
+    "pathPrefix": "test/fixtures/monorepo/packages/api",
+    "files": [
+      "test/fixtures/monorepo/packages/api/package.json",
+      "test/fixtures/monorepo/packages/api/src/config.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts"
+    ],
+    "imports": [],
+    "summary": "test/fixtures/monorepo/packages/api contains 3 files.",
+    "importanceScore": 107
   },
   {
     "name": "config",
@@ -252,6 +271,19 @@
     "importanceScore": 91
   },
   {
+    "name": "benchmarks/fixtures/monorepo/packages/config",
+    "pathPrefix": "benchmarks/fixtures/monorepo/packages/config",
+    "files": [
+      "benchmarks/fixtures/monorepo/packages/config/README.md",
+      "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
+    ],
+    "imports": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config contains 4 files.",
+    "importanceScore": 79
+  },
+  {
     "name": "root",
     "pathPrefix": ".",
     "files": [
@@ -278,6 +310,34 @@
     "importanceScore": 65
   },
   {
+    "name": "benchmarks/fixtures/monorepo/packages/web",
+    "pathPrefix": "benchmarks/fixtures/monorepo/packages/web",
+    "files": [
+      "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
+      "benchmarks/fixtures/monorepo/packages/web/src/config.ts"
+    ],
+    "imports": [
+      "benchmarks/fixtures/monorepo/packages/config"
+    ],
+    "summary": "benchmarks/fixtures/monorepo/packages/web contains 4 files and depends on benchmarks/fixtures/monorepo/packages/config.",
+    "importanceScore": 63
+  },
+  {
+    "name": "test/fixtures/next-app",
+    "pathPrefix": "test/fixtures/next-app",
+    "files": [
+      "test/fixtures/next-app/package.json",
+      "test/fixtures/next-app/src/app/api/login/route.ts",
+      "test/fixtures/next-app/src/auth/session.ts",
+      "test/fixtures/next-app/tsconfig.json"
+    ],
+    "imports": [],
+    "summary": "test/fixtures/next-app contains 4 files.",
+    "importanceScore": 63
+  },
+  {
     "name": "llm",
     "pathPrefix": "llm",
     "files": [
@@ -288,6 +348,40 @@
     ],
     "summary": "llm contains 1 file and depends on core.",
     "importanceScore": 35
+  },
+  {
+    "name": "benchmarks/fixtures/monorepo/packages/shared",
+    "pathPrefix": "benchmarks/fixtures/monorepo/packages/shared",
+    "files": [
+      "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts"
+    ],
+    "imports": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/shared contains 2 files.",
+    "importanceScore": 34
+  },
+  {
+    "name": "test/fixtures/monorepo/packages/web",
+    "pathPrefix": "test/fixtures/monorepo/packages/web",
+    "files": [
+      "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/web/src/index.ts"
+    ],
+    "imports": [
+      "test/fixtures/monorepo/packages/api"
+    ],
+    "summary": "test/fixtures/monorepo/packages/web contains 2 files and depends on test/fixtures/monorepo/packages/api.",
+    "importanceScore": 30
+  },
+  {
+    "name": "benchmarks/fixtures/monorepo",
+    "pathPrefix": "benchmarks/fixtures/monorepo",
+    "files": [
+      "benchmarks/fixtures/monorepo/package.json"
+    ],
+    "imports": [],
+    "summary": "benchmarks/fixtures/monorepo contains 1 file.",
+    "importanceScore": 17
   },
   {
     "name": "docs",
@@ -301,6 +395,18 @@
     "imports": [],
     "summary": "docs contains 4 files.",
     "importanceScore": 13
+  },
+  {
+    "name": "test/fixtures/monorepo",
+    "pathPrefix": "test/fixtures/monorepo",
+    "files": [
+      "test/fixtures/monorepo/package.json",
+      "test/fixtures/monorepo/pnpm-workspace.yaml",
+      "test/fixtures/monorepo/turbo.json"
+    ],
+    "imports": [],
+    "summary": "test/fixtures/monorepo contains 3 files.",
+    "importanceScore": 9
   },
   {
     "name": ".github",

@@ -35,6 +35,10 @@ function analyzeWithCompilerApi(filePath: string, extension: string, content: st
     symbols.push({ name, kind, filePath, line: lineOf(source, node) });
     evidence.push({ line: lineOf(source, node), kind: kind === "route" ? "route" : "symbol", symbol: name, detail: `Declares ${kind} ${name}.` });
   };
+  const addFileRoute = (name: string) => {
+    symbols.push({ name, kind: "route", filePath, line: 1 });
+    evidence.push({ line: 1, kind: "route", symbol: name, detail: `File path maps to route ${name}.` });
+  };
   const addExport = (name: string, node: ts.Node) => {
     exports.add(name);
     evidence.push({ line: lineOf(source, node), kind: "export", symbol: name, detail: `Exports ${name}.` });
@@ -107,6 +111,7 @@ function analyzeWithCompilerApi(filePath: string, extension: string, content: st
     ts.forEachChild(node, visit);
   };
   visit(source);
+  for (const route of routesFromFile(filePath)) addFileRoute(route);
 
   return {
     imports: [...imports.values()],
@@ -180,10 +185,15 @@ function importCallSpecifier(node: ts.CallExpression): string | null {
 function routeFromCall(node: ts.CallExpression): string | null {
   if (!ts.isPropertyAccessExpression(node.expression)) return null;
   const method = node.expression.name.text.toLowerCase();
-  if (!ROUTE_METHODS.has(method)) return null;
   const argument = node.arguments[0];
-  if (!argument || !ts.isStringLiteralLike(argument)) return null;
-  return `${method.toUpperCase()} ${normalizeRoutePath(argument.text)}`;
+  if (ROUTE_METHODS.has(method)) {
+    if (!argument || !ts.isStringLiteralLike(argument)) return null;
+    return `${method.toUpperCase()} ${normalizeRoutePath(argument.text)}`;
+  }
+  if (["route", "use"].includes(method) && argument && ts.isStringLiteralLike(argument)) {
+    return `ROUTE ${normalizeRoutePath(argument.text)}`;
+  }
+  return null;
 }
 
 function routeFromRouteObjectCall(node: ts.CallExpression): string | null {
@@ -222,16 +232,36 @@ function isHttpHandlerName(name: string): boolean {
 }
 
 function nextRouteFromFile(filePath: string, method: string): string | null {
-  if (!/(^|\/)app\/.+\/route\.[cm]?[jt]sx?$/.test(filePath)) return null;
-  const routePath = filePath
-    .replace(/\\/g, "/")
-    .replace(/^src\//, "")
-    .replace(/^app\//, "/")
-    .replace(/\/route\.[cm]?[jt]sx?$/, "")
+  const normalized = filePath.replace(/\\/g, "/");
+  const match = normalized.match(/^(?:src\/)?app\/(.+)\/route\.[cm]?[jt]sx?$/);
+  if (!match) return null;
+  return `${method.toUpperCase()} ${normalizeNextRoutePath(match[1])}`;
+}
+
+function routesFromFile(filePath: string): string[] {
+  const normalized = filePath.replace(/\\/g, "/");
+  const routes: string[] = [];
+  const appPage = normalized.match(/^(?:src\/)?app\/(.+)\/page\.[cm]?[jt]sx?$/);
+  if (appPage) routes.push(`PAGE ${normalizeNextRoutePath(appPage[1])}`);
+
+  const pagesApi = normalized.match(/^(?:src\/)?pages\/api\/(.+)\.[cm]?[jt]sx?$/);
+  if (pagesApi) routes.push(`API ${normalizeNextRoutePath(`api/${pagesApi[1]}`)}`);
+
+  const pagesPage = normalized.match(/^(?:src\/)?pages\/(.+)\.[cm]?[jt]sx?$/);
+  if (pagesPage && !pagesPage[1].startsWith("api/")) routes.push(`PAGE ${normalizeNextRoutePath(pagesPage[1])}`);
+  return routes;
+}
+
+function normalizeNextRoutePath(routePath: string): string {
+  const normalized = routePath
     .replace(/\/\([^)]+\)/g, "")
+    .replace(/\/page$/, "")
+    .replace(/\/index$/, "")
+    .replace(/^index$/, "")
+    .replace(/\[\[\.{3}([^\]]+)\]\]/g, ":$1*")
     .replace(/\[\.{3}([^\]]+)\]/g, ":$1*")
     .replace(/\[([^\]]+)\]/g, ":$1");
-  return `${method.toUpperCase()} ${normalizeRoutePath(routePath)}`;
+  return normalizeRoutePath(normalized);
 }
 
 function normalizeRoutePath(routePath: string): string {

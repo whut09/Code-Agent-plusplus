@@ -238,46 +238,7 @@
     "evidence": []
   },
   {
-    "path": "docs/agents-md.md",
-    "analyzer": "generic",
-    "confidence": "low",
-    "stats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": []
-  },
-  {
-    "path": "docs/agents-md.zh-CN.md",
-    "analyzer": "generic",
-    "confidence": "low",
-    "stats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": []
-  },
-  {
-    "path": "docs/architecture.md",
-    "analyzer": "generic",
-    "confidence": "low",
-    "stats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": []
-  },
-  {
-    "path": "docs/roadmap.md",
+    "path": "benchmarks/README.md",
     "analyzer": "generic",
     "confidence": "low",
     "stats": {
@@ -342,7 +303,46 @@
     "evidence": []
   },
   {
-    "path": "benchmarks/README.md",
+    "path": "docs/agents-md.md",
+    "analyzer": "generic",
+    "confidence": "low",
+    "stats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": []
+  },
+  {
+    "path": "docs/agents-md.zh-CN.md",
+    "analyzer": "generic",
+    "confidence": "low",
+    "stats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": []
+  },
+  {
+    "path": "docs/architecture.md",
+    "analyzer": "generic",
+    "confidence": "low",
+    "stats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": []
+  },
+  {
+    "path": "docs/roadmap.md",
     "analyzer": "generic",
     "confidence": "low",
     "stats": {
@@ -465,7 +465,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 4,
       "importsUnresolved": 2,
-      "symbolsDetected": 6,
+      "symbolsDetected": 9,
       "routesDetected": 0
     },
     "evidence": [
@@ -514,23 +514,41 @@
       {
         "line": 40,
         "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 48,
+        "kind": "symbol",
+        "symbol": "apiResult",
+        "detail": "Declares const apiResult."
+      },
+      {
+        "line": 62,
+        "kind": "symbol",
         "symbol": "paths",
         "detail": "Declares const paths."
       },
       {
-        "line": 41,
+        "line": 63,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 58,
+        "line": 81,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 113,
         "kind": "symbol",
         "symbol": "file",
         "detail": "Declares function file."
       },
       {
-        "line": 74,
+        "line": 129,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
@@ -806,7 +824,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 1,
       "importsUnresolved": 3,
-      "symbolsDetected": 7,
+      "symbolsDetected": 8,
       "routesDetected": 0
     },
     "evidence": [
@@ -868,6 +886,12 @@
       },
       {
         "line": 34,
+        "kind": "symbol",
+        "symbol": "api",
+        "detail": "Declares const api."
+      },
+      {
+        "line": 35,
         "kind": "symbol",
         "symbol": "web",
         "detail": "Declares const web."
@@ -1324,7 +1348,7 @@
         "detail": "Declares const root."
       },
       {
-        "line": 26,
+        "line": 27,
         "kind": "symbol",
         "symbol": "scan",
         "detail": "Declares const scan."
@@ -2322,7 +2346,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 3,
       "importsUnresolved": 1,
-      "symbolsDetected": 56,
+      "symbolsDetected": 66,
       "routesDetected": 0
     },
     "evidence": [
@@ -2421,35 +2445,35 @@
       {
         "line": 38,
         "kind": "symbol",
+        "symbol": "addFileRoute",
+        "detail": "Declares const addFileRoute."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
         "symbol": "addExport",
         "detail": "Declares const addExport."
       },
       {
-        "line": 43,
+        "line": 47,
         "kind": "symbol",
         "symbol": "visit",
         "detail": "Declares const visit."
       },
       {
-        "line": 47,
+        "line": 51,
         "kind": "symbol",
         "symbol": "specifier",
         "detail": "Declares const specifier."
       },
       {
-        "line": 67,
+        "line": 71,
         "kind": "symbol",
         "symbol": "nextRoute",
         "detail": "Declares const nextRoute."
       },
       {
-        "line": 74,
-        "kind": "symbol",
-        "symbol": "route",
-        "detail": "Declares const route."
-      },
-      {
-        "line": 97,
+        "line": 78,
         "kind": "symbol",
         "symbol": "route",
         "detail": "Declares const route."
@@ -2457,185 +2481,197 @@
       {
         "line": 101,
         "kind": "symbol",
+        "symbol": "route",
+        "detail": "Declares const route."
+      },
+      {
+        "line": 105,
+        "kind": "symbol",
         "symbol": "specifier",
         "detail": "Declares const specifier."
       },
       {
-        "line": 103,
+        "line": 107,
         "kind": "symbol",
         "symbol": "route",
         "detail": "Declares const route."
       },
       {
-        "line": 122,
+        "line": 127,
         "kind": "symbol",
         "symbol": "routeFromDecorator",
         "detail": "Declares function routeFromDecorator."
       },
       {
-        "line": 124,
+        "line": 129,
         "kind": "symbol",
         "symbol": "method",
         "detail": "Declares const method."
       },
       {
-        "line": 126,
+        "line": 131,
         "kind": "symbol",
         "symbol": "argument",
         "detail": "Declares const argument."
       },
       {
-        "line": 130,
+        "line": 135,
         "kind": "symbol",
         "symbol": "argument",
         "detail": "Declares const argument."
       },
       {
-        "line": 134,
+        "line": 139,
         "kind": "symbol",
         "symbol": "analyzeWithRegexFallback",
         "detail": "Declares function analyzeWithRegexFallback."
       },
       {
-        "line": 135,
+        "line": 140,
         "kind": "symbol",
         "symbol": "imports",
         "detail": "Declares const imports."
       },
       {
-        "line": 139,
+        "line": 144,
         "kind": "symbol",
         "symbol": "resolvedPath",
         "detail": "Declares const resolvedPath."
       },
       {
-        "line": 142,
+        "line": 147,
         "kind": "symbol",
         "symbol": "symbols",
         "detail": "Declares const symbols."
       },
       {
-        "line": 166,
+        "line": 171,
         "kind": "symbol",
         "symbol": "importEqualsSpecifier",
         "detail": "Declares function importEqualsSpecifier."
       },
       {
-        "line": 168,
+        "line": 173,
         "kind": "symbol",
         "symbol": "expression",
         "detail": "Declares const expression."
       },
       {
-        "line": 172,
+        "line": 177,
         "kind": "symbol",
         "symbol": "importCallSpecifier",
         "detail": "Declares function importCallSpecifier."
       },
       {
-        "line": 174,
+        "line": 179,
         "kind": "symbol",
         "symbol": "argument",
         "detail": "Declares const argument."
       },
       {
-        "line": 180,
+        "line": 185,
         "kind": "symbol",
         "symbol": "routeFromCall",
         "detail": "Declares function routeFromCall."
       },
       {
-        "line": 182,
+        "line": 187,
         "kind": "symbol",
         "symbol": "method",
         "detail": "Declares const method."
       },
       {
-        "line": 184,
+        "line": 188,
         "kind": "symbol",
         "symbol": "argument",
         "detail": "Declares const argument."
       },
       {
-        "line": 189,
+        "line": 199,
         "kind": "symbol",
         "symbol": "routeFromRouteObjectCall",
         "detail": "Declares function routeFromRouteObjectCall."
       },
       {
-        "line": 191,
+        "line": 201,
         "kind": "symbol",
         "symbol": "argument",
         "detail": "Declares const argument."
       },
       {
-        "line": 194,
+        "line": 204,
         "kind": "symbol",
         "symbol": "method",
         "detail": "Declares const method."
       },
       {
-        "line": 195,
+        "line": 205,
         "kind": "symbol",
         "symbol": "routePath",
         "detail": "Declares const routePath."
       },
       {
-        "line": 200,
+        "line": 210,
         "kind": "symbol",
         "symbol": "stringProperty",
         "detail": "Declares function stringProperty."
       },
       {
-        "line": 203,
+        "line": 213,
         "kind": "symbol",
         "symbol": "key",
         "detail": "Declares const key."
       },
       {
-        "line": 205,
+        "line": 215,
         "kind": "symbol",
         "symbol": "initializer",
         "detail": "Declares const initializer."
       },
       {
-        "line": 211,
+        "line": 221,
         "kind": "symbol",
         "symbol": "propertyName",
         "detail": "Declares function propertyName."
       },
       {
-        "line": 216,
+        "line": 226,
         "kind": "symbol",
         "symbol": "isExported",
         "detail": "Declares function isExported."
       },
       {
-        "line": 220,
+        "line": 230,
         "kind": "symbol",
         "symbol": "isHttpHandlerName",
         "detail": "Declares function isHttpHandlerName."
       },
       {
-        "line": 224,
+        "line": 234,
         "kind": "symbol",
         "symbol": "nextRouteFromFile",
         "detail": "Declares function nextRouteFromFile."
       },
       {
-        "line": 226,
+        "line": 235,
         "kind": "symbol",
-        "symbol": "routePath",
-        "detail": "Declares const routePath."
+        "symbol": "normalized",
+        "detail": "Declares const normalized."
       },
       {
-        "line": 237,
+        "line": 236,
         "kind": "symbol",
-        "symbol": "normalizeRoutePath",
-        "detail": "Declares function normalizeRoutePath."
+        "symbol": "match",
+        "detail": "Declares const match."
       },
       {
-        "line": 238,
+        "line": 241,
+        "kind": "symbol",
+        "symbol": "routesFromFile",
+        "detail": "Declares function routesFromFile."
+      },
+      {
+        "line": 242,
         "kind": "symbol",
         "symbol": "normalized",
         "detail": "Declares const normalized."
@@ -2643,47 +2679,95 @@
       {
         "line": 243,
         "kind": "symbol",
+        "symbol": "routes",
+        "detail": "Declares const routes."
+      },
+      {
+        "line": 244,
+        "kind": "symbol",
+        "symbol": "appPage",
+        "detail": "Declares const appPage."
+      },
+      {
+        "line": 247,
+        "kind": "symbol",
+        "symbol": "pagesApi",
+        "detail": "Declares const pagesApi."
+      },
+      {
+        "line": 250,
+        "kind": "symbol",
+        "symbol": "pagesPage",
+        "detail": "Declares const pagesPage."
+      },
+      {
+        "line": 255,
+        "kind": "symbol",
+        "symbol": "normalizeNextRoutePath",
+        "detail": "Declares function normalizeNextRoutePath."
+      },
+      {
+        "line": 256,
+        "kind": "symbol",
+        "symbol": "normalized",
+        "detail": "Declares const normalized."
+      },
+      {
+        "line": 267,
+        "kind": "symbol",
+        "symbol": "normalizeRoutePath",
+        "detail": "Declares function normalizeRoutePath."
+      },
+      {
+        "line": 268,
+        "kind": "symbol",
+        "symbol": "normalized",
+        "detail": "Declares const normalized."
+      },
+      {
+        "line": 273,
+        "kind": "symbol",
         "symbol": "lineOf",
         "detail": "Declares function lineOf."
       },
       {
-        "line": 247,
+        "line": 277,
         "kind": "symbol",
         "symbol": "scriptKind",
         "detail": "Declares function scriptKind."
       },
       {
-        "line": 254,
+        "line": 284,
         "kind": "symbol",
         "symbol": "uniqueSymbols",
         "detail": "Declares function uniqueSymbols."
       },
       {
-        "line": 255,
+        "line": 285,
         "kind": "symbol",
         "symbol": "seen",
         "detail": "Declares const seen."
       },
       {
-        "line": 257,
+        "line": 287,
         "kind": "symbol",
         "symbol": "key",
         "detail": "Declares const key."
       },
       {
-        "line": 264,
+        "line": 294,
         "kind": "symbol",
         "symbol": "analysisStats",
         "detail": "Declares function analysisStats."
       },
       {
-        "line": 265,
+        "line": 295,
         "kind": "symbol",
         "symbol": "values",
         "detail": "Declares const values."
       },
       {
-        "line": 275,
+        "line": 305,
         "kind": "symbol",
         "symbol": "summarize",
         "detail": "Declares function summarize."
@@ -2698,7 +2782,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 4,
       "importsUnresolved": 1,
-      "symbolsDetected": 35,
+      "symbolsDetected": 36,
       "routesDetected": 0
     },
     "evidence": [
@@ -2806,139 +2890,145 @@
         "detail": "Declares const PYTHON_AST_SCRIPT."
       },
       {
-        "line": 137,
+        "line": 203,
         "kind": "symbol",
         "symbol": "parsePythonAst",
         "detail": "Declares function parsePythonAst."
       },
       {
-        "line": 139,
+        "line": 205,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 147,
+        "line": 213,
         "kind": "symbol",
         "symbol": "parsed",
         "detail": "Declares const parsed."
       },
       {
-        "line": 151,
+        "line": 217,
         "kind": "symbol",
         "symbol": "importLines",
         "detail": "Declares const importLines."
       },
       {
-        "line": 152,
+        "line": 218,
         "kind": "symbol",
         "symbol": "imports",
         "detail": "Declares const imports."
       },
       {
-        "line": 170,
+        "line": 236,
         "kind": "symbol",
         "symbol": "pythonCandidates",
         "detail": "Declares function pythonCandidates."
       },
       {
-        "line": 178,
+        "line": 244,
         "kind": "symbol",
         "symbol": "parsePythonWithRegex",
         "detail": "Declares function parsePythonWithRegex."
       },
       {
-        "line": 179,
+        "line": 245,
         "kind": "symbol",
         "symbol": "specs",
         "detail": "Declares const specs."
       },
       {
-        "line": 184,
+        "line": 250,
         "kind": "symbol",
         "symbol": "base",
         "detail": "Declares const base."
       },
       {
-        "line": 185,
+        "line": 251,
         "kind": "symbol",
         "symbol": "specifier",
         "detail": "Declares const specifier."
       },
       {
-        "line": 197,
+        "line": 263,
         "kind": "symbol",
         "symbol": "resolvePythonImport",
         "detail": "Declares function resolvePythonImport."
       },
       {
-        "line": 198,
+        "line": 264,
         "kind": "symbol",
         "symbol": "leadingDots",
         "detail": "Declares const leadingDots."
       },
       {
-        "line": 199,
+        "line": 265,
         "kind": "symbol",
         "symbol": "modulePath",
         "detail": "Declares const modulePath."
       },
       {
-        "line": 201,
+        "line": 267,
         "kind": "symbol",
         "symbol": "relative",
         "detail": "Declares const relative."
       },
       {
-        "line": 205,
+        "line": 271,
         "kind": "symbol",
         "symbol": "candidates",
         "detail": "Declares const candidates."
       },
       {
-        "line": 209,
+        "line": 275,
         "kind": "symbol",
         "symbol": "extractSymbols",
         "detail": "Declares function extractSymbols."
       },
       {
-        "line": 210,
+        "line": 276,
         "kind": "symbol",
         "symbol": "symbols",
         "detail": "Declares const symbols."
       },
       {
-        "line": 211,
+        "line": 277,
         "kind": "symbol",
         "symbol": "patterns",
         "detail": "Declares const patterns."
       },
       {
-        "line": 231,
+        "line": 288,
+        "kind": "symbol",
+        "symbol": "name",
+        "detail": "Declares const name."
+      },
+      {
+        "line": 300,
         "kind": "symbol",
         "symbol": "lineNumber",
         "detail": "Declares function lineNumber."
       },
       {
-        "line": 235,
+        "line": 304,
         "kind": "symbol",
         "symbol": "uniqueBy",
         "detail": "Declares function uniqueBy."
       },
       {
-        "line": 236,
+        "line": 305,
         "kind": "symbol",
         "symbol": "seen",
         "detail": "Declares const seen."
       },
       {
-        "line": 238,
+        "line": 307,
         "kind": "symbol",
         "symbol": "key",
         "detail": "Declares const key."
       },
       {
-        "line": 245,
+        "line": 314,
         "kind": "symbol",
         "symbol": "uniqueSymbols",
         "detail": "Declares function uniqueSymbols."
@@ -4698,6 +4788,397 @@
     ]
   },
   {
+    "path": "src/mcp/server.ts",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "stats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 8,
+      "importsUnresolved": 5,
+      "symbolsDetected": 48,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:url."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports @modelcontextprotocol/sdk/server/mcp.js."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports @modelcontextprotocol/sdk/server/stdio.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports zod/v4."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../core/context-builder.js."
+      },
+      {
+        "line": 7,
+        "kind": "import",
+        "detail": "Imports ../outputs/impact.js."
+      },
+      {
+        "line": 8,
+        "kind": "import",
+        "detail": "Imports ../outputs/task-harness.js."
+      },
+      {
+        "line": 9,
+        "kind": "import",
+        "detail": "Imports ../outputs/task-context.js."
+      },
+      {
+        "line": 10,
+        "kind": "import",
+        "detail": "Imports ../outputs/test-selector.js."
+      },
+      {
+        "line": 11,
+        "kind": "import",
+        "detail": "Imports ../outputs/writer.js."
+      },
+      {
+        "line": 12,
+        "kind": "import",
+        "detail": "Imports ../retrievers/index.js."
+      },
+      {
+        "line": 13,
+        "kind": "import",
+        "detail": "Imports ../retrievers/types.js."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "repoContextMcpToolNames",
+        "detail": "Declares const repoContextMcpToolNames."
+      },
+      {
+        "line": 15,
+        "kind": "export",
+        "symbol": "repoContextMcpToolNames",
+        "detail": "Exports repoContextMcpToolNames."
+      },
+      {
+        "line": 26,
+        "kind": "symbol",
+        "symbol": "RepoContextMcpToolName",
+        "detail": "Declares type RepoContextMcpToolName."
+      },
+      {
+        "line": 28,
+        "kind": "symbol",
+        "symbol": "RepoContextMcpResult",
+        "detail": "Declares interface RepoContextMcpResult."
+      },
+      {
+        "line": 32,
+        "kind": "symbol",
+        "symbol": "RetrieveArguments",
+        "detail": "Declares interface RetrieveArguments."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
+        "symbol": "createRepoContextMcpServer",
+        "detail": "Declares function createRepoContextMcpServer."
+      },
+      {
+        "line": 42,
+        "kind": "export",
+        "symbol": "createRepoContextMcpServer",
+        "detail": "Exports createRepoContextMcpServer."
+      },
+      {
+        "line": 43,
+        "kind": "symbol",
+        "symbol": "server",
+        "detail": "Declares const server."
+      },
+      {
+        "line": 166,
+        "kind": "symbol",
+        "symbol": "runRepoContextMcpServer",
+        "detail": "Declares function runRepoContextMcpServer."
+      },
+      {
+        "line": 166,
+        "kind": "export",
+        "symbol": "runRepoContextMcpServer",
+        "detail": "Exports runRepoContextMcpServer."
+      },
+      {
+        "line": 167,
+        "kind": "symbol",
+        "symbol": "server",
+        "detail": "Declares const server."
+      },
+      {
+        "line": 168,
+        "kind": "symbol",
+        "symbol": "transport",
+        "detail": "Declares const transport."
+      },
+      {
+        "line": 172,
+        "kind": "symbol",
+        "symbol": "executeRepoContextMcpTool",
+        "detail": "Declares function executeRepoContextMcpTool."
+      },
+      {
+        "line": 172,
+        "kind": "export",
+        "symbol": "executeRepoContextMcpTool",
+        "detail": "Exports executeRepoContextMcpTool."
+      },
+      {
+        "line": 193,
+        "kind": "symbol",
+        "symbol": "BuildInput",
+        "detail": "Declares interface BuildInput."
+      },
+      {
+        "line": 197,
+        "kind": "symbol",
+        "symbol": "PlanInput",
+        "detail": "Declares interface PlanInput."
+      },
+      {
+        "line": 204,
+        "kind": "symbol",
+        "symbol": "PackInput",
+        "detail": "Declares type PackInput."
+      },
+      {
+        "line": 206,
+        "kind": "symbol",
+        "symbol": "TestsInput",
+        "detail": "Declares interface TestsInput."
+      },
+      {
+        "line": 213,
+        "kind": "symbol",
+        "symbol": "ImpactInput",
+        "detail": "Declares interface ImpactInput."
+      },
+      {
+        "line": 218,
+        "kind": "symbol",
+        "symbol": "VerifyInput",
+        "detail": "Declares interface VerifyInput."
+      },
+      {
+        "line": 224,
+        "kind": "symbol",
+        "symbol": "ExplainInput",
+        "detail": "Declares interface ExplainInput."
+      },
+      {
+        "line": 229,
+        "kind": "symbol",
+        "symbol": "runBuild",
+        "detail": "Declares function runBuild."
+      },
+      {
+        "line": 230,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 237,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 256,
+        "kind": "symbol",
+        "symbol": "runTaskPlan",
+        "detail": "Declares function runTaskPlan."
+      },
+      {
+        "line": 257,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 258,
+        "kind": "symbol",
+        "symbol": "markdown",
+        "detail": "Declares const markdown."
+      },
+      {
+        "line": 266,
+        "kind": "symbol",
+        "symbol": "runTaskPack",
+        "detail": "Declares function runTaskPack."
+      },
+      {
+        "line": 267,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 268,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 278,
+        "kind": "symbol",
+        "symbol": "runRetrieve",
+        "detail": "Declares function runRetrieve."
+      },
+      {
+        "line": 279,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 280,
+        "kind": "symbol",
+        "symbol": "retriever",
+        "detail": "Declares const retriever."
+      },
+      {
+        "line": 281,
+        "kind": "symbol",
+        "symbol": "hits",
+        "detail": "Declares const hits."
+      },
+      {
+        "line": 287,
+        "kind": "symbol",
+        "symbol": "selectionPaths",
+        "detail": "Declares const selectionPaths."
+      },
+      {
+        "line": 294,
+        "kind": "symbol",
+        "symbol": "selection",
+        "detail": "Declares const selection."
+      },
+      {
+        "line": 313,
+        "kind": "symbol",
+        "symbol": "runTests",
+        "detail": "Declares function runTests."
+      },
+      {
+        "line": 314,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 315,
+        "kind": "symbol",
+        "symbol": "report",
+        "detail": "Declares const report."
+      },
+      {
+        "line": 326,
+        "kind": "symbol",
+        "symbol": "runImpact",
+        "detail": "Declares function runImpact."
+      },
+      {
+        "line": 327,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 328,
+        "kind": "symbol",
+        "symbol": "report",
+        "detail": "Declares const report."
+      },
+      {
+        "line": 335,
+        "kind": "symbol",
+        "symbol": "runVerify",
+        "detail": "Declares function runVerify."
+      },
+      {
+        "line": 336,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 342,
+        "kind": "symbol",
+        "symbol": "runExplain",
+        "detail": "Declares function runExplain."
+      },
+      {
+        "line": 343,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 344,
+        "kind": "symbol",
+        "symbol": "targetPath",
+        "detail": "Declares const targetPath."
+      },
+      {
+        "line": 345,
+        "kind": "symbol",
+        "symbol": "file",
+        "detail": "Declares const file."
+      },
+      {
+        "line": 361,
+        "kind": "symbol",
+        "symbol": "module",
+        "detail": "Declares const module."
+      },
+      {
+        "line": 378,
+        "kind": "symbol",
+        "symbol": "confidenceForScore",
+        "detail": "Declares function confidenceForScore."
+      },
+      {
+        "line": 384,
+        "kind": "symbol",
+        "symbol": "jsonToolResult",
+        "detail": "Declares function jsonToolResult."
+      },
+      {
+        "line": 395,
+        "kind": "symbol",
+        "symbol": "unique",
+        "detail": "Declares function unique."
+      }
+    ]
+  },
+  {
     "path": "src/core/context-builder.ts",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
@@ -5088,7 +5569,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 6,
       "importsUnresolved": 3,
-      "symbolsDetected": 43,
+      "symbolsDetected": 50,
       "routesDetected": 0
     },
     "evidence": [
@@ -5164,239 +5645,281 @@
       {
         "line": 15,
         "kind": "symbol",
+        "symbol": "packagePrefixes",
+        "detail": "Declares const packagePrefixes."
+      },
+      {
+        "line": 16,
+        "kind": "symbol",
         "symbol": "analysisContext",
         "detail": "Declares const analysisContext."
       },
       {
-        "line": 25,
+        "line": 26,
         "kind": "symbol",
         "symbol": "files",
         "detail": "Declares const files."
       },
       {
-        "line": 26,
+        "line": 27,
         "kind": "symbol",
         "symbol": "imports",
         "detail": "Declares const imports."
       },
       {
-        "line": 27,
+        "line": 28,
         "kind": "symbol",
         "symbol": "symbols",
         "detail": "Declares const symbols."
       },
       {
-        "line": 30,
+        "line": 31,
         "kind": "symbol",
         "symbol": "content",
         "detail": "Declares const content."
       },
       {
-        "line": 31,
+        "line": 32,
         "kind": "symbol",
         "symbol": "analyzer",
         "detail": "Declares const analyzer."
       },
       {
-        "line": 32,
+        "line": 33,
         "kind": "symbol",
         "symbol": "analysis",
         "detail": "Declares const analysis."
       },
       {
-        "line": 33,
+        "line": 34,
         "kind": "symbol",
         "symbol": "moduleName",
         "detail": "Declares const moduleName."
       },
       {
-        "line": 35,
+        "line": 36,
         "kind": "symbol",
         "symbol": "indexed",
         "detail": "Declares const indexed."
       },
       {
-        "line": 70,
+        "line": 71,
         "kind": "symbol",
         "symbol": "loadPackageAliases",
         "detail": "Declares function loadPackageAliases."
       },
       {
-        "line": 71,
+        "line": 72,
         "kind": "symbol",
         "symbol": "aliases",
         "detail": "Declares const aliases."
       },
       {
-        "line": 73,
+        "line": 74,
         "kind": "symbol",
         "symbol": "packageJson",
         "detail": "Declares const packageJson."
       },
       {
-        "line": 75,
+        "line": 76,
         "kind": "symbol",
         "symbol": "name",
         "detail": "Declares const name."
       },
       {
-        "line": 78,
+        "line": 79,
         "kind": "symbol",
         "symbol": "packageDir",
         "detail": "Declares const packageDir."
       },
       {
-        "line": 79,
+        "line": 80,
         "kind": "symbol",
         "symbol": "qualify",
         "detail": "Declares const qualify."
       },
       {
-        "line": 80,
+        "line": 81,
         "kind": "symbol",
         "symbol": "entryTargets",
         "detail": "Declares const entryTargets."
       },
       {
-        "line": 98,
+        "line": 102,
+        "kind": "symbol",
+        "symbol": "loadPackagePrefixes",
+        "detail": "Declares function loadPackagePrefixes."
+      },
+      {
+        "line": 110,
         "kind": "symbol",
         "symbol": "readJson",
         "detail": "Declares function readJson."
       },
       {
-        "line": 106,
+        "line": 118,
         "kind": "symbol",
         "symbol": "packageEntryTargets",
         "detail": "Declares function packageEntryTargets."
       },
       {
-        "line": 107,
+        "line": 119,
         "kind": "symbol",
         "symbol": "fields",
         "detail": "Declares const fields."
       },
       {
-        "line": 111,
+        "line": 123,
         "kind": "symbol",
         "symbol": "packageExportAliases",
         "detail": "Declares function packageExportAliases."
       },
       {
-        "line": 116,
+        "line": 128,
         "kind": "symbol",
         "symbol": "exportsValue",
         "detail": "Declares const exportsValue."
       },
       {
-        "line": 124,
+        "line": 136,
         "kind": "symbol",
         "symbol": "aliases",
         "detail": "Declares const aliases."
       },
       {
-        "line": 126,
+        "line": 138,
         "kind": "symbol",
         "symbol": "target",
         "detail": "Declares const target."
       },
       {
-        "line": 128,
+        "line": 140,
         "kind": "symbol",
         "symbol": "subpath",
         "detail": "Declares const subpath."
       },
       {
-        "line": 137,
+        "line": 149,
+        "kind": "symbol",
+        "symbol": "packageImportAliases",
+        "detail": "Declares function packageImportAliases."
+      },
+      {
+        "line": 150,
+        "kind": "symbol",
+        "symbol": "importsValue",
+        "detail": "Declares const importsValue."
+      },
+      {
+        "line": 155,
+        "kind": "symbol",
+        "symbol": "aliases",
+        "detail": "Declares const aliases."
+      },
+      {
+        "line": 158,
+        "kind": "symbol",
+        "symbol": "target",
+        "detail": "Declares const target."
+      },
+      {
+        "line": 165,
         "kind": "symbol",
         "symbol": "exportTarget",
         "detail": "Declares function exportTarget."
       },
       {
-        "line": 140,
+        "line": 169,
+        "kind": "symbol",
+        "symbol": "target",
+        "detail": "Declares const target."
+      },
+      {
+        "line": 175,
         "kind": "symbol",
         "symbol": "object",
         "detail": "Declares const object."
       },
       {
-        "line": 147,
+        "line": 182,
         "kind": "symbol",
         "symbol": "stripPackageTarget",
         "detail": "Declares function stripPackageTarget."
       },
       {
-        "line": 151,
+        "line": 186,
         "kind": "symbol",
         "symbol": "loadPathAliases",
         "detail": "Declares function loadPathAliases."
       },
       {
-        "line": 152,
+        "line": 187,
         "kind": "symbol",
         "symbol": "configPath",
         "detail": "Declares const configPath."
       },
       {
-        "line": 156,
+        "line": 191,
         "kind": "symbol",
         "symbol": "parsed",
         "detail": "Declares const parsed."
       },
       {
-        "line": 157,
+        "line": 192,
         "kind": "symbol",
         "symbol": "compilerOptions",
         "detail": "Declares const compilerOptions."
       },
       {
-        "line": 163,
+        "line": 198,
         "kind": "symbol",
         "symbol": "baseUrl",
         "detail": "Declares const baseUrl."
       },
       {
-        "line": 173,
+        "line": 208,
         "kind": "symbol",
         "symbol": "shouldRead",
         "detail": "Declares function shouldRead."
       },
       {
-        "line": 177,
+        "line": 212,
         "kind": "symbol",
         "symbol": "buildModules",
         "detail": "Declares function buildModules."
       },
       {
-        "line": 178,
+        "line": 213,
         "kind": "symbol",
         "symbol": "moduleMap",
         "detail": "Declares const moduleMap."
       },
       {
-        "line": 181,
+        "line": 216,
         "kind": "symbol",
         "symbol": "module",
         "detail": "Declares const module."
       },
       {
-        "line": 193,
+        "line": 228,
         "kind": "symbol",
         "symbol": "fileToModule",
         "detail": "Declares const fileToModule."
       },
       {
-        "line": 196,
+        "line": 231,
         "kind": "symbol",
         "symbol": "fromModule",
         "detail": "Declares const fromModule."
       },
       {
-        "line": 197,
+        "line": 232,
         "kind": "symbol",
         "symbol": "toModule",
         "detail": "Declares const toModule."
       },
       {
-        "line": 199,
+        "line": 234,
         "kind": "symbol",
         "symbol": "module",
         "detail": "Declares const module."
@@ -5455,7 +5978,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 0,
       "importsUnresolved": 1,
-      "symbolsDetected": 7,
+      "symbolsDetected": 9,
       "routesDetected": 0
     },
     "evidence": [
@@ -5532,6 +6055,18 @@
       },
       {
         "line": 21,
+        "kind": "symbol",
+        "symbol": "normalized",
+        "detail": "Declares const normalized."
+      },
+      {
+        "line": 22,
+        "kind": "symbol",
+        "symbol": "packagePrefix",
+        "detail": "Declares const packagePrefix."
+      },
+      {
+        "line": 29,
         "kind": "symbol",
         "symbol": "parts",
         "detail": "Declares const parts."
@@ -6154,7 +6689,7 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 5,
       "importsUnresolved": 4,
-      "symbolsDetected": 44,
+      "symbolsDetected": 52,
       "routesDetected": 0
     },
     "evidence": [
@@ -6420,55 +6955,103 @@
         "detail": "Declares const scripts."
       },
       {
-        "line": 201,
+        "line": 205,
+        "kind": "symbol",
+        "symbol": "detectPythonEntrypoints",
+        "detail": "Declares function detectPythonEntrypoints."
+      },
+      {
+        "line": 206,
+        "kind": "symbol",
+        "symbol": "pyprojectPath",
+        "detail": "Declares const pyprojectPath."
+      },
+      {
+        "line": 210,
+        "kind": "symbol",
+        "symbol": "lines",
+        "detail": "Declares const lines."
+      },
+      {
+        "line": 211,
+        "kind": "symbol",
+        "symbol": "sections",
+        "detail": "Declares const sections."
+      },
+      {
+        "line": 212,
+        "kind": "symbol",
+        "symbol": "entrypoints",
+        "detail": "Declares const entrypoints."
+      },
+      {
+        "line": 213,
+        "kind": "symbol",
+        "symbol": "section",
+        "detail": "Declares const section."
+      },
+      {
+        "line": 215,
+        "kind": "symbol",
+        "symbol": "sectionMatch",
+        "detail": "Declares const sectionMatch."
+      },
+      {
+        "line": 221,
+        "kind": "symbol",
+        "symbol": "match",
+        "detail": "Declares const match."
+      },
+      {
+        "line": 232,
         "kind": "symbol",
         "symbol": "detectTestCommands",
         "detail": "Declares function detectTestCommands."
       },
       {
-        "line": 202,
+        "line": 233,
         "kind": "symbol",
         "symbol": "scripts",
         "detail": "Declares const scripts."
       },
       {
-        "line": 208,
+        "line": 239,
         "kind": "symbol",
         "symbol": "detectRunCommands",
         "detail": "Declares function detectRunCommands."
       },
       {
-        "line": 209,
+        "line": 240,
         "kind": "symbol",
         "symbol": "scripts",
         "detail": "Declares const scripts."
       },
       {
-        "line": 215,
+        "line": 246,
         "kind": "symbol",
         "symbol": "detectNamedCommands",
         "detail": "Declares function detectNamedCommands."
       },
       {
-        "line": 216,
+        "line": 247,
         "kind": "symbol",
         "symbol": "scripts",
         "detail": "Declares const scripts."
       },
       {
-        "line": 222,
+        "line": 253,
         "kind": "symbol",
         "symbol": "formatScriptCommand",
         "detail": "Declares function formatScriptCommand."
       },
       {
-        "line": 230,
+        "line": 261,
         "kind": "symbol",
         "symbol": "objectValue",
         "detail": "Declares function objectValue."
       },
       {
-        "line": 234,
+        "line": 265,
         "kind": "symbol",
         "symbol": "unique",
         "detail": "Declares function unique."
@@ -7445,397 +8028,6 @@
         "kind": "symbol",
         "symbol": "actualTotal",
         "detail": "Declares const actualTotal."
-      }
-    ]
-  },
-  {
-    "path": "src/mcp/server.ts",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "stats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 8,
-      "importsUnresolved": 5,
-      "symbolsDetected": 48,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports node:path."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports node:url."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports @modelcontextprotocol/sdk/server/mcp.js."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports @modelcontextprotocol/sdk/server/stdio.js."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports zod/v4."
-      },
-      {
-        "line": 6,
-        "kind": "import",
-        "detail": "Imports ../core/context-builder.js."
-      },
-      {
-        "line": 7,
-        "kind": "import",
-        "detail": "Imports ../outputs/impact.js."
-      },
-      {
-        "line": 8,
-        "kind": "import",
-        "detail": "Imports ../outputs/task-harness.js."
-      },
-      {
-        "line": 9,
-        "kind": "import",
-        "detail": "Imports ../outputs/task-context.js."
-      },
-      {
-        "line": 10,
-        "kind": "import",
-        "detail": "Imports ../outputs/test-selector.js."
-      },
-      {
-        "line": 11,
-        "kind": "import",
-        "detail": "Imports ../outputs/writer.js."
-      },
-      {
-        "line": 12,
-        "kind": "import",
-        "detail": "Imports ../retrievers/index.js."
-      },
-      {
-        "line": 13,
-        "kind": "import",
-        "detail": "Imports ../retrievers/types.js."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "repoContextMcpToolNames",
-        "detail": "Declares const repoContextMcpToolNames."
-      },
-      {
-        "line": 15,
-        "kind": "export",
-        "symbol": "repoContextMcpToolNames",
-        "detail": "Exports repoContextMcpToolNames."
-      },
-      {
-        "line": 26,
-        "kind": "symbol",
-        "symbol": "RepoContextMcpToolName",
-        "detail": "Declares type RepoContextMcpToolName."
-      },
-      {
-        "line": 28,
-        "kind": "symbol",
-        "symbol": "RepoContextMcpResult",
-        "detail": "Declares interface RepoContextMcpResult."
-      },
-      {
-        "line": 32,
-        "kind": "symbol",
-        "symbol": "RetrieveArguments",
-        "detail": "Declares interface RetrieveArguments."
-      },
-      {
-        "line": 42,
-        "kind": "symbol",
-        "symbol": "createRepoContextMcpServer",
-        "detail": "Declares function createRepoContextMcpServer."
-      },
-      {
-        "line": 42,
-        "kind": "export",
-        "symbol": "createRepoContextMcpServer",
-        "detail": "Exports createRepoContextMcpServer."
-      },
-      {
-        "line": 43,
-        "kind": "symbol",
-        "symbol": "server",
-        "detail": "Declares const server."
-      },
-      {
-        "line": 166,
-        "kind": "symbol",
-        "symbol": "runRepoContextMcpServer",
-        "detail": "Declares function runRepoContextMcpServer."
-      },
-      {
-        "line": 166,
-        "kind": "export",
-        "symbol": "runRepoContextMcpServer",
-        "detail": "Exports runRepoContextMcpServer."
-      },
-      {
-        "line": 167,
-        "kind": "symbol",
-        "symbol": "server",
-        "detail": "Declares const server."
-      },
-      {
-        "line": 168,
-        "kind": "symbol",
-        "symbol": "transport",
-        "detail": "Declares const transport."
-      },
-      {
-        "line": 172,
-        "kind": "symbol",
-        "symbol": "executeRepoContextMcpTool",
-        "detail": "Declares function executeRepoContextMcpTool."
-      },
-      {
-        "line": 172,
-        "kind": "export",
-        "symbol": "executeRepoContextMcpTool",
-        "detail": "Exports executeRepoContextMcpTool."
-      },
-      {
-        "line": 193,
-        "kind": "symbol",
-        "symbol": "BuildInput",
-        "detail": "Declares interface BuildInput."
-      },
-      {
-        "line": 197,
-        "kind": "symbol",
-        "symbol": "PlanInput",
-        "detail": "Declares interface PlanInput."
-      },
-      {
-        "line": 204,
-        "kind": "symbol",
-        "symbol": "PackInput",
-        "detail": "Declares type PackInput."
-      },
-      {
-        "line": 206,
-        "kind": "symbol",
-        "symbol": "TestsInput",
-        "detail": "Declares interface TestsInput."
-      },
-      {
-        "line": 213,
-        "kind": "symbol",
-        "symbol": "ImpactInput",
-        "detail": "Declares interface ImpactInput."
-      },
-      {
-        "line": 218,
-        "kind": "symbol",
-        "symbol": "VerifyInput",
-        "detail": "Declares interface VerifyInput."
-      },
-      {
-        "line": 224,
-        "kind": "symbol",
-        "symbol": "ExplainInput",
-        "detail": "Declares interface ExplainInput."
-      },
-      {
-        "line": 229,
-        "kind": "symbol",
-        "symbol": "runBuild",
-        "detail": "Declares function runBuild."
-      },
-      {
-        "line": 230,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 237,
-        "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
-      },
-      {
-        "line": 256,
-        "kind": "symbol",
-        "symbol": "runTaskPlan",
-        "detail": "Declares function runTaskPlan."
-      },
-      {
-        "line": 257,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 258,
-        "kind": "symbol",
-        "symbol": "markdown",
-        "detail": "Declares const markdown."
-      },
-      {
-        "line": 266,
-        "kind": "symbol",
-        "symbol": "runTaskPack",
-        "detail": "Declares function runTaskPack."
-      },
-      {
-        "line": 267,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 268,
-        "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
-      },
-      {
-        "line": 278,
-        "kind": "symbol",
-        "symbol": "runRetrieve",
-        "detail": "Declares function runRetrieve."
-      },
-      {
-        "line": 279,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 280,
-        "kind": "symbol",
-        "symbol": "retriever",
-        "detail": "Declares const retriever."
-      },
-      {
-        "line": 281,
-        "kind": "symbol",
-        "symbol": "hits",
-        "detail": "Declares const hits."
-      },
-      {
-        "line": 287,
-        "kind": "symbol",
-        "symbol": "selectionPaths",
-        "detail": "Declares const selectionPaths."
-      },
-      {
-        "line": 294,
-        "kind": "symbol",
-        "symbol": "selection",
-        "detail": "Declares const selection."
-      },
-      {
-        "line": 313,
-        "kind": "symbol",
-        "symbol": "runTests",
-        "detail": "Declares function runTests."
-      },
-      {
-        "line": 314,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 315,
-        "kind": "symbol",
-        "symbol": "report",
-        "detail": "Declares const report."
-      },
-      {
-        "line": 326,
-        "kind": "symbol",
-        "symbol": "runImpact",
-        "detail": "Declares function runImpact."
-      },
-      {
-        "line": 327,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 328,
-        "kind": "symbol",
-        "symbol": "report",
-        "detail": "Declares const report."
-      },
-      {
-        "line": 335,
-        "kind": "symbol",
-        "symbol": "runVerify",
-        "detail": "Declares function runVerify."
-      },
-      {
-        "line": 336,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 342,
-        "kind": "symbol",
-        "symbol": "runExplain",
-        "detail": "Declares function runExplain."
-      },
-      {
-        "line": 343,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 344,
-        "kind": "symbol",
-        "symbol": "targetPath",
-        "detail": "Declares const targetPath."
-      },
-      {
-        "line": 345,
-        "kind": "symbol",
-        "symbol": "file",
-        "detail": "Declares const file."
-      },
-      {
-        "line": 361,
-        "kind": "symbol",
-        "symbol": "module",
-        "detail": "Declares const module."
-      },
-      {
-        "line": 378,
-        "kind": "symbol",
-        "symbol": "confidenceForScore",
-        "detail": "Declares function confidenceForScore."
-      },
-      {
-        "line": 384,
-        "kind": "symbol",
-        "symbol": "jsonToolResult",
-        "detail": "Declares function jsonToolResult."
-      },
-      {
-        "line": 395,
-        "kind": "symbol",
-        "symbol": "unique",
-        "detail": "Declares function unique."
       }
     ]
   },
@@ -13241,7 +13433,7 @@
     ]
   },
   {
-    "path": "test/fixtures/monorepo/packages/web/package.json",
+    "path": "test/fixtures/monorepo/packages/api/package.json",
     "analyzer": "generic",
     "confidence": "low",
     "stats": {
@@ -13254,7 +13446,7 @@
     "evidence": []
   },
   {
-    "path": "test/fixtures/monorepo/packages/api/package.json",
+    "path": "test/fixtures/monorepo/packages/web/package.json",
     "analyzer": "generic",
     "confidence": "low",
     "stats": {
@@ -13576,6 +13768,63 @@
     ]
   },
   {
+    "path": "test/fixtures/monorepo/packages/api/src/config.ts",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "stats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "apiConfig",
+        "detail": "Declares const apiConfig."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "apiConfig",
+        "detail": "Exports apiConfig."
+      }
+    ]
+  },
+  {
+    "path": "test/fixtures/monorepo/packages/api/src/index.ts",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "stats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports #config."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "api",
+        "detail": "Declares const api."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "api",
+        "detail": "Exports api."
+      }
+    ]
+  },
+  {
     "path": "test/fixtures/monorepo/packages/web/src/index.ts",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
@@ -13619,32 +13868,6 @@
     ]
   },
   {
-    "path": "test/fixtures/monorepo/packages/api/src/index.ts",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "stats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "api",
-        "detail": "Declares const api."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "api",
-        "detail": "Exports api."
-      }
-    ]
-  },
-  {
     "path": "test/fixtures/next-app/src/app/api/login/route.ts",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
@@ -13652,8 +13875,8 @@
       "parser": "typescript-compiler-api",
       "importsResolved": 0,
       "importsUnresolved": 1,
-      "symbolsDetected": 3,
-      "routesDetected": 2
+      "symbolsDetected": 2,
+      "routesDetected": 1
     },
     "evidence": [
       {
@@ -13678,12 +13901,6 @@
         "kind": "route",
         "symbol": "POST",
         "detail": "Declares route POST."
-      },
-      {
-        "line": 3,
-        "kind": "route",
-        "symbol": "POST /test/fixtures/next-app/src/app/api/login",
-        "detail": "Declares route POST /test/fixtures/next-app/src/app/api/login."
       }
     ]
   }

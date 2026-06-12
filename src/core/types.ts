@@ -119,7 +119,7 @@ export interface ImportEdge {
 
 export interface SymbolInfo {
   name: string;
-  kind: "function" | "class" | "interface" | "type" | "const" | "export" | "route" | "enum" | "namespace" | "unknown";
+  kind: "function" | "class" | "interface" | "type" | "const" | "export" | "route" | "fixture" | "enum" | "namespace" | "unknown";
   filePath: string;
   line: number;
 }
