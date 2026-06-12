@@ -2,12 +2,12 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 2568,
-  "remainingBudget": 9432,
+  "estimatedTokens": 2522,
+  "remainingBudget": 9478,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 74,
+      "score": 79,
       "reasons": [
         "key file fallback"
       ],
@@ -33,6 +33,15 @@
       "estimatedTokens": 90
     },
     {
+      "path": "src/outputs/writer.ts",
+      "score": 68,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 246
+    },
+    {
       "path": "src/outputs/contract-validator.ts",
       "score": 67,
       "reasons": [
@@ -40,6 +49,15 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 315
+    },
+    {
+      "path": "src/outputs/test-selector.ts",
+      "score": 67,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 226
     },
     {
       "path": "src/core/types.ts",
@@ -60,31 +78,14 @@
       "estimatedTokens": 68
     },
     {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 64,
+      "path": "src/mcp/server.ts",
+      "score": 113,
       "reasons": [
+        "entrypoint",
         "key file fallback"
       ],
-      "category": "direct-source",
-      "estimatedTokens": 246
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 63,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 252
-    },
-    {
-      "path": "src/outputs/writer.ts",
-      "score": 63,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 246
+      "category": "entrypoint",
+      "estimatedTokens": 226
     },
     {
       "path": "src/cli/index.ts",
@@ -217,7 +218,7 @@
   "readFirst": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 74,
+      "score": 79,
       "reasons": [
         "key file fallback"
       ],
@@ -243,6 +244,15 @@
       "estimatedTokens": 90
     },
     {
+      "path": "src/outputs/writer.ts",
+      "score": 68,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 246
+    },
+    {
       "path": "src/outputs/contract-validator.ts",
       "score": 67,
       "reasons": [
@@ -250,6 +260,15 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 315
+    },
+    {
+      "path": "src/outputs/test-selector.ts",
+      "score": 67,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 226
     },
     {
       "path": "src/core/types.ts",
@@ -268,24 +287,6 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 68
-    },
-    {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 64,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 246
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 63,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 252
     }
   ],
   "inspectIfNeeded": [
@@ -409,23 +410,22 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 2568,
-    "remaining": 9432,
+    "used": 2522,
+    "remaining": 9478,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 1889,
+        "tokens": 1617,
         "files": [
           "src/outputs/task-harness.ts",
           "src/core/token-estimator.ts",
           "src/core/context-builder.ts",
+          "src/outputs/writer.ts",
           "src/outputs/contract-validator.ts",
+          "src/outputs/test-selector.ts",
           "src/core/types.ts",
-          "src/outputs/markdown.ts",
-          "src/benchmarks/benchmark.ts",
-          "src/outputs/task-context.ts",
-          "src/outputs/writer.ts"
+          "src/outputs/markdown.ts"
         ]
       },
       {
@@ -463,8 +463,9 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 168,
+        "tokens": 394,
         "files": [
+          "src/mcp/server.ts",
           "src/cli/index.ts"
         ]
       }

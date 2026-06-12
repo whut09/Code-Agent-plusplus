@@ -52,7 +52,7 @@ The v2 architecture is organized around five responsibilities:
 - Context Planner: converts repository indexes into global, task, diff, and impact contexts.
 - Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, complete task runs, verification packs, editable contracts, and RAG documents.
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, and regression guards.
-- Integration Layer: lets MCP, editor extensions, CLI adapters, and RAG backends call the same planning and retrieval contracts.
+- Integration Layer: lets the stdio MCP server, editor extensions, CLI adapters, and RAG backends call the same planning and retrieval contracts. The MCP server exposes `repo_context_build`, `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, and `repo_context_explain`.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 

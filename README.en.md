@@ -127,6 +127,7 @@ repo-context tests [repo] --for <path>
 repo-context tests [repo] --diff --base main
 repo-context benchmark [benchmarkDir] --top-k 8
 repo-context retrieve "<task>" [repo] --provider hybrid
+repo-context-mcp
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -330,6 +331,27 @@ repo-context rag search "fix login timeout" . --provider static --json
 ```
 
 This keeps MCP, VS Code, Cursor, Codex CLI, LightRAG, and future embedding stores on the same retrieval contract instead of binding the harness to a single RAG framework.
+
+## MCP Server
+
+Repo-to-Agent-Context ships a stdio MCP server for Claude Code, Cursor, LibreChat, OpenHands, and custom agents:
+
+```bash
+repo-context-mcp
+# or during development
+npm run mcp
+```
+
+Exposed tools:
+
+- `repo_context_build`
+- `repo_context_plan`
+- `repo_context_pack`
+- `repo_context_retrieve`
+- `repo_context_tests`
+- `repo_context_impact`
+- `repo_context_verify`
+- `repo_context_explain`
 
 ## Optional RAG With LightRAG
 

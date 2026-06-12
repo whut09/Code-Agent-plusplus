@@ -16,7 +16,8 @@
     "npm"
   ],
   "entrypoints": [
-    "src/cli/index.ts"
+    "src/cli/index.ts",
+    "src/mcp/server.ts"
   ],
   "layers": [
     {
@@ -113,17 +114,7 @@
         "core",
         "outputs"
       ],
-      "summary": "benchmarks contains 49 files and depends on core, outputs."
-    },
-    {
-      "name": "outputs",
-      "owns": [
-        "src/outputs/**"
-      ],
-      "imports": [
-        "core"
-      ],
-      "summary": "outputs contains 20 files and depends on core."
+      "summary": "benchmarks contains 50 files and depends on core, outputs."
     },
     {
       "name": "test",
@@ -136,10 +127,21 @@
         "cli",
         "config",
         "core",
+        "mcp",
         "outputs",
         "retrievers"
       ],
-      "summary": "test contains 32 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers."
+      "summary": "test contains 33 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers."
+    },
+    {
+      "name": "outputs",
+      "owns": [
+        "src/outputs/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "outputs contains 20 files and depends on core."
     },
     {
       "name": "core",
@@ -197,6 +199,18 @@
         "core"
       ],
       "summary": "config contains 3 files and depends on core."
+    },
+    {
+      "name": "mcp",
+      "owns": [
+        "src/mcp/**"
+      ],
+      "imports": [
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "summary": "mcp contains 1 file and depends on core, outputs, retrievers."
     },
     {
       "name": "root",

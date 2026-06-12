@@ -1,12 +1,13 @@
 # Task Context: fix a bug or regression
 
 Type: bugfix
-Budget: 2,859 / 12,000 estimated tokens
+Budget: 3,170 / 12,000 estimated tokens
 
 ## Read First
 1. `src/outputs/task-harness.ts` - lexical match: regression; defines TaskPackWriteResult
 2. `src/outputs/test-selector.ts` - lexical match: regression; defines TestSelectionOptions
-3. `src/cli/index.ts` - direct importer of src/outputs/test-selector.ts, direct importer of src/outputs/task-harness.ts; defines program
+3. `src/mcp/server.ts` - direct importer of src/outputs/task-harness.ts, direct importer of src/outputs/test-selector.ts; defines repoContextMcpToolNames
+4. `src/cli/index.ts` - direct importer of src/outputs/test-selector.ts, direct importer of src/outputs/task-harness.ts; defines program
 
 ## Then Inspect If Needed
 - `test/task-harness.test.ts` - direct importer of src/outputs/task-harness.ts, related test
@@ -31,6 +32,7 @@ Budget: 2,859 / 12,000 estimated tokens
 | --- | --- | --- | --- | --- |
 | `src/outputs/task-harness.ts` | direct-source | 277 | lexical match: regression | src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports. |
 | `src/outputs/test-selector.ts` | direct-source | 226 | lexical match: regression | src/outputs/test-selector.ts contains 44 detected symbols, 3 imports, 4 exports. |
+| `src/mcp/server.ts` | entrypoint | 226 | direct importer of src/outputs/task-harness.ts, direct importer of src/outputs/test-selector.ts, entrypoint | src/mcp/server.ts contains 48 detected symbols, 13 imports, 4 exports. |
 | `src/cli/index.ts` | entrypoint | 168 | direct importer of src/outputs/test-selector.ts, direct importer of src/outputs/task-harness.ts, entrypoint | src/cli/index.ts contains 52 detected symbols, 23 imports, 0 exports. |
 | `test/task-harness.test.ts` | test | 83 | direct importer of src/outputs/task-harness.ts, related test | test/task-harness.test.ts contains 17 detected symbols, 9 imports, 0 exports. |
 | `test/test-selector.test.ts` | test | 84 | direct importer of src/outputs/test-selector.ts, related test | test/test-selector.test.ts contains 15 detected symbols, 8 imports, 0 exports. |
@@ -39,7 +41,7 @@ Budget: 2,859 / 12,000 estimated tokens
 | `src/core/types.ts` | dependency-neighbor | 291 | direct dependency of src/outputs/task-harness.ts, direct dependency of src/outputs/test-selector.ts | src/core/types.ts contains 34 detected symbols, 0 imports, 34 exports. |
 | `src/outputs/markdown.ts` | dependency-neighbor | 68 | direct dependency of src/outputs/task-harness.ts, direct dependency of src/outputs/test-selector.ts | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
 | `src/core/git.ts` | dependency-neighbor | 73 | direct dependency of src/outputs/task-harness.ts, direct dependency of src/outputs/test-selector.ts | src/core/git.ts contains 7 detected symbols, 1 import, 2 exports. |
-| `src/benchmarks/benchmark.ts` | dependency-neighbor | 246 | direct importer of src/outputs/test-selector.ts | src/benchmarks/benchmark.ts contains 44 detected symbols, 7 imports, 7 exports. |
+| `src/benchmarks/benchmark.ts` | dependency-neighbor | 331 | direct importer of src/outputs/test-selector.ts | src/benchmarks/benchmark.ts contains 64 detected symbols, 7 imports, 10 exports. |
 | `src/outputs/contract-validator.ts` | dependency-neighbor | 315 | direct dependency of src/outputs/task-harness.ts | src/outputs/contract-validator.ts contains 61 detected symbols, 6 imports, 5 exports. |
 | `src/outputs/task-context.ts` | dependency-neighbor | 252 | direct dependency of src/outputs/task-harness.ts | src/outputs/task-context.ts contains 64 detected symbols, 3 imports, 3 exports. |
 | `benchmarks/fixtures/monorepo/packages/api/package.json` | config-doc | 51 | configuration | benchmarks/fixtures/monorepo/packages/api/package.json is a config file written as JSON. |
@@ -61,11 +63,11 @@ Budget: 2,859 / 12,000 estimated tokens
 | --- | --- | --- |
 | Directly relevant source files | 503 | `src/outputs/task-harness.ts`, `src/outputs/test-selector.ts` |
 | Tests | 238 | `test/task-harness.test.ts`, `test/test-selector.test.ts`, `test/contract-validator.test.ts` |
-| Dependency neighbors | 1,439 | `src/outputs/task-run.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/core/git.ts`, `src/benchmarks/benchmark.ts`, `src/outputs/contract-validator.ts`, `src/outputs/task-context.ts` |
+| Dependency neighbors | 1,524 | `src/outputs/task-run.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/core/git.ts`, `src/benchmarks/benchmark.ts`, `src/outputs/contract-validator.ts`, `src/outputs/task-context.ts` |
 | Config/docs | 511 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
-| Entrypoints | 168 | `src/cli/index.ts` |
+| Entrypoints | 394 | `src/mcp/server.ts`, `src/cli/index.ts` |
 
-Remaining budget: 9,141 estimated tokens
+Remaining budget: 8,830 estimated tokens
 
 ## Suggested Commands
 - npm run test -- regression

@@ -154,6 +154,7 @@ repo-context tests [repo] --for <path>
 repo-context tests [repo] --diff --base main
 repo-context benchmark [benchmarkDir] --top-k 8
 repo-context retrieve "<task>" [repo] --provider hybrid
+repo-context-mcp
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -346,6 +347,27 @@ repo-context rag search "fix login timeout" . --provider static --json
 ```
 
 这样 MCP、VS Code、Cursor、Codex CLI、LightRAG 和后续 embedding 存储都可以对齐同一个检索契约，而不是把 Harness 绑定到某一个 RAG 框架。
+
+## MCP Server
+
+Repo-to-Agent-Context 提供 stdio MCP server，可服务 Claude Code、Cursor、LibreChat、OpenHands 和自研 Agent：
+
+```bash
+repo-context-mcp
+# 开发时
+npm run mcp
+```
+
+暴露的 MCP tools：
+
+- `repo_context_build`
+- `repo_context_plan`
+- `repo_context_pack`
+- `repo_context_retrieve`
+- `repo_context_tests`
+- `repo_context_impact`
+- `repo_context_verify`
+- `repo_context_explain`
 
 ## 可选 RAG：LightRAG
 

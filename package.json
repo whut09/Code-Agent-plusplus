@@ -4,7 +4,8 @@
   "description": "Agent Context Harness that generates minimal, evidence-linked, task-aware context packs for coding agents.",
   "type": "module",
   "bin": {
-    "repo-context": "./dist/cli/index.js"
+    "repo-context": "./dist/cli/index.js",
+    "repo-context-mcp": "./dist/mcp/server.js"
   },
   "files": [
     ".env.example",
@@ -20,6 +21,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "tsx src/cli/index.ts",
+    "mcp": "tsx src/mcp/server.ts",
     "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
     "format": "prettier --ignore-unknown --write \"src/**/*.ts\" \"test/**/*.ts\" \"README*.md\" \"docs/**/*.md\" \"*.{json,yml,yaml,cjs,js}\" \".github/**/*.yml\" \".env.example\" \"benchmarks/README.md\" \"benchmarks/expected/*.json\" \"benchmarks/tasks/*.json\"",
@@ -47,12 +49,14 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.18.0",
     "commander": "^14.0.2",
     "fast-glob": "^3.3.3",
     "ignore": "^7.0.5",
     "js-tiktoken": "^1.0.21",
     "js-yaml": "^4.1.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

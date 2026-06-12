@@ -4,6 +4,7 @@
     "pathPrefix": "benchmarks",
     "files": [
       "benchmarks/README.md",
+      "benchmarks/agent-runs/manual-eval.json",
       "benchmarks/expected/relevant-files.json",
       "benchmarks/expected/required-tests.json",
       "benchmarks/fixtures/fastapi-app/app/admin.py",
@@ -57,8 +58,59 @@
       "core",
       "outputs"
     ],
-    "summary": "benchmarks contains 49 files and depends on core, outputs.",
+    "summary": "benchmarks contains 50 files and depends on core, outputs.",
     "importanceScore": 935
+  },
+  {
+    "name": "test",
+    "pathPrefix": "test",
+    "files": [
+      "test/agents-md.test.ts",
+      "test/analyzers.test.ts",
+      "test/benchmark.test.ts",
+      "test/config.test.ts",
+      "test/contract-validator.test.ts",
+      "test/fixtures.test.ts",
+      "test/fixtures/monorepo/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/pnpm-workspace.yaml",
+      "test/fixtures/monorepo/turbo.json",
+      "test/fixtures/next-app/package.json",
+      "test/fixtures/next-app/src/app/api/login/route.ts",
+      "test/fixtures/next-app/src/auth/session.ts",
+      "test/fixtures/next-app/tsconfig.json",
+      "test/fixtures/python-package/pyproject.toml",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "test/impact.test.ts",
+      "test/mcp.test.ts",
+      "test/readiness.test.ts",
+      "test/retrievers.test.ts",
+      "test/scanner.test.ts",
+      "test/snapshot.test.ts",
+      "test/task-args.test.ts",
+      "test/task-context.test.ts",
+      "test/task-harness.test.ts",
+      "test/test-selector.test.ts",
+      "test/token-savings.test.ts",
+      "test/validator.test.ts",
+      "test/writer.test.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "benchmarks",
+      "cli",
+      "config",
+      "core",
+      "mcp",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "test contains 33 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
+    "importanceScore": 912
   },
   {
     "name": "outputs",
@@ -89,56 +141,7 @@
       "core"
     ],
     "summary": "outputs contains 20 files and depends on core.",
-    "importanceScore": 886
-  },
-  {
-    "name": "test",
-    "pathPrefix": "test",
-    "files": [
-      "test/agents-md.test.ts",
-      "test/analyzers.test.ts",
-      "test/benchmark.test.ts",
-      "test/config.test.ts",
-      "test/contract-validator.test.ts",
-      "test/fixtures.test.ts",
-      "test/fixtures/monorepo/package.json",
-      "test/fixtures/monorepo/packages/api/package.json",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/package.json",
-      "test/fixtures/monorepo/packages/web/src/index.ts",
-      "test/fixtures/monorepo/pnpm-workspace.yaml",
-      "test/fixtures/monorepo/turbo.json",
-      "test/fixtures/next-app/package.json",
-      "test/fixtures/next-app/src/app/api/login/route.ts",
-      "test/fixtures/next-app/src/auth/session.ts",
-      "test/fixtures/next-app/tsconfig.json",
-      "test/fixtures/python-package/pyproject.toml",
-      "test/fixtures/python-package/src/app/models.py",
-      "test/fixtures/python-package/src/app/service.py",
-      "test/impact.test.ts",
-      "test/readiness.test.ts",
-      "test/retrievers.test.ts",
-      "test/scanner.test.ts",
-      "test/snapshot.test.ts",
-      "test/task-args.test.ts",
-      "test/task-context.test.ts",
-      "test/task-harness.test.ts",
-      "test/test-selector.test.ts",
-      "test/token-savings.test.ts",
-      "test/validator.test.ts",
-      "test/writer.test.ts"
-    ],
-    "imports": [
-      "analyzers",
-      "benchmarks",
-      "cli",
-      "config",
-      "core",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "test contains 32 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers.",
-    "importanceScore": 870
+    "importanceScore": 906
   },
   {
     "name": "core",
@@ -184,7 +187,7 @@
       "outputs"
     ],
     "summary": "retrievers contains 6 files and depends on core, outputs.",
-    "importanceScore": 251
+    "importanceScore": 256
   },
   {
     "name": "analyzers",
@@ -233,6 +236,20 @@
     ],
     "summary": "config contains 3 files and depends on core.",
     "importanceScore": 98
+  },
+  {
+    "name": "mcp",
+    "pathPrefix": "mcp",
+    "files": [
+      "src/mcp/server.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "mcp contains 1 file and depends on core, outputs, retrievers.",
+    "importanceScore": 91
   },
   {
     "name": "root",

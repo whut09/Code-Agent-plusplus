@@ -99,7 +99,7 @@
     "name": "markdown",
     "kind": "const",
     "filePath": "test/benchmark.test.ts",
-    "line": 17
+    "line": 21
   },
   {
     "name": "root",
@@ -280,6 +280,54 @@
     "kind": "const",
     "filePath": "test/impact.test.ts",
     "line": 61
+  },
+  {
+    "name": "createMcpRepo",
+    "kind": "function",
+    "filePath": "test/mcp.test.ts",
+    "line": 9
+  },
+  {
+    "name": "root",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 10
+  },
+  {
+    "name": "root",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 48
+  },
+  {
+    "name": "result",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 50
+  },
+  {
+    "name": "hits",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 57
+  },
+  {
+    "name": "suggestedCommands",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 58
+  },
+  {
+    "name": "root",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 71
+  },
+  {
+    "name": "result",
+    "kind": "const",
+    "filePath": "test/mcp.test.ts",
+    "line": 81
   },
   {
     "name": "report",
@@ -1662,256 +1710,376 @@
     "line": 19
   },
   {
+    "name": "AgentRunMode",
+    "kind": "type",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 24
+  },
+  {
+    "name": "AgentRunRecord",
+    "kind": "interface",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 26
+  },
+  {
+    "name": "AgentRunModeSummary",
+    "kind": "interface",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 41
+  },
+  {
     "name": "BenchmarkCaseResult",
     "kind": "interface",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 24
+    "line": 51
   },
   {
     "name": "BenchmarkRunResult",
     "kind": "interface",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 47
+    "line": 77
   },
   {
     "name": "BenchmarkSummary",
     "kind": "interface",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 54
+    "line": 84
   },
   {
     "name": "runBenchmark",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 64
+    "line": 96
   },
   {
     "name": "benchmarkDir",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 65
+    "line": 97
   },
   {
     "name": "topK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 66
+    "line": 98
   },
   {
     "name": "tasks",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 67
+    "line": 99
   },
   {
     "name": "relevantFiles",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 68
+    "line": 100
   },
   {
     "name": "requiredTests",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 69
+    "line": 101
+  },
+  {
+    "name": "agentRuns",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 102
   },
   {
     "name": "cases",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 70
+    "line": 103
   },
   {
     "name": "fixtureRoot",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 73
+    "line": 106
   },
   {
     "name": "context",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 74
+    "line": 107
   },
   {
     "name": "caseTopK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 75
+    "line": 108
   },
   {
     "name": "pack",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 76
+    "line": 109
   },
   {
     "name": "selectedFiles",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 77
+    "line": 110
   },
   {
     "name": "selectedTopK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 78
+    "line": 111
   },
   {
     "name": "expectedRelevantFiles",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 79
+    "line": 112
   },
   {
     "name": "expectedRequiredTests",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 80
+    "line": 113
   },
   {
     "name": "testSelection",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 81
+    "line": 114
   },
   {
     "name": "recommendedTests",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 82
+    "line": 115
   },
   {
     "name": "baselineTopK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 83
+    "line": 116
   },
   {
     "name": "recallAtK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 84
+    "line": 117
   },
   {
     "name": "precisionAtK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 85
+    "line": 118
   },
   {
     "name": "baselineRecallAtK",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 86
+    "line": 119
   },
   {
     "name": "testRecommendationAccuracy",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 87
+    "line": 120
   },
   {
     "name": "baselineTestAccuracy",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 88
+    "line": 121
   },
   {
     "name": "contextPackSuccessProxy",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 89
+    "line": 122
   },
   {
     "name": "baselineSuccessProxy",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 90
+    "line": 123
   },
   {
     "name": "tokenCompressionRatio",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 91
+    "line": 124
+  },
+  {
+    "name": "caseAgentRuns",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 125
+  },
+  {
+    "name": "agentRunModes",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 126
+  },
+  {
+    "name": "agentSuccessDelta",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 127
   },
   {
     "name": "renderBenchmarkReport",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 125
+    "line": 164
+  },
+  {
+    "name": "renderAgentRunModes",
+    "kind": "function",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 216
+  },
+  {
+    "name": "rows",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 217
   },
   {
     "name": "readTasks",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 170
+    "line": 237
+  },
+  {
+    "name": "readAgentRuns",
+    "kind": "function",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 244
+  },
+  {
+    "name": "parsed",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 250
   },
   {
     "name": "readJson",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 177
+    "line": 255
   },
   {
     "name": "recall",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 181
+    "line": 259
   },
   {
     "name": "actualSet",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 183
+    "line": 261
   },
   {
     "name": "precision",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 187
+    "line": 265
   },
   {
     "name": "expectedSet",
     "kind": "const",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 189
+    "line": 267
   },
   {
     "name": "ratio",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 193
+    "line": 271
   },
   {
     "name": "summarize",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 197
+    "line": 275
+  },
+  {
+    "name": "realDeltas",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 276
+  },
+  {
+    "name": "summarizeAgentRuns",
+    "kind": "function",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 290
+  },
+  {
+    "name": "modes",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 291
+  },
+  {
+    "name": "modeRuns",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 294
+  },
+  {
+    "name": "realAgentSuccessDelta",
+    "kind": "function",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 308
+  },
+  {
+    "name": "baseline",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 309
+  },
+  {
+    "name": "harness",
+    "kind": "const",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 310
   },
   {
     "name": "average",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 209
+    "line": 318
+  },
+  {
+    "name": "nullableAverage",
+    "kind": "function",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 323
+  },
+  {
+    "name": "isAgentRunRecord",
+    "kind": "function",
+    "filePath": "src/benchmarks/benchmark.ts",
+    "line": 327
   },
   {
     "name": "percent",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 214
+    "line": 341
   },
   {
     "name": "signed",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 218
+    "line": 345
   },
   {
     "name": "unique",
     "kind": "function",
     "filePath": "src/benchmarks/benchmark.ts",
-    "line": 222
+    "line": 349
   },
   {
     "name": "program",
@@ -2572,6 +2740,2208 @@
     "kind": "function",
     "filePath": "src/llm/provider.ts",
     "line": 63
+  },
+  {
+    "name": "BuildOptions",
+    "kind": "interface",
+    "filePath": "src/core/context-builder.ts",
+    "line": 12
+  },
+  {
+    "name": "buildContextPackage",
+    "kind": "function",
+    "filePath": "src/core/context-builder.ts",
+    "line": 20
+  },
+  {
+    "name": "overrides",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 21
+  },
+  {
+    "name": "config",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 37
+  },
+  {
+    "name": "scan",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 38
+  },
+  {
+    "name": "index",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 39
+  },
+  {
+    "name": "graph",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 40
+  },
+  {
+    "name": "keyFiles",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 41
+  },
+  {
+    "name": "readiness",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 42
+  },
+  {
+    "name": "summaries",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 46
+  },
+  {
+    "name": "tokenSavings",
+    "kind": "const",
+    "filePath": "src/core/context-builder.ts",
+    "line": 47
+  },
+  {
+    "name": "DOC_EXTENSIONS",
+    "kind": "const",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 5
+  },
+  {
+    "name": "ASSET_EXTENSIONS",
+    "kind": "const",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 6
+  },
+  {
+    "name": "CONFIG_NAMES",
+    "kind": "const",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 8
+  },
+  {
+    "name": "LOCK_NAMES",
+    "kind": "const",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 28
+  },
+  {
+    "name": "classifyFile",
+    "kind": "function",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 30
+  },
+  {
+    "name": "base",
+    "kind": "const",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 31
+  },
+  {
+    "name": "isTestPath",
+    "kind": "function",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 64
+  },
+  {
+    "name": "isGeneratedPath",
+    "kind": "function",
+    "filePath": "src/core/file-classifier.ts",
+    "line": 74
+  },
+  {
+    "name": "GIT_CANDIDATES",
+    "kind": "const",
+    "filePath": "src/core/git.ts",
+    "line": 3
+  },
+  {
+    "name": "runGit",
+    "kind": "function",
+    "filePath": "src/core/git.ts",
+    "line": 5
+  },
+  {
+    "name": "errors",
+    "kind": "const",
+    "filePath": "src/core/git.ts",
+    "line": 6
+  },
+  {
+    "name": "changedFilesSince",
+    "kind": "function",
+    "filePath": "src/core/git.ts",
+    "line": 22
+  },
+  {
+    "name": "changed",
+    "kind": "const",
+    "filePath": "src/core/git.ts",
+    "line": 23
+  },
+  {
+    "name": "untracked",
+    "kind": "const",
+    "filePath": "src/core/git.ts",
+    "line": 24
+  },
+  {
+    "name": "parseGitPathList",
+    "kind": "function",
+    "filePath": "src/core/git.ts",
+    "line": 28
+  },
+  {
+    "name": "buildDependencyGraph",
+    "kind": "function",
+    "filePath": "src/core/graph.ts",
+    "line": 3
+  },
+  {
+    "name": "fileToModule",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 4
+  },
+  {
+    "name": "moduleEdgeCounts",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 5
+  },
+  {
+    "name": "from",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 9
+  },
+  {
+    "name": "to",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 10
+  },
+  {
+    "name": "key",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 13
+  },
+  {
+    "name": "current",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 14
+  },
+  {
+    "name": "from",
+    "kind": "const",
+    "filePath": "src/core/graph.ts",
+    "line": 22
+  },
+  {
+    "name": "ANALYZERS",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 11
+  },
+  {
+    "name": "indexRepository",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 13
+  },
+  {
+    "name": "allPaths",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 14
+  },
+  {
+    "name": "analysisContext",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 15
+  },
+  {
+    "name": "files",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 25
+  },
+  {
+    "name": "imports",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 26
+  },
+  {
+    "name": "symbols",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 27
+  },
+  {
+    "name": "content",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 30
+  },
+  {
+    "name": "analyzer",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 31
+  },
+  {
+    "name": "analysis",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 32
+  },
+  {
+    "name": "moduleName",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 33
+  },
+  {
+    "name": "indexed",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 35
+  },
+  {
+    "name": "loadPackageAliases",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 70
+  },
+  {
+    "name": "aliases",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 71
+  },
+  {
+    "name": "packageJson",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 73
+  },
+  {
+    "name": "name",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 75
+  },
+  {
+    "name": "packageDir",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 78
+  },
+  {
+    "name": "qualify",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 79
+  },
+  {
+    "name": "entryTargets",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 80
+  },
+  {
+    "name": "readJson",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 98
+  },
+  {
+    "name": "packageEntryTargets",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 106
+  },
+  {
+    "name": "fields",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 107
+  },
+  {
+    "name": "packageExportAliases",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 111
+  },
+  {
+    "name": "exportsValue",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 116
+  },
+  {
+    "name": "aliases",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 124
+  },
+  {
+    "name": "target",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 126
+  },
+  {
+    "name": "subpath",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 128
+  },
+  {
+    "name": "exportTarget",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 137
+  },
+  {
+    "name": "object",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 140
+  },
+  {
+    "name": "stripPackageTarget",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 147
+  },
+  {
+    "name": "loadPathAliases",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 151
+  },
+  {
+    "name": "configPath",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 152
+  },
+  {
+    "name": "parsed",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 156
+  },
+  {
+    "name": "compilerOptions",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 157
+  },
+  {
+    "name": "baseUrl",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 163
+  },
+  {
+    "name": "shouldRead",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 173
+  },
+  {
+    "name": "buildModules",
+    "kind": "function",
+    "filePath": "src/core/indexer.ts",
+    "line": 177
+  },
+  {
+    "name": "moduleMap",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 178
+  },
+  {
+    "name": "module",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 181
+  },
+  {
+    "name": "fileToModule",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 193
+  },
+  {
+    "name": "fromModule",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 196
+  },
+  {
+    "name": "toModule",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 197
+  },
+  {
+    "name": "module",
+    "kind": "const",
+    "filePath": "src/core/indexer.ts",
+    "line": 199
+  },
+  {
+    "name": "LANGUAGE_BY_EXTENSION",
+    "kind": "const",
+    "filePath": "src/core/language.ts",
+    "line": 1
+  },
+  {
+    "name": "languageForExtension",
+    "kind": "function",
+    "filePath": "src/core/language.ts",
+    "line": 38
+  },
+  {
+    "name": "isSourceLanguage",
+    "kind": "function",
+    "filePath": "src/core/language.ts",
+    "line": 42
+  },
+  {
+    "name": "toPosixPath",
+    "kind": "function",
+    "filePath": "src/core/path-utils.ts",
+    "line": 3
+  },
+  {
+    "name": "stripLeadingDotSlash",
+    "kind": "function",
+    "filePath": "src/core/path-utils.ts",
+    "line": 7
+  },
+  {
+    "name": "dirnamePosix",
+    "kind": "function",
+    "filePath": "src/core/path-utils.ts",
+    "line": 11
+  },
+  {
+    "name": "dir",
+    "kind": "const",
+    "filePath": "src/core/path-utils.ts",
+    "line": 12
+  },
+  {
+    "name": "withoutExtension",
+    "kind": "function",
+    "filePath": "src/core/path-utils.ts",
+    "line": 16
+  },
+  {
+    "name": "moduleNameFor",
+    "kind": "function",
+    "filePath": "src/core/path-utils.ts",
+    "line": 20
+  },
+  {
+    "name": "parts",
+    "kind": "const",
+    "filePath": "src/core/path-utils.ts",
+    "line": 21
+  },
+  {
+    "name": "rankFiles",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 3
+  },
+  {
+    "name": "incoming",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 4
+  },
+  {
+    "name": "outgoing",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 5
+  },
+  {
+    "name": "entrypoints",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 13
+  },
+  {
+    "name": "sourceFileCount",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 14
+  },
+  {
+    "name": "smallRepo",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 15
+  },
+  {
+    "name": "hasSourceFiles",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 16
+  },
+  {
+    "name": "reasons",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 19
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 20
+  },
+  {
+    "name": "inbound",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 51
+  },
+  {
+    "name": "outbound",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 52
+  },
+  {
+    "name": "moduleScores",
+    "kind": "const",
+    "filePath": "src/core/ranker.ts",
+    "line": 110
+  },
+  {
+    "name": "dependencyWord",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 121
+  },
+  {
+    "name": "isApiOrRouteFile",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 125
+  },
+  {
+    "name": "isArchitectureDoc",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 129
+  },
+  {
+    "name": "isHighSignalConfig",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 133
+  },
+  {
+    "name": "isGenericConfig",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 139
+  },
+  {
+    "name": "isToolingConfig",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 143
+  },
+  {
+    "name": "isManifestOrDeploymentConfig",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 149
+  },
+  {
+    "name": "isPackageManifest",
+    "kind": "function",
+    "filePath": "src/core/ranker.ts",
+    "line": 155
+  },
+  {
+    "name": "ReadinessAssessmentOptions",
+    "kind": "interface",
+    "filePath": "src/core/readiness.ts",
+    "line": 13
+  },
+  {
+    "name": "assessReadiness",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 19
+  },
+  {
+    "name": "categories",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 20
+  },
+  {
+    "name": "dimensions",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 28
+  },
+  {
+    "name": "rawScore",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 29
+  },
+  {
+    "name": "capsApplied",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 32
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 33
+  },
+  {
+    "name": "summarizeReadiness",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 46
+  },
+  {
+    "name": "buildDimensions",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 61
+  },
+  {
+    "name": "byName",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 62
+  },
+  {
+    "name": "structure",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 63
+  },
+  {
+    "name": "GET /structure",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 63
+  },
+  {
+    "name": "commands",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 64
+  },
+  {
+    "name": "GET /commands",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 64
+  },
+  {
+    "name": "tests",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 65
+  },
+  {
+    "name": "GET /tests",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 65
+  },
+  {
+    "name": "architecture",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 66
+  },
+  {
+    "name": "GET /architecture",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 66
+  },
+  {
+    "name": "taskContext",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 67
+  },
+  {
+    "name": "GET /task-context",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 67
+  },
+  {
+    "name": "safety",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 68
+  },
+  {
+    "name": "GET /safety",
+    "kind": "route",
+    "filePath": "src/core/readiness.ts",
+    "line": 68
+  },
+  {
+    "name": "dimension",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 101
+  },
+  {
+    "name": "present",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 102
+  },
+  {
+    "name": "readinessCaps",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 111
+  },
+  {
+    "name": "hasCi",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 112
+  },
+  {
+    "name": "hasAstAnalyzer",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 113
+  },
+  {
+    "name": "hasBenchmarkFixture",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 114
+  },
+  {
+    "name": "hasGeneratedOutputValidation",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 115
+  },
+  {
+    "name": "hasRealTokenizer",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 116
+  },
+  {
+    "name": "cap",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 129
+  },
+  {
+    "name": "applyCaps",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 133
+  },
+  {
+    "name": "appliedCaps",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 134
+  },
+  {
+    "name": "assessStructure",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 138
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 139
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 140
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 141
+  },
+  {
+    "name": "usableAnalysis",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 154
+  },
+  {
+    "name": "confidenceRatio",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 155
+  },
+  {
+    "name": "assessCommands",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 161
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 162
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 163
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 164
+  },
+  {
+    "name": "assessTests",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 180
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 181
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 182
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 183
+  },
+  {
+    "name": "tests",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 184
+  },
+  {
+    "name": "assessArchitecture",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 200
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 201
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 202
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 203
+  },
+  {
+    "name": "docsText",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 212
+  },
+  {
+    "name": "largeModules",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 217
+  },
+  {
+    "name": "assessTaskContext",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 223
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 224
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 225
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 226
+  },
+  {
+    "name": "evidenceFiles",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 235
+  },
+  {
+    "name": "assessSafety",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 243
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 244
+  },
+  {
+    "name": "evidence",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 245
+  },
+  {
+    "name": "missing",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 246
+  },
+  {
+    "name": "hasDatabaseSignals",
+    "kind": "const",
+    "filePath": "src/core/readiness.ts",
+    "line": 255
+  },
+  {
+    "name": "category",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 268
+  },
+  {
+    "name": "weighted",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 272
+  },
+  {
+    "name": "dimensionScore",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 276
+  },
+  {
+    "name": "grade",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 280
+  },
+  {
+    "name": "hasArchitectureDocumentation",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 288
+  },
+  {
+    "name": "list",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 292
+  },
+  {
+    "name": "title",
+    "kind": "function",
+    "filePath": "src/core/readiness.ts",
+    "line": 296
+  },
+  {
+    "name": "BINARY_EXTENSIONS",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 11
+  },
+  {
+    "name": "scanRepository",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 30
+  },
+  {
+    "name": "absoluteRoot",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 31
+  },
+  {
+    "name": "gitignore",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 32
+  },
+  {
+    "name": "entries",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 33
+  },
+  {
+    "name": "files",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 42
+  },
+  {
+    "name": "packageJson",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 47
+  },
+  {
+    "name": "languages",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 48
+  },
+  {
+    "name": "packageManagers",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 49
+  },
+  {
+    "name": "scriptRunner",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 50
+  },
+  {
+    "name": "createRepoFile",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 72
+  },
+  {
+    "name": "absolutePath",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 73
+  },
+  {
+    "name": "extension",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 74
+  },
+  {
+    "name": "stats",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 75
+  },
+  {
+    "name": "language",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 76
+  },
+  {
+    "name": "isBinary",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 77
+  },
+  {
+    "name": "kind",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 78
+  },
+  {
+    "name": "loadGitignore",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 94
+  },
+  {
+    "name": "ig",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 95
+  },
+  {
+    "name": "gitignorePath",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 96
+  },
+  {
+    "name": "readPackageJson",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 104
+  },
+  {
+    "name": "packagePath",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 105
+  },
+  {
+    "name": "detectFrameworks",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 117
+  },
+  {
+    "name": "deps",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 118
+  },
+  {
+    "name": "names",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 124
+  },
+  {
+    "name": "fileSet",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 125
+  },
+  {
+    "name": "detectPackageManagers",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 145
+  },
+  {
+    "name": "fileSet",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 146
+  },
+  {
+    "name": "managers",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 147
+  },
+  {
+    "name": "detectEntrypoints",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 160
+  },
+  {
+    "name": "candidates",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 161
+  },
+  {
+    "name": "fileSet",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 162
+  },
+  {
+    "name": "common",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 163
+  },
+  {
+    "name": "main",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 183
+  },
+  {
+    "name": "scripts",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 188
+  },
+  {
+    "name": "detectTestCommands",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 201
+  },
+  {
+    "name": "scripts",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 202
+  },
+  {
+    "name": "detectRunCommands",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 208
+  },
+  {
+    "name": "scripts",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 209
+  },
+  {
+    "name": "detectNamedCommands",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 215
+  },
+  {
+    "name": "scripts",
+    "kind": "const",
+    "filePath": "src/core/scanner.ts",
+    "line": 216
+  },
+  {
+    "name": "formatScriptCommand",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 222
+  },
+  {
+    "name": "objectValue",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 230
+  },
+  {
+    "name": "unique",
+    "kind": "function",
+    "filePath": "src/core/scanner.ts",
+    "line": 234
+  },
+  {
+    "name": "summarizeRepository",
+    "kind": "function",
+    "filePath": "src/core/summarizer.ts",
+    "line": 4
+  },
+  {
+    "name": "offline",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 5
+  },
+  {
+    "name": "client",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 6
+  },
+  {
+    "name": "repoSummary",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 16
+  },
+  {
+    "name": "buildOfflineSummary",
+    "kind": "function",
+    "filePath": "src/core/summarizer.ts",
+    "line": 33
+  },
+  {
+    "name": "moduleSummaries",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 34
+  },
+  {
+    "name": "topModules",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 42
+  },
+  {
+    "name": "topFiles",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 46
+  },
+  {
+    "name": "commandSummary",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 50
+  },
+  {
+    "name": "repoSummary",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 57
+  },
+  {
+    "name": "buildRepoPrompt",
+    "kind": "function",
+    "filePath": "src/core/summarizer.ts",
+    "line": 74
+  },
+  {
+    "name": "modules",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 75
+  },
+  {
+    "name": "keyFiles",
+    "kind": "const",
+    "filePath": "src/core/summarizer.ts",
+    "line": 80
+  },
+  {
+    "name": "estimateTokens",
+    "kind": "function",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 4
+  },
+  {
+    "name": "TokenCountResult",
+    "kind": "interface",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 12
+  },
+  {
+    "name": "countTokens",
+    "kind": "function",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 18
+  },
+  {
+    "name": "encoder",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 28
+  },
+  {
+    "name": "encoder",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 36
+  },
+  {
+    "name": "tokenizerFromModel",
+    "kind": "function",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 52
+  },
+  {
+    "name": "normalized",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 53
+  },
+  {
+    "name": "parseTokenizerMode",
+    "kind": "function",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 61
+  },
+  {
+    "name": "normalized",
+    "kind": "const",
+    "filePath": "src/core/token-estimator.ts",
+    "line": 62
+  },
+  {
+    "name": "DEFAULT_TOKEN_BUDGET",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 4
+  },
+  {
+    "name": "SUMMARY_OVERHEAD_TOKENS",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 5
+  },
+  {
+    "name": "MODULE_OVERHEAD_TOKENS",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 6
+  },
+  {
+    "name": "GRAPH_EDGE_TOKENS",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 7
+  },
+  {
+    "name": "MAX_GRAPH_EDGES",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 8
+  },
+  {
+    "name": "MAX_SELECTED_FILES",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 9
+  },
+  {
+    "name": "TokenSavingsOptions",
+    "kind": "interface",
+    "filePath": "src/core/token-savings.ts",
+    "line": 11
+  },
+  {
+    "name": "calculateTokenSavings",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 16
+  },
+  {
+    "name": "originalTokens",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 17
+  },
+  {
+    "name": "tokenBudget",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 18
+  },
+  {
+    "name": "tokenizer",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 19
+  },
+  {
+    "name": "selectedFiles",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 20
+  },
+  {
+    "name": "contextPackTokens",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 21
+  },
+  {
+    "name": "compressionRatio",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 22
+  },
+  {
+    "name": "formatTokenSavings",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 53
+  },
+  {
+    "name": "actual",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 54
+  },
+  {
+    "name": "lines",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 55
+  },
+  {
+    "name": "selectFilesForBudget",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 67
+  },
+  {
+    "name": "selected",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 68
+  },
+  {
+    "name": "candidate",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 70
+  },
+  {
+    "name": "estimateContextPackTokens",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 81
+  },
+  {
+    "name": "scanTokens",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 82
+  },
+  {
+    "name": "estimateContextPackTokensForFiles",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 97
+  },
+  {
+    "name": "selectedModules",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 98
+  },
+  {
+    "name": "fileTokens",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 99
+  },
+  {
+    "name": "moduleTokens",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 100
+  },
+  {
+    "name": "graphTokens",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 101
+  },
+  {
+    "name": "estimateCompactFileTokens",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 110
+  },
+  {
+    "name": "compactText",
+    "kind": "const",
+    "filePath": "src/core/token-savings.ts",
+    "line": 111
+  },
+  {
+    "name": "formatTokenizer",
+    "kind": "function",
+    "filePath": "src/core/token-savings.ts",
+    "line": 131
+  },
+  {
+    "name": "AgentTarget",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 1
+  },
+  {
+    "name": "AgentsMode",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 2
+  },
+  {
+    "name": "AgentsSection",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 3
+  },
+  {
+    "name": "TokenizerMode",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 4
+  },
+  {
+    "name": "AnalysisConfidence",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 5
+  },
+  {
+    "name": "TaskType",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 6
+  },
+  {
+    "name": "RepoContextConfig",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 8
+  },
+  {
+    "name": "AgentsConfig",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 27
+  },
+  {
+    "name": "LlmConfig",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 34
+  },
+  {
+    "name": "RagConfig",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 44
+  },
+  {
+    "name": "TokenizerConfig",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 49
+  },
+  {
+    "name": "RepoScan",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 54
+  },
+  {
+    "name": "RepoFile",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 71
+  },
+  {
+    "name": "FileKind",
+    "kind": "type",
+    "filePath": "src/core/types.ts",
+    "line": 84
+  },
+  {
+    "name": "RepoIndex",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 86
+  },
+  {
+    "name": "IndexedFile",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 93
+  },
+  {
+    "name": "ImportRef",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 107
+  },
+  {
+    "name": "ImportEdge",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 113
+  },
+  {
+    "name": "SymbolInfo",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 120
+  },
+  {
+    "name": "AnalysisStats",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 127
+  },
+  {
+    "name": "AnalysisEvidence",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 135
+  },
+  {
+    "name": "ModuleInfo",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 142
+  },
+  {
+    "name": "DependencyGraph",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 151
+  },
+  {
+    "name": "ContextPackage",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 160
+  },
+  {
+    "name": "SummaryBundle",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 172
+  },
+  {
+    "name": "AgentReadinessReport",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 184
+  },
+  {
+    "name": "ReadinessCategory",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 194
+  },
+  {
+    "name": "ReadinessDimension",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 201
+  },
+  {
+    "name": "ReadinessCap",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 208
+  },
+  {
+    "name": "TokenSavingsReport",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 215
+  },
+  {
+    "name": "ActualOutputTokenReport",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 231
+  },
+  {
+    "name": "TokenCountSummary",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 241
+  },
+  {
+    "name": "TaskPack",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 248
+  },
+  {
+    "name": "TaskPackFile",
+    "kind": "interface",
+    "filePath": "src/core/types.ts",
+    "line": 277
+  },
+  {
+    "name": "ValidationIssue",
+    "kind": "interface",
+    "filePath": "src/core/validator.ts",
+    "line": 5
+  },
+  {
+    "name": "ValidationReport",
+    "kind": "interface",
+    "filePath": "src/core/validator.ts",
+    "line": 11
+  },
+  {
+    "name": "validateContextPackage",
+    "kind": "function",
+    "filePath": "src/core/validator.ts",
+    "line": 16
+  },
+  {
+    "name": "issues",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 17
+  },
+  {
+    "name": "paths",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 18
+  },
+  {
+    "name": "lowConfidence",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 39
+  },
+  {
+    "name": "validateGeneratedJson",
+    "kind": "function",
+    "filePath": "src/core/validator.ts",
+    "line": 55
+  },
+  {
+    "name": "contextDir",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 56
+  },
+  {
+    "name": "filePath",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 76
+  },
+  {
+    "name": "parsed",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 79
+  },
+  {
+    "name": "actualTotal",
+    "kind": "const",
+    "filePath": "src/core/validator.ts",
+    "line": 82
+  },
+  {
+    "name": "repoContextMcpToolNames",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 15
+  },
+  {
+    "name": "RepoContextMcpToolName",
+    "kind": "type",
+    "filePath": "src/mcp/server.ts",
+    "line": 26
+  },
+  {
+    "name": "RepoContextMcpResult",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 28
+  },
+  {
+    "name": "RetrieveArguments",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 32
+  },
+  {
+    "name": "createRepoContextMcpServer",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 42
+  },
+  {
+    "name": "server",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 43
+  },
+  {
+    "name": "runRepoContextMcpServer",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 166
+  },
+  {
+    "name": "server",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 167
+  },
+  {
+    "name": "transport",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 168
+  },
+  {
+    "name": "executeRepoContextMcpTool",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 172
+  },
+  {
+    "name": "BuildInput",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 193
+  },
+  {
+    "name": "PlanInput",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 197
+  },
+  {
+    "name": "PackInput",
+    "kind": "type",
+    "filePath": "src/mcp/server.ts",
+    "line": 204
+  },
+  {
+    "name": "TestsInput",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 206
+  },
+  {
+    "name": "ImpactInput",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 213
+  },
+  {
+    "name": "VerifyInput",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 218
+  },
+  {
+    "name": "ExplainInput",
+    "kind": "interface",
+    "filePath": "src/mcp/server.ts",
+    "line": 224
+  },
+  {
+    "name": "runBuild",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 229
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 230
+  },
+  {
+    "name": "result",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 237
+  },
+  {
+    "name": "runTaskPlan",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 256
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 257
+  },
+  {
+    "name": "markdown",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 258
+  },
+  {
+    "name": "runTaskPack",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 266
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 267
+  },
+  {
+    "name": "result",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 268
+  },
+  {
+    "name": "runRetrieve",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 278
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 279
+  },
+  {
+    "name": "retriever",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 280
+  },
+  {
+    "name": "hits",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 281
+  },
+  {
+    "name": "selectionPaths",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 287
+  },
+  {
+    "name": "selection",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 294
+  },
+  {
+    "name": "runTests",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 313
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 314
+  },
+  {
+    "name": "report",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 315
+  },
+  {
+    "name": "runImpact",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 326
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 327
+  },
+  {
+    "name": "report",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 328
+  },
+  {
+    "name": "runVerify",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 335
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 336
+  },
+  {
+    "name": "runExplain",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 342
+  },
+  {
+    "name": "context",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 343
+  },
+  {
+    "name": "targetPath",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 344
+  },
+  {
+    "name": "file",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 345
+  },
+  {
+    "name": "module",
+    "kind": "const",
+    "filePath": "src/mcp/server.ts",
+    "line": 361
+  },
+  {
+    "name": "confidenceForScore",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 378
+  },
+  {
+    "name": "jsonToolResult",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 384
+  },
+  {
+    "name": "unique",
+    "kind": "function",
+    "filePath": "src/mcp/server.ts",
+    "line": 395
   },
   {
     "name": "ExternalProtocolRetriever",
@@ -5802,1920 +8172,6 @@
     "line": 340
   },
   {
-    "name": "BuildOptions",
-    "kind": "interface",
-    "filePath": "src/core/context-builder.ts",
-    "line": 12
-  },
-  {
-    "name": "buildContextPackage",
-    "kind": "function",
-    "filePath": "src/core/context-builder.ts",
-    "line": 20
-  },
-  {
-    "name": "overrides",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 21
-  },
-  {
-    "name": "config",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 37
-  },
-  {
-    "name": "scan",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 38
-  },
-  {
-    "name": "index",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 39
-  },
-  {
-    "name": "graph",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 40
-  },
-  {
-    "name": "keyFiles",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 41
-  },
-  {
-    "name": "readiness",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 42
-  },
-  {
-    "name": "summaries",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 46
-  },
-  {
-    "name": "tokenSavings",
-    "kind": "const",
-    "filePath": "src/core/context-builder.ts",
-    "line": 47
-  },
-  {
-    "name": "DOC_EXTENSIONS",
-    "kind": "const",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 5
-  },
-  {
-    "name": "ASSET_EXTENSIONS",
-    "kind": "const",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 6
-  },
-  {
-    "name": "CONFIG_NAMES",
-    "kind": "const",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 8
-  },
-  {
-    "name": "LOCK_NAMES",
-    "kind": "const",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 28
-  },
-  {
-    "name": "classifyFile",
-    "kind": "function",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 30
-  },
-  {
-    "name": "base",
-    "kind": "const",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 31
-  },
-  {
-    "name": "isTestPath",
-    "kind": "function",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 64
-  },
-  {
-    "name": "isGeneratedPath",
-    "kind": "function",
-    "filePath": "src/core/file-classifier.ts",
-    "line": 74
-  },
-  {
-    "name": "GIT_CANDIDATES",
-    "kind": "const",
-    "filePath": "src/core/git.ts",
-    "line": 3
-  },
-  {
-    "name": "runGit",
-    "kind": "function",
-    "filePath": "src/core/git.ts",
-    "line": 5
-  },
-  {
-    "name": "errors",
-    "kind": "const",
-    "filePath": "src/core/git.ts",
-    "line": 6
-  },
-  {
-    "name": "changedFilesSince",
-    "kind": "function",
-    "filePath": "src/core/git.ts",
-    "line": 22
-  },
-  {
-    "name": "changed",
-    "kind": "const",
-    "filePath": "src/core/git.ts",
-    "line": 23
-  },
-  {
-    "name": "untracked",
-    "kind": "const",
-    "filePath": "src/core/git.ts",
-    "line": 24
-  },
-  {
-    "name": "parseGitPathList",
-    "kind": "function",
-    "filePath": "src/core/git.ts",
-    "line": 28
-  },
-  {
-    "name": "buildDependencyGraph",
-    "kind": "function",
-    "filePath": "src/core/graph.ts",
-    "line": 3
-  },
-  {
-    "name": "fileToModule",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 4
-  },
-  {
-    "name": "moduleEdgeCounts",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 5
-  },
-  {
-    "name": "from",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 9
-  },
-  {
-    "name": "to",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 10
-  },
-  {
-    "name": "key",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 13
-  },
-  {
-    "name": "current",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 14
-  },
-  {
-    "name": "from",
-    "kind": "const",
-    "filePath": "src/core/graph.ts",
-    "line": 22
-  },
-  {
-    "name": "ANALYZERS",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 11
-  },
-  {
-    "name": "indexRepository",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 13
-  },
-  {
-    "name": "allPaths",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 14
-  },
-  {
-    "name": "analysisContext",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 15
-  },
-  {
-    "name": "files",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 25
-  },
-  {
-    "name": "imports",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 26
-  },
-  {
-    "name": "symbols",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 27
-  },
-  {
-    "name": "content",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 30
-  },
-  {
-    "name": "analyzer",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 31
-  },
-  {
-    "name": "analysis",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 32
-  },
-  {
-    "name": "moduleName",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 33
-  },
-  {
-    "name": "indexed",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 35
-  },
-  {
-    "name": "loadPackageAliases",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 70
-  },
-  {
-    "name": "aliases",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 71
-  },
-  {
-    "name": "packageJson",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 73
-  },
-  {
-    "name": "name",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 75
-  },
-  {
-    "name": "packageDir",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 78
-  },
-  {
-    "name": "qualify",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 79
-  },
-  {
-    "name": "entryTargets",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 80
-  },
-  {
-    "name": "readJson",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 98
-  },
-  {
-    "name": "packageEntryTargets",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 106
-  },
-  {
-    "name": "fields",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 107
-  },
-  {
-    "name": "packageExportAliases",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 111
-  },
-  {
-    "name": "exportsValue",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 116
-  },
-  {
-    "name": "aliases",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 124
-  },
-  {
-    "name": "target",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 126
-  },
-  {
-    "name": "subpath",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 128
-  },
-  {
-    "name": "exportTarget",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 137
-  },
-  {
-    "name": "object",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 140
-  },
-  {
-    "name": "stripPackageTarget",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 147
-  },
-  {
-    "name": "loadPathAliases",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 151
-  },
-  {
-    "name": "configPath",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 152
-  },
-  {
-    "name": "parsed",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 156
-  },
-  {
-    "name": "compilerOptions",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 157
-  },
-  {
-    "name": "baseUrl",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 163
-  },
-  {
-    "name": "shouldRead",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 173
-  },
-  {
-    "name": "buildModules",
-    "kind": "function",
-    "filePath": "src/core/indexer.ts",
-    "line": 177
-  },
-  {
-    "name": "moduleMap",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 178
-  },
-  {
-    "name": "module",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 181
-  },
-  {
-    "name": "fileToModule",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 193
-  },
-  {
-    "name": "fromModule",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 196
-  },
-  {
-    "name": "toModule",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 197
-  },
-  {
-    "name": "module",
-    "kind": "const",
-    "filePath": "src/core/indexer.ts",
-    "line": 199
-  },
-  {
-    "name": "LANGUAGE_BY_EXTENSION",
-    "kind": "const",
-    "filePath": "src/core/language.ts",
-    "line": 1
-  },
-  {
-    "name": "languageForExtension",
-    "kind": "function",
-    "filePath": "src/core/language.ts",
-    "line": 38
-  },
-  {
-    "name": "isSourceLanguage",
-    "kind": "function",
-    "filePath": "src/core/language.ts",
-    "line": 42
-  },
-  {
-    "name": "toPosixPath",
-    "kind": "function",
-    "filePath": "src/core/path-utils.ts",
-    "line": 3
-  },
-  {
-    "name": "stripLeadingDotSlash",
-    "kind": "function",
-    "filePath": "src/core/path-utils.ts",
-    "line": 7
-  },
-  {
-    "name": "dirnamePosix",
-    "kind": "function",
-    "filePath": "src/core/path-utils.ts",
-    "line": 11
-  },
-  {
-    "name": "dir",
-    "kind": "const",
-    "filePath": "src/core/path-utils.ts",
-    "line": 12
-  },
-  {
-    "name": "withoutExtension",
-    "kind": "function",
-    "filePath": "src/core/path-utils.ts",
-    "line": 16
-  },
-  {
-    "name": "moduleNameFor",
-    "kind": "function",
-    "filePath": "src/core/path-utils.ts",
-    "line": 20
-  },
-  {
-    "name": "parts",
-    "kind": "const",
-    "filePath": "src/core/path-utils.ts",
-    "line": 21
-  },
-  {
-    "name": "rankFiles",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 3
-  },
-  {
-    "name": "incoming",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 4
-  },
-  {
-    "name": "outgoing",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 5
-  },
-  {
-    "name": "entrypoints",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 13
-  },
-  {
-    "name": "sourceFileCount",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 14
-  },
-  {
-    "name": "smallRepo",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 15
-  },
-  {
-    "name": "hasSourceFiles",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 16
-  },
-  {
-    "name": "reasons",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 19
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 20
-  },
-  {
-    "name": "inbound",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 51
-  },
-  {
-    "name": "outbound",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 52
-  },
-  {
-    "name": "moduleScores",
-    "kind": "const",
-    "filePath": "src/core/ranker.ts",
-    "line": 110
-  },
-  {
-    "name": "dependencyWord",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 121
-  },
-  {
-    "name": "isApiOrRouteFile",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 125
-  },
-  {
-    "name": "isArchitectureDoc",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 129
-  },
-  {
-    "name": "isHighSignalConfig",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 133
-  },
-  {
-    "name": "isGenericConfig",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 139
-  },
-  {
-    "name": "isToolingConfig",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 143
-  },
-  {
-    "name": "isManifestOrDeploymentConfig",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 149
-  },
-  {
-    "name": "isPackageManifest",
-    "kind": "function",
-    "filePath": "src/core/ranker.ts",
-    "line": 155
-  },
-  {
-    "name": "ReadinessAssessmentOptions",
-    "kind": "interface",
-    "filePath": "src/core/readiness.ts",
-    "line": 13
-  },
-  {
-    "name": "assessReadiness",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 19
-  },
-  {
-    "name": "categories",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 20
-  },
-  {
-    "name": "dimensions",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 28
-  },
-  {
-    "name": "rawScore",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 29
-  },
-  {
-    "name": "capsApplied",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 32
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 33
-  },
-  {
-    "name": "summarizeReadiness",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 46
-  },
-  {
-    "name": "buildDimensions",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 61
-  },
-  {
-    "name": "byName",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 62
-  },
-  {
-    "name": "structure",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 63
-  },
-  {
-    "name": "GET /structure",
-    "kind": "route",
-    "filePath": "src/core/readiness.ts",
-    "line": 63
-  },
-  {
-    "name": "commands",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 64
-  },
-  {
-    "name": "GET /commands",
-    "kind": "route",
-    "filePath": "src/core/readiness.ts",
-    "line": 64
-  },
-  {
-    "name": "tests",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 65
-  },
-  {
-    "name": "GET /tests",
-    "kind": "route",
-    "filePath": "src/core/readiness.ts",
-    "line": 65
-  },
-  {
-    "name": "architecture",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 66
-  },
-  {
-    "name": "GET /architecture",
-    "kind": "route",
-    "filePath": "src/core/readiness.ts",
-    "line": 66
-  },
-  {
-    "name": "taskContext",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 67
-  },
-  {
-    "name": "GET /task-context",
-    "kind": "route",
-    "filePath": "src/core/readiness.ts",
-    "line": 67
-  },
-  {
-    "name": "safety",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 68
-  },
-  {
-    "name": "GET /safety",
-    "kind": "route",
-    "filePath": "src/core/readiness.ts",
-    "line": 68
-  },
-  {
-    "name": "dimension",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 101
-  },
-  {
-    "name": "present",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 102
-  },
-  {
-    "name": "readinessCaps",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 111
-  },
-  {
-    "name": "hasCi",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 112
-  },
-  {
-    "name": "hasAstAnalyzer",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 113
-  },
-  {
-    "name": "hasBenchmarkFixture",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 114
-  },
-  {
-    "name": "hasGeneratedOutputValidation",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 115
-  },
-  {
-    "name": "hasRealTokenizer",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 116
-  },
-  {
-    "name": "cap",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 129
-  },
-  {
-    "name": "applyCaps",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 133
-  },
-  {
-    "name": "appliedCaps",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 134
-  },
-  {
-    "name": "assessStructure",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 138
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 139
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 140
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 141
-  },
-  {
-    "name": "usableAnalysis",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 154
-  },
-  {
-    "name": "confidenceRatio",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 155
-  },
-  {
-    "name": "assessCommands",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 161
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 162
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 163
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 164
-  },
-  {
-    "name": "assessTests",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 180
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 181
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 182
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 183
-  },
-  {
-    "name": "tests",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 184
-  },
-  {
-    "name": "assessArchitecture",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 200
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 201
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 202
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 203
-  },
-  {
-    "name": "docsText",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 212
-  },
-  {
-    "name": "largeModules",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 217
-  },
-  {
-    "name": "assessTaskContext",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 223
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 224
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 225
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 226
-  },
-  {
-    "name": "evidenceFiles",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 235
-  },
-  {
-    "name": "assessSafety",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 243
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 244
-  },
-  {
-    "name": "evidence",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 245
-  },
-  {
-    "name": "missing",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 246
-  },
-  {
-    "name": "hasDatabaseSignals",
-    "kind": "const",
-    "filePath": "src/core/readiness.ts",
-    "line": 255
-  },
-  {
-    "name": "category",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 268
-  },
-  {
-    "name": "weighted",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 272
-  },
-  {
-    "name": "dimensionScore",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 276
-  },
-  {
-    "name": "grade",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 280
-  },
-  {
-    "name": "hasArchitectureDocumentation",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 288
-  },
-  {
-    "name": "list",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 292
-  },
-  {
-    "name": "title",
-    "kind": "function",
-    "filePath": "src/core/readiness.ts",
-    "line": 296
-  },
-  {
-    "name": "BINARY_EXTENSIONS",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 11
-  },
-  {
-    "name": "scanRepository",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 30
-  },
-  {
-    "name": "absoluteRoot",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 31
-  },
-  {
-    "name": "gitignore",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 32
-  },
-  {
-    "name": "entries",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 33
-  },
-  {
-    "name": "files",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 42
-  },
-  {
-    "name": "packageJson",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 47
-  },
-  {
-    "name": "languages",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 48
-  },
-  {
-    "name": "packageManagers",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 49
-  },
-  {
-    "name": "scriptRunner",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 50
-  },
-  {
-    "name": "createRepoFile",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 72
-  },
-  {
-    "name": "absolutePath",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 73
-  },
-  {
-    "name": "extension",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 74
-  },
-  {
-    "name": "stats",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 75
-  },
-  {
-    "name": "language",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 76
-  },
-  {
-    "name": "isBinary",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 77
-  },
-  {
-    "name": "kind",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 78
-  },
-  {
-    "name": "loadGitignore",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 94
-  },
-  {
-    "name": "ig",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 95
-  },
-  {
-    "name": "gitignorePath",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 96
-  },
-  {
-    "name": "readPackageJson",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 104
-  },
-  {
-    "name": "packagePath",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 105
-  },
-  {
-    "name": "detectFrameworks",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 117
-  },
-  {
-    "name": "deps",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 118
-  },
-  {
-    "name": "names",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 124
-  },
-  {
-    "name": "fileSet",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 125
-  },
-  {
-    "name": "detectPackageManagers",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 145
-  },
-  {
-    "name": "fileSet",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 146
-  },
-  {
-    "name": "managers",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 147
-  },
-  {
-    "name": "detectEntrypoints",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 160
-  },
-  {
-    "name": "candidates",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 161
-  },
-  {
-    "name": "fileSet",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 162
-  },
-  {
-    "name": "common",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 163
-  },
-  {
-    "name": "main",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 183
-  },
-  {
-    "name": "scripts",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 188
-  },
-  {
-    "name": "detectTestCommands",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 201
-  },
-  {
-    "name": "scripts",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 202
-  },
-  {
-    "name": "detectRunCommands",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 208
-  },
-  {
-    "name": "scripts",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 209
-  },
-  {
-    "name": "detectNamedCommands",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 215
-  },
-  {
-    "name": "scripts",
-    "kind": "const",
-    "filePath": "src/core/scanner.ts",
-    "line": 216
-  },
-  {
-    "name": "formatScriptCommand",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 222
-  },
-  {
-    "name": "objectValue",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 230
-  },
-  {
-    "name": "unique",
-    "kind": "function",
-    "filePath": "src/core/scanner.ts",
-    "line": 234
-  },
-  {
-    "name": "summarizeRepository",
-    "kind": "function",
-    "filePath": "src/core/summarizer.ts",
-    "line": 4
-  },
-  {
-    "name": "offline",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 5
-  },
-  {
-    "name": "client",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 6
-  },
-  {
-    "name": "repoSummary",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 16
-  },
-  {
-    "name": "buildOfflineSummary",
-    "kind": "function",
-    "filePath": "src/core/summarizer.ts",
-    "line": 33
-  },
-  {
-    "name": "moduleSummaries",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 34
-  },
-  {
-    "name": "topModules",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 42
-  },
-  {
-    "name": "topFiles",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 46
-  },
-  {
-    "name": "commandSummary",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 50
-  },
-  {
-    "name": "repoSummary",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 57
-  },
-  {
-    "name": "buildRepoPrompt",
-    "kind": "function",
-    "filePath": "src/core/summarizer.ts",
-    "line": 74
-  },
-  {
-    "name": "modules",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 75
-  },
-  {
-    "name": "keyFiles",
-    "kind": "const",
-    "filePath": "src/core/summarizer.ts",
-    "line": 80
-  },
-  {
-    "name": "estimateTokens",
-    "kind": "function",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 4
-  },
-  {
-    "name": "TokenCountResult",
-    "kind": "interface",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 12
-  },
-  {
-    "name": "countTokens",
-    "kind": "function",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 18
-  },
-  {
-    "name": "encoder",
-    "kind": "const",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 28
-  },
-  {
-    "name": "encoder",
-    "kind": "const",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 36
-  },
-  {
-    "name": "tokenizerFromModel",
-    "kind": "function",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 52
-  },
-  {
-    "name": "normalized",
-    "kind": "const",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 53
-  },
-  {
-    "name": "parseTokenizerMode",
-    "kind": "function",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 61
-  },
-  {
-    "name": "normalized",
-    "kind": "const",
-    "filePath": "src/core/token-estimator.ts",
-    "line": 62
-  },
-  {
-    "name": "DEFAULT_TOKEN_BUDGET",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 4
-  },
-  {
-    "name": "SUMMARY_OVERHEAD_TOKENS",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 5
-  },
-  {
-    "name": "MODULE_OVERHEAD_TOKENS",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 6
-  },
-  {
-    "name": "GRAPH_EDGE_TOKENS",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 7
-  },
-  {
-    "name": "MAX_GRAPH_EDGES",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 8
-  },
-  {
-    "name": "MAX_SELECTED_FILES",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 9
-  },
-  {
-    "name": "TokenSavingsOptions",
-    "kind": "interface",
-    "filePath": "src/core/token-savings.ts",
-    "line": 11
-  },
-  {
-    "name": "calculateTokenSavings",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 16
-  },
-  {
-    "name": "originalTokens",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 17
-  },
-  {
-    "name": "tokenBudget",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 18
-  },
-  {
-    "name": "tokenizer",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 19
-  },
-  {
-    "name": "selectedFiles",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 20
-  },
-  {
-    "name": "contextPackTokens",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 21
-  },
-  {
-    "name": "compressionRatio",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 22
-  },
-  {
-    "name": "formatTokenSavings",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 53
-  },
-  {
-    "name": "actual",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 54
-  },
-  {
-    "name": "lines",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 55
-  },
-  {
-    "name": "selectFilesForBudget",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 67
-  },
-  {
-    "name": "selected",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 68
-  },
-  {
-    "name": "candidate",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 70
-  },
-  {
-    "name": "estimateContextPackTokens",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 81
-  },
-  {
-    "name": "scanTokens",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 82
-  },
-  {
-    "name": "estimateContextPackTokensForFiles",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 97
-  },
-  {
-    "name": "selectedModules",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 98
-  },
-  {
-    "name": "fileTokens",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 99
-  },
-  {
-    "name": "moduleTokens",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 100
-  },
-  {
-    "name": "graphTokens",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 101
-  },
-  {
-    "name": "estimateCompactFileTokens",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 110
-  },
-  {
-    "name": "compactText",
-    "kind": "const",
-    "filePath": "src/core/token-savings.ts",
-    "line": 111
-  },
-  {
-    "name": "formatTokenizer",
-    "kind": "function",
-    "filePath": "src/core/token-savings.ts",
-    "line": 131
-  },
-  {
-    "name": "AgentTarget",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 1
-  },
-  {
-    "name": "AgentsMode",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 2
-  },
-  {
-    "name": "AgentsSection",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 3
-  },
-  {
-    "name": "TokenizerMode",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 4
-  },
-  {
-    "name": "AnalysisConfidence",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 5
-  },
-  {
-    "name": "TaskType",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 6
-  },
-  {
-    "name": "RepoContextConfig",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 8
-  },
-  {
-    "name": "AgentsConfig",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 27
-  },
-  {
-    "name": "LlmConfig",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 34
-  },
-  {
-    "name": "RagConfig",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 44
-  },
-  {
-    "name": "TokenizerConfig",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 49
-  },
-  {
-    "name": "RepoScan",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 54
-  },
-  {
-    "name": "RepoFile",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 71
-  },
-  {
-    "name": "FileKind",
-    "kind": "type",
-    "filePath": "src/core/types.ts",
-    "line": 84
-  },
-  {
-    "name": "RepoIndex",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 86
-  },
-  {
-    "name": "IndexedFile",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 93
-  },
-  {
-    "name": "ImportRef",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 107
-  },
-  {
-    "name": "ImportEdge",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 113
-  },
-  {
-    "name": "SymbolInfo",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 120
-  },
-  {
-    "name": "AnalysisStats",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 127
-  },
-  {
-    "name": "AnalysisEvidence",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 135
-  },
-  {
-    "name": "ModuleInfo",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 142
-  },
-  {
-    "name": "DependencyGraph",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 151
-  },
-  {
-    "name": "ContextPackage",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 160
-  },
-  {
-    "name": "SummaryBundle",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 172
-  },
-  {
-    "name": "AgentReadinessReport",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 184
-  },
-  {
-    "name": "ReadinessCategory",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 194
-  },
-  {
-    "name": "ReadinessDimension",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 201
-  },
-  {
-    "name": "ReadinessCap",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 208
-  },
-  {
-    "name": "TokenSavingsReport",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 215
-  },
-  {
-    "name": "ActualOutputTokenReport",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 231
-  },
-  {
-    "name": "TokenCountSummary",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 241
-  },
-  {
-    "name": "TaskPack",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 248
-  },
-  {
-    "name": "TaskPackFile",
-    "kind": "interface",
-    "filePath": "src/core/types.ts",
-    "line": 277
-  },
-  {
-    "name": "ValidationIssue",
-    "kind": "interface",
-    "filePath": "src/core/validator.ts",
-    "line": 5
-  },
-  {
-    "name": "ValidationReport",
-    "kind": "interface",
-    "filePath": "src/core/validator.ts",
-    "line": 11
-  },
-  {
-    "name": "validateContextPackage",
-    "kind": "function",
-    "filePath": "src/core/validator.ts",
-    "line": 16
-  },
-  {
-    "name": "issues",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 17
-  },
-  {
-    "name": "paths",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 18
-  },
-  {
-    "name": "lowConfidence",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 39
-  },
-  {
-    "name": "validateGeneratedJson",
-    "kind": "function",
-    "filePath": "src/core/validator.ts",
-    "line": 55
-  },
-  {
-    "name": "contextDir",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 56
-  },
-  {
-    "name": "filePath",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 76
-  },
-  {
-    "name": "parsed",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 79
-  },
-  {
-    "name": "actualTotal",
-    "kind": "const",
-    "filePath": "src/core/validator.ts",
-    "line": 82
-  },
-  {
     "name": "list_admin_actions",
     "kind": "function",
     "line": 2,
@@ -7968,12 +8424,6 @@
     "line": 3
   },
   {
-    "name": "api",
-    "kind": "const",
-    "filePath": "test/fixtures/monorepo/packages/api/src/index.ts",
-    "line": 1
-  },
-  {
     "name": "web",
     "kind": "const",
     "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
@@ -7984,6 +8434,12 @@
     "kind": "const",
     "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
     "line": 4
+  },
+  {
+    "name": "api",
+    "kind": "const",
+    "filePath": "test/fixtures/monorepo/packages/api/src/index.ts",
+    "line": 1
   },
   {
     "name": "POST",

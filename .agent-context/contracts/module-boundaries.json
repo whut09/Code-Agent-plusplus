@@ -54,6 +54,50 @@
         "src/benchmarks/benchmark.ts"
       ]
     },
+    "test": {
+      "owns": [
+        "test/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "src/analyzers/**",
+        "src/cli/**",
+        "src/config/**",
+        "src/core/**",
+        "src/mcp/**",
+        "src/outputs/**",
+        "src/retrievers/**",
+        "test/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "analyzers",
+        "benchmarks",
+        "cli",
+        "config",
+        "core",
+        "mcp",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "test/fixtures/monorepo/packages/api/src/index.ts",
+        "test/fixtures/monorepo/packages/web/src/index.ts",
+        "test/fixtures/next-app/src/app/api/login/route.ts",
+        "test/fixtures/next-app/src/auth/session.ts",
+        "test/fixtures/python-package/src/app/models.py",
+        "test/fixtures/python-package/src/app/service.py"
+      ]
+    },
     "outputs": {
       "owns": [
         "src/outputs/**"
@@ -97,48 +141,6 @@
         "src/outputs/test-selector.ts",
         "src/outputs/token-savings.ts",
         "src/outputs/writer.ts"
-      ]
-    },
-    "test": {
-      "owns": [
-        "test/**"
-      ],
-      "allowedImports": [
-        "benchmarks/**",
-        "src/analyzers/**",
-        "src/cli/**",
-        "src/config/**",
-        "src/core/**",
-        "src/outputs/**",
-        "src/retrievers/**",
-        "test/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "analyzers",
-        "benchmarks",
-        "cli",
-        "config",
-        "core",
-        "outputs",
-        "retrievers"
-      ],
-      "publicFiles": [
-        "test/fixtures/monorepo/packages/api/src/index.ts",
-        "test/fixtures/monorepo/packages/web/src/index.ts",
-        "test/fixtures/next-app/src/app/api/login/route.ts",
-        "test/fixtures/next-app/src/auth/session.ts",
-        "test/fixtures/python-package/src/app/models.py",
-        "test/fixtures/python-package/src/app/service.py"
       ]
     },
     "core": {
@@ -307,6 +309,36 @@
         "src/config/defaults.ts",
         "src/config/load-config.ts",
         "src/config/starter-config.ts"
+      ]
+    },
+    "mcp": {
+      "owns": [
+        "src/mcp/**"
+      ],
+      "allowedImports": [
+        "src/config/**",
+        "src/core/**",
+        "src/mcp/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "src/mcp/server.ts"
       ]
     },
     "llm": {

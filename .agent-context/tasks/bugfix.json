@@ -2,12 +2,12 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 2859,
-  "remainingBudget": 9141,
+  "estimatedTokens": 3170,
+  "remainingBudget": 8830,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 207,
+      "score": 208,
       "reasons": [
         "lexical match: regression"
       ],
@@ -16,11 +16,22 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 207,
+      "score": 208,
       "reasons": [
         "lexical match: regression"
       ],
       "category": "direct-source",
+      "estimatedTokens": 226
+    },
+    {
+      "path": "src/mcp/server.ts",
+      "score": 68,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts",
+        "direct importer of src/outputs/test-selector.ts",
+        "entrypoint"
+      ],
+      "category": "entrypoint",
       "estimatedTokens": 226
     },
     {
@@ -110,7 +121,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 246
+      "estimatedTokens": 331
     },
     {
       "path": "src/outputs/contract-validator.ts",
@@ -251,7 +262,7 @@
   "readFirst": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 207,
+      "score": 208,
       "reasons": [
         "lexical match: regression"
       ],
@@ -260,11 +271,22 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 207,
+      "score": 208,
       "reasons": [
         "lexical match: regression"
       ],
       "category": "direct-source",
+      "estimatedTokens": 226
+    },
+    {
+      "path": "src/mcp/server.ts",
+      "score": 68,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts",
+        "direct importer of src/outputs/test-selector.ts",
+        "entrypoint"
+      ],
+      "category": "entrypoint",
       "estimatedTokens": 226
     },
     {
@@ -356,7 +378,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 246
+      "estimatedTokens": 331
     },
     {
       "path": "src/outputs/contract-validator.ts",
@@ -433,8 +455,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 2859,
-    "remaining": 9141,
+    "used": 3170,
+    "remaining": 8830,
     "buckets": [
       {
         "name": "direct-source",
@@ -458,7 +480,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 1439,
+        "tokens": 1524,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
@@ -492,8 +514,9 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 168,
+        "tokens": 394,
         "files": [
+          "src/mcp/server.ts",
           "src/cli/index.ts"
         ]
       }
@@ -504,7 +527,7 @@
   ],
   "retrieval": {
     "directMatches": 2,
-    "dependencyNeighbors": 16,
+    "dependencyNeighbors": 18,
     "tests": 3,
     "configDocs": 13
   }

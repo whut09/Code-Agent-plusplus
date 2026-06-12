@@ -12,6 +12,7 @@
     "test/contract-validator.test.ts",
     "test/fixtures.test.ts",
     "test/impact.test.ts",
+    "test/mcp.test.ts",
     "test/readiness.test.ts",
     "test/retrievers.test.ts",
     "test/scanner.test.ts",
@@ -34,15 +35,15 @@
     "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
     "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
     "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-    "test/fixtures/monorepo/packages/api/package.json",
     "test/fixtures/monorepo/packages/web/package.json",
+    "test/fixtures/monorepo/packages/api/package.json",
     "test/fixtures/next-app/src/auth/session.ts",
     "test/fixtures/python-package/src/app/models.py",
     "test/fixtures/python-package/src/app/service.py",
     "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
     "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-    "test/fixtures/monorepo/packages/api/src/index.ts",
     "test/fixtures/monorepo/packages/web/src/index.ts",
+    "test/fixtures/monorepo/packages/api/src/index.ts",
     "test/fixtures/next-app/src/app/api/login/route.ts"
   ],
   "sourceToRelatedTests": {
@@ -80,8 +81,8 @@
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
     ],
     "src/cli/index.ts": [
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts"
+      "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts"
     ],
     "src/cli/task-args.ts": [
       "test/task-args.test.ts"
@@ -106,6 +107,55 @@
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
     ],
     "src/llm/provider.ts": [],
+    "src/core/context-builder.ts": [
+      "test/agents-md.test.ts",
+      "test/contract-validator.test.ts",
+      "test/fixtures.test.ts",
+      "test/impact.test.ts",
+      "test/retrievers.test.ts",
+      "test/snapshot.test.ts",
+      "test/task-context.test.ts",
+      "test/task-harness.test.ts",
+      "test/test-selector.test.ts",
+      "test/validator.test.ts",
+      "test/writer.test.ts"
+    ],
+    "src/core/file-classifier.ts": [],
+    "src/core/git.ts": [
+      "test/contract-validator.test.ts",
+      "test/impact.test.ts",
+      "test/mcp.test.ts",
+      "test/task-harness.test.ts",
+      "test/test-selector.test.ts"
+    ],
+    "src/core/graph.ts": [],
+    "src/core/indexer.ts": [],
+    "src/core/language.ts": [],
+    "src/core/path-utils.ts": [],
+    "src/core/ranker.ts": [],
+    "src/core/readiness.ts": [
+      "test/readiness.test.ts"
+    ],
+    "src/core/scanner.ts": [
+      "test/scanner.test.ts"
+    ],
+    "src/core/summarizer.ts": [],
+    "src/core/token-estimator.ts": [],
+    "src/core/token-savings.ts": [
+      "test/token-savings.test.ts"
+    ],
+    "src/core/types.ts": [
+      "test/analyzers.test.ts",
+      "test/readiness.test.ts",
+      "test/token-savings.test.ts"
+    ],
+    "src/core/validator.ts": [
+      "test/contract-validator.test.ts",
+      "test/validator.test.ts"
+    ],
+    "src/mcp/server.ts": [
+      "test/mcp.test.ts"
+    ],
     "src/retrievers/external.ts": [
       "test/retrievers.test.ts"
     ],
@@ -114,8 +164,8 @@
     ],
     "src/retrievers/index.ts": [
       "test/retrievers.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts"
+      "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts"
     ],
     "src/retrievers/ripgrep.ts": [
       "test/retrievers.test.ts"
@@ -169,51 +219,6 @@
       "test/validator.test.ts",
       "test/writer.test.ts"
     ],
-    "src/core/context-builder.ts": [
-      "test/agents-md.test.ts",
-      "test/contract-validator.test.ts",
-      "test/fixtures.test.ts",
-      "test/impact.test.ts",
-      "test/retrievers.test.ts",
-      "test/snapshot.test.ts",
-      "test/task-context.test.ts",
-      "test/task-harness.test.ts",
-      "test/test-selector.test.ts",
-      "test/validator.test.ts",
-      "test/writer.test.ts"
-    ],
-    "src/core/file-classifier.ts": [],
-    "src/core/git.ts": [
-      "test/contract-validator.test.ts",
-      "test/impact.test.ts",
-      "test/task-harness.test.ts",
-      "test/test-selector.test.ts"
-    ],
-    "src/core/graph.ts": [],
-    "src/core/indexer.ts": [],
-    "src/core/language.ts": [],
-    "src/core/path-utils.ts": [],
-    "src/core/ranker.ts": [],
-    "src/core/readiness.ts": [
-      "test/readiness.test.ts"
-    ],
-    "src/core/scanner.ts": [
-      "test/scanner.test.ts"
-    ],
-    "src/core/summarizer.ts": [],
-    "src/core/token-estimator.ts": [],
-    "src/core/token-savings.ts": [
-      "test/token-savings.test.ts"
-    ],
-    "src/core/types.ts": [
-      "test/analyzers.test.ts",
-      "test/readiness.test.ts",
-      "test/token-savings.test.ts"
-    ],
-    "src/core/validator.ts": [
-      "test/contract-validator.test.ts",
-      "test/validator.test.ts"
-    ],
     "benchmarks/fixtures/fastapi-app/app/admin.py": [
       "test/fixtures.test.ts",
       "test/fixtures/monorepo/package.json",
@@ -227,15 +232,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/fastapi-app/app/billing.py": [
@@ -251,15 +256,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/fastapi-app/app/main.py": [
@@ -275,15 +280,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/fastapi-app/app/models.py": [
@@ -299,15 +304,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/fastapi-app/app/schemas.py": [
@@ -323,15 +328,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/react-app/src/App.tsx": [
@@ -347,15 +352,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/index.ts": [
@@ -371,15 +376,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/fastapi-app/app/routes/users.py": [
@@ -395,15 +400,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/react-app/src/auth/useAuthState.ts": [
@@ -419,15 +424,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/react-app/src/billing/audit.ts": [
@@ -443,15 +448,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/react-app/src/billing/invoice.ts": [
@@ -467,15 +472,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx": [
@@ -491,15 +496,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/api/login.ts": [
@@ -515,15 +520,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts": [
@@ -539,15 +544,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/auth/session.ts": [
@@ -563,15 +568,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/billing/audit.ts": [
@@ -587,15 +592,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts": [
@@ -611,15 +616,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/monorepo/packages/api/src/config.ts": [
@@ -636,15 +641,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/monorepo/packages/api/src/server.ts": [
@@ -660,15 +665,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/monorepo/packages/config/src/loader.ts": [
@@ -685,15 +690,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts": [
@@ -709,15 +714,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/monorepo/packages/web/src/app.ts": [
@@ -733,15 +738,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/monorepo/packages/web/src/config.ts": [
@@ -758,15 +763,15 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/monorepo/packages/api/package.json",
       "test/fixtures/next-app/src/auth/session.ts",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ]
   },

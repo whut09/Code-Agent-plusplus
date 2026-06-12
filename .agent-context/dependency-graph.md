@@ -16,6 +16,9 @@ graph TD
   core["core"] --> config["config"]
   core["core"] --> llm["llm"]
   llm["llm"] --> core["core"]
+  mcp["mcp"] --> core["core"]
+  mcp["mcp"] --> outputs["outputs"]
+  mcp["mcp"] --> retrievers["retrievers"]
   outputs["outputs"] --> core["core"]
   retrievers["retrievers"] --> core["core"]
   retrievers["retrievers"] --> outputs["outputs"]
@@ -24,6 +27,7 @@ graph TD
   test["test"] --> cli["cli"]
   test["test"] --> config["config"]
   test["test"] --> core["core"]
+  test["test"] --> mcp["mcp"]
   test["test"] --> outputs["outputs"]
   test["test"] --> retrievers["retrievers"]
 ```
@@ -44,6 +48,9 @@ graph TD
 | core | config | 1 |
 | core | llm | 1 |
 | llm | core | 1 |
+| mcp | core | 1 |
+| mcp | outputs | 5 |
+| mcp | retrievers | 2 |
 | outputs | core | 29 |
 | retrievers | core | 3 |
 | retrievers | outputs | 2 |
@@ -51,6 +58,7 @@ graph TD
 | test | benchmarks | 1 |
 | test | cli | 1 |
 | test | config | 3 |
-| test | core | 22 |
+| test | core | 23 |
+| test | mcp | 1 |
 | test | outputs | 11 |
 | test | retrievers | 1 |
