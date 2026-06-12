@@ -15,6 +15,7 @@ import { renderTaskContext } from "../outputs/task-context.js";
 import { renderTestSelection } from "../outputs/test-selector.js";
 import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
+import { writeTaskRun } from "../outputs/task-run.js";
 import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
@@ -160,6 +161,26 @@ program
       console.log(`- ${issue.severity.toUpperCase()} ${issue.code}: ${issue.message}`);
     }
     if (!report.valid) process.exitCode = 1;
+  });
+
+program
+  .command("run")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task run context token budget", parseInteger)
+  .option("--base <ref>", "base git ref for impact and verification reports", "main")
+  .description("Write a complete task run under .agent-context/runs/<task-id> without editing code.")
+  .action(async (args: string[], options: { repo?: string | string[]; type: TaskType; tokenBudget?: number; base: string }) => {
+    const { task, repo } = resolveTaskArguments(args, options.repo);
+    const context = await buildContextPackage(repo);
+    const result = writeTaskRun(context, task, { type: options.type, tokenBudget: options.tokenBudget, base: options.base });
+    console.log(`Wrote task run: ${path.relative(context.scan.root, result.dir).replaceAll("\\", "/")}`);
+    console.log(`Risk level: ${result.manifest.riskLevel}`);
+    console.log(`Context budget: ${result.manifest.contextBudget.usedTokens.toLocaleString()} / ${result.manifest.contextBudget.maxTokens.toLocaleString()}`);
+    for (const file of result.files) {
+      console.log(`- ${path.relative(context.scan.root, file).replaceAll("\\", "/")}`);
+    }
   });
 
 program

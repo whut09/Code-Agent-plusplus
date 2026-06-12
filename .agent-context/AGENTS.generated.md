@@ -13,7 +13,7 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 
 ## Default Workflow
 - Read `AGENTS.md` only before the task is concrete.
-- For a concrete task, run `repo-context plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.
+- For a concrete task, run `repo-context run "<task>" .` or inspect `.agent-context/runs/<task-id>/` when a task run exists.
 - Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.
 - Prefer source files over generated summaries for behavior, API, and test decisions.
 
@@ -21,7 +21,7 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 - Entrypoint: `src/cli/index.ts`
 - Anchor: `src/core/token-estimator.ts` - 5 exports, 9 symbols
 - Anchor: `src/core/context-builder.ts` - 2 exports, 11 symbols
-- Anchor: `src/core/types.ts` - 34 exports, 34 symbols
+- Anchor: `src/outputs/task-harness.ts` - 5 exports, 66 symbols
 
 ## Commands
 - Run: `npm run dev`
@@ -38,7 +38,8 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 - `L1 .agent-context/repo-summary.md` - compact repository overview for task start
 - `L1 .agent-context/onboarding.md` - first-read workflow and commands
 - `L1 .agent-context/context-layers.md` - layer map for all generated outputs
-- `L2 .agent-context/tasks/` - task packs generated or prebuilt for concrete work
+- `L2 .agent-context/runs/` - complete task runs generated for concrete work
+- `L2 .agent-context/tasks/` - standalone task packs generated or prebuilt for concrete work
 - `L3 .agent-context/key-files.md` - ranked evidence index; load only when needed
 - `L3 .agent-context/index/` - symbols, files, modules, and chunks for targeted lookup
 - `L3 .agent-context/evidence/` - analyzer evidence for deeper inspection

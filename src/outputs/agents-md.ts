@@ -107,7 +107,7 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
 function defaultWorkflow(): string[] {
   return [
     "Read `AGENTS.md` only before the task is concrete.",
-    'For a concrete task, run `repo-context plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.',
+    'For a concrete task, run `repo-context run "<task>" .` or inspect `.agent-context/runs/<task-id>/` when a task run exists.',
     "Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.",
     "Prefer source files over generated summaries for behavior, API, and test decisions."
   ];
@@ -149,7 +149,8 @@ function contextLinks(context: ContextPackage): string[] {
     `${code("L1 .agent-context/repo-summary.md")} - compact repository overview for task start`,
     `${code("L1 .agent-context/onboarding.md")} - first-read workflow and commands`,
     `${code("L1 .agent-context/context-layers.md")} - layer map for all generated outputs`,
-    `${code("L2 .agent-context/tasks/")} - task packs generated or prebuilt for concrete work`,
+    `${code("L2 .agent-context/runs/")} - complete task runs generated for concrete work`,
+    `${code("L2 .agent-context/tasks/")} - standalone task packs generated or prebuilt for concrete work`,
     `${code("L3 .agent-context/key-files.md")} - ranked evidence index; load only when needed`,
     `${code("L3 .agent-context/index/")} - symbols, files, modules, and chunks for targeted lookup`,
     `${code("L3 .agent-context/evidence/")} - analyzer evidence for deeper inspection`

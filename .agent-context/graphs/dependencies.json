@@ -469,6 +469,12 @@
       "isExternal": false
     },
     {
+      "from": "test/task-harness.test.ts",
+      "to": "src/outputs/task-run.ts",
+      "specifier": "../src/outputs/task-run.js",
+      "isExternal": false
+    },
+    {
       "from": "test/test-selector.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -856,6 +862,12 @@
       "from": "src/cli/index.ts",
       "to": "src/outputs/task-harness.ts",
       "specifier": "../outputs/task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
+      "to": "src/outputs/task-run.ts",
+      "specifier": "../outputs/task-run.js",
       "isExternal": false
     },
     {
@@ -1537,6 +1549,54 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/task-run.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "./impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "./task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/task-harness.ts",
+      "specifier": "./task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "./test-selector.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/test-selector.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -1765,18 +1825,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "specifier": "../../src/api/login.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../../src/auth/session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../auth/session.js",
@@ -1786,6 +1834,18 @@
       "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "./session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+      "specifier": "../../src/api/login.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "../../src/auth/session.js",
       "isExternal": false
     },
     {
@@ -1877,7 +1937,7 @@
     {
       "from": "cli",
       "to": "outputs",
-      "count": 7
+      "count": 8
     },
     {
       "from": "cli",
@@ -1912,7 +1972,7 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 26
+      "count": 27
     },
     {
       "from": "retrievers",
@@ -1952,7 +2012,7 @@
     {
       "from": "test",
       "to": "outputs",
-      "count": 7
+      "count": 8
     },
     {
       "from": "test",

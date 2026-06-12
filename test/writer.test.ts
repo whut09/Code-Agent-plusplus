@@ -182,7 +182,8 @@ pnpm dev
     const layers = readFileSync(path.join(root, ".agent-context", "context-layers.md"), "utf8");
     assert.equal(layers.includes("## L0 Always Loaded"), true);
     assert.equal(layers.includes("## L1 Task Start"), true);
-    assert.equal(layers.includes("## L2 Task Pack"), true);
+    assert.equal(layers.includes("## L2 Task Run"), true);
+    assert.equal(layers.includes("## L2 Standalone Task Pack"), true);
     assert.equal(layers.includes("## L3 Deep Evidence"), true);
     assert.equal(layers.includes("Do not load the full `.agent-context/` directory by default."), true);
   } finally {

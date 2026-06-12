@@ -47,6 +47,16 @@
       "summary": "test contains 31 files and depends on analyzers, benchmarks, cli, config, core, outputs, retrievers."
     },
     {
+      "name": "outputs",
+      "owns": [
+        "src/outputs/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "outputs contains 19 files and depends on core."
+    },
+    {
       "name": "core",
       "owns": [
         "src/core/**"
@@ -57,16 +67,6 @@
         "llm"
       ],
       "summary": "core contains 15 files and depends on analyzers, config, llm."
-    },
-    {
-      "name": "outputs",
-      "owns": [
-        "src/outputs/**"
-      ],
-      "imports": [
-        "core"
-      ],
-      "summary": "outputs contains 18 files and depends on core."
     },
     {
       "name": "retrievers",

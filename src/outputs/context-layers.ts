@@ -21,7 +21,18 @@ export function renderContextLayers(context: ContextPackage): string {
       `${code(".agent-context/onboarding.md")} - first-read workflow, task entrypoints, and validation guidance`
     ]),
     "",
-    heading(2, "L2 Task Pack"),
+    heading(2, "L2 Task Run"),
+    bullet([
+      `${code(".agent-context/runs/<task-id>/plan.md")} - task intent, suspected modules, and must-inspect files`,
+      `${code(".agent-context/runs/<task-id>/pack.md")} - task-specific context package`,
+      `${code(".agent-context/runs/<task-id>/edit-boundary.md")} - allowed and avoided edit surfaces`,
+      `${code(".agent-context/runs/<task-id>/tests.md")} - minimal, regression, and full-confidence tests`,
+      `${code(".agent-context/runs/<task-id>/verify.md")} - post-edit verification report scaffold`,
+      `${code(".agent-context/runs/<task-id>/impact.md")} - dependent modules, related tests, and risk`,
+      `${code(".agent-context/runs/<task-id>/run.json")} - machine-readable task run manifest`
+    ]),
+    "",
+    heading(2, "L2 Standalone Task Pack"),
     bullet([
       `${code(".agent-context/tasks/<task>/task.md")} - concrete task intent, suspected modules, and validation commands`,
       `${code(".agent-context/tasks/<task>/relevant-files.md")} - task-specific files to inspect first`,

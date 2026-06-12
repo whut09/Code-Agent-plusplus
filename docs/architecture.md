@@ -31,10 +31,12 @@ graph TD
 
   PackComposer --> AgentsMd["AGENTS.md"]
   PackComposer --> TaskPack["Task Pack"]
+  PackComposer --> TaskRun["Task Run"]
   PackComposer --> VerificationPack["Verification Pack"]
   PackComposer --> RagDocuments["RAG Documents"]
 
   PackComposer --> HarnessLayer["Agent Harness Layer"]
+  HarnessLayer --> Run["run"]
   HarnessLayer --> Plan["plan"]
   HarnessLayer --> EditBoundary["edit boundary"]
   HarnessLayer --> Verify["verify"]
@@ -48,8 +50,8 @@ The v2 architecture is organized around five responsibilities:
 
 - Repo Scanner: builds file, symbol, dependency, test, command, and risk indexes from repository evidence.
 - Context Planner: converts repository indexes into global, task, diff, and impact contexts.
-- Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, verification packs, and RAG documents.
-- Agent Harness Layer: exposes task execution constraints through `plan`, edit boundaries, `verify`, impact reports, and regression guards.
+- Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, complete task runs, verification packs, and RAG documents.
+- Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, and regression guards.
 - Integration Layer: lets MCP, editor extensions, CLI adapters, and RAG backends call the same planning and retrieval contracts.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
@@ -122,6 +124,8 @@ Task packs use a three-stage retrieval pipeline:
 
 Bugfix, feature, and refactor tasks use different priorities and suggested commands.
 
+`repo-context run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, or automation a single task execution context instead of several disconnected command outputs.
+
 The planner now treats task context as one mode among four:
 
 - Global Context: repository-wide operating rules, entrypoints, commands, boundaries, and onboarding.
@@ -154,6 +158,7 @@ The composer writes both human-friendly Markdown and machine-readable JSON:
 - `.agent-context/onboarding.md`
 - `.agent-context/readiness.md`
 - `.agent-context/tasks/*.md`
+- `.agent-context/runs/<task-id>/*`
 - `.agent-context/contracts/*.json`
 - `.agent-context/index/*.json`
 - `.agent-context/graphs/*.json`
@@ -165,7 +170,8 @@ When a legacy hand-written `AGENTS.md` already exists, the composer migrates dep
 Composer output is layered:
 
 - `AGENTS.md`: minimal always-loaded rules and links.
-- Task Pack: task-specific context files under `.agent-context/tasks/`.
+- Task Run: complete task execution context under `.agent-context/runs/<task-id>/`.
+- Task Pack: standalone task-specific context files under `.agent-context/tasks/`.
 - Verification Pack: changed files, missing tests, recommended commands, and risk report.
 - RAG Documents: retrievable context chunks for static, ripgrep, LightRAG, embedding, or hybrid retrievers.
 

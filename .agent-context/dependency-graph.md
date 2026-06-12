@@ -37,14 +37,14 @@ graph TD
 | cli | benchmarks | 1 |
 | cli | config | 1 |
 | cli | core | 7 |
-| cli | outputs | 7 |
+| cli | outputs | 8 |
 | cli | retrievers | 1 |
 | config | core | 2 |
 | core | analyzers | 4 |
 | core | config | 1 |
 | core | llm | 1 |
 | llm | core | 1 |
-| outputs | core | 26 |
+| outputs | core | 27 |
 | retrievers | core | 3 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |
@@ -52,5 +52,5 @@ graph TD
 | test | cli | 1 |
 | test | config | 3 |
 | test | core | 20 |
-| test | outputs | 7 |
+| test | outputs | 8 |
 | test | retrievers | 1 |

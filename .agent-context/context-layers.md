@@ -10,7 +10,16 @@ Generated context is intentionally layered. Start small, then open deeper files 
 - `.agent-context/repo-summary.md` - repository overview, stack, entrypoints, and command summary
 - `.agent-context/onboarding.md` - first-read workflow, task entrypoints, and validation guidance
 
-## L2 Task Pack
+## L2 Task Run
+- `.agent-context/runs/<task-id>/plan.md` - task intent, suspected modules, and must-inspect files
+- `.agent-context/runs/<task-id>/pack.md` - task-specific context package
+- `.agent-context/runs/<task-id>/edit-boundary.md` - allowed and avoided edit surfaces
+- `.agent-context/runs/<task-id>/tests.md` - minimal, regression, and full-confidence tests
+- `.agent-context/runs/<task-id>/verify.md` - post-edit verification report scaffold
+- `.agent-context/runs/<task-id>/impact.md` - dependent modules, related tests, and risk
+- `.agent-context/runs/<task-id>/run.json` - machine-readable task run manifest
+
+## L2 Standalone Task Pack
 - `.agent-context/tasks/<task>/task.md` - concrete task intent, suspected modules, and validation commands
 - `.agent-context/tasks/<task>/relevant-files.md` - task-specific files to inspect first
 - `.agent-context/tasks/<task>/dependency-neighbors.md` - direct dependency context

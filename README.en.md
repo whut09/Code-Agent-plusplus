@@ -117,6 +117,7 @@ repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
+repo-context run "<task>" [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context verify --diff [repo]
@@ -146,6 +147,7 @@ repo-context readiness .
 repo-context validate .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
+repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
@@ -250,20 +252,23 @@ Generated context is split into L0-L3 so agents do not load the full `.agent-con
 
 - L0: `AGENTS.md`, the shortest operating rules and default workflow, always loaded.
 - L1: `.agent-context/repo-summary.md`, `.agent-context/onboarding.md`, and `.agent-context/context-layers.md`, loaded when a new task starts.
-- L2: `.agent-context/tasks/<task>/`, loaded only for the concrete task.
+- L2: `.agent-context/runs/<task-id>/` for a complete task run, or `.agent-context/tasks/<task>/` for a standalone task pack, loaded only for the concrete task.
 - L3: `.agent-context/key-files.md`, `index/`, `evidence/`, `graphs/`, and `rag/`, loaded on demand for deeper analysis, symbol lookup, or evidence tracing.
 
-`AGENTS.md` states the default workflow explicitly: read only `AGENTS.md` first; for a concrete task, run `repo-context plan` or inspect the task pack; do not load the full `.agent-context/` directory by default; prefer source files over generated summaries for behavior decisions. Manual environment and deployment notes stay in `AGENTS.manual.md` and are loaded only for environment, deployment, configuration, or operations tasks.
+`AGENTS.md` states the default workflow explicitly: read only `AGENTS.md` first; for a concrete task, run `repo-context run "<task>" .` or inspect the generated run directory; do not load the full `.agent-context/` directory by default; prefer source files over generated summaries for behavior decisions. Manual environment and deployment notes stay in `AGENTS.manual.md` and are loaded only for environment, deployment, configuration, or operations tasks.
 
 ## Task Context Packs
 
-The task workflow is split into `plan`, `pack`, `verify`, and `tests`; the older `task` command remains as a compatibility shortcut. The `tests` command selects minimal, regression, and full-confidence test commands for a file or diff. Task mode is a three-stage context packer rather than a plain keyword file list:
+The task workflow has a complete closed-loop entrypoint: `repo-context run "<task>" .`. It does not edit code; it writes one Agent execution directory under `.agent-context/runs/<task-id>/` with `plan.md`, `pack.md`, `edit-boundary.md`, `expected-diff.md`, `tests.md`, `verify.md`, `impact.md`, `prompt.codex.md`, `prompt.claude.md`, `prompt.cursor.md`, and `run.json`. The individual `plan`, `pack`, `verify`, `impact`, and `tests` commands remain available when a user or automation needs only one stage. The older `task` command remains as a compatibility shortcut.
+
+Task packing is a three-stage context selector rather than a plain keyword file list:
 
 1. Direct retrieval matches the task against paths, modules, summaries, exports, symbols, tests, and docs.
 2. Graph expansion adds direct imports, direct importers, sibling tests, entrypoints, config files, and owning module docs.
 3. Budget packing groups selected files into direct source, tests, dependency neighbors, config/docs, and entrypoints.
 
 ```bash
+repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .

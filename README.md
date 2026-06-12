@@ -125,10 +125,10 @@ AGENTS.md
 
 - L0：`AGENTS.md`，最短操作规则和默认工作流，始终加载。
 - L1：`.agent-context/repo-summary.md`、`.agent-context/onboarding.md` 和 `.agent-context/context-layers.md`，新任务开始时加载。
-- L2：`.agent-context/tasks/<task>/`，只在处理具体任务时加载。
+- L2：`.agent-context/runs/<task-id>/` 是完整任务运行上下文；`.agent-context/tasks/<task>/` 是单独任务包，只在处理具体任务时加载。
 - L3：`.agent-context/key-files.md`、`index/`、`evidence/`、`graphs/` 和 `rag/`，只在需要深入分析、符号查询或证据追踪时按需加载。
 
-`AGENTS.md` 会明确默认工作流：先只读 `AGENTS.md`；遇到具体任务时运行 `repo-context plan` 或查看任务包；默认不要加载完整 `.agent-context/` 目录；判断行为时优先看源码而不是生成摘要。人工维护的环境和部署说明保留在 `AGENTS.manual.md`，只在环境、部署、配置或运维类任务中加载。
+`AGENTS.md` 会明确默认工作流：先只读 `AGENTS.md`；遇到具体任务时运行 `repo-context run "<task>" .` 或查看生成的 run 目录；默认不要加载完整 `.agent-context/` 目录；判断行为时优先看源码而不是生成摘要。人工维护的环境和部署说明保留在 `AGENTS.manual.md`，只在环境、部署、配置或运维类任务中加载。
 
 ## 命令
 
@@ -140,6 +140,7 @@ repo-context explain <path> [repo]
 repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
+repo-context run "<task>" [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context verify --diff [repo]
@@ -169,6 +170,7 @@ repo-context readiness .
 repo-context validate .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
+repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
@@ -269,13 +271,16 @@ repo-context build . --llm
 
 ## 任务上下文包
 
-任务工作流拆成 `plan`、`pack`、`verify`、`tests` 四个阶段；旧的 `task` 命令仍保留为兼容入口。`tests` 命令会为文件或 diff 选择最小测试、回归测试和全量信心命令。`task` 模式不是简单关键词文件列表，而是三阶段上下文打包器：
+任务工作流现在有完整闭环入口：`repo-context run "<task>" .`。它不修改代码，只在 `.agent-context/runs/<task-id>/` 下生成一次 Agent 执行上下文，包含 `plan.md`、`pack.md`、`edit-boundary.md`、`expected-diff.md`、`tests.md`、`verify.md`、`impact.md`、`prompt.codex.md`、`prompt.claude.md`、`prompt.cursor.md` 和 `run.json`。`plan`、`pack`、`verify`、`impact`、`tests` 仍可作为单阶段命令单独使用；旧的 `task` 命令仍保留为兼容入口。
+
+任务包不是简单关键词文件列表，而是三阶段上下文打包器：
 
 1. 直接检索：匹配 path、module、summary、exports、symbols、tests 和 docs。
 2. 图扩展：加入 direct imports、direct importers、sibling tests、entrypoints、config files 和 owning module docs。
 3. 预算装包：按 direct source、tests、dependency neighbors、config/docs、entrypoints 分桶放入 token budget。
 
 ```bash
+repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context plan "fix login timeout bug" . --type bugfix
 repo-context pack "fix login timeout bug" . --type bugfix --token-budget 12000
 repo-context verify --diff .
