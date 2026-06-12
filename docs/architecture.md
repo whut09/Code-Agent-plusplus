@@ -1,19 +1,58 @@
 # Architecture
 
-Repo-to-Agent-Context is an Agent Context Harness: it turns a repository into minimal, evidence-linked, task-aware context packs through a validation-oriented pipeline.
+Repo-to-Agent-Context is an Agent Context Harness: it turns a repository into minimal, evidence-linked, task-aware context packs through a validation-oriented pipeline. The core product is not documentation generation; it is the context and guardrail system an agent uses to plan, edit, verify, and understand regression risk inside a repository.
 
 ```mermaid
 graph TD
-  CLI --> Scanner
-  Scanner --> Indexer
-  Indexer --> GraphBuilder
-GraphBuilder --> Ranker
-Ranker --> SummaryEngine
-SummaryEngine --> ContextComposer
-ContextComposer --> Outputs
-ContextComposer --> RagAdapter
-RagAdapter --> LightRAG
+  CLI --> RepoScanner["Repo Scanner"]
+  RepoScanner --> FileIndex["File Index"]
+  RepoScanner --> SymbolIndex["Symbol Index"]
+  RepoScanner --> DependencyGraph["Dependency Graph"]
+  RepoScanner --> TestIndex["Test Index"]
+  RepoScanner --> CommandIndex["Command Index"]
+  RepoScanner --> RiskIndex["Risk Index"]
+
+  FileIndex --> ContextPlanner["Context Planner"]
+  SymbolIndex --> ContextPlanner
+  DependencyGraph --> ContextPlanner
+  TestIndex --> ContextPlanner
+  CommandIndex --> ContextPlanner
+  RiskIndex --> ContextPlanner
+
+  ContextPlanner --> GlobalContext["Global Context"]
+  ContextPlanner --> TaskContext["Task Context"]
+  ContextPlanner --> DiffContext["Diff Context"]
+  ContextPlanner --> ImpactContext["Impact Context"]
+
+  GlobalContext --> PackComposer["Context Pack Composer"]
+  TaskContext --> PackComposer
+  DiffContext --> PackComposer
+  ImpactContext --> PackComposer
+
+  PackComposer --> AgentsMd["AGENTS.md"]
+  PackComposer --> TaskPack["Task Pack"]
+  PackComposer --> VerificationPack["Verification Pack"]
+  PackComposer --> RagDocuments["RAG Documents"]
+
+  PackComposer --> HarnessLayer["Agent Harness Layer"]
+  HarnessLayer --> Plan["plan"]
+  HarnessLayer --> EditBoundary["edit boundary"]
+  HarnessLayer --> Verify["verify"]
+  HarnessLayer --> ImpactReport["impact report"]
+  HarnessLayer --> RegressionGuard["regression guard"]
 ```
+
+## v2 Architecture
+
+The v2 architecture is organized around five responsibilities:
+
+- Repo Scanner: builds file, symbol, dependency, test, command, and risk indexes from repository evidence.
+- Context Planner: converts repository indexes into global, task, diff, and impact contexts.
+- Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, verification packs, and RAG documents.
+- Agent Harness Layer: exposes task execution constraints through `plan`, edit boundaries, `verify`, impact reports, and regression guards.
+- Integration Layer: lets MCP, editor extensions, CLI adapters, and RAG backends call the same planning and retrieval contracts.
+
+This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
 ## Scanner
 
@@ -28,6 +67,15 @@ It detects:
 - Entrypoints
 - Run and test commands
 - Token estimates
+
+Scanner output is normalized into indexes used by the planner:
+
+- File Index: normalized path metadata, file kind, language, size, generated/lockfile flags, and summaries.
+- Symbol Index: exports, functions, classes, routes, and evidence locations.
+- Dependency Graph: file and module edges for imports, importers, and blast radius analysis.
+- Test Index: test files, likely covered modules, runnable test commands, and changed-test shortcuts.
+- Command Index: install, build, check, test, lint, dev, CI, and deployment commands.
+- Risk Index: generated files, large modules, config boundaries, missing tests, cross-module edits, and low-confidence analysis.
 
 ## Indexer
 
@@ -74,6 +122,15 @@ Task packs use a three-stage retrieval pipeline:
 
 Bugfix, feature, and refactor tasks use different priorities and suggested commands.
 
+The planner now treats task context as one mode among four:
+
+- Global Context: repository-wide operating rules, entrypoints, commands, boundaries, and onboarding.
+- Task Context: suspected modules, must-inspect files, related tests, risk notes, and a task-specific prompt.
+- Diff Context: changed files, changed modules, missing tests, and recommended verification after edits.
+- Impact Context: direct/transitive dependents, related integration tests, risk score, and required verification.
+
+These modes share the same indexes and scoring signals so CLI commands, future MCP tools, and editor integrations can produce consistent recommendations.
+
 ## Readiness
 
 Readiness is a diagnostic, not a success guarantee. Low-level signal categories still include structure, commands, tests, architecture, task context, and safety. They roll up into Operational, Context Quality, and Agent Safety dimensions, then hard caps prevent easy 100s when important trust signals are missing, such as CI, real tokenizer accounting, high-confidence AST/compiler analysis, benchmark fixtures, or generated output validation.
@@ -101,8 +158,16 @@ The composer writes both human-friendly Markdown and machine-readable JSON:
 - `.agent-context/index/*.json`
 - `.agent-context/graphs/*.json`
 - `.agent-context/graphs/*.mmd`
+- `.agent-context/rag/*.jsonl`
 
 When a legacy hand-written `AGENTS.md` already exists, the composer migrates deployment-oriented sections into `AGENTS.manual.md`, then composes the final root file from `agents.manualSources` plus `.agent-context/AGENTS.generated.md`.
+
+Composer output is layered:
+
+- `AGENTS.md`: minimal always-loaded rules and links.
+- Task Pack: task-specific context files under `.agent-context/tasks/`.
+- Verification Pack: changed files, missing tests, recommended commands, and risk report.
+- RAG Documents: retrievable context chunks for static, ripgrep, LightRAG, embedding, or hybrid retrievers.
 
 ## Summary Engine
 

@@ -6,6 +6,8 @@ Repo-to-Agent-Context is a repository context harness that generates minimal, ev
 
 The first version is deliberately offline-first: it scans a repo, extracts lightweight code structure, ranks important files, builds dependency graphs, and writes Markdown/JSON context files without requiring an LLM.
 
+The next direction is to move from "help the agent understand the repository" to "help the agent safely and verifiably complete tasks inside the repository" through task-level context, change impact analysis, test recommendation, edit boundaries, verification loops, and context-quality benchmarks.
+
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context final output animation">
 </p>
