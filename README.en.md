@@ -122,6 +122,7 @@ repo-context impact [repo] --base main
 repo-context tests [repo] --for <path>
 repo-context tests [repo] --diff --base main
 repo-context benchmark [benchmarkDir] --top-k 8
+repo-context retrieve "<task>" [repo] --provider hybrid
 repo-context task "<task>" [repo]
 repo-context task "<task>" --repo <repo...>
 repo-context diff [repo] --base main
@@ -286,6 +287,36 @@ repo-context benchmark benchmarks --json
 ```
 
 Reported metrics include `Recall@K`, `Precision@K`, token compression ratio, test recommendation accuracy, and an `agentSuccessDeltaProxy` comparing task-pack coverage with a non-task-aware key-file baseline. The proxy is deterministic and repeatable; it is not a live agent execution benchmark.
+
+## Context Retrieval Protocol
+
+RAG is modeled as a retrieval protocol, not just an export format. The core interface is:
+
+```ts
+interface ContextRetriever {
+  search(task: string, options: {
+    topK: number;
+    modules?: string[];
+    changedFiles?: string[];
+    includeTests?: boolean;
+  }): Promise<ContextHit[]>;
+}
+```
+
+Built-in providers:
+
+- `static`: searches generated summaries, module/file metadata, symbols, evidence, and RAG documents.
+- `ripgrep`: searches source text through `rg` when available.
+- `hybrid`: merges static and ripgrep hits.
+- `lightrag`: protocol placeholder for a LightRAG service adapter.
+- `embedding`: protocol placeholder for embedding/vector-store adapters.
+
+```bash
+repo-context retrieve "fix login timeout" . --provider hybrid --top-k 8 --include-tests
+repo-context rag search "fix login timeout" . --provider static --json
+```
+
+This keeps MCP, VS Code, Cursor, Codex CLI, LightRAG, and future embedding stores on the same retrieval contract instead of binding the harness to a single RAG framework.
 
 ## Optional RAG With LightRAG
 

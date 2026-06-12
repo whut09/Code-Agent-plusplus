@@ -1,0 +1,27 @@
+import type { ContextRetriever, ContextRetrieverOptions, ContextHit } from "./types.js";
+import { sortHits } from "./static.js";
+
+export class HybridContextRetriever implements ContextRetriever {
+  readonly name = "hybrid" as const;
+
+  constructor(private readonly retrievers: ContextRetriever[]) {}
+
+  async search(task: string, options: ContextRetrieverOptions): Promise<ContextHit[]> {
+    const merged = new Map<string, ContextHit>();
+    for (const retriever of this.retrievers) {
+      const hits = await retriever.search(task, { ...options, topK: Math.max(options.topK * 2, options.topK) });
+      for (const hit of hits) {
+        const current = merged.get(hit.path);
+        if (!current) {
+          merged.set(hit.path, { ...hit, source: this.name, metadata: { ...hit.metadata, sources: [hit.source] } });
+          continue;
+        }
+        current.score += hit.score;
+        current.metadata.sources = [...new Set([...(current.metadata.sources as string[]), hit.source])];
+        if (hit.snippet.length > current.snippet.length) current.snippet = hit.snippet;
+      }
+    }
+
+    return sortHits([...merged.values()]).slice(0, Math.max(1, options.topK));
+  }
+}

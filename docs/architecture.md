@@ -113,6 +113,20 @@ The summary engine has two modes:
 
 Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `repo-context.local.yml`, which is ignored by git.
 
+## Retrieval Protocol
+
+RAG is represented as a stable retrieval protocol rather than a single framework integration. `ContextRetriever.search(task, options)` returns ranked `ContextHit` objects with path, module, kind, score, source, snippet, and metadata.
+
+Built-in retrievers are:
+
+- `static`: deterministic search over generated context documents, indexed files, symbols, summaries, and evidence.
+- `ripgrep`: source-text retrieval through `rg` when it is available in the runtime.
+- `hybrid`: score-level merge of static and ripgrep results.
+- `lightrag`: external adapter slot for LightRAG services.
+- `embedding`: external adapter slot for vector stores and embedding services.
+
+The protocol is intended for MCP, VS Code, Cursor, Codex CLI, and external RAG systems. LightRAG remains an adapter target, not a core coupling.
+
 ## RAG Adapter
 
 RAG is introduced as an optional adapter, not as a required core dependency.

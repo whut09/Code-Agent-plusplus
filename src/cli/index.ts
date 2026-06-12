@@ -19,6 +19,7 @@ import { validateContextPackage } from "../core/validator.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
+import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 
 const program = new Command();
 
@@ -92,6 +93,25 @@ rag
     console.log(`Mode: ${manifest.mode}`);
     console.log("");
     console.log("Run `repo-context build` to write `.agent-context/rag/documents.jsonl`.");
+  });
+
+
+rag
+  .command("search")
+  .argument("<task>", "task or search query")
+  .argument("[repo]", "repository path", ".")
+  .option("--provider <provider>", "retriever provider: static, ripgrep, hybrid, lightrag, embedding", parseRetrieverProvider, "hybrid")
+  .option("-k, --top-k <count>", "number of context hits", parseInteger, 8)
+  .option("--modules <modules>", "comma-separated module filter")
+  .option("--changed-files <files>", "comma-separated changed file filter")
+  .option("--include-tests", "include test files in retrieval results")
+  .option("--json", "print machine-readable context hits")
+  .description("Search repository context through the unified retrieval protocol.")
+  .action(async (task: string, repo: string, options: RetrieveCliOptions) => {
+    const context = await buildContextPackage(repo);
+    const retriever = createContextRetriever(context, options.provider);
+    const hits = await retriever.search(task, retrieveOptions(options));
+    console.log(options.json ? JSON.stringify(hits, null, 2) : renderContextHits(task, options.provider, hits));
   });
 
 program
@@ -230,6 +250,25 @@ program
     console.log(options.json ? JSON.stringify(result, null, 2) : renderBenchmarkReport(result));
   });
 
+
+program
+  .command("retrieve")
+  .argument("<task>", "task or search query")
+  .argument("[repo]", "repository path", ".")
+  .option("--provider <provider>", "retriever provider: static, ripgrep, hybrid, lightrag, embedding", parseRetrieverProvider, "hybrid")
+  .option("-k, --top-k <count>", "number of context hits", parseInteger, 8)
+  .option("--modules <modules>", "comma-separated module filter")
+  .option("--changed-files <files>", "comma-separated changed file filter")
+  .option("--include-tests", "include test files in retrieval results")
+  .option("--json", "print machine-readable context hits")
+  .description("Search repository context through the unified retrieval protocol.")
+  .action(async (task: string, repo: string, options: RetrieveCliOptions) => {
+    const context = await buildContextPackage(repo);
+    const retriever = createContextRetriever(context, options.provider);
+    const hits = await retriever.search(task, retrieveOptions(options));
+    console.log(options.json ? JSON.stringify(hits, null, 2) : renderContextHits(task, options.provider, hits));
+  });
+
 program
   .command("diff")
   .argument("[repo]", "repository path", ".")
@@ -307,6 +346,35 @@ program.parseAsync().catch((error: unknown) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
+
+
+interface RetrieveCliOptions {
+  provider: RetrieverProvider;
+  topK: number;
+  modules?: string;
+  changedFiles?: string;
+  includeTests?: boolean;
+  json?: boolean;
+}
+
+function retrieveOptions(options: RetrieveCliOptions) {
+  return {
+    topK: options.topK,
+    modules: splitCsv(options.modules),
+    changedFiles: splitCsv(options.changedFiles),
+    includeTests: options.includeTests ?? false
+  };
+}
+
+function splitCsv(value: string | undefined): string[] | undefined {
+  const items = value?.split(",").map((item) => item.trim()).filter(Boolean) ?? [];
+  return items.length ? items : undefined;
+}
+
+function parseRetrieverProvider(value: string): RetrieverProvider {
+  if (value === "static" || value === "ripgrep" || value === "hybrid" || value === "lightrag" || value === "embedding") return value;
+  throw new Error(`Unsupported retriever provider: ${value}`);
+}
 
 function parseTarget(value: string): AgentTarget {
   if (value === "codex" || value === "claude" || value === "cursor" || value === "all") {
