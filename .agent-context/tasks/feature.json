@@ -2,8 +2,8 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 3148,
-  "remainingBudget": 8852,
+  "estimatedTokens": 3165,
+  "remainingBudget": 8835,
   "files": [
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -22,7 +22,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 248
+      "estimatedTokens": 265
     },
     {
       "path": "src/mcp/server.ts",
@@ -71,15 +71,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -96,6 +87,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -188,15 +188,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 16,
       "reasons": [
@@ -206,13 +197,22 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
       "score": 16,
       "reasons": [
         "configuration"
       ],
       "category": "config-doc",
-      "estimatedTokens": 48
+      "estimatedTokens": 42
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 46
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
@@ -224,13 +224,13 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
         "configuration"
       ],
       "category": "config-doc",
-      "estimatedTokens": 46
+      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -287,15 +287,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 45
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
       "score": 14,
       "reasons": [
@@ -303,6 +294,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 44
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 45
     }
   ],
   "readFirst": [
@@ -323,7 +323,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 248
+      "estimatedTokens": 265
     },
     {
       "path": "src/mcp/server.ts",
@@ -374,15 +374,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -399,6 +390,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -484,8 +484,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3148,
-    "remaining": 8852,
+    "used": 3165,
+    "remaining": 8835,
     "buckets": [
       {
         "name": "direct-source",
@@ -504,9 +504,9 @@
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
         ]
       },
@@ -531,25 +531,25 @@
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/shared/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
+          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
+          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
           ".github/workflows/ci.yml",
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/config/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md"
+          "benchmarks/fixtures/monorepo/packages/web/README.md",
+          "benchmarks/fixtures/monorepo/packages/config/README.md"
         ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 572,
+        "tokens": 589,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

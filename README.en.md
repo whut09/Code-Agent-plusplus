@@ -64,6 +64,7 @@ repo-context delta . --base main
 repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
+repo-context trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
 repo-context policy . --base main --trace fix-login-timeout-bug
 repo-context tests . --diff --base main
 repo-context impact . --base main
@@ -80,8 +81,8 @@ repo-context drift .
 - ✅ tests recommendation: focused and regression tests from files or diffs.
 - ✅ diff / impact / verify: post-edit impact analysis and validation reports.
 - ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals.
-- ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state.
-- ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence.
+- ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state, with manual / command / CI evidence separated.
+- ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence. `trace run` captures exit code, output hashes, and working-tree hashes, which is stronger than a manual claim.
 - ✅ context delta: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff; `evolve` is currently a cache-aware full refresh, while selective output writes are planned.
 - 🧪 MCP runtime tools: the stdio MCP server exposes build / plan / pack / retrieve / tests / impact / verify plus start_loop / step / evaluate / repair / finalize tools; real client integrations still need per-client validation.
 - 🧪 benchmark: Loop Behavior Benchmark comparing no-context, AGENTS.md, context pack, and loop-enabled harness runs across wrong edits, test failures, steps, tokens, and repair loops.
@@ -168,6 +169,7 @@ repo-context evolve [repo] --base main
 repo-context loop "<task>" [repo] --phase after-edit
 repo-context trace start "<task>" [repo] --agent codex
 repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
+repo-context trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
 repo-context policy [repo] --base main --trace <trace-id>
 repo-context tests [repo] --diff --base main
 repo-context impact [repo] --base main

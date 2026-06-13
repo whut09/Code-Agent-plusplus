@@ -2,8 +2,8 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 3998,
-  "remainingBudget": 8002,
+  "estimatedTokens": 4067,
+  "remainingBudget": 7933,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
@@ -43,7 +43,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 248
+      "estimatedTokens": 265
     },
     {
       "path": "test/task-harness.test.ts",
@@ -130,7 +130,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 242
+      "estimatedTokens": 294
     },
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -196,15 +196,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 8,
       "reasons": [
@@ -214,13 +205,22 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
       "score": 8,
       "reasons": [
         "configuration"
       ],
       "category": "config-doc",
-      "estimatedTokens": 48
+      "estimatedTokens": 42
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 46
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
@@ -232,13 +232,13 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
         "configuration"
       ],
       "category": "config-doc",
-      "estimatedTokens": 46
+      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -316,7 +316,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 248
+      "estimatedTokens": 265
     }
   ],
   "inspectIfNeeded": [
@@ -405,7 +405,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 242
+      "estimatedTokens": 294
     },
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -473,8 +473,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3998,
-    "remaining": 8002,
+    "used": 4067,
+    "remaining": 7933,
     "buckets": [
       {
         "name": "direct-source",
@@ -498,7 +498,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 2164,
+        "tokens": 2216,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
@@ -520,11 +520,11 @@
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/shared/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
+          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
+          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -534,7 +534,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 572,
+        "tokens": 589,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"

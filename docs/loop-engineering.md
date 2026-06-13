@@ -98,7 +98,15 @@ The controller is the bridge from static context generation to loop engineering:
 
 ## Trace And Policy
 
-`repo-context run "<task>" .` creates a task run and trace. `repo-context trace start/add/show` can also manage traces directly. A trace records agent identity, ordered steps, touched files, reasons, commands, test results, output summaries, and final state.
+`repo-context run "<task>" .` creates a task run and trace. `repo-context trace start/add/run/show` can also manage traces directly. A trace records agent identity, ordered steps, touched files, reasons, commands, test results, output summaries, and final state.
+
+Trace evidence is split into three levels:
+
+- `manual evidence`: an agent or human records a claim with `trace add`; useful for edit intent and observations.
+- `command evidence`: the harness executes the command with `trace run` and captures `exitCode`, timestamps, stdout/stderr hashes, and working-tree hashes before and after the command.
+- `ci evidence`: external verification from CI artifacts or GitHub Actions imported into a trace step.
+
+The Policy Engine prefers CI and harness-captured command evidence. Manual test evidence can satisfy a required check for compatibility, but it is reported as a risk because it does not prove a command was actually executed.
 
 `repo-context policy . --base main --trace <trace-id>` merges diff, contracts, freshness, and trace evidence. It can block forbidden edits, flag risky behavior, and require test, contract, or context-refresh evidence before a loop is considered complete.
 
@@ -109,7 +117,7 @@ The runtime is exposed through CLI commands, including:
 ```txt
 build, run, loop, plan, pack, verify, task, tests, impact,
 policy, validate-contracts, freshness, drift, delta, evolve,
-trace start/add/show/search, benchmark, retrieve, diff, update, explain
+trace start/add/run/show/search, benchmark, retrieve, diff, update, explain
 ```
 
 The follow-up release check is to keep the npm package, `dist/`, CLI help, and docs aligned with this surface.

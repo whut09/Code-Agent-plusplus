@@ -1,9 +1,13 @@
+import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type ExecutionFinalState = "planned" | "in_progress" | "partial_success" | "success" | "failed" | "blocked";
 export type ExecutionStepResult = "passed" | "failed" | "skipped" | "unknown";
+export type ExecutionEvidenceSource = "manual" | "command" | "ci";
+export type ExecutionCapturedBy = "repo-context" | "external";
 
 export interface ExecutionTraceStep {
   id: string;
@@ -16,6 +20,15 @@ export interface ExecutionTraceStep {
   test?: string;
   result?: ExecutionStepResult;
   output?: string;
+  evidenceSource?: ExecutionEvidenceSource;
+  capturedBy?: ExecutionCapturedBy;
+  exitCode?: number | null;
+  startedAt?: string;
+  finishedAt?: string;
+  stdoutHash?: string;
+  stderrHash?: string;
+  workingTreeHashBefore?: string;
+  workingTreeHashAfter?: string;
 }
 
 export interface ExecutionTrace {
@@ -44,6 +57,32 @@ export interface TraceStepInput {
   result?: ExecutionStepResult;
   output?: string;
   finalState?: ExecutionFinalState;
+  evidenceSource?: ExecutionEvidenceSource;
+  capturedBy?: ExecutionCapturedBy;
+  exitCode?: number | null;
+  startedAt?: string;
+  finishedAt?: string;
+  stdoutHash?: string;
+  stderrHash?: string;
+  workingTreeHashBefore?: string;
+  workingTreeHashAfter?: string;
+}
+
+export interface TraceCommandRunInput {
+  agent?: string;
+  action?: string;
+  command: string;
+  files?: string[];
+  reason?: string;
+  test?: string;
+  finalState?: ExecutionFinalState;
+}
+
+export interface TraceCommandRunResult {
+  trace: ExecutionTrace;
+  exitCode: number | null;
+  stdout: string;
+  stderr: string;
 }
 
 export function startExecutionTrace(root: string, task: string, options: TraceStartOptions = {}): ExecutionTrace {
@@ -63,6 +102,7 @@ export function startExecutionTrace(root: string, task: string, options: TraceSt
         agent: options.agent ?? "repo-context",
         action: "context-run-created",
         files: [],
+        evidenceSource: "manual",
         reason: "Task execution context was created before agent editing."
       }
     ]
@@ -88,13 +128,61 @@ export function appendExecutionTraceStep(root: string, traceId: string, input: T
     command: input.command,
     test: input.test,
     result: input.result,
-    output: input.output
+    output: input.output,
+    evidenceSource: input.evidenceSource ?? "manual",
+    capturedBy: input.capturedBy,
+    exitCode: input.exitCode,
+    startedAt: input.startedAt,
+    finishedAt: input.finishedAt,
+    stdoutHash: input.stdoutHash,
+    stderrHash: input.stderrHash,
+    workingTreeHashBefore: input.workingTreeHashBefore,
+    workingTreeHashAfter: input.workingTreeHashAfter
   });
   trace.updatedAt = now;
   if (input.finalState) trace.finalState = input.finalState;
   else if (trace.finalState === "planned") trace.finalState = "in_progress";
   writeExecutionTrace(root, trace);
   return trace;
+}
+
+export function runTraceCommand(root: string, traceId: string, input: TraceCommandRunInput): TraceCommandRunResult {
+  const startedAt = new Date().toISOString();
+  const workingTreeHashBefore = hashWorkingTree(root);
+  const result = spawnSync(input.command, {
+    cwd: root,
+    shell: true,
+    encoding: "utf8",
+    maxBuffer: 10 * 1024 * 1024
+  });
+  const finishedAt = new Date().toISOString();
+  const stdout = typeof result.stdout === "string" ? result.stdout : "";
+  const rawStderr = typeof result.stderr === "string" ? result.stderr : "";
+  const stderr = result.error ? `${rawStderr}${rawStderr ? "\n" : ""}${result.error.message}` : rawStderr;
+  const exitCode = typeof result.status === "number" ? result.status : result.error ? 1 : null;
+  const workingTreeHashAfter = hashWorkingTree(root);
+  const trace = appendExecutionTraceStep(root, traceId, {
+    agent: input.agent,
+    action: input.action ?? "run-test",
+    files: input.files,
+    reason: input.reason,
+    command: input.command,
+    test: input.test,
+    result: exitCode === 0 ? "passed" : "failed",
+    output: summarizeCommandOutput(stdout, stderr),
+    finalState: input.finalState,
+    evidenceSource: "command",
+    capturedBy: "repo-context",
+    exitCode,
+    startedAt,
+    finishedAt,
+    stdoutHash: hashText(stdout),
+    stderrHash: hashText(stderr),
+    workingTreeHashBefore,
+    workingTreeHashAfter
+  });
+
+  return { trace, exitCode, stdout, stderr };
 }
 
 export function readExecutionTrace(root: string, traceId: string): ExecutionTrace | null {
@@ -131,11 +219,12 @@ export function renderExecutionTrace(trace: ExecutionTrace): string {
     "",
     heading(2, "Steps"),
     table(
-      ["Step", "Agent", "Action", "Files", "Result", "Reason"],
+      ["Step", "Agent", "Action", "Evidence", "Files", "Result", "Reason"],
       trace.steps.map((step) => [
         step.id,
         step.agent ?? "unknown",
         step.action,
+        formatEvidenceSource(step),
         step.files.map(code).join(", ") || "none",
         step.result ?? "unknown",
         (step.reason ?? step.command ?? step.test ?? "").replace(/\|/g, "\\|")
@@ -143,7 +232,7 @@ export function renderExecutionTrace(trace: ExecutionTrace): string {
     ),
     "",
     heading(2, "Commands"),
-    bullet(trace.steps.filter((step) => step.command).map((step) => `${step.id}: ${code(step.command ?? "")}`))
+    bullet(trace.steps.filter((step) => step.command).map(formatCommandStep))
   ].join("\n");
 }
 
@@ -161,4 +250,54 @@ function hashTask(task: string): string {
   let hash = 0;
   for (const char of task) hash = ((hash << 5) - hash + char.charCodeAt(0)) | 0;
   return Math.abs(hash).toString(36);
+}
+
+function formatEvidenceSource(step: ExecutionTraceStep): string {
+  const source = step.evidenceSource ?? "manual";
+  if (source === "command" && step.capturedBy === "repo-context") return "command";
+  if (source === "ci") return "ci";
+  return "manual";
+}
+
+function formatCommandStep(step: ExecutionTraceStep): string {
+  const details = [
+    typeof step.exitCode === "number" ? `exit ${step.exitCode}` : undefined,
+    step.stdoutHash ? `stdout ${step.stdoutHash.slice(0, 12)}` : undefined,
+    step.stderrHash ? `stderr ${step.stderrHash.slice(0, 12)}` : undefined,
+    step.workingTreeHashBefore && step.workingTreeHashAfter
+      ? `tree ${step.workingTreeHashBefore.slice(0, 12)} -> ${step.workingTreeHashAfter.slice(0, 12)}`
+      : undefined
+  ].filter(Boolean);
+  return `${step.id}: ${code(step.command ?? "")}${details.length ? ` (${details.join(", ")})` : ""}`;
+}
+
+function summarizeCommandOutput(stdout: string, stderr: string): string {
+  const combined = [stdout.trim(), stderr.trim()].filter(Boolean).join("\n--- stderr ---\n");
+  if (!combined) return "";
+  return combined.length > 2000 ? `${combined.slice(0, 2000)}\n... truncated ...` : combined;
+}
+
+function hashWorkingTree(root: string): string {
+  const status = safeGit(root, ["status", "--porcelain=v1", "--untracked-files=all"]);
+  const diff = safeGit(root, ["diff", "--binary"]);
+  return hashText([status, diff].join("\n"));
+}
+
+function safeGit(root: string, args: string[]): string {
+  const result = spawnSync("git", args, {
+    cwd: root,
+    encoding: "utf8",
+    maxBuffer: 10 * 1024 * 1024
+  });
+  return [
+    `$ git ${args.join(" ")}`,
+    `status=${typeof result.status === "number" ? result.status : "unknown"}`,
+    typeof result.stdout === "string" ? result.stdout : "",
+    typeof result.stderr === "string" ? result.stderr : "",
+    result.error?.message ?? ""
+  ].join("\n");
+}
+
+function hashText(text: string): string {
+  return createHash("sha256").update(text).digest("hex");
 }

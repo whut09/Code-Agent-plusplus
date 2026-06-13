@@ -233,12 +233,14 @@ With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` a
 
 ## Execution Trace
 
-Agent harnesses need structured history, not only generated context. `repo-context run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `repo-context trace start/add/show` can manage traces directly.
+Agent harnesses need structured history, not only generated context. `repo-context run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `repo-context trace start/add/run/show` can manage traces directly.
 
 Each trace records:
 
 - task and agent identity
 - ordered steps with timestamp, action, files, reason, command, test, result, and output summary
+- evidence source: `manual`, `command`, or `ci`
+- command evidence captured by `repo-context trace run`, including exit code, timestamps, stdout/stderr hashes, and working-tree hashes before and after execution
 - final state such as `planned`, `in_progress`, `partial_success`, `success`, `failed`, or `blocked`
 
 Example:
@@ -255,15 +257,24 @@ Example:
     },
     {
       "action": "run-test",
-      "result": "failed",
-      "test": "auth.test.ts"
+      "command": "npm test -- auth",
+      "result": "passed",
+      "evidenceSource": "command",
+      "capturedBy": "repo-context",
+      "exitCode": 0,
+      "startedAt": "2026-06-13T10:00:00.000Z",
+      "finishedAt": "2026-06-13T10:00:04.000Z",
+      "stdoutHash": "xx",
+      "stderrHash": "xx",
+      "workingTreeHashBefore": "xx",
+      "workingTreeHashAfter": "xx"
     }
   ],
-  "finalState": "partial_success"
+  "finalState": "success"
 }
 ```
 
-This gives the feedback loop durable evidence about what the agent actually did, so later controller versions can distinguish missing context from failed execution, unsafe edits, or insufficient verification.
+This gives the feedback loop durable evidence about what the agent actually did, so the Policy Engine can distinguish a manual claim from harness-captured command evidence or CI evidence. Later controller versions can use the same trace to distinguish missing context from failed execution, unsafe edits, or insufficient verification.
 
 ## Summary Engine
 

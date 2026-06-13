@@ -66,6 +66,7 @@ repo-context delta . --base main
 repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
+repo-context trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
 repo-context policy . --base main --trace fix-login-timeout-bug
 repo-context tests . --diff --base main
 repo-context impact . --base main
@@ -82,8 +83,8 @@ repo-context drift .
 - ✅ tests recommendation：根据文件和 diff 推荐最小测试/回归测试。
 - ✅ diff / impact / verify：面向改代码后的影响分析和验证报告。
 - ✅ loop controller：根据 freshness、diff、contracts、tests、impact 决定下一步是重建上下文、补测试、修 contract 还是进入 review。
-- ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态。
-- ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据。
+- ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态，并区分 manual / command / CI evidence。
+- ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据；`trace run` 捕获 exit code、输出哈希和 working tree hash，可信度高于手动声明。
 - ✅ context delta：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件；`evolve` 当前是 cache-aware full refresh，selective output writes 仍在计划中。
 - 🧪 MCP runtime tools：stdio MCP server 已暴露 build / plan / pack / retrieve / tests / impact / verify 以及 start_loop / step / evaluate / repair / finalize 等工具；真实客户端集成仍需逐个验证。
 - 🧪 benchmark：Loop Behavior Benchmark，对比 no-context / AGENTS.md / context pack / loop-enabled harness 下的错改、测试失败、步骤、token 和 repair loops。
@@ -170,6 +171,7 @@ repo-context evolve [repo] --base main
 repo-context loop "<task>" [repo] --phase after-edit
 repo-context trace start "<task>" [repo] --agent codex
 repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
+repo-context trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
 repo-context policy [repo] --base main --trace <trace-id>
 repo-context tests [repo] --diff --base main
 repo-context impact [repo] --base main

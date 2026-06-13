@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { appendExecutionTraceStep, startExecutionTrace } from "../src/outputs/execution-trace.js";
+import { appendExecutionTraceStep, runTraceCommand, startExecutionTrace } from "../src/outputs/execution-trace.js";
 import { buildPolicyReport, renderPolicyReport } from "../src/outputs/policy-engine.js";
 import { writeContextPackage } from "../src/outputs/writer.js";
 
@@ -49,9 +49,43 @@ test("policy engine accepts passed trace evidence for required checks", async ()
 
     const context = await buildContextPackage(root);
     const report = buildPolicyReport(context, { base: "main", traceId: trace.id });
+    const rendered = renderPolicyReport(report);
 
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.tests" && finding.status === "satisfied"));
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.contract-validation" && finding.status === "satisfied"));
+    assert.match(rendered, /Evidence level: manual/);
+    assert.ok(report.findings.some((finding) => finding.id === "policy.risk.manual-test-evidence" && finding.status === "warning"));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("policy engine prefers harness-captured command evidence", async () => {
+  const root = createPolicyRepo();
+  try {
+    await prepareGeneratedContext(root);
+    writeFileSync(path.join(root, "src", "core", "session.ts"), "export function loginSession() { return 'fixed'; }\n", "utf8");
+
+    const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
+    runTraceCommand(root, trace.id, {
+      action: "run-test",
+      command: "node -e \"console.log('ok')\"",
+      reason: "test command evidence"
+    });
+    runTraceCommand(root, trace.id, {
+      action: "validate-contracts",
+      command: 'node -e "process.exit(0)"',
+      reason: "contract validation evidence"
+    });
+
+    const context = await buildContextPackage(root);
+    const report = buildPolicyReport(context, { base: "main", traceId: trace.id });
+    const rendered = renderPolicyReport(report);
+
+    assert.ok(report.findings.some((finding) => finding.id === "policy.required.tests" && finding.status === "satisfied"));
+    assert.ok(report.findings.some((finding) => finding.id === "policy.required.contract-validation" && finding.status === "satisfied"));
+    assert.match(rendered, /Evidence level: command/);
+    assert.doesNotMatch(rendered, /policy\.risk\.manual-test-evidence/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

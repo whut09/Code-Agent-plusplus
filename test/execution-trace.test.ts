@@ -5,7 +5,14 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { appendExecutionTraceStep, executionTracePath, readExecutionTrace, renderExecutionTrace, startExecutionTrace } from "../src/outputs/execution-trace.js";
+import {
+  appendExecutionTraceStep,
+  executionTracePath,
+  readExecutionTrace,
+  renderExecutionTrace,
+  runTraceCommand,
+  startExecutionTrace
+} from "../src/outputs/execution-trace.js";
 import { writeTaskRun } from "../src/outputs/task-run.js";
 
 test("execution trace records agent steps and final state", () => {
@@ -30,11 +37,39 @@ test("execution trace records agent steps and final state", () => {
 
     assert.equal(updated.steps.length, 2);
     assert.equal(final.finalState, "partial_success");
+    assert.equal(final.steps[1]?.evidenceSource, "manual");
+    assert.equal(final.steps[2]?.evidenceSource, "manual");
     assert.equal(readExecutionTrace(root, trace.id)?.steps.length, 3);
     assert.ok(existsSync(executionTracePath(root, trace.id)));
     assert.match(rendered, /# Execution Trace/);
     assert.match(rendered, /src\/auth\/session\.ts/);
     assert.match(rendered, /npm test -- auth/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("execution trace run captures command evidence", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-trace-command-"));
+  try {
+    const trace = startExecutionTrace(root, "run focused tests", { agent: "codex" });
+    const result = runTraceCommand(root, trace.id, {
+      action: "run-test",
+      command: "node -e \"console.log('ok')\"",
+      reason: "capture real command evidence"
+    });
+    const step = result.trace.steps.at(-1);
+    assert.equal(result.exitCode, 0);
+    assert.equal(step?.evidenceSource, "command");
+    assert.equal(step?.capturedBy, "repo-context");
+    assert.equal(step?.exitCode, 0);
+    assert.match(step?.startedAt ?? "", /^\d{4}-\d{2}-\d{2}T/);
+    assert.match(step?.finishedAt ?? "", /^\d{4}-\d{2}-\d{2}T/);
+    assert.match(step?.stdoutHash ?? "", /^[a-f0-9]{64}$/);
+    assert.match(step?.stderrHash ?? "", /^[a-f0-9]{64}$/);
+    assert.match(step?.workingTreeHashBefore ?? "", /^[a-f0-9]{64}$/);
+    assert.match(step?.workingTreeHashAfter ?? "", /^[a-f0-9]{64}$/);
+    assert.match(renderExecutionTrace(result.trace), /exit 0/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

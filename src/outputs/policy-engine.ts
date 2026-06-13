@@ -4,7 +4,7 @@ import { assessDrift, assessFreshness } from "../core/freshness.js";
 import { buildChangeImpactReport } from "./impact.js";
 import { validateContracts } from "./contract-validator.js";
 import { buildTestSelection } from "./test-selector.js";
-import { readExecutionTrace, type ExecutionTrace } from "./execution-trace.js";
+import { readExecutionTrace, type ExecutionTrace, type ExecutionTraceStep } from "./execution-trace.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type PolicyKind = "forbidden" | "risk" | "required";
@@ -44,6 +44,15 @@ export interface PolicyEngineReport {
   findings: PolicyFinding[];
 }
 
+type PolicyEvidenceLevel = "none" | "manual" | "command" | "ci";
+
+interface TraceEvidenceResult {
+  satisfied: boolean;
+  level: PolicyEvidenceLevel;
+  stepId?: string;
+  evidence: string[];
+}
+
 export function buildPolicyReport(context: ContextPackage, options: PolicyEngineOptions = {}): PolicyEngineReport {
   const base = options.base ?? "main";
   const trace = options.traceId ? readExecutionTrace(context.scan.root, options.traceId) : null;
@@ -56,6 +65,8 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
   const drift = assessDrift(context);
   const impact = buildChangeImpactReport(context, { base });
   const tests = buildTestSelection(context, { diff: true, base });
+  const testEvidence = traceTestEvidence(trace);
+  const contractEvidence = traceContractEvidence(trace);
   const findings: PolicyFinding[] = [];
 
   for (const file of changedIndexed.filter((item) => item.isGenerated || item.kind === "generated")) {
@@ -137,11 +148,12 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
 
   if (sourceOrConfigChanged) {
     findings.push(
-      requiredFinding("policy.required.tests", hasPassedTestEvidence(trace), {
+      requiredFinding("policy.required.tests", testEvidence.satisfied, {
         message: "Changed source or config requires passed test evidence.",
         evidence: [
           `${changedIndexed.filter((file) => isPolicyRelevantFile(file)).length} source/config file(s) changed.`,
           trace ? `Trace loaded: ${trace.id}.` : "No execution trace was provided.",
+          ...testEvidence.evidence,
           ...tests.fullConfidenceCommands.slice(0, 3).map((command) => `Suggested: ${command}`)
         ],
         requiredAction: firstRunnableCommand(tests.fullConfidenceCommands) ?? `repo-context tests . --diff --base ${base}`
@@ -149,12 +161,27 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     );
 
     findings.push(
-      requiredFinding("policy.required.contract-validation", hasPassedContractEvidence(trace), {
+      requiredFinding("policy.required.contract-validation", contractEvidence.satisfied, {
         message: "Changed source or config requires contract validation evidence.",
-        evidence: [trace ? `Trace loaded: ${trace.id}.` : "No execution trace was provided."],
+        evidence: [trace ? `Trace loaded: ${trace.id}.` : "No execution trace was provided.", ...contractEvidence.evidence],
         requiredAction: `repo-context validate-contracts . --base ${base}`
       })
     );
+
+    if (testEvidence.level === "manual") {
+      findings.push({
+        id: "policy.risk.manual-test-evidence",
+        kind: "risk",
+        status: "warning",
+        severity: "warning",
+        message: "Test evidence is manually reported instead of harness-captured.",
+        evidence: [
+          "Manual evidence can document agent intent, but command evidence includes exit code, output hashes, and working-tree hashes.",
+          `Preferred: repo-context trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>"`
+        ],
+        requiredAction: `Record command evidence with repo-context trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>".`
+      });
+    }
   }
 
   if (freshness.status !== "fresh" || drift.status !== "clean") {
@@ -281,22 +308,88 @@ function changedFilesForPolicy(context: ContextPackage, base: string): { actiona
   return { actionable, generatedContextFiles };
 }
 
-function hasPassedTestEvidence(trace: ExecutionTrace | null): boolean {
-  if (!trace) return false;
-  return trace.steps.some((step) => {
-    if (step.result !== "passed") return false;
+function traceTestEvidence(trace: ExecutionTrace | null): TraceEvidenceResult {
+  return traceEvidence(trace, (step) => {
     const text = `${step.action} ${step.command ?? ""} ${step.test ?? ""}`.toLowerCase();
     return /\b(run-test|test|verify|check|lint|typecheck)\b/.test(text) || /\b(npm|pnpm|yarn|bun|pytest|vitest|jest|node --test)\b/.test(text);
   });
 }
 
-function hasPassedContractEvidence(trace: ExecutionTrace | null): boolean {
-  if (!trace) return false;
-  return trace.steps.some((step) => {
-    if (step.result !== "passed") return false;
-    const text = `${step.action} ${step.command ?? ""}`.toLowerCase();
+function traceContractEvidence(trace: ExecutionTrace | null): TraceEvidenceResult {
+  return traceEvidence(trace, (step) => {
+    const text = `${step.action} ${step.command ?? ""} ${step.reason ?? ""}`.toLowerCase();
     return text.includes("validate-contracts") || text.includes("policy") || text.includes("contract validation");
   });
+}
+
+function traceEvidence(trace: ExecutionTrace | null, matches: (step: ExecutionTraceStep) => boolean): TraceEvidenceResult {
+  if (!trace) {
+    return {
+      satisfied: false,
+      level: "none",
+      evidence: ["Evidence level: none."]
+    };
+  }
+
+  const passedMatches = trace.steps
+    .filter((step) => matches(step) && stepPassed(step))
+    .map((step) => ({ step, level: evidenceLevelForStep(step) }))
+    .sort((a, b) => evidenceRank(b.level) - evidenceRank(a.level));
+
+  const match = passedMatches[0];
+  if (!match) {
+    return {
+      satisfied: false,
+      level: "none",
+      evidence: ["Evidence level: none.", "No matching passed trace step found."]
+    };
+  }
+
+  return {
+    satisfied: true,
+    level: match.level,
+    stepId: match.step.id,
+    evidence: formatTraceEvidence(match.step, match.level)
+  };
+}
+
+function stepPassed(step: ExecutionTraceStep): boolean {
+  if (step.result === "passed") return true;
+  return (step.evidenceSource === "command" || step.evidenceSource === "ci") && step.exitCode === 0;
+}
+
+function evidenceLevelForStep(step: ExecutionTraceStep): PolicyEvidenceLevel {
+  if (step.evidenceSource === "ci") return "ci";
+  if (isHarnessCommandEvidence(step)) return "command";
+  return "manual";
+}
+
+function isHarnessCommandEvidence(step: ExecutionTraceStep): boolean {
+  return (
+    step.evidenceSource === "command" &&
+    step.capturedBy === "repo-context" &&
+    step.exitCode === 0 &&
+    Boolean(step.command && step.startedAt && step.finishedAt && step.stdoutHash && step.stderrHash && step.workingTreeHashBefore && step.workingTreeHashAfter)
+  );
+}
+
+function evidenceRank(level: PolicyEvidenceLevel): number {
+  if (level === "ci") return 3;
+  if (level === "command") return 2;
+  if (level === "manual") return 1;
+  return 0;
+}
+
+function formatTraceEvidence(step: ExecutionTraceStep, level: PolicyEvidenceLevel): string[] {
+  const evidence = [`Evidence level: ${level}.`, `Trace step: ${step.id}.`, `Action: ${step.action}.`];
+  if (step.command) evidence.push(`Command: ${step.command}.`);
+  if (typeof step.exitCode === "number") evidence.push(`Exit code: ${step.exitCode}.`);
+  if (step.stdoutHash) evidence.push(`Stdout hash: ${step.stdoutHash}.`);
+  if (step.stderrHash) evidence.push(`Stderr hash: ${step.stderrHash}.`);
+  if (step.workingTreeHashBefore && step.workingTreeHashAfter) {
+    evidence.push(`Working tree hash: ${step.workingTreeHashBefore} -> ${step.workingTreeHashAfter}.`);
+  }
+  return evidence;
 }
 
 function isPolicyRelevantFile(file: IndexedFile): boolean {

@@ -268,9 +268,16 @@ Loop 不能只靠生成文件，还需要记录 Agent 实际做了什么。`repo
 repo-context trace start "<task>" . --agent codex
 repo-context trace add <trace-id> . --action edit --files src/auth/session.ts --reason "timeout logic"
 repo-context trace add <trace-id> . --action run-test --command "npm test -- auth" --result passed
+repo-context trace run <trace-id> . --action run-test --command "npm test -- auth"
 ```
 
-trace 记录 task、agent、steps、files、reason、command、test、result、output 和 final state。
+trace 记录 task、agent、steps、files、reason、command、test、result、output 和 final state。证据会区分三类：
+
+- `manual evidence`：Agent 或用户通过 `trace add` 声明某一步完成了，适合记录编辑意图和人工观察。
+- `command evidence`：通过 `trace run` 由 harness 实际执行命令，记录 `exitCode`、`startedAt`、`finishedAt`、`stdoutHash`、`stderrHash`、`workingTreeHashBefore` 和 `workingTreeHashAfter`。
+- `ci evidence`：来自 CI artifact 或 GitHub Action 的外部验证记录，可通过 trace step 导入。
+
+Policy Engine 会优先使用 `ci` 和 `command` evidence；只有 `manual` 测试证据时仍可满足基础 required check，但会提示风险并建议使用 `repo-context trace run ...` 捕获真实命令证据。
 
 `repo-context policy . --base main --trace <trace-id>` 会把 diff、contracts、freshness 和 trace evidence 合并检查。它能阻止 forbidden edits，提示风险，并要求测试、contract validation 或 context refresh 证据。这一层让 Harness 不只是“建议”，而是具备 runtime guardrail 的形态。
 
@@ -282,7 +289,7 @@ trace 记录 task、agent、steps、files、reason、command、test、result、o
 build
 savings
 rag export
-trace start/add/show/search
+trace start/add/run/show/search
 init
 graph
 readiness
