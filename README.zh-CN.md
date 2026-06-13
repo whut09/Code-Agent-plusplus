@@ -54,6 +54,7 @@ node dist/cli/index.js build .
 
 ```bash
 repo-context run "fix login timeout bug" . --type bugfix
+repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context tests . --diff --base main
 repo-context impact . --base main
 repo-context verify --diff .
@@ -68,6 +69,7 @@ repo-context drift .
 - ✅ contracts：生成架构、模块边界、命令、测试、安全约束，并支持 `validate-contracts`。
 - ✅ tests recommendation：根据文件和 diff 推荐最小测试/回归测试。
 - ✅ diff / impact / verify：面向改代码后的影响分析和验证报告。
+- ✅ loop controller：根据 freshness、diff、contracts、tests、impact 决定下一步是重建上下文、补测试、修 contract 还是进入 review。
 - 🧪 benchmark：提供 fixture benchmark 和手工 Agent run 样例，用来衡量上下文质量。
 - 🧪 hybrid retrieve：统一 static / ripgrep 检索协议，为 RAG、MCP、编辑器扩展留接口。
 - 🚧 real agent benchmark：计划接入真实 Codex / Claude Code 运行数据。
@@ -83,6 +85,7 @@ repo-context drift .
 | token savings estimated + actual output tokens | ✅ implemented  |
 | readiness 分维度评分和硬上限                   | ✅ implemented  |
 | task plan / pack / run                         | ✅ implemented  |
+| loop controller                                | ✅ implemented  |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |
@@ -109,6 +112,7 @@ AGENTS.manual.md
   contracts/
   tasks/
   runs/
+  loops/
   rag/
   evidence/
   index/
@@ -135,6 +139,7 @@ repo-context build [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context run "<task>" [repo]
+repo-context loop "<task>" [repo] --phase after-edit
 repo-context tests [repo] --diff --base main
 repo-context impact [repo] --base main
 repo-context verify --diff [repo]

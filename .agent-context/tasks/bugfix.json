@@ -2,8 +2,8 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 3183,
-  "remainingBudget": 8817,
+  "estimatedTokens": 3461,
+  "remainingBudget": 8539,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
@@ -43,7 +43,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 176
+      "estimatedTokens": 190
     },
     {
       "path": "test/task-harness.test.ts",
@@ -115,6 +115,15 @@
       "estimatedTokens": 78
     },
     {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 28,
+      "reasons": [
+        "direct importer of src/outputs/test-selector.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 252
+    },
+    {
       "path": "src/benchmarks/benchmark.ts",
       "score": 28,
       "reasons": [
@@ -130,7 +139,7 @@
         "direct dependency of src/outputs/task-harness.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 315
+      "estimatedTokens": 327
     },
     {
       "path": "src/outputs/task-context.ts",
@@ -196,6 +205,15 @@
       "estimatedTokens": 42
     },
     {
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
@@ -212,15 +230,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -298,7 +307,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 176
+      "estimatedTokens": 190
     }
   ],
   "inspectIfNeeded": [
@@ -372,6 +381,15 @@
       "estimatedTokens": 78
     },
     {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 28,
+      "reasons": [
+        "direct importer of src/outputs/test-selector.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 252
+    },
+    {
       "path": "src/benchmarks/benchmark.ts",
       "score": 28,
       "reasons": [
@@ -387,7 +405,7 @@
         "direct dependency of src/outputs/task-harness.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 315
+      "estimatedTokens": 327
     },
     {
       "path": "src/outputs/task-context.ts",
@@ -442,21 +460,12 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 40
-    },
-    {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 3183,
-    "remaining": 8817,
+    "used": 3461,
+    "remaining": 8539,
     "buckets": [
       {
         "name": "direct-source",
@@ -480,12 +489,13 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 1529,
+        "tokens": 1793,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
           "src/outputs/markdown.ts",
           "src/core/git.ts",
+          "src/outputs/loop-controller.ts",
           "src/benchmarks/benchmark.ts",
           "src/outputs/contract-validator.ts",
           "src/outputs/task-context.ts"
@@ -502,9 +512,9 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -514,7 +524,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 402,
+        "tokens": 416,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"
@@ -527,7 +537,7 @@
   ],
   "retrieval": {
     "directMatches": 2,
-    "dependencyNeighbors": 18,
+    "dependencyNeighbors": 19,
     "tests": 3,
     "configDocs": 13
   }

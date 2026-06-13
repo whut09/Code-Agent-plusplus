@@ -379,6 +379,60 @@
       "isExternal": false
     },
     {
+      "from": "test/loop-controller.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../src/core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../src/core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "src/outputs/loop-controller.ts",
+      "specifier": "../src/outputs/loop-controller.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/loop-controller.test.ts",
+      "to": "src/outputs/writer.ts",
+      "specifier": "../src/outputs/writer.js",
+      "isExternal": false
+    },
+    {
       "from": "test/mcp.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1064,6 +1118,12 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/outputs/loop-controller.ts",
+      "specifier": "../outputs/loop-controller.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/outputs/contract-validator.ts",
       "specifier": "../outputs/contract-validator.js",
       "isExternal": false
@@ -1150,6 +1210,90 @@
       "from": "src/config/load-config.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "node:url",
+      "specifier": "node:url",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "@modelcontextprotocol/sdk/server/mcp.js",
+      "specifier": "@modelcontextprotocol/sdk/server/mcp.js",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "@modelcontextprotocol/sdk/server/stdio.js",
+      "specifier": "@modelcontextprotocol/sdk/server/stdio.js",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "zod/v4",
+      "specifier": "zod/v4",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "../outputs/impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/task-harness.ts",
+      "specifier": "../outputs/task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "../outputs/task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "../outputs/test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/writer.ts",
+      "specifier": "../outputs/writer.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/retrievers/index.ts",
+      "specifier": "../retrievers/index.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "../retrievers/types.js",
       "isExternal": false
     },
     {
@@ -1519,90 +1663,6 @@
       "isExternal": false
     },
     {
-      "from": "src/llm/provider.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "node:url",
-      "specifier": "node:url",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "@modelcontextprotocol/sdk/server/mcp.js",
-      "specifier": "@modelcontextprotocol/sdk/server/mcp.js",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "@modelcontextprotocol/sdk/server/stdio.js",
-      "specifier": "@modelcontextprotocol/sdk/server/stdio.js",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "zod/v4",
-      "specifier": "zod/v4",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/core/context-builder.ts",
-      "specifier": "../core/context-builder.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/impact.ts",
-      "specifier": "../outputs/impact.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/task-harness.ts",
-      "specifier": "../outputs/task-harness.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/task-context.ts",
-      "specifier": "../outputs/task-context.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/test-selector.ts",
-      "specifier": "../outputs/test-selector.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../outputs/writer.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/retrievers/index.ts",
-      "specifier": "../retrievers/index.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "../retrievers/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/outputs/agents-md.ts",
       "to": "src/core/token-estimator.ts",
       "specifier": "../core/token-estimator.js",
@@ -1724,6 +1784,66 @@
     },
     {
       "from": "src/outputs/key-files.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/core/freshness.ts",
+      "specifier": "../core/freshness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "./impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/outputs/contract-validator.ts",
+      "specifier": "./contract-validator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "./task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "./test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/loop-controller.ts",
       "to": "src/outputs/markdown.ts",
       "specifier": "./markdown.js",
       "isExternal": false
@@ -2251,15 +2371,15 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../auth/session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "./session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "../auth/session.js",
       "isExternal": false
     },
     {
@@ -2299,6 +2419,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "specifier": "../src/loader.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
       "to": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "specifier": "./config.js",
@@ -2308,12 +2434,6 @@
       "from": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
       "specifier": "../../config/src/loader.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "specifier": "../src/loader.js",
       "isExternal": false
     },
     {
@@ -2379,7 +2499,7 @@
     {
       "from": "cli",
       "to": "outputs",
-      "count": 9
+      "count": 10
     },
     {
       "from": "cli",
@@ -2434,7 +2554,7 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 30
+      "count": 33
     },
     {
       "from": "retrievers",
@@ -2469,7 +2589,7 @@
     {
       "from": "test",
       "to": "core",
-      "count": 27
+      "count": 29
     },
     {
       "from": "test",
@@ -2479,7 +2599,7 @@
     {
       "from": "test",
       "to": "outputs",
-      "count": 12
+      "count": 14
     },
     {
       "from": "test",

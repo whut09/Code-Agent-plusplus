@@ -2,9 +2,9 @@
 
 | Module | Files | Score | Depends On | Summary |
 | --- | --- | --- | --- | --- |
-| outputs | 20 | 911 | `core` | outputs contains 20 files and depends on core. |
-| core | 17 | 860 | `analyzers`, `config`, `llm`, `outputs` | core contains 17 files and depends on analyzers, config, llm, outputs. |
-| test | 24 | 832 | `analyzers`, `benchmarks`, `cli`, `config`, `core`, `mcp`, `outputs`, `retrievers` | test contains 24 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers. |
+| outputs | 21 | 986 | `core` | outputs contains 21 files and depends on core. |
+| test | 25 | 875 | `analyzers`, `benchmarks`, `cli`, `config`, `core`, `mcp`, `outputs`, `retrievers` | test contains 25 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers. |
+| core | 17 | 865 | `analyzers`, `config`, `llm`, `outputs` | core contains 17 files and depends on analyzers, config, llm, outputs. |
 | retrievers | 6 | 256 | `core`, `outputs` | retrievers contains 6 files and depends on core, outputs. |
 | analyzers | 6 | 229 | `core` | analyzers contains 6 files and depends on core. |
 | benchmarks/fixtures/small-ts-app | 9 | 219 | none | benchmarks/fixtures/small-ts-app contains 9 files. |

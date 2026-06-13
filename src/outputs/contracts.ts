@@ -137,16 +137,12 @@ function buildSafetyContract(context: ContextPackage): unknown {
 }
 
 function moduleOwns(module: ModuleInfo): string[] {
-  const root = moduleRoot(module);
-  if (!root || root === ".") return ["*"];
-  return [`${root.replace(/\/$/, "")}/**`];
-}
-
-function moduleRoot(module: ModuleInfo): string {
   const dirs = module.files.map((file) => file.split("/").slice(0, -1).join("/")).filter(Boolean);
   const prefix = module.pathPrefix.replace(/\/$/, "");
-  const matchingDir = dirs.filter((dir) => dir === prefix || dir.endsWith(`/${prefix}`)).sort((a, b) => a.length - b.length)[0];
-  return matchingDir ?? prefix;
+  const roots = dirs.filter((dir) => dir === prefix || dir.endsWith(`/${prefix}`));
+  const selected = roots.length ? roots : [prefix];
+  if (selected.some((root) => !root || root === ".")) return ["*"];
+  return sortedUnique(selected.map((root) => `${root.replace(/\/$/, "")}/**`));
 }
 
 function allowedImportsFor(context: ContextPackage, module: ModuleInfo): string[] {
@@ -239,11 +235,24 @@ function architectureLayers(context: ContextPackage): Array<{
 
 function matchesGlob(filePath: string, glob: string): boolean {
   if (glob === "*") return true;
-  const escaped = glob
-    .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
-    .replace(/\*\*/g, ".*")
-    .replace(/\*/g, "[^/]*");
-  return new RegExp(`^${escaped}$`).test(filePath);
+  return new RegExp(`^${globToRegExp(glob)}$`).test(filePath);
+}
+
+function globToRegExp(glob: string): string {
+  let pattern = "";
+  for (let index = 0; index < glob.length; index += 1) {
+    const char = glob[index];
+    const next = glob[index + 1];
+    if (char === "*" && next === "*") {
+      pattern += ".*";
+      index += 1;
+    } else if (char === "*") {
+      pattern += "[^/]*";
+    } else {
+      pattern += char.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
+    }
+  }
+  return pattern;
 }
 
 function requiredCommands(context: ContextPackage, kinds: Array<"test" | "typecheck" | "lint">): string[] {

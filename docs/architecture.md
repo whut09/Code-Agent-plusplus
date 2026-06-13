@@ -198,6 +198,23 @@ Every build writes `.agent-context/manifest.json` with `generatedAt`, `gitCommit
 
 `repo-context drift .` focuses on generated-output, dependency-graph, task-pack, and contract drift. This gives agents a fast preflight check before trusting `AGENTS.md`, task packs, or contracts.
 
+## Loop Runtime Layer
+
+The project is moving from a context compiler toward an agent runtime harness. The first runtime primitive is `repo-context loop "<task>" .`.
+
+The loop controller does not execute an agent directly. It reads the compiled context, task pack, freshness manifest, dependency graph, contract validation, test selection, and impact report, then decides the next loop step:
+
+- `start-agent`: clean preflight; create or use a task run before editing.
+- `rebuild-context`: source/config/generated context is stale or drifted.
+- `replan`: the task pack exceeds the context budget or needs a smaller boundary.
+- `expand-context`: impact risk is high and the next turn needs dependents or related tests.
+- `repair-contracts`: contract or edit-boundary violations are present.
+- `add-or-update-tests`: changed source has missing-test signals.
+- `run-tests`: the loop cannot close until focused tests or verification commands run.
+- `ready-for-review`: no stale context, contract failures, changed files, or high-risk impact signals were detected.
+
+With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`. This is intentionally a control report rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable.
+
 ## Summary Engine
 
 The summary engine has two modes:

@@ -9,9 +9,9 @@ This document is generated from static repository signals. Treat it as a startin
 - Internal modules: 25
 
 ## Important Modules
-- `outputs`: outputs contains 20 files and depends on core.
+- `outputs`: outputs contains 21 files and depends on core.
+- `test`: test contains 25 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
 - `core`: core contains 17 files and depends on analyzers, config, llm, outputs.
-- `test`: test contains 24 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
 - `retrievers`: retrievers contains 6 files and depends on core, outputs.
 - `analyzers`: analyzers contains 6 files and depends on core.
 - `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 9 files.

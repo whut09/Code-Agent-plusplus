@@ -313,20 +313,26 @@ function validateChangedSourceTests(changedFiles: string[], changedSet: Set<stri
 function changedFilesForContracts(context: ContextPackage, base: string, includeDiff: boolean): string[] {
   const files = new Set<string>();
   if (includeDiff) {
-    for (const file of changedFilesSince(context.scan.root, base)) files.add(file);
+    for (const file of changedFilesSince(context.scan.root, base)) {
+      if (!isIgnoredGeneratedState(file)) files.add(file);
+    }
   }
 
   try {
     for (const line of runGit(context.scan.root, ["status", "--porcelain", "--untracked-files=all"]).split(/\r?\n/)) {
       if (line.length <= 3) continue;
       const file = line.slice(3).trim().replace(/\\/g, "/").split(" -> ").pop();
-      if (file) files.add(file);
+      if (file && !isIgnoredGeneratedState(file)) files.add(file);
     }
   } catch {
     return [...files].sort();
   }
 
   return [...files].sort();
+}
+
+function isIgnoredGeneratedState(file: string): boolean {
+  return file.startsWith(".agent-context/cache/");
 }
 
 function readEnvRefs(filePath: string): string[] {
@@ -375,11 +381,24 @@ function formatViolation(violation: ContractViolation): string {
 
 function matchesGlob(filePath: string, glob: string): boolean {
   if (glob === "*") return true;
-  const escaped = glob
-    .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
-    .replace(/\*\*/g, ".*")
-    .replace(/\*/g, "[^/]*");
-  return new RegExp(`^${escaped}$`).test(filePath);
+  return new RegExp(`^${globToRegExp(glob)}$`).test(filePath);
+}
+
+function globToRegExp(glob: string): string {
+  let pattern = "";
+  for (let index = 0; index < glob.length; index += 1) {
+    const char = glob[index];
+    const next = glob[index + 1];
+    if (char === "*" && next === "*") {
+      pattern += ".*";
+      index += 1;
+    } else if (char === "*") {
+      pattern += "[^/]*";
+    } else {
+      pattern += char.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
+    }
+  }
+  return pattern;
 }
 
 function asRecord(value: unknown): Record<string, unknown> {

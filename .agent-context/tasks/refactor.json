@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 8571,
-  "remainingBudget": 3429,
+  "estimatedTokens": 8928,
+  "remainingBudget": 3072,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -52,7 +52,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 176
+      "estimatedTokens": 190
     },
     {
       "path": "src/mcp/server.ts",
@@ -144,6 +144,15 @@
       ],
       "category": "test",
       "estimatedTokens": 77
+    },
+    {
+      "path": "test/loop-controller.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 79
     },
     {
       "path": "test/task-harness.test.ts",
@@ -359,6 +368,16 @@
       "estimatedTokens": 290
     },
     {
+      "path": "src/outputs/contract-validator.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 327
+    },
+    {
       "path": "src/core/context-builder.ts",
       "score": 46,
       "reasons": [
@@ -379,14 +398,14 @@
       "estimatedTokens": 246
     },
     {
-      "path": "src/outputs/contract-validator.ts",
+      "path": "src/outputs/impact.ts",
       "score": 46,
       "reasons": [
         "direct importer of src/outputs/markdown.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 315
+      "estimatedTokens": 230
     },
     {
       "path": "src/outputs/test-selector.ts",
@@ -399,6 +418,16 @@
       "estimatedTokens": 226
     },
     {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 252
+    },
+    {
       "path": "src/benchmarks/benchmark.ts",
       "score": 46,
       "reasons": [
@@ -407,16 +436,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 331
-    },
-    {
-      "path": "src/outputs/impact.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 230
     },
     {
       "path": "src/outputs/task-run.ts",
@@ -649,15 +668,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 44
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
       "score": 14,
       "reasons": [
@@ -665,6 +675,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 45
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 44
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -721,6 +740,15 @@
       "estimatedTokens": 42
     },
     {
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
@@ -737,15 +765,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -832,7 +851,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 176
+      "estimatedTokens": 190
     },
     {
       "path": "src/mcp/server.ts",
@@ -928,6 +947,15 @@
       "estimatedTokens": 77
     },
     {
+      "path": "test/loop-controller.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 79
+    },
+    {
       "path": "test/task-harness.test.ts",
       "score": 18,
       "reasons": [
@@ -980,21 +1008,12 @@
       ],
       "category": "test",
       "estimatedTokens": 78
-    },
-    {
-      "path": "test/writer.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 99
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 8571,
-    "remaining": 3429,
+    "used": 8928,
+    "remaining": 3072,
     "buckets": [
       {
         "name": "direct-source",
@@ -1010,7 +1029,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 1756,
+        "tokens": 1835,
         "files": [
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
@@ -1021,6 +1040,7 @@
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/contract-validator.test.ts",
           "test/freshness.test.ts",
+          "test/loop-controller.test.ts",
           "test/task-harness.test.ts",
           "test/test-selector.test.ts",
           "test/agents-md.test.ts",
@@ -1044,19 +1064,20 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 5461,
+        "tokens": 5725,
         "files": [
           "src/outputs/rag.ts",
           "src/outputs/task-context.ts",
           "src/outputs/agents-md.ts",
           "src/outputs/task-harness.ts",
           "src/core/freshness.ts",
+          "src/outputs/contract-validator.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
-          "src/outputs/contract-validator.ts",
-          "src/outputs/test-selector.ts",
-          "src/benchmarks/benchmark.ts",
           "src/outputs/impact.ts",
+          "src/outputs/test-selector.ts",
+          "src/outputs/loop-controller.ts",
+          "src/benchmarks/benchmark.ts",
           "src/outputs/task-run.ts",
           "src/retrievers/index.ts",
           "src/core/cache.ts",
@@ -1089,17 +1110,17 @@
         "files": [
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/config/README.md",
+          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/api/package.json",
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -1109,7 +1130,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 402,
+        "tokens": 416,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -1124,8 +1145,8 @@
   ],
   "retrieval": {
     "directMatches": 4,
-    "dependencyNeighbors": 30,
-    "tests": 27,
+    "dependencyNeighbors": 31,
+    "tests": 28,
     "configDocs": 17
   }
 }

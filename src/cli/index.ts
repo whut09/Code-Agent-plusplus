@@ -16,6 +16,7 @@ import { renderTestSelection } from "../outputs/test-selector.js";
 import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
+import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
 import { renderContractValidationReport, validateContracts } from "../outputs/contract-validator.js";
 import { validateContextPackage } from "../core/validator.js";
 import { assessDrift, assessFreshness, renderDriftReport, renderFreshnessReport } from "../core/freshness.js";
@@ -221,6 +222,46 @@ program
       console.log(`- ${path.relative(context.scan.root, file).replaceAll("\\", "/")}`);
     }
   });
+
+program
+  .command("loop")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--phase <phase>", "loop phase: preflight, after-edit, repair", parseLoopPhase, "after-edit")
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
+  .option("--base <ref>", "base git ref for diff, tests, impact, and contract checks", "main")
+  .option("--write", "write loop.md and loop.json under .agent-context/loops/<task-id>")
+  .option("--json", "print machine-readable loop controller report")
+  .description("Decide the next agent-loop step from context freshness, diff, contracts, tests, and impact signals.")
+  .action(
+    async (
+      args: string[],
+      options: { repo?: string | string[]; phase: LoopPhase; type: TaskType; tokenBudget?: number; base: string; write?: boolean; json?: boolean }
+    ) => {
+      const { task, repo } = resolveTaskArguments(args, options.repo);
+      const context = await buildContextPackage(repo);
+      const loopOptions = {
+        phase: options.phase,
+        type: options.type,
+        tokenBudget: options.tokenBudget,
+        base: options.base
+      };
+      const report = buildLoopControllerReport(context, task, loopOptions);
+      if (options.json) {
+        console.log(JSON.stringify(report, null, 2));
+      } else {
+        console.log(renderLoopControllerReport(report));
+      }
+      if (options.write) {
+        const result = writeLoopControllerReport(context, task, loopOptions);
+        console.log("");
+        console.log(`Wrote loop report: ${path.relative(context.scan.root, result.dir).replaceAll("\\", "/")}`);
+        for (const file of result.files) console.log(`- ${path.relative(context.scan.root, file).replaceAll("\\", "/")}`);
+      }
+      if (report.status === "needs-repair" || report.status === "blocked") process.exitCode = 1;
+    }
+  );
 
 program
   .command("plan")
@@ -459,6 +500,11 @@ function parseInteger(value: string): number {
 function parseTaskType(value: string): TaskType {
   if (value === "auto" || value === "bugfix" || value === "feature" || value === "refactor") return value;
   throw new Error(`Unsupported task type: ${value}`);
+}
+
+function parseLoopPhase(value: string): LoopPhase {
+  if (value === "preflight" || value === "after-edit" || value === "repair") return value;
+  throw new Error(`Unsupported loop phase: ${value}`);
 }
 
 function printFileList(files: IndexedFile[]): void {

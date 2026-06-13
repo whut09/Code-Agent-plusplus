@@ -11,6 +11,7 @@
       "src/outputs/dependency-graph.ts",
       "src/outputs/impact.ts",
       "src/outputs/key-files.ts",
+      "src/outputs/loop-controller.ts",
       "src/outputs/markdown.ts",
       "src/outputs/module-map.ts",
       "src/outputs/onboarding.ts",
@@ -27,8 +28,51 @@
     "imports": [
       "core"
     ],
-    "summary": "outputs contains 20 files and depends on core.",
-    "importanceScore": 911
+    "summary": "outputs contains 21 files and depends on core.",
+    "importanceScore": 986
+  },
+  {
+    "name": "test",
+    "pathPrefix": "test",
+    "files": [
+      "test/agents-md.test.ts",
+      "test/analyzers.test.ts",
+      "test/benchmark.test.ts",
+      "test/cache.test.ts",
+      "test/config.test.ts",
+      "test/contract-validator.test.ts",
+      "test/fixtures.test.ts",
+      "test/fixtures/python-package/pyproject.toml",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "test/freshness.test.ts",
+      "test/impact.test.ts",
+      "test/loop-controller.test.ts",
+      "test/mcp.test.ts",
+      "test/readiness.test.ts",
+      "test/retrievers.test.ts",
+      "test/scanner.test.ts",
+      "test/snapshot.test.ts",
+      "test/task-args.test.ts",
+      "test/task-context.test.ts",
+      "test/task-harness.test.ts",
+      "test/test-selector.test.ts",
+      "test/token-savings.test.ts",
+      "test/validator.test.ts",
+      "test/writer.test.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "benchmarks",
+      "cli",
+      "config",
+      "core",
+      "mcp",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "test contains 25 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
+    "importanceScore": 875
   },
   {
     "name": "core",
@@ -59,49 +103,7 @@
       "outputs"
     ],
     "summary": "core contains 17 files and depends on analyzers, config, llm, outputs.",
-    "importanceScore": 860
-  },
-  {
-    "name": "test",
-    "pathPrefix": "test",
-    "files": [
-      "test/agents-md.test.ts",
-      "test/analyzers.test.ts",
-      "test/benchmark.test.ts",
-      "test/cache.test.ts",
-      "test/config.test.ts",
-      "test/contract-validator.test.ts",
-      "test/fixtures.test.ts",
-      "test/fixtures/python-package/pyproject.toml",
-      "test/fixtures/python-package/src/app/models.py",
-      "test/fixtures/python-package/src/app/service.py",
-      "test/freshness.test.ts",
-      "test/impact.test.ts",
-      "test/mcp.test.ts",
-      "test/readiness.test.ts",
-      "test/retrievers.test.ts",
-      "test/scanner.test.ts",
-      "test/snapshot.test.ts",
-      "test/task-args.test.ts",
-      "test/task-context.test.ts",
-      "test/task-harness.test.ts",
-      "test/test-selector.test.ts",
-      "test/token-savings.test.ts",
-      "test/validator.test.ts",
-      "test/writer.test.ts"
-    ],
-    "imports": [
-      "analyzers",
-      "benchmarks",
-      "cli",
-      "config",
-      "core",
-      "mcp",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "test contains 24 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
-    "importanceScore": 832
+    "importanceScore": 865
   },
   {
     "name": "retrievers",
