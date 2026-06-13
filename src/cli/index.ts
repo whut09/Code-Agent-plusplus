@@ -18,6 +18,7 @@ import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outpu
 import { writeTaskRun } from "../outputs/task-run.js";
 import { renderContractValidationReport, validateContracts } from "../outputs/contract-validator.js";
 import { validateContextPackage } from "../core/validator.js";
+import { assessDrift, assessFreshness, renderDriftReport, renderFreshnessReport } from "../core/freshness.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
@@ -175,6 +176,30 @@ program
     const report = validateContracts(context, { base: options.base, diff: options.diff });
     console.log(renderContractValidationReport(context, { base: options.base, diff: options.diff }));
     if (!report.passed) process.exitCode = 1;
+  });
+
+program
+  .command("freshness")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable freshness report")
+  .description("Check whether AGENTS.md and .agent-context were generated from the current source, config, and commit.")
+  .action(async (repo: string, options: { json?: boolean }) => {
+    const context = await buildContextPackage(repo);
+    const report = assessFreshness(context);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderFreshnessReport(report));
+    if (report.status !== "fresh") process.exitCode = 1;
+  });
+
+program
+  .command("drift")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable drift report")
+  .description("Detect stale generated context, dependency graph, task pack, and contract drift.")
+  .action(async (repo: string, options: { json?: boolean }) => {
+    const context = await buildContextPackage(repo);
+    const report = assessDrift(context);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderDriftReport(report));
+    if (report.status !== "clean") process.exitCode = 1;
   });
 
 program

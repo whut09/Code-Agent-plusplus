@@ -2,12 +2,12 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 8196,
-  "remainingBudget": 3804,
+  "estimatedTokens": 8571,
+  "remainingBudget": 3429,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 301,
+      "score": 302,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 254,
+      "score": 255,
       "reasons": [
         "lexical match: code"
       ],
@@ -25,7 +25,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 227,
+      "score": 228,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -35,7 +35,7 @@
     },
     {
       "path": "src/core/token-estimator.ts",
-      "score": 212,
+      "score": 213,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -52,7 +52,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 168
+      "estimatedTokens": 176
     },
     {
       "path": "src/mcp/server.ts",
@@ -135,6 +135,15 @@
       ],
       "category": "test",
       "estimatedTokens": 71
+    },
+    {
+      "path": "test/freshness.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 77
     },
     {
       "path": "test/task-harness.test.ts",
@@ -338,6 +347,16 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 277
+    },
+    {
+      "path": "src/core/freshness.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 290
     },
     {
       "path": "src/core/context-builder.ts",
@@ -768,7 +787,7 @@
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 301,
+      "score": 302,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -777,7 +796,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 254,
+      "score": 255,
       "reasons": [
         "lexical match: code"
       ],
@@ -786,7 +805,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 227,
+      "score": 228,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -796,7 +815,7 @@
     },
     {
       "path": "src/core/token-estimator.ts",
-      "score": 212,
+      "score": 213,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -813,7 +832,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 168
+      "estimatedTokens": 176
     },
     {
       "path": "src/mcp/server.ts",
@@ -900,6 +919,15 @@
       "estimatedTokens": 71
     },
     {
+      "path": "test/freshness.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 77
+    },
+    {
       "path": "test/task-harness.test.ts",
       "score": 18,
       "reasons": [
@@ -961,21 +989,12 @@
       ],
       "category": "test",
       "estimatedTokens": 99
-    },
-    {
-      "path": "test/analyzers.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 63
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 8196,
-    "remaining": 3804,
+    "used": 8571,
+    "remaining": 3429,
     "buckets": [
       {
         "name": "direct-source",
@@ -991,7 +1010,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 1679,
+        "tokens": 1756,
         "files": [
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
@@ -1001,6 +1020,7 @@
           "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/contract-validator.test.ts",
+          "test/freshness.test.ts",
           "test/task-harness.test.ts",
           "test/test-selector.test.ts",
           "test/agents-md.test.ts",
@@ -1024,12 +1044,13 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 5171,
+        "tokens": 5461,
         "files": [
           "src/outputs/rag.ts",
           "src/outputs/task-context.ts",
           "src/outputs/agents-md.ts",
           "src/outputs/task-harness.ts",
+          "src/core/freshness.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
           "src/outputs/contract-validator.ts",
@@ -1088,7 +1109,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 394,
+        "tokens": 402,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -1103,8 +1124,8 @@
   ],
   "retrieval": {
     "directMatches": 4,
-    "dependencyNeighbors": 29,
-    "tests": 26,
+    "dependencyNeighbors": 30,
+    "tests": 27,
     "configDocs": 17
   }
 }

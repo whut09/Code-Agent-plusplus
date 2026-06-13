@@ -62,6 +62,7 @@ function validateGeneratedJson(context: ContextPackage, issues: ValidationIssue[
     "repo-summary.md",
     "key-files.md",
     "onboarding.md",
+    "manifest.json",
     "token-savings.md",
     "index/files.json",
     "index/symbols.json",
@@ -72,7 +73,15 @@ function validateGeneratedJson(context: ContextPackage, issues: ValidationIssue[
       issues.push({ severity: "error", code: "missing_generated_file", message: `Required generated file is missing: .agent-context/${relativePath}.` });
     }
   }
-  for (const relativePath of ["index/files.json", "index/symbols.json", "index/modules.json", "index/chunks.json", "token-savings.json", "readiness.json"]) {
+  for (const relativePath of [
+    "manifest.json",
+    "index/files.json",
+    "index/symbols.json",
+    "index/modules.json",
+    "index/chunks.json",
+    "token-savings.json",
+    "readiness.json"
+  ]) {
     const filePath = path.join(contextDir, relativePath);
     if (!existsSync(filePath)) continue;
     try {

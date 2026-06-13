@@ -6,18 +6,18 @@ Generated for target: `codex`.
 - Languages: JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML
 - Frameworks: none detected
 - Package managers: npm
-- Files scanned: 166
-- Symbols detected: 1498
-- Dependency edges detected: 370
+- Files scanned: 168
+- Symbols detected: 1572
+- Dependency edges detected: 389
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,545,416 tokens
-Estimated context pack (chars_approx): 16,634 tokens
-Compression: 93x
+Original repo (estimated, chars_approx): 1,551,416 tokens
+Estimated context pack (chars_approx): 16,879 tokens
+Compression: 92x
 Token budget: 80,000 (within budget)
 
 ## Repository Summary
-This repository contains 166 scanned files with 1498 detected symbols across 25 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agents-md.ts, src/outputs/architecture.ts); core (src/core/cache.ts, src/core/context-builder.ts); test (test/agents-md.test.ts, test/analyzers.test.ts); retrievers (src/retrievers/external.ts, src/retrievers/hybrid.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 48 detected symbols, 13 imports, 4 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports.; src/core/token-estimator.ts: src/core/token-estimator.ts contains 15 detected symbols, 3 imports, 7 exports.; src/cli/index.ts: src/cli/index.ts contains 52 detected symbols, 23 imports, 0 exports.; src/core/context-builder.ts: src/core/context-builder.ts contains 15 detected symbols, 11 imports, 2 exports..
+This repository contains 168 scanned files with 1572 detected symbols across 25 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agents-md.ts, src/outputs/architecture.ts); core (src/core/cache.ts, src/core/context-builder.ts); test (test/agents-md.test.ts, test/analyzers.test.ts); retrievers (src/retrievers/external.ts, src/retrievers/hybrid.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 48 detected symbols, 13 imports, 4 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports.; src/core/token-estimator.ts: src/core/token-estimator.ts contains 15 detected symbols, 3 imports, 7 exports.; src/cli/index.ts: src/cli/index.ts contains 56 detected symbols, 24 imports, 0 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports..
 
 ## Summary Mode
 - Mode: offline
@@ -40,8 +40,8 @@ This repository contains 166 scanned files with 1498 detected symbols across 25 
 
 ## Top Modules
 - `outputs` - outputs contains 20 files and depends on core.
-- `core` - core contains 16 files and depends on analyzers, config, llm.
-- `test` - test contains 23 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
+- `core` - core contains 17 files and depends on analyzers, config, llm, outputs.
+- `test` - test contains 24 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
 - `retrievers` - retrievers contains 6 files and depends on core, outputs.
 - `analyzers` - analyzers contains 6 files and depends on core.
 - `benchmarks/fixtures/small-ts-app` - benchmarks/fixtures/small-ts-app contains 9 files.
@@ -50,11 +50,11 @@ This repository contains 166 scanned files with 1498 detected symbols across 25 
 - `src/mcp/server.ts` - entrypoint, 4 exports
 - `src/outputs/task-harness.ts` - 5 exports, 67 symbols
 - `src/core/token-estimator.ts` - 7 exports, 15 symbols
-- `src/cli/index.ts` - entrypoint, 52 symbols
+- `src/cli/index.ts` - entrypoint, 56 symbols
+- `src/core/freshness.ts` - 9 exports, 57 symbols
 - `src/core/context-builder.ts` - 2 exports, 15 symbols
 - `src/outputs/writer.ts` - 2 exports, 55 symbols
 - `src/outputs/contract-validator.ts` - 5 exports, 61 symbols
-- `src/outputs/test-selector.ts` - 4 exports, 44 symbols
 
 ## Run Commands
 - `npm run dev`

@@ -48,7 +48,7 @@ function findTrailingRepo(words: string[], options: ResolveTaskArgumentOptions):
   const pathExists = options.pathExists ?? existsSync;
   for (let start = 1; start < words.length; start += 1) {
     const repo = words.slice(start).join(" ");
-    const resolved = path.isAbsolute(repo) ? repo : path.resolve(cwd, repo);
+    const resolved = repo === "." ? cwd : path.isAbsolute(repo) ? repo : path.resolve(cwd, repo);
     if (!pathExists(resolved)) continue;
 
     const task = words.slice(0, start).join(" ").trim();

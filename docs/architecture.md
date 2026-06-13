@@ -163,6 +163,7 @@ The composer writes both human-friendly Markdown and machine-readable JSON:
 - `AGENTS.manual.md` (hand-maintained source, never overwritten once created)
 - `.agent-context/AGENTS.generated.md`
 - `AGENTS.md`
+- `.agent-context/manifest.json`
 - `.agent-context/repo-summary.md`
 - `.agent-context/key-files.md`
 - `.agent-context/module-map.md`
@@ -188,6 +189,14 @@ Composer output is layered:
 - Verification Pack: changed files, missing tests, recommended commands, and risk report.
 - Contracts: machine-checkable edit boundaries under `.agent-context/contracts/`, validated by `repo-context validate-contracts`.
 - RAG Documents: retrievable context chunks for static, ripgrep, LightRAG, embedding, or hybrid retrievers.
+
+## Freshness And Drift
+
+Every build writes `.agent-context/manifest.json` with `generatedAt`, `gitCommit`, `configHash`, `sourceHash`, `indexHash`, `graphHash`, `contractsHash`, `taskPacksHash`, `generatedOutputHash`, and `toolVersion`.
+
+`repo-context freshness .` compares that manifest against the current repository scan and reports whether the generated context is fresh, stale, or missing. It catches source/config changes, commit changes, index drift, dependency graph drift, contract drift, task-pack drift, and hand-edited generated files.
+
+`repo-context drift .` focuses on generated-output, dependency-graph, task-pack, and contract drift. This gives agents a fast preflight check before trusting `AGENTS.md`, task packs, or contracts.
 
 ## Summary Engine
 

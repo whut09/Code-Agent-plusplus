@@ -17,6 +17,7 @@ graph TD
   core["core"] --> analyzers["analyzers"]
   core["core"] --> config["config"]
   core["core"] --> llm["llm"]
+  core["core"] --> outputs["outputs"]
   llm["llm"] --> core["core"]
   mcp["mcp"] --> core["core"]
   mcp["mcp"] --> outputs["outputs"]
@@ -45,26 +46,27 @@ graph TD
 | benchmarks/fixtures/monorepo/packages/web | benchmarks/fixtures/monorepo/packages/config | 1 |
 | cli | benchmarks | 1 |
 | cli | config | 1 |
-| cli | core | 7 |
+| cli | core | 8 |
 | cli | outputs | 9 |
 | cli | retrievers | 1 |
 | config | core | 2 |
 | core | analyzers | 4 |
 | core | config | 1 |
 | core | llm | 1 |
+| core | outputs | 3 |
 | llm | core | 1 |
 | mcp | core | 1 |
 | mcp | outputs | 5 |
 | mcp | retrievers | 2 |
-| outputs | core | 29 |
+| outputs | core | 30 |
 | retrievers | core | 3 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |
 | test | benchmarks | 1 |
 | test | cli | 1 |
 | test | config | 3 |
-| test | core | 24 |
+| test | core | 27 |
 | test | mcp | 1 |
-| test | outputs | 11 |
+| test | outputs | 12 |
 | test | retrievers | 1 |
 | test/fixtures/monorepo/packages/web | test/fixtures/monorepo/packages/api | 1 |

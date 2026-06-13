@@ -28,7 +28,7 @@
       "core"
     ],
     "summary": "outputs contains 20 files and depends on core.",
-    "importanceScore": 906
+    "importanceScore": 911
   },
   {
     "name": "core",
@@ -37,6 +37,7 @@
       "src/core/cache.ts",
       "src/core/context-builder.ts",
       "src/core/file-classifier.ts",
+      "src/core/freshness.ts",
       "src/core/git.ts",
       "src/core/graph.ts",
       "src/core/indexer.ts",
@@ -54,10 +55,11 @@
     "imports": [
       "analyzers",
       "config",
-      "llm"
+      "llm",
+      "outputs"
     ],
-    "summary": "core contains 16 files and depends on analyzers, config, llm.",
-    "importanceScore": 790
+    "summary": "core contains 17 files and depends on analyzers, config, llm, outputs.",
+    "importanceScore": 860
   },
   {
     "name": "test",
@@ -73,6 +75,7 @@
       "test/fixtures/python-package/pyproject.toml",
       "test/fixtures/python-package/src/app/models.py",
       "test/fixtures/python-package/src/app/service.py",
+      "test/freshness.test.ts",
       "test/impact.test.ts",
       "test/mcp.test.ts",
       "test/readiness.test.ts",
@@ -97,8 +100,8 @@
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 23 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
-    "importanceScore": 789
+    "summary": "test contains 24 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
+    "importanceScore": 832
   },
   {
     "name": "retrievers",

@@ -60,7 +60,8 @@
         "src/analyzers/**",
         "src/config/**",
         "src/core/**",
-        "src/llm/**"
+        "src/llm/**",
+        "src/outputs/**"
       ],
       "forbiddenImports": [
         "**/*.generated.*",
@@ -75,12 +76,14 @@
       "observedImports": [
         "analyzers",
         "config",
-        "llm"
+        "llm",
+        "outputs"
       ],
       "publicFiles": [
         "src/core/cache.ts",
         "src/core/context-builder.ts",
         "src/core/file-classifier.ts",
+        "src/core/freshness.ts",
         "src/core/git.ts",
         "src/core/graph.ts",
         "src/core/indexer.ts",

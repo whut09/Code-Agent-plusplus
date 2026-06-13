@@ -2,8 +2,8 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 2566,
-  "remainingBudget": 9434,
+  "estimatedTokens": 2796,
+  "remainingBudget": 9204,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
@@ -22,6 +22,15 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 132
+    },
+    {
+      "path": "src/core/freshness.ts",
+      "score": 70,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 290
     },
     {
       "path": "src/core/context-builder.ts",
@@ -69,15 +78,6 @@
       "estimatedTokens": 291
     },
     {
-      "path": "src/outputs/markdown.ts",
-      "score": 65,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 68
-    },
-    {
       "path": "src/mcp/server.ts",
       "score": 113,
       "reasons": [
@@ -95,7 +95,7 @@
         "key file fallback"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 168
+      "estimatedTokens": 176
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -235,6 +235,15 @@
       "estimatedTokens": 132
     },
     {
+      "path": "src/core/freshness.ts",
+      "score": 70,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 290
+    },
+    {
       "path": "src/core/context-builder.ts",
       "score": 68,
       "reasons": [
@@ -278,15 +287,6 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 291
-    },
-    {
-      "path": "src/outputs/markdown.ts",
-      "score": 65,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 68
     }
   ],
   "inspectIfNeeded": [
@@ -410,22 +410,22 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 2566,
-    "remaining": 9434,
+    "used": 2796,
+    "remaining": 9204,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 1661,
+        "tokens": 1883,
         "files": [
           "src/outputs/task-harness.ts",
           "src/core/token-estimator.ts",
+          "src/core/freshness.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
           "src/outputs/contract-validator.ts",
           "src/outputs/test-selector.ts",
-          "src/core/types.ts",
-          "src/outputs/markdown.ts"
+          "src/core/types.ts"
         ]
       },
       {
@@ -463,7 +463,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 394,
+        "tokens": 402,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"

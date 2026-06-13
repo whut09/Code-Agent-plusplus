@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage } from "../core/types.js";
+import { buildContextManifest } from "../core/freshness.js";
 import { countTokens } from "../core/token-estimator.js";
 import { renderAgentsMd } from "./agents-md.js";
 import { renderArchitecture } from "./architecture.js";
@@ -118,6 +119,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   }
   write(contextDir, "token-savings.md", renderTokenSavings(context), written);
   writeJson(contextDir, "token-savings.json", context.tokenSavings, written);
+  writeJson(contextDir, "manifest.json", buildContextManifest(context, dedupe(written)), written);
 
   return { files: dedupe(written) };
 }

@@ -68,6 +68,7 @@ AGENTS.md
 AGENTS.manual.md
 .agent-context/
   AGENTS.generated.md
+  manifest.json
   repo-summary.md
   key-files.md
   module-map.md
@@ -123,6 +124,8 @@ repo-context savings [repo]
 repo-context readiness [repo]
 repo-context validate [repo]
 repo-context validate-contracts [repo]
+repo-context freshness [repo]
+repo-context drift [repo]
 repo-context run "<task>" [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
@@ -153,6 +156,8 @@ repo-context explain auth .
 repo-context readiness .
 repo-context validate .
 repo-context validate-contracts .
+repo-context freshness .
+repo-context drift .
 repo-context savings . --token-budget 60000
 repo-context savings . --actual --model gpt-4.1
 repo-context run "fix login timeout bug" . --type bugfix --token-budget 12000
@@ -256,6 +261,8 @@ repo-context build . --llm
 When LLM mode is disabled, Repo-to-Agent-Context uses offline summaries. When enabled, missing or `xx` credentials fail with an actionable error instead of silently falling back. Runtime request failures fall back to offline summaries and record the fallback reason.
 
 Run `repo-context validate .` to check config, generated JSON, dependency edges, confidence, and token budget. Run `repo-context validate-contracts .` to treat `contracts/` as an edit boundary and fail on protected paths, illegal dependencies, lockfile mismatches, env-example drift, and missing test coverage.
+
+Run `repo-context freshness .` before handing the repository to an agent to check whether `AGENTS.md` and `.agent-context/` were generated from the current commit, source hash, config hash, dependency graph, contracts, and task packs. Run `repo-context drift .` when you specifically want to detect stale dependency graphs, generated files, task packs, or contract conflicts. Both commands read `.agent-context/manifest.json` and recommend `repo-context update .` when context is stale.
 
 ## Analysis Confidence And Evidence
 
