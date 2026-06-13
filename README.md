@@ -85,7 +85,7 @@ repo-context drift .
 - ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态。
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据。
 - ✅ context delta / evolve：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件，避免大仓库里无脑全量阅读。
-- ✅ MCP / Agent Native Runtime：给 Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 提供 start_loop / step / evaluate / repair / finalize 后端工具。
+- 🧪 MCP runtime tools：stdio MCP server 已暴露 build / plan / pack / retrieve / tests / impact / verify 以及 start_loop / step / evaluate / repair / finalize 等工具；真实客户端集成仍需逐个验证。
 - 🧪 benchmark：Loop Behavior Benchmark，对比 no-context / AGENTS.md / context pack / loop-enabled harness 下的错改、测试失败、步骤、token 和 repair loops。
 - 🧪 hybrid retrieve：统一 static / ripgrep 检索协议，为 RAG、MCP、编辑器扩展留接口。
 - 🚧 real agent benchmark：计划接入真实 Codex / Claude Code 运行数据。
@@ -105,13 +105,15 @@ repo-context drift .
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
 | context delta / evolve                         | ✅ implemented  |
-| MCP Agent Native Runtime                       | ✅ implemented  |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |
+| MCP server scaffold                            | ✅ implemented  |
+| MCP tools: build / plan / pack / retrieve      | ✅ implemented  |
+| Agent Native Runtime loop tools                | 🧪 experimental |
 | benchmark harness                              | 🧪 experimental |
 | hybrid retrieve / RAG export                   | 🧪 experimental |
-| MCP server                                     | 🧪 experimental |
+| Claude / Cursor / Codex real integration       | 🚧 planned      |
 | direct LightRAG server sync                    | 🚧 planned      |
 | VS Code / Cursor extension                     | 🚧 planned      |
 
@@ -181,7 +183,7 @@ repo-context-mcp
 
 ## MCP / Agent Native Runtime
 
-`repo-context-mcp` 不只是查询工具，它可以作为 Agent Runtime Backend 被 Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 或自研 Agent 调用：
+`repo-context-mcp` 当前提供 stdio MCP server 和一组工具定义。它已经可以被支持 MCP 的客户端或自研 Agent 接入；Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 等端到端集成仍按客户端逐个验证。
 
 ```txt
 repo_context_start_loop
@@ -191,7 +193,7 @@ repo_context_repair
 repo_context_finalize
 ```
 
-典型闭环是：start_loop 生成任务运行目录和 trace，step 记录编辑/测试/验证动作，evaluate 汇总 delta、loop、policy、verify 信号，repair 产出修复动作，finalize 在测试和 contract 证据齐全后收口。
+实验性 runtime loop 工具包括：start_loop 生成任务运行目录和 trace，step 记录编辑/测试/验证动作，evaluate 汇总 delta、loop、policy、verify 信号，repair 产出修复动作，finalize 在测试和 contract 证据齐全后收口。
 
 ## LLM 摘要配置
 

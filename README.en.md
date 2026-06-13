@@ -83,7 +83,7 @@ repo-context drift .
 - ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state.
 - ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence.
 - ✅ context delta / evolve: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff, so large repos avoid blind full-context rereads.
-- ✅ MCP / Agent Native Runtime: backend tools for Claude Code, Cursor, Codex CLI, LibreChat, and OpenHands with start_loop / step / evaluate / repair / finalize.
+- 🧪 MCP runtime tools: the stdio MCP server exposes build / plan / pack / retrieve / tests / impact / verify plus start_loop / step / evaluate / repair / finalize tools; real client integrations still need per-client validation.
 - 🧪 benchmark: Loop Behavior Benchmark comparing no-context, AGENTS.md, context pack, and loop-enabled harness runs across wrong edits, test failures, steps, tokens, and repair loops.
 - 🧪 hybrid retrieve: shared static / ripgrep retrieval protocol for RAG, MCP, and editor integrations.
 - 🚧 real agent benchmark: planned Codex / Claude Code run data.
@@ -103,13 +103,15 @@ repo-context drift .
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
 | context delta / evolve                         | ✅ implemented  |
-| MCP Agent Native Runtime                       | ✅ implemented  |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |
+| MCP server scaffold                            | ✅ implemented  |
+| MCP tools: build / plan / pack / retrieve      | ✅ implemented  |
+| Agent Native Runtime loop tools                | 🧪 experimental |
 | benchmark harness                              | 🧪 experimental |
 | hybrid retrieve / RAG export                   | 🧪 experimental |
-| MCP server                                     | 🧪 experimental |
+| Claude / Cursor / Codex real integration       | 🚧 planned      |
 | direct LightRAG server sync                    | 🚧 planned      |
 | VS Code / Cursor extension                     | 🚧 planned      |
 
@@ -179,7 +181,7 @@ repo-context-mcp
 
 ## MCP / Agent Native Runtime
 
-`repo-context-mcp` is more than a query tool. It can act as an Agent Runtime Backend for Claude Code, Cursor, Codex CLI, LibreChat, OpenHands, or custom agents:
+`repo-context-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Claude Code, Cursor, Codex CLI, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
 
 ```txt
 repo_context_start_loop
@@ -189,7 +191,7 @@ repo_context_repair
 repo_context_finalize
 ```
 
-The loop is: start_loop writes the task run and trace, step records edits/tests/verification, evaluate combines delta, loop, policy, and verify signals, repair returns the next repair actions, and finalize closes the run after test and contract evidence exists.
+The experimental runtime loop tools are: start_loop writes the task run and trace, step records edits/tests/verification, evaluate combines delta, loop, policy, and verify signals, repair returns the next repair actions, and finalize closes the run after test and contract evidence exists.
 
 ## LLM Summary Configuration
 
