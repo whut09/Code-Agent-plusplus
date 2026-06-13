@@ -253,6 +253,60 @@
       "isExternal": false
     },
     {
+      "from": "test/execution-trace.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../src/core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../src/core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "../src/outputs/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/execution-trace.test.ts",
+      "to": "src/outputs/task-run.ts",
+      "specifier": "../src/outputs/task-run.js",
+      "isExternal": false
+    },
+    {
       "from": "test/fixtures.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1124,6 +1178,12 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "../outputs/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/outputs/contract-validator.ts",
       "specifier": "../outputs/contract-validator.js",
       "isExternal": false
@@ -1177,6 +1237,12 @@
       "isExternal": true
     },
     {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/config/defaults.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -1208,12 +1274,6 @@
     },
     {
       "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/llm/provider.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
       "isExternal": false
@@ -1759,6 +1819,24 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/execution-trace.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/execution-trace.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/execution-trace.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/impact.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -2026,6 +2104,12 @@
       "from": "src/outputs/task-run.ts",
       "to": "src/outputs/test-selector.ts",
       "specifier": "./test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "./execution-trace.js",
       "isExternal": false
     },
     {
@@ -2371,15 +2455,15 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "./session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../auth/session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "./session.js",
       "isExternal": false
     },
     {
@@ -2437,15 +2521,15 @@
       "isExternal": false
     },
     {
-      "from": "test/fixtures/monorepo/packages/web/src/index.ts",
-      "to": "test/fixtures/monorepo/packages/api/src/index.ts",
-      "specifier": "@fixture/api",
-      "isExternal": false
-    },
-    {
       "from": "test/fixtures/monorepo/packages/api/src/index.ts",
       "to": "test/fixtures/monorepo/packages/api/src/config.ts",
       "specifier": "#config",
+      "isExternal": false
+    },
+    {
+      "from": "test/fixtures/monorepo/packages/web/src/index.ts",
+      "to": "test/fixtures/monorepo/packages/api/src/index.ts",
+      "specifier": "@fixture/api",
       "isExternal": false
     },
     {
@@ -2499,7 +2583,7 @@
     {
       "from": "cli",
       "to": "outputs",
-      "count": 10
+      "count": 11
     },
     {
       "from": "cli",
@@ -2589,7 +2673,7 @@
     {
       "from": "test",
       "to": "core",
-      "count": 29
+      "count": 31
     },
     {
       "from": "test",
@@ -2599,7 +2683,7 @@
     {
       "from": "test",
       "to": "outputs",
-      "count": 14
+      "count": 16
     },
     {
       "from": "test",

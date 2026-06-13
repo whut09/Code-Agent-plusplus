@@ -2,12 +2,12 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 3461,
-  "remainingBudget": 8539,
+  "estimatedTokens": 3483,
+  "remainingBudget": 8517,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 210,
+      "score": 211,
       "reasons": [
         "lexical match: regression"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 210,
+      "score": 211,
       "reasons": [
         "lexical match: regression"
       ],
@@ -43,7 +43,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 190
+      "estimatedTokens": 210
     },
     {
       "path": "test/task-harness.test.ts",
@@ -82,7 +82,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 194
+      "estimatedTokens": 196
     },
     {
       "path": "src/core/types.ts",
@@ -205,7 +205,7 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
         "configuration"
@@ -214,7 +214,7 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
       "score": 8,
       "reasons": [
         "configuration"
@@ -271,7 +271,7 @@
   "readFirst": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 210,
+      "score": 211,
       "reasons": [
         "lexical match: regression"
       ],
@@ -280,7 +280,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 210,
+      "score": 211,
       "reasons": [
         "lexical match: regression"
       ],
@@ -307,7 +307,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 190
+      "estimatedTokens": 210
     }
   ],
   "inspectIfNeeded": [
@@ -348,7 +348,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 194
+      "estimatedTokens": 196
     },
     {
       "path": "src/core/types.ts",
@@ -464,8 +464,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3461,
-    "remaining": 8539,
+    "used": 3483,
+    "remaining": 8517,
     "buckets": [
       {
         "name": "direct-source",
@@ -489,7 +489,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 1793,
+        "tokens": 1795,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
@@ -512,8 +512,8 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
@@ -524,7 +524,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 416,
+        "tokens": 436,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"

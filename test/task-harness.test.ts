@@ -110,7 +110,9 @@ test("task run writes a complete agent execution context", async () => {
     assert.ok(Array.isArray(manifest.avoidEditGlobs));
     assert.ok(Array.isArray(manifest.relatedTests));
     assert.ok(Array.isArray(manifest.requiredCommands));
+    assert.equal(manifest.traceFile, ".agent-context/traces/fix-login-timeout-bug.json");
     assert.ok(manifest.files.includes(".agent-context/runs/fix-login-timeout-bug/run.json"));
+    assert.ok(manifest.files.includes(".agent-context/traces/fix-login-timeout-bug.json"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

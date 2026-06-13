@@ -1,0 +1,73 @@
+import assert from "node:assert/strict";
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { buildContextPackage } from "../src/core/context-builder.js";
+import { runGit } from "../src/core/git.js";
+import { appendExecutionTraceStep, executionTracePath, readExecutionTrace, renderExecutionTrace, startExecutionTrace } from "../src/outputs/execution-trace.js";
+import { writeTaskRun } from "../src/outputs/task-run.js";
+
+test("execution trace records agent steps and final state", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-trace-"));
+  try {
+    const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
+    const updated = appendExecutionTraceStep(root, trace.id, {
+      agent: "codex",
+      action: "edit",
+      files: ["src/auth/session.ts"],
+      reason: "timeout logic",
+      finalState: "in_progress"
+    });
+    const final = appendExecutionTraceStep(root, trace.id, {
+      action: "run-test",
+      command: "npm test -- auth",
+      test: "test/auth/session.test.ts",
+      result: "failed",
+      finalState: "partial_success"
+    });
+    const rendered = renderExecutionTrace(final);
+
+    assert.equal(updated.steps.length, 2);
+    assert.equal(final.finalState, "partial_success");
+    assert.equal(readExecutionTrace(root, trace.id)?.steps.length, 3);
+    assert.ok(existsSync(executionTracePath(root, trace.id)));
+    assert.match(rendered, /# Execution Trace/);
+    assert.match(rendered, /src\/auth\/session\.ts/);
+    assert.match(rendered, /npm test -- auth/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("task run creates a matching execution trace", async () => {
+  const root = createTraceRepo();
+  try {
+    const context = await buildContextPackage(root);
+    const result = writeTaskRun(context, "fix login timeout bug", { type: "bugfix", base: "main" });
+    const trace = readExecutionTrace(root, result.runId);
+
+    assert.equal(result.manifest.traceFile, ".agent-context/traces/fix-login-timeout-bug.json");
+    assert.ok(result.manifest.files.includes(result.manifest.traceFile));
+    assert.equal(trace?.task, "fix login timeout bug");
+    assert.equal(trace?.steps[0]?.action, "context-run-created");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+function createTraceRepo(): string {
+  const root = mkdtempSync(path.join(tmpdir(), "repo-context-trace-run-"));
+  mkdirSync(path.join(root, "src", "auth"), { recursive: true });
+  mkdirSync(path.join(root, "test", "auth"), { recursive: true });
+  writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test" } }), "utf8");
+  writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'ok'; }\n", "utf8");
+  writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import '../../src/auth/session.js';\n", "utf8");
+  runGit(root, ["init"]);
+  runGit(root, ["checkout", "-b", "main"]);
+  runGit(root, ["config", "user.email", "repo-context@example.com"]);
+  runGit(root, ["config", "user.name", "Repo Context"]);
+  runGit(root, ["add", "."]);
+  runGit(root, ["commit", "-m", "initial"]);
+  return root;
+}

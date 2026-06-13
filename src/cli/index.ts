@@ -17,6 +17,15 @@ import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js"
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
+import {
+  appendExecutionTraceStep,
+  executionTracePath,
+  readExecutionTrace,
+  renderExecutionTrace,
+  startExecutionTrace,
+  type ExecutionFinalState,
+  type ExecutionStepResult
+} from "../outputs/execution-trace.js";
 import { renderContractValidationReport, validateContracts } from "../outputs/contract-validator.js";
 import { validateContextPackage } from "../core/validator.js";
 import { assessDrift, assessFreshness, renderDriftReport, renderFreshnessReport } from "../core/freshness.js";
@@ -97,6 +106,89 @@ rag
     console.log(`Mode: ${manifest.mode}`);
     console.log("");
     console.log("Run `repo-context build` to write `.agent-context/rag/documents.jsonl`.");
+  });
+
+const trace = program.command("trace").description("Record and inspect structured agent execution traces.");
+
+trace
+  .command("start")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--agent <agent>", "agent name, for example codex, claude, cursor")
+  .option("--id <id>", "trace id; defaults to a task slug")
+  .option("--json", "print machine-readable execution trace")
+  .description("Create .agent-context/traces/<trace-id>.json for a task.")
+  .action((args: string[], options: { repo?: string | string[]; agent?: string; id?: string; json?: boolean }) => {
+    const { task, repo } = resolveTaskArguments(args, options.repo);
+    const root = path.resolve(repo);
+    const item = startExecutionTrace(root, task, { id: options.id, agent: options.agent });
+    console.log(options.json ? JSON.stringify(item, null, 2) : renderExecutionTrace(item));
+    console.log(`Trace file: ${path.relative(root, executionTracePath(root, item.id)).replaceAll("\\", "/")}`);
+  });
+
+trace
+  .command("add")
+  .argument("<traceId>", "trace id")
+  .argument("[repo]", "repository path", ".")
+  .requiredOption("--action <action>", "step action, for example edit, run-test, verify, repair")
+  .option("--agent <agent>", "agent name")
+  .option("--files <files>", "comma-separated files touched by this step")
+  .option("--reason <reason>", "why the step was taken")
+  .option("--command <command>", "command that was run")
+  .option("--test <test>", "test file or test target")
+  .option("--result <result>", "result: passed, failed, skipped, unknown", parseTraceResult)
+  .option("--output <output>", "short command output or observation")
+  .option("--final-state <state>", "final state: planned, in_progress, partial_success, success, failed, blocked", parseTraceFinalState)
+  .option("--json", "print machine-readable execution trace")
+  .description("Append one structured step to an execution trace.")
+  .action(
+    (
+      traceId: string,
+      repo: string,
+      options: {
+        action: string;
+        agent?: string;
+        files?: string;
+        reason?: string;
+        command?: string;
+        test?: string;
+        result?: ExecutionStepResult;
+        output?: string;
+        finalState?: ExecutionFinalState;
+        json?: boolean;
+      }
+    ) => {
+      const root = path.resolve(repo);
+      const item = appendExecutionTraceStep(root, traceId, {
+        action: options.action,
+        agent: options.agent,
+        files: splitCsv(options.files),
+        reason: options.reason,
+        command: options.command,
+        test: options.test,
+        result: options.result,
+        output: options.output,
+        finalState: options.finalState
+      });
+      console.log(options.json ? JSON.stringify(item, null, 2) : renderExecutionTrace(item));
+    }
+  );
+
+trace
+  .command("show")
+  .argument("<traceId>", "trace id")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable execution trace")
+  .description("Show a structured execution trace.")
+  .action((traceId: string, repo: string, options: { json?: boolean }) => {
+    const root = path.resolve(repo);
+    const item = readExecutionTrace(root, traceId);
+    if (!item) {
+      console.error(`Execution trace not found: ${traceId}`);
+      process.exitCode = 1;
+      return;
+    }
+    console.log(options.json ? JSON.stringify(item, null, 2) : renderExecutionTrace(item));
   });
 
 rag
@@ -505,6 +597,17 @@ function parseTaskType(value: string): TaskType {
 function parseLoopPhase(value: string): LoopPhase {
   if (value === "preflight" || value === "after-edit" || value === "repair") return value;
   throw new Error(`Unsupported loop phase: ${value}`);
+}
+
+function parseTraceResult(value: string): ExecutionStepResult {
+  if (value === "passed" || value === "failed" || value === "skipped" || value === "unknown") return value;
+  throw new Error(`Unsupported trace result: ${value}`);
+}
+
+function parseTraceFinalState(value: string): ExecutionFinalState {
+  if (value === "planned" || value === "in_progress" || value === "partial_success" || value === "success" || value === "failed" || value === "blocked")
+    return value;
+  throw new Error(`Unsupported trace final state: ${value}`);
 }
 
 function printFileList(files: IndexedFile[]): void {

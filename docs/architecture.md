@@ -215,6 +215,40 @@ The loop controller does not execute an agent directly. It reads the compiled co
 
 With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`. This is intentionally a control report rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable.
 
+## Execution Trace
+
+Agent harnesses need structured history, not only generated context. `repo-context run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `repo-context trace start/add/show` can manage traces directly.
+
+Each trace records:
+
+- task and agent identity
+- ordered steps with timestamp, action, files, reason, command, test, result, and output summary
+- final state such as `planned`, `in_progress`, `partial_success`, `success`, `failed`, or `blocked`
+
+Example:
+
+```json
+{
+  "task": "fix login timeout bug",
+  "steps": [
+    {
+      "agent": "codex",
+      "action": "edit",
+      "files": ["src/auth/session.ts"],
+      "reason": "timeout logic"
+    },
+    {
+      "action": "run-test",
+      "result": "failed",
+      "test": "auth.test.ts"
+    }
+  ],
+  "finalState": "partial_success"
+}
+```
+
+This gives the feedback loop durable evidence about what the agent actually did, so later controller versions can distinguish missing context from failed execution, unsafe edits, or insufficient verification.
+
 ## Summary Engine
 
 The summary engine has two modes:
