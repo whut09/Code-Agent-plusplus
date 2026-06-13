@@ -2,9 +2,17 @@
 
 中文 | [English](README.en.md)
 
-把任意仓库变成 AI 编程助手能真正使用的上下文包。
+面向编程 Agent 的 Agent Harness Runtime。
 
-Repo-to-Agent-Context 不是简单 repo summarizer。它更像一个 Agent Context Harness：围绕具体任务生成最小上下文、编辑边界、测试建议、影响分析和验证入口，让 Codex / Claude Code / Cursor 在陌生仓库里更少乱读、更少乱改，改完知道怎么验证。
+Repo-to-Agent-Context is an Agent Harness Runtime for coding agents.
+
+它会把仓库编译成 task-aware context，执行编辑策略和安全护栏，并编排 Agent 动作、测试结果与仓库状态之间的反馈循环。核心主线是：
+
+```txt
+Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
+```
+
+它不是简单 repo summarizer，也不只是 context pack tool。它的目标是让 Codex / Claude Code / Cursor 在陌生仓库里更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context 输出效果动画">
@@ -32,7 +40,7 @@ AI 编程工具通常不是不会写代码，而是没吃对上下文：
 - 乱改文件：没有编辑边界，不知道哪些路径是 generated、lockfile、migration、env。
 - 改完不会验证：不知道该跑哪些测试、typecheck、lint 或 diff impact。
 
-Repo-to-Agent-Context 的目标是把“给 Agent 的仓库记忆”变成可生成、可更新、可验证的工程产物。
+Repo-to-Agent-Context 的目标是把“给 Agent 的仓库记忆”升级成可生成、可更新、可验证、可闭环控制的运行时系统。
 
 ## 30 秒怎么用？
 

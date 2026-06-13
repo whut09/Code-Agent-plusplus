@@ -2,9 +2,15 @@
 
 [中文](README.md) | English
 
-Turn any repository into a context package that coding agents can actually use.
+Repo-to-Agent-Context is an Agent Harness Runtime for coding agents.
 
-Repo-to-Agent-Context is not just a repo summarizer. It is an Agent Context Harness: for a concrete task, it generates minimal context, edit boundaries, test recommendations, impact analysis, and verification entrypoints so Codex, Claude Code, and Cursor read less noise, touch fewer unrelated files, and know how to validate their changes.
+It compiles repositories into task-aware context, enforces editing policies and safety guardrails, and orchestrates a feedback loop between agent actions, tests, and repository state. The core loop is:
+
+```txt
+Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
+```
+
+It is not just a repo summarizer or a context pack tool. Its goal is to help Codex, Claude Code, and Cursor read less noise, touch fewer unrelated files, validate their changes, and decide whether the next step is repair, context expansion, policy enforcement, or finalization.
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context final output animation">
@@ -32,7 +38,7 @@ AI coding tools usually do not fail because they cannot write code. They fail be
 - Unsafe edits: no clear generated, lockfile, migration, or env boundaries.
 - Weak verification: agents do not know which tests, typechecks, lint commands, or impact checks to run.
 
-Repo-to-Agent-Context turns repository memory for agents into generated, updatable, verifiable engineering artifacts.
+Repo-to-Agent-Context turns repository memory for agents into a generated, updatable, verifiable runtime loop.
 
 ## 30-Second Start
 

@@ -1,6 +1,14 @@
 # Architecture
 
-Repo-to-Agent-Context is an Agent Context Harness: it turns a repository into minimal, evidence-linked, task-aware context packs through a validation-oriented pipeline. The core product is not documentation generation; it is the context and guardrail system an agent uses to plan, edit, verify, and understand regression risk inside a repository.
+Repo-to-Agent-Context is an Agent Harness Runtime for coding agents. It compiles repositories into task-aware context, enforces editing policies, and orchestrates a feedback loop between agent actions, tests, and repository state.
+
+The core product is no longer just documentation generation or context-pack compilation. It is an Agent Runtime Loop System:
+
+```txt
+Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
+```
+
+The generated context remains important, but it is one part of the runtime: agents use it together with traces, policy checks, tests, freshness, drift, impact, and verification signals to plan, edit, repair, and finalize changes.
 
 ```mermaid
 graph TD
