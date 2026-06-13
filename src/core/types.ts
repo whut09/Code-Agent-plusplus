@@ -167,6 +167,21 @@ export interface ContextPackage {
   readiness: AgentReadinessReport;
   summaries: SummaryBundle;
   tokenSavings: TokenSavingsReport;
+  cacheStats: CacheStats;
+}
+
+export interface CacheStats {
+  enabled: boolean;
+  fileHashHits: number;
+  fileHashMisses: number;
+  indexHits: number;
+  indexMisses: number;
+  graphHits: number;
+  graphMisses: number;
+  tokenHits: number;
+  tokenMisses: number;
+  prunedFileHashes: number;
+  prunedIndexEntries: number;
 }
 
 export interface SummaryBundle {

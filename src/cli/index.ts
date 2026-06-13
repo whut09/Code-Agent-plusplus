@@ -2,7 +2,7 @@
 import { existsSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { Command } from "commander";
-import type { AgentTarget, IndexedFile, TaskType } from "../core/types.js";
+import type { AgentTarget, CacheStats, IndexedFile, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { changedFilesSince } from "../core/git.js";
 import { writeContextPackage } from "../outputs/writer.js";
@@ -328,22 +328,38 @@ program
   .command("evolve")
   .argument("[repo]", "repository path", ".")
   .option("--base <ref>", "base git ref for context delta analysis", "main")
-  .option("--json", "print machine-readable context delta after updating context")
-  .description("Refresh the agent context with cache-aware rebuild and write .agent-context/delta/latest.*.")
+  .option("--json", "print machine-readable evolve report after updating context")
+  .description("Refresh the agent context with cache-aware full output rebuild and write .agent-context/delta/latest.*.")
   .action(async (repo: string, options: { base: string; json?: boolean }) => {
     const context = await buildContextPackage(repo);
     const delta = buildContextDelta(context, { base: options.base });
     const result = writeContextPackage(context);
     const deltaResult = writeContextDelta(context, delta);
+    const rewrittenOutputs = [...result.files, ...deltaResult.files].map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/"));
+    const evolveReport = {
+      mode: "cache-aware-full-refresh",
+      selectiveWrite: false,
+      note: "evolve currently reuses scan/index/graph/token caches, then refreshes the full generated context plus delta reports. Selective output writes are planned.",
+      cache: summarizeCacheStats(context.cacheStats),
+      delta,
+      rewrittenOutputs
+    };
     writeFileSync(
       path.join(context.scan.root, ".agent-context", "manifest.json"),
       `${JSON.stringify(buildContextManifest(context, [...result.files, ...deltaResult.files]), null, 2)}\n`,
       "utf8"
     );
-    console.log(options.json ? JSON.stringify(delta, null, 2) : renderContextDelta(delta));
+    if (options.json) {
+      console.log(JSON.stringify(evolveReport, null, 2));
+      return;
+    }
+    console.log(renderContextDelta(delta));
     console.log("");
-    console.log(`Evolved context outputs: ${result.files.length}`);
-    console.log(`Delta report: ${deltaResult.files.map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/")).join(", ")}`);
+    console.log("Evolve mode: cache-aware full refresh (selective output writes: planned)");
+    console.log(`Cache: ${formatCacheStats(context.cacheStats)}`);
+    console.log(`Rewritten outputs: ${rewrittenOutputs.length}`);
+    for (const file of rewrittenOutputs.slice(0, 12)) console.log(`- ${file}`);
+    if (rewrittenOutputs.length > 12) console.log(`- ... ${rewrittenOutputs.length - 12} more`);
   });
 
 program
@@ -659,6 +675,34 @@ function parseTraceFinalState(value: string): ExecutionFinalState {
   if (value === "planned" || value === "in_progress" || value === "partial_success" || value === "success" || value === "failed" || value === "blocked")
     return value;
   throw new Error(`Unsupported trace final state: ${value}`);
+}
+
+function summarizeCacheStats(stats: CacheStats) {
+  return {
+    enabled: stats.enabled,
+    reusedIndexedFiles: stats.indexHits,
+    reindexedFiles: stats.indexMisses,
+    reusedFileHashes: stats.fileHashHits,
+    recalculatedFileHashes: stats.fileHashMisses,
+    graphReused: stats.graphHits > 0,
+    graphRebuilt: stats.graphMisses > 0,
+    tokenCacheHits: stats.tokenHits,
+    tokenCacheMisses: stats.tokenMisses,
+    prunedFileHashes: stats.prunedFileHashes,
+    prunedIndexEntries: stats.prunedIndexEntries
+  };
+}
+
+function formatCacheStats(stats: CacheStats): string {
+  if (!stats.enabled) return "disabled";
+  const summary = summarizeCacheStats(stats);
+  return [
+    `reused indexed files ${summary.reusedIndexedFiles}`,
+    `re-indexed files ${summary.reindexedFiles}`,
+    `graph rebuilt ${summary.graphRebuilt ? "yes" : "no"}`,
+    `token hits ${summary.tokenCacheHits}`,
+    `token misses ${summary.tokenCacheMisses}`
+  ].join("; ");
 }
 
 function printFileList(files: IndexedFile[]): void {

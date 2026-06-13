@@ -75,6 +75,12 @@ Every build writes `.agent-context/manifest.json` with hashes for source, config
 
 `assessDrift()` focuses on generated output, dependency graph, task packs, and contract drift so agents can check whether `AGENTS.md` and `.agent-context/` are still trustworthy.
 
+`update`, `delta`, and `evolve` have different product meanings:
+
+- `repo-context update .` performs a full generated-context refresh with cache reuse.
+- `repo-context delta .` reports changed context impact and agent re-read guidance without refreshing all outputs.
+- `repo-context evolve .` currently performs a cache-aware full refresh plus `.agent-context/delta/latest.*` output. It prints cache stats and rewritten outputs so users can see what was reused. Selective writes of only affected outputs are planned.
+
 ## Loop Controller
 
 `buildLoopControllerReport()` combines freshness, drift, contracts, impact, changed files, tests, and task-pack budget. It supports `preflight`, `after-edit`, and `repair` phases and returns decisions such as:

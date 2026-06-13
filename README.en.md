@@ -82,7 +82,7 @@ repo-context drift .
 - ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals.
 - ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state.
 - ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence.
-- ✅ context delta / evolve: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff, so large repos avoid blind full-context rereads.
+- ✅ context delta: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff; `evolve` is currently a cache-aware full refresh, while selective output writes are planned.
 - 🧪 MCP runtime tools: the stdio MCP server exposes build / plan / pack / retrieve / tests / impact / verify plus start_loop / step / evaluate / repair / finalize tools; real client integrations still need per-client validation.
 - 🧪 benchmark: Loop Behavior Benchmark comparing no-context, AGENTS.md, context pack, and loop-enabled harness runs across wrong edits, test failures, steps, tokens, and repair loops.
 - 🧪 hybrid retrieve: shared static / ripgrep retrieval protocol for RAG, MCP, and editor integrations.
@@ -102,7 +102,9 @@ repo-context drift .
 | loop controller                                | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
-| context delta / evolve                         | ✅ implemented  |
+| context delta analysis                         | ✅ implemented  |
+| evolve cache-aware full refresh                | ✅ implemented  |
+| evolve selective output writes                 | 🚧 planned      |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |

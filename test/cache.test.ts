@@ -23,7 +23,10 @@ test("build context writes and refreshes incremental cache", async () => {
     writeFileSync(path.join(root, "src", "a.ts"), "export const a = 1;\n", "utf8");
     writeFileSync(path.join(root, "src", "b.ts"), "import { a } from './a.js';\nexport const b = a;\n", "utf8");
 
-    await buildContextPackage(root);
+    const firstContext = await buildContextPackage(root);
+    assert.equal(firstContext.cacheStats.enabled, true);
+    assert.equal(firstContext.cacheStats.indexHits, 0);
+    assert.ok(firstContext.cacheStats.indexMisses >= 3);
 
     const cacheDir = path.join(root, ".agent-context", "cache");
     for (const fileName of ["file-hashes.json", "index-cache.json", "graph-cache.json", "tokenizer-cache.json"]) {
@@ -40,6 +43,9 @@ test("build context writes and refreshes incremental cache", async () => {
 
     assert.notEqual(secondHashes.files["src/a.ts"].hash, firstAHash);
     assert.equal(secondHashes.files["src/b.ts"].hash, firstBHash);
+    assert.ok(context.cacheStats.indexHits >= 2);
+    assert.ok(context.cacheStats.indexMisses >= 1);
+    assert.equal(context.cacheStats.graphMisses, 1);
     assert.ok(context.index.files.some((file) => file.path === "src/a.ts" && file.exports.includes("changed")));
   } finally {
     rmSync(root, { recursive: true, force: true });

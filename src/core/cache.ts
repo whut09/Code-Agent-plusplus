@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { DependencyGraph, IndexedFile, RepoContextConfig, RepoFile, RepoScan, TokenizerConfig } from "./types.js";
+import type { CacheStats, DependencyGraph, IndexedFile, RepoContextConfig, RepoFile, RepoScan, TokenizerConfig } from "./types.js";
 import type { TokenCountCache } from "./token-estimator.js";
 
 const CACHE_VERSION = 1;
@@ -52,6 +52,7 @@ export interface ContextCacheOptions {
 export class ContextCache implements TokenCountCache {
   readonly root: string;
   readonly configFingerprint: string;
+  readonly stats: CacheStats;
   private readonly cacheDir: string;
   private readonly fileHashesPath: string;
   private readonly indexCachePath: string;
@@ -65,6 +66,7 @@ export class ContextCache implements TokenCountCache {
   private constructor(root: string, config: RepoContextConfig) {
     this.root = root;
     this.configFingerprint = hashText(stableStringify(config));
+    this.stats = createCacheStats(true);
     this.cacheDir = path.join(root, CACHE_DIR);
     this.fileHashesPath = path.join(this.cacheDir, "file-hashes.json");
     this.indexCachePath = path.join(this.cacheDir, "index-cache.json");
@@ -100,9 +102,11 @@ export class ContextCache implements TokenCountCache {
     const current = statSync(file.absolutePath);
     const previous = this.fileHashes.files[file.path];
     if (previous && previous.sizeBytes === current.size && previous.mtimeMs === current.mtimeMs) {
+      this.stats.fileHashHits += 1;
       return previous.hash;
     }
 
+    this.stats.fileHashMisses += 1;
     const hash = shouldHashContent(file, current.size) ? hashFile(file.absolutePath) : hashText(`${file.path}:${current.size}:${current.mtimeMs}`);
     this.fileHashes.files[file.path] = {
       hash,
@@ -114,8 +118,15 @@ export class ContextCache implements TokenCountCache {
 
   getIndexedFile(file: RepoFile, dependencyFingerprint: string, analyzer: string): IndexedFile | null {
     const entry = this.indexCache.entries[file.path];
-    if (!entry || entry.version !== CACHE_VERSION || entry.dependencyFingerprint !== dependencyFingerprint || entry.analyzer !== analyzer) return null;
-    if (entry.fileHash !== this.fileHash(file)) return null;
+    if (!entry || entry.version !== CACHE_VERSION || entry.dependencyFingerprint !== dependencyFingerprint || entry.analyzer !== analyzer) {
+      this.stats.indexMisses += 1;
+      return null;
+    }
+    if (entry.fileHash !== this.fileHash(file)) {
+      this.stats.indexMisses += 1;
+      return null;
+    }
+    this.stats.indexHits += 1;
     return cloneIndexedFile({ ...entry.indexed, ...file });
   }
 
@@ -132,17 +143,26 @@ export class ContextCache implements TokenCountCache {
   prune(scan: RepoScan): void {
     const paths = new Set(scan.files.map((file) => file.path));
     for (const pathKey of Object.keys(this.fileHashes.files)) {
-      if (!paths.has(pathKey)) delete this.fileHashes.files[pathKey];
+      if (!paths.has(pathKey)) {
+        delete this.fileHashes.files[pathKey];
+        this.stats.prunedFileHashes += 1;
+      }
     }
     for (const pathKey of Object.keys(this.indexCache.entries)) {
-      if (!paths.has(pathKey)) delete this.indexCache.entries[pathKey];
+      if (!paths.has(pathKey)) {
+        delete this.indexCache.entries[pathKey];
+        this.stats.prunedIndexEntries += 1;
+      }
     }
   }
 
   getGraph(indexFingerprint: string): DependencyGraph | null {
-    return this.graphCache.version === CACHE_VERSION && this.graphCache.indexFingerprint === indexFingerprint && this.graphCache.graph
-      ? cloneGraph(this.graphCache.graph)
-      : null;
+    if (this.graphCache.version === CACHE_VERSION && this.graphCache.indexFingerprint === indexFingerprint && this.graphCache.graph) {
+      this.stats.graphHits += 1;
+      return cloneGraph(this.graphCache.graph);
+    }
+    this.stats.graphMisses += 1;
+    return null;
   }
 
   setGraph(indexFingerprint: string, graph: DependencyGraph): void {
@@ -166,7 +186,13 @@ export class ContextCache implements TokenCountCache {
   }
 
   getTokenCount(key: string): number | undefined {
-    return this.tokenizerCache.entries[key];
+    const value = this.tokenizerCache.entries[key];
+    if (typeof value === "number") {
+      this.stats.tokenHits += 1;
+    } else {
+      this.stats.tokenMisses += 1;
+    }
+    return value;
   }
 
   setTokenCount(key: string, tokens: number): void {
@@ -180,6 +206,26 @@ export class ContextCache implements TokenCountCache {
     writeJson(this.graphCachePath, this.graphCache);
     writeJson(this.tokenizerCachePath, this.tokenizerCache);
   }
+
+  snapshotStats(): CacheStats {
+    return { ...this.stats };
+  }
+}
+
+export function createCacheStats(enabled: boolean): CacheStats {
+  return {
+    enabled,
+    fileHashHits: 0,
+    fileHashMisses: 0,
+    indexHits: 0,
+    indexMisses: 0,
+    graphHits: 0,
+    graphMisses: 0,
+    tokenHits: 0,
+    tokenMisses: 0,
+    prunedFileHashes: 0,
+    prunedIndexEntries: 0
+  };
 }
 
 export function tokenizerCacheKey(text: string, tokenizer: TokenizerConfig): string {

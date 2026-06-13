@@ -114,6 +114,12 @@ The build pipeline uses `.agent-context/cache/` as a local incremental cache for
 
 Dependency resolution is invalidated when package manifests, lockfiles, workspace files, `tsconfig.json`, `jsconfig.json`, or `pyproject.toml` change. Repository configuration changes rerender outputs while still allowing scan/index reuse. Task-only changes reuse the cached repository context and regenerate only plan, pack, run, verification, impact, or retrieval output. Git diff helpers filter `.agent-context/cache/**` so cache writes do not appear as affected source changes.
 
+Command semantics are intentionally split:
+
+- `repo-context update .`: full generated-context refresh, using scan/index/graph/token caches when available.
+- `repo-context delta .`: analyzes changed files, stale context outputs, affected graph nodes, and agent re-read guidance without rewriting the full context.
+- `repo-context evolve .`: currently performs a cache-aware full generated-context refresh, writes `.agent-context/delta/latest.*`, and prints cache stats such as reused indexed files, re-indexed files, graph reuse/rebuild, and rewritten outputs. Selective writing of only affected outputs is planned, not yet the default behavior.
+
 ## Graph Builder
 
 The graph builder creates:

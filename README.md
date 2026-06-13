@@ -84,7 +84,7 @@ repo-context drift .
 - ✅ loop controller：根据 freshness、diff、contracts、tests、impact 决定下一步是重建上下文、补测试、修 contract 还是进入 review。
 - ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态。
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据。
-- ✅ context delta / evolve：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件，避免大仓库里无脑全量阅读。
+- ✅ context delta：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件；`evolve` 当前是 cache-aware full refresh，selective output writes 仍在计划中。
 - 🧪 MCP runtime tools：stdio MCP server 已暴露 build / plan / pack / retrieve / tests / impact / verify 以及 start_loop / step / evaluate / repair / finalize 等工具；真实客户端集成仍需逐个验证。
 - 🧪 benchmark：Loop Behavior Benchmark，对比 no-context / AGENTS.md / context pack / loop-enabled harness 下的错改、测试失败、步骤、token 和 repair loops。
 - 🧪 hybrid retrieve：统一 static / ripgrep 检索协议，为 RAG、MCP、编辑器扩展留接口。
@@ -104,7 +104,9 @@ repo-context drift .
 | loop controller                                | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
-| context delta / evolve                         | ✅ implemented  |
+| context delta analysis                         | ✅ implemented  |
+| evolve cache-aware full refresh                | ✅ implemented  |
+| evolve selective output writes                 | 🚧 planned      |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |

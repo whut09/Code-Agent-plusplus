@@ -198,6 +198,12 @@ diff + dependency impact + test gap + contract violations + risk score
 
 `assessDrift()` 更聚焦 generated-output、dependency-graph、task-pack 和 contract drift。它让 Agent 在信任 `AGENTS.md`、task packs 或 contracts 之前，先知道这些生成资产是否落后于真实代码。
 
+`update`、`delta`、`evolve` 的产品语义需要拆开看：
+
+- `repo-context update .`：全量刷新生成上下文，但会复用 scan/index/graph/token cache。
+- `repo-context delta .`：只分析 changed context impact 和 Agent 必须重读的文件，不刷新全部输出。
+- `repo-context evolve .`：当前是 cache-aware full refresh，并额外写入 `.agent-context/delta/latest.*`。它会输出复用索引文件数、重新索引文件数、graph 是否重建和 rewritten outputs。只写受影响产物的 selective write 仍是计划中能力。
+
 ## 7. Loop Controller 如何决策下一步
 
 `buildLoopControllerReport()` 是当前最接近 Loop Engineering 的控制器。它读取：

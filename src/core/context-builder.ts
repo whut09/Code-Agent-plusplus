@@ -2,7 +2,7 @@ import { loadConfig } from "../config/load-config.js";
 import type { AgentTarget, ContextPackage, RepoContextConfig } from "./types.js";
 import { scanRepository } from "./scanner.js";
 import { indexRepository } from "./indexer.js";
-import { ContextCache } from "./cache.js";
+import { ContextCache, createCacheStats } from "./cache.js";
 import { buildDependencyGraph } from "./graph.js";
 import { rankFiles } from "./ranker.js";
 import { assessReadiness } from "./readiness.js";
@@ -64,6 +64,7 @@ export async function buildContextPackage(repoRoot: string, options: BuildOption
     target: config.target,
     readiness,
     summaries,
-    tokenSavings
+    tokenSavings,
+    cacheStats: cache?.snapshotStats() ?? createCacheStats(false)
   };
 }

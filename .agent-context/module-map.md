@@ -4,7 +4,7 @@
 | --- | --- | --- | --- | --- |
 | outputs | 24 | 1212 | `core` | outputs contains 24 files and depends on core. |
 | test | 28 | 1004 | `analyzers`, `benchmarks`, `cli`, `config`, `core`, `mcp`, `outputs`, `retrievers` | test contains 28 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers. |
-| core | 17 | 870 | `analyzers`, `config`, `llm`, `outputs` | core contains 17 files and depends on analyzers, config, llm, outputs. |
+| core | 17 | 874 | `analyzers`, `config`, `llm`, `outputs` | core contains 17 files and depends on analyzers, config, llm, outputs. |
 | retrievers | 6 | 256 | `core`, `outputs` | retrievers contains 6 files and depends on core, outputs. |
 | analyzers | 6 | 229 | `core` | analyzers contains 6 files and depends on core. |
 | benchmarks/fixtures/small-ts-app | 9 | 219 | none | benchmarks/fixtures/small-ts-app contains 9 files. |
