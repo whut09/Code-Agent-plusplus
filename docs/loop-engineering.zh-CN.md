@@ -1,0 +1,397 @@
+# Loop Engineering 源码链路
+
+这份文档按代码执行链路解释 Repo-to-Agent-Context 如何从 Context Compiler 走向 Agent Harness Runtime。它不是只生成摘要文件，而是把仓库状态、任务上下文、编辑边界、测试建议、影响分析、contracts、trace、freshness 和 loop decision 组合成一个静态但可验证的 Agent Runtime Loop。
+
+核心闭环是：
+
+```txt
+Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
+```
+
+当前实现不会直接调用 Codex、Claude Code 或 Cursor 去改代码。它提供的是控制面：让 Agent 知道先读什么、不要改什么、改完影响谁、该跑什么、是否能结束，以及下一轮应该补上下文、补测试、修 contract 还是进入 review。
+
+## 1. 总体执行链路
+
+主构建链路从 CLI 进入 `buildContextPackage()`：
+
+```txt
+CLI command
+  -> buildContextPackage()
+  -> scanRepository()
+  -> indexRepository()
+  -> buildDependencyGraph()
+  -> rankFiles()
+  -> assessReadiness()
+  -> summarizeRepository()
+  -> calculateTokenSavings()
+  -> writeContextPackage()
+  -> AGENTS.md + .agent-context/*
+```
+
+`buildContextPackage()` 是核心编排器。它加载配置，打开增量 cache，然后依次完成扫描、索引、依赖图、关键文件排序、readiness 评估、摘要和 token 节省计算。
+
+`scanRepository()` 负责仓库事实采集：遵守 `.gitignore`，跳过依赖目录和构建产物，识别语言、框架、包管理器、入口文件、配置文件、测试命令、lint/typecheck 命令、CI、env example、migration 文件和 token 估算。这些扫描结果是后续 harness 判断的基础。
+
+`indexRepository()` 对文件做语言分析，提取 imports、exports、symbols、routes、summary、moduleName、analysis evidence 和 confidence。TypeScript/JavaScript、Python 和 generic analyzer 通过统一 analyzer 接口接入。当前 TypeScript/JavaScript 使用 TypeScript Compiler API；Python 优先使用可选 Tree-sitter，然后回退到 Python AST 和轻量解析。
+
+`buildDependencyGraph()` 把 import 关系转成文件级依赖边和模块级依赖边。影响分析、测试推荐、模块边界和 regression 风险都依赖这张图。
+
+`rankFiles()` 按入口文件、配置、README/docs、导出符号、symbol 数量、依赖中心性、测试信号、分析置信度，以及 generated/lockfile/asset 惩罚给文件打分。这个分数决定 Agent 优先阅读哪些文件。
+
+## 2. 编辑边界如何产生
+
+编辑边界由三层机制组成：
+
+```txt
+Task Pack relevant files
+  -> Task Run allowedEditGlobs / avoidEditGlobs
+  -> Contracts + validateContracts()
+```
+
+### 2.1 Task Pack 先确定任务相关文件
+
+`buildTaskPack()` 是任务上下文选择器。它先做 lexical retrieval：把任务文本拆成 terms，并匹配文件路径、模块名、summary、exports、symbols、tests、docs 和 analysis evidence。中文任务会做简单 alias 扩展，例如“登录”会扩展到 `login/auth/session/signin`，“超时”会扩展到 `timeout/expire/expiration/ttl/session`。
+
+然后它做 graph expansion：
+
+```txt
+direct lexical hits
+  -> direct imports
+  -> direct importers
+  -> sibling tests
+  -> entrypoints
+  -> config files
+  -> owning module docs
+  -> budget packing
+```
+
+最后按 token budget 打包成 direct source、tests、dependency neighbors、config/docs 和 entrypoints。这样 Agent 不需要先盲读全仓库，而是从一组有证据的任务相关文件开始。
+
+### 2.2 Task Run 生成 allowed / avoid 边界
+
+`writeTaskRun()` 是更接近 Harness 的一层。它基于 task pack 写入：
+
+```txt
+.agent-context/runs/<task-id>/
+  plan.md
+  pack.md
+  edit-boundary.md
+  expected-diff.md
+  tests.md
+  verify.md
+  impact.md
+  prompt.codex.md
+  prompt.claude.md
+  prompt.cursor.md
+  run.json
+```
+
+`allowedEditGlobsFor()` 会把 direct-source、entrypoint 和 test 类文件作为默认允许编辑范围。`avoidEditGlobsFor()` 默认避开 `dist/**`、`node_modules/**`、`.agent-context/**`、lockfile、migration/schema，以及未被任务选中的 CI、Docker、deployment 配置。
+
+所以编辑边界不是让 LLM 猜，而是由任务相关性、文件类别、依赖图和扫描结果共同推导。
+
+### 2.3 Contracts 把边界变成可检查约束
+
+`buildRepoContracts()` 生成五类 contracts：
+
+```txt
+.agent-context/contracts/
+  architecture.contract.json
+  module-boundaries.json
+  commands.contract.json
+  test.contract.json
+  safety.contract.json
+```
+
+`validateContracts()` 会读取这些 contracts，并针对当前 diff 检查：
+
+- 是否修改 protected/generated paths
+- lockfile 变更是否缺少 package manifest 配套变更
+- 新增 env 变量是否没有更新 env example
+- 架构层是否引入 forbidden import
+- 模块边界是否越界
+- 核心源码变更是否缺少相关测试信号
+
+这就是“更少乱改”的主要实现基础。
+
+## 3. 影响分析如何工作
+
+影响分析入口是 `buildChangeImpactReport()`。它通过 `changedFilesSince(root, base)` 获取相对 base 的变化文件，底层同时考虑：
+
+```txt
+git diff --name-only <base>
+git ls-files --others --exclude-standard
+```
+
+也就是已修改文件和未跟踪文件都会进入分析。
+
+影响分析做三件事：
+
+1. 找直接依赖者：如果 `A imports B`，当 `B` 被改动，`A` 是 direct dependent。
+2. 找传递依赖者：从 direct dependents 继续向上 BFS，得到更大的调用影响面。
+3. 计算风险和验证命令：结合源码变更数量、direct/transitive dependents、config/migration 变更、缺失测试、高重要性文件等信号输出 Low/Medium/High，并给出 required verification。
+
+这让 Agent 在改完以后知道“影响谁”，而不是只看到自己改了哪些文件。
+
+## 4. 测试推荐如何工作
+
+测试推荐入口是 `buildTestSelection()`，支持两种常见模式：
+
+```bash
+repo-context tests . --for src/auth/session.ts
+repo-context tests . --diff --base main
+```
+
+它输出三类结果：
+
+- `minimalTests`：直接相关的最小测试。
+- `recommendedRegressionTests`：受影响调用方和模块的回归测试。
+- `fullConfidenceCommands`：更高置信度的全量或半全量验证命令。
+
+最小测试主要来自：
+
+- 目标文件本身就是测试文件
+- 测试文件 import 了源文件
+- 测试文件名包含源文件 basename
+- 测试路径包含源文件 module dir 或 moduleName
+- `src/foo` 与 `test/foo`、`tests/foo` 的路径启发式匹配
+
+回归测试会先从依赖图里找 dependents，再找这些 dependents 的相关测试。因此它不仅推荐“被改文件附近的测试”，也会推荐“受影响调用方的测试”。
+
+## 5. 验证报告如何工作
+
+验证报告入口是 `renderTaskVerify()`。它综合：
+
+- changed files
+- affected modules
+- missing tests
+- recommended tests
+- contract check
+- risk score
+- risk factors
+
+它同样会读取 git diff 和 untracked files。对于 changed source files，它会根据依赖图找到 affected modules，并根据测试索引判断是否存在 missing-test signals。随后调用 `validateContracts()` 把 contract violations 一起并入验证报告。
+
+所以 verify 不是普通 diff summary，而是：
+
+```txt
+diff + dependency impact + test gap + contract violations + risk score
+```
+
+## 6. Freshness / Drift 如何让上下文可更新
+
+每次 `writeContextPackage()` 都会生成 `.agent-context/manifest.json`。manifest 记录：
+
+- `generatedAt`
+- `gitCommit`
+- `configHash`
+- `sourceHash`
+- `indexHash`
+- `graphHash`
+- `contractsHash`
+- `taskPacksHash`
+- `generatedOutputHash`
+- `toolVersion`
+- generated files 的 hash
+
+`assessFreshness()` 会基于当前仓库重新计算 manifest 相关 hash，并比较 source、config、index、graph、contracts、task packs 和 generated files 是否变化。如果变化，就报告 stale，并建议重新 build/update。
+
+`assessDrift()` 更聚焦 generated-output、dependency-graph、task-pack 和 contract drift。它让 Agent 在信任 `AGENTS.md`、task packs 或 contracts 之前，先知道这些生成资产是否落后于真实代码。
+
+## 7. Loop Controller 如何决策下一步
+
+`buildLoopControllerReport()` 是当前最接近 Loop Engineering 的控制器。它读取：
+
+- freshness
+- drift
+- contracts
+- impact
+- changed files
+- test selection
+- task pack budget
+
+然后根据 phase 输出 next decisions。支持的 phase 有：
+
+- `preflight`
+- `after-edit`
+- `repair`
+
+决策动作包括：
+
+- `start-agent`
+- `rebuild-context`
+- `replan`
+- `expand-context`
+- `repair-contracts`
+- `add-or-update-tests`
+- `run-tests`
+- `ready-for-review`
+
+典型规则如下：
+
+```txt
+freshness != fresh or drift != clean
+  -> rebuild-context
+
+taskPack.estimatedTokens > taskPack.tokenBudget
+  -> replan
+
+contracts failed
+  -> repair-contracts
+
+missing test signals
+  -> add-or-update-tests
+
+impact risk is High
+  -> expand-context
+
+changed files exist
+  -> run-tests
+
+no stale context, no violations, no changed files, no high risk
+  -> ready-for-review
+```
+
+这就是从“一次性生成上下文”走向“每轮根据仓库状态决定下一步”的关键。
+
+## 8. Execution Trace 和 Policy Engine
+
+Loop 不能只靠生成文件，还需要记录 Agent 实际做了什么。`repo-context run "<task>" .` 会创建 task run，并生成对应 trace。也可以直接使用：
+
+```bash
+repo-context trace start "<task>" . --agent codex
+repo-context trace add <trace-id> . --action edit --files src/auth/session.ts --reason "timeout logic"
+repo-context trace add <trace-id> . --action run-test --command "npm test -- auth" --result passed
+```
+
+trace 记录 task、agent、steps、files、reason、command、test、result、output 和 final state。
+
+`repo-context policy . --base main --trace <trace-id>` 会把 diff、contracts、freshness 和 trace evidence 合并检查。它能阻止 forbidden edits，提示风险，并要求测试、contract validation 或 context refresh 证据。这一层让 Harness 不只是“建议”，而是具备 runtime guardrail 的形态。
+
+## 9. CLI 接入状态
+
+当前 `src/cli/index.ts` 已经注册了主要 Harness 命令，包括：
+
+```txt
+build
+savings
+rag export
+trace start/add/show/search
+init
+graph
+readiness
+validate
+policy
+validate-contracts
+freshness
+drift
+delta
+evolve
+run
+loop
+plan
+pack
+verify
+task
+tests
+impact
+benchmark
+retrieve
+diff
+update
+explain
+```
+
+因此这些能力不只是内部模块；它们已经通过 CLI 暴露。后续发布前仍需要继续用 `npm pack --dry-run` 和安装后 smoke test 确认 npm 产物包含最新 CLI、`dist/` 和 benchmark fixtures。
+
+## 10. 一张闭环图
+
+```txt
+User task
+  -> buildTaskPack()
+     - lexical retrieval
+     - symbol/export/evidence match
+     - graph expansion
+     - budget packing
+  -> writeTaskRun()
+     - plan.md
+     - pack.md
+     - edit-boundary.md
+     - tests.md
+     - impact.md
+     - verify.md
+     - agent prompts
+  -> coding agent edits code
+  -> changedFilesSince()
+  -> buildChangeImpactReport()
+     - direct dependents
+     - transitive dependents
+     - related tests
+     - risk level
+  -> buildTestSelection()
+     - minimal tests
+     - regression tests
+     - full confidence commands
+  -> validateContracts()
+     - protected paths
+     - architecture layers
+     - module boundaries
+     - env examples
+     - lockfile pairing
+     - missing tests
+  -> renderTaskVerify()
+     - changed files
+     - affected modules
+     - missing tests
+     - recommended commands
+     - contract check
+     - risk factors
+  -> buildLoopControllerReport()
+     - rebuild context?
+     - replan?
+     - repair contracts?
+     - add/update tests?
+     - run tests?
+     - ready for review?
+```
+
+## 11. 能力与源码机制对应
+
+| 目标             | 代码机制                                                    | 实现原理                                                                |
+| ---------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------- |
+| 更少瞎猜         | `buildTaskPack()` / `renderTaskPlan()` / `writeTaskRun()`   | 用任务词、symbols、exports、evidence 和依赖图选出必须先读的文件         |
+| 更少乱读         | token budget + context layers                               | L0/L1/L2/L3 分层加载，不默认塞全仓库                                    |
+| 更少乱改         | `allowedEditGlobsFor()` / `avoidEditGlobsFor()` / contracts | 生成允许编辑面，同时保护 generated、lockfile、migration、CI、env 等     |
+| 知道影响谁       | `buildChangeImpactReport()`                                 | 从依赖图反向找 direct/transitive dependents                             |
+| 知道跑什么测试   | `buildTestSelection()`                                      | 根据 diff 或目标文件找相关测试和依赖者测试                              |
+| 知道是否安全结束 | `renderTaskVerify()`                                        | 综合 changed files、missing tests、contract check 和 risk score         |
+| 知道下一步做什么 | `buildLoopControllerReport()`                               | 根据 freshness、drift、contracts、impact 和 tests 输出下一步 action     |
+| 保持上下文新鲜   | `manifest.json` + `assessFreshness()` + `assessDrift()`     | 对 source/index/graph/contracts/task packs/generated files 做 hash 对比 |
+| 留下执行证据     | `execution-trace.ts` + `policy-engine.ts`                   | 用 trace 记录 agent actions，并把验证证据纳入 policy check              |
+
+## 12. 总结
+
+这个项目当前的 Loop Engineering 基础是：
+
+```txt
+static repository analysis
+  + task-aware context retrieval
+  + dependency graph impact analysis
+  + contracts
+  + heuristic test recommendation
+  + manifest freshness/drift
+  + execution trace
+  + policy engine
+  + loop controller decisions
+```
+
+它不是让 Agent 自动变聪明，而是给 Agent 加了一层工程控制面：
+
+- 读什么
+- 别改什么
+- 改了影响谁
+- 该跑什么
+- 现在能不能结束
+- 下一步该修 context、修 tests、修 contract，还是进入 review
+
+这就是 Repo-to-Agent-Context 从 Context Compiler 升级成 Agent Harness Runtime 的代码基础。

@@ -215,6 +215,7 @@ repo-context build . --llm
 ## 文档
 
 - [架构设计](docs/architecture.md)
+- [Loop Engineering 源码链路](docs/loop-engineering.zh-CN.md)
 - [AGENTS.md 使用说明](docs/agents-md.zh-CN.md)
 - [Roadmap](docs/roadmap.md)
 - [Benchmark](benchmarks/README.md)

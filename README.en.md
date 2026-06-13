@@ -213,6 +213,7 @@ repo-context build . --llm
 ## Docs
 
 - [Architecture](docs/architecture.md)
+- [Loop Engineering code path](docs/loop-engineering.md)
 - [AGENTS.md usage](docs/agents-md.md)
 - [Roadmap](docs/roadmap.md)
 - [Benchmark](benchmarks/README.md)
