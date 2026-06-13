@@ -4,10 +4,21 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import * as z from "zod/v4";
 import { buildContextPackage, type BuildOptions } from "../core/context-builder.js";
+import { buildContextDelta, renderContextDelta } from "../outputs/context-delta.js";
 import { buildChangeImpactReport, renderChangeImpactReport } from "../outputs/impact.js";
+import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
+import { buildPolicyReport, renderPolicyReport } from "../outputs/policy-engine.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { renderTaskContext } from "../outputs/task-context.js";
 import { buildTestSelection, renderTestSelection } from "../outputs/test-selector.js";
+import {
+  appendExecutionTraceStep,
+  readExecutionTrace,
+  renderExecutionTrace,
+  type ExecutionFinalState,
+  type ExecutionStepResult
+} from "../outputs/execution-trace.js";
+import { writeTaskRun } from "../outputs/task-run.js";
 import { writeContextPackage } from "../outputs/writer.js";
 import { createContextRetriever } from "../retrievers/index.js";
 import type { RetrieverProvider } from "../retrievers/types.js";
@@ -20,7 +31,12 @@ export const repoContextMcpToolNames = [
   "repo_context_tests",
   "repo_context_impact",
   "repo_context_verify",
-  "repo_context_explain"
+  "repo_context_explain",
+  "repo_context_start_loop",
+  "repo_context_step",
+  "repo_context_evaluate",
+  "repo_context_repair",
+  "repo_context_finalize"
 ] as const;
 
 type RepoContextMcpToolName = (typeof repoContextMcpToolNames)[number];
@@ -160,6 +176,92 @@ export function createRepoContextMcpServer(): McpServer {
     async (args) => jsonToolResult(await runExplain(args))
   );
 
+  server.registerTool(
+    "repo_context_start_loop",
+    {
+      description: "Start an agent-native runtime loop: build context, write task run, create execution trace, and return first decisions.",
+      inputSchema: z.object({
+        repo: z.string().optional().default("."),
+        task: z.string(),
+        agent: z.enum(["codex", "claude-code", "cursor", "librechat", "openhands", "other"]).optional().default("other"),
+        type: z.enum(["auto", "bugfix", "feature", "refactor"]).optional().default("auto"),
+        tokenBudget: z.number().int().positive().optional(),
+        base: z.string().optional().default("main")
+      })
+    },
+    async (args) => jsonToolResult(await runStartLoop(args))
+  );
+
+  server.registerTool(
+    "repo_context_step",
+    {
+      description: "Append a structured agent runtime step to an execution trace.",
+      inputSchema: z.object({
+        repo: z.string().optional().default("."),
+        traceId: z.string(),
+        agent: z.string().optional(),
+        action: z.string(),
+        files: z.array(z.string()).optional(),
+        reason: z.string().optional(),
+        command: z.string().optional(),
+        test: z.string().optional(),
+        result: z.enum(["passed", "failed", "skipped", "unknown"]).optional(),
+        output: z.string().optional(),
+        finalState: z.enum(["planned", "in_progress", "partial_success", "success", "failed", "blocked"]).optional()
+      })
+    },
+    async (args) => jsonToolResult(await runRuntimeStep(args))
+  );
+
+  server.registerTool(
+    "repo_context_evaluate",
+    {
+      description: "Evaluate the current agent loop from context delta, loop controller, policy engine, and verify signals.",
+      inputSchema: z.object({
+        repo: z.string().optional().default("."),
+        task: z.string(),
+        traceId: z.string().optional(),
+        type: z.enum(["auto", "bugfix", "feature", "refactor"]).optional().default("auto"),
+        tokenBudget: z.number().int().positive().optional(),
+        base: z.string().optional().default("main"),
+        phase: z.enum(["preflight", "after-edit", "repair"]).optional().default("after-edit"),
+        strict: z.boolean().optional().default(false)
+      })
+    },
+    async (args) => jsonToolResult(await runRuntimeEvaluate(args))
+  );
+
+  server.registerTool(
+    "repo_context_repair",
+    {
+      description: "Produce repair-loop decisions and write .agent-context/loops/<task>/loop.* for a failing or risky agent run.",
+      inputSchema: z.object({
+        repo: z.string().optional().default("."),
+        task: z.string(),
+        traceId: z.string().optional(),
+        type: z.enum(["auto", "bugfix", "feature", "refactor"]).optional().default("auto"),
+        tokenBudget: z.number().int().positive().optional(),
+        base: z.string().optional().default("main")
+      })
+    },
+    async (args) => jsonToolResult(await runRuntimeRepair(args))
+  );
+
+  server.registerTool(
+    "repo_context_finalize",
+    {
+      description: "Finalize an agent runtime loop with strict policy evaluation and trace final-state update.",
+      inputSchema: z.object({
+        repo: z.string().optional().default("."),
+        task: z.string(),
+        traceId: z.string(),
+        base: z.string().optional().default("main"),
+        finalState: z.enum(["success", "partial_success", "failed", "blocked"]).optional().default("success")
+      })
+    },
+    async (args) => jsonToolResult(await runRuntimeFinalize(args))
+  );
+
   return server;
 }
 
@@ -187,6 +289,16 @@ export async function executeRepoContextMcpTool(name: RepoContextMcpToolName, ar
       return runVerify(args as VerifyInput);
     case "repo_context_explain":
       return runExplain(args as ExplainInput);
+    case "repo_context_start_loop":
+      return runStartLoop(args as RuntimeStartInput);
+    case "repo_context_step":
+      return runRuntimeStep(args as RuntimeStepInput);
+    case "repo_context_evaluate":
+      return runRuntimeEvaluate(args as RuntimeEvaluateInput);
+    case "repo_context_repair":
+      return runRuntimeRepair(args as RuntimeRepairInput);
+    case "repo_context_finalize":
+      return runRuntimeFinalize(args as RuntimeFinalizeInput);
   }
 }
 
@@ -224,6 +336,45 @@ interface VerifyInput {
 interface ExplainInput {
   repo?: string;
   targetPath: string;
+}
+
+interface RuntimeStartInput extends PlanInput {
+  agent?: "codex" | "claude-code" | "cursor" | "librechat" | "openhands" | "other";
+  base?: string;
+}
+
+interface RuntimeStepInput {
+  repo?: string;
+  traceId: string;
+  agent?: string;
+  action: string;
+  files?: string[];
+  reason?: string;
+  command?: string;
+  test?: string;
+  result?: ExecutionStepResult;
+  output?: string;
+  finalState?: ExecutionFinalState;
+}
+
+interface RuntimeEvaluateInput extends PlanInput {
+  traceId?: string;
+  base?: string;
+  phase?: LoopPhase;
+  strict?: boolean;
+}
+
+interface RuntimeRepairInput extends PlanInput {
+  traceId?: string;
+  base?: string;
+}
+
+interface RuntimeFinalizeInput {
+  repo?: string;
+  task: string;
+  traceId: string;
+  base?: string;
+  finalState?: Extract<ExecutionFinalState, "success" | "partial_success" | "failed" | "blocked">;
 }
 
 async function runBuild(args: BuildInput): Promise<RepoContextMcpResult> {
@@ -373,6 +524,156 @@ async function runExplain(args: ExplainInput): Promise<RepoContextMcpResult> {
     kind: "error",
     message: `No file or module found for: ${args.targetPath}`
   };
+}
+
+async function runStartLoop(args: RuntimeStartInput): Promise<RepoContextMcpResult> {
+  const context = await buildContextPackage(args.repo ?? ".");
+  const writeResult = writeContextPackage(context);
+  const run = writeTaskRun(context, args.task, {
+    type: args.type ?? "auto",
+    tokenBudget: args.tokenBudget,
+    base: args.base ?? "main"
+  });
+  appendExecutionTraceStep(context.scan.root, run.runId, {
+    agent: args.agent ?? "other",
+    action: "agent-runtime-start",
+    reason: `Started through MCP runtime for ${args.agent ?? "other"}.`,
+    finalState: "in_progress"
+  });
+  const loop = buildLoopControllerReport(context, args.task, {
+    phase: "preflight",
+    type: args.type ?? "auto",
+    tokenBudget: args.tokenBudget,
+    base: args.base ?? "main"
+  });
+  const delta = buildContextDelta(context, { base: args.base ?? "main" });
+
+  return {
+    runtime: "agent-native",
+    repo: context.scan.root,
+    task: args.task,
+    runId: run.runId,
+    traceId: run.runId,
+    taskRunDir: path.relative(context.scan.root, run.dir).replaceAll("\\", "/"),
+    traceFile: run.manifest.traceFile,
+    generatedFiles: writeResult.files.map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/")),
+    requiredCommands: run.manifest.requiredCommands,
+    mustInspect: run.manifest.mustInspect,
+    allowedEditGlobs: run.manifest.allowedEditGlobs,
+    avoidEditGlobs: run.manifest.avoidEditGlobs,
+    loop,
+    delta,
+    nextAction: firstDecision(loop)
+  };
+}
+
+async function runRuntimeStep(args: RuntimeStepInput): Promise<RepoContextMcpResult> {
+  const root = path.resolve(args.repo ?? ".");
+  const trace = appendExecutionTraceStep(root, args.traceId, {
+    agent: args.agent,
+    action: args.action,
+    files: args.files,
+    reason: args.reason,
+    command: args.command,
+    test: args.test,
+    result: args.result,
+    output: args.output,
+    finalState: args.finalState
+  });
+  return {
+    traceId: trace.id,
+    finalState: trace.finalState,
+    steps: trace.steps.length,
+    latestStep: trace.steps.at(-1),
+    markdown: renderExecutionTrace(trace)
+  };
+}
+
+async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<RepoContextMcpResult> {
+  const context = await buildContextPackage(args.repo ?? ".");
+  const loop = buildLoopControllerReport(context, args.task, {
+    phase: args.phase ?? "after-edit",
+    type: args.type ?? "auto",
+    tokenBudget: args.tokenBudget,
+    base: args.base ?? "main"
+  });
+  const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: args.strict });
+  const delta = buildContextDelta(context, { base: args.base ?? "main" });
+  const verifyMarkdown = renderTaskVerify(context, { base: args.base ?? "main", diff: true });
+
+  return {
+    runtime: "agent-native",
+    task: args.task,
+    traceId: args.traceId,
+    passed: policy.passed && loop.status !== "needs-repair" && loop.status !== "blocked",
+    nextAction: firstDecision(loop),
+    loop,
+    policy,
+    delta,
+    markdown: [renderLoopControllerReport(loop), "", renderPolicyReport(policy), "", renderContextDelta(delta), "", verifyMarkdown].join("\n")
+  };
+}
+
+async function runRuntimeRepair(args: RuntimeRepairInput): Promise<RepoContextMcpResult> {
+  const context = await buildContextPackage(args.repo ?? ".");
+  const loopResult = writeLoopControllerReport(context, args.task, {
+    phase: "repair",
+    type: args.type ?? "auto",
+    tokenBudget: args.tokenBudget,
+    base: args.base ?? "main"
+  });
+  const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
+  const tests = buildTestSelection(context, { diff: true, base: args.base ?? "main" });
+
+  return {
+    task: args.task,
+    traceId: args.traceId,
+    loop: loopResult.report,
+    policy,
+    repairFiles: loopResult.files.map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/")),
+    requiredActions: unique([
+      ...loopResult.report.decisions.map((decision) => decision.command).filter((command): command is string => Boolean(command)),
+      ...policy.findings.map((finding) => finding.requiredAction).filter((command): command is string => Boolean(command)),
+      ...tests.fullConfidenceCommands
+    ]),
+    markdown: [renderLoopControllerReport(loopResult.report), "", renderPolicyReport(policy)].join("\n")
+  };
+}
+
+async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<RepoContextMcpResult> {
+  const context = await buildContextPackage(args.repo ?? ".");
+  const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
+  const traceBefore = readExecutionTrace(context.scan.root, args.traceId);
+  const trace = appendExecutionTraceStep(context.scan.root, args.traceId, {
+    action: "finalize",
+    reason: policy.passed ? "Runtime policy passed; finalizing runtime loop." : "Runtime policy failed; finalizing with unresolved findings.",
+    result: policy.passed ? "passed" : "failed",
+    finalState: policy.passed ? (args.finalState ?? "success") : "blocked"
+  });
+  const loop = buildLoopControllerReport(context, args.task, { phase: "after-edit", base: args.base ?? "main" });
+
+  return {
+    task: args.task,
+    traceId: trace.id,
+    previousFinalState: traceBefore?.finalState ?? null,
+    finalState: trace.finalState,
+    passed: policy.passed,
+    loop,
+    policy,
+    markdown: [renderPolicyReport(policy), "", renderExecutionTrace(trace)].join("\n")
+  };
+}
+
+function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): RepoContextMcpResult {
+  const decision = loop.decisions[0];
+  return decision
+    ? {
+        action: decision.action,
+        priority: decision.priority,
+        reason: decision.reason,
+        command: decision.command
+      }
+    : { action: "ready-for-review" };
 }
 
 function confidenceForScore(score: number): "high" | "medium" | "low" {

@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 10045,
-  "remainingBudget": 1955,
+  "estimatedTokens": 10160,
+  "remainingBudget": 1840,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -69,13 +69,14 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 30,
+      "score": 58,
       "reasons": [
+        "direct importer of src/outputs/context-delta.ts",
         "entrypoint",
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 226
+      "estimatedTokens": 324
     },
     {
       "path": "test/context-delta.test.ts",
@@ -116,15 +117,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -141,6 +133,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -239,7 +240,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 61
+      "estimatedTokens": 78
     },
     {
       "path": "test/retrievers.test.ts",
@@ -441,6 +442,36 @@
       "estimatedTokens": 200
     },
     {
+      "path": "src/outputs/task-run.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 196
+    },
+    {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 252
+    },
+    {
+      "path": "src/outputs/policy-engine.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 242
+    },
+    {
       "path": "src/core/context-builder.ts",
       "score": 46,
       "reasons": [
@@ -479,36 +510,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 226
-    },
-    {
-      "path": "src/outputs/task-run.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 196
-    },
-    {
-      "path": "src/outputs/loop-controller.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 252
-    },
-    {
-      "path": "src/outputs/policy-engine.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 242
     },
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -794,15 +795,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 8,
       "reasons": [
@@ -812,7 +804,25 @@
       "estimatedTokens": 40
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 42
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
         "configuration"
@@ -828,15 +838,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -940,13 +941,14 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 30,
+      "score": 58,
       "reasons": [
+        "direct importer of src/outputs/context-delta.ts",
         "entrypoint",
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 226
+      "estimatedTokens": 324
     }
   ],
   "inspectIfNeeded": [
@@ -989,15 +991,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -1014,6 +1007,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -1099,8 +1101,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 10045,
-    "remaining": 1955,
+    "used": 10160,
+    "remaining": 1840,
     "buckets": [
       {
         "name": "direct-source",
@@ -1117,15 +1119,15 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2088,
+        "tokens": 2105,
         "files": [
           "test/context-delta.test.ts",
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/contract-validator.test.ts",
           "test/execution-trace.test.ts",
@@ -1165,13 +1167,13 @@
           "src/outputs/task-harness.ts",
           "src/outputs/contract-validator.ts",
           "src/outputs/execution-trace.ts",
+          "src/outputs/task-run.ts",
+          "src/outputs/loop-controller.ts",
+          "src/outputs/policy-engine.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
           "src/outputs/impact.ts",
           "src/outputs/test-selector.ts",
-          "src/outputs/task-run.ts",
-          "src/outputs/loop-controller.ts",
-          "src/outputs/policy-engine.ts",
           "src/benchmarks/benchmark.ts",
           "src/retrievers/index.ts",
           "src/core/cache.ts",
@@ -1210,11 +1212,11 @@
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
+          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
-          "benchmarks/fixtures/monorepo/packages/web/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -1224,7 +1226,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 454,
+        "tokens": 552,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -1239,7 +1241,7 @@
   ],
   "retrieval": {
     "directMatches": 5,
-    "dependencyNeighbors": 39,
+    "dependencyNeighbors": 40,
     "tests": 31,
     "configDocs": 17
   }

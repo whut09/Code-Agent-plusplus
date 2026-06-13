@@ -2,8 +2,8 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 2773,
-  "remainingBudget": 9227,
+  "estimatedTokens": 2979,
+  "remainingBudget": 9021,
   "files": [
     {
       "path": "src/core/freshness.ts",
@@ -51,31 +51,31 @@
       "estimatedTokens": 200
     },
     {
-      "path": "src/core/context-builder.ts",
-      "score": 68,
+      "path": "src/outputs/task-run.ts",
+      "score": 71,
       "reasons": [
         "key file fallback"
       ],
       "category": "direct-source",
-      "estimatedTokens": 106
+      "estimatedTokens": 196
     },
     {
-      "path": "src/outputs/writer.ts",
-      "score": 68,
+      "path": "src/outputs/loop-controller.ts",
+      "score": 70,
       "reasons": [
         "key file fallback"
       ],
       "category": "direct-source",
-      "estimatedTokens": 246
+      "estimatedTokens": 252
     },
     {
-      "path": "src/outputs/impact.ts",
-      "score": 67,
+      "path": "src/outputs/policy-engine.ts",
+      "score": 70,
       "reasons": [
         "key file fallback"
       ],
       "category": "direct-source",
-      "estimatedTokens": 230
+      "estimatedTokens": 242
     },
     {
       "path": "src/mcp/server.ts",
@@ -85,7 +85,7 @@
         "key file fallback"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 226
+      "estimatedTokens": 324
     },
     {
       "path": "src/cli/index.ts",
@@ -134,15 +134,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 16,
       "reasons": [
@@ -152,7 +143,25 @@
       "estimatedTokens": 40
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 42
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
         "configuration"
@@ -168,15 +177,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -262,31 +262,31 @@
       "estimatedTokens": 200
     },
     {
-      "path": "src/core/context-builder.ts",
-      "score": 68,
+      "path": "src/outputs/task-run.ts",
+      "score": 71,
       "reasons": [
         "key file fallback"
       ],
       "category": "direct-source",
-      "estimatedTokens": 106
+      "estimatedTokens": 196
     },
     {
-      "path": "src/outputs/writer.ts",
-      "score": 68,
+      "path": "src/outputs/loop-controller.ts",
+      "score": 70,
       "reasons": [
         "key file fallback"
       ],
       "category": "direct-source",
-      "estimatedTokens": 246
+      "estimatedTokens": 252
     },
     {
-      "path": "src/outputs/impact.ts",
-      "score": 67,
+      "path": "src/outputs/policy-engine.ts",
+      "score": 70,
       "reasons": [
         "key file fallback"
       ],
       "category": "direct-source",
-      "estimatedTokens": 230
+      "estimatedTokens": 242
     }
   ],
   "inspectIfNeeded": [
@@ -327,15 +327,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 16,
       "reasons": [
@@ -345,7 +336,25 @@
       "estimatedTokens": 40
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 42
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
         "configuration"
@@ -361,15 +370,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -410,22 +410,22 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 2773,
-    "remaining": 9227,
+    "used": 2979,
+    "remaining": 9021,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 1808,
+        "tokens": 1916,
         "files": [
           "src/core/freshness.ts",
           "src/outputs/task-harness.ts",
           "src/outputs/contract-validator.ts",
           "src/core/token-estimator.ts",
           "src/outputs/execution-trace.ts",
-          "src/core/context-builder.ts",
-          "src/outputs/writer.ts",
-          "src/outputs/impact.ts"
+          "src/outputs/task-run.ts",
+          "src/outputs/loop-controller.ts",
+          "src/outputs/policy-engine.ts"
         ]
       },
       {
@@ -449,11 +449,11 @@
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
+          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
-          "benchmarks/fixtures/monorepo/packages/web/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -463,7 +463,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 454,
+        "tokens": 552,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"

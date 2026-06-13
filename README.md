@@ -77,6 +77,7 @@ repo-context drift .
 - ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态。
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据。
 - ✅ context delta / evolve：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件，避免大仓库里无脑全量阅读。
+- ✅ MCP / Agent Native Runtime：给 Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 提供 start_loop / step / evaluate / repair / finalize 后端工具。
 - 🧪 benchmark：提供 fixture benchmark 和手工 Agent run 样例，用来衡量上下文质量。
 - 🧪 hybrid retrieve：统一 static / ripgrep 检索协议，为 RAG、MCP、编辑器扩展留接口。
 - 🚧 real agent benchmark：计划接入真实 Codex / Claude Code 运行数据。
@@ -96,6 +97,7 @@ repo-context drift .
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
 | context delta / evolve                         | ✅ implemented  |
+| MCP Agent Native Runtime                       | ✅ implemented  |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |
@@ -168,6 +170,20 @@ repo-context benchmark [benchmarkDir] --top-k 8
 repo-context retrieve "<task>" [repo] --provider hybrid
 repo-context-mcp
 ```
+
+## MCP / Agent Native Runtime
+
+`repo-context-mcp` 不只是查询工具，它可以作为 Agent Runtime Backend 被 Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 或自研 Agent 调用：
+
+```txt
+repo_context_start_loop
+repo_context_step
+repo_context_evaluate
+repo_context_repair
+repo_context_finalize
+```
+
+典型闭环是：start_loop 生成任务运行目录和 trace，step 记录编辑/测试/验证动作，evaluate 汇总 delta、loop、policy、verify 信号，repair 产出修复动作，finalize 在测试和 contract 证据齐全后收口。
 
 ## LLM 摘要配置
 

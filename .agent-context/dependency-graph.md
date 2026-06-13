@@ -56,7 +56,7 @@ graph TD
 | core | outputs | 3 |
 | llm | core | 1 |
 | mcp | core | 1 |
-| mcp | outputs | 5 |
+| mcp | outputs | 10 |
 | mcp | retrievers | 2 |
 | outputs | core | 38 |
 | retrievers | core | 3 |

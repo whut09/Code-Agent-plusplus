@@ -10,9 +10,9 @@ Recommended: repo-context evolve . --base main
 | `README.en.md` | modified | docs | root |
 | `README.md` | modified | docs | root |
 | `README.zh-CN.md` | modified | docs | root |
-| `src/cli/index.ts` | modified | source | cli |
-| `src/outputs/context-delta.ts` | added | source | outputs |
-| `test/context-delta.test.ts` | added | test | test |
+| `repo-context.config.yml` | modified | config | root |
+| `src/mcp/server.ts` | modified | source | mcp |
+| `test/mcp.test.ts` | modified | test | test |
 
 ## What Context Must Update
 - `.agent-context/AGENTS.generated.md`
@@ -49,40 +49,27 @@ Recommended: repo-context evolve . --base main
 - `README.en.md`
 - `README.md`
 - `README.zh-CN.md`
-- `src/benchmarks/benchmark.ts`
-- `src/cli/index.ts`
-- `src/cli/task-args.ts`
-- `src/config/starter-config.ts`
+- `repo-context.config.yml`
 - `src/core/context-builder.ts`
-- `src/core/freshness.ts`
 - `src/core/git.ts`
-- `src/core/readiness.ts`
-- `src/core/token-estimator.ts`
-- `src/core/token-savings.ts`
-- `src/core/types.ts`
-- `src/core/validator.ts`
+- `src/mcp/server.ts`
 - `src/outputs/context-delta.ts`
-- `src/outputs/contract-validator.ts`
-- `src/outputs/dependency-graph.ts`
 - `src/outputs/execution-trace.ts`
 - `src/outputs/impact.ts`
 - `src/outputs/loop-controller.ts`
-- `src/outputs/markdown.ts`
 - `src/outputs/policy-engine.ts`
-- `src/outputs/rag.ts`
 - `src/outputs/task-context.ts`
 - `src/outputs/task-harness.ts`
 - `src/outputs/task-run.ts`
 - `src/outputs/test-selector.ts`
 - `src/outputs/writer.ts`
 - `src/retrievers/index.ts`
-- `test/context-delta.test.ts`
+- `src/retrievers/types.ts`
+- `test/mcp.test.ts`
 
 ## Affected Modules
-- `benchmarks`
-- `cli`
-- `config`
 - `core`
+- `mcp`
 - `outputs`
 - `retrievers`
 - `root`
@@ -92,37 +79,23 @@ Recommended: repo-context evolve . --base main
 - `README.en.md`
 - `README.md`
 - `README.zh-CN.md`
-- `src/benchmarks/benchmark.ts`
-- `src/cli/index.ts`
-- `src/cli/task-args.ts`
-- `src/config/starter-config.ts`
+- `repo-context.config.yml`
 - `src/core/context-builder.ts`
-- `src/core/freshness.ts`
 - `src/core/git.ts`
-- `src/core/readiness.ts`
-- `src/core/token-estimator.ts`
-- `src/core/token-savings.ts`
-- `src/core/types.ts`
-- `src/core/validator.ts`
 - `src/mcp/server.ts`
 - `src/outputs/context-delta.ts`
-- `src/outputs/contract-validator.ts`
-- `src/outputs/dependency-graph.ts`
 - `src/outputs/execution-trace.ts`
 - `src/outputs/impact.ts`
 - `src/outputs/loop-controller.ts`
-- `src/outputs/markdown.ts`
 - `src/outputs/policy-engine.ts`
-- `src/outputs/rag.ts`
 - `src/outputs/task-context.ts`
 - `src/outputs/task-harness.ts`
 - `src/outputs/task-run.ts`
 - `src/outputs/test-selector.ts`
 - `src/outputs/writer.ts`
 - `src/retrievers/index.ts`
-- `test/context-delta.test.ts`
-- `test/fixtures/monorepo/packages/api/src/index.ts`
-- `test/fixtures/monorepo/packages/web/src/index.ts`
+- `src/retrievers/types.ts`
+- `test/mcp.test.ts`
 
 ## Task Packs To Refresh
 - `bugfix`
@@ -131,6 +104,6 @@ Recommended: repo-context evolve . --base main
 
 ## Reasons
 - 6 changed file(s) detected from git diff/status.
-- 31 graph node(s) are adjacent to changed files.
-- 8 module(s) may need refreshed summaries or boundaries.
+- 20 graph node(s) are adjacent to changed files.
+- 6 module(s) may need refreshed summaries or boundaries.
 - 13 context output area(s) are marked stale.
