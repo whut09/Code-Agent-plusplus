@@ -373,10 +373,10 @@
   {
     "path": "README.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 9653,
+    "sizeBytes": 296,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2414,
+    "tokenEstimate": 74,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -10082,609 +10082,6 @@
     ]
   },
   {
-    "path": "src/config/defaults.ts",
-    "extension": ".ts",
-    "sizeBytes": 1110,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 278,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "DEFAULT_CONFIG",
-      "DEFAULT_EXCLUDES"
-    ],
-    "symbols": [
-      {
-        "name": "DEFAULT_EXCLUDES",
-        "kind": "const",
-        "filePath": "src/config/defaults.ts",
-        "line": 3
-      },
-      {
-        "name": "DEFAULT_CONFIG",
-        "kind": "const",
-        "filePath": "src/config/defaults.ts",
-        "line": 24
-      }
-    ],
-    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "DEFAULT_EXCLUDES",
-        "detail": "Declares const DEFAULT_EXCLUDES."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "DEFAULT_EXCLUDES",
-        "detail": "Exports DEFAULT_EXCLUDES."
-      },
-      {
-        "line": 24,
-        "kind": "symbol",
-        "symbol": "DEFAULT_CONFIG",
-        "detail": "Declares const DEFAULT_CONFIG."
-      },
-      {
-        "line": 24,
-        "kind": "export",
-        "symbol": "DEFAULT_CONFIG",
-        "detail": "Exports DEFAULT_CONFIG."
-      }
-    ],
-    "moduleName": "config",
-    "importanceScore": 29,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
-      "2 inbound dependencies",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/config/load-config.ts",
-    "extension": ".ts",
-    "sizeBytes": 11617,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 2905,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "node:fs",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:path",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "js-yaml",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "./defaults.js",
-        "resolvedPath": "src/config/defaults.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "loadConfig",
-      "validateConfig"
-    ],
-    "symbols": [
-      {
-        "name": "CONFIG_FILES",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 7
-      },
-      {
-        "name": "LOCAL_CONFIG_FILES",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 9
-      },
-      {
-        "name": "loadConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 11
-      },
-      {
-        "name": "configPath",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 12
-      },
-      {
-        "name": "localConfigPath",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 13
-      },
-      {
-        "name": "fileConfig",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 14
-      },
-      {
-        "name": "localConfig",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 15
-      },
-      {
-        "name": "config",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 17
-      },
-      {
-        "name": "readConfigFile",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 63
-      },
-      {
-        "name": "raw",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 64
-      },
-      {
-        "name": "parsed",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 66
-      },
-      {
-        "name": "normalizeConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 74
-      },
-      {
-        "name": "target",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 79
-      },
-      {
-        "name": "validateConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 93
-      },
-      {
-        "name": "allowedSections",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 115
-      },
-      {
-        "name": "toStringArray",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 134
-      },
-      {
-        "name": "validateRawConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 142
-      },
-      {
-        "name": "value",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 153
-      },
-      {
-        "name": "rag",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 160
-      },
-      {
-        "name": "llm",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 169
-      },
-      {
-        "name": "tokenizer",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 178
-      },
-      {
-        "name": "agents",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 187
-      },
-      {
-        "name": "allowedSections",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 194
-      },
-      {
-        "name": "normalizeTokenizerConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 211
-      },
-      {
-        "name": "normalizeAgentsConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 218
-      },
-      {
-        "name": "toAgentsSectionArray",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 227
-      },
-      {
-        "name": "validateBooleanObject",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 235
-      },
-      {
-        "name": "record",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 237
-      },
-      {
-        "name": "objectValue",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 248
-      },
-      {
-        "name": "stripUndefined",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 255
-      }
-    ],
-    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 2,
-      "importsUnresolved": 3,
-      "symbolsDetected": 30,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports node:fs."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports node:path."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports js-yaml."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports ./defaults.js."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "CONFIG_FILES",
-        "detail": "Declares const CONFIG_FILES."
-      },
-      {
-        "line": 9,
-        "kind": "symbol",
-        "symbol": "LOCAL_CONFIG_FILES",
-        "detail": "Declares const LOCAL_CONFIG_FILES."
-      },
-      {
-        "line": 11,
-        "kind": "symbol",
-        "symbol": "loadConfig",
-        "detail": "Declares function loadConfig."
-      },
-      {
-        "line": 11,
-        "kind": "export",
-        "symbol": "loadConfig",
-        "detail": "Exports loadConfig."
-      },
-      {
-        "line": 12,
-        "kind": "symbol",
-        "symbol": "configPath",
-        "detail": "Declares const configPath."
-      },
-      {
-        "line": 13,
-        "kind": "symbol",
-        "symbol": "localConfigPath",
-        "detail": "Declares const localConfigPath."
-      },
-      {
-        "line": 14,
-        "kind": "symbol",
-        "symbol": "fileConfig",
-        "detail": "Declares const fileConfig."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "localConfig",
-        "detail": "Declares const localConfig."
-      },
-      {
-        "line": 17,
-        "kind": "symbol",
-        "symbol": "config",
-        "detail": "Declares const config."
-      },
-      {
-        "line": 63,
-        "kind": "symbol",
-        "symbol": "readConfigFile",
-        "detail": "Declares function readConfigFile."
-      },
-      {
-        "line": 64,
-        "kind": "symbol",
-        "symbol": "raw",
-        "detail": "Declares const raw."
-      },
-      {
-        "line": 66,
-        "kind": "symbol",
-        "symbol": "parsed",
-        "detail": "Declares const parsed."
-      },
-      {
-        "line": 74,
-        "kind": "symbol",
-        "symbol": "normalizeConfig",
-        "detail": "Declares function normalizeConfig."
-      },
-      {
-        "line": 79,
-        "kind": "symbol",
-        "symbol": "target",
-        "detail": "Declares const target."
-      },
-      {
-        "line": 93,
-        "kind": "symbol",
-        "symbol": "validateConfig",
-        "detail": "Declares function validateConfig."
-      },
-      {
-        "line": 93,
-        "kind": "export",
-        "symbol": "validateConfig",
-        "detail": "Exports validateConfig."
-      },
-      {
-        "line": 115,
-        "kind": "symbol",
-        "symbol": "allowedSections",
-        "detail": "Declares const allowedSections."
-      },
-      {
-        "line": 134,
-        "kind": "symbol",
-        "symbol": "toStringArray",
-        "detail": "Declares function toStringArray."
-      },
-      {
-        "line": 142,
-        "kind": "symbol",
-        "symbol": "validateRawConfig",
-        "detail": "Declares function validateRawConfig."
-      },
-      {
-        "line": 153,
-        "kind": "symbol",
-        "symbol": "value",
-        "detail": "Declares const value."
-      },
-      {
-        "line": 160,
-        "kind": "symbol",
-        "symbol": "rag",
-        "detail": "Declares const rag."
-      },
-      {
-        "line": 169,
-        "kind": "symbol",
-        "symbol": "llm",
-        "detail": "Declares const llm."
-      },
-      {
-        "line": 178,
-        "kind": "symbol",
-        "symbol": "tokenizer",
-        "detail": "Declares const tokenizer."
-      },
-      {
-        "line": 187,
-        "kind": "symbol",
-        "symbol": "agents",
-        "detail": "Declares const agents."
-      },
-      {
-        "line": 194,
-        "kind": "symbol",
-        "symbol": "allowedSections",
-        "detail": "Declares const allowedSections."
-      },
-      {
-        "line": 211,
-        "kind": "symbol",
-        "symbol": "normalizeTokenizerConfig",
-        "detail": "Declares function normalizeTokenizerConfig."
-      },
-      {
-        "line": 218,
-        "kind": "symbol",
-        "symbol": "normalizeAgentsConfig",
-        "detail": "Declares function normalizeAgentsConfig."
-      },
-      {
-        "line": 227,
-        "kind": "symbol",
-        "symbol": "toAgentsSectionArray",
-        "detail": "Declares function toAgentsSectionArray."
-      },
-      {
-        "line": 235,
-        "kind": "symbol",
-        "symbol": "validateBooleanObject",
-        "detail": "Declares function validateBooleanObject."
-      },
-      {
-        "line": 237,
-        "kind": "symbol",
-        "symbol": "record",
-        "detail": "Declares const record."
-      },
-      {
-        "line": 248,
-        "kind": "symbol",
-        "symbol": "objectValue",
-        "detail": "Declares function objectValue."
-      },
-      {
-        "line": 255,
-        "kind": "symbol",
-        "symbol": "stripUndefined",
-        "detail": "Declares function stripUndefined."
-      }
-    ],
-    "moduleName": "config",
-    "importanceScore": 48,
-    "importanceReasons": [
-      "2 exports",
-      "30 symbols",
-      "2 inbound dependencies",
-      "5 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/config/starter-config.ts",
-    "extension": ".ts",
-    "sizeBytes": 540,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 135,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "starterConfig"
-    ],
-    "symbols": [
-      {
-        "name": "starterConfig",
-        "kind": "function",
-        "filePath": "src/config/starter-config.ts",
-        "line": 1
-      }
-    ],
-    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "starterConfig",
-        "detail": "Declares function starterConfig."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "starterConfig",
-        "detail": "Exports starterConfig."
-      }
-    ],
-    "moduleName": "config",
-    "importanceScore": 21,
-    "importanceReasons": [
-      "1 export",
-      "1 symbol",
-      "2 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "src/cli/index.ts",
     "extension": ".ts",
     "sizeBytes": 32438,
@@ -12208,6 +11605,609 @@
     ]
   },
   {
+    "path": "src/config/defaults.ts",
+    "extension": ".ts",
+    "sizeBytes": 1110,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 278,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "DEFAULT_CONFIG",
+      "DEFAULT_EXCLUDES"
+    ],
+    "symbols": [
+      {
+        "name": "DEFAULT_EXCLUDES",
+        "kind": "const",
+        "filePath": "src/config/defaults.ts",
+        "line": 3
+      },
+      {
+        "name": "DEFAULT_CONFIG",
+        "kind": "const",
+        "filePath": "src/config/defaults.ts",
+        "line": 24
+      }
+    ],
+    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "DEFAULT_EXCLUDES",
+        "detail": "Declares const DEFAULT_EXCLUDES."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "DEFAULT_EXCLUDES",
+        "detail": "Exports DEFAULT_EXCLUDES."
+      },
+      {
+        "line": 24,
+        "kind": "symbol",
+        "symbol": "DEFAULT_CONFIG",
+        "detail": "Declares const DEFAULT_CONFIG."
+      },
+      {
+        "line": 24,
+        "kind": "export",
+        "symbol": "DEFAULT_CONFIG",
+        "detail": "Exports DEFAULT_CONFIG."
+      }
+    ],
+    "moduleName": "config",
+    "importanceScore": 29,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "2 inbound dependencies",
+      "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/config/load-config.ts",
+    "extension": ".ts",
+    "sizeBytes": 11617,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 2905,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "js-yaml",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "./defaults.js",
+        "resolvedPath": "src/config/defaults.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "loadConfig",
+      "validateConfig"
+    ],
+    "symbols": [
+      {
+        "name": "CONFIG_FILES",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 7
+      },
+      {
+        "name": "LOCAL_CONFIG_FILES",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 9
+      },
+      {
+        "name": "loadConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 11
+      },
+      {
+        "name": "configPath",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 12
+      },
+      {
+        "name": "localConfigPath",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 13
+      },
+      {
+        "name": "fileConfig",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 14
+      },
+      {
+        "name": "localConfig",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 15
+      },
+      {
+        "name": "config",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 17
+      },
+      {
+        "name": "readConfigFile",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 63
+      },
+      {
+        "name": "raw",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 64
+      },
+      {
+        "name": "parsed",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 66
+      },
+      {
+        "name": "normalizeConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 74
+      },
+      {
+        "name": "target",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 79
+      },
+      {
+        "name": "validateConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 93
+      },
+      {
+        "name": "allowedSections",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 115
+      },
+      {
+        "name": "toStringArray",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 134
+      },
+      {
+        "name": "validateRawConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 142
+      },
+      {
+        "name": "value",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 153
+      },
+      {
+        "name": "rag",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 160
+      },
+      {
+        "name": "llm",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 169
+      },
+      {
+        "name": "tokenizer",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 178
+      },
+      {
+        "name": "agents",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 187
+      },
+      {
+        "name": "allowedSections",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 194
+      },
+      {
+        "name": "normalizeTokenizerConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 211
+      },
+      {
+        "name": "normalizeAgentsConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 218
+      },
+      {
+        "name": "toAgentsSectionArray",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 227
+      },
+      {
+        "name": "validateBooleanObject",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 235
+      },
+      {
+        "name": "record",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 237
+      },
+      {
+        "name": "objectValue",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 248
+      },
+      {
+        "name": "stripUndefined",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 255
+      }
+    ],
+    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 2,
+      "importsUnresolved": 3,
+      "symbolsDetected": 30,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports js-yaml."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports ./defaults.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "CONFIG_FILES",
+        "detail": "Declares const CONFIG_FILES."
+      },
+      {
+        "line": 9,
+        "kind": "symbol",
+        "symbol": "LOCAL_CONFIG_FILES",
+        "detail": "Declares const LOCAL_CONFIG_FILES."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "loadConfig",
+        "detail": "Declares function loadConfig."
+      },
+      {
+        "line": 11,
+        "kind": "export",
+        "symbol": "loadConfig",
+        "detail": "Exports loadConfig."
+      },
+      {
+        "line": 12,
+        "kind": "symbol",
+        "symbol": "configPath",
+        "detail": "Declares const configPath."
+      },
+      {
+        "line": 13,
+        "kind": "symbol",
+        "symbol": "localConfigPath",
+        "detail": "Declares const localConfigPath."
+      },
+      {
+        "line": 14,
+        "kind": "symbol",
+        "symbol": "fileConfig",
+        "detail": "Declares const fileConfig."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "localConfig",
+        "detail": "Declares const localConfig."
+      },
+      {
+        "line": 17,
+        "kind": "symbol",
+        "symbol": "config",
+        "detail": "Declares const config."
+      },
+      {
+        "line": 63,
+        "kind": "symbol",
+        "symbol": "readConfigFile",
+        "detail": "Declares function readConfigFile."
+      },
+      {
+        "line": 64,
+        "kind": "symbol",
+        "symbol": "raw",
+        "detail": "Declares const raw."
+      },
+      {
+        "line": 66,
+        "kind": "symbol",
+        "symbol": "parsed",
+        "detail": "Declares const parsed."
+      },
+      {
+        "line": 74,
+        "kind": "symbol",
+        "symbol": "normalizeConfig",
+        "detail": "Declares function normalizeConfig."
+      },
+      {
+        "line": 79,
+        "kind": "symbol",
+        "symbol": "target",
+        "detail": "Declares const target."
+      },
+      {
+        "line": 93,
+        "kind": "symbol",
+        "symbol": "validateConfig",
+        "detail": "Declares function validateConfig."
+      },
+      {
+        "line": 93,
+        "kind": "export",
+        "symbol": "validateConfig",
+        "detail": "Exports validateConfig."
+      },
+      {
+        "line": 115,
+        "kind": "symbol",
+        "symbol": "allowedSections",
+        "detail": "Declares const allowedSections."
+      },
+      {
+        "line": 134,
+        "kind": "symbol",
+        "symbol": "toStringArray",
+        "detail": "Declares function toStringArray."
+      },
+      {
+        "line": 142,
+        "kind": "symbol",
+        "symbol": "validateRawConfig",
+        "detail": "Declares function validateRawConfig."
+      },
+      {
+        "line": 153,
+        "kind": "symbol",
+        "symbol": "value",
+        "detail": "Declares const value."
+      },
+      {
+        "line": 160,
+        "kind": "symbol",
+        "symbol": "rag",
+        "detail": "Declares const rag."
+      },
+      {
+        "line": 169,
+        "kind": "symbol",
+        "symbol": "llm",
+        "detail": "Declares const llm."
+      },
+      {
+        "line": 178,
+        "kind": "symbol",
+        "symbol": "tokenizer",
+        "detail": "Declares const tokenizer."
+      },
+      {
+        "line": 187,
+        "kind": "symbol",
+        "symbol": "agents",
+        "detail": "Declares const agents."
+      },
+      {
+        "line": 194,
+        "kind": "symbol",
+        "symbol": "allowedSections",
+        "detail": "Declares const allowedSections."
+      },
+      {
+        "line": 211,
+        "kind": "symbol",
+        "symbol": "normalizeTokenizerConfig",
+        "detail": "Declares function normalizeTokenizerConfig."
+      },
+      {
+        "line": 218,
+        "kind": "symbol",
+        "symbol": "normalizeAgentsConfig",
+        "detail": "Declares function normalizeAgentsConfig."
+      },
+      {
+        "line": 227,
+        "kind": "symbol",
+        "symbol": "toAgentsSectionArray",
+        "detail": "Declares function toAgentsSectionArray."
+      },
+      {
+        "line": 235,
+        "kind": "symbol",
+        "symbol": "validateBooleanObject",
+        "detail": "Declares function validateBooleanObject."
+      },
+      {
+        "line": 237,
+        "kind": "symbol",
+        "symbol": "record",
+        "detail": "Declares const record."
+      },
+      {
+        "line": 248,
+        "kind": "symbol",
+        "symbol": "objectValue",
+        "detail": "Declares function objectValue."
+      },
+      {
+        "line": 255,
+        "kind": "symbol",
+        "symbol": "stripUndefined",
+        "detail": "Declares function stripUndefined."
+      }
+    ],
+    "moduleName": "config",
+    "importanceScore": 48,
+    "importanceReasons": [
+      "2 exports",
+      "30 symbols",
+      "2 inbound dependencies",
+      "5 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/config/starter-config.ts",
+    "extension": ".ts",
+    "sizeBytes": 540,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 135,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "starterConfig"
+    ],
+    "symbols": [
+      {
+        "name": "starterConfig",
+        "kind": "function",
+        "filePath": "src/config/starter-config.ts",
+        "line": 1
+      }
+    ],
+    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "starterConfig",
+        "detail": "Declares function starterConfig."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "starterConfig",
+        "detail": "Exports starterConfig."
+      }
+    ],
+    "moduleName": "config",
+    "importanceScore": 21,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "2 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "src/llm/provider.ts",
     "extension": ".ts",
     "sizeBytes": 1914,
@@ -12374,6 +12374,1225 @@
       "9 symbols",
       "1 inbound dependency",
       "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/mcp/server.ts",
+    "extension": ".ts",
+    "sizeBytes": 24218,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 6055,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:url",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "@modelcontextprotocol/sdk/server/mcp.js",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "@modelcontextprotocol/sdk/server/stdio.js",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "zod/v4",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../core/context-builder.js",
+        "resolvedPath": "src/core/context-builder.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/context-delta.js",
+        "resolvedPath": "src/outputs/context-delta.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/impact.js",
+        "resolvedPath": "src/outputs/impact.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/loop-controller.js",
+        "resolvedPath": "src/outputs/loop-controller.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/policy-engine.js",
+        "resolvedPath": "src/outputs/policy-engine.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/task-harness.js",
+        "resolvedPath": "src/outputs/task-harness.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/task-context.js",
+        "resolvedPath": "src/outputs/task-context.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/test-selector.js",
+        "resolvedPath": "src/outputs/test-selector.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/execution-trace.js",
+        "resolvedPath": "src/outputs/execution-trace.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/task-run.js",
+        "resolvedPath": "src/outputs/task-run.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/writer.js",
+        "resolvedPath": "src/outputs/writer.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../retrievers/index.js",
+        "resolvedPath": "src/retrievers/index.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../retrievers/types.js",
+        "resolvedPath": "src/retrievers/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "createRepoContextMcpServer",
+      "executeRepoContextMcpTool",
+      "repoContextMcpToolNames",
+      "runRepoContextMcpServer"
+    ],
+    "symbols": [
+      {
+        "name": "repoContextMcpToolNames",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 26
+      },
+      {
+        "name": "RepoContextMcpToolName",
+        "kind": "type",
+        "filePath": "src/mcp/server.ts",
+        "line": 42
+      },
+      {
+        "name": "RepoContextMcpResult",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 44
+      },
+      {
+        "name": "RetrieveArguments",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 48
+      },
+      {
+        "name": "createRepoContextMcpServer",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 58
+      },
+      {
+        "name": "server",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 59
+      },
+      {
+        "name": "runRepoContextMcpServer",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 268
+      },
+      {
+        "name": "server",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 269
+      },
+      {
+        "name": "transport",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 270
+      },
+      {
+        "name": "executeRepoContextMcpTool",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 274
+      },
+      {
+        "name": "BuildInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 305
+      },
+      {
+        "name": "PlanInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 309
+      },
+      {
+        "name": "PackInput",
+        "kind": "type",
+        "filePath": "src/mcp/server.ts",
+        "line": 316
+      },
+      {
+        "name": "TestsInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 318
+      },
+      {
+        "name": "ImpactInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 325
+      },
+      {
+        "name": "VerifyInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 330
+      },
+      {
+        "name": "ExplainInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 336
+      },
+      {
+        "name": "RuntimeStartInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 341
+      },
+      {
+        "name": "RuntimeStepInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 346
+      },
+      {
+        "name": "RuntimeEvaluateInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 360
+      },
+      {
+        "name": "RuntimeRepairInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 367
+      },
+      {
+        "name": "RuntimeFinalizeInput",
+        "kind": "interface",
+        "filePath": "src/mcp/server.ts",
+        "line": 372
+      },
+      {
+        "name": "runBuild",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 380
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 381
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 388
+      },
+      {
+        "name": "runTaskPlan",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 407
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 408
+      },
+      {
+        "name": "markdown",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 409
+      },
+      {
+        "name": "runTaskPack",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 417
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 418
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 419
+      },
+      {
+        "name": "runRetrieve",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 429
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 430
+      },
+      {
+        "name": "retriever",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 431
+      },
+      {
+        "name": "hits",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 432
+      },
+      {
+        "name": "selectionPaths",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 438
+      },
+      {
+        "name": "selection",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 445
+      },
+      {
+        "name": "runTests",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 464
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 465
+      },
+      {
+        "name": "report",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 466
+      },
+      {
+        "name": "runImpact",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 477
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 478
+      },
+      {
+        "name": "report",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 479
+      },
+      {
+        "name": "runVerify",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 486
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 487
+      },
+      {
+        "name": "runExplain",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 493
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 494
+      },
+      {
+        "name": "targetPath",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 495
+      },
+      {
+        "name": "file",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 496
+      },
+      {
+        "name": "module",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 512
+      },
+      {
+        "name": "runStartLoop",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 529
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 530
+      },
+      {
+        "name": "writeResult",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 531
+      },
+      {
+        "name": "run",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 532
+      },
+      {
+        "name": "loop",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 543
+      },
+      {
+        "name": "delta",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 549
+      },
+      {
+        "name": "runRuntimeStep",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 570
+      },
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 571
+      },
+      {
+        "name": "trace",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 572
+      },
+      {
+        "name": "runRuntimeEvaluate",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 592
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 593
+      },
+      {
+        "name": "loop",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 594
+      },
+      {
+        "name": "policy",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 600
+      },
+      {
+        "name": "delta",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 601
+      },
+      {
+        "name": "verifyMarkdown",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 602
+      },
+      {
+        "name": "runRuntimeRepair",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 617
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 618
+      },
+      {
+        "name": "loopResult",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 619
+      },
+      {
+        "name": "policy",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 625
+      },
+      {
+        "name": "tests",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 626
+      },
+      {
+        "name": "runRuntimeFinalize",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 643
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 644
+      },
+      {
+        "name": "policy",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 645
+      },
+      {
+        "name": "traceBefore",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 646
+      },
+      {
+        "name": "trace",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 647
+      },
+      {
+        "name": "loop",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 653
+      },
+      {
+        "name": "firstDecision",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 667
+      },
+      {
+        "name": "decision",
+        "kind": "const",
+        "filePath": "src/mcp/server.ts",
+        "line": 668
+      },
+      {
+        "name": "confidenceForScore",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 679
+      },
+      {
+        "name": "jsonToolResult",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 685
+      },
+      {
+        "name": "unique",
+        "kind": "function",
+        "filePath": "src/mcp/server.ts",
+        "line": 696
+      }
+    ],
+    "summary": "src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 13,
+      "importsUnresolved": 5,
+      "symbolsDetected": 81,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:url."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports @modelcontextprotocol/sdk/server/mcp.js."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports @modelcontextprotocol/sdk/server/stdio.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports zod/v4."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../core/context-builder.js."
+      },
+      {
+        "line": 7,
+        "kind": "import",
+        "detail": "Imports ../outputs/context-delta.js."
+      },
+      {
+        "line": 8,
+        "kind": "import",
+        "detail": "Imports ../outputs/impact.js."
+      },
+      {
+        "line": 9,
+        "kind": "import",
+        "detail": "Imports ../outputs/loop-controller.js."
+      },
+      {
+        "line": 10,
+        "kind": "import",
+        "detail": "Imports ../outputs/policy-engine.js."
+      },
+      {
+        "line": 11,
+        "kind": "import",
+        "detail": "Imports ../outputs/task-harness.js."
+      },
+      {
+        "line": 12,
+        "kind": "import",
+        "detail": "Imports ../outputs/task-context.js."
+      },
+      {
+        "line": 13,
+        "kind": "import",
+        "detail": "Imports ../outputs/test-selector.js."
+      },
+      {
+        "line": 14,
+        "kind": "import",
+        "detail": "Imports ../outputs/execution-trace.js."
+      },
+      {
+        "line": 21,
+        "kind": "import",
+        "detail": "Imports ../outputs/task-run.js."
+      },
+      {
+        "line": 22,
+        "kind": "import",
+        "detail": "Imports ../outputs/writer.js."
+      },
+      {
+        "line": 23,
+        "kind": "import",
+        "detail": "Imports ../retrievers/index.js."
+      },
+      {
+        "line": 24,
+        "kind": "import",
+        "detail": "Imports ../retrievers/types.js."
+      },
+      {
+        "line": 26,
+        "kind": "symbol",
+        "symbol": "repoContextMcpToolNames",
+        "detail": "Declares const repoContextMcpToolNames."
+      },
+      {
+        "line": 26,
+        "kind": "export",
+        "symbol": "repoContextMcpToolNames",
+        "detail": "Exports repoContextMcpToolNames."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
+        "symbol": "RepoContextMcpToolName",
+        "detail": "Declares type RepoContextMcpToolName."
+      },
+      {
+        "line": 44,
+        "kind": "symbol",
+        "symbol": "RepoContextMcpResult",
+        "detail": "Declares interface RepoContextMcpResult."
+      },
+      {
+        "line": 48,
+        "kind": "symbol",
+        "symbol": "RetrieveArguments",
+        "detail": "Declares interface RetrieveArguments."
+      },
+      {
+        "line": 58,
+        "kind": "symbol",
+        "symbol": "createRepoContextMcpServer",
+        "detail": "Declares function createRepoContextMcpServer."
+      },
+      {
+        "line": 58,
+        "kind": "export",
+        "symbol": "createRepoContextMcpServer",
+        "detail": "Exports createRepoContextMcpServer."
+      },
+      {
+        "line": 59,
+        "kind": "symbol",
+        "symbol": "server",
+        "detail": "Declares const server."
+      },
+      {
+        "line": 268,
+        "kind": "symbol",
+        "symbol": "runRepoContextMcpServer",
+        "detail": "Declares function runRepoContextMcpServer."
+      },
+      {
+        "line": 268,
+        "kind": "export",
+        "symbol": "runRepoContextMcpServer",
+        "detail": "Exports runRepoContextMcpServer."
+      },
+      {
+        "line": 269,
+        "kind": "symbol",
+        "symbol": "server",
+        "detail": "Declares const server."
+      },
+      {
+        "line": 270,
+        "kind": "symbol",
+        "symbol": "transport",
+        "detail": "Declares const transport."
+      },
+      {
+        "line": 274,
+        "kind": "symbol",
+        "symbol": "executeRepoContextMcpTool",
+        "detail": "Declares function executeRepoContextMcpTool."
+      },
+      {
+        "line": 274,
+        "kind": "export",
+        "symbol": "executeRepoContextMcpTool",
+        "detail": "Exports executeRepoContextMcpTool."
+      },
+      {
+        "line": 305,
+        "kind": "symbol",
+        "symbol": "BuildInput",
+        "detail": "Declares interface BuildInput."
+      },
+      {
+        "line": 309,
+        "kind": "symbol",
+        "symbol": "PlanInput",
+        "detail": "Declares interface PlanInput."
+      },
+      {
+        "line": 316,
+        "kind": "symbol",
+        "symbol": "PackInput",
+        "detail": "Declares type PackInput."
+      },
+      {
+        "line": 318,
+        "kind": "symbol",
+        "symbol": "TestsInput",
+        "detail": "Declares interface TestsInput."
+      },
+      {
+        "line": 325,
+        "kind": "symbol",
+        "symbol": "ImpactInput",
+        "detail": "Declares interface ImpactInput."
+      },
+      {
+        "line": 330,
+        "kind": "symbol",
+        "symbol": "VerifyInput",
+        "detail": "Declares interface VerifyInput."
+      },
+      {
+        "line": 336,
+        "kind": "symbol",
+        "symbol": "ExplainInput",
+        "detail": "Declares interface ExplainInput."
+      },
+      {
+        "line": 341,
+        "kind": "symbol",
+        "symbol": "RuntimeStartInput",
+        "detail": "Declares interface RuntimeStartInput."
+      },
+      {
+        "line": 346,
+        "kind": "symbol",
+        "symbol": "RuntimeStepInput",
+        "detail": "Declares interface RuntimeStepInput."
+      },
+      {
+        "line": 360,
+        "kind": "symbol",
+        "symbol": "RuntimeEvaluateInput",
+        "detail": "Declares interface RuntimeEvaluateInput."
+      },
+      {
+        "line": 367,
+        "kind": "symbol",
+        "symbol": "RuntimeRepairInput",
+        "detail": "Declares interface RuntimeRepairInput."
+      },
+      {
+        "line": 372,
+        "kind": "symbol",
+        "symbol": "RuntimeFinalizeInput",
+        "detail": "Declares interface RuntimeFinalizeInput."
+      },
+      {
+        "line": 380,
+        "kind": "symbol",
+        "symbol": "runBuild",
+        "detail": "Declares function runBuild."
+      },
+      {
+        "line": 381,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 388,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 407,
+        "kind": "symbol",
+        "symbol": "runTaskPlan",
+        "detail": "Declares function runTaskPlan."
+      },
+      {
+        "line": 408,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 409,
+        "kind": "symbol",
+        "symbol": "markdown",
+        "detail": "Declares const markdown."
+      },
+      {
+        "line": 417,
+        "kind": "symbol",
+        "symbol": "runTaskPack",
+        "detail": "Declares function runTaskPack."
+      },
+      {
+        "line": 418,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 419,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 429,
+        "kind": "symbol",
+        "symbol": "runRetrieve",
+        "detail": "Declares function runRetrieve."
+      },
+      {
+        "line": 430,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 431,
+        "kind": "symbol",
+        "symbol": "retriever",
+        "detail": "Declares const retriever."
+      },
+      {
+        "line": 432,
+        "kind": "symbol",
+        "symbol": "hits",
+        "detail": "Declares const hits."
+      },
+      {
+        "line": 438,
+        "kind": "symbol",
+        "symbol": "selectionPaths",
+        "detail": "Declares const selectionPaths."
+      },
+      {
+        "line": 445,
+        "kind": "symbol",
+        "symbol": "selection",
+        "detail": "Declares const selection."
+      },
+      {
+        "line": 464,
+        "kind": "symbol",
+        "symbol": "runTests",
+        "detail": "Declares function runTests."
+      },
+      {
+        "line": 465,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 466,
+        "kind": "symbol",
+        "symbol": "report",
+        "detail": "Declares const report."
+      },
+      {
+        "line": 477,
+        "kind": "symbol",
+        "symbol": "runImpact",
+        "detail": "Declares function runImpact."
+      },
+      {
+        "line": 478,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 479,
+        "kind": "symbol",
+        "symbol": "report",
+        "detail": "Declares const report."
+      },
+      {
+        "line": 486,
+        "kind": "symbol",
+        "symbol": "runVerify",
+        "detail": "Declares function runVerify."
+      },
+      {
+        "line": 487,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 493,
+        "kind": "symbol",
+        "symbol": "runExplain",
+        "detail": "Declares function runExplain."
+      },
+      {
+        "line": 494,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 495,
+        "kind": "symbol",
+        "symbol": "targetPath",
+        "detail": "Declares const targetPath."
+      },
+      {
+        "line": 496,
+        "kind": "symbol",
+        "symbol": "file",
+        "detail": "Declares const file."
+      },
+      {
+        "line": 512,
+        "kind": "symbol",
+        "symbol": "module",
+        "detail": "Declares const module."
+      },
+      {
+        "line": 529,
+        "kind": "symbol",
+        "symbol": "runStartLoop",
+        "detail": "Declares function runStartLoop."
+      },
+      {
+        "line": 530,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 531,
+        "kind": "symbol",
+        "symbol": "writeResult",
+        "detail": "Declares const writeResult."
+      },
+      {
+        "line": 532,
+        "kind": "symbol",
+        "symbol": "run",
+        "detail": "Declares const run."
+      },
+      {
+        "line": 543,
+        "kind": "symbol",
+        "symbol": "loop",
+        "detail": "Declares const loop."
+      },
+      {
+        "line": 549,
+        "kind": "symbol",
+        "symbol": "delta",
+        "detail": "Declares const delta."
+      },
+      {
+        "line": 570,
+        "kind": "symbol",
+        "symbol": "runRuntimeStep",
+        "detail": "Declares function runRuntimeStep."
+      },
+      {
+        "line": 571,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 572,
+        "kind": "symbol",
+        "symbol": "trace",
+        "detail": "Declares const trace."
+      },
+      {
+        "line": 592,
+        "kind": "symbol",
+        "symbol": "runRuntimeEvaluate",
+        "detail": "Declares function runRuntimeEvaluate."
+      },
+      {
+        "line": 593,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 594,
+        "kind": "symbol",
+        "symbol": "loop",
+        "detail": "Declares const loop."
+      },
+      {
+        "line": 600,
+        "kind": "symbol",
+        "symbol": "policy",
+        "detail": "Declares const policy."
+      },
+      {
+        "line": 601,
+        "kind": "symbol",
+        "symbol": "delta",
+        "detail": "Declares const delta."
+      },
+      {
+        "line": 602,
+        "kind": "symbol",
+        "symbol": "verifyMarkdown",
+        "detail": "Declares const verifyMarkdown."
+      },
+      {
+        "line": 617,
+        "kind": "symbol",
+        "symbol": "runRuntimeRepair",
+        "detail": "Declares function runRuntimeRepair."
+      },
+      {
+        "line": 618,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 619,
+        "kind": "symbol",
+        "symbol": "loopResult",
+        "detail": "Declares const loopResult."
+      },
+      {
+        "line": 625,
+        "kind": "symbol",
+        "symbol": "policy",
+        "detail": "Declares const policy."
+      },
+      {
+        "line": 626,
+        "kind": "symbol",
+        "symbol": "tests",
+        "detail": "Declares const tests."
+      },
+      {
+        "line": 643,
+        "kind": "symbol",
+        "symbol": "runRuntimeFinalize",
+        "detail": "Declares function runRuntimeFinalize."
+      },
+      {
+        "line": 644,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 645,
+        "kind": "symbol",
+        "symbol": "policy",
+        "detail": "Declares const policy."
+      },
+      {
+        "line": 646,
+        "kind": "symbol",
+        "symbol": "traceBefore",
+        "detail": "Declares const traceBefore."
+      },
+      {
+        "line": 647,
+        "kind": "symbol",
+        "symbol": "trace",
+        "detail": "Declares const trace."
+      },
+      {
+        "line": 653,
+        "kind": "symbol",
+        "symbol": "loop",
+        "detail": "Declares const loop."
+      },
+      {
+        "line": 667,
+        "kind": "symbol",
+        "symbol": "firstDecision",
+        "detail": "Declares function firstDecision."
+      },
+      {
+        "line": 668,
+        "kind": "symbol",
+        "symbol": "decision",
+        "detail": "Declares const decision."
+      },
+      {
+        "line": 679,
+        "kind": "symbol",
+        "symbol": "confidenceForScore",
+        "detail": "Declares function confidenceForScore."
+      },
+      {
+        "line": 685,
+        "kind": "symbol",
+        "symbol": "jsonToolResult",
+        "detail": "Declares function jsonToolResult."
+      },
+      {
+        "line": 696,
+        "kind": "symbol",
+        "symbol": "unique",
+        "detail": "Declares function unique."
+      }
+    ],
+    "moduleName": "mcp",
+    "importanceScore": 91,
+    "importanceReasons": [
+      "entrypoint",
+      "4 exports",
+      "81 symbols",
+      "1 inbound dependency",
+      "18 outbound dependencies",
       "high-confidence analysis"
     ]
   },
@@ -19480,1225 +20699,6 @@
       "11 symbols",
       "2 inbound dependencies",
       "3 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/mcp/server.ts",
-    "extension": ".ts",
-    "sizeBytes": 24218,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 6055,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "node:path",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:url",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "@modelcontextprotocol/sdk/server/mcp.js",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "@modelcontextprotocol/sdk/server/stdio.js",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "zod/v4",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "../core/context-builder.js",
-        "resolvedPath": "src/core/context-builder.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/context-delta.js",
-        "resolvedPath": "src/outputs/context-delta.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/impact.js",
-        "resolvedPath": "src/outputs/impact.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/loop-controller.js",
-        "resolvedPath": "src/outputs/loop-controller.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/policy-engine.js",
-        "resolvedPath": "src/outputs/policy-engine.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/task-harness.js",
-        "resolvedPath": "src/outputs/task-harness.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/task-context.js",
-        "resolvedPath": "src/outputs/task-context.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/test-selector.js",
-        "resolvedPath": "src/outputs/test-selector.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/execution-trace.js",
-        "resolvedPath": "src/outputs/execution-trace.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/task-run.js",
-        "resolvedPath": "src/outputs/task-run.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/writer.js",
-        "resolvedPath": "src/outputs/writer.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../retrievers/index.js",
-        "resolvedPath": "src/retrievers/index.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../retrievers/types.js",
-        "resolvedPath": "src/retrievers/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "createRepoContextMcpServer",
-      "executeRepoContextMcpTool",
-      "repoContextMcpToolNames",
-      "runRepoContextMcpServer"
-    ],
-    "symbols": [
-      {
-        "name": "repoContextMcpToolNames",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 26
-      },
-      {
-        "name": "RepoContextMcpToolName",
-        "kind": "type",
-        "filePath": "src/mcp/server.ts",
-        "line": 42
-      },
-      {
-        "name": "RepoContextMcpResult",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 44
-      },
-      {
-        "name": "RetrieveArguments",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 48
-      },
-      {
-        "name": "createRepoContextMcpServer",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 58
-      },
-      {
-        "name": "server",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 59
-      },
-      {
-        "name": "runRepoContextMcpServer",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 268
-      },
-      {
-        "name": "server",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 269
-      },
-      {
-        "name": "transport",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 270
-      },
-      {
-        "name": "executeRepoContextMcpTool",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 274
-      },
-      {
-        "name": "BuildInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 305
-      },
-      {
-        "name": "PlanInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 309
-      },
-      {
-        "name": "PackInput",
-        "kind": "type",
-        "filePath": "src/mcp/server.ts",
-        "line": 316
-      },
-      {
-        "name": "TestsInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 318
-      },
-      {
-        "name": "ImpactInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 325
-      },
-      {
-        "name": "VerifyInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 330
-      },
-      {
-        "name": "ExplainInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 336
-      },
-      {
-        "name": "RuntimeStartInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 341
-      },
-      {
-        "name": "RuntimeStepInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 346
-      },
-      {
-        "name": "RuntimeEvaluateInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 360
-      },
-      {
-        "name": "RuntimeRepairInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 367
-      },
-      {
-        "name": "RuntimeFinalizeInput",
-        "kind": "interface",
-        "filePath": "src/mcp/server.ts",
-        "line": 372
-      },
-      {
-        "name": "runBuild",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 380
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 381
-      },
-      {
-        "name": "result",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 388
-      },
-      {
-        "name": "runTaskPlan",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 407
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 408
-      },
-      {
-        "name": "markdown",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 409
-      },
-      {
-        "name": "runTaskPack",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 417
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 418
-      },
-      {
-        "name": "result",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 419
-      },
-      {
-        "name": "runRetrieve",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 429
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 430
-      },
-      {
-        "name": "retriever",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 431
-      },
-      {
-        "name": "hits",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 432
-      },
-      {
-        "name": "selectionPaths",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 438
-      },
-      {
-        "name": "selection",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 445
-      },
-      {
-        "name": "runTests",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 464
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 465
-      },
-      {
-        "name": "report",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 466
-      },
-      {
-        "name": "runImpact",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 477
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 478
-      },
-      {
-        "name": "report",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 479
-      },
-      {
-        "name": "runVerify",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 486
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 487
-      },
-      {
-        "name": "runExplain",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 493
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 494
-      },
-      {
-        "name": "targetPath",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 495
-      },
-      {
-        "name": "file",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 496
-      },
-      {
-        "name": "module",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 512
-      },
-      {
-        "name": "runStartLoop",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 529
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 530
-      },
-      {
-        "name": "writeResult",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 531
-      },
-      {
-        "name": "run",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 532
-      },
-      {
-        "name": "loop",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 543
-      },
-      {
-        "name": "delta",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 549
-      },
-      {
-        "name": "runRuntimeStep",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 570
-      },
-      {
-        "name": "root",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 571
-      },
-      {
-        "name": "trace",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 572
-      },
-      {
-        "name": "runRuntimeEvaluate",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 592
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 593
-      },
-      {
-        "name": "loop",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 594
-      },
-      {
-        "name": "policy",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 600
-      },
-      {
-        "name": "delta",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 601
-      },
-      {
-        "name": "verifyMarkdown",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 602
-      },
-      {
-        "name": "runRuntimeRepair",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 617
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 618
-      },
-      {
-        "name": "loopResult",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 619
-      },
-      {
-        "name": "policy",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 625
-      },
-      {
-        "name": "tests",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 626
-      },
-      {
-        "name": "runRuntimeFinalize",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 643
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 644
-      },
-      {
-        "name": "policy",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 645
-      },
-      {
-        "name": "traceBefore",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 646
-      },
-      {
-        "name": "trace",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 647
-      },
-      {
-        "name": "loop",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 653
-      },
-      {
-        "name": "firstDecision",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 667
-      },
-      {
-        "name": "decision",
-        "kind": "const",
-        "filePath": "src/mcp/server.ts",
-        "line": 668
-      },
-      {
-        "name": "confidenceForScore",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 679
-      },
-      {
-        "name": "jsonToolResult",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 685
-      },
-      {
-        "name": "unique",
-        "kind": "function",
-        "filePath": "src/mcp/server.ts",
-        "line": 696
-      }
-    ],
-    "summary": "src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 13,
-      "importsUnresolved": 5,
-      "symbolsDetected": 81,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports node:path."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports node:url."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports @modelcontextprotocol/sdk/server/mcp.js."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports @modelcontextprotocol/sdk/server/stdio.js."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports zod/v4."
-      },
-      {
-        "line": 6,
-        "kind": "import",
-        "detail": "Imports ../core/context-builder.js."
-      },
-      {
-        "line": 7,
-        "kind": "import",
-        "detail": "Imports ../outputs/context-delta.js."
-      },
-      {
-        "line": 8,
-        "kind": "import",
-        "detail": "Imports ../outputs/impact.js."
-      },
-      {
-        "line": 9,
-        "kind": "import",
-        "detail": "Imports ../outputs/loop-controller.js."
-      },
-      {
-        "line": 10,
-        "kind": "import",
-        "detail": "Imports ../outputs/policy-engine.js."
-      },
-      {
-        "line": 11,
-        "kind": "import",
-        "detail": "Imports ../outputs/task-harness.js."
-      },
-      {
-        "line": 12,
-        "kind": "import",
-        "detail": "Imports ../outputs/task-context.js."
-      },
-      {
-        "line": 13,
-        "kind": "import",
-        "detail": "Imports ../outputs/test-selector.js."
-      },
-      {
-        "line": 14,
-        "kind": "import",
-        "detail": "Imports ../outputs/execution-trace.js."
-      },
-      {
-        "line": 21,
-        "kind": "import",
-        "detail": "Imports ../outputs/task-run.js."
-      },
-      {
-        "line": 22,
-        "kind": "import",
-        "detail": "Imports ../outputs/writer.js."
-      },
-      {
-        "line": 23,
-        "kind": "import",
-        "detail": "Imports ../retrievers/index.js."
-      },
-      {
-        "line": 24,
-        "kind": "import",
-        "detail": "Imports ../retrievers/types.js."
-      },
-      {
-        "line": 26,
-        "kind": "symbol",
-        "symbol": "repoContextMcpToolNames",
-        "detail": "Declares const repoContextMcpToolNames."
-      },
-      {
-        "line": 26,
-        "kind": "export",
-        "symbol": "repoContextMcpToolNames",
-        "detail": "Exports repoContextMcpToolNames."
-      },
-      {
-        "line": 42,
-        "kind": "symbol",
-        "symbol": "RepoContextMcpToolName",
-        "detail": "Declares type RepoContextMcpToolName."
-      },
-      {
-        "line": 44,
-        "kind": "symbol",
-        "symbol": "RepoContextMcpResult",
-        "detail": "Declares interface RepoContextMcpResult."
-      },
-      {
-        "line": 48,
-        "kind": "symbol",
-        "symbol": "RetrieveArguments",
-        "detail": "Declares interface RetrieveArguments."
-      },
-      {
-        "line": 58,
-        "kind": "symbol",
-        "symbol": "createRepoContextMcpServer",
-        "detail": "Declares function createRepoContextMcpServer."
-      },
-      {
-        "line": 58,
-        "kind": "export",
-        "symbol": "createRepoContextMcpServer",
-        "detail": "Exports createRepoContextMcpServer."
-      },
-      {
-        "line": 59,
-        "kind": "symbol",
-        "symbol": "server",
-        "detail": "Declares const server."
-      },
-      {
-        "line": 268,
-        "kind": "symbol",
-        "symbol": "runRepoContextMcpServer",
-        "detail": "Declares function runRepoContextMcpServer."
-      },
-      {
-        "line": 268,
-        "kind": "export",
-        "symbol": "runRepoContextMcpServer",
-        "detail": "Exports runRepoContextMcpServer."
-      },
-      {
-        "line": 269,
-        "kind": "symbol",
-        "symbol": "server",
-        "detail": "Declares const server."
-      },
-      {
-        "line": 270,
-        "kind": "symbol",
-        "symbol": "transport",
-        "detail": "Declares const transport."
-      },
-      {
-        "line": 274,
-        "kind": "symbol",
-        "symbol": "executeRepoContextMcpTool",
-        "detail": "Declares function executeRepoContextMcpTool."
-      },
-      {
-        "line": 274,
-        "kind": "export",
-        "symbol": "executeRepoContextMcpTool",
-        "detail": "Exports executeRepoContextMcpTool."
-      },
-      {
-        "line": 305,
-        "kind": "symbol",
-        "symbol": "BuildInput",
-        "detail": "Declares interface BuildInput."
-      },
-      {
-        "line": 309,
-        "kind": "symbol",
-        "symbol": "PlanInput",
-        "detail": "Declares interface PlanInput."
-      },
-      {
-        "line": 316,
-        "kind": "symbol",
-        "symbol": "PackInput",
-        "detail": "Declares type PackInput."
-      },
-      {
-        "line": 318,
-        "kind": "symbol",
-        "symbol": "TestsInput",
-        "detail": "Declares interface TestsInput."
-      },
-      {
-        "line": 325,
-        "kind": "symbol",
-        "symbol": "ImpactInput",
-        "detail": "Declares interface ImpactInput."
-      },
-      {
-        "line": 330,
-        "kind": "symbol",
-        "symbol": "VerifyInput",
-        "detail": "Declares interface VerifyInput."
-      },
-      {
-        "line": 336,
-        "kind": "symbol",
-        "symbol": "ExplainInput",
-        "detail": "Declares interface ExplainInput."
-      },
-      {
-        "line": 341,
-        "kind": "symbol",
-        "symbol": "RuntimeStartInput",
-        "detail": "Declares interface RuntimeStartInput."
-      },
-      {
-        "line": 346,
-        "kind": "symbol",
-        "symbol": "RuntimeStepInput",
-        "detail": "Declares interface RuntimeStepInput."
-      },
-      {
-        "line": 360,
-        "kind": "symbol",
-        "symbol": "RuntimeEvaluateInput",
-        "detail": "Declares interface RuntimeEvaluateInput."
-      },
-      {
-        "line": 367,
-        "kind": "symbol",
-        "symbol": "RuntimeRepairInput",
-        "detail": "Declares interface RuntimeRepairInput."
-      },
-      {
-        "line": 372,
-        "kind": "symbol",
-        "symbol": "RuntimeFinalizeInput",
-        "detail": "Declares interface RuntimeFinalizeInput."
-      },
-      {
-        "line": 380,
-        "kind": "symbol",
-        "symbol": "runBuild",
-        "detail": "Declares function runBuild."
-      },
-      {
-        "line": 381,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 388,
-        "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
-      },
-      {
-        "line": 407,
-        "kind": "symbol",
-        "symbol": "runTaskPlan",
-        "detail": "Declares function runTaskPlan."
-      },
-      {
-        "line": 408,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 409,
-        "kind": "symbol",
-        "symbol": "markdown",
-        "detail": "Declares const markdown."
-      },
-      {
-        "line": 417,
-        "kind": "symbol",
-        "symbol": "runTaskPack",
-        "detail": "Declares function runTaskPack."
-      },
-      {
-        "line": 418,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 419,
-        "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
-      },
-      {
-        "line": 429,
-        "kind": "symbol",
-        "symbol": "runRetrieve",
-        "detail": "Declares function runRetrieve."
-      },
-      {
-        "line": 430,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 431,
-        "kind": "symbol",
-        "symbol": "retriever",
-        "detail": "Declares const retriever."
-      },
-      {
-        "line": 432,
-        "kind": "symbol",
-        "symbol": "hits",
-        "detail": "Declares const hits."
-      },
-      {
-        "line": 438,
-        "kind": "symbol",
-        "symbol": "selectionPaths",
-        "detail": "Declares const selectionPaths."
-      },
-      {
-        "line": 445,
-        "kind": "symbol",
-        "symbol": "selection",
-        "detail": "Declares const selection."
-      },
-      {
-        "line": 464,
-        "kind": "symbol",
-        "symbol": "runTests",
-        "detail": "Declares function runTests."
-      },
-      {
-        "line": 465,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 466,
-        "kind": "symbol",
-        "symbol": "report",
-        "detail": "Declares const report."
-      },
-      {
-        "line": 477,
-        "kind": "symbol",
-        "symbol": "runImpact",
-        "detail": "Declares function runImpact."
-      },
-      {
-        "line": 478,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 479,
-        "kind": "symbol",
-        "symbol": "report",
-        "detail": "Declares const report."
-      },
-      {
-        "line": 486,
-        "kind": "symbol",
-        "symbol": "runVerify",
-        "detail": "Declares function runVerify."
-      },
-      {
-        "line": 487,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 493,
-        "kind": "symbol",
-        "symbol": "runExplain",
-        "detail": "Declares function runExplain."
-      },
-      {
-        "line": 494,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 495,
-        "kind": "symbol",
-        "symbol": "targetPath",
-        "detail": "Declares const targetPath."
-      },
-      {
-        "line": 496,
-        "kind": "symbol",
-        "symbol": "file",
-        "detail": "Declares const file."
-      },
-      {
-        "line": 512,
-        "kind": "symbol",
-        "symbol": "module",
-        "detail": "Declares const module."
-      },
-      {
-        "line": 529,
-        "kind": "symbol",
-        "symbol": "runStartLoop",
-        "detail": "Declares function runStartLoop."
-      },
-      {
-        "line": 530,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 531,
-        "kind": "symbol",
-        "symbol": "writeResult",
-        "detail": "Declares const writeResult."
-      },
-      {
-        "line": 532,
-        "kind": "symbol",
-        "symbol": "run",
-        "detail": "Declares const run."
-      },
-      {
-        "line": 543,
-        "kind": "symbol",
-        "symbol": "loop",
-        "detail": "Declares const loop."
-      },
-      {
-        "line": 549,
-        "kind": "symbol",
-        "symbol": "delta",
-        "detail": "Declares const delta."
-      },
-      {
-        "line": 570,
-        "kind": "symbol",
-        "symbol": "runRuntimeStep",
-        "detail": "Declares function runRuntimeStep."
-      },
-      {
-        "line": 571,
-        "kind": "symbol",
-        "symbol": "root",
-        "detail": "Declares const root."
-      },
-      {
-        "line": 572,
-        "kind": "symbol",
-        "symbol": "trace",
-        "detail": "Declares const trace."
-      },
-      {
-        "line": 592,
-        "kind": "symbol",
-        "symbol": "runRuntimeEvaluate",
-        "detail": "Declares function runRuntimeEvaluate."
-      },
-      {
-        "line": 593,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 594,
-        "kind": "symbol",
-        "symbol": "loop",
-        "detail": "Declares const loop."
-      },
-      {
-        "line": 600,
-        "kind": "symbol",
-        "symbol": "policy",
-        "detail": "Declares const policy."
-      },
-      {
-        "line": 601,
-        "kind": "symbol",
-        "symbol": "delta",
-        "detail": "Declares const delta."
-      },
-      {
-        "line": 602,
-        "kind": "symbol",
-        "symbol": "verifyMarkdown",
-        "detail": "Declares const verifyMarkdown."
-      },
-      {
-        "line": 617,
-        "kind": "symbol",
-        "symbol": "runRuntimeRepair",
-        "detail": "Declares function runRuntimeRepair."
-      },
-      {
-        "line": 618,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 619,
-        "kind": "symbol",
-        "symbol": "loopResult",
-        "detail": "Declares const loopResult."
-      },
-      {
-        "line": 625,
-        "kind": "symbol",
-        "symbol": "policy",
-        "detail": "Declares const policy."
-      },
-      {
-        "line": 626,
-        "kind": "symbol",
-        "symbol": "tests",
-        "detail": "Declares const tests."
-      },
-      {
-        "line": 643,
-        "kind": "symbol",
-        "symbol": "runRuntimeFinalize",
-        "detail": "Declares function runRuntimeFinalize."
-      },
-      {
-        "line": 644,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 645,
-        "kind": "symbol",
-        "symbol": "policy",
-        "detail": "Declares const policy."
-      },
-      {
-        "line": 646,
-        "kind": "symbol",
-        "symbol": "traceBefore",
-        "detail": "Declares const traceBefore."
-      },
-      {
-        "line": 647,
-        "kind": "symbol",
-        "symbol": "trace",
-        "detail": "Declares const trace."
-      },
-      {
-        "line": 653,
-        "kind": "symbol",
-        "symbol": "loop",
-        "detail": "Declares const loop."
-      },
-      {
-        "line": 667,
-        "kind": "symbol",
-        "symbol": "firstDecision",
-        "detail": "Declares function firstDecision."
-      },
-      {
-        "line": 668,
-        "kind": "symbol",
-        "symbol": "decision",
-        "detail": "Declares const decision."
-      },
-      {
-        "line": 679,
-        "kind": "symbol",
-        "symbol": "confidenceForScore",
-        "detail": "Declares function confidenceForScore."
-      },
-      {
-        "line": 685,
-        "kind": "symbol",
-        "symbol": "jsonToolResult",
-        "detail": "Declares function jsonToolResult."
-      },
-      {
-        "line": 696,
-        "kind": "symbol",
-        "symbol": "unique",
-        "detail": "Declares function unique."
-      }
-    ],
-    "moduleName": "mcp",
-    "importanceScore": 91,
-    "importanceReasons": [
-      "entrypoint",
-      "4 exports",
-      "81 symbols",
-      "1 inbound dependency",
-      "18 outbound dependencies",
       "high-confidence analysis"
     ]
   },
@@ -32515,37 +32515,6 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/react-app/package.json",
-    "extension": ".json",
-    "sizeBytes": 282,
-    "kind": "config",
-    "language": "JSON",
-    "tokenEstimate": 71,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/react-app/package.json is a config file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/react-app",
-    "importanceScore": 17,
-    "importanceReasons": [
-      "configuration",
-      "low-confidence analysis"
-    ]
-  },
-  {
     "path": "benchmarks/fixtures/small-ts-app/package.json",
     "extension": ".json",
     "sizeBytes": 184,
@@ -32570,6 +32539,37 @@
     },
     "evidence": [],
     "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "configuration",
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/react-app/package.json",
+    "extension": ".json",
+    "sizeBytes": 282,
+    "kind": "config",
+    "language": "JSON",
+    "tokenEstimate": 71,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/react-app/package.json is a config file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/react-app",
     "importanceScore": 17,
     "importanceReasons": [
       "configuration",
@@ -33140,72 +33140,6 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/react-app/src/App.tsx",
-    "extension": ".tsx",
-    "sizeBytes": 133,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 34,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "./components/LoginStatus",
-        "resolvedPath": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "App"
-    ],
-    "symbols": [
-      {
-        "name": "App",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/react-app/src/App.tsx",
-        "line": 3
-      }
-    ],
-    "summary": "benchmarks/fixtures/react-app/src/App.tsx contains 1 detected symbol, 1 import, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ./components/LoginStatus."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "App",
-        "detail": "Declares function App."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "App",
-        "detail": "Exports App."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/react-app",
-    "importanceScore": 13,
-    "importanceReasons": [
-      "1 export",
-      "1 symbol",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "benchmarks/fixtures/small-ts-app/src/index.ts",
     "extension": ".ts",
     "sizeBytes": 101,
@@ -33271,6 +33205,72 @@
     "importanceReasons": [
       "2 exports",
       "2 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/react-app/src/App.tsx",
+    "extension": ".tsx",
+    "sizeBytes": 133,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 34,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "./components/LoginStatus",
+        "resolvedPath": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "App"
+    ],
+    "symbols": [
+      {
+        "name": "App",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/react-app/src/App.tsx",
+        "line": 3
+      }
+    ],
+    "summary": "benchmarks/fixtures/react-app/src/App.tsx contains 1 detected symbol, 1 import, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ./components/LoginStatus."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "App",
+        "detail": "Declares function App."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "App",
+        "detail": "Exports App."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/react-app",
+    "importanceScore": 13,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "1 outbound dependency",
       "high-confidence analysis"
     ]
   },
@@ -33368,6 +33368,68 @@
     ]
   },
   {
+    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+    "extension": ".json",
+    "sizeBytes": 74,
+    "kind": "config",
+    "language": "JSON",
+    "tokenEstimate": 19,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "configuration",
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+    "extension": ".md",
+    "sizeBytes": 785,
+    "kind": "docs",
+    "language": "Markdown",
+    "tokenEstimate": 197,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 15,
+    "importanceReasons": [
+      "readme",
+      "low-confidence analysis"
+    ]
+  },
+  {
     "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
     "extension": ".json",
     "sizeBytes": 26,
@@ -33427,68 +33489,6 @@
     "importanceScore": 33,
     "importanceReasons": [
       "route/api surface",
-      "readme",
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-    "extension": ".json",
-    "sizeBytes": 74,
-    "kind": "config",
-    "language": "JSON",
-    "tokenEstimate": 19,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 17,
-    "importanceReasons": [
-      "configuration",
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-    "extension": ".md",
-    "sizeBytes": 785,
-    "kind": "docs",
-    "language": "Markdown",
-    "tokenEstimate": 197,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 15,
-    "importanceReasons": [
       "readme",
       "low-confidence analysis"
     ]
@@ -33584,6 +33584,488 @@
     "importanceReasons": [
       "readme",
       "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 136,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 34,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "../../src/api/login.js",
+        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../../src/api/login.js."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 33,
+    "importanceReasons": [
+      "route/api surface",
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 329,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 83,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "../../src/auth/session.js",
+        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../../src/auth/session.js."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 15,
+    "importanceReasons": [
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+    "extension": ".ts",
+    "sizeBytes": 186,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 47,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../auth/session.js",
+        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "login"
+    ],
+    "symbols": [
+      {
+        "name": "login",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+        "line": 3
+      }
+    ],
+    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../auth/session.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "login",
+        "detail": "Declares function login."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "login",
+        "detail": "Exports login."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 41,
+    "importanceReasons": [
+      "route/api surface",
+      "1 export",
+      "1 symbol",
+      "2 inbound dependencies",
+      "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+    "extension": ".ts",
+    "sizeBytes": 169,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 43,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "./session.js",
+        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "requireActiveSession"
+    ],
+    "symbols": [
+      {
+        "name": "requireActiveSession",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+        "line": 3
+      }
+    ],
+    "summary": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts contains 1 detected symbol, 1 import, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ./session.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "requireActiveSession",
+        "detail": "Declares function requireActiveSession."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "requireActiveSession",
+        "detail": "Exports requireActiveSession."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 18,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "1 inbound dependency",
+      "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+    "extension": ".ts",
+    "sizeBytes": 316,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 79,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "Session",
+      "isSessionExpired",
+      "refreshSession"
+    ],
+    "symbols": [
+      {
+        "name": "Session",
+        "kind": "interface",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "line": 1
+      },
+      {
+        "name": "isSessionExpired",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "line": 3
+      },
+      {
+        "name": "refreshSession",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "line": 7
+      }
+    ],
+    "summary": "benchmarks/fixtures/small-ts-app/src/auth/session.ts contains 3 detected symbols, 0 imports, 3 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 3,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "Session",
+        "detail": "Declares interface Session."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "Session",
+        "detail": "Exports Session."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "isSessionExpired",
+        "detail": "Declares function isSessionExpired."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "isSessionExpired",
+        "detail": "Exports isSessionExpired."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "refreshSession",
+        "detail": "Declares function refreshSession."
+      },
+      {
+        "line": 7,
+        "kind": "export",
+        "symbol": "refreshSession",
+        "detail": "Exports refreshSession."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 38,
+    "importanceReasons": [
+      "3 exports",
+      "3 symbols",
+      "3 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+    "extension": ".ts",
+    "sizeBytes": 444,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 111,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "AuditEvent",
+      "listAuditEvents",
+      "recordAuditEvent"
+    ],
+    "symbols": [
+      {
+        "name": "AuditEvent",
+        "kind": "interface",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+        "line": 2
+      },
+      {
+        "name": "recordAuditEvent",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+        "line": 3
+      },
+      {
+        "name": "listAuditEvents",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+        "line": 6
+      }
+    ],
+    "summary": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts contains 3 detected symbols, 0 imports, 3 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 3,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 2,
+        "kind": "symbol",
+        "symbol": "AuditEvent",
+        "detail": "Declares interface AuditEvent."
+      },
+      {
+        "line": 2,
+        "kind": "export",
+        "symbol": "AuditEvent",
+        "detail": "Exports AuditEvent."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "recordAuditEvent",
+        "detail": "Declares function recordAuditEvent."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "recordAuditEvent",
+        "detail": "Exports recordAuditEvent."
+      },
+      {
+        "line": 6,
+        "kind": "symbol",
+        "symbol": "listAuditEvents",
+        "detail": "Declares function listAuditEvents."
+      },
+      {
+        "line": 6,
+        "kind": "export",
+        "symbol": "listAuditEvents",
+        "detail": "Exports listAuditEvents."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 23,
+    "importanceReasons": [
+      "3 exports",
+      "3 symbols",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+    "extension": ".ts",
+    "sizeBytes": 228,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 57,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "calculateInvoiceTotal",
+      "formatInvoice"
+    ],
+    "symbols": [
+      {
+        "name": "calculateInvoiceTotal",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+        "line": 2
+      },
+      {
+        "name": "formatInvoice",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+        "line": 5
+      }
+    ],
+    "summary": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 2,
+        "kind": "symbol",
+        "symbol": "calculateInvoiceTotal",
+        "detail": "Declares function calculateInvoiceTotal."
+      },
+      {
+        "line": 2,
+        "kind": "export",
+        "symbol": "calculateInvoiceTotal",
+        "detail": "Exports calculateInvoiceTotal."
+      },
+      {
+        "line": 5,
+        "kind": "symbol",
+        "symbol": "formatInvoice",
+        "detail": "Declares function formatInvoice."
+      },
+      {
+        "line": 5,
+        "kind": "export",
+        "symbol": "formatInvoice",
+        "detail": "Exports formatInvoice."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "high-confidence analysis"
     ]
   },
   {
@@ -34005,485 +34487,34 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-    "extension": ".ts",
-    "sizeBytes": 186,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 47,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../auth/session.js",
-        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "login"
-    ],
-    "symbols": [
-      {
-        "name": "login",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-        "line": 3
-      }
-    ],
-    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../auth/session.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "login",
-        "detail": "Declares function login."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "login",
-        "detail": "Exports login."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 41,
-    "importanceReasons": [
-      "route/api surface",
-      "1 export",
-      "1 symbol",
-      "2 inbound dependencies",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-    "extension": ".ts",
-    "sizeBytes": 169,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 43,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "./session.js",
-        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "requireActiveSession"
-    ],
-    "symbols": [
-      {
-        "name": "requireActiveSession",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-        "line": 3
-      }
-    ],
-    "summary": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts contains 1 detected symbol, 1 import, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ./session.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "requireActiveSession",
-        "detail": "Declares function requireActiveSession."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "requireActiveSession",
-        "detail": "Exports requireActiveSession."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 18,
-    "importanceReasons": [
-      "1 export",
-      "1 symbol",
-      "1 inbound dependency",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-    "extension": ".ts",
-    "sizeBytes": 316,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 79,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "Session",
-      "isSessionExpired",
-      "refreshSession"
-    ],
-    "symbols": [
-      {
-        "name": "Session",
-        "kind": "interface",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "line": 1
-      },
-      {
-        "name": "isSessionExpired",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "line": 3
-      },
-      {
-        "name": "refreshSession",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "line": 7
-      }
-    ],
-    "summary": "benchmarks/fixtures/small-ts-app/src/auth/session.ts contains 3 detected symbols, 0 imports, 3 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 3,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "Session",
-        "detail": "Declares interface Session."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "Session",
-        "detail": "Exports Session."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "isSessionExpired",
-        "detail": "Declares function isSessionExpired."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "isSessionExpired",
-        "detail": "Exports isSessionExpired."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "refreshSession",
-        "detail": "Declares function refreshSession."
-      },
-      {
-        "line": 7,
-        "kind": "export",
-        "symbol": "refreshSession",
-        "detail": "Exports refreshSession."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 38,
-    "importanceReasons": [
-      "3 exports",
-      "3 symbols",
-      "3 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-    "extension": ".ts",
-    "sizeBytes": 444,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 111,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "AuditEvent",
-      "listAuditEvents",
-      "recordAuditEvent"
-    ],
-    "symbols": [
-      {
-        "name": "AuditEvent",
-        "kind": "interface",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-        "line": 2
-      },
-      {
-        "name": "recordAuditEvent",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-        "line": 3
-      },
-      {
-        "name": "listAuditEvents",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-        "line": 6
-      }
-    ],
-    "summary": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts contains 3 detected symbols, 0 imports, 3 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 3,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 2,
-        "kind": "symbol",
-        "symbol": "AuditEvent",
-        "detail": "Declares interface AuditEvent."
-      },
-      {
-        "line": 2,
-        "kind": "export",
-        "symbol": "AuditEvent",
-        "detail": "Exports AuditEvent."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "recordAuditEvent",
-        "detail": "Declares function recordAuditEvent."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "recordAuditEvent",
-        "detail": "Exports recordAuditEvent."
-      },
-      {
-        "line": 6,
-        "kind": "symbol",
-        "symbol": "listAuditEvents",
-        "detail": "Declares function listAuditEvents."
-      },
-      {
-        "line": 6,
-        "kind": "export",
-        "symbol": "listAuditEvents",
-        "detail": "Exports listAuditEvents."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 23,
-    "importanceReasons": [
-      "3 exports",
-      "3 symbols",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-    "extension": ".ts",
-    "sizeBytes": 228,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 57,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "calculateInvoiceTotal",
-      "formatInvoice"
-    ],
-    "symbols": [
-      {
-        "name": "calculateInvoiceTotal",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-        "line": 2
-      },
-      {
-        "name": "formatInvoice",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-        "line": 5
-      }
-    ],
-    "summary": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 2,
-        "kind": "symbol",
-        "symbol": "calculateInvoiceTotal",
-        "detail": "Declares function calculateInvoiceTotal."
-      },
-      {
-        "line": 2,
-        "kind": "export",
-        "symbol": "calculateInvoiceTotal",
-        "detail": "Exports calculateInvoiceTotal."
-      },
-      {
-        "line": 5,
-        "kind": "symbol",
-        "symbol": "formatInvoice",
-        "detail": "Declares function formatInvoice."
-      },
-      {
-        "line": 5,
-        "kind": "export",
-        "symbol": "formatInvoice",
-        "detail": "Exports formatInvoice."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 17,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-    "extension": ".ts",
-    "sizeBytes": 329,
+    "path": "test/fixtures/monorepo/packages/web/package.json",
+    "extension": ".json",
+    "sizeBytes": 88,
     "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 83,
+    "language": "JSON",
+    "tokenEstimate": 22,
     "isBinary": false,
     "isGenerated": false,
     "isTest": true,
-    "imports": [
-      {
-        "specifier": "../../src/auth/session.js",
-        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "isExternal": false
-      }
-    ],
+    "imports": [],
     "exports": [],
     "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
+    "summary": "test/fixtures/monorepo/packages/web/package.json is a test file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
     "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
+      "parser": "generic",
+      "importsResolved": 0,
       "importsUnresolved": 0,
       "symbolsDetected": 0,
       "routesDetected": 0
     },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../../src/auth/session.js."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 15,
+    "evidence": [],
+    "moduleName": "test/fixtures/monorepo/packages/web",
+    "importanceScore": 3,
     "importanceReasons": [
-      "1 outbound dependency",
       "test coverage signal",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-    "extension": ".ts",
-    "sizeBytes": 136,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 34,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [
-      {
-        "specifier": "../../src/api/login.js",
-        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../../src/api/login.js."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 33,
-    "importanceReasons": [
-      "route/api surface",
-      "1 outbound dependency",
-      "test coverage signal",
-      "high-confidence analysis"
+      "low-confidence analysis"
     ]
   },
   {
@@ -34514,37 +34545,6 @@
     "importanceScore": 21,
     "importanceReasons": [
       "route/api surface",
-      "test coverage signal",
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "test/fixtures/monorepo/packages/web/package.json",
-    "extension": ".json",
-    "sizeBytes": 88,
-    "kind": "test",
-    "language": "JSON",
-    "tokenEstimate": 22,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "test/fixtures/monorepo/packages/web/package.json is a test file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "test/fixtures/monorepo/packages/web",
-    "importanceScore": 3,
-    "importanceReasons": [
       "test coverage signal",
       "low-confidence analysis"
     ]
@@ -34714,6 +34714,169 @@
     ]
   },
   {
+    "path": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+    "extension": ".ts",
+    "sizeBytes": 256,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 64,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "AppConfig",
+      "loadConfig"
+    ],
+    "symbols": [
+      {
+        "name": "AppConfig",
+        "kind": "interface",
+        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "line": 1
+      },
+      {
+        "name": "loadConfig",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "line": 3
+      }
+    ],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts contains 2 detected symbols, 0 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "AppConfig",
+        "detail": "Declares interface AppConfig."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "AppConfig",
+        "detail": "Exports AppConfig."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "loadConfig",
+        "detail": "Declares function loadConfig."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "loadConfig",
+        "detail": "Exports loadConfig."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 32,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "3 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 151,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 38,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "../src/loader.js",
+        "resolvedPath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../src/loader.js."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 15,
+    "importanceReasons": [
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 145,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 37,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "../src/config.js",
+        "resolvedPath": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts contains 0 detected symbols, 1 import, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../src/config.js."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/api",
+    "importanceScore": 33,
+    "importanceReasons": [
+      "route/api surface",
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
     "extension": ".ts",
     "sizeBytes": 108,
@@ -34845,169 +35008,6 @@
       "1 export",
       "1 symbol",
       "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-    "extension": ".ts",
-    "sizeBytes": 145,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 37,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [
-      {
-        "specifier": "../src/config.js",
-        "resolvedPath": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts contains 0 detected symbols, 1 import, 0 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../src/config.js."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/api",
-    "importanceScore": 33,
-    "importanceReasons": [
-      "route/api surface",
-      "1 outbound dependency",
-      "test coverage signal",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-    "extension": ".ts",
-    "sizeBytes": 256,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 64,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "AppConfig",
-      "loadConfig"
-    ],
-    "symbols": [
-      {
-        "name": "AppConfig",
-        "kind": "interface",
-        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "line": 1
-      },
-      {
-        "name": "loadConfig",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "line": 3
-      }
-    ],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts contains 2 detected symbols, 0 imports, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "AppConfig",
-        "detail": "Declares interface AppConfig."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "AppConfig",
-        "detail": "Exports AppConfig."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "loadConfig",
-        "detail": "Declares function loadConfig."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "loadConfig",
-        "detail": "Exports loadConfig."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 32,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
-      "3 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-    "extension": ".ts",
-    "sizeBytes": 151,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 38,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [
-      {
-        "specifier": "../src/loader.js",
-        "resolvedPath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../src/loader.js."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 15,
-    "importanceReasons": [
-      "1 outbound dependency",
-      "test coverage signal",
       "high-confidence analysis"
     ]
   },
@@ -35218,6 +35218,92 @@
     ]
   },
   {
+    "path": "test/fixtures/monorepo/packages/web/src/index.ts",
+    "extension": ".ts",
+    "sizeBytes": 104,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 26,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "@fixture/api",
+        "resolvedPath": "test/fixtures/monorepo/packages/api/src/index.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "composed",
+      "web"
+    ],
+    "symbols": [
+      {
+        "name": "web",
+        "kind": "const",
+        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
+        "line": 3
+      },
+      {
+        "name": "composed",
+        "kind": "const",
+        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
+        "line": 4
+      }
+    ],
+    "summary": "test/fixtures/monorepo/packages/web/src/index.ts contains 2 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports @fixture/api."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "web",
+        "detail": "Declares const web."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "web",
+        "detail": "Exports web."
+      },
+      {
+        "line": 4,
+        "kind": "symbol",
+        "symbol": "composed",
+        "detail": "Declares const composed."
+      },
+      {
+        "line": 4,
+        "kind": "export",
+        "symbol": "composed",
+        "detail": "Exports composed."
+      }
+    ],
+    "moduleName": "test/fixtures/monorepo/packages/web",
+    "importanceScore": 27,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "test/fixtures/monorepo/packages/api/src/config.ts",
     "extension": ".ts",
     "sizeBytes": 39,
@@ -35338,92 +35424,6 @@
       "1 export",
       "1 symbol",
       "1 inbound dependency",
-      "1 outbound dependency",
-      "test coverage signal",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "test/fixtures/monorepo/packages/web/src/index.ts",
-    "extension": ".ts",
-    "sizeBytes": 104,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 26,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [
-      {
-        "specifier": "@fixture/api",
-        "resolvedPath": "test/fixtures/monorepo/packages/api/src/index.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "composed",
-      "web"
-    ],
-    "symbols": [
-      {
-        "name": "web",
-        "kind": "const",
-        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
-        "line": 3
-      },
-      {
-        "name": "composed",
-        "kind": "const",
-        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
-        "line": 4
-      }
-    ],
-    "summary": "test/fixtures/monorepo/packages/web/src/index.ts contains 2 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports @fixture/api."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "web",
-        "detail": "Declares const web."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "web",
-        "detail": "Exports web."
-      },
-      {
-        "line": 4,
-        "kind": "symbol",
-        "symbol": "composed",
-        "detail": "Declares const composed."
-      },
-      {
-        "line": 4,
-        "kind": "export",
-        "symbol": "composed",
-        "detail": "Exports composed."
-      }
-    ],
-    "moduleName": "test/fixtures/monorepo/packages/web",
-    "importanceScore": 27,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
       "1 outbound dependency",
       "test coverage signal",
       "high-confidence analysis"
