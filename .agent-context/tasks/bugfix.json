@@ -2,8 +2,8 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 3851,
-  "remainingBudget": 8149,
+  "estimatedTokens": 3972,
+  "remainingBudget": 8028,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
@@ -139,7 +139,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 331
+      "estimatedTokens": 452
     },
     {
       "path": "src/outputs/contract-validator.ts",
@@ -223,15 +223,6 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
       "score": 8,
       "reasons": [
@@ -239,6 +230,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -414,7 +414,7 @@
         "direct importer of src/outputs/test-selector.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 331
+      "estimatedTokens": 452
     },
     {
       "path": "src/outputs/contract-validator.ts",
@@ -473,8 +473,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3851,
-    "remaining": 8149,
+    "used": 3972,
+    "remaining": 8028,
     "buckets": [
       {
         "name": "direct-source",
@@ -498,7 +498,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 2037,
+        "tokens": 2158,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
@@ -523,8 +523,8 @@
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
-          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
+          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",

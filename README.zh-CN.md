@@ -78,7 +78,7 @@ repo-context drift .
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据。
 - ✅ context delta / evolve：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件，避免大仓库里无脑全量阅读。
 - ✅ MCP / Agent Native Runtime：给 Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 提供 start_loop / step / evaluate / repair / finalize 后端工具。
-- 🧪 benchmark：提供 fixture benchmark 和手工 Agent run 样例，用来衡量上下文质量。
+- 🧪 benchmark：Loop Behavior Benchmark，对比 no-context / AGENTS.md / context pack / loop-enabled harness 下的错改、测试失败、步骤、token 和 repair loops。
 - 🧪 hybrid retrieve：统一 static / ripgrep 检索协议，为 RAG、MCP、编辑器扩展留接口。
 - 🚧 real agent benchmark：计划接入真实 Codex / Claude Code 运行数据。
 

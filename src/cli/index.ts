@@ -487,7 +487,7 @@ program
   .argument("[benchmarkDir]", "benchmark directory", "benchmarks")
   .option("-k, --top-k <count>", "top-K files used for recall/precision", parseInteger, 8)
   .option("--json", "print machine-readable benchmark results")
-  .description("Run the context quality benchmark over benchmark fixtures.")
+  .description("Run the loop behavior benchmark over benchmark fixtures.")
   .action(async (benchmarkDir: string, options: { topK: number; json?: boolean }) => {
     const result = await runBenchmark({ benchmarkDir, topK: options.topK });
     console.log(options.json ? JSON.stringify(result, null, 2) : renderBenchmarkReport(result));

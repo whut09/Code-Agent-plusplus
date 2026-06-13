@@ -1,46 +1,50 @@
 # Task Context: add a feature or new behavior
 
 Type: feature
-Budget: 2,979 / 12,000 estimated tokens
+Budget: 3,122 / 12,000 estimated tokens
 
 ## Read First
-1. `src/core/freshness.ts` - key file fallback; defines TOOL_VERSION
-2. `src/outputs/task-harness.ts` - key file fallback; defines TaskPackWriteResult
-3. `src/outputs/contract-validator.ts` - key file fallback; defines ContractValidationOptions
-4. `src/core/token-estimator.ts` - key file fallback; defines estimateTokens
-5. `src/outputs/execution-trace.ts` - key file fallback; defines ExecutionFinalState
-6. `src/outputs/task-run.ts` - key file fallback; defines TaskRunOptions
-7. `src/outputs/loop-controller.ts` - key file fallback; defines LoopPhase
-8. `src/outputs/policy-engine.ts` - key file fallback; defines PolicyKind
+1. `src/benchmarks/benchmark.ts` - lexical match: behavior; defines BenchmarkTaskDefinition
+2. `src/cli/index.ts` - direct importer of src/benchmarks/benchmark.ts, entrypoint; defines program
+3. `src/mcp/server.ts` - entrypoint; defines repoContextMcpToolNames
 
 ## Then Inspect If Needed
+- `test/benchmark.test.ts` - direct importer of src/benchmarks/benchmark.ts, related test
+- `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` - related test
+- `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts` - related test
+- `benchmarks/fixtures/fastapi-app/tests/test_users.py` - related test
+- `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts` - related test
+- `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx` - related test
+- `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts` - related test
+- `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` - related test
+- `src/core/context-builder.ts` - direct dependency of src/benchmarks/benchmark.ts
+- `src/outputs/test-selector.ts` - direct dependency of src/benchmarks/benchmark.ts
+- `src/core/types.ts` - direct dependency of src/benchmarks/benchmark.ts
+- `src/outputs/markdown.ts` - direct dependency of src/benchmarks/benchmark.ts
+- `src/outputs/task-context.ts` - direct dependency of src/benchmarks/benchmark.ts
 - `benchmarks/fixtures/monorepo/packages/api/package.json` - configuration
 - `package.json` - configuration
 - `benchmarks/fixtures/fastapi-app/pyproject.toml` - configuration
-- `benchmarks/fixtures/monorepo/package.json` - configuration
-- `benchmarks/fixtures/react-app/package.json` - configuration
-- `benchmarks/fixtures/small-ts-app/package.json` - configuration
-- `benchmarks/fixtures/monorepo/packages/config/package.json` - configuration
-- `benchmarks/fixtures/monorepo/packages/shared/package.json` - configuration
-- `benchmarks/fixtures/monorepo/packages/web/package.json` - configuration
-- `.env.example` - configuration
-- `repo-context.config.yml` - configuration
-- `tsconfig.json` - configuration
-- `.github/workflows/ci.yml` - configuration
 
 ## Why These Files
 | File | Category | Tokens | Why | Summary |
 | --- | --- | --- | --- | --- |
-| `src/core/freshness.ts` | direct-source | 290 | key file fallback | src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports. |
-| `src/outputs/task-harness.ts` | direct-source | 277 | key file fallback | src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports. |
-| `src/outputs/contract-validator.ts` | direct-source | 327 | key file fallback | src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports. |
-| `src/core/token-estimator.ts` | direct-source | 132 | key file fallback | src/core/token-estimator.ts contains 15 detected symbols, 3 imports, 7 exports. |
-| `src/outputs/execution-trace.ts` | direct-source | 200 | key file fallback | src/outputs/execution-trace.ts contains 22 detected symbols, 3 imports, 13 exports. |
-| `src/outputs/task-run.ts` | direct-source | 196 | key file fallback | src/outputs/task-run.ts contains 41 detected symbols, 9 imports, 4 exports. |
-| `src/outputs/loop-controller.ts` | direct-source | 252 | key file fallback | src/outputs/loop-controller.ts contains 46 detected symbols, 10 imports, 10 exports. |
-| `src/outputs/policy-engine.ts` | direct-source | 242 | key file fallback | src/outputs/policy-engine.ts contains 42 detected symbols, 8 imports, 8 exports. |
-| `src/mcp/server.ts` | entrypoint | 324 | entrypoint, key file fallback | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
-| `src/cli/index.ts` | entrypoint | 228 | entrypoint, key file fallback | src/cli/index.ts contains 78 detected symbols, 28 imports, 0 exports. |
+| `src/benchmarks/benchmark.ts` | direct-source | 452 | lexical match: behavior | src/benchmarks/benchmark.ts contains 90 detected symbols, 7 imports, 11 exports. |
+| `src/cli/index.ts` | entrypoint | 228 | direct importer of src/benchmarks/benchmark.ts, entrypoint | src/cli/index.ts contains 78 detected symbols, 28 imports, 0 exports. |
+| `src/mcp/server.ts` | entrypoint | 324 | entrypoint | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
+| `test/benchmark.test.ts` | test | 50 | direct importer of src/benchmarks/benchmark.ts, related test | test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
+| `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` | test | 63 | related test | benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports. |
+| `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts` | test | 66 | related test | benchmarks/fixtures/monorepo/packages/api/test/config.test.ts contains 0 detected symbols, 1 import, 0 exports. |
+| `benchmarks/fixtures/fastapi-app/tests/test_users.py` | test | 72 | related test | benchmarks/fixtures/fastapi-app/tests/test_users.py contains 1 detected Python symbol and 1 import. |
+| `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts` | test | 61 | related test | benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts contains 0 detected symbols, 1 import, 0 exports. |
+| `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx` | test | 64 | related test | benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx contains 0 detected symbols, 1 import, 0 exports. |
+| `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts` | test | 60 | related test | benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports. |
+| `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` | test | 63 | related test | benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports. |
+| `src/core/context-builder.ts` | dependency-neighbor | 106 | direct dependency of src/benchmarks/benchmark.ts | src/core/context-builder.ts contains 15 detected symbols, 11 imports, 2 exports. |
+| `src/outputs/test-selector.ts` | dependency-neighbor | 226 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/test-selector.ts contains 44 detected symbols, 3 imports, 4 exports. |
+| `src/core/types.ts` | dependency-neighbor | 291 | direct dependency of src/benchmarks/benchmark.ts | src/core/types.ts contains 34 detected symbols, 0 imports, 34 exports. |
+| `src/outputs/markdown.ts` | dependency-neighbor | 68 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
+| `src/outputs/task-context.ts` | dependency-neighbor | 252 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/task-context.ts contains 64 detected symbols, 3 imports, 3 exports. |
 | `benchmarks/fixtures/monorepo/packages/api/package.json` | config-doc | 51 | configuration | benchmarks/fixtures/monorepo/packages/api/package.json is a config file written as JSON. |
 | `package.json` | config-doc | 25 | configuration | package.json is a config file written as JSON. |
 | `benchmarks/fixtures/fastapi-app/pyproject.toml` | config-doc | 42 | configuration | benchmarks/fixtures/fastapi-app/pyproject.toml is a config file written as TOML. |
@@ -48,23 +52,27 @@ Budget: 2,979 / 12,000 estimated tokens
 | `benchmarks/fixtures/react-app/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/react-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
-| `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
+| `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
 | `.env.example` | config-doc | 25 | configuration | .env.example is a config file. |
 | `repo-context.config.yml` | config-doc | 35 | configuration | repo-context.config.yml is a config file written as YAML. |
 | `tsconfig.json` | config-doc | 34 | configuration | tsconfig.json is a config file written as JSON. |
 | `.github/workflows/ci.yml` | config-doc | 35 | configuration | .github/workflows/ci.yml is a config file written as YAML. |
+| `benchmarks/fixtures/monorepo/packages/api/README.md` | config-doc | 48 | owning module documentation | benchmarks/fixtures/monorepo/packages/api/README.md is a docs file written as Markdown. |
+| `benchmarks/README.md` | config-doc | 28 | owning module documentation | benchmarks/README.md is a docs file written as Markdown. |
+| `benchmarks/fixtures/monorepo/packages/config/README.md` | config-doc | 45 | owning module documentation | benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown. |
+| `benchmarks/fixtures/monorepo/packages/web/README.md` | config-doc | 44 | owning module documentation | benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown. |
 
 ## Budget Packing
 | Bucket | Tokens | Files |
 | --- | --- | --- |
-| Directly relevant source files | 1,916 | `src/core/freshness.ts`, `src/outputs/task-harness.ts`, `src/outputs/contract-validator.ts`, `src/core/token-estimator.ts`, `src/outputs/execution-trace.ts`, `src/outputs/task-run.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts` |
-| Tests | 0 | none |
-| Dependency neighbors | 0 | none |
-| Config/docs | 511 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
-| Entrypoints | 552 | `src/mcp/server.ts`, `src/cli/index.ts` |
+| Directly relevant source files | 452 | `src/benchmarks/benchmark.ts` |
+| Tests | 499 | `test/benchmark.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` |
+| Dependency neighbors | 943 | `src/core/context-builder.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/outputs/task-context.ts` |
+| Config/docs | 676 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md` |
+| Entrypoints | 552 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 9,021 estimated tokens
+Remaining budget: 8,878 estimated tokens
 
 ## Suggested Commands
 - npm run test -- feature

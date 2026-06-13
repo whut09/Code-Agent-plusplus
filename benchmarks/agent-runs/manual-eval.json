@@ -11,6 +11,7 @@
     "modifiedCorrectLocation": false,
     "tokenUsage": 8200,
     "iterations": 6,
+    "repairLoops": 3,
     "notes": "Baseline with no repo context"
   },
   {
@@ -24,12 +25,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 5400,
-    "iterations": 4
+    "iterations": 4,
+    "repairLoops": 2
   },
   {
     "task": "fix-login-timeout",
     "agent": "manual-eval",
-    "mode": "task-pack",
+    "mode": "context-pack",
     "changedFiles": ["src/auth/session.ts", "test/auth/session.test.ts"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -37,12 +39,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 3100,
-    "iterations": 3
+    "iterations": 3,
+    "repairLoops": 1
   },
   {
     "task": "fix-login-timeout",
     "agent": "manual-eval",
-    "mode": "task-pack-contracts-verify",
+    "mode": "loop-enabled-harness",
     "changedFiles": ["src/auth/session.ts", "test/auth/session.test.ts"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -51,6 +54,7 @@
     "modifiedCorrectLocation": true,
     "tokenUsage": 3600,
     "iterations": 2,
+    "repairLoops": 0,
     "notes": "Task pack plus contracts and verify loop"
   },
   {
@@ -64,7 +68,8 @@
     "foundCorrectFiles": false,
     "modifiedCorrectLocation": false,
     "tokenUsage": 8600,
-    "iterations": 6
+    "iterations": 6,
+    "repairLoops": 3
   },
   {
     "task": "add-api-field",
@@ -77,12 +82,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 5600,
-    "iterations": 4
+    "iterations": 4,
+    "repairLoops": 2
   },
   {
     "task": "add-api-field",
     "agent": "manual-eval",
-    "mode": "task-pack",
+    "mode": "context-pack",
     "changedFiles": ["app/routes/users.py", "app/schemas.py", "tests/test_users.py"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -90,12 +96,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 3400,
-    "iterations": 3
+    "iterations": 3,
+    "repairLoops": 1
   },
   {
     "task": "add-api-field",
     "agent": "manual-eval",
-    "mode": "task-pack-contracts-verify",
+    "mode": "loop-enabled-harness",
     "changedFiles": ["app/routes/users.py", "app/schemas.py", "tests/test_users.py"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -103,7 +110,8 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 3800,
-    "iterations": 2
+    "iterations": 2,
+    "repairLoops": 0
   },
   {
     "task": "fix-react-auth-state",
@@ -116,7 +124,8 @@
     "foundCorrectFiles": false,
     "modifiedCorrectLocation": false,
     "tokenUsage": 7900,
-    "iterations": 6
+    "iterations": 6,
+    "repairLoops": 3
   },
   {
     "task": "fix-react-auth-state",
@@ -129,12 +138,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 5200,
-    "iterations": 4
+    "iterations": 4,
+    "repairLoops": 2
   },
   {
     "task": "fix-react-auth-state",
     "agent": "manual-eval",
-    "mode": "task-pack",
+    "mode": "context-pack",
     "changedFiles": ["src/auth/useAuthState.ts", "src/components/LoginStatus.tsx", "src/components/LoginStatus.test.tsx"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -142,12 +152,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 3300,
-    "iterations": 3
+    "iterations": 3,
+    "repairLoops": 1
   },
   {
     "task": "fix-react-auth-state",
     "agent": "manual-eval",
-    "mode": "task-pack-contracts-verify",
+    "mode": "loop-enabled-harness",
     "changedFiles": ["src/auth/useAuthState.ts", "src/components/LoginStatus.tsx", "src/components/LoginStatus.test.tsx"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -155,7 +166,8 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 3600,
-    "iterations": 2
+    "iterations": 2,
+    "repairLoops": 0
   },
   {
     "task": "refactor-config-loader",
@@ -168,7 +180,8 @@
     "foundCorrectFiles": false,
     "modifiedCorrectLocation": false,
     "tokenUsage": 9100,
-    "iterations": 7
+    "iterations": 7,
+    "repairLoops": 4
   },
   {
     "task": "refactor-config-loader",
@@ -181,12 +194,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 6000,
-    "iterations": 4
+    "iterations": 4,
+    "repairLoops": 2
   },
   {
     "task": "refactor-config-loader",
     "agent": "manual-eval",
-    "mode": "task-pack",
+    "mode": "context-pack",
     "changedFiles": ["packages/config/src/loader.ts", "packages/config/test/loader.test.ts"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -194,12 +208,13 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 3700,
-    "iterations": 3
+    "iterations": 3,
+    "repairLoops": 1
   },
   {
     "task": "refactor-config-loader",
     "agent": "manual-eval",
-    "mode": "task-pack-contracts-verify",
+    "mode": "loop-enabled-harness",
     "changedFiles": ["packages/config/src/loader.ts", "packages/config/test/loader.test.ts"],
     "passedTests": true,
     "unrelatedChanges": 0,
@@ -207,6 +222,7 @@
     "foundCorrectFiles": true,
     "modifiedCorrectLocation": true,
     "tokenUsage": 4100,
-    "iterations": 2
+    "iterations": 2,
+    "repairLoops": 0
   }
 ]

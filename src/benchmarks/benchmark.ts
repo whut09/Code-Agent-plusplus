@@ -21,7 +21,20 @@ export interface BenchmarkOptions {
   topK?: number;
 }
 
-export type AgentRunMode = "no-context" | "agents-md" | "task-pack" | "task-pack-contracts-verify";
+export type AgentRunMode = "no-context" | "agents-md" | "context-pack" | "loop-enabled-harness";
+
+type LegacyAgentRunMode = AgentRunMode | "task-pack" | "task-pack-contracts-verify";
+
+const AGENT_RUN_MODES: AgentRunMode[] = ["no-context", "agents-md", "context-pack", "loop-enabled-harness"];
+
+const LEGACY_MODE_ALIASES: Record<LegacyAgentRunMode, AgentRunMode> = {
+  "no-context": "no-context",
+  "agents-md": "agents-md",
+  "context-pack": "context-pack",
+  "loop-enabled-harness": "loop-enabled-harness",
+  "task-pack": "context-pack",
+  "task-pack-contracts-verify": "loop-enabled-harness"
+};
 
 export interface AgentRunRecord {
   task: string;
@@ -35,6 +48,7 @@ export interface AgentRunRecord {
   modifiedCorrectLocation?: boolean;
   tokenUsage?: number;
   iterations?: number;
+  repairLoops?: number;
   notes?: string;
 }
 
@@ -44,8 +58,21 @@ export interface AgentRunModeSummary {
   averageScore: number;
   passRate: number;
   averageUnrelatedChanges: number;
+  averageWrongFileEdits: number;
+  testFailureRate: number;
   averageTokenUsage: number | null;
   averageIterations: number | null;
+  averageSteps: number | null;
+  averageRepairLoops: number | null;
+}
+
+export interface LoopBehaviorDelta {
+  wrongFileEditsReduction: number | null;
+  testFailureReduction: number | null;
+  stepsReduction: number | null;
+  tokenUsageReduction: number | null;
+  repairLoopsReduction: number | null;
+  moatScore: number | null;
 }
 
 export interface BenchmarkCaseResult {
@@ -71,6 +98,7 @@ export interface BenchmarkCaseResult {
     baselineSuccessProxy: number;
     agentSuccessDeltaProxy: number;
     agentSuccessDelta: number | null;
+    loopBehaviorDelta: LoopBehaviorDelta;
   };
 }
 
@@ -90,6 +118,12 @@ export interface BenchmarkSummary {
   averageTestRecommendationAccuracy: number;
   averageAgentSuccessDeltaProxy: number;
   averageAgentSuccessDelta: number | null;
+  averageWrongFileEditReduction: number | null;
+  averageTestFailureReduction: number | null;
+  averageStepsReduction: number | null;
+  averageTokenUsageReduction: number | null;
+  averageRepairLoopReduction: number | null;
+  averageLoopMoatScore: number | null;
   agentRunCases: number;
 }
 
@@ -125,6 +159,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
     const caseAgentRuns = agentRuns.filter((run) => run.task === task.id || run.task === task.task);
     const agentRunModes = summarizeAgentRuns(caseAgentRuns);
     const agentSuccessDelta = realAgentSuccessDelta(agentRunModes);
+    const loopBehaviorDelta = calculateLoopBehaviorDelta(agentRunModes);
 
     cases.push({
       id: task.id,
@@ -148,7 +183,8 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
         contextPackSuccessProxy,
         baselineSuccessProxy,
         agentSuccessDeltaProxy: contextPackSuccessProxy - baselineSuccessProxy,
-        agentSuccessDelta
+        agentSuccessDelta,
+        loopBehaviorDelta
       }
     });
   }
@@ -163,7 +199,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
 
 export function renderBenchmarkReport(result: BenchmarkRunResult): string {
   return [
-    heading(1, "Context Quality Benchmark"),
+    heading(1, "Loop Behavior Benchmark"),
     "",
     `Benchmark dir: ${code(result.benchmarkDir)}`,
     `Cases: ${result.summary.cases}`,
@@ -174,6 +210,12 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
     table(
       ["Metric", "Value"],
       [
+        ["Wrong file edits reduction", formatNullableNumber(result.summary.averageWrongFileEditReduction)],
+        ["Test failure reduction", formatNullableNumber(result.summary.averageTestFailureReduction)],
+        ["Steps per task reduction", formatNullableNumber(result.summary.averageStepsReduction)],
+        ["Token usage reduction", formatNullableNumber(result.summary.averageTokenUsageReduction)],
+        ["Repair loops reduction", formatNullableNumber(result.summary.averageRepairLoopReduction)],
+        ["Loop moat score", result.summary.averageLoopMoatScore === null ? "No agent-run records" : percent(result.summary.averageLoopMoatScore)],
         ["Recall@K", percent(result.summary.averageRecallAtK)],
         ["Precision@K", percent(result.summary.averagePrecisionAtK)],
         ["Baseline Recall@K", percent(result.summary.averageBaselineRecallAtK)],
@@ -184,7 +226,10 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
       ]
     ),
     "",
-    heading(2, "Cases"),
+    heading(2, "Loop Harness Delta"),
+    renderLoopHarnessDelta(result),
+    "",
+    heading(2, "Context Quality Signals"),
     table(
       ["Task", "Fixture", "Recall@K", "Precision@K", "Tests", "Compression", "Agent Delta", "Delta Proxy"],
       result.cases.map((item) => [
@@ -199,31 +244,61 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
       ])
     ),
     "",
-    heading(2, "Agent Run Modes"),
+    heading(2, "Behavior Comparison"),
     renderAgentRunModes(result),
     "",
     heading(2, "Interpretation"),
+    "- Behavior comparison is the primary loop benchmark: it compares A no context, B AGENTS.md only, C context pack, and D loop enabled harness.",
+    "- Wrong file edits: unrelated file edits recorded by the run evaluator. Lower is better.",
+    "- Test failure reduction: failed-test rate improvement from `no-context` to `loop-enabled-harness`. Higher is better.",
+    "- Steps per task: agent iterations or turns needed to finish the task. Lower is better.",
+    "- Repair loops: explicit retry, repair, or re-plan cycles observed during a run. Lower is better.",
+    "- Loop moat score: average normalized reduction across wrong file edits, test failures, steps, token usage, and repair loops.",
     "- Recall@K: expected task-relevant files present in the task pack top K.",
     "- Precision@K: top K slots that are expected task-relevant files.",
     "- Baseline Recall@K: same recall using non-task-aware key files as the baseline.",
     "- Token compression ratio: original fixture token estimate divided by selected task-pack token estimate.",
     "- Test recommendation accuracy: expected tests present in minimal or regression recommendations.",
-    "- Agent success delta: average score improvement from `no-context` to `task-pack-contracts-verify` when `benchmarks/agent-runs/*.json` records are present.",
+    "- Agent success delta: average score improvement from `no-context` to `loop-enabled-harness` when `benchmarks/agent-runs/*.json` records are present.",
     "- Agent success delta proxy: deterministic fallback comparing task-pack coverage with baseline coverage when no agent-run records exist."
   ].join("\n");
+}
+
+function renderLoopHarnessDelta(result: BenchmarkRunResult): string {
+  const rows = result.cases
+    .filter((item) => item.agentRunModes.length > 0)
+    .map((item) => {
+      const delta = item.metrics.loopBehaviorDelta;
+      return [
+        item.id,
+        formatNullableNumber(delta.wrongFileEditsReduction),
+        formatNullableNumber(delta.testFailureReduction),
+        formatNullableNumber(delta.stepsReduction),
+        formatNullableNumber(delta.tokenUsageReduction),
+        formatNullableNumber(delta.repairLoopsReduction),
+        delta.moatScore === null ? "n/a" : percent(delta.moatScore)
+      ];
+    });
+
+  if (!rows.length) {
+    return "No `benchmarks/agent-runs/*.json` records found.";
+  }
+
+  return table(["Task", "Wrong edits reduction", "Test failures reduction", "Steps reduction", "Tokens reduction", "Repair loops reduction", "Moat"], rows);
 }
 
 function renderAgentRunModes(result: BenchmarkRunResult): string {
   const rows = result.cases.flatMap((item) =>
     item.agentRunModes.map((mode) => [
       item.id,
-      mode.mode,
+      displayAgentRunMode(mode.mode),
       mode.runs.toString(),
       signed(mode.averageScore),
-      percent(mode.passRate),
-      mode.averageUnrelatedChanges.toFixed(1),
+      mode.averageWrongFileEdits.toFixed(1),
+      mode.testFailureRate.toFixed(2),
+      mode.averageSteps === null ? "n/a" : mode.averageSteps.toFixed(1),
       mode.averageTokenUsage === null ? "n/a" : Math.round(mode.averageTokenUsage).toLocaleString(),
-      mode.averageIterations === null ? "n/a" : mode.averageIterations.toFixed(1)
+      mode.averageRepairLoops === null ? "n/a" : mode.averageRepairLoops.toFixed(1)
     ])
   );
 
@@ -231,7 +306,7 @@ function renderAgentRunModes(result: BenchmarkRunResult): string {
     return "No `benchmarks/agent-runs/*.json` records found.";
   }
 
-  return table(["Task", "Mode", "Runs", "Score", "Pass", "Unrelated", "Tokens", "Iterations"], rows);
+  return table(["Task", "Mode", "Runs", "Score", "Wrong file edits", "Test failures", "Steps", "Tokens", "Repair loops"], rows);
 }
 
 function readTasks(tasksDir: string): BenchmarkTaskDefinition[] {
@@ -247,8 +322,8 @@ function readAgentRuns(agentRunsDir: string): AgentRunRecord[] {
     .filter((fileName) => fileName.endsWith(".json"))
     .sort()
     .flatMap((fileName) => {
-      const parsed = readJson<AgentRunRecord | AgentRunRecord[]>(path.join(agentRunsDir, fileName));
-      return (Array.isArray(parsed) ? parsed : [parsed]).filter(isAgentRunRecord);
+      const parsed = readJson<unknown | unknown[]>(path.join(agentRunsDir, fileName));
+      return (Array.isArray(parsed) ? parsed : [parsed]).map(normalizeAgentRunRecord).filter((record): record is AgentRunRecord => record !== null);
     });
 }
 
@@ -274,6 +349,7 @@ function ratio(numerator: number, denominator: number): number {
 
 function summarize(cases: BenchmarkCaseResult[]): BenchmarkSummary {
   const realDeltas = cases.map((item) => item.metrics.agentSuccessDelta).filter((value): value is number => typeof value === "number");
+  const loopDeltas = cases.map((item) => item.metrics.loopBehaviorDelta);
   return {
     cases: cases.length,
     averageRecallAtK: average(cases.map((item) => item.metrics.recallAtK)),
@@ -283,36 +359,93 @@ function summarize(cases: BenchmarkCaseResult[]): BenchmarkSummary {
     averageTestRecommendationAccuracy: average(cases.map((item) => item.metrics.testRecommendationAccuracy)),
     averageAgentSuccessDeltaProxy: average(cases.map((item) => item.metrics.agentSuccessDeltaProxy)),
     averageAgentSuccessDelta: realDeltas.length ? average(realDeltas) : null,
+    averageWrongFileEditReduction: nullableAverage(loopDeltas.map((delta) => delta.wrongFileEditsReduction).filter(isNumber)),
+    averageTestFailureReduction: nullableAverage(loopDeltas.map((delta) => delta.testFailureReduction).filter(isNumber)),
+    averageStepsReduction: nullableAverage(loopDeltas.map((delta) => delta.stepsReduction).filter(isNumber)),
+    averageTokenUsageReduction: nullableAverage(loopDeltas.map((delta) => delta.tokenUsageReduction).filter(isNumber)),
+    averageRepairLoopReduction: nullableAverage(loopDeltas.map((delta) => delta.repairLoopsReduction).filter(isNumber)),
+    averageLoopMoatScore: nullableAverage(loopDeltas.map((delta) => delta.moatScore).filter(isNumber)),
     agentRunCases: cases.filter((item) => item.agentRuns.length > 0).length
   };
 }
 
 function summarizeAgentRuns(runs: AgentRunRecord[]): AgentRunModeSummary[] {
-  const modes: AgentRunMode[] = ["no-context", "agents-md", "task-pack", "task-pack-contracts-verify"];
-  return modes
-    .map((mode) => {
-      const modeRuns = runs.filter((run) => run.mode === mode);
-      return {
-        mode,
-        runs: modeRuns.length,
-        averageScore: average(modeRuns.map((run) => run.score)),
-        passRate: average(modeRuns.map((run) => (run.passedTests ? 1 : 0))),
-        averageUnrelatedChanges: average(modeRuns.map((run) => run.unrelatedChanges)),
-        averageTokenUsage: nullableAverage(modeRuns.map((run) => run.tokenUsage).filter((value): value is number => typeof value === "number")),
-        averageIterations: nullableAverage(modeRuns.map((run) => run.iterations).filter((value): value is number => typeof value === "number"))
-      };
-    })
-    .filter((summary) => summary.runs > 0);
+  return AGENT_RUN_MODES.map((mode) => {
+    const modeRuns = runs.filter((run) => run.mode === mode);
+    const averageIterations = nullableAverage(modeRuns.map((run) => run.iterations).filter(isNumber));
+    return {
+      mode,
+      runs: modeRuns.length,
+      averageScore: average(modeRuns.map((run) => run.score)),
+      passRate: average(modeRuns.map((run) => (run.passedTests ? 1 : 0))),
+      averageUnrelatedChanges: average(modeRuns.map((run) => run.unrelatedChanges)),
+      averageWrongFileEdits: average(modeRuns.map((run) => run.unrelatedChanges)),
+      testFailureRate: average(modeRuns.map((run) => (run.passedTests ? 0 : 1))),
+      averageTokenUsage: nullableAverage(modeRuns.map((run) => run.tokenUsage).filter(isNumber)),
+      averageIterations,
+      averageSteps: averageIterations,
+      averageRepairLoops: nullableAverage(modeRuns.map((run) => run.repairLoops).filter(isNumber))
+    };
+  }).filter((summary) => summary.runs > 0);
 }
 
 function realAgentSuccessDelta(modes: AgentRunModeSummary[]): number | null {
   const baseline = modes.find((mode) => mode.mode === "no-context");
   const harness =
-    modes.find((mode) => mode.mode === "task-pack-contracts-verify") ??
-    modes.find((mode) => mode.mode === "task-pack") ??
+    modes.find((mode) => mode.mode === "loop-enabled-harness") ??
+    modes.find((mode) => mode.mode === "context-pack") ??
     modes.find((mode) => mode.mode === "agents-md");
   if (!baseline || !harness) return null;
   return harness.averageScore - baseline.averageScore;
+}
+
+function calculateLoopBehaviorDelta(modes: AgentRunModeSummary[]): LoopBehaviorDelta {
+  const baseline = modes.find((mode) => mode.mode === "no-context");
+  const harness = modes.find((mode) => mode.mode === "loop-enabled-harness");
+  if (!baseline || !harness) {
+    return {
+      wrongFileEditsReduction: null,
+      testFailureReduction: null,
+      stepsReduction: null,
+      tokenUsageReduction: null,
+      repairLoopsReduction: null,
+      moatScore: null
+    };
+  }
+
+  const wrongFileEditsReduction = baseline.averageWrongFileEdits - harness.averageWrongFileEdits;
+  const testFailureReduction = baseline.testFailureRate - harness.testFailureRate;
+  const stepsReduction = nullableDifference(baseline.averageSteps, harness.averageSteps);
+  const tokenUsageReduction = nullableDifference(baseline.averageTokenUsage, harness.averageTokenUsage);
+  const repairLoopsReduction = nullableDifference(baseline.averageRepairLoops, harness.averageRepairLoops);
+  const moatScore = nullableAverage(
+    [
+      normalizedReduction(baseline.averageWrongFileEdits, harness.averageWrongFileEdits),
+      normalizedReduction(baseline.testFailureRate, harness.testFailureRate),
+      normalizedReduction(baseline.averageSteps, harness.averageSteps),
+      normalizedReduction(baseline.averageTokenUsage, harness.averageTokenUsage),
+      normalizedReduction(baseline.averageRepairLoops, harness.averageRepairLoops)
+    ].filter(isNumber)
+  );
+
+  return {
+    wrongFileEditsReduction,
+    testFailureReduction,
+    stepsReduction,
+    tokenUsageReduction,
+    repairLoopsReduction,
+    moatScore
+  };
+}
+
+function nullableDifference(left: number | null, right: number | null): number | null {
+  if (left === null || right === null) return null;
+  return left - right;
+}
+
+function normalizedReduction(left: number | null, right: number | null): number | null {
+  if (left === null || right === null || left <= 0) return null;
+  return Math.max(0, Math.min(1, (left - right) / left));
 }
 
 function average(values: number[]): number {
@@ -324,18 +457,55 @@ function nullableAverage(values: number[]): number | null {
   return values.length ? average(values) : null;
 }
 
-function isAgentRunRecord(value: AgentRunRecord): value is AgentRunRecord {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    typeof (value as AgentRunRecord).task === "string" &&
-    typeof (value as AgentRunRecord).agent === "string" &&
-    ["no-context", "agents-md", "task-pack", "task-pack-contracts-verify"].includes((value as AgentRunRecord).mode) &&
-    Array.isArray((value as AgentRunRecord).changedFiles) &&
-    typeof (value as AgentRunRecord).passedTests === "boolean" &&
-    typeof (value as AgentRunRecord).unrelatedChanges === "number" &&
-    typeof (value as AgentRunRecord).score === "number"
-  );
+function normalizeAgentRunRecord(value: unknown): AgentRunRecord | null {
+  if (typeof value !== "object" || value === null) return null;
+  const candidate = value as Partial<AgentRunRecord> & { mode?: LegacyAgentRunMode };
+  if (
+    typeof candidate.task !== "string" ||
+    typeof candidate.agent !== "string" ||
+    !candidate.mode ||
+    !isKnownAgentRunMode(candidate.mode) ||
+    !Array.isArray(candidate.changedFiles) ||
+    typeof candidate.passedTests !== "boolean" ||
+    typeof candidate.unrelatedChanges !== "number" ||
+    typeof candidate.score !== "number"
+  ) {
+    return null;
+  }
+
+  return {
+    task: candidate.task,
+    agent: candidate.agent,
+    mode: LEGACY_MODE_ALIASES[candidate.mode],
+    changedFiles: candidate.changedFiles,
+    passedTests: candidate.passedTests,
+    unrelatedChanges: candidate.unrelatedChanges,
+    score: candidate.score,
+    foundCorrectFiles: candidate.foundCorrectFiles,
+    modifiedCorrectLocation: candidate.modifiedCorrectLocation,
+    tokenUsage: candidate.tokenUsage,
+    iterations: candidate.iterations,
+    repairLoops: candidate.repairLoops,
+    notes: candidate.notes
+  };
+}
+
+function isKnownAgentRunMode(value: string): value is LegacyAgentRunMode {
+  return value in LEGACY_MODE_ALIASES;
+}
+
+function isNumber(value: number | null | undefined): value is number {
+  return typeof value === "number";
+}
+
+function displayAgentRunMode(mode: AgentRunMode): string {
+  const labels: Record<AgentRunMode, string> = {
+    "no-context": "A. no context",
+    "agents-md": "B. AGENTS.md only",
+    "context-pack": "C. context pack",
+    "loop-enabled-harness": "D. loop enabled harness"
+  };
+  return labels[mode];
 }
 
 function percent(value: number): string {
@@ -344,6 +514,12 @@ function percent(value: number): string {
 
 function signed(value: number): string {
   return value > 0 ? `+${value.toFixed(2)}` : value.toFixed(2);
+}
+
+function formatNullableNumber(value: number | null): string {
+  if (value === null) return "n/a";
+  if (Math.abs(value) >= 1000) return Math.round(value).toLocaleString();
+  return value.toFixed(2);
 }
 
 function unique<T>(items: T[]): T[] {

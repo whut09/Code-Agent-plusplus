@@ -1,10 +1,10 @@
 # Token Savings Report
 
-Original repo (estimated, chars_approx): 1,565,934 tokens
-Estimated context pack (chars_approx): 17,563 tokens
+Original repo (estimated, chars_approx): 1,568,691 tokens
+Estimated context pack (chars_approx): 17,567 tokens
 Compression: 19x
 Token budget: 90,000 (within budget)
-Actual context pack (chars_approx): 80,348 tokens
+Actual context pack (chars_approx): 81,194 tokens
 
 ## Selection
 - Selected files: 80
@@ -15,12 +15,12 @@ Actual context pack (chars_approx): 80,348 tokens
 - Actual context pack tokens are counted from generated Markdown, Mermaid, and RAG JSONL files after writing.
 
 ## Estimated Tokens
-- Original repo: 1,565,934 tokens (chars_approx)
-- Estimated context pack: 17,563 tokens (chars_approx)
+- Original repo: 1,568,691 tokens (chars_approx)
+- Estimated context pack: 17,567 tokens (chars_approx)
 
 ## Actual Generated Output
 Tokenizer: chars_approx
-Actual output: 80,348 tokens
+Actual output: 81,194 tokens
 Scope: Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readable indexes and the token report itself.
 
 - `.agent-context/AGENTS.generated.md`: 722 tokens
@@ -35,7 +35,7 @@ Scope: Generated Markdown, Mermaid, and RAG JSONL files; excludes machine-readab
 - `.agent-context/onboarding.md`: 207 tokens
 - `.agent-context/readiness.md`: 847 tokens
 - `.agent-context/tasks/bugfix-context.md`: 2,222 tokens
-- `.agent-context/tasks/feature-context.md`: 1,644 tokens
+- `.agent-context/tasks/feature-context.md`: 2,359 tokens
 - `.agent-context/tasks/refactor-context.md`: 5,594 tokens
 - `.agent-context/rag/README.md`: 167 tokens
-- `.agent-context/rag/documents.jsonl`: 61,804 tokens
+- `.agent-context/rag/documents.jsonl`: 61,935 tokens

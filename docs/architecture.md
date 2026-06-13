@@ -293,6 +293,17 @@ The MVP avoids LLM dependency. It should produce useful context in offline CI, l
 
 Optional output groups are controlled by `outputs.*`. Disabling a group removes its previously generated artifacts. Core summaries, key files, token savings, onboarding, and machine-readable indexes are always generated.
 
+## Loop Behavior Benchmark
+
+The benchmark layer is now a behavior comparison, not only a context-quality metric. It compares four modes:
+
+- A. `no-context`
+- B. `agents-md`
+- C. `context-pack`
+- D. `loop-enabled-harness`
+
+The report still includes retrieval signals such as Recall@K, Precision@K, token compression, and test recommendation accuracy, but the primary moat signal is behavior: fewer wrong file edits, fewer test failures, fewer steps per task, lower token usage, and fewer repair loops from A to D.
+
 ## Verification
 
 ```bash

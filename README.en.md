@@ -78,7 +78,7 @@ repo-context drift .
 - ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence.
 - ✅ context delta / evolve: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff, so large repos avoid blind full-context rereads.
 - ✅ MCP / Agent Native Runtime: backend tools for Claude Code, Cursor, Codex CLI, LibreChat, and OpenHands with start_loop / step / evaluate / repair / finalize.
-- 🧪 benchmark: fixture benchmark plus manual agent-run samples for context quality.
+- 🧪 benchmark: Loop Behavior Benchmark comparing no-context, AGENTS.md, context pack, and loop-enabled harness runs across wrong edits, test failures, steps, tokens, and repair loops.
 - 🧪 hybrid retrieve: shared static / ripgrep retrieval protocol for RAG, MCP, and editor integrations.
 - 🚧 real agent benchmark: planned Codex / Claude Code run data.
 

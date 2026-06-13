@@ -311,10 +311,10 @@
   {
     "path": "README.en.md",
     "extension": ".md",
-    "sizeBytes": 9282,
+    "sizeBytes": 9382,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2321,
+    "tokenEstimate": 2346,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -342,10 +342,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 9196,
+    "sizeBytes": 9270,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2299,
+    "tokenEstimate": 2318,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -373,10 +373,10 @@
   {
     "path": "README.zh-CN.md",
     "extension": ".md",
-    "sizeBytes": 9196,
+    "sizeBytes": 9270,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 2299,
+    "tokenEstimate": 2318,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -683,10 +683,10 @@
   {
     "path": "benchmarks/README.md",
     "extension": ".md",
-    "sizeBytes": 1624,
+    "sizeBytes": 2569,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 406,
+    "tokenEstimate": 643,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -776,10 +776,10 @@
   {
     "path": "docs/architecture.md",
     "extension": ".md",
-    "sizeBytes": 17005,
+    "sizeBytes": 17519,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 4252,
+    "tokenEstimate": 4380,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -1256,10 +1256,10 @@
   {
     "path": "test/benchmark.test.ts",
     "extension": ".ts",
-    "sizeBytes": 1346,
+    "sizeBytes": 2386,
     "kind": "test",
     "language": "TypeScript",
-    "tokenEstimate": 337,
+    "tokenEstimate": 597,
     "isBinary": false,
     "isGenerated": false,
     "isTest": true,
@@ -1297,7 +1297,7 @@
         "name": "markdown",
         "kind": "const",
         "filePath": "test/benchmark.test.ts",
-        "line": 21
+        "line": 34
       }
     ],
     "summary": "test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports.",
@@ -1338,7 +1338,7 @@
         "detail": "Declares const result."
       },
       {
-        "line": 21,
+        "line": 34,
         "kind": "symbol",
         "symbol": "markdown",
         "detail": "Declares const markdown."
@@ -6486,10 +6486,10 @@
   {
     "path": "benchmarks/agent-runs/manual-eval.json",
     "extension": ".json",
-    "sizeBytes": 5948,
+    "sizeBytes": 6288,
     "kind": "unknown",
     "language": "JSON",
-    "tokenEstimate": 1487,
+    "tokenEstimate": 1572,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -8757,10 +8757,10 @@
   {
     "path": "src/benchmarks/benchmark.ts",
     "extension": ".ts",
-    "sizeBytes": 13771,
+    "sizeBytes": 21705,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 3443,
+    "tokenEstimate": 5427,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -8810,6 +8810,7 @@
       "BenchmarkRunResult",
       "BenchmarkSummary",
       "BenchmarkTaskDefinition",
+      "LoopBehaviorDelta",
       "renderBenchmarkReport",
       "runBenchmark"
     ],
@@ -8833,380 +8834,536 @@
         "line": 24
       },
       {
+        "name": "LegacyAgentRunMode",
+        "kind": "type",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 26
+      },
+      {
+        "name": "AGENT_RUN_MODES",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 28
+      },
+      {
+        "name": "LEGACY_MODE_ALIASES",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 30
+      },
+      {
         "name": "AgentRunRecord",
         "kind": "interface",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 26
+        "line": 39
       },
       {
         "name": "AgentRunModeSummary",
         "kind": "interface",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 41
+        "line": 55
+      },
+      {
+        "name": "LoopBehaviorDelta",
+        "kind": "interface",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 69
       },
       {
         "name": "BenchmarkCaseResult",
         "kind": "interface",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 51
+        "line": 78
       },
       {
         "name": "BenchmarkRunResult",
         "kind": "interface",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 77
+        "line": 105
       },
       {
         "name": "BenchmarkSummary",
         "kind": "interface",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 84
+        "line": 112
       },
       {
         "name": "runBenchmark",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 96
+        "line": 130
       },
       {
         "name": "benchmarkDir",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 97
+        "line": 131
       },
       {
         "name": "topK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 98
+        "line": 132
       },
       {
         "name": "tasks",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 99
+        "line": 133
       },
       {
         "name": "relevantFiles",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 100
+        "line": 134
       },
       {
         "name": "requiredTests",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 101
+        "line": 135
       },
       {
         "name": "agentRuns",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 102
+        "line": 136
       },
       {
         "name": "cases",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 103
+        "line": 137
       },
       {
         "name": "fixtureRoot",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 106
+        "line": 140
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 107
+        "line": 141
       },
       {
         "name": "caseTopK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 108
+        "line": 142
       },
       {
         "name": "pack",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 109
+        "line": 143
       },
       {
         "name": "selectedFiles",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 110
+        "line": 144
       },
       {
         "name": "selectedTopK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 111
+        "line": 145
       },
       {
         "name": "expectedRelevantFiles",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 112
+        "line": 146
       },
       {
         "name": "expectedRequiredTests",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 113
+        "line": 147
       },
       {
         "name": "testSelection",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 114
+        "line": 148
       },
       {
         "name": "recommendedTests",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 115
+        "line": 149
       },
       {
         "name": "baselineTopK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 116
+        "line": 150
       },
       {
         "name": "recallAtK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 117
+        "line": 151
       },
       {
         "name": "precisionAtK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 118
+        "line": 152
       },
       {
         "name": "baselineRecallAtK",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 119
+        "line": 153
       },
       {
         "name": "testRecommendationAccuracy",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 120
+        "line": 154
       },
       {
         "name": "baselineTestAccuracy",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 121
+        "line": 155
       },
       {
         "name": "contextPackSuccessProxy",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 122
+        "line": 156
       },
       {
         "name": "baselineSuccessProxy",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 123
+        "line": 157
       },
       {
         "name": "tokenCompressionRatio",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 124
+        "line": 158
       },
       {
         "name": "caseAgentRuns",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 125
+        "line": 159
       },
       {
         "name": "agentRunModes",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 126
+        "line": 160
       },
       {
         "name": "agentSuccessDelta",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 127
+        "line": 161
+      },
+      {
+        "name": "loopBehaviorDelta",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 162
       },
       {
         "name": "renderBenchmarkReport",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 164
+        "line": 200
       },
       {
-        "name": "renderAgentRunModes",
+        "name": "renderLoopHarnessDelta",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 216
+        "line": 267
       },
       {
         "name": "rows",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 217
+        "line": 268
       },
       {
-        "name": "readTasks",
-        "kind": "function",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 237
-      },
-      {
-        "name": "readAgentRuns",
-        "kind": "function",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 244
-      },
-      {
-        "name": "parsed",
+        "name": "delta",
         "kind": "const",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 250
-      },
-      {
-        "name": "readJson",
-        "kind": "function",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 255
-      },
-      {
-        "name": "recall",
-        "kind": "function",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 259
-      },
-      {
-        "name": "actualSet",
-        "kind": "const",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 261
-      },
-      {
-        "name": "precision",
-        "kind": "function",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 265
-      },
-      {
-        "name": "expectedSet",
-        "kind": "const",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 267
-      },
-      {
-        "name": "ratio",
-        "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
         "line": 271
       },
       {
-        "name": "summarize",
-        "kind": "function",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 275
-      },
-      {
-        "name": "realDeltas",
-        "kind": "const",
-        "filePath": "src/benchmarks/benchmark.ts",
-        "line": 276
-      },
-      {
-        "name": "summarizeAgentRuns",
+        "name": "renderAgentRunModes",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
         "line": 290
       },
       {
-        "name": "modes",
+        "name": "rows",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
         "line": 291
       },
       {
+        "name": "readTasks",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 312
+      },
+      {
+        "name": "readAgentRuns",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 319
+      },
+      {
+        "name": "parsed",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 325
+      },
+      {
+        "name": "readJson",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 330
+      },
+      {
+        "name": "recall",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 334
+      },
+      {
+        "name": "actualSet",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 336
+      },
+      {
+        "name": "precision",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 340
+      },
+      {
+        "name": "expectedSet",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 342
+      },
+      {
+        "name": "ratio",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 346
+      },
+      {
+        "name": "summarize",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 350
+      },
+      {
+        "name": "realDeltas",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 351
+      },
+      {
+        "name": "loopDeltas",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 352
+      },
+      {
+        "name": "summarizeAgentRuns",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 372
+      },
+      {
         "name": "modeRuns",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 294
+        "line": 374
+      },
+      {
+        "name": "averageIterations",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 375
       },
       {
         "name": "realAgentSuccessDelta",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 308
+        "line": 392
       },
       {
         "name": "baseline",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 309
+        "line": 393
       },
       {
         "name": "harness",
         "kind": "const",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 310
+        "line": 394
+      },
+      {
+        "name": "calculateLoopBehaviorDelta",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 402
+      },
+      {
+        "name": "baseline",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 403
+      },
+      {
+        "name": "harness",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 404
+      },
+      {
+        "name": "wrongFileEditsReduction",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 416
+      },
+      {
+        "name": "testFailureReduction",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 417
+      },
+      {
+        "name": "stepsReduction",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 418
+      },
+      {
+        "name": "tokenUsageReduction",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 419
+      },
+      {
+        "name": "repairLoopsReduction",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 420
+      },
+      {
+        "name": "moatScore",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 421
+      },
+      {
+        "name": "nullableDifference",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 441
+      },
+      {
+        "name": "normalizedReduction",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 446
       },
       {
         "name": "average",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 318
+        "line": 451
       },
       {
         "name": "nullableAverage",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 323
+        "line": 456
       },
       {
-        "name": "isAgentRunRecord",
+        "name": "normalizeAgentRunRecord",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 327
+        "line": 460
+      },
+      {
+        "name": "candidate",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 462
+      },
+      {
+        "name": "isKnownAgentRunMode",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 493
+      },
+      {
+        "name": "isNumber",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 497
+      },
+      {
+        "name": "displayAgentRunMode",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 501
+      },
+      {
+        "name": "labels",
+        "kind": "const",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 502
       },
       {
         "name": "percent",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 341
+        "line": 511
       },
       {
         "name": "signed",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 345
+        "line": 515
+      },
+      {
+        "name": "formatNullableNumber",
+        "kind": "function",
+        "filePath": "src/benchmarks/benchmark.ts",
+        "line": 519
       },
       {
         "name": "unique",
         "kind": "function",
         "filePath": "src/benchmarks/benchmark.ts",
-        "line": 349
+        "line": 525
       }
     ],
-    "summary": "src/benchmarks/benchmark.ts contains 64 detected symbols, 7 imports, 10 exports.",
+    "summary": "src/benchmarks/benchmark.ts contains 90 detected symbols, 7 imports, 11 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "analysisStats": {
       "parser": "typescript-compiler-api",
       "importsResolved": 5,
       "importsUnresolved": 2,
-      "symbolsDetected": 64,
+      "symbolsDetected": 90,
       "routesDetected": 0
     },
     "evidence": [
@@ -9284,407 +9441,569 @@
       {
         "line": 26,
         "kind": "symbol",
+        "symbol": "LegacyAgentRunMode",
+        "detail": "Declares type LegacyAgentRunMode."
+      },
+      {
+        "line": 28,
+        "kind": "symbol",
+        "symbol": "AGENT_RUN_MODES",
+        "detail": "Declares const AGENT_RUN_MODES."
+      },
+      {
+        "line": 30,
+        "kind": "symbol",
+        "symbol": "LEGACY_MODE_ALIASES",
+        "detail": "Declares const LEGACY_MODE_ALIASES."
+      },
+      {
+        "line": 39,
+        "kind": "symbol",
         "symbol": "AgentRunRecord",
         "detail": "Declares interface AgentRunRecord."
       },
       {
-        "line": 26,
+        "line": 39,
         "kind": "export",
         "symbol": "AgentRunRecord",
         "detail": "Exports AgentRunRecord."
       },
       {
-        "line": 41,
+        "line": 55,
         "kind": "symbol",
         "symbol": "AgentRunModeSummary",
         "detail": "Declares interface AgentRunModeSummary."
       },
       {
-        "line": 41,
+        "line": 55,
         "kind": "export",
         "symbol": "AgentRunModeSummary",
         "detail": "Exports AgentRunModeSummary."
       },
       {
-        "line": 51,
+        "line": 69,
+        "kind": "symbol",
+        "symbol": "LoopBehaviorDelta",
+        "detail": "Declares interface LoopBehaviorDelta."
+      },
+      {
+        "line": 69,
+        "kind": "export",
+        "symbol": "LoopBehaviorDelta",
+        "detail": "Exports LoopBehaviorDelta."
+      },
+      {
+        "line": 78,
         "kind": "symbol",
         "symbol": "BenchmarkCaseResult",
         "detail": "Declares interface BenchmarkCaseResult."
       },
       {
-        "line": 51,
+        "line": 78,
         "kind": "export",
         "symbol": "BenchmarkCaseResult",
         "detail": "Exports BenchmarkCaseResult."
       },
       {
-        "line": 77,
+        "line": 105,
         "kind": "symbol",
         "symbol": "BenchmarkRunResult",
         "detail": "Declares interface BenchmarkRunResult."
       },
       {
-        "line": 77,
+        "line": 105,
         "kind": "export",
         "symbol": "BenchmarkRunResult",
         "detail": "Exports BenchmarkRunResult."
       },
       {
-        "line": 84,
+        "line": 112,
         "kind": "symbol",
         "symbol": "BenchmarkSummary",
         "detail": "Declares interface BenchmarkSummary."
       },
       {
-        "line": 84,
+        "line": 112,
         "kind": "export",
         "symbol": "BenchmarkSummary",
         "detail": "Exports BenchmarkSummary."
       },
       {
-        "line": 96,
+        "line": 130,
         "kind": "symbol",
         "symbol": "runBenchmark",
         "detail": "Declares function runBenchmark."
       },
       {
-        "line": 96,
+        "line": 130,
         "kind": "export",
         "symbol": "runBenchmark",
         "detail": "Exports runBenchmark."
       },
       {
-        "line": 97,
+        "line": 131,
         "kind": "symbol",
         "symbol": "benchmarkDir",
         "detail": "Declares const benchmarkDir."
       },
       {
-        "line": 98,
+        "line": 132,
         "kind": "symbol",
         "symbol": "topK",
         "detail": "Declares const topK."
       },
       {
-        "line": 99,
+        "line": 133,
         "kind": "symbol",
         "symbol": "tasks",
         "detail": "Declares const tasks."
       },
       {
-        "line": 100,
+        "line": 134,
         "kind": "symbol",
         "symbol": "relevantFiles",
         "detail": "Declares const relevantFiles."
       },
       {
-        "line": 101,
+        "line": 135,
         "kind": "symbol",
         "symbol": "requiredTests",
         "detail": "Declares const requiredTests."
       },
       {
-        "line": 102,
+        "line": 136,
         "kind": "symbol",
         "symbol": "agentRuns",
         "detail": "Declares const agentRuns."
       },
       {
-        "line": 103,
+        "line": 137,
         "kind": "symbol",
         "symbol": "cases",
         "detail": "Declares const cases."
       },
       {
-        "line": 106,
+        "line": 140,
         "kind": "symbol",
         "symbol": "fixtureRoot",
         "detail": "Declares const fixtureRoot."
       },
       {
-        "line": 107,
+        "line": 141,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 108,
+        "line": 142,
         "kind": "symbol",
         "symbol": "caseTopK",
         "detail": "Declares const caseTopK."
       },
       {
-        "line": 109,
+        "line": 143,
         "kind": "symbol",
         "symbol": "pack",
         "detail": "Declares const pack."
       },
       {
-        "line": 110,
+        "line": 144,
         "kind": "symbol",
         "symbol": "selectedFiles",
         "detail": "Declares const selectedFiles."
       },
       {
-        "line": 111,
+        "line": 145,
         "kind": "symbol",
         "symbol": "selectedTopK",
         "detail": "Declares const selectedTopK."
       },
       {
-        "line": 112,
+        "line": 146,
         "kind": "symbol",
         "symbol": "expectedRelevantFiles",
         "detail": "Declares const expectedRelevantFiles."
       },
       {
-        "line": 113,
+        "line": 147,
         "kind": "symbol",
         "symbol": "expectedRequiredTests",
         "detail": "Declares const expectedRequiredTests."
       },
       {
-        "line": 114,
+        "line": 148,
         "kind": "symbol",
         "symbol": "testSelection",
         "detail": "Declares const testSelection."
       },
       {
-        "line": 115,
+        "line": 149,
         "kind": "symbol",
         "symbol": "recommendedTests",
         "detail": "Declares const recommendedTests."
       },
       {
-        "line": 116,
+        "line": 150,
         "kind": "symbol",
         "symbol": "baselineTopK",
         "detail": "Declares const baselineTopK."
       },
       {
-        "line": 117,
+        "line": 151,
         "kind": "symbol",
         "symbol": "recallAtK",
         "detail": "Declares const recallAtK."
       },
       {
-        "line": 118,
+        "line": 152,
         "kind": "symbol",
         "symbol": "precisionAtK",
         "detail": "Declares const precisionAtK."
       },
       {
-        "line": 119,
+        "line": 153,
         "kind": "symbol",
         "symbol": "baselineRecallAtK",
         "detail": "Declares const baselineRecallAtK."
       },
       {
-        "line": 120,
+        "line": 154,
         "kind": "symbol",
         "symbol": "testRecommendationAccuracy",
         "detail": "Declares const testRecommendationAccuracy."
       },
       {
-        "line": 121,
+        "line": 155,
         "kind": "symbol",
         "symbol": "baselineTestAccuracy",
         "detail": "Declares const baselineTestAccuracy."
       },
       {
-        "line": 122,
+        "line": 156,
         "kind": "symbol",
         "symbol": "contextPackSuccessProxy",
         "detail": "Declares const contextPackSuccessProxy."
       },
       {
-        "line": 123,
+        "line": 157,
         "kind": "symbol",
         "symbol": "baselineSuccessProxy",
         "detail": "Declares const baselineSuccessProxy."
       },
       {
-        "line": 124,
+        "line": 158,
         "kind": "symbol",
         "symbol": "tokenCompressionRatio",
         "detail": "Declares const tokenCompressionRatio."
       },
       {
-        "line": 125,
+        "line": 159,
         "kind": "symbol",
         "symbol": "caseAgentRuns",
         "detail": "Declares const caseAgentRuns."
       },
       {
-        "line": 126,
+        "line": 160,
         "kind": "symbol",
         "symbol": "agentRunModes",
         "detail": "Declares const agentRunModes."
       },
       {
-        "line": 127,
+        "line": 161,
         "kind": "symbol",
         "symbol": "agentSuccessDelta",
         "detail": "Declares const agentSuccessDelta."
       },
       {
-        "line": 164,
+        "line": 162,
+        "kind": "symbol",
+        "symbol": "loopBehaviorDelta",
+        "detail": "Declares const loopBehaviorDelta."
+      },
+      {
+        "line": 200,
         "kind": "symbol",
         "symbol": "renderBenchmarkReport",
         "detail": "Declares function renderBenchmarkReport."
       },
       {
-        "line": 164,
+        "line": 200,
         "kind": "export",
         "symbol": "renderBenchmarkReport",
         "detail": "Exports renderBenchmarkReport."
       },
       {
-        "line": 216,
+        "line": 267,
         "kind": "symbol",
-        "symbol": "renderAgentRunModes",
-        "detail": "Declares function renderAgentRunModes."
+        "symbol": "renderLoopHarnessDelta",
+        "detail": "Declares function renderLoopHarnessDelta."
       },
       {
-        "line": 217,
+        "line": 268,
         "kind": "symbol",
         "symbol": "rows",
         "detail": "Declares const rows."
       },
       {
-        "line": 237,
+        "line": 271,
+        "kind": "symbol",
+        "symbol": "delta",
+        "detail": "Declares const delta."
+      },
+      {
+        "line": 290,
+        "kind": "symbol",
+        "symbol": "renderAgentRunModes",
+        "detail": "Declares function renderAgentRunModes."
+      },
+      {
+        "line": 291,
+        "kind": "symbol",
+        "symbol": "rows",
+        "detail": "Declares const rows."
+      },
+      {
+        "line": 312,
         "kind": "symbol",
         "symbol": "readTasks",
         "detail": "Declares function readTasks."
       },
       {
-        "line": 244,
+        "line": 319,
         "kind": "symbol",
         "symbol": "readAgentRuns",
         "detail": "Declares function readAgentRuns."
       },
       {
-        "line": 250,
+        "line": 325,
         "kind": "symbol",
         "symbol": "parsed",
         "detail": "Declares const parsed."
       },
       {
-        "line": 255,
+        "line": 330,
         "kind": "symbol",
         "symbol": "readJson",
         "detail": "Declares function readJson."
       },
       {
-        "line": 259,
+        "line": 334,
         "kind": "symbol",
         "symbol": "recall",
         "detail": "Declares function recall."
       },
       {
-        "line": 261,
+        "line": 336,
         "kind": "symbol",
         "symbol": "actualSet",
         "detail": "Declares const actualSet."
       },
       {
-        "line": 265,
+        "line": 340,
         "kind": "symbol",
         "symbol": "precision",
         "detail": "Declares function precision."
       },
       {
-        "line": 267,
+        "line": 342,
         "kind": "symbol",
         "symbol": "expectedSet",
         "detail": "Declares const expectedSet."
       },
       {
-        "line": 271,
+        "line": 346,
         "kind": "symbol",
         "symbol": "ratio",
         "detail": "Declares function ratio."
       },
       {
-        "line": 275,
+        "line": 350,
         "kind": "symbol",
         "symbol": "summarize",
         "detail": "Declares function summarize."
       },
       {
-        "line": 276,
+        "line": 351,
         "kind": "symbol",
         "symbol": "realDeltas",
         "detail": "Declares const realDeltas."
       },
       {
-        "line": 290,
+        "line": 352,
+        "kind": "symbol",
+        "symbol": "loopDeltas",
+        "detail": "Declares const loopDeltas."
+      },
+      {
+        "line": 372,
         "kind": "symbol",
         "symbol": "summarizeAgentRuns",
         "detail": "Declares function summarizeAgentRuns."
       },
       {
-        "line": 291,
-        "kind": "symbol",
-        "symbol": "modes",
-        "detail": "Declares const modes."
-      },
-      {
-        "line": 294,
+        "line": 374,
         "kind": "symbol",
         "symbol": "modeRuns",
         "detail": "Declares const modeRuns."
       },
       {
-        "line": 308,
+        "line": 375,
+        "kind": "symbol",
+        "symbol": "averageIterations",
+        "detail": "Declares const averageIterations."
+      },
+      {
+        "line": 392,
         "kind": "symbol",
         "symbol": "realAgentSuccessDelta",
         "detail": "Declares function realAgentSuccessDelta."
       },
       {
-        "line": 309,
+        "line": 393,
         "kind": "symbol",
         "symbol": "baseline",
         "detail": "Declares const baseline."
       },
       {
-        "line": 310,
+        "line": 394,
         "kind": "symbol",
         "symbol": "harness",
         "detail": "Declares const harness."
       },
       {
-        "line": 318,
+        "line": 402,
+        "kind": "symbol",
+        "symbol": "calculateLoopBehaviorDelta",
+        "detail": "Declares function calculateLoopBehaviorDelta."
+      },
+      {
+        "line": 403,
+        "kind": "symbol",
+        "symbol": "baseline",
+        "detail": "Declares const baseline."
+      },
+      {
+        "line": 404,
+        "kind": "symbol",
+        "symbol": "harness",
+        "detail": "Declares const harness."
+      },
+      {
+        "line": 416,
+        "kind": "symbol",
+        "symbol": "wrongFileEditsReduction",
+        "detail": "Declares const wrongFileEditsReduction."
+      },
+      {
+        "line": 417,
+        "kind": "symbol",
+        "symbol": "testFailureReduction",
+        "detail": "Declares const testFailureReduction."
+      },
+      {
+        "line": 418,
+        "kind": "symbol",
+        "symbol": "stepsReduction",
+        "detail": "Declares const stepsReduction."
+      },
+      {
+        "line": 419,
+        "kind": "symbol",
+        "symbol": "tokenUsageReduction",
+        "detail": "Declares const tokenUsageReduction."
+      },
+      {
+        "line": 420,
+        "kind": "symbol",
+        "symbol": "repairLoopsReduction",
+        "detail": "Declares const repairLoopsReduction."
+      },
+      {
+        "line": 421,
+        "kind": "symbol",
+        "symbol": "moatScore",
+        "detail": "Declares const moatScore."
+      },
+      {
+        "line": 441,
+        "kind": "symbol",
+        "symbol": "nullableDifference",
+        "detail": "Declares function nullableDifference."
+      },
+      {
+        "line": 446,
+        "kind": "symbol",
+        "symbol": "normalizedReduction",
+        "detail": "Declares function normalizedReduction."
+      },
+      {
+        "line": 451,
         "kind": "symbol",
         "symbol": "average",
         "detail": "Declares function average."
       },
       {
-        "line": 323,
+        "line": 456,
         "kind": "symbol",
         "symbol": "nullableAverage",
         "detail": "Declares function nullableAverage."
       },
       {
-        "line": 327,
+        "line": 460,
         "kind": "symbol",
-        "symbol": "isAgentRunRecord",
-        "detail": "Declares function isAgentRunRecord."
+        "symbol": "normalizeAgentRunRecord",
+        "detail": "Declares function normalizeAgentRunRecord."
       },
       {
-        "line": 341,
+        "line": 462,
+        "kind": "symbol",
+        "symbol": "candidate",
+        "detail": "Declares const candidate."
+      },
+      {
+        "line": 493,
+        "kind": "symbol",
+        "symbol": "isKnownAgentRunMode",
+        "detail": "Declares function isKnownAgentRunMode."
+      },
+      {
+        "line": 497,
+        "kind": "symbol",
+        "symbol": "isNumber",
+        "detail": "Declares function isNumber."
+      },
+      {
+        "line": 501,
+        "kind": "symbol",
+        "symbol": "displayAgentRunMode",
+        "detail": "Declares function displayAgentRunMode."
+      },
+      {
+        "line": 502,
+        "kind": "symbol",
+        "symbol": "labels",
+        "detail": "Declares const labels."
+      },
+      {
+        "line": 511,
         "kind": "symbol",
         "symbol": "percent",
         "detail": "Declares function percent."
       },
       {
-        "line": 345,
+        "line": 515,
         "kind": "symbol",
         "symbol": "signed",
         "detail": "Declares function signed."
       },
       {
-        "line": 349,
+        "line": 519,
+        "kind": "symbol",
+        "symbol": "formatNullableNumber",
+        "detail": "Declares function formatNullableNumber."
+      },
+      {
+        "line": 525,
         "kind": "symbol",
         "symbol": "unique",
         "detail": "Declares function unique."
@@ -9693,8 +10012,8 @@
     "moduleName": "benchmarks",
     "importanceScore": 64,
     "importanceReasons": [
-      "10 exports",
-      "64 symbols",
+      "11 exports",
+      "90 symbols",
       "2 inbound dependencies",
       "7 outbound dependencies",
       "high-confidence analysis"
@@ -9703,7 +10022,7 @@
   {
     "path": "src/cli/index.ts",
     "extension": ".ts",
-    "sizeBytes": 32440,
+    "sizeBytes": 32438,
     "kind": "source",
     "language": "TypeScript",
     "tokenEstimate": 8110,
@@ -33113,37 +33432,6 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-    "extension": ".json",
-    "sizeBytes": 24,
-    "kind": "config",
-    "language": "JSON",
-    "tokenEstimate": 6,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
-    "importanceScore": 17,
-    "importanceReasons": [
-      "configuration",
-      "low-confidence analysis"
-    ]
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
     "extension": ".json",
     "sizeBytes": 26,
@@ -33202,6 +33490,37 @@
     "importanceScore": 15,
     "importanceReasons": [
       "readme",
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+    "extension": ".json",
+    "sizeBytes": 24,
+    "kind": "config",
+    "language": "JSON",
+    "tokenEstimate": 6,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "configuration",
       "low-confidence analysis"
     ]
   },
@@ -34017,6 +34336,50 @@
     ]
   },
   {
+    "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 329,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 83,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "../../src/auth/session.js",
+        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../../src/auth/session.js."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 15,
+    "importanceReasons": [
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
     "extension": ".ts",
     "sizeBytes": 136,
@@ -34062,47 +34425,34 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-    "extension": ".ts",
-    "sizeBytes": 329,
+    "path": "test/fixtures/monorepo/packages/web/package.json",
+    "extension": ".json",
+    "sizeBytes": 88,
     "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 83,
+    "language": "JSON",
+    "tokenEstimate": 22,
     "isBinary": false,
     "isGenerated": false,
     "isTest": true,
-    "imports": [
-      {
-        "specifier": "../../src/auth/session.js",
-        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "isExternal": false
-      }
-    ],
+    "imports": [],
     "exports": [],
     "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
+    "summary": "test/fixtures/monorepo/packages/web/package.json is a test file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
     "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
+      "parser": "generic",
+      "importsResolved": 0,
       "importsUnresolved": 0,
       "symbolsDetected": 0,
       "routesDetected": 0
     },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../../src/auth/session.js."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 15,
+    "evidence": [],
+    "moduleName": "test/fixtures/monorepo/packages/web",
+    "importanceScore": 3,
     "importanceReasons": [
-      "1 outbound dependency",
       "test coverage signal",
-      "high-confidence analysis"
+      "low-confidence analysis"
     ]
   },
   {
@@ -34133,37 +34483,6 @@
     "importanceScore": 21,
     "importanceReasons": [
       "route/api surface",
-      "test coverage signal",
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "test/fixtures/monorepo/packages/web/package.json",
-    "extension": ".json",
-    "sizeBytes": 88,
-    "kind": "test",
-    "language": "JSON",
-    "tokenEstimate": 22,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "test/fixtures/monorepo/packages/web/package.json is a test file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "test/fixtures/monorepo/packages/web",
-    "importanceScore": 3,
-    "importanceReasons": [
       "test coverage signal",
       "low-confidence analysis"
     ]
@@ -34631,79 +34950,6 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-    "extension": ".ts",
-    "sizeBytes": 219,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 55,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "recordMetric",
-      "summarizeMetrics"
-    ],
-    "symbols": [
-      {
-        "name": "recordMetric",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-        "line": 2
-      },
-      {
-        "name": "summarizeMetrics",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-        "line": 5
-      }
-    ],
-    "summary": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts contains 2 detected symbols, 0 imports, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 2,
-        "kind": "symbol",
-        "symbol": "recordMetric",
-        "detail": "Declares function recordMetric."
-      },
-      {
-        "line": 2,
-        "kind": "export",
-        "symbol": "recordMetric",
-        "detail": "Exports recordMetric."
-      },
-      {
-        "line": 5,
-        "kind": "symbol",
-        "symbol": "summarizeMetrics",
-        "detail": "Declares function summarizeMetrics."
-      },
-      {
-        "line": 5,
-        "kind": "export",
-        "symbol": "summarizeMetrics",
-        "detail": "Exports summarizeMetrics."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
-    "importanceScore": 17,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
     "extension": ".ts",
     "sizeBytes": 128,
@@ -34837,6 +35083,165 @@
     ]
   },
   {
+    "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
+    "extension": ".ts",
+    "sizeBytes": 219,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 55,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "recordMetric",
+      "summarizeMetrics"
+    ],
+    "symbols": [
+      {
+        "name": "recordMetric",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
+        "line": 2
+      },
+      {
+        "name": "summarizeMetrics",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
+        "line": 5
+      }
+    ],
+    "summary": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts contains 2 detected symbols, 0 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 2,
+        "kind": "symbol",
+        "symbol": "recordMetric",
+        "detail": "Declares function recordMetric."
+      },
+      {
+        "line": 2,
+        "kind": "export",
+        "symbol": "recordMetric",
+        "detail": "Exports recordMetric."
+      },
+      {
+        "line": 5,
+        "kind": "symbol",
+        "symbol": "summarizeMetrics",
+        "detail": "Declares function summarizeMetrics."
+      },
+      {
+        "line": 5,
+        "kind": "export",
+        "symbol": "summarizeMetrics",
+        "detail": "Exports summarizeMetrics."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "test/fixtures/monorepo/packages/web/src/index.ts",
+    "extension": ".ts",
+    "sizeBytes": 104,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 26,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "@fixture/api",
+        "resolvedPath": "test/fixtures/monorepo/packages/api/src/index.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "composed",
+      "web"
+    ],
+    "symbols": [
+      {
+        "name": "web",
+        "kind": "const",
+        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
+        "line": 3
+      },
+      {
+        "name": "composed",
+        "kind": "const",
+        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
+        "line": 4
+      }
+    ],
+    "summary": "test/fixtures/monorepo/packages/web/src/index.ts contains 2 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports @fixture/api."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "web",
+        "detail": "Declares const web."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "web",
+        "detail": "Exports web."
+      },
+      {
+        "line": 4,
+        "kind": "symbol",
+        "symbol": "composed",
+        "detail": "Declares const composed."
+      },
+      {
+        "line": 4,
+        "kind": "export",
+        "symbol": "composed",
+        "detail": "Exports composed."
+      }
+    ],
+    "moduleName": "test/fixtures/monorepo/packages/web",
+    "importanceScore": 27,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "test/fixtures/monorepo/packages/api/src/config.ts",
     "extension": ".ts",
     "sizeBytes": 39,
@@ -34957,92 +35362,6 @@
       "1 export",
       "1 symbol",
       "1 inbound dependency",
-      "1 outbound dependency",
-      "test coverage signal",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "test/fixtures/monorepo/packages/web/src/index.ts",
-    "extension": ".ts",
-    "sizeBytes": 104,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 26,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [
-      {
-        "specifier": "@fixture/api",
-        "resolvedPath": "test/fixtures/monorepo/packages/api/src/index.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "composed",
-      "web"
-    ],
-    "symbols": [
-      {
-        "name": "web",
-        "kind": "const",
-        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
-        "line": 3
-      },
-      {
-        "name": "composed",
-        "kind": "const",
-        "filePath": "test/fixtures/monorepo/packages/web/src/index.ts",
-        "line": 4
-      }
-    ],
-    "summary": "test/fixtures/monorepo/packages/web/src/index.ts contains 2 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports @fixture/api."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "web",
-        "detail": "Declares const web."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "web",
-        "detail": "Exports web."
-      },
-      {
-        "line": 4,
-        "kind": "symbol",
-        "symbol": "composed",
-        "detail": "Declares const composed."
-      },
-      {
-        "line": 4,
-        "kind": "export",
-        "symbol": "composed",
-        "detail": "Exports composed."
-      }
-    ],
-    "moduleName": "test/fixtures/monorepo/packages/web",
-    "importanceScore": 27,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
       "1 outbound dependency",
       "test coverage signal",
       "high-confidence analysis"
