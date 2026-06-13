@@ -47,7 +47,7 @@ graph TD
 | cli | benchmarks | 1 |
 | cli | config | 1 |
 | cli | core | 8 |
-| cli | outputs | 12 |
+| cli | outputs | 13 |
 | cli | retrievers | 1 |
 | config | core | 2 |
 | core | analyzers | 4 |
@@ -58,15 +58,15 @@ graph TD
 | mcp | core | 1 |
 | mcp | outputs | 5 |
 | mcp | retrievers | 2 |
-| outputs | core | 36 |
+| outputs | core | 38 |
 | retrievers | core | 3 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |
 | test | benchmarks | 1 |
 | test | cli | 1 |
 | test | config | 3 |
-| test | core | 33 |
+| test | core | 36 |
 | test | mcp | 1 |
-| test | outputs | 19 |
+| test | outputs | 21 |
 | test | retrievers | 1 |
 | test/fixtures/monorepo/packages/web | test/fixtures/monorepo/packages/api | 1 |

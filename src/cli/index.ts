@@ -29,7 +29,8 @@ import {
 } from "../outputs/execution-trace.js";
 import { renderContractValidationReport, validateContracts } from "../outputs/contract-validator.js";
 import { validateContextPackage } from "../core/validator.js";
-import { assessDrift, assessFreshness, renderDriftReport, renderFreshnessReport } from "../core/freshness.js";
+import { assessDrift, assessFreshness, buildContextManifest, renderDriftReport, renderFreshnessReport } from "../core/freshness.js";
+import { buildContextDelta, renderContextDelta, writeContextDelta } from "../outputs/context-delta.js";
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
@@ -309,6 +310,40 @@ program
     const report = assessDrift(context);
     console.log(options.json ? JSON.stringify(report, null, 2) : renderDriftReport(report));
     if (report.status !== "clean") process.exitCode = 1;
+  });
+
+program
+  .command("delta")
+  .argument("[repo]", "repository path", ".")
+  .option("--base <ref>", "base git ref for context delta analysis", "main")
+  .option("--json", "print machine-readable context delta")
+  .description("Show what changed, which context outputs are stale, and what an agent must re-read.")
+  .action(async (repo: string, options: { base: string; json?: boolean }) => {
+    const context = await buildContextPackage(repo);
+    const report = buildContextDelta(context, { base: options.base });
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderContextDelta(report));
+  });
+
+program
+  .command("evolve")
+  .argument("[repo]", "repository path", ".")
+  .option("--base <ref>", "base git ref for context delta analysis", "main")
+  .option("--json", "print machine-readable context delta after updating context")
+  .description("Refresh the agent context with cache-aware rebuild and write .agent-context/delta/latest.*.")
+  .action(async (repo: string, options: { base: string; json?: boolean }) => {
+    const context = await buildContextPackage(repo);
+    const delta = buildContextDelta(context, { base: options.base });
+    const result = writeContextPackage(context);
+    const deltaResult = writeContextDelta(context, delta);
+    writeFileSync(
+      path.join(context.scan.root, ".agent-context", "manifest.json"),
+      `${JSON.stringify(buildContextManifest(context, [...result.files, ...deltaResult.files]), null, 2)}\n`,
+      "utf8"
+    );
+    console.log(options.json ? JSON.stringify(delta, null, 2) : renderContextDelta(delta));
+    console.log("");
+    console.log(`Evolved context outputs: ${result.files.length}`);
+    console.log(`Delta report: ${deltaResult.files.map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/")).join(", ")}`);
   });
 
 program

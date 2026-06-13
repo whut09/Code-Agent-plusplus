@@ -54,6 +54,8 @@ Common task loop:
 
 ```bash
 repo-context run "fix login timeout bug" . --type bugfix
+repo-context delta . --base main
+repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
 repo-context policy . --base main --trace fix-login-timeout-bug
@@ -74,6 +76,7 @@ repo-context drift .
 - ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals.
 - ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state.
 - ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence.
+- ✅ context delta / evolve: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff, so large repos avoid blind full-context rereads.
 - 🧪 benchmark: fixture benchmark plus manual agent-run samples for context quality.
 - 🧪 hybrid retrieve: shared static / ripgrep retrieval protocol for RAG, MCP, and editor integrations.
 - 🚧 real agent benchmark: planned Codex / Claude Code run data.
@@ -92,6 +95,7 @@ repo-context drift .
 | loop controller                                | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
+| context delta / evolve                         | ✅ implemented  |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |
@@ -120,6 +124,7 @@ AGENTS.manual.md
   runs/
   loops/
   traces/
+  delta/
   rag/
   evidence/
   index/
@@ -146,6 +151,8 @@ repo-context build [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context run "<task>" [repo]
+repo-context delta [repo] --base main
+repo-context evolve [repo] --base main
 repo-context loop "<task>" [repo] --phase after-edit
 repo-context trace start "<task>" [repo] --agent codex
 repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
