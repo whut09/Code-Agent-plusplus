@@ -45,7 +45,17 @@ function renderMinimalAgentsMd(context: ContextPackage): string[] {
   }
 
   if (include.has("contextLinks")) {
-    sections.push("", heading(2, "Context Layers"), bullet(contextLinks(context)));
+    sections.push(
+      "",
+      heading(2, "Context Layers"),
+      bullet(contextLinks(context)),
+      "",
+      heading(2, "Harness Runtime Files"),
+      bullet(harnessRuntimeLinks()),
+      "",
+      heading(2, "Before Closing"),
+      bullet(beforeClosingCommands())
+    );
   }
 
   return sections;
@@ -100,7 +110,13 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
     bullet(modules),
     "",
     heading(2, "Context Layers"),
-    bullet(contextLinks(context))
+    bullet(contextLinks(context)),
+    "",
+    heading(2, "Harness Runtime Files"),
+    bullet(harnessRuntimeLinks()),
+    "",
+    heading(2, "Before Closing"),
+    bullet(beforeClosingCommands())
   ];
 }
 
@@ -172,6 +188,24 @@ function contextLinks(context: ContextPackage): string[] {
   }
 
   return links;
+}
+
+function harnessRuntimeLinks(): string[] {
+  return [
+    `${code(".agent-context/contracts/")} - machine-checkable edit, command, test, and safety boundaries`,
+    `${code(".agent-context/runs/")} - complete task run contexts with plan, pack, tests, impact, verify, and prompts`,
+    `${code(".agent-context/loops/")} - loop controller decisions when written with ${code('repo-context loop "<task>" . --write')}`,
+    `${code(".agent-context/traces/")} - execution trace records for agent edits, tests, verification, and final state`,
+    `${code(".agent-context/delta/")} - context delta and files the agent should re-read after repository changes`
+  ];
+}
+
+function beforeClosingCommands(): string[] {
+  return [
+    `Prefer ${code("repo-context policy . --base main --trace <trace-id>")} when a trace exists.`,
+    `Run ${code("repo-context verify --diff .")} and ${code('repo-context loop "<task>" . --phase after-edit')} before final review.`,
+    `Check ${code("repo-context freshness .")} and ${code("repo-context drift .")} if generated context may be stale.`
+  ];
 }
 
 function formatKeyFile(file: IndexedFile): string {

@@ -2,17 +2,17 @@
 
 中文 | [English](README.en.md)
 
-面向编程 Agent 的 Agent Harness Runtime。
+面向编程 Agent 的 Agent Harness Runtime 控制面。
 
-Repo-to-Agent-Context is an Agent Harness Runtime for coding agents.
+Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents.
 
-它会把仓库编译成 task-aware context，执行编辑策略和安全护栏，并编排 Agent 动作、测试结果与仓库状态之间的反馈循环。核心主线是：
+它不替代 Codex / Claude Code / Cursor 写代码，而是负责任务上下文编译、编辑边界、执行轨迹、策略检查、影响分析、测试推荐和下一步 Loop 决策。核心主线是：
 
 ```txt
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-它不是简单 repo summarizer，也不只是 context pack tool。它的目标是让 Codex / Claude Code / Cursor 在陌生仓库里更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
+它不是简单 repo summarizer，也不只是 context pack tool。它的目标是给 Codex / Claude Code / Cursor 增加一个静态但可验证的工程控制面：更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context 输出效果动画">

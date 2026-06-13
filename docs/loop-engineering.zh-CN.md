@@ -1,6 +1,6 @@
 # Loop Engineering 源码链路
 
-这份文档按代码执行链路解释 Repo-to-Agent-Context 如何从 Context Compiler 走向 Agent Harness Runtime。它不是只生成摘要文件，而是把仓库状态、任务上下文、编辑边界、测试建议、影响分析、contracts、trace、freshness 和 loop decision 组合成一个静态但可验证的 Agent Runtime Loop。
+这份文档按代码执行链路解释 Repo-to-Agent-Context 如何从 Context Compiler 走向 Agent Harness Runtime 控制面。它不是只生成摘要文件，也不替代 Codex / Claude Code / Cursor 写代码，而是把仓库状态、任务上下文、编辑边界、测试建议、影响分析、contracts、trace、freshness 和 loop decision 组合成一个静态但可验证的 Agent Runtime Loop 控制面。
 
 核心闭环是：
 
@@ -394,4 +394,4 @@ static repository analysis
 - 现在能不能结束
 - 下一步该修 context、修 tests、修 contract，还是进入 review
 
-这就是 Repo-to-Agent-Context 从 Context Compiler 升级成 Agent Harness Runtime 的代码基础。
+这就是 Repo-to-Agent-Context 从 Context Compiler 升级成 Agent Harness Runtime 控制面的代码基础。

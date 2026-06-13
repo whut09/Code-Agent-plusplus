@@ -58,6 +58,18 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 - `L3 .agent-context/readiness.md` - agent-readiness gaps and evidence
 - `L3 .agent-context/rag/` - RAG-ready export documents
 
+## Harness Runtime Files
+- `.agent-context/contracts/` - machine-checkable edit, command, test, and safety boundaries
+- `.agent-context/runs/` - complete task run contexts with plan, pack, tests, impact, verify, and prompts
+- `.agent-context/loops/` - loop controller decisions when written with `repo-context loop "<task>" . --write`
+- `.agent-context/traces/` - execution trace records for agent edits, tests, verification, and final state
+- `.agent-context/delta/` - context delta and files the agent should re-read after repository changes
+
+## Before Closing
+- Prefer `repo-context policy . --base main --trace <trace-id>` when a trace exists.
+- Run `repo-context verify --diff .` and `repo-context loop "<task>" . --phase after-edit` before final review.
+- Check `repo-context freshness .` and `repo-context drift .` if generated context may be stale.
+
 ## Manual Operations Context
 
 _No manual agent notes configured yet. Add environment and deployment guidance to `AGENTS.manual.md`._

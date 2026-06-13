@@ -1,6 +1,6 @@
 # Loop Engineering Code Path
 
-Repo-to-Agent-Context is moving from a context compiler into an Agent Harness Runtime. The core loop is:
+Repo-to-Agent-Context is moving from a context compiler into an Agent Harness Runtime Control Plane. The core loop is:
 
 ```txt
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
