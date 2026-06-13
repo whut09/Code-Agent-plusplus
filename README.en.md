@@ -56,6 +56,7 @@ Common task loop:
 repo-context run "fix login timeout bug" . --type bugfix
 repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
+repo-context policy . --base main --trace fix-login-timeout-bug
 repo-context tests . --diff --base main
 repo-context impact . --base main
 repo-context verify --diff .
@@ -72,6 +73,7 @@ repo-context drift .
 - ✅ diff / impact / verify: post-edit impact analysis and validation reports.
 - ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals.
 - ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state.
+- ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence.
 - 🧪 benchmark: fixture benchmark plus manual agent-run samples for context quality.
 - 🧪 hybrid retrieve: shared static / ripgrep retrieval protocol for RAG, MCP, and editor integrations.
 - 🚧 real agent benchmark: planned Codex / Claude Code run data.
@@ -89,6 +91,7 @@ repo-context drift .
 | task plan / pack / run                         | ✅ implemented  |
 | loop controller                                | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
+| policy engine                                  | ✅ implemented  |
 | tests / impact / verify                        | ✅ implemented  |
 | freshness / drift / manifest                   | ✅ implemented  |
 | contracts validation                           | ✅ implemented  |
@@ -146,6 +149,7 @@ repo-context run "<task>" [repo]
 repo-context loop "<task>" [repo] --phase after-edit
 repo-context trace start "<task>" [repo] --agent codex
 repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
+repo-context policy [repo] --base main --trace <trace-id>
 repo-context tests [repo] --diff --base main
 repo-context impact [repo] --base main
 repo-context verify --diff [repo]

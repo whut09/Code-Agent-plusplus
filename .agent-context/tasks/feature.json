@@ -2,9 +2,18 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 2781,
-  "remainingBudget": 9219,
+  "estimatedTokens": 2760,
+  "remainingBudget": 9240,
   "files": [
+    {
+      "path": "src/core/freshness.ts",
+      "score": 80,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 290
+    },
     {
       "path": "src/outputs/task-harness.ts",
       "score": 79,
@@ -15,17 +24,8 @@
       "estimatedTokens": 277
     },
     {
-      "path": "src/core/freshness.ts",
-      "score": 75,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 290
-    },
-    {
       "path": "src/outputs/contract-validator.ts",
-      "score": 72,
+      "score": 77,
       "reasons": [
         "key file fallback"
       ],
@@ -40,6 +40,15 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 132
+    },
+    {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 71,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 200
     },
     {
       "path": "src/core/context-builder.ts",
@@ -69,15 +78,6 @@
       "estimatedTokens": 230
     },
     {
-      "path": "src/outputs/test-selector.ts",
-      "score": 67,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 226
-    },
-    {
       "path": "src/mcp/server.ts",
       "score": 113,
       "reasons": [
@@ -95,7 +95,7 @@
         "key file fallback"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 210
+      "estimatedTokens": 215
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -152,7 +152,7 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
       "score": 16,
       "reasons": [
         "configuration"
@@ -161,7 +161,7 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
         "configuration"
@@ -217,6 +217,15 @@
   ],
   "readFirst": [
     {
+      "path": "src/core/freshness.ts",
+      "score": 80,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 290
+    },
+    {
       "path": "src/outputs/task-harness.ts",
       "score": 79,
       "reasons": [
@@ -226,17 +235,8 @@
       "estimatedTokens": 277
     },
     {
-      "path": "src/core/freshness.ts",
-      "score": 75,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 290
-    },
-    {
       "path": "src/outputs/contract-validator.ts",
-      "score": 72,
+      "score": 77,
       "reasons": [
         "key file fallback"
       ],
@@ -251,6 +251,15 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 132
+    },
+    {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 71,
+      "reasons": [
+        "key file fallback"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 200
     },
     {
       "path": "src/core/context-builder.ts",
@@ -278,15 +287,6 @@
       ],
       "category": "direct-source",
       "estimatedTokens": 230
-    },
-    {
-      "path": "src/outputs/test-selector.ts",
-      "score": 67,
-      "reasons": [
-        "key file fallback"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 226
     }
   ],
   "inspectIfNeeded": [
@@ -345,7 +345,7 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
       "score": 16,
       "reasons": [
         "configuration"
@@ -354,7 +354,7 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
         "configuration"
@@ -410,22 +410,22 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 2781,
-    "remaining": 9219,
+    "used": 2760,
+    "remaining": 9240,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 1834,
+        "tokens": 1808,
         "files": [
-          "src/outputs/task-harness.ts",
           "src/core/freshness.ts",
+          "src/outputs/task-harness.ts",
           "src/outputs/contract-validator.ts",
           "src/core/token-estimator.ts",
+          "src/outputs/execution-trace.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
-          "src/outputs/impact.ts",
-          "src/outputs/test-selector.ts"
+          "src/outputs/impact.ts"
         ]
       },
       {
@@ -451,8 +451,8 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
+          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
@@ -463,7 +463,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 436,
+        "tokens": 441,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"

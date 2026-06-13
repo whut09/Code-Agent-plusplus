@@ -152,13 +152,6 @@ function validateProtectedPaths(changedFiles: string[], safety: SafetyContract, 
 
   for (const file of changedFiles) {
     if (file.startsWith(".agent-context/")) {
-      violations.push({
-        severity: "error",
-        file,
-        message: `${file} is generated context output.`,
-        reason: "Generated context should be regenerated intentionally and reviewed as generated output.",
-        rule: "safety.contract.json#protectedPaths.generated"
-      });
       continue;
     }
     for (const [label, globs, reason, rule] of groups) {

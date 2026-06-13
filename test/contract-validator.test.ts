@@ -52,3 +52,31 @@ test("contract validator fails changed files that break edit boundaries", async 
     rmSync(root, { recursive: true, force: true });
   }
 });
+
+test("contract validator ignores regenerated repo context outputs", async () => {
+  const root = createContractRepo();
+  try {
+    const initialContext = await buildContextPackage(root);
+    writeContextPackage(initialContext);
+
+    runGit(root, ["init"]);
+    runGit(root, ["checkout", "-b", "main"]);
+    runGit(root, ["config", "user.email", "repo-context@example.com"]);
+    runGit(root, ["config", "user.name", "Repo Context"]);
+    runGit(root, ["add", "."]);
+    runGit(root, ["commit", "-m", "initial"]);
+
+    writeFileSync(path.join(root, ".agent-context", "repo-summary.md"), "# regenerated\n", "utf8");
+
+    const context = await buildContextPackage(root);
+    const report = validateContracts(context, { base: "main", diff: true });
+
+    assert.equal(report.passed, true);
+    assert.equal(
+      report.violations.some((violation) => violation.file.startsWith(".agent-context/")),
+      false
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});

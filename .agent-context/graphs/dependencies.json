@@ -529,6 +529,66 @@
       "isExternal": false
     },
     {
+      "from": "test/policy-engine.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../src/core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../src/core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "../src/outputs/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "src/outputs/policy-engine.ts",
+      "specifier": "../src/outputs/policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/policy-engine.test.ts",
+      "to": "src/outputs/writer.ts",
+      "specifier": "../src/outputs/writer.js",
+      "isExternal": false
+    },
+    {
       "from": "test/readiness.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1069,6 +1129,42 @@
       "isExternal": false
     },
     {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/cli/index.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -1178,6 +1274,12 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/outputs/policy-engine.ts",
+      "specifier": "../outputs/policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/outputs/execution-trace.ts",
       "specifier": "../outputs/execution-trace.js",
       "isExternal": false
@@ -1240,120 +1342,6 @@
       "from": "src/llm/provider.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "node:url",
-      "specifier": "node:url",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "@modelcontextprotocol/sdk/server/mcp.js",
-      "specifier": "@modelcontextprotocol/sdk/server/mcp.js",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "@modelcontextprotocol/sdk/server/stdio.js",
-      "specifier": "@modelcontextprotocol/sdk/server/stdio.js",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "zod/v4",
-      "specifier": "zod/v4",
-      "isExternal": true
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/core/context-builder.ts",
-      "specifier": "../core/context-builder.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/impact.ts",
-      "specifier": "../outputs/impact.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/task-harness.ts",
-      "specifier": "../outputs/task-harness.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/task-context.ts",
-      "specifier": "../outputs/task-context.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/test-selector.ts",
-      "specifier": "../outputs/test-selector.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../outputs/writer.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/retrievers/index.ts",
-      "specifier": "../retrievers/index.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/mcp/server.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "../retrievers/types.js",
       "isExternal": false
     },
     {
@@ -1723,6 +1711,84 @@
       "isExternal": false
     },
     {
+      "from": "src/mcp/server.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "node:url",
+      "specifier": "node:url",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "@modelcontextprotocol/sdk/server/mcp.js",
+      "specifier": "@modelcontextprotocol/sdk/server/mcp.js",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "@modelcontextprotocol/sdk/server/stdio.js",
+      "specifier": "@modelcontextprotocol/sdk/server/stdio.js",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "zod/v4",
+      "specifier": "zod/v4",
+      "isExternal": true
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "../outputs/impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/task-harness.ts",
+      "specifier": "../outputs/task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "../outputs/task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "../outputs/test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/outputs/writer.ts",
+      "specifier": "../outputs/writer.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/retrievers/index.ts",
+      "specifier": "../retrievers/index.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/mcp/server.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "../retrievers/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/agents-md.ts",
       "to": "src/core/token-estimator.ts",
       "specifier": "../core/token-estimator.js",
@@ -1946,6 +2012,54 @@
     },
     {
       "from": "src/outputs/onboarding.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/core/freshness.ts",
+      "specifier": "../core/freshness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "./impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/outputs/contract-validator.ts",
+      "specifier": "./contract-validator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "./test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "./execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/policy-engine.ts",
       "to": "src/outputs/markdown.ts",
       "specifier": "./markdown.js",
       "isExternal": false
@@ -2583,7 +2697,7 @@
     {
       "from": "cli",
       "to": "outputs",
-      "count": 11
+      "count": 12
     },
     {
       "from": "cli",
@@ -2638,7 +2752,7 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 33
+      "count": 36
     },
     {
       "from": "retrievers",
@@ -2673,7 +2787,7 @@
     {
       "from": "test",
       "to": "core",
-      "count": 31
+      "count": 33
     },
     {
       "from": "test",
@@ -2683,7 +2797,7 @@
     {
       "from": "test",
       "to": "outputs",
-      "count": 16
+      "count": 19
     },
     {
       "from": "test",
