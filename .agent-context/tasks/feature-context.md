@@ -20,9 +20,9 @@ Budget: 2,796 / 12,000 estimated tokens
 - `benchmarks/fixtures/monorepo/package.json` - configuration
 - `benchmarks/fixtures/react-app/package.json` - configuration
 - `benchmarks/fixtures/small-ts-app/package.json` - configuration
-- `benchmarks/fixtures/monorepo/packages/config/package.json` - configuration
 - `benchmarks/fixtures/monorepo/packages/shared/package.json` - configuration
 - `benchmarks/fixtures/monorepo/packages/web/package.json` - configuration
+- `benchmarks/fixtures/monorepo/packages/config/package.json` - configuration
 - `.env.example` - configuration
 - `repo-context.config.yml` - configuration
 - `tsconfig.json` - configuration
@@ -47,9 +47,9 @@ Budget: 2,796 / 12,000 estimated tokens
 | `benchmarks/fixtures/monorepo/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/monorepo/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/react-app/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/react-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
-| `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
+| `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `.env.example` | config-doc | 25 | configuration | .env.example is a config file. |
 | `repo-context.config.yml` | config-doc | 35 | configuration | repo-context.config.yml is a config file written as YAML. |
 | `tsconfig.json` | config-doc | 34 | configuration | tsconfig.json is a config file written as JSON. |
@@ -61,7 +61,7 @@ Budget: 2,796 / 12,000 estimated tokens
 | Directly relevant source files | 1,883 | `src/outputs/task-harness.ts`, `src/core/token-estimator.ts`, `src/core/freshness.ts`, `src/core/context-builder.ts`, `src/outputs/writer.ts`, `src/outputs/contract-validator.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts` |
 | Tests | 0 | none |
 | Dependency neighbors | 0 | none |
-| Config/docs | 511 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
+| Config/docs | 511 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
 | Entrypoints | 402 | `src/mcp/server.ts`, `src/cli/index.ts` |
 
 Remaining budget: 9,204 estimated tokens
