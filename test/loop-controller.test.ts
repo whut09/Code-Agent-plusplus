@@ -19,8 +19,15 @@ test("loop controller starts the agent from a clean preflight", async () => {
 
     assert.equal(report.status, "ready");
     assert.equal(report.changedFiles.length, 0);
-    assert.ok(report.decisions.some((decision) => decision.action === "start-agent"));
+    const decision = report.decisions.find((item) => item.action === "start-agent");
+    assert.ok(decision);
+    assert.equal(decision.blocking, false);
+    assert.equal(typeof decision.confidence, "number");
+    assert.ok(decision.confidence > 0 && decision.confidence <= 1);
+    assert.ok(decision.signals.includes("changed files: 0"));
     assert.match(rendered, /# Loop Controller/);
+    assert.match(rendered, /confidence 0\.\d+/);
+    assert.match(rendered, /non-blocking/);
     assert.match(rendered, /repo-context run "fix login timeout bug"/);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -39,7 +46,12 @@ test("loop controller asks for context refresh and tests after source edits", as
 
     assert.ok(report.changedFiles.includes("src/auth/session.ts"));
     assert.ok(report.decisions.some((decision) => decision.action === "rebuild-context"));
-    assert.ok(report.decisions.some((decision) => decision.action === "run-tests"));
+    const testDecision = report.decisions.find((decision) => decision.action === "run-tests");
+    assert.ok(testDecision);
+    assert.equal(testDecision.blocking, true);
+    assert.ok(testDecision.confidence >= 0.8);
+    assert.ok(testDecision.signals.some((signal) => signal.startsWith("changed files:")));
+    assert.ok(testDecision.signals.some((signal) => signal.startsWith("minimal tests detected:")));
     assert.ok(existsSync(path.join(result.dir, "loop.md")));
     assert.ok(existsSync(path.join(result.dir, "loop.json")));
   } finally {

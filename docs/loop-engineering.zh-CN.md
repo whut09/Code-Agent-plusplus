@@ -233,6 +233,8 @@ diff + dependency impact + test gap + contract violations + risk score
 - `run-tests`
 - `ready-for-review`
 
+每个 decision 都是机器可读对象，包含 `action`、`priority`、`confidence`、`blocking`、`signals`、`reason` 和可选 `command`。这样 Agent 可以按优先级执行，也能区分“缺测试证据这类阻塞门禁”和“启动第一轮 Agent 这类非阻塞动作”。
+
 典型规则如下：
 
 ```txt

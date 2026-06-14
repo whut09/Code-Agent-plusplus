@@ -31,7 +31,10 @@ export interface LoopControllerOptions {
 export interface LoopDecision {
   action: LoopAction;
   priority: "high" | "medium" | "low";
+  confidence: number;
+  blocking: boolean;
   reason: string;
+  signals: string[];
   command?: string;
 }
 
@@ -87,9 +90,14 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
     contractsPassed: actionableContractsPassed,
     contractViolations: actionableContractViolations.length,
     impactRisk: impact.risk,
+    minimalTests: tests.minimalTests.length,
+    regressionTests: tests.recommendedRegressionTests.length,
+    impactDependents: impact.directDependents.length + impact.transitiveDependents.length,
     minimalCommands: tests.minimalCommands,
     regressionCommands: tests.recommendedCommands,
     taskPackOverBudget: taskPack.estimatedTokens > taskPack.tokenBudget,
+    taskPackTokens: taskPack.estimatedTokens,
+    taskPackBudget: taskPack.tokenBudget,
     missingTestSignals: actionableContractViolations.filter((violation) => /test/i.test(`${violation.rule} ${violation.reason}`)).length
   });
 
@@ -173,82 +181,132 @@ function decideNextSteps(input: {
   contractsPassed: boolean;
   contractViolations: number;
   impactRisk: "Low" | "Medium" | "High";
+  minimalTests: number;
+  regressionTests: number;
+  impactDependents: number;
   minimalCommands: string[];
   regressionCommands: string[];
   taskPackOverBudget: boolean;
+  taskPackTokens: number;
+  taskPackBudget: number;
   missingTestSignals: number;
 }): LoopDecision[] {
   const decisions: LoopDecision[] = [];
 
   if (input.freshnessStatus !== "fresh" || input.driftStatus !== "clean") {
-    decisions.push({
-      action: "rebuild-context",
-      priority: "high",
-      reason: "Generated context is missing, stale, or drifted from the current repository state.",
-      command: "repo-context update ."
-    });
+    decisions.push(
+      decision({
+        action: "rebuild-context",
+        priority: "high",
+        confidence: 0.95,
+        blocking: true,
+        reason: "Generated context is missing, stale, or drifted from the current repository state.",
+        signals: [`freshness: ${input.freshnessStatus}`, `drift: ${input.driftStatus}`],
+        command: "repo-context update ."
+      })
+    );
   }
 
   if (input.taskPackOverBudget) {
-    decisions.push({
-      action: "replan",
-      priority: "medium",
-      reason: "The task pack exceeds its context budget; shrink or split the task before handing it to an agent.",
-      command: `repo-context plan "${input.task}" .`
-    });
+    decisions.push(
+      decision({
+        action: "replan",
+        priority: "medium",
+        confidence: 0.84,
+        blocking: true,
+        reason: "The task pack exceeds its context budget; shrink or split the task before handing it to an agent.",
+        signals: [`task pack tokens: ${input.taskPackTokens}`, `task pack budget: ${input.taskPackBudget}`],
+        command: `repo-context plan "${input.task}" .`
+      })
+    );
   }
 
   if (!input.changedFiles.length && input.phase === "preflight") {
-    decisions.push({
-      action: "start-agent",
-      priority: "high",
-      reason: "No edits are detected yet; create a fresh task run before agent execution.",
-      command: `repo-context run "${input.task}" . --base ${input.base}`
-    });
+    decisions.push(
+      decision({
+        action: "start-agent",
+        priority: "high",
+        confidence: 0.88,
+        blocking: false,
+        reason: "No edits are detected yet; create a fresh task run before agent execution.",
+        signals: [`phase: ${input.phase}`, "changed files: 0"],
+        command: `repo-context run "${input.task}" . --base ${input.base}`
+      })
+    );
   }
 
   if (!input.contractsPassed) {
-    decisions.push({
-      action: "repair-contracts",
-      priority: "high",
-      reason: `${input.contractViolations} contract violation${input.contractViolations === 1 ? "" : "s"} detected in the current diff.`,
-      command: `repo-context validate-contracts . --base ${input.base}`
-    });
+    decisions.push(
+      decision({
+        action: "repair-contracts",
+        priority: "high",
+        confidence: 0.96,
+        blocking: true,
+        reason: `${input.contractViolations} contract violation${input.contractViolations === 1 ? "" : "s"} detected in the current diff.`,
+        signals: [`contract violations: ${input.contractViolations}`, "contracts: failed"],
+        command: `repo-context validate-contracts . --base ${input.base}`
+      })
+    );
   }
 
   if (input.missingTestSignals > 0) {
-    decisions.push({
-      action: "add-or-update-tests",
-      priority: "medium",
-      reason: "Changed source files have contract signals indicating missing related tests.",
-      command: `repo-context tests . --diff --base ${input.base}`
-    });
+    decisions.push(
+      decision({
+        action: "add-or-update-tests",
+        priority: "medium",
+        confidence: 0.78,
+        blocking: true,
+        reason: "Changed source files have contract signals indicating missing related tests.",
+        signals: [`missing test signals: ${input.missingTestSignals}`, `changed files: ${input.changedFiles.length}`],
+        command: `repo-context tests . --diff --base ${input.base}`
+      })
+    );
   }
 
   if (input.impactRisk === "High") {
-    decisions.push({
-      action: "expand-context",
-      priority: "medium",
-      reason: "High impact risk means the next agent turn should include dependents, related tests, and contract violations.",
-      command: `repo-context impact . --base ${input.base}`
-    });
+    decisions.push(
+      decision({
+        action: "expand-context",
+        priority: "medium",
+        confidence: 0.76,
+        blocking: true,
+        reason: "High impact risk means the next agent turn should include dependents, related tests, and contract violations.",
+        signals: [`impact risk: ${input.impactRisk}`, `impact dependents: ${input.impactDependents}`],
+        command: `repo-context impact . --base ${input.base}`
+      })
+    );
   }
 
   if (input.changedFiles.length) {
-    decisions.push({
-      action: "run-tests",
-      priority: input.impactRisk === "High" ? "high" : "medium",
-      reason: "The loop cannot close until the recommended focused tests and verification commands have been run.",
-      command: firstUsefulCommand([...input.minimalCommands, ...input.regressionCommands], input.task) ?? `repo-context tests . --diff --base ${input.base}`
-    });
+    decisions.push(
+      decision({
+        action: "run-tests",
+        priority: input.impactRisk === "High" ? "high" : "medium",
+        confidence: confidenceForRunTests(input),
+        blocking: true,
+        reason: "The loop cannot close until the recommended focused tests and verification commands have been run.",
+        signals: [
+          `changed files: ${input.changedFiles.length}`,
+          `minimal tests detected: ${input.minimalTests}`,
+          `regression tests detected: ${input.regressionTests}`,
+          "passed test trace: not evaluated by loop controller"
+        ],
+        command: firstUsefulCommand([...input.minimalCommands, ...input.regressionCommands], input.task) ?? `repo-context tests . --diff --base ${input.base}`
+      })
+    );
   }
 
   if (!decisions.length) {
-    decisions.push({
-      action: "ready-for-review",
-      priority: "low",
-      reason: "No stale context, contract failures, changed files, or high-risk impact signals were detected."
-    });
+    decisions.push(
+      decision({
+        action: "ready-for-review",
+        priority: "low",
+        confidence: 0.72,
+        blocking: false,
+        reason: "No stale context, contract failures, changed files, or high-risk impact signals were detected.",
+        signals: ["freshness: fresh", "drift: clean", "changed files: 0", "contracts: passed"]
+      })
+    );
   }
 
   return dedupeDecisions(decisions);
@@ -301,7 +359,8 @@ function firstUsefulCommand(commands: string[], task: string): string | undefine
 
 function formatDecision(decision: LoopDecision): string {
   const command = decision.command ? ` Command: ${code(decision.command)}.` : "";
-  return `${decision.priority.toUpperCase()} ${decision.action}: ${decision.reason}${command}`;
+  const signals = decision.signals.length ? ` Signals: ${decision.signals.join("; ")}.` : "";
+  return `${decision.priority.toUpperCase()} ${decision.action} (${formatConfidence(decision.confidence)}, ${decision.blocking ? "blocking" : "non-blocking"}): ${decision.reason}${command}${signals}`;
 }
 
 function write(filePath: string, content: string): string {
@@ -317,6 +376,36 @@ function dedupeDecisions(decisions: LoopDecision[]): LoopDecision[] {
     seen.add(key);
     return true;
   });
+}
+
+function decision(input: LoopDecision): LoopDecision {
+  return {
+    ...input,
+    confidence: clampConfidence(input.confidence),
+    signals: input.signals.filter(Boolean)
+  };
+}
+
+function confidenceForRunTests(input: {
+  impactRisk: "Low" | "Medium" | "High";
+  minimalTests: number;
+  regressionTests: number;
+  minimalCommands: string[];
+  regressionCommands: string[];
+}): number {
+  let confidence = input.impactRisk === "High" ? 0.86 : 0.8;
+  if (input.minimalTests > 0) confidence += 0.04;
+  if (input.regressionTests > 0) confidence += 0.03;
+  if (firstUsefulCommand([...input.minimalCommands, ...input.regressionCommands], "")) confidence += 0.03;
+  return confidence;
+}
+
+function clampConfidence(value: number): number {
+  return Math.round(Math.max(0, Math.min(1, value)) * 100) / 100;
+}
+
+function formatConfidence(value: number): string {
+  return `confidence ${value.toFixed(2)}`;
 }
 
 function taskSlug(task: string): string {

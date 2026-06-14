@@ -94,6 +94,8 @@ Every build writes `.agent-context/manifest.json` with hashes for source, config
 - `run-tests`
 - `ready-for-review`
 
+Each decision is machine-readable and includes `action`, `priority`, `confidence`, `blocking`, `signals`, `reason`, and an optional `command`. This lets agents sort the next actions by urgency and tell the difference between a blocking gate, such as missing tests, and a non-blocking handoff, such as starting the first agent turn.
+
 The controller is the bridge from static context generation to loop engineering: every turn can be evaluated against repository state and verification evidence.
 
 ## Trace And Policy

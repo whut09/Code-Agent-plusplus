@@ -672,10 +672,13 @@ function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): Repo
     ? {
         action: decision.action,
         priority: decision.priority,
+        confidence: decision.confidence,
+        blocking: decision.blocking,
         reason: decision.reason,
+        signals: decision.signals,
         command: decision.command
       }
-    : { action: "ready-for-review" };
+    : { action: "ready-for-review", confidence: 0.72, blocking: false, signals: ["no loop decisions returned"] };
 }
 
 function confidenceForScore(score: number): "high" | "medium" | "low" {

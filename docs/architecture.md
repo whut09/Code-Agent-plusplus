@@ -229,6 +229,8 @@ The loop controller does not execute an agent directly. It reads the compiled co
 - `run-tests`: the loop cannot close until focused tests or verification commands run.
 - `ready-for-review`: no stale context, contract failures, changed files, or high-risk impact signals were detected.
 
+Every decision includes a numeric confidence score, a `blocking` flag, and evidence signals such as changed-file counts, test counts, context freshness, drift status, contract violations, or impact dependents. This keeps the loop output useful for humans while giving coding agents a stable ordering and stop/go signal.
+
 With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`. This is intentionally a control report rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable.
 
 ## Execution Trace

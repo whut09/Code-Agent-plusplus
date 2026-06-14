@@ -82,7 +82,7 @@ repo-context drift .
 - ✅ contracts：生成架构、模块边界、命令、测试、安全约束，并支持 `validate-contracts`。
 - ✅ tests recommendation：根据文件和 diff 推荐最小测试/回归测试。
 - ✅ diff / impact / verify：面向改代码后的影响分析和验证报告。
-- ✅ loop controller：根据 freshness、diff、contracts、tests、impact 决定下一步是重建上下文、补测试、修 contract 还是进入 review。
+- ✅ loop controller：根据 freshness、diff、contracts、tests、impact 决定下一步是重建上下文、补测试、修 contract 还是进入 review，并给出 priority、confidence、blocking 和 signals。
 - ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态，并区分 manual / command / CI evidence。
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据；`trace run` 捕获 exit code、输出哈希和 working tree hash，可信度高于手动声明。
 - ✅ context delta：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件；`evolve` 当前是 cache-aware full refresh，selective output writes 仍在计划中。

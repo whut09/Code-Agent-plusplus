@@ -80,7 +80,7 @@ repo-context drift .
 - ✅ contracts: architecture, module-boundary, command, test, and safety constraints with `validate-contracts`.
 - ✅ tests recommendation: focused and regression tests from files or diffs.
 - ✅ diff / impact / verify: post-edit impact analysis and validation reports.
-- ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals.
+- ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals, with priority, confidence, blocking, and signals for each decision.
 - ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state, with manual / command / CI evidence separated.
 - ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence. `trace run` captures exit code, output hashes, and working-tree hashes, which is stronger than a manual claim.
 - ✅ context delta: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff; `evolve` is currently a cache-aware full refresh, while selective output writes are planned.
