@@ -58,7 +58,7 @@ interface RetrieveArguments {
 export function createRepoContextMcpServer(): McpServer {
   const server = new McpServer(
     {
-      name: "repo-to-agent-context",
+      name: "code-agent-plusplus",
       version: "0.1.0"
     },
     { capabilities: { tools: {} } }

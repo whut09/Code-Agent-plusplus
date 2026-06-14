@@ -1,13 +1,13 @@
 # Integration Modes and Entry Isolation
 
-Repo-to-Agent-Context supports two separate flows. The difference is not whether AI is used; the difference is who owns control.
+Code Agent++ supports two separate flows. The difference is not whether AI is used; the difference is who owns control.
 
 ## Summary
 
-| Mode                                              | Controller                                         | Entry Points                                                                                          | Executes a code agent?                      | Best For                                                                                    |
-| ------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| Code agent-led, Repo-to-Agent-Context constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `repo_context_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                                   |
-| Repo-to-Agent-Context-led, code agent as executor | Repo-to-Agent-Context                              | `repo-context orchestrate` or `repo-context agent run`                                                | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, Repo-to-Agent-Context deciding finalize/repair/repack/block |
+| Mode                                     | Controller                                         | Entry Points                                                                                          | Executes a code agent?                      | Best For                                                                           |
+| ---------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Code agent-led, Code Agent++ constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `repo_context_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                          |
+| Code Agent++-led, code agent as executor | Code Agent++                                       | `repo-context orchestrate` or `repo-context agent run`                                                | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, Code Agent++ deciding finalize/repair/repack/block |
 
 The entry points are isolated:
 
@@ -15,16 +15,16 @@ The entry points are isolated:
 - `repo-context orchestrate` and `repo-context agent run` are the executor flows.
 - MCP tools belong to the agent-led mode by default. They give an external agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the host agent still decides whether to obey the gate.
 
-## Mode 1: Code Agent-Led, Repo-to-Agent-Context Constrained
+## Mode 1: Code Agent-Led, Code Agent++ Constrained
 
-In this mode, Codex / Claude Code / Cursor / OpenCode / MiMoCode is the main actor. Repo-to-Agent-Context provides context, boundaries, and verification tools, but it does not own final execution.
+In this mode, Codex / Claude Code / Cursor / OpenCode / MiMoCode is the main actor. Code Agent++ provides context, boundaries, and verification tools, but it does not own final execution.
 
 ```txt
 User task
   -> code agent calls repo-context plan / pack / run or MCP repo_context_plan / pack
   -> code agent reads code, edits code, runs commands
   -> code agent calls tests / impact / verify / policy / evaluate
-  -> Repo-to-Agent-Context returns constraints, evidence, and recommendations
+  -> Code Agent++ returns constraints, evidence, and recommendations
 ```
 
 Recommended CLI entries:
@@ -65,16 +65,16 @@ Guarantee boundary:
 - This mode guarantees that context, boundaries, test recommendations, impact reports, and policy reports are available.
 - It cannot guarantee that the external code agent follows the report, because the external agent owns control.
 
-## Mode 2: Repo-to-Agent-Context-Led, Code Agent As Executor
+## Mode 2: Code Agent++-Led, Code Agent As Executor
 
-In this mode, Repo-to-Agent-Context owns orchestration and acceptance. The code agent is a replaceable executor.
+In this mode, Code Agent++ owns orchestration and acceptance. The code agent is a replaceable executor.
 
 ```txt
 User task
-  -> Repo-to-Agent-Context plan / pack
+  -> Code Agent++ plan / pack
   -> choose executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode / mock
   -> executor edits code
-  -> Repo-to-Agent-Context collects diff / trace / test evidence
+  -> Code Agent++ collects diff / trace / test evidence
   -> policy / contracts / tests / impact / verify
   -> decision: finalize / repair / repack / block / require-human-review
 ```
@@ -89,7 +89,7 @@ repo-context agent run "fix login timeout bug" . --executor mimocode --executor-
 
 `--executor-command` supports placeholders:
 
-- `{prompt}`: path to the executor prompt file written by Repo-to-Agent-Context.
+- `{prompt}`: path to the executor prompt file written by Code Agent++.
 - `{task}`: original task text.
 - `{repo}`: repository root.
 - `{runDir}`: `.agent-context/runs/<task-id>/`.
@@ -116,5 +116,5 @@ Guarantee boundary:
 ## Which Mode Should I Use?
 
 - Use mode 1 when you want Codex / Claude Code / Cursor / OpenCode / MiMoCode to naturally call the tools.
-- Use mode 2 when Repo-to-Agent-Context should own acceptance and treat the code agent as a coding tool.
+- Use mode 2 when Code Agent++ should own acceptance and treat the code agent as a coding tool.
 - For CI or automation demos, start with mode 2 and `--executor mock`, then wire OpenCode or MiMoCode through `--executor-command`.

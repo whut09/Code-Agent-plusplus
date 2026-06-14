@@ -217,7 +217,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     heading(2, "Architecture Flow"),
     bullet(
       [
-        "Repo-to-Agent-Context plan / pack",
+        "Code Agent++ plan / pack",
         `Executor: ${report.executor}`,
         "Agent execution",
         "Diff / trace / test evidence collection",
@@ -397,7 +397,7 @@ function buildExecutorPrompt(
     basePrompt.trim(),
     "",
     "Harness control-plane requirements:",
-    "- Repo-to-Agent-Context owns context, boundaries, trace evidence, policy, impact, verify, and final gate decisions.",
+    "- Code Agent++ owns context, boundaries, trace evidence, policy, impact, verify, and final gate decisions.",
     "- The selected code agent owns reading source files, editing code, and running commands.",
     "- Inspect relevant source files before behavior-changing edits.",
     "- Keep changes inside the edit boundary unless the task cannot be completed otherwise.",

@@ -2,8 +2,8 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 4464,
-  "remainingBudget": 7536,
+  "estimatedTokens": 4471,
+  "remainingBudget": 7529,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
@@ -43,7 +43,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 281
+      "estimatedTokens": 288
     },
     {
       "path": "test/task-harness.test.ts",
@@ -205,15 +205,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 8,
       "reasons": [
@@ -221,6 +212,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 40
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 42
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
@@ -325,7 +325,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 281
+      "estimatedTokens": 288
     }
   ],
   "inspectIfNeeded": [
@@ -482,8 +482,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 4464,
-    "remaining": 7536,
+    "used": 4471,
+    "remaining": 7529,
     "buckets": [
       {
         "name": "direct-source",
@@ -530,8 +530,8 @@
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
+          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
@@ -544,7 +544,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 605,
+        "tokens": 612,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"

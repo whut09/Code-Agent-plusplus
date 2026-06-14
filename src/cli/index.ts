@@ -40,8 +40,10 @@ import { resolveTaskArguments } from "./task-args.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 
 const program = new Command();
+const executableName = path.basename(process.argv[1] ?? "repo-context").replace(/\.(js|cmd|ps1)$/i, "");
+const invokedName = executableName && executableName !== "index" ? executableName : "repo-context";
 
-program.name("repo-context").description("Generate minimal, evidence-linked, task-aware context for coding agents.").version("0.1.0");
+program.name(invokedName).description("Code Agent++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
 program
   .command("build")

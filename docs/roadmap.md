@@ -1,8 +1,8 @@
 # Roadmap
 
-Repo-to-Agent-Context is evolving from "generate files that help an agent read a repo" into an External Agent Harness Control Plane: it generates the context, boundaries, evidence requirements, and guardrails an existing code agent needs to safely complete a task in a repo.
+Code Agent++ is evolving from "generate files that help an agent read a repo" into a Code Agent Enhancement / Agent Reliability Layer: it generates the context, boundaries, evidence requirements, regression guards, and repair/finalize decisions an existing code agent needs to safely complete a task in a repo.
 
-The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, and MiMoCode own the execution side: model providers, tool calling, shell/edit/read/grep, sessions, subagents, workflow runtimes, and memory. Repo-to-Agent-Context owns the control plane: repository analysis, task-aware context, edit boundaries, contracts, diff impact, test recommendations, evidence validation, policy gates, freshness/drift, context delta, and repair/finalize decisions. OpenCode and MiMoCode are priority executor targets because they are open-source code-agent runtimes.
+The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, and MiMoCode own the execution side: model providers, tool calling, shell/edit/read/grep, sessions, subagents, workflow runtimes, and memory. Code Agent++ owns the control plane: repository analysis, task-aware context, edit boundaries, contracts, diff impact, test recommendations, evidence validation, policy gates, freshness/drift, context delta, and repair/finalize decisions. OpenCode and MiMoCode are priority executor targets because they are open-source code-agent runtimes.
 
 ## v0.2: Task Context Enhancement
 
@@ -38,7 +38,7 @@ The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, a
 - MCP server
 - MCP tools for code agents: build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize
 - OpenCode / MiMoCode / MiMoCodex MCP usage guide
-- Agent-led mode documentation: code agent calls Repo-to-Agent-Context tools, with documented limitations that gates are advisory unless the host agent follows them
+- Agent-led mode documentation: code agent calls Code Agent++ tools, with documented limitations that gates are advisory unless the host agent follows them
 - VS Code/Cursor extension
 - Codex and Claude Code adapters
 - Web graph viewer
@@ -67,7 +67,7 @@ export interface AgentExecutor {
 - Generic `--executor-command` adapter for Codex, Claude Code, Cursor, OpenCode, MiMoCode, and other scriptable code agents: implemented
 - Event normalizer for OpenCode JSON events, MiMoCode events, Codex JSONL, and Claude Code transcripts
 - One-shot flow: `pack -> run agent -> collect diff -> policy/tests/impact/verify`
-- Harness-led one-shot mode: Repo-to-Agent-Context invokes the executor and owns verification: implemented through `repo-context agent run`
+- Harness-led one-shot mode: Code Agent++ invokes the executor and owns verification: implemented through `repo-context agent run`
 
 ## v0.7: Orchestrator Loop
 

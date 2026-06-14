@@ -2,7 +2,7 @@
 
 This directory contains a LightRAG-friendly export of the repository context.
 
-Repo-to-Agent-Context does not require LightRAG at runtime. The recommended architecture is adapter-based:
+Code Agent++ does not require LightRAG at runtime. The recommended architecture is adapter-based:
 
 1. Generate `.agent-context/rag/documents.jsonl`.
 2. Import those documents into a local or remote LightRAG service.

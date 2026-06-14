@@ -431,7 +431,7 @@ function hashFile(filePath: string): string | null {
 function isGeneratedFile(filePath: string): boolean {
   if (!existsSync(filePath)) return false;
   const content = readFileSync(filePath, "utf8");
-  return content.includes("generated-by: repo-to-agent-context");
+  return content.includes("generated-by: code-agent-plusplus") || content.includes("generated-by: repo-to-agent-context");
 }
 
 function hashValue(value: unknown): string {

@@ -1,7 +1,7 @@
 # Task Context: refactor code safely
 
 Type: refactor
-Budget: 11,547 / 12,000 estimated tokens
+Budget: 11,554 / 12,000 estimated tokens
 
 ## Read First
 1. `benchmarks/tasks/refactor-config-loader.json` - lexical match: refactor
@@ -22,9 +22,9 @@ Budget: 11,547 / 12,000 estimated tokens
 - `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` - related test
 - `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts` - related test
 - `benchmarks/fixtures/fastapi-app/tests/test_users.py` - related test
-- `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts` - related test
 - `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts` - related test
 - `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx` - related test
+- `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts` - related test
 - `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` - related test
 - `test/contract-validator.test.ts` - shared API/refactor risk
 - `test/freshness.test.ts` - shared API/refactor risk
@@ -41,7 +41,7 @@ Budget: 11,547 / 12,000 estimated tokens
 | `assets/agent-context-code-layers.png` | direct-source | 38 | lexical match: code | assets/agent-context-code-layers.png is a asset file. |
 | `src/outputs/context-delta.ts` | direct-source | 304 | lexical match: code, direct importer of src/outputs/markdown.ts, shared API/refactor risk | src/outputs/context-delta.ts contains 66 detected symbols, 5 imports, 9 exports. |
 | `src/core/token-estimator.ts` | direct-source | 132 | lexical match: code, shared API/refactor risk | src/core/token-estimator.ts contains 15 detected symbols, 3 imports, 7 exports. |
-| `src/cli/index.ts` | entrypoint | 281 | direct importer of src/outputs/orchestrator.ts, direct importer of src/outputs/execution-trace.ts, direct importer of src/outputs/context-delta.ts, direct importer of src/core/token-estimator.ts, entrypoint, shared API/refactor risk | src/cli/index.ts contains 93 detected symbols, 29 imports, 0 exports. |
+| `src/cli/index.ts` | entrypoint | 288 | direct importer of src/outputs/orchestrator.ts, direct importer of src/outputs/execution-trace.ts, direct importer of src/outputs/context-delta.ts, direct importer of src/core/token-estimator.ts, entrypoint, shared API/refactor risk | src/cli/index.ts contains 95 detected symbols, 29 imports, 0 exports. |
 | `src/mcp/server.ts` | entrypoint | 324 | direct importer of src/outputs/context-delta.ts, direct importer of src/outputs/execution-trace.ts, entrypoint, shared API/refactor risk | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
 | `test/orchestrator.test.ts` | test | 67 | direct importer of src/outputs/execution-trace.ts, direct importer of src/outputs/orchestrator.ts, related test, shared API/refactor risk | test/orchestrator.test.ts contains 9 detected symbols, 8 imports, 0 exports. |
 | `test/context-delta.test.ts` | test | 85 | direct importer of src/outputs/context-delta.ts, related test, shared API/refactor risk | test/context-delta.test.ts contains 14 detected symbols, 10 imports, 0 exports. |
@@ -51,9 +51,9 @@ Budget: 11,547 / 12,000 estimated tokens
 | `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` | test | 63 | related test | benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports. |
 | `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts` | test | 66 | related test | benchmarks/fixtures/monorepo/packages/api/test/config.test.ts contains 0 detected symbols, 1 import, 0 exports. |
 | `benchmarks/fixtures/fastapi-app/tests/test_users.py` | test | 72 | related test | benchmarks/fixtures/fastapi-app/tests/test_users.py contains 1 detected Python symbol and 1 import. |
-| `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts` | test | 60 | related test | benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports. |
 | `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts` | test | 61 | related test | benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts contains 0 detected symbols, 1 import, 0 exports. |
 | `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx` | test | 64 | related test | benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx contains 0 detected symbols, 1 import, 0 exports. |
+| `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts` | test | 60 | related test | benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports. |
 | `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` | test | 63 | related test | benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports. |
 | `test/contract-validator.test.ts` | test | 81 | shared API/refactor risk | test/contract-validator.test.ts contains 12 detected symbols, 10 imports, 0 exports. |
 | `test/freshness.test.ts` | test | 77 | shared API/refactor risk | test/freshness.test.ts contains 13 detected symbols, 9 imports, 0 exports. |
@@ -122,8 +122,8 @@ Budget: 11,547 / 12,000 estimated tokens
 | `package.json` | config-doc | 25 | configuration | package.json is a config file written as JSON. |
 | `benchmarks/fixtures/fastapi-app/pyproject.toml` | config-doc | 42 | configuration | benchmarks/fixtures/fastapi-app/pyproject.toml is a config file written as TOML. |
 | `benchmarks/fixtures/monorepo/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/monorepo/package.json is a config file written as JSON. |
-| `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/react-app/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/react-app/package.json is a config file written as JSON. |
+| `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
@@ -136,12 +136,12 @@ Budget: 11,547 / 12,000 estimated tokens
 | Bucket | Tokens | Files |
 | --- | --- | --- |
 | Directly relevant source files | 1,278 | `benchmarks/tasks/refactor-config-loader.json`, `src/outputs/markdown.ts`, `src/outputs/orchestrator.ts`, `src/outputs/execution-trace.ts`, `assets/agent-context-code-layers.png`, `src/outputs/context-delta.ts`, `src/core/token-estimator.ts` |
-| Tests | 2,275 | `test/orchestrator.test.ts`, `test/context-delta.test.ts`, `test/execution-trace.test.ts`, `test/loop-controller.test.ts`, `test/policy-engine.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/contract-validator.test.ts`, `test/freshness.test.ts`, `test/task-harness.test.ts`, `test/test-selector.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/mcp.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/analyzers.test.ts`, `test/cache.test.ts`, `test/impact.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/benchmark.test.ts` |
+| Tests | 2,275 | `test/orchestrator.test.ts`, `test/context-delta.test.ts`, `test/execution-trace.test.ts`, `test/loop-controller.test.ts`, `test/policy-engine.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/contract-validator.test.ts`, `test/freshness.test.ts`, `test/task-harness.test.ts`, `test/test-selector.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/mcp.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/analyzers.test.ts`, `test/cache.test.ts`, `test/impact.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/benchmark.test.ts` |
 | Dependency neighbors | 6,713 | `src/outputs/task-run.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts`, `src/core/types.ts`, `src/outputs/rag.ts`, `src/outputs/task-harness.ts`, `src/core/context-builder.ts`, `src/outputs/writer.ts`, `src/outputs/impact.ts`, `src/outputs/task-context.ts`, `src/outputs/agents-md.ts`, `src/core/git.ts`, `src/core/freshness.ts`, `src/outputs/contract-validator.ts`, `src/outputs/test-selector.ts`, `src/benchmarks/benchmark.ts`, `src/retrievers/index.ts`, `src/core/cache.ts`, `src/outputs/evidence.ts`, `src/core/scanner.ts`, `src/core/token-savings.ts`, `src/outputs/architecture.ts`, `src/outputs/dependency-graph.ts`, `src/outputs/context-layers.ts`, `src/outputs/key-files.ts`, `src/outputs/module-map.ts`, `src/outputs/onboarding.ts`, `src/outputs/repo-summary.ts`, `src/outputs/token-savings.ts`, `src/outputs/readiness.ts`, `src/retrievers/static.ts`, `src/outputs/runtime-state.ts`, `src/core/path-utils.ts`, `src/retrievers/types.ts`, `src/config/load-config.ts`, `src/core/indexer.ts`, `src/analyzers/python.ts`, `src/analyzers/javascript.ts`, `src/retrievers/ripgrep.ts` |
-| Config/docs | 676 | `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
-| Entrypoints | 605 | `src/cli/index.ts`, `src/mcp/server.ts` |
+| Config/docs | 676 | `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `repo-context.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
+| Entrypoints | 612 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 453 estimated tokens
+Remaining budget: 446 estimated tokens
 
 ## Suggested Commands
 - npm run test -- refactor

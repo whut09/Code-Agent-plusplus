@@ -1,14 +1,14 @@
 # Architecture
 
-Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents. It does not replace Codex, Claude Code, Cursor, OpenCode, or MiMoCode as the coding agent; it compiles a repository into task-aware context, generates edit boundaries, records execution traces, checks policies and contracts, analyzes diff impact, recommends tests and verification paths, and decides the next loop action from freshness / trace / policy / impact signals.
+Code Agent++ is a problem-driven enhancement layer for coding agents. It does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode as the coding agent; it adds context enhancement, edit boundaries, regression guards, impact analysis, test-evidence validation, and repair/finalize decisions around them.
 
-The core product is no longer just documentation generation or context-pack compilation. It is a static but verifiable Agent Runtime Loop control plane:
+The core product is no longer just documentation generation or context-pack compilation. It is a static but verifiable Agent Reliability Layer:
 
 ```txt
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-The generated context remains important, but it is one part of the control plane: agents use it together with traces, policy checks, tests, freshness, drift, impact, and verification signals to plan, edit, repair, and finalize changes.
+The generated context remains important, but it is one part of the enhancement layer: agents use it together with traces, policy checks, tests, freshness, drift, impact, and verification signals to plan, edit, repair, and finalize changes.
 
 Current boundary: this is not yet a fully autonomous agent executor. It is a context, policy, trace, and runtime-state control plane with a semi-automatic loop advisor. The controller consumes repository state and trace evidence, persists `.agent-context/runs/<task-id>/state.json`, and decides the next allowed action, but an external coding agent or user still executes edits and commands. The roadmap is a more autonomous, evidence-driven Agent Harness Runtime.
 
@@ -64,12 +64,12 @@ The v2 architecture is organized around five responsibilities:
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, regression guards, and the harness-led `orchestrate` command.
 - Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP server scaffold and core tools exist today; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `repo_context_build`, `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
 
-- External Agent Executor Layer: generic command adapters for Codex, Claude Code, Cursor, OpenCode, MiMoCode / MiMoCodex, and other scriptable code agents. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs can be wired through `--executor-command` with placeholders such as `{prompt}`, `{task}`, `{repo}`, and `{runDir}`. Native event normalizers for OpenCode, MiMoCode, Codex JSONL, and Claude Code transcripts remain adapter work. These code agents own file reading, code edits, command execution, and their own tools. Repo-to-Agent-Context orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
+- External Agent Executor Layer: generic command adapters for Codex, Claude Code, Cursor, OpenCode, MiMoCode / MiMoCodex, and other scriptable code agents. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs can be wired through `--executor-command` with placeholders such as `{prompt}`, `{task}`, `{repo}`, and `{runDir}`. Native event normalizers for OpenCode, MiMoCode, Codex JSONL, and Claude Code transcripts remain adapter work. These code agents own file reading, code edits, command execution, and their own tools. Code Agent++ orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
 
 The integration model has two modes:
 
-- Agent-led mode: a code agent calls Repo-to-Agent-Context tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
-- Harness-led mode: Repo-to-Agent-Context owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, or `require human review`. The current implementation supports this as a one-pass orchestrator through `repo-context orchestrate` and `repo-context agent run`; multi-iteration autonomous repair loops and native executor event parsing are the next step.
+- Agent-led mode: a code agent calls Code Agent++ tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
+- Harness-led mode: Code Agent++ owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, or `require human review`. The current implementation supports this as a one-pass orchestrator through `repo-context orchestrate` and `repo-context agent run`; multi-iteration autonomous repair loops and native executor event parsing are the next step.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 

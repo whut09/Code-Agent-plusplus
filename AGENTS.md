@@ -1,11 +1,11 @@
-<!-- generated-by: repo-to-agent-context -->
+<!-- generated-by: code-agent-plusplus -->
 <!-- do-not-edit: edit AGENTS.manual.md or configured manual sources instead -->
 <!-- manual-sources: AGENTS.manual.md -->
 <!-- generated-source: .agent-context/AGENTS.generated.md -->
 
 # Agent Guide
 
-<!-- generated-by: repo-to-agent-context -->
+<!-- generated-by: code-agent-plusplus -->
 <!-- generated-file: .agent-context/AGENTS.generated.md -->
 
 # Generated Agent Guide
@@ -21,7 +21,7 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 ## Default Workflow
 - Read `AGENTS.md` only before the task is concrete.
 - Agent-led handoff: run `repo-context run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.
-- Harness-led executor flow: run `repo-context orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>"` when Repo-to-Agent-Context should own the final gate.
+- Harness-led executor flow: run `repo-context orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>"` when Code Agent++ should own the final gate.
 - Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.
 - Prefer source files over generated summaries for behavior, API, and test decisions.
 

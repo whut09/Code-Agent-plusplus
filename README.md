@@ -1,10 +1,12 @@
-# Repo-to-Agent-Context
+# Code Agent++
 
 中文 | [English](README.en.md)
 
-Repo-to-Agent-Context 是面向 AI 编程 Agent 的 Harness Runtime 控制面。
+**Code Agent++: Make Coding Agents Safer, Smarter, and More Verifiable**
 
-它不替代 Codex / Claude Code / Cursor / OpenCode / MiMoCode 写代码，而是把仓库编译成 task-aware context，生成编辑边界，记录执行轨迹，检查策略与 contracts，分析 diff 影响，推荐测试与验证路径，并根据 freshness / trace / policy / impact 决定下一轮动作。
+Code Agent++ 是面向 AI 编程 Agent 的外挂增强层：为 Codex / OpenCode / Claude Code / Cursor / MiMoCode 等代码 Agent 提供上下文增强、编辑边界、回归防护、影响分析、测试证据验证与 repair/finalize 决策能力，让 Agent 不只是“能改代码”，而是能在复杂仓库中更可控、更可信、更少重复犯错。
+
+它不是另一个代码生成 Agent，也不替代 Codex、OpenCode 或 Claude Code 写代码。Code Agent++ 的定位是 Code Agent Enhancement / Agent Reliability Layer：围绕代码 Agent 在真实工程中常见的问题，提供一组可外挂、可组合、可验证的增强模块。
 
 核心闭环：
 
@@ -12,12 +14,14 @@ Repo-to-Agent-Context 是面向 AI 编程 Agent 的 Harness Runtime 控制面。
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-它不是简单 repo summarizer，也不只是 context pack tool。它的目标是给 Codex / Claude Code / Cursor / OpenCode / MiMoCode 增加一个静态但可验证的工程控制面：更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
+它不是简单 repo summarizer，也不只是 context pack tool。它的核心思想是：Agent 负责写代码，Code Agent++ 负责让这次修改有边界、有证据、可验证、少回归。
+
+它将“上下文、边界、验证、影响分析、回归防护、修复闭环”从 Prompt 中抽离出来，沉淀为可执行的 Harness Engineering 基础设施。
 
 当前实现更准确地说是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness，更新 `.agent-context/runs/<task-id>/state.json`，并生成下一步唯一优先动作。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
 
 <p align="center">
-  <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context 输出效果动画">
+  <img src="./assets/context-pack-demo.svg" width="900" alt="Code Agent++ 输出效果动画">
 </p>
 
 ## 通过 AI Agent 使用
@@ -25,7 +29,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 这个项目的主要用户就是 AI 编程工具。你可以直接在 Codex、Claude Code、Cursor、OpenCode、MiMoCode 或其他 Agent 里说：
 
 ```txt
-使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。
+使用 https://github.com/whut09/Code-Agent-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。
 请先检查目标仓库结构，再按需安装或克隆该工具。
 请强制启用 LLM 摘要：在目标仓库创建或更新 repo-context.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置，或我提供的 key/baseUrl/model；如果缺少配置，请先问我。
 然后运行 repo-context build <目标仓库> --target codex --llm，再运行 repo-context validate <目标仓库>，最后说明生成了哪些文件，以及 LLM 摘要模式是否成功。
@@ -42,15 +46,18 @@ AI 编程工具通常不是不会写代码，而是没吃对上下文：
 - 乱改文件：没有编辑边界，不知道哪些路径是 generated、lockfile、migration、env。
 - 改完不会验证：不知道该跑哪些测试、typecheck、lint 或 diff impact。
 
-Repo-to-Agent-Context 的目标是把“给 Agent 的仓库记忆”升级成可生成、可更新、可验证、可闭环控制的运行时系统。
+Code Agent++ 的目标是把“给 Agent 的仓库记忆”升级成可生成、可更新、可验证、可闭环控制的运行时系统。
 
 ## 30 秒怎么用？
 
 ```bash
-npx repo-to-agent-context build .
+npx code-agent-plusplus build .
+agent-plus plan "fix login timeout bug" .
 repo-context plan "fix login timeout bug" .
 repo-context pack "fix login timeout bug" .
 ```
+
+`agent-plus` / `code-agent-plusplus` 是新 CLI 别名；`repo-context` 会继续保留，避免旧脚本和旧文档失效。
 
 本地源码运行：
 
@@ -196,6 +203,10 @@ repo-context drift [repo]
 repo-context benchmark [benchmarkDir] --top-k 8
 repo-context retrieve "<task>" [repo] --provider hybrid
 repo-context-mcp
+agent-plus
+agent-plus-mcp
+code-agent-plusplus
+code-agent-plusplus-mcp
 ```
 
 `policy --fail-on` 支持三档 CI 阈值：
@@ -206,57 +217,57 @@ repo-context-mcp
 
 ## Code Agent 集成
 
-Repo-to-Agent-Context 的定位是面向 code agent 的 External Agent Harness Control Plane。Codex / Claude Code / Cursor / OpenCode / MiMoCode 负责实际读代码、改代码和跑命令；Repo-to-Agent-Context 负责任务上下文、编辑边界、执行证据和验证闭环。
+Code Agent++ 的定位是面向 code agent 的 External Agent Harness Control Plane。Codex / Claude Code / Cursor / OpenCode / MiMoCode 负责实际读代码、改代码和跑命令；Code Agent++ 负责任务上下文、编辑边界、执行证据和验证闭环。
 
 ```txt
 Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> 负责读代码、改代码、跑命令、调用工具
 
-Repo-to-Agent-Context
+Code Agent++
   -> 负责上下文、边界、trace、policy、impact、tests、verify、repair/finalize 决策
 ```
 
-这种分工让现有 code agent 的执行能力和 Repo-to-Agent-Context 的控制面能力自然组合。OpenCode / MiMoCode 是开源 code agent runtime，也是项目下一步优先接入和验证的执行器方向。
+这种分工让现有 code agent 的执行能力和 Code Agent++ 的控制面能力自然组合。OpenCode / MiMoCode 是开源 code agent runtime，也是项目下一步优先接入和验证的执行器方向。
 
 项目支持两种工作模式：
 
 - 详细入口隔离说明见 [docs/integration-modes.zh-CN.md](docs/integration-modes.zh-CN.md)。
 
-### 模式一：Code Agent 主导，Repo-to-Agent-Context 约束
+### 模式一：Code Agent 主导，Code Agent++ 约束
 
-这是当前最容易接入的方式。Codex / Claude Code / Cursor / OpenCode / MiMoCode 作为主执行者，通过 MCP 或 CLI 调用 Repo-to-Agent-Context：
+这是当前最容易接入的方式。Codex / Claude Code / Cursor / OpenCode / MiMoCode 作为主执行者，通过 MCP 或 CLI 调用 Code Agent++：
 
 ```txt
 用户任务
   -> code agent 调用 repo_context_plan / pack / retrieve
   -> code agent 读代码、改代码、跑命令
   -> code agent 调用 tests / impact / verify / evaluate
-  -> Repo-to-Agent-Context 输出 policy、contracts、trace、verify 结果
+  -> Code Agent++ 输出 policy、contracts、trace、verify 结果
 ```
 
-这种模式的优点是体验自然、接入快，适合 OpenCode / MiMoCode 的 MCP demo 和日常辅助使用。限制是最高决策权仍在 code agent 内部：它可以忽略某些工具调用或绕过 gate，所以 Repo-to-Agent-Context 能提供约束和证据，但不能完全保证最终效果。
+这种模式的优点是体验自然、接入快，适合 OpenCode / MiMoCode 的 MCP demo 和日常辅助使用。限制是最高决策权仍在 code agent 内部：它可以忽略某些工具调用或绕过 gate，所以 Code Agent++ 能提供约束和证据，但不能完全保证最终效果。
 
-### 模式二：Repo-to-Agent-Context 主导，Code Agent 作为编码执行器
+### 模式二：Code Agent++ 主导，Code Agent 作为编码执行器
 
-这是项目的正式 Harness Runtime 路线。Repo-to-Agent-Context 负责流程编排和验收，code agent 只作为可替换的编码执行器：
+这是项目的正式 Harness Runtime 路线。Code Agent++ 负责流程编排和验收，code agent 只作为可替换的编码执行器：
 
 ```txt
 用户任务
-  -> Repo-to-Agent-Context plan / pack
+  -> Code Agent++ plan / pack
   -> 选择 executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> code agent 执行代码修改
-  -> Repo-to-Agent-Context 收集 diff / trace / test evidence
+  -> Code Agent++ 收集 diff / trace / test evidence
   -> policy / contracts / tests / impact / verify
   -> decision: finalize / repair / repack / block / require human review
 ```
 
-这种模式下项目拥有最高控制权：是否继续、是否修复、是否重打包上下文、是否阻塞、是否要求人工 review，都由 Repo-to-Agent-Context 根据状态机、trace evidence、policy gate 和 verify report 决定。OpenCode / MiMoCode 因为开源、可脚本化、可观察，是优先接入的 executor。
+这种模式下项目拥有最高控制权：是否继续、是否修复、是否重打包上下文、是否阻塞、是否要求人工 review，都由 Code Agent++ 根据状态机、trace evidence、policy gate 和 verify report 决定。OpenCode / MiMoCode 因为开源、可脚本化、可观察，是优先接入的 executor。
 
 落地路线：
 
 1. MCP 接入：让 code agent 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
 2. Executor Wrapper：`repo-context agent run "<task>" . --executor opencode|mimocode --executor-command "<带 {prompt} 的命令>"` 完成 `pack -> run agent -> collect diff -> verify`。CI 和测试用的确定性 `mock` executor 已实现；真实 code agent CLI 先通过 `--executor-command` 接入，后续再补原生事件 normalizer。
-3. Orchestrator Loop：`repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<带 {prompt} 的命令>"`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
+3. Orchestrator Loop：`repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<带 {prompt} 的命令>"`，由 Code Agent++ 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
 
 核心抽象是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI、Claude Code 或其他 code agent；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
 
