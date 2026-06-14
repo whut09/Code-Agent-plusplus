@@ -11,8 +11,8 @@ Generated for target: `codex`.
 - Dependency edges detected: 501
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,603,679 tokens
-Estimated context pack (chars_approx): 18,255 tokens
+Original repo (estimated, chars_approx): 1,604,360 tokens
+Estimated context pack (chars_approx): 18,274 tokens
 Compression: 88x
 Token budget: 90,000 (within budget)
 
@@ -23,7 +23,7 @@ This repository contains 184 scanned files with 2176 detected symbols across 25 
 - Mode: offline
 - LLM attempted: no
 - Fallback reason: disabled
-- LLM summaries use local private configuration when `repo-context.local.yml` is present.
+- LLM summaries use local private configuration when `code-agent-plusplus.local.yml` is present.
 
 ## Agent Readiness
 - Score: A / 90

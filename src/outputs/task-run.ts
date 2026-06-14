@@ -70,7 +70,7 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
     testSelection,
     impact
   });
-  const trace = startExecutionTrace(context.scan.root, task, { id: runId, agent: "repo-context" });
+  const trace = startExecutionTrace(context.scan.root, task, { id: runId, agent: "code-agent-plusplus" });
   manifest.traceFile = path.relative(context.scan.root, executionTracePath(context.scan.root, trace.id)).replaceAll("\\", "/");
   const stateFile = writeRunState(context.scan.root, initialRunState(context, runId, task));
 

@@ -179,7 +179,7 @@ function stepPassed(step: ExecutionTraceStep): boolean {
 function isHarnessCommandEvidence(step: ExecutionTraceStep): boolean {
   return (
     step.evidenceSource === "command" &&
-    step.capturedBy === "repo-context" &&
+    step.capturedBy === "code-agent-plusplus" &&
     step.exitCode === 0 &&
     Boolean(step.command && step.startedAt && step.finishedAt && step.stdoutHash && step.stderrHash && step.workingTreeHashBefore && step.workingTreeHashAfter)
   );

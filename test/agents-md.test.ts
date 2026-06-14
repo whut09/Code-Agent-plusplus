@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { renderAgentsMd } from "../src/outputs/agents-md.js";
 
 test("default AGENTS.md is minimal operating constraints", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-agents-"));
 
   try {
     writeFileSync(
@@ -41,7 +41,7 @@ test("default AGENTS.md is minimal operating constraints", async () => {
 });
 
 test("default AGENTS.md prefers source anchors over generic config anchors", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-agents-"));
 
   try {
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
@@ -79,11 +79,11 @@ export function login() { return "ok"; }
 });
 
 test("balanced AGENTS.md keeps expanded summary behind explicit mode", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-agents-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-agents-"));
 
   try {
     writeFileSync(
-      path.join(root, "repo-context.config.yml"),
+      path.join(root, "code-agent-plusplus.config.yml"),
       `
 agents:
   mode: balanced

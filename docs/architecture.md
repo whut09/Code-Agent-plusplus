@@ -62,14 +62,14 @@ The v2 architecture is organized around five responsibilities:
 - Context Planner: converts repository indexes into global, task, diff, and impact contexts.
 - Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, complete task runs, verification packs, editable contracts, and RAG documents.
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, regression guards, and the harness-led `orchestrate` command.
-- Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP server scaffold and core tools exist today; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `repo_context_build`, `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
+- Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP server scaffold and core tools exist today; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `code_agent_plusplus_build`, `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`, `code_agent_plusplus_tests`, `code_agent_plusplus_impact`, `code_agent_plusplus_verify`, `code_agent_plusplus_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
 
 - External Agent Executor Layer: generic command adapters for Codex, Claude Code, Cursor, OpenCode, MiMoCode / MiMoCodex, and other scriptable code agents. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs can be wired through `--executor-command` with placeholders such as `{prompt}`, `{task}`, `{repo}`, and `{runDir}`. Native event normalizers for OpenCode, MiMoCode, Codex JSONL, and Claude Code transcripts remain adapter work. These code agents own file reading, code edits, command execution, and their own tools. Code Agent++ orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
 
 The integration model has two modes:
 
 - Agent-led mode: a code agent calls Code Agent++ tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
-- Harness-led mode: Code Agent++ owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, or `require human review`. The current implementation supports this as a one-pass orchestrator through `repo-context orchestrate` and `repo-context agent run`; multi-iteration autonomous repair loops and native executor event parsing are the next step.
+- Harness-led mode: Code Agent++ owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, or `require human review`. The current implementation supports this as a one-pass orchestrator through `code-agent-plusplus orchestrate` and `code-agent-plusplus agent run`; multi-iteration autonomous repair loops and native executor event parsing are the next step.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
@@ -127,9 +127,9 @@ Dependency resolution is invalidated when package manifests, lockfiles, workspac
 
 Command semantics are intentionally split:
 
-- `repo-context update .`: full generated-context refresh, using scan/index/graph/token caches when available.
-- `repo-context delta .`: analyzes changed files, stale context outputs, affected graph nodes, and agent re-read guidance without rewriting the full context.
-- `repo-context evolve .`: currently performs a cache-aware full generated-context refresh, writes `.agent-context/delta/latest.*`, and prints cache stats such as reused indexed files, re-indexed files, graph reuse/rebuild, and rewritten outputs. Selective writing of only affected outputs is planned, not yet the default behavior.
+- `code-agent-plusplus update .`: full generated-context refresh, using scan/index/graph/token caches when available.
+- `code-agent-plusplus delta .`: analyzes changed files, stale context outputs, affected graph nodes, and agent re-read guidance without rewriting the full context.
+- `code-agent-plusplus evolve .`: currently performs a cache-aware full generated-context refresh, writes `.agent-context/delta/latest.*`, and prints cache stats such as reused indexed files, re-indexed files, graph reuse/rebuild, and rewritten outputs. Selective writing of only affected outputs is planned, not yet the default behavior.
 
 ## Graph Builder
 
@@ -164,7 +164,7 @@ Task packs use a three-stage retrieval pipeline:
 
 Bugfix, feature, and refactor tasks use different priorities and suggested commands.
 
-`repo-context run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, OpenCode, MiMoCode, or automation a single task execution context instead of several disconnected command outputs.
+`code-agent-plusplus run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, OpenCode, MiMoCode, or automation a single task execution context instead of several disconnected command outputs.
 
 The planner now treats task context as one mode among four:
 
@@ -214,20 +214,20 @@ Composer output is layered:
 - Task Run: complete task execution context under `.agent-context/runs/<task-id>/`.
 - Task Pack: standalone task-specific context files under `.agent-context/tasks/`.
 - Verification Pack: changed files, missing tests, recommended commands, and risk report.
-- Contracts: machine-checkable edit boundaries under `.agent-context/contracts/`, validated by `repo-context validate-contracts`.
+- Contracts: machine-checkable edit boundaries under `.agent-context/contracts/`, validated by `code-agent-plusplus validate-contracts`.
 - RAG Documents: retrievable context chunks for static, ripgrep, LightRAG, embedding, or hybrid retrievers.
 
 ## Freshness And Drift
 
 Every build writes `.agent-context/manifest.json` with `generatedAt`, `gitCommit`, `configHash`, `sourceHash`, `indexHash`, `graphHash`, `contractsHash`, `taskPacksHash`, `generatedOutputHash`, and `toolVersion`.
 
-`repo-context freshness .` compares that manifest against the current repository scan and reports whether the generated context is fresh, stale, or missing. It catches source/config changes, commit changes, index drift, dependency graph drift, contract drift, task-pack drift, and hand-edited generated files.
+`code-agent-plusplus freshness .` compares that manifest against the current repository scan and reports whether the generated context is fresh, stale, or missing. It catches source/config changes, commit changes, index drift, dependency graph drift, contract drift, task-pack drift, and hand-edited generated files.
 
-`repo-context drift .` focuses on generated-output, dependency-graph, task-pack, and contract drift. This gives agents a fast preflight check before trusting `AGENTS.md`, task packs, or contracts.
+`code-agent-plusplus drift .` focuses on generated-output, dependency-graph, task-pack, and contract drift. This gives agents a fast preflight check before trusting `AGENTS.md`, task packs, or contracts.
 
 ## Loop Runtime Layer
 
-The project is moving from a context compiler toward an agent runtime harness. The first runtime primitive is `repo-context loop "<task>" .`.
+The project is moving from a context compiler toward an agent runtime harness. The first runtime primitive is `code-agent-plusplus loop "<task>" .`.
 
 The loop controller does not execute an agent directly. It reads the compiled context, task pack, freshness manifest, dependency graph, contract validation, test selection, and impact report, then decides the next loop step:
 
@@ -248,14 +248,14 @@ The state file records `state`, `previousState`, repository/context/diff hashes,
 
 ## Execution Trace
 
-Agent harnesses need structured history, not only generated context. `repo-context run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `repo-context trace start/add/run/show` can manage traces directly.
+Agent harnesses need structured history, not only generated context. `code-agent-plusplus run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `code-agent-plusplus trace start/add/run/show` can manage traces directly.
 
 Each trace records:
 
 - task and agent identity
 - ordered steps with timestamp, action, files, reason, command, test, result, and output summary
 - evidence source: `manual`, `command`, or `ci`
-- command evidence captured by `repo-context trace run`, including exit code, timestamps, stdout/stderr hashes, and working-tree hashes before and after execution
+- command evidence captured by `code-agent-plusplus trace run`, including exit code, timestamps, stdout/stderr hashes, and working-tree hashes before and after execution
 - final state such as `planned`, `in_progress`, `partial_success`, `success`, `failed`, or `blocked`
 
 Trace steps are not trusted as raw logs. `evidenceSatisfies()` evaluates whether a trace step can satisfy a harness requirement by checking the requirement type, required command match, exit code, working-tree hash, and whether the evidence was recorded after the last edit step. Command/CI evidence must match the current actionable working-tree hash, excluding generated context and trace files, so a test run does not stay valid after later source edits.
@@ -277,7 +277,7 @@ Example:
       "command": "npm test -- auth",
       "result": "passed",
       "evidenceSource": "command",
-      "capturedBy": "repo-context",
+      "capturedBy": "code-agent-plusplus",
       "exitCode": 0,
       "startedAt": "2026-06-13T10:00:00.000Z",
       "finishedAt": "2026-06-13T10:00:04.000Z",
@@ -298,9 +298,9 @@ This gives the feedback loop durable evidence about what the agent actually did,
 The summary engine has two modes:
 
 - Offline mode: uses static repository signals and never calls an external model.
-- LLM mode: uses a local private `repo-context.local.yml` with an OpenAI-compatible `baseUrl`, `apiKey`, and `model`.
+- LLM mode: uses a local private `code-agent-plusplus.local.yml` with an OpenAI-compatible `baseUrl`, `apiKey`, and `model`.
 
-Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `repo-context.local.yml`, which is ignored by git.
+Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `code-agent-plusplus.local.yml`, which is ignored by git.
 
 ## Retrieval Protocol
 
@@ -326,7 +326,7 @@ This keeps the CLI fast and portable while still supporting semantic retrieval f
 
 Recommended LightRAG flow:
 
-1. Run `repo-context build`.
+1. Run `code-agent-plusplus build`.
 2. Import `.agent-context/rag/documents.jsonl` into LightRAG.
 3. Query LightRAG for task-specific context.
 4. Feed retrieved snippets plus `AGENTS.md` into the coding agent.

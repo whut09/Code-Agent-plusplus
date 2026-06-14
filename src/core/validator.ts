@@ -55,7 +55,7 @@ export function validateContextPackage(context: ContextPackage): ValidationRepor
 function validateGeneratedJson(context: ContextPackage, issues: ValidationIssue[]): void {
   const contextDir = path.join(context.scan.root, ".agent-context");
   if (!existsSync(contextDir)) {
-    issues.push({ severity: "warning", code: "context_not_generated", message: "No .agent-context directory exists yet. Run repo-context build." });
+    issues.push({ severity: "warning", code: "context_not_generated", message: "No .agent-context directory exists yet. Run code-agent-plusplus build." });
     return;
   }
   for (const relativePath of [

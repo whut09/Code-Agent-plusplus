@@ -140,8 +140,8 @@ git ls-files --others --exclude-standard
 测试推荐入口是 `buildTestSelection()`，支持两种常见模式：
 
 ```bash
-repo-context tests . --for src/auth/session.ts
-repo-context tests . --diff --base main
+code-agent-plusplus tests . --for src/auth/session.ts
+code-agent-plusplus tests . --diff --base main
 ```
 
 它输出三类结果：
@@ -202,9 +202,9 @@ diff + dependency impact + test gap + contract violations + risk score
 
 `update`、`delta`、`evolve` 的产品语义需要拆开看：
 
-- `repo-context update .`：全量刷新生成上下文，但会复用 scan/index/graph/token cache。
-- `repo-context delta .`：只分析 changed context impact 和 Agent 必须重读的文件，不刷新全部输出。
-- `repo-context evolve .`：当前是 cache-aware full refresh，并额外写入 `.agent-context/delta/latest.*`。它会输出复用索引文件数、重新索引文件数、graph 是否重建和 rewritten outputs。只写受影响产物的 selective write 仍是计划中能力。
+- `code-agent-plusplus update .`：全量刷新生成上下文，但会复用 scan/index/graph/token cache。
+- `code-agent-plusplus delta .`：只分析 changed context impact 和 Agent 必须重读的文件，不刷新全部输出。
+- `code-agent-plusplus evolve .`：当前是 cache-aware full refresh，并额外写入 `.agent-context/delta/latest.*`。它会输出复用索引文件数、重新索引文件数、graph 是否重建和 rewritten outputs。只写受影响产物的 selective write 仍是计划中能力。
 
 ## 7. Loop Controller 如何决策下一步
 
@@ -240,7 +240,7 @@ diff + dependency impact + test gap + contract violations + risk score
 
 当传入 trace id 时，controller 会读取 `.agent-context/traces/<trace-id>.json` 里的 passed test evidence。如果 changed files 已经有通过的测试证据，controller 不会继续输出 `run-tests`；只要 freshness、drift、contract、budget、impact 等信号也不阻塞，就可以进入 `ready-for-review`。
 
-当使用 `repo-context loop "<task>" . --write` 时，controller 还会更新 `.agent-context/runs/<task-id>/state.json`。这个文件是显式 runtime 状态机，而不是普通 markdown 报告：
+当使用 `code-agent-plusplus loop "<task>" . --write` 时，controller 还会更新 `.agent-context/runs/<task-id>/state.json`。这个文件是显式 runtime 状态机，而不是普通 markdown 报告：
 
 ```json
 {
@@ -291,13 +291,13 @@ no stale context, no violations, no changed files, no high risk
 
 ## 8. Execution Trace 和 Policy Engine
 
-Loop 不能只靠生成文件，还需要记录 Agent 实际做了什么。`repo-context run "<task>" .` 会创建 task run，并生成对应 trace。也可以直接使用：
+Loop 不能只靠生成文件，还需要记录 Agent 实际做了什么。`code-agent-plusplus run "<task>" .` 会创建 task run，并生成对应 trace。也可以直接使用：
 
 ```bash
-repo-context trace start "<task>" . --agent codex
-repo-context trace add <trace-id> . --action edit --files src/auth/session.ts --reason "timeout logic"
-repo-context trace add <trace-id> . --action run-test --command "npm test -- auth" --result passed
-repo-context trace run <trace-id> . --action run-test --command "npm test -- auth"
+code-agent-plusplus trace start "<task>" . --agent codex
+code-agent-plusplus trace add <trace-id> . --action edit --files src/auth/session.ts --reason "timeout logic"
+code-agent-plusplus trace add <trace-id> . --action run-test --command "npm test -- auth" --result passed
+code-agent-plusplus trace run <trace-id> . --action run-test --command "npm test -- auth"
 ```
 
 trace 记录 task、agent、steps、files、reason、command、test、result、output 和 final state。证据会区分三类：
@@ -308,9 +308,9 @@ trace 记录 task、agent、steps、files、reason、command、test、result、o
 
 trace step 只有通过验证后才会成为决策证据。`evidenceSatisfies()` 会检查 requirement 类型、required command 是否匹配、exit code 是否通过、working tree hash 是否仍等于当前可执行 diff，以及证据是否发生在最后一次编辑之后。这样可以避免一种假闭环：Agent 先跑测试，再继续改代码，但仍复用旧的 passed test evidence。
 
-Policy Engine 会优先使用 `ci` 和 `command` evidence；只有 `manual` 测试证据时仍可满足基础 required check，但会提示风险并建议使用 `repo-context trace run ...` 捕获真实命令证据。
+Policy Engine 会优先使用 `ci` 和 `command` evidence；只有 `manual` 测试证据时仍可满足基础 required check，但会提示风险并建议使用 `code-agent-plusplus trace run ...` 捕获真实命令证据。
 
-`repo-context policy . --base main --trace <trace-id>` 会把 diff、contracts、freshness 和 trace evidence 合并检查。它能阻止 forbidden edits，提示风险，并要求测试、contract validation 或 context refresh 证据。这一层让 Harness 不只是“建议”，而是具备 runtime guardrail 的形态。
+`code-agent-plusplus policy . --base main --trace <trace-id>` 会把 diff、contracts、freshness 和 trace evidence 合并检查。它能阻止 forbidden edits，提示风险，并要求测试、contract validation 或 context refresh 证据。这一层让 Harness 不只是“建议”，而是具备 runtime guardrail 的形态。
 
 `policy --fail-on` 用来控制门禁强度：
 

@@ -127,7 +127,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     result: executorResult.exitCode === 0 ? "passed" : "failed",
     finalState: executorResult.exitCode === 0 ? "partial_success" : "blocked",
     evidenceSource: executorResult.command ? "command" : "manual",
-    capturedBy: executorResult.command ? "repo-context" : "external",
+    capturedBy: executorResult.command ? "code-agent-plusplus" : "external",
     exitCode: executorResult.exitCode,
     output: summarizeOutput(executorResult.stdout, executorResult.stderr),
     startedAt: executorResult.startedAt,

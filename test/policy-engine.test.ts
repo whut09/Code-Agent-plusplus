@@ -62,7 +62,7 @@ test("policy engine accepts passed trace evidence for required checks", async ()
     });
     appendExecutionTraceStep(root, trace.id, {
       action: "validate-contracts",
-      command: "repo-context validate-contracts . --base main",
+      command: "code-agent-plusplus validate-contracts . --base main",
       result: "passed"
     });
 
@@ -191,7 +191,7 @@ test("policy engine blocks generated source output changes", async () => {
 });
 
 function createPolicyRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-policy-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-policy-"));
   mkdirSync(path.join(root, "src", "core"), { recursive: true });
   mkdirSync(path.join(root, "test", "core"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"", check: "tsc --noEmit" } }), "utf8");
@@ -205,7 +205,7 @@ async function prepareGeneratedContext(root: string): Promise<void> {
   writeContextPackage(initialContext);
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "repo-context@example.com"]);
+  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

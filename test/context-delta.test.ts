@@ -27,7 +27,7 @@ test("context delta reports stale outputs and agent re-read files", async () => 
     assert.ok(report.agentMustReRead.includes("src/auth/session.ts"));
     assert.ok(report.agentMustReRead.includes("src/api/login.ts"));
     assert.match(rendered, /# Context Delta/);
-    assert.match(rendered, /repo-context evolve \. --base main/);
+    assert.match(rendered, /code-agent-plusplus evolve \. --base main/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -60,7 +60,7 @@ test("context delta writes reports without making freshness stale", async () => 
 });
 
 function createDeltaRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-delta-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-delta-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "src", "api"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
@@ -76,7 +76,7 @@ async function prepareGeneratedContext(root: string): Promise<void> {
   writeContextPackage(context);
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "repo-context@example.com"]);
+  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

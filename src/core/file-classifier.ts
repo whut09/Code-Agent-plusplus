@@ -21,8 +21,8 @@ const CONFIG_NAMES = new Set([
   "docker-compose.yml",
   ".env.example",
   ".github/workflows",
-  "repo-context.config.yml",
-  "repo-context.config.yaml"
+  "code-agent-plusplus.config.yml",
+  "code-agent-plusplus.config.yaml"
 ]);
 
 const LOCK_NAMES = new Set(["package-lock.json", "pnpm-lock.yaml", "yarn.lock", "Cargo.lock", "poetry.lock", "Pipfile.lock", "go.sum"]);

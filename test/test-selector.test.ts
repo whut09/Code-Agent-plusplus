@@ -8,7 +8,7 @@ import { runGit } from "../src/core/git.js";
 import { buildTestSelection, renderTestSelection } from "../src/outputs/test-selector.js";
 
 function createTestSelectorRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-tests-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-tests-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "src", "api"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
@@ -57,7 +57,7 @@ test("test selector supports git diff targets", async () => {
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "repo-context@example.com"]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
@@ -91,7 +91,7 @@ test("test selector diff includes untracked runnable tests", async () => {
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "repo-context@example.com"]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);

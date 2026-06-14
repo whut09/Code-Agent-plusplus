@@ -79,9 +79,9 @@ Every build writes `.agent-context/manifest.json` with hashes for source, config
 
 `update`, `delta`, and `evolve` have different product meanings:
 
-- `repo-context update .` performs a full generated-context refresh with cache reuse.
-- `repo-context delta .` reports changed context impact and agent re-read guidance without refreshing all outputs.
-- `repo-context evolve .` currently performs a cache-aware full refresh plus `.agent-context/delta/latest.*` output. It prints cache stats and rewritten outputs so users can see what was reused. Selective writes of only affected outputs are planned.
+- `code-agent-plusplus update .` performs a full generated-context refresh with cache reuse.
+- `code-agent-plusplus delta .` reports changed context impact and agent re-read guidance without refreshing all outputs.
+- `code-agent-plusplus evolve .` currently performs a cache-aware full refresh plus `.agent-context/delta/latest.*` output. It prints cache stats and rewritten outputs so users can see what was reused. Selective writes of only affected outputs are planned.
 
 ## Loop Controller
 
@@ -100,7 +100,7 @@ Each decision is machine-readable and includes `action`, `priority`, `confidence
 
 When a trace id is supplied, the controller reads passed test evidence from `.agent-context/traces/<trace-id>.json`. If changed files already have passed test evidence, the controller no longer emits `run-tests`; it can move to `ready-for-review` unless freshness, drift, contract, budget, or impact signals still block the loop.
 
-The controller also updates `.agent-context/runs/<task-id>/state.json` when `repo-context loop "<task>" . --write` is used. That file stores:
+The controller also updates `.agent-context/runs/<task-id>/state.json` when `code-agent-plusplus loop "<task>" . --write` is used. That file stores:
 
 ```json
 {
@@ -124,7 +124,7 @@ The state model is explicit: `EMPTY`, `CONTEXT_READY`, `TASK_PACK_READY`, `EDIT_
 
 ## Trace And Policy
 
-`repo-context run "<task>" .` creates a task run and trace. `repo-context trace start/add/run/show` can also manage traces directly. A trace records agent identity, ordered steps, touched files, reasons, commands, test results, output summaries, and final state.
+`code-agent-plusplus run "<task>" .` creates a task run and trace. `code-agent-plusplus trace start/add/run/show` can also manage traces directly. A trace records agent identity, ordered steps, touched files, reasons, commands, test results, output summaries, and final state.
 
 Trace evidence is split into three levels:
 
@@ -136,7 +136,7 @@ Trace steps are validated before they satisfy a loop requirement. `evidenceSatis
 
 The Policy Engine prefers CI and harness-captured command evidence. Manual test evidence can satisfy a required check for compatibility, but it is reported as a risk because it does not prove a command was actually executed.
 
-`repo-context policy . --base main --trace <trace-id>` merges diff, contracts, freshness, and trace evidence. It can block forbidden edits, flag risky behavior, and require test, contract, or context-refresh evidence before a loop is considered complete.
+`code-agent-plusplus policy . --base main --trace <trace-id>` merges diff, contracts, freshness, and trace evidence. It can block forbidden edits, flag risky behavior, and require test, contract, or context-refresh evidence before a loop is considered complete.
 
 `policy --fail-on` controls how hard the gate is:
 

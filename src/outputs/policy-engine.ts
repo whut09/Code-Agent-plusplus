@@ -74,7 +74,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     {
       kind: "contract-validation",
       currentRepoHash,
-      requiredCommands: [`repo-context validate-contracts . --base ${base}`]
+      requiredCommands: [`code-agent-plusplus validate-contracts . --base ${base}`]
     },
     trace
   );
@@ -116,7 +116,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       file: violation.file,
       message: violation.message,
       evidence: [violation.reason, `Rule: ${violation.rule}`],
-      requiredAction: violation.severity === "error" ? `Run repo-context validate-contracts . --base ${base} and repair the violating edit.` : undefined
+      requiredAction: violation.severity === "error" ? `Run code-agent-plusplus validate-contracts . --base ${base} and repair the violating edit.` : undefined
     });
   }
 
@@ -153,7 +153,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       severity: "warning",
       message: "High impact change detected.",
       evidence: impact.riskFactors,
-      requiredAction: `Run repo-context impact . --base ${base} and include dependents in the next agent context.`
+      requiredAction: `Run code-agent-plusplus impact . --base ${base} and include dependents in the next agent context.`
     });
   }
 
@@ -167,7 +167,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
           ...testEvidence.evidence,
           ...tests.fullConfidenceCommands.slice(0, 3).map((command) => `Suggested: ${command}`)
         ],
-        requiredAction: firstRunnableCommand(tests.fullConfidenceCommands) ?? `repo-context tests . --diff --base ${base}`
+        requiredAction: firstRunnableCommand(tests.fullConfidenceCommands) ?? `code-agent-plusplus tests . --diff --base ${base}`
       })
     );
 
@@ -175,7 +175,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       requiredFinding("policy.required.contract-validation", contractEvidence.satisfied, {
         message: "Changed source or config requires contract validation evidence.",
         evidence: [trace ? `Trace loaded: ${trace.id}.` : "No execution trace was provided.", ...contractEvidence.evidence],
-        requiredAction: `repo-context validate-contracts . --base ${base}`
+        requiredAction: `code-agent-plusplus validate-contracts . --base ${base}`
       })
     );
 
@@ -188,9 +188,9 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
         message: "Test evidence is manually reported instead of harness-captured.",
         evidence: [
           "Manual evidence can document agent intent, but command evidence includes exit code, output hashes, and working-tree hashes.",
-          `Preferred: repo-context trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>"`
+          `Preferred: code-agent-plusplus trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>"`
         ],
-        requiredAction: `Record command evidence with repo-context trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>".`
+        requiredAction: `Record command evidence with code-agent-plusplus trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>".`
       });
     }
   }
@@ -203,7 +203,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       severity: "required",
       message: "Generated context is stale or drifted.",
       evidence: [...freshness.reasons, ...drift.reasons].slice(0, 8),
-      requiredAction: "repo-context update ."
+      requiredAction: "code-agent-plusplus update ."
     });
   } else {
     findings.push({
@@ -224,7 +224,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       severity: "required",
       message: "Policy or contract generator changed without regenerated contract artifacts.",
       evidence: changed.actionable.filter(isContractGeneratorPath),
-      requiredAction: "repo-context update ."
+      requiredAction: "code-agent-plusplus update ."
     });
   }
 

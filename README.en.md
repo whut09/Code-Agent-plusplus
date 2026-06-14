@@ -31,11 +31,11 @@ The primary users of this project are AI coding tools. You can ask Codex, Claude
 ```txt
 Use https://github.com/whut09/Code-Agent-plusplus to generate AGENTS.md and a .agent-context package for the xxx project.
 Inspect the target repository first, then install or clone the tool if needed.
-Force LLM summaries: create or update repo-context.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first.
-Then run repo-context build <target-repo> --target codex --llm, run repo-context validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
+Force LLM summaries: create or update code-agent-plusplus.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first.
+Then run code-agent-plusplus build <target-repo> --target codex --llm, run code-agent-plusplus validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
 ```
 
-Replace `xxx project` with a local path, GitHub repository, or workspace name. Real keys should only go into `repo-context.local.yml`; never commit them.
+Replace `xxx project` with a local path, GitHub repository, or workspace name. Real keys should only go into `code-agent-plusplus.local.yml`; never commit them.
 
 ## What Problem Does It Solve?
 
@@ -52,12 +52,11 @@ Code Agent++ turns repository memory for agents into a generated, updatable, ver
 
 ```bash
 npx code-agent-plusplus build .
-agent-plus plan "fix login timeout bug" .
-repo-context plan "fix login timeout bug" .
-repo-context pack "fix login timeout bug" .
+code-agent-plusplus plan "fix login timeout bug" .
+code-agent-plusplus pack "fix login timeout bug" .
 ```
 
-`agent-plus` / `code-agent-plusplus` are the new CLI aliases; `repo-context` remains available for backwards compatibility with existing scripts and docs.
+`code-agent-plusplus` is the only recommended CLI command; the MCP server command is `code-agent-plusplus-mcp`.
 
 From source:
 
@@ -70,20 +69,20 @@ node dist/cli/index.js build .
 Common task loop:
 
 ```bash
-repo-context run "fix login timeout bug" . --type bugfix
-repo-context orchestrate "fix login timeout bug" . --executor mock --fail-on required
-repo-context agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
-repo-context delta . --base main
-repo-context evolve . --base main
-repo-context loop "fix login timeout bug" . --phase after-edit
-repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
-repo-context trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
-repo-context policy . --base main --trace fix-login-timeout-bug --fail-on required
-repo-context tests . --diff --base main
-repo-context impact . --base main
-repo-context verify --diff .
-repo-context freshness .
-repo-context drift .
+code-agent-plusplus run "fix login timeout bug" . --type bugfix
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
+code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
+code-agent-plusplus delta . --base main
+code-agent-plusplus evolve . --base main
+code-agent-plusplus loop "fix login timeout bug" . --phase after-edit
+code-agent-plusplus trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
+code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
+code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
+code-agent-plusplus tests . --diff --base main
+code-agent-plusplus impact . --base main
+code-agent-plusplus verify --diff .
+code-agent-plusplus freshness .
+code-agent-plusplus drift .
 ```
 
 ## Why Not Just a Repo Summarizer or RAG Loader?
@@ -180,31 +179,28 @@ See [docs/agents-md.md](docs/agents-md.md) for details.
 ## Core Commands
 
 ```bash
-repo-context build [repo]
-repo-context plan "<task>" [repo]
-repo-context pack "<task>" [repo]
-repo-context run "<task>" [repo]
-repo-context orchestrate "<task>" [repo] --executor mock --fail-on required
-repo-context agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
-repo-context delta [repo] --base main
-repo-context evolve [repo] --base main
-repo-context loop "<task>" [repo] --phase after-edit
-repo-context trace start "<task>" [repo] --agent codex
-repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
-repo-context trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
-repo-context policy [repo] --base main --trace <trace-id> --fail-on required
-repo-context tests [repo] --diff --base main
-repo-context impact [repo] --base main
-repo-context verify --diff [repo]
-repo-context validate [repo]
-repo-context validate-contracts [repo]
-repo-context freshness [repo]
-repo-context drift [repo]
-repo-context benchmark [benchmarkDir] --top-k 8
-repo-context retrieve "<task>" [repo] --provider hybrid
-repo-context-mcp
-agent-plus
-agent-plus-mcp
+code-agent-plusplus build [repo]
+code-agent-plusplus plan "<task>" [repo]
+code-agent-plusplus pack "<task>" [repo]
+code-agent-plusplus run "<task>" [repo]
+code-agent-plusplus orchestrate "<task>" [repo] --executor mock --fail-on required
+code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
+code-agent-plusplus delta [repo] --base main
+code-agent-plusplus evolve [repo] --base main
+code-agent-plusplus loop "<task>" [repo] --phase after-edit
+code-agent-plusplus trace start "<task>" [repo] --agent codex
+code-agent-plusplus trace add <trace-id> [repo] --action edit --files src/auth/session.ts
+code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
+code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
+code-agent-plusplus tests [repo] --diff --base main
+code-agent-plusplus impact [repo] --base main
+code-agent-plusplus verify --diff [repo]
+code-agent-plusplus validate [repo]
+code-agent-plusplus validate-contracts [repo]
+code-agent-plusplus freshness [repo]
+code-agent-plusplus drift [repo]
+code-agent-plusplus benchmark [benchmarkDir] --top-k 8
+code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
 code-agent-plusplus
 code-agent-plusplus-mcp
 ```
@@ -239,7 +235,7 @@ This is the fastest integration path. Codex, Claude Code, Cursor, OpenCode, or M
 
 ```txt
 User task
-  -> code agent calls repo_context_plan / pack / retrieve
+  -> code agent calls code_agent_plusplus_plan / pack / retrieve
   -> code agent reads code, edits code, runs commands
   -> code agent calls tests / impact / verify / evaluate
   -> Code Agent++ returns policy, contracts, trace, and verify results
@@ -265,29 +261,29 @@ In this mode, Code Agent++ owns the stop/go decision: continue, repair, repack c
 
 Delivery path:
 
-1. MCP integration: let code agents call `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_evaluate`, `repo_context_repair`, and `repo_context_finalize`. OpenCode and MiMoCode are the first open-source executor targets to validate.
-2. Executor Wrapper: `repo-context agent run "<task>" . --executor opencode|mimocode --executor-command "<command with {prompt}>"` runs `pack -> run agent -> collect diff -> verify`. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs are connected through `--executor-command` until native event normalizers are added.
-3. Orchestrator Loop: `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<command with {prompt}>"`, where Code Agent++ owns `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`.
+1. MCP integration: let code agents call `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`, `code_agent_plusplus_tests`, `code_agent_plusplus_impact`, `code_agent_plusplus_verify`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`, and `code_agent_plusplus_finalize`. OpenCode and MiMoCode are the first open-source executor targets to validate.
+2. Executor Wrapper: `code-agent-plusplus agent run "<task>" . --executor opencode|mimocode --executor-command "<command with {prompt}>"` runs `pack -> run agent -> collect diff -> verify`. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs are connected through `--executor-command` until native event normalizers are added.
+3. Orchestrator Loop: `code-agent-plusplus orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<command with {prompt}>"`, where Code Agent++ owns `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`.
 
 The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, Claude Code, or another code agent; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
 
 ## MCP / Agent Native Runtime
 
-`repo-context-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Codex CLI, Claude Code, Cursor, OpenCode, MiMoCode, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
+`code-agent-plusplus-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Codex CLI, Claude Code, Cursor, OpenCode, MiMoCode, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
 
 ```txt
-repo_context_start_loop
-repo_context_step
-repo_context_evaluate
-repo_context_repair
-repo_context_finalize
+code_agent_plusplus_start_loop
+code_agent_plusplus_step
+code_agent_plusplus_evaluate
+code_agent_plusplus_repair
+code_agent_plusplus_finalize
 ```
 
 The experimental runtime loop tools are: start_loop writes the task run and trace, step records edits/tests/verification, evaluate combines delta, loop, policy, and verify signals, repair returns the next repair actions, and finalize closes the run after test and contract evidence exists.
 
 ## LLM Summary Configuration
 
-The CLI works offline by default. For LLM summaries, create a local `repo-context.local.yml`:
+The CLI works offline by default. For LLM summaries, create a local `code-agent-plusplus.local.yml`:
 
 ```yaml
 llm:
@@ -301,7 +297,7 @@ llm:
 Committed config should keep only `xx` placeholders. Real keys, URLs, and model names belong in local files only.
 
 ```bash
-repo-context build . --llm
+code-agent-plusplus build . --llm
 ```
 
 ## Docs

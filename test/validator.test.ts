@@ -8,9 +8,9 @@ import { validateContextPackage } from "../src/core/validator.js";
 import { writeContextPackage } from "../src/outputs/writer.js";
 
 test("validator detects token budget overflow and invalid generated JSON", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-validate-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-validate-"));
   try {
-    writeFileSync(path.join(root, "repo-context.config.yml"), "tokenBudget: 10\n", "utf8");
+    writeFileSync(path.join(root, "code-agent-plusplus.config.yml"), "tokenBudget: 10\n", "utf8");
     writeFileSync(path.join(root, "index.ts"), "export const value = 1;\n", "utf8");
     const context = await buildContextPackage(root);
     writeContextPackage(context);

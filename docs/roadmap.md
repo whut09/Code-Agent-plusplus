@@ -6,7 +6,7 @@ The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, a
 
 ## v0.2: Task Context Enhancement
 
-- `repo-context plan`
+- `code-agent-plusplus plan`
 - Task pack directory under `.agent-context/tasks/<task-id>/`
 - Related tests detection
 - Risk score for task and diff contexts
@@ -15,7 +15,7 @@ The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, a
 
 ## v0.3: Verification Loop
 
-- `repo-context verify --diff`
+- `code-agent-plusplus verify --diff`
 - Recommended tests for changed files and modules
 - Changed-module blast radius
 - CI command detection
@@ -61,18 +61,18 @@ export interface AgentExecutor {
 }
 ```
 
-- `repo-context agent run "<task>" . --executor opencode`
-- `repo-context agent run "<task>" . --executor mimocode`
+- `code-agent-plusplus agent run "<task>" . --executor opencode`
+- `code-agent-plusplus agent run "<task>" . --executor mimocode`
 - Mock executor for CI and deterministic tests: implemented
 - Generic `--executor-command` adapter for Codex, Claude Code, Cursor, OpenCode, MiMoCode, and other scriptable code agents: implemented
 - Event normalizer for OpenCode JSON events, MiMoCode events, Codex JSONL, and Claude Code transcripts
 - One-shot flow: `pack -> run agent -> collect diff -> policy/tests/impact/verify`
-- Harness-led one-shot mode: Code Agent++ invokes the executor and owns verification: implemented through `repo-context agent run`
+- Harness-led one-shot mode: Code Agent++ invokes the executor and owns verification: implemented through `code-agent-plusplus agent run`
 
 ## v0.7: Orchestrator Loop
 
-- `repo-context orchestrate "<task>" . --executor opencode --max-loops 3 --fail-on required`
-- `repo-context orchestrate "<task>" . --executor mimocode --max-loops 3 --fail-on required`
+- `code-agent-plusplus orchestrate "<task>" . --executor opencode --max-loops 3 --fail-on required`
+- `code-agent-plusplus orchestrate "<task>" . --executor mimocode --max-loops 3 --fail-on required`
 - Loop flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`
 - Decisions: `finalize`, `repair`, `repack`, `block`, `require human review`
 - Harness-led one-pass orchestrator with `mock` executor and generic command adapter: implemented

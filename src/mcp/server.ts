@@ -23,25 +23,25 @@ import { writeContextPackage } from "../outputs/writer.js";
 import { createContextRetriever } from "../retrievers/index.js";
 import type { RetrieverProvider } from "../retrievers/types.js";
 
-export const repoContextMcpToolNames = [
-  "repo_context_build",
-  "repo_context_plan",
-  "repo_context_pack",
-  "repo_context_retrieve",
-  "repo_context_tests",
-  "repo_context_impact",
-  "repo_context_verify",
-  "repo_context_explain",
-  "repo_context_start_loop",
-  "repo_context_step",
-  "repo_context_evaluate",
-  "repo_context_repair",
-  "repo_context_finalize"
+export const codeAgentPlusplusMcpToolNames = [
+  "code_agent_plusplus_build",
+  "code_agent_plusplus_plan",
+  "code_agent_plusplus_pack",
+  "code_agent_plusplus_retrieve",
+  "code_agent_plusplus_tests",
+  "code_agent_plusplus_impact",
+  "code_agent_plusplus_verify",
+  "code_agent_plusplus_explain",
+  "code_agent_plusplus_start_loop",
+  "code_agent_plusplus_step",
+  "code_agent_plusplus_evaluate",
+  "code_agent_plusplus_repair",
+  "code_agent_plusplus_finalize"
 ] as const;
 
-type RepoContextMcpToolName = (typeof repoContextMcpToolNames)[number];
+type CodeAgentPlusplusMcpToolName = (typeof codeAgentPlusplusMcpToolNames)[number];
 
-interface RepoContextMcpResult {
+interface CodeAgentPlusplusMcpResult {
   [key: string]: unknown;
 }
 
@@ -55,7 +55,7 @@ interface RetrieveArguments {
   includeTests?: boolean;
 }
 
-export function createRepoContextMcpServer(): McpServer {
+export function createCodeAgentPlusplusMcpServer(): McpServer {
   const server = new McpServer(
     {
       name: "code-agent-plusplus",
@@ -65,7 +65,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_build",
+    "code_agent_plusplus_build",
     {
       description: "Scan a repository and write AGENTS.md plus .agent-context outputs.",
       inputSchema: z.object({
@@ -81,7 +81,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_plan",
+    "code_agent_plusplus_plan",
     {
       description: "Generate a task plan with suspected modules, must-inspect files, and validation commands.",
       inputSchema: z.object({
@@ -95,7 +95,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_pack",
+    "code_agent_plusplus_pack",
     {
       description: "Write a task context pack under .agent-context/tasks/<task-id>.",
       inputSchema: z.object({
@@ -109,7 +109,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_retrieve",
+    "code_agent_plusplus_retrieve",
     {
       description: "Search repository context through the unified retrieval protocol.",
       inputSchema: z.object({
@@ -126,7 +126,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_tests",
+    "code_agent_plusplus_tests",
     {
       description: "Select minimal, regression, and full-confidence tests for a file, diff, or task.",
       inputSchema: z.object({
@@ -140,7 +140,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_impact",
+    "code_agent_plusplus_impact",
     {
       description: "Analyze changed files, dependents, related tests, and required verification.",
       inputSchema: z.object({
@@ -152,7 +152,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_verify",
+    "code_agent_plusplus_verify",
     {
       description: "Verify changed files against affected modules, tests, contracts, and risk signals.",
       inputSchema: z.object({
@@ -165,7 +165,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_explain",
+    "code_agent_plusplus_explain",
     {
       description: "Explain a file or module from the generated repository index.",
       inputSchema: z.object({
@@ -177,7 +177,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_start_loop",
+    "code_agent_plusplus_start_loop",
     {
       description: "Start an agent-native runtime loop: build context, write task run, create execution trace, and return first decisions.",
       inputSchema: z.object({
@@ -193,7 +193,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_step",
+    "code_agent_plusplus_step",
     {
       description: "Append a structured agent runtime step to an execution trace.",
       inputSchema: z.object({
@@ -214,7 +214,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_evaluate",
+    "code_agent_plusplus_evaluate",
     {
       description: "Evaluate the current agent loop from context delta, loop controller, policy engine, and verify signals.",
       inputSchema: z.object({
@@ -233,7 +233,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_repair",
+    "code_agent_plusplus_repair",
     {
       description: "Produce repair-loop decisions and write .agent-context/loops/<task>/loop.* for a failing or risky agent run.",
       inputSchema: z.object({
@@ -249,7 +249,7 @@ export function createRepoContextMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "repo_context_finalize",
+    "code_agent_plusplus_finalize",
     {
       description: "Finalize an agent runtime loop with strict policy evaluation and trace final-state update.",
       inputSchema: z.object({
@@ -266,39 +266,39 @@ export function createRepoContextMcpServer(): McpServer {
   return server;
 }
 
-export async function runRepoContextMcpServer(): Promise<void> {
-  const server = createRepoContextMcpServer();
+export async function runCodeAgentPlusplusMcpServer(): Promise<void> {
+  const server = createCodeAgentPlusplusMcpServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
 
-export async function executeRepoContextMcpTool(name: RepoContextMcpToolName, args: unknown): Promise<RepoContextMcpResult> {
+export async function executeCodeAgentPlusplusMcpTool(name: CodeAgentPlusplusMcpToolName, args: unknown): Promise<CodeAgentPlusplusMcpResult> {
   switch (name) {
-    case "repo_context_build":
+    case "code_agent_plusplus_build":
       return runBuild(args as BuildInput);
-    case "repo_context_plan":
+    case "code_agent_plusplus_plan":
       return runTaskPlan(args as PlanInput);
-    case "repo_context_pack":
+    case "code_agent_plusplus_pack":
       return runTaskPack(args as PackInput);
-    case "repo_context_retrieve":
+    case "code_agent_plusplus_retrieve":
       return runRetrieve(args as RetrieveArguments);
-    case "repo_context_tests":
+    case "code_agent_plusplus_tests":
       return runTests(args as TestsInput);
-    case "repo_context_impact":
+    case "code_agent_plusplus_impact":
       return runImpact(args as ImpactInput);
-    case "repo_context_verify":
+    case "code_agent_plusplus_verify":
       return runVerify(args as VerifyInput);
-    case "repo_context_explain":
+    case "code_agent_plusplus_explain":
       return runExplain(args as ExplainInput);
-    case "repo_context_start_loop":
+    case "code_agent_plusplus_start_loop":
       return runStartLoop(args as RuntimeStartInput);
-    case "repo_context_step":
+    case "code_agent_plusplus_step":
       return runRuntimeStep(args as RuntimeStepInput);
-    case "repo_context_evaluate":
+    case "code_agent_plusplus_evaluate":
       return runRuntimeEvaluate(args as RuntimeEvaluateInput);
-    case "repo_context_repair":
+    case "code_agent_plusplus_repair":
       return runRuntimeRepair(args as RuntimeRepairInput);
-    case "repo_context_finalize":
+    case "code_agent_plusplus_finalize":
       return runRuntimeFinalize(args as RuntimeFinalizeInput);
   }
 }
@@ -379,7 +379,7 @@ interface RuntimeFinalizeInput {
   finalState?: Extract<ExecutionFinalState, "success" | "partial_success" | "failed" | "blocked">;
 }
 
-async function runBuild(args: BuildInput): Promise<RepoContextMcpResult> {
+async function runBuild(args: BuildInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".", {
     target: args.target,
     tokenBudget: args.tokenBudget,
@@ -406,7 +406,7 @@ async function runBuild(args: BuildInput): Promise<RepoContextMcpResult> {
   };
 }
 
-async function runTaskPlan(args: PlanInput): Promise<RepoContextMcpResult> {
+async function runTaskPlan(args: PlanInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const markdown = renderTaskPlan(context, args.task, { type: args.type ?? "auto", tokenBudget: args.tokenBudget });
   return {
@@ -416,7 +416,7 @@ async function runTaskPlan(args: PlanInput): Promise<RepoContextMcpResult> {
   };
 }
 
-async function runTaskPack(args: PackInput): Promise<RepoContextMcpResult> {
+async function runTaskPack(args: PackInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const result = writeTaskContextPack(context, args.task, { type: args.type ?? "auto", tokenBudget: args.tokenBudget });
   return {
@@ -428,7 +428,7 @@ async function runTaskPack(args: PackInput): Promise<RepoContextMcpResult> {
   };
 }
 
-async function runRetrieve(args: RetrieveArguments): Promise<RepoContextMcpResult> {
+async function runRetrieve(args: RetrieveArguments): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const retriever = createContextRetriever(context, args.provider ?? "hybrid");
   const hits = await retriever.search(args.task, {
@@ -463,7 +463,7 @@ async function runRetrieve(args: RetrieveArguments): Promise<RepoContextMcpResul
   };
 }
 
-async function runTests(args: TestsInput): Promise<RepoContextMcpResult> {
+async function runTests(args: TestsInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const report = buildTestSelection(context, {
     forPaths: args.forPaths,
@@ -476,7 +476,7 @@ async function runTests(args: TestsInput): Promise<RepoContextMcpResult> {
   };
 }
 
-async function runImpact(args: ImpactInput): Promise<RepoContextMcpResult> {
+async function runImpact(args: ImpactInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const report = buildChangeImpactReport(context, { base: args.base ?? "main" });
   return {
@@ -485,14 +485,14 @@ async function runImpact(args: ImpactInput): Promise<RepoContextMcpResult> {
   };
 }
 
-async function runVerify(args: VerifyInput): Promise<RepoContextMcpResult> {
+async function runVerify(args: VerifyInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   return {
     markdown: renderTaskVerify(context, { base: args.base ?? "main", diff: args.diff ?? true })
   };
 }
 
-async function runExplain(args: ExplainInput): Promise<RepoContextMcpResult> {
+async function runExplain(args: ExplainInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const targetPath = args.targetPath.replace(/\\/g, "/");
   const file = context.index.files.find((candidate) => candidate.path === targetPath);
@@ -528,7 +528,7 @@ async function runExplain(args: ExplainInput): Promise<RepoContextMcpResult> {
   };
 }
 
-async function runStartLoop(args: RuntimeStartInput): Promise<RepoContextMcpResult> {
+async function runStartLoop(args: RuntimeStartInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const writeResult = writeContextPackage(context);
   const run = writeTaskRun(context, args.task, {
@@ -570,7 +570,7 @@ async function runStartLoop(args: RuntimeStartInput): Promise<RepoContextMcpResu
   };
 }
 
-async function runRuntimeStep(args: RuntimeStepInput): Promise<RepoContextMcpResult> {
+async function runRuntimeStep(args: RuntimeStepInput): Promise<CodeAgentPlusplusMcpResult> {
   const root = path.resolve(args.repo ?? ".");
   const trace = appendExecutionTraceStep(root, args.traceId, {
     agent: args.agent,
@@ -592,7 +592,7 @@ async function runRuntimeStep(args: RuntimeStepInput): Promise<RepoContextMcpRes
   };
 }
 
-async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<RepoContextMcpResult> {
+async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const loop = buildLoopControllerReport(context, args.task, {
     phase: args.phase ?? "after-edit",
@@ -618,7 +618,7 @@ async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<RepoConte
   };
 }
 
-async function runRuntimeRepair(args: RuntimeRepairInput): Promise<RepoContextMcpResult> {
+async function runRuntimeRepair(args: RuntimeRepairInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const loopResult = writeLoopControllerReport(context, args.task, {
     phase: "repair",
@@ -645,7 +645,7 @@ async function runRuntimeRepair(args: RuntimeRepairInput): Promise<RepoContextMc
   };
 }
 
-async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<RepoContextMcpResult> {
+async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<CodeAgentPlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
   const traceBefore = readExecutionTrace(context.scan.root, args.traceId);
@@ -669,7 +669,7 @@ async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<RepoConte
   };
 }
 
-function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): RepoContextMcpResult {
+function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): CodeAgentPlusplusMcpResult {
   const decision = loop.decisions[0];
   return decision
     ? {
@@ -690,7 +690,7 @@ function confidenceForScore(score: number): "high" | "medium" | "low" {
   return "low";
 }
 
-function jsonToolResult(result: RepoContextMcpResult) {
+function jsonToolResult(result: CodeAgentPlusplusMcpResult) {
   return {
     content: [
       {
@@ -706,7 +706,7 @@ function unique(items: string[]): string[] {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  runRepoContextMcpServer().catch((error: unknown) => {
+  runCodeAgentPlusplusMcpServer().catch((error: unknown) => {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   });

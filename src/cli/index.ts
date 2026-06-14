@@ -40,8 +40,8 @@ import { resolveTaskArguments } from "./task-args.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 
 const program = new Command();
-const executableName = path.basename(process.argv[1] ?? "repo-context").replace(/\.(js|cmd|ps1)$/i, "");
-const invokedName = executableName && executableName !== "index" ? executableName : "repo-context";
+const executableName = path.basename(process.argv[1] ?? "code-agent-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
+const invokedName = executableName && executableName !== "index" ? executableName : "code-agent-plusplus";
 
 program.name(invokedName).description("Code Agent++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
@@ -52,7 +52,7 @@ program
   .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
   .option("--tokenizer <tokenizer>", "tokenizer: chars-approx, cl100k_base, o200k_base", parseTokenizerMode)
   .option("--model <model>", "model name used to infer tokenizer, for example gpt-4.1")
-  .option("--llm", "enable LLM summaries using repo-context.local.yml")
+  .option("--llm", "enable LLM summaries using code-agent-plusplus.local.yml")
   .option("--no-llm", "disable LLM summaries")
   .description("Generate AGENTS.md and .agent-context outputs.")
   .action(
@@ -112,7 +112,7 @@ rag
     console.log(`Provider: ${manifest.provider}`);
     console.log(`Mode: ${manifest.mode}`);
     console.log("");
-    console.log("Run `repo-context build` to write `.agent-context/rag/documents.jsonl`.");
+    console.log("Run `code-agent-plusplus build` to write `.agent-context/rag/documents.jsonl`.");
   });
 
 const trace = program.command("trace").description("Record and inspect structured agent execution traces.");
@@ -290,10 +290,10 @@ rag
 program
   .command("init")
   .argument("[repo]", "repository path", ".")
-  .description("Create a starter repo-context.config.yml.")
+  .description("Create a starter code-agent-plusplus.config.yml.")
   .action((repo: string) => {
     const root = path.resolve(repo);
-    const configPath = path.join(root, "repo-context.config.yml");
+    const configPath = path.join(root, "code-agent-plusplus.config.yml");
 
     if (existsSync(configPath)) {
       console.log(`Config already exists: ${configPath}`);

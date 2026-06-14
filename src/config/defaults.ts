@@ -1,4 +1,4 @@
-import type { RepoContextConfig } from "../core/types.js";
+import type { CodeAgentPlusplusConfig } from "../core/types.js";
 
 export const DEFAULT_EXCLUDES = [
   ".git/**",
@@ -21,7 +21,7 @@ export const DEFAULT_EXCLUDES = [
   "*.map"
 ];
 
-export const DEFAULT_CONFIG: RepoContextConfig = {
+export const DEFAULT_CONFIG: CodeAgentPlusplusConfig = {
   target: "codex",
   tokenBudget: 60000,
   include: ["**/*"],

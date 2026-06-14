@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { CacheStats, DependencyGraph, IndexedFile, RepoContextConfig, RepoFile, RepoScan, TokenizerConfig } from "./types.js";
+import type { CacheStats, DependencyGraph, IndexedFile, CodeAgentPlusplusConfig, RepoFile, RepoScan, TokenizerConfig } from "./types.js";
 import type { TokenCountCache } from "./token-estimator.js";
 
 const CACHE_VERSION = 1;
@@ -63,7 +63,7 @@ export class ContextCache implements TokenCountCache {
   private graphCache: GraphCacheFile;
   private tokenizerCache: TokenizerCacheFile;
 
-  private constructor(root: string, config: RepoContextConfig) {
+  private constructor(root: string, config: CodeAgentPlusplusConfig) {
     this.root = root;
     this.configFingerprint = hashText(stableStringify(config));
     this.stats = createCacheStats(true);
@@ -83,7 +83,7 @@ export class ContextCache implements TokenCountCache {
     this.tokenizerCache = readJson(this.tokenizerCachePath, { version: CACHE_VERSION, entries: {} });
   }
 
-  static open(root: string, config: RepoContextConfig, options: ContextCacheOptions = {}): ContextCache | null {
+  static open(root: string, config: CodeAgentPlusplusConfig, options: ContextCacheOptions = {}): ContextCache | null {
     if (options.enabled === false) return null;
     const absoluteRoot = path.resolve(root);
     if (!shouldPersistCache(absoluteRoot)) return null;

@@ -2,19 +2,19 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { DEFAULT_CONFIG } from "./defaults.js";
-import type { AgentTarget, AgentsMode, AgentsSection, RepoContextConfig, TokenizerMode } from "../core/types.js";
+import type { AgentTarget, AgentsMode, AgentsSection, CodeAgentPlusplusConfig, TokenizerMode } from "../core/types.js";
 
-const CONFIG_FILES = ["repo-context.config.yml", "repo-context.config.yaml", "repo-context.config.json"];
+const CONFIG_FILES = ["code-agent-plusplus.config.yml", "code-agent-plusplus.config.yaml", "code-agent-plusplus.config.json"];
 
-const LOCAL_CONFIG_FILES = ["repo-context.local.yml", "repo-context.local.yaml", "repo-context.local.json"];
+const LOCAL_CONFIG_FILES = ["code-agent-plusplus.local.yml", "code-agent-plusplus.local.yaml", "code-agent-plusplus.local.json"];
 
-export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfig> = {}): RepoContextConfig {
+export function loadConfig(repoRoot: string, overrides: Partial<CodeAgentPlusplusConfig> = {}): CodeAgentPlusplusConfig {
   const configPath = CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
   const localConfigPath = LOCAL_CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
   const fileConfig = configPath ? readConfigFile(configPath) : {};
   const localConfig = localConfigPath ? readConfigFile(localConfigPath) : {};
 
-  const config: RepoContextConfig = {
+  const config: CodeAgentPlusplusConfig = {
     ...DEFAULT_CONFIG,
     ...fileConfig,
     ...localConfig,
@@ -60,7 +60,7 @@ export function loadConfig(repoRoot: string, overrides: Partial<RepoContextConfi
   return config;
 }
 
-function readConfigFile(configPath: string): Partial<RepoContextConfig> {
+function readConfigFile(configPath: string): Partial<CodeAgentPlusplusConfig> {
   const raw = readFileSync(configPath, "utf8");
   try {
     const parsed = configPath.endsWith(".json") ? (JSON.parse(raw) as Record<string, unknown>) : (yaml.load(raw) as Record<string, unknown>);
@@ -71,7 +71,7 @@ function readConfigFile(configPath: string): Partial<RepoContextConfig> {
   }
 }
 
-function normalizeConfig(input: Record<string, unknown> | null | undefined): Partial<RepoContextConfig> {
+function normalizeConfig(input: Record<string, unknown> | null | undefined): Partial<CodeAgentPlusplusConfig> {
   if (!input) {
     return {};
   }
@@ -82,15 +82,15 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     tokenBudget: typeof input.tokenBudget === "number" ? input.tokenBudget : undefined,
     include: toStringArray(input.include),
     exclude: toStringArray(input.exclude),
-    llm: typeof input.llm === "object" && input.llm ? (input.llm as RepoContextConfig["llm"]) : undefined,
-    rag: typeof input.rag === "object" && input.rag ? (input.rag as RepoContextConfig["rag"]) : undefined,
+    llm: typeof input.llm === "object" && input.llm ? (input.llm as CodeAgentPlusplusConfig["llm"]) : undefined,
+    rag: typeof input.rag === "object" && input.rag ? (input.rag as CodeAgentPlusplusConfig["rag"]) : undefined,
     tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? normalizeTokenizerConfig(input.tokenizer as Record<string, unknown>) : undefined,
     agents: typeof input.agents === "object" && input.agents ? normalizeAgentsConfig(input.agents as Record<string, unknown>) : undefined,
-    outputs: typeof input.outputs === "object" && input.outputs ? (input.outputs as RepoContextConfig["outputs"]) : undefined
-  }) as Partial<RepoContextConfig>;
+    outputs: typeof input.outputs === "object" && input.outputs ? (input.outputs as CodeAgentPlusplusConfig["outputs"]) : undefined
+  }) as Partial<CodeAgentPlusplusConfig>;
 }
 
-export function validateConfig(config: RepoContextConfig): void {
+export function validateConfig(config: CodeAgentPlusplusConfig): void {
   if (!["codex", "claude", "cursor", "all"].includes(config.target)) {
     throw new Error(`Invalid target "${config.target}". Expected one of: codex, claude, cursor, all.`);
   }
@@ -208,14 +208,14 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
   void source;
 }
 
-function normalizeTokenizerConfig(input: Record<string, unknown>): Partial<RepoContextConfig["tokenizer"]> {
+function normalizeTokenizerConfig(input: Record<string, unknown>): Partial<CodeAgentPlusplusConfig["tokenizer"]> {
   return stripUndefined({
     mode: typeof input.mode === "string" ? (input.mode as TokenizerMode) : undefined,
     model: typeof input.model === "string" ? input.model : undefined
   });
 }
 
-function normalizeAgentsConfig(input: Record<string, unknown>): Partial<RepoContextConfig["agents"]> {
+function normalizeAgentsConfig(input: Record<string, unknown>): Partial<CodeAgentPlusplusConfig["agents"]> {
   return stripUndefined({
     mode: typeof input.mode === "string" ? (input.mode as AgentsMode) : undefined,
     maxTokens: typeof input.maxTokens === "number" ? input.maxTokens : undefined,

@@ -12,8 +12,8 @@ Run:
 ```bash
 npm run benchmark
 # or
-repo-context benchmark benchmarks --top-k 8
-repo-context benchmark benchmarks --json
+code-agent-plusplus benchmark benchmarks --top-k 8
+code-agent-plusplus benchmark benchmarks --json
 ```
 
 Fixtures:

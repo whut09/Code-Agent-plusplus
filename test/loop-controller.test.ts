@@ -29,7 +29,7 @@ test("loop controller starts the agent from a clean preflight", async () => {
     assert.match(rendered, /# Loop Controller/);
     assert.match(rendered, /confidence 0\.\d+/);
     assert.match(rendered, /non-blocking/);
-    assert.match(rendered, /repo-context run "fix login timeout bug"/);
+    assert.match(rendered, /code-agent-plusplus run "fix login timeout bug"/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -130,7 +130,7 @@ test("loop controller rejects stale test evidence after later edits", async () =
 });
 
 function createLoopRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-loop-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-loop-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"", check: "tsc --noEmit" } }), "utf8");
@@ -138,7 +138,7 @@ function createLoopRepo(): string {
   writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { loginSession } from '../../src/auth/session.js';\nloginSession();\n", "utf8");
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "repo-context@example.com"]);
+  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

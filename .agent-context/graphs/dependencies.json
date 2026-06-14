@@ -1243,42 +1243,6 @@
       "isExternal": false
     },
     {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/cli/index.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -1832,6 +1796,42 @@
     },
     {
       "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
       "isExternal": false
@@ -2833,6 +2833,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "to": "app.routes.users",
+      "specifier": "app.routes.users",
+      "isExternal": true
+    },
+    {
       "from": "benchmarks/fixtures/fastapi-app/app/billing.py",
       "to": "dataclasses",
       "specifier": "dataclasses",
@@ -2860,12 +2866,6 @@
       "from": "benchmarks/fixtures/fastapi-app/app/schemas.py",
       "to": "pydantic",
       "specifier": "pydantic",
-      "isExternal": true
-    },
-    {
-      "from": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "to": "app.routes.users",
-      "specifier": "app.routes.users",
       "isExternal": true
     },
     {
@@ -2923,15 +2923,15 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "./session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../auth/session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "./session.js",
       "isExternal": false
     },
     {
@@ -2953,6 +2953,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "specifier": "../src/loader.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
       "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
       "specifier": "../../config/src/loader.js",
@@ -2968,12 +2974,6 @@
       "from": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
       "specifier": "../src/config.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "specifier": "../src/loader.js",
       "isExternal": false
     },
     {

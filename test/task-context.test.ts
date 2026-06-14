@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { buildTaskPack, renderTaskContext } from "../src/outputs/task-context.js";
 
 test("task pack expands lexical matches through graph and related tests", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-task-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-task-"));
   try {
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
     mkdirSync(path.join(root, "test", "auth"), { recursive: true });

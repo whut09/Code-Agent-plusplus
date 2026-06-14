@@ -105,7 +105,7 @@ export function assessFreshness(context: ContextPackage): ContextFreshnessReport
       currentGitCommit: currentCommit,
       changedFilesSinceGeneration: [],
       reasons: ["No .agent-context/manifest.json found."],
-      recommended: "repo-context build .",
+      recommended: "code-agent-plusplus build .",
       checks: [
         {
           name: "manifest",
@@ -172,7 +172,7 @@ export function assessFreshness(context: ContextPackage): ContextFreshnessReport
     currentGitCommit: currentCommit,
     changedFilesSinceGeneration: sourceChanged ? changedFiles : [],
     reasons,
-    recommended: reasons.length ? "repo-context update ." : "No action needed.",
+    recommended: reasons.length ? "code-agent-plusplus update ." : "No action needed.",
     checks
   };
 }
@@ -184,7 +184,7 @@ export function assessDrift(context: ContextPackage): ContextDriftReport {
       status: "missing",
       freshness,
       reasons: freshness.reasons,
-      recommended: "repo-context build .",
+      recommended: "code-agent-plusplus build .",
       checks: freshness.checks
     };
   }
@@ -199,7 +199,7 @@ export function assessDrift(context: ContextPackage): ContextDriftReport {
     status: reasons.length ? "drift" : "clean",
     freshness,
     reasons,
-    recommended: reasons.length ? "repo-context update ." : "No action needed.",
+    recommended: reasons.length ? "code-agent-plusplus update ." : "No action needed.",
     checks: driftChecks
   };
 }
@@ -431,7 +431,7 @@ function hashFile(filePath: string): string | null {
 function isGeneratedFile(filePath: string): boolean {
   if (!existsSync(filePath)) return false;
   const content = readFileSync(filePath, "utf8");
-  return content.includes("generated-by: code-agent-plusplus") || content.includes("generated-by: repo-to-agent-context");
+  return content.includes("generated-by: code-agent-plusplus");
 }
 
 function hashValue(value: unknown): string {

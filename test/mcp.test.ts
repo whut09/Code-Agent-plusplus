@@ -3,11 +3,11 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { executeRepoContextMcpTool, repoContextMcpToolNames } from "../src/mcp/server.js";
+import { executeCodeAgentPlusplusMcpTool, codeAgentPlusplusMcpToolNames } from "../src/mcp/server.js";
 import { runGit } from "../src/core/git.js";
 
 function createMcpRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "repo-context-mcp-"));
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-mcp-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "src", "api"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
@@ -32,27 +32,27 @@ function createMcpRepo(): string {
 }
 
 test("mcp server exposes repo context tools", async () => {
-  assert.deepEqual(repoContextMcpToolNames, [
-    "repo_context_build",
-    "repo_context_plan",
-    "repo_context_pack",
-    "repo_context_retrieve",
-    "repo_context_tests",
-    "repo_context_impact",
-    "repo_context_verify",
-    "repo_context_explain",
-    "repo_context_start_loop",
-    "repo_context_step",
-    "repo_context_evaluate",
-    "repo_context_repair",
-    "repo_context_finalize"
+  assert.deepEqual(codeAgentPlusplusMcpToolNames, [
+    "code_agent_plusplus_build",
+    "code_agent_plusplus_plan",
+    "code_agent_plusplus_pack",
+    "code_agent_plusplus_retrieve",
+    "code_agent_plusplus_tests",
+    "code_agent_plusplus_impact",
+    "code_agent_plusplus_verify",
+    "code_agent_plusplus_explain",
+    "code_agent_plusplus_start_loop",
+    "code_agent_plusplus_step",
+    "code_agent_plusplus_evaluate",
+    "code_agent_plusplus_repair",
+    "code_agent_plusplus_finalize"
   ]);
 });
 
-test("repo_context_retrieve returns hits and suggested commands", async () => {
+test("code_agent_plusplus_retrieve returns hits and suggested commands", async () => {
   const root = createMcpRepo();
   try {
-    const result = await executeRepoContextMcpTool("repo_context_retrieve", {
+    const result = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_retrieve", {
       repo: root,
       task: "fix login timeout bug",
       provider: "hybrid",
@@ -72,18 +72,18 @@ test("repo_context_retrieve returns hits and suggested commands", async () => {
   }
 });
 
-test("repo_context_verify includes contract check output", async () => {
+test("code_agent_plusplus_verify includes contract check output", async () => {
   const root = createMcpRepo();
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "repo-context@example.com"]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
     writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function refreshSessionTimeout() { return 'fixed'; }\n", "utf8");
 
-    const result = await executeRepoContextMcpTool("repo_context_verify", {
+    const result = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_verify", {
       repo: root,
       base: "main",
       diff: true
@@ -101,12 +101,12 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "repo-context@example.com"]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
 
-    const started = await executeRepoContextMcpTool("repo_context_start_loop", {
+    const started = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_start_loop", {
       repo: root,
       task: "fix login timeout bug",
       agent: "codex",
@@ -120,7 +120,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
 
     writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function refreshSessionTimeout() { return 'fixed'; }\n", "utf8");
 
-    const step = await executeRepoContextMcpTool("repo_context_step", {
+    const step = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_step", {
       repo: root,
       traceId,
       agent: "codex",
@@ -130,7 +130,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     });
     assert.equal(step.traceId, traceId);
 
-    const missingEvidence = await executeRepoContextMcpTool("repo_context_evaluate", {
+    const missingEvidence = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_evaluate", {
       repo: root,
       task: "fix login timeout bug",
       traceId,
@@ -141,7 +141,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     assert.equal(missingEvidence.passed, false);
     assert.match(String(missingEvidence.markdown), /Policy Engine/);
 
-    const repair = await executeRepoContextMcpTool("repo_context_repair", {
+    const repair = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_repair", {
       repo: root,
       task: "fix login timeout bug",
       traceId,
@@ -150,26 +150,26 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     });
     assert.ok((repair.requiredActions as string[]).some((action) => action.includes("validate-contracts")));
 
-    await executeRepoContextMcpTool("repo_context_step", {
+    await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_step", {
       repo: root,
       traceId,
       action: "run-test",
       command: "npm test -- test/auth/session.test.ts",
       result: "passed"
     });
-    await executeRepoContextMcpTool("repo_context_step", {
+    await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_step", {
       repo: root,
       traceId,
       action: "validate-contracts",
-      command: "repo-context validate-contracts . --base main",
+      command: "code-agent-plusplus validate-contracts . --base main",
       result: "passed"
     });
-    await executeRepoContextMcpTool("repo_context_build", {
+    await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_build", {
       repo: root,
       target: "codex"
     });
 
-    const finalized = await executeRepoContextMcpTool("repo_context_finalize", {
+    const finalized = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_finalize", {
       repo: root,
       task: "fix login timeout bug",
       traceId,

@@ -31,11 +31,11 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```txt
 使用 https://github.com/whut09/Code-Agent-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。
 请先检查目标仓库结构，再按需安装或克隆该工具。
-请强制启用 LLM 摘要：在目标仓库创建或更新 repo-context.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置，或我提供的 key/baseUrl/model；如果缺少配置，请先问我。
-然后运行 repo-context build <目标仓库> --target codex --llm，再运行 repo-context validate <目标仓库>，最后说明生成了哪些文件，以及 LLM 摘要模式是否成功。
+请强制启用 LLM 摘要：在目标仓库创建或更新 code-agent-plusplus.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置，或我提供的 key/baseUrl/model；如果缺少配置，请先问我。
+然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件，以及 LLM 摘要模式是否成功。
 ```
 
-把 `xxx 项目` 换成本地路径、GitHub 仓库或当前工作区名称即可。真实 key 只写入 `repo-context.local.yml`，不要提交。
+把 `xxx 项目` 换成本地路径、GitHub 仓库或当前工作区名称即可。真实 key 只写入 `code-agent-plusplus.local.yml`，不要提交。
 
 ## 它解决什么问题？
 
@@ -52,12 +52,11 @@ Code Agent++ 的目标是把“给 Agent 的仓库记忆”升级成可生成、
 
 ```bash
 npx code-agent-plusplus build .
-agent-plus plan "fix login timeout bug" .
-repo-context plan "fix login timeout bug" .
-repo-context pack "fix login timeout bug" .
+code-agent-plusplus plan "fix login timeout bug" .
+code-agent-plusplus pack "fix login timeout bug" .
 ```
 
-`agent-plus` / `code-agent-plusplus` 是新 CLI 别名；`repo-context` 会继续保留，避免旧脚本和旧文档失效。
+`agent-plus` / `code-agent-plusplus` 是新 CLI 别名；`code-agent-plusplus` 会继续保留，避免旧脚本和旧文档失效。
 
 本地源码运行：
 
@@ -70,20 +69,20 @@ node dist/cli/index.js build .
 常用闭环：
 
 ```bash
-repo-context run "fix login timeout bug" . --type bugfix
-repo-context orchestrate "fix login timeout bug" . --executor mock --fail-on required
-repo-context agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
-repo-context delta . --base main
-repo-context evolve . --base main
-repo-context loop "fix login timeout bug" . --phase after-edit
-repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
-repo-context trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
-repo-context policy . --base main --trace fix-login-timeout-bug --fail-on required
-repo-context tests . --diff --base main
-repo-context impact . --base main
-repo-context verify --diff .
-repo-context freshness .
-repo-context drift .
+code-agent-plusplus run "fix login timeout bug" . --type bugfix
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
+code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
+code-agent-plusplus delta . --base main
+code-agent-plusplus evolve . --base main
+code-agent-plusplus loop "fix login timeout bug" . --phase after-edit
+code-agent-plusplus trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
+code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
+code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
+code-agent-plusplus tests . --diff --base main
+code-agent-plusplus impact . --base main
+code-agent-plusplus verify --diff .
+code-agent-plusplus freshness .
+code-agent-plusplus drift .
 ```
 
 ## 比 repo summarizer / RAG loader 多了什么？
@@ -180,31 +179,28 @@ AGENTS.manual.md
 ## 核心命令
 
 ```bash
-repo-context build [repo]
-repo-context plan "<task>" [repo]
-repo-context pack "<task>" [repo]
-repo-context run "<task>" [repo]
-repo-context orchestrate "<task>" [repo] --executor mock --fail-on required
-repo-context agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
-repo-context delta [repo] --base main
-repo-context evolve [repo] --base main
-repo-context loop "<task>" [repo] --phase after-edit
-repo-context trace start "<task>" [repo] --agent codex
-repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
-repo-context trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
-repo-context policy [repo] --base main --trace <trace-id> --fail-on required
-repo-context tests [repo] --diff --base main
-repo-context impact [repo] --base main
-repo-context verify --diff [repo]
-repo-context validate [repo]
-repo-context validate-contracts [repo]
-repo-context freshness [repo]
-repo-context drift [repo]
-repo-context benchmark [benchmarkDir] --top-k 8
-repo-context retrieve "<task>" [repo] --provider hybrid
-repo-context-mcp
-agent-plus
-agent-plus-mcp
+code-agent-plusplus build [repo]
+code-agent-plusplus plan "<task>" [repo]
+code-agent-plusplus pack "<task>" [repo]
+code-agent-plusplus run "<task>" [repo]
+code-agent-plusplus orchestrate "<task>" [repo] --executor mock --fail-on required
+code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
+code-agent-plusplus delta [repo] --base main
+code-agent-plusplus evolve [repo] --base main
+code-agent-plusplus loop "<task>" [repo] --phase after-edit
+code-agent-plusplus trace start "<task>" [repo] --agent codex
+code-agent-plusplus trace add <trace-id> [repo] --action edit --files src/auth/session.ts
+code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
+code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
+code-agent-plusplus tests [repo] --diff --base main
+code-agent-plusplus impact [repo] --base main
+code-agent-plusplus verify --diff [repo]
+code-agent-plusplus validate [repo]
+code-agent-plusplus validate-contracts [repo]
+code-agent-plusplus freshness [repo]
+code-agent-plusplus drift [repo]
+code-agent-plusplus benchmark [benchmarkDir] --top-k 8
+code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
 code-agent-plusplus
 code-agent-plusplus-mcp
 ```
@@ -239,7 +235,7 @@ Code Agent++
 
 ```txt
 用户任务
-  -> code agent 调用 repo_context_plan / pack / retrieve
+  -> code agent 调用 code_agent_plusplus_plan / pack / retrieve
   -> code agent 读代码、改代码、跑命令
   -> code agent 调用 tests / impact / verify / evaluate
   -> Code Agent++ 输出 policy、contracts、trace、verify 结果
@@ -265,29 +261,29 @@ Code Agent++
 
 落地路线：
 
-1. MCP 接入：让 code agent 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
-2. Executor Wrapper：`repo-context agent run "<task>" . --executor opencode|mimocode --executor-command "<带 {prompt} 的命令>"` 完成 `pack -> run agent -> collect diff -> verify`。CI 和测试用的确定性 `mock` executor 已实现；真实 code agent CLI 先通过 `--executor-command` 接入，后续再补原生事件 normalizer。
-3. Orchestrator Loop：`repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<带 {prompt} 的命令>"`，由 Code Agent++ 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
+1. MCP 接入：让 code agent 调用 `code_agent_plusplus_plan`、`code_agent_plusplus_pack`、`code_agent_plusplus_retrieve`、`code_agent_plusplus_tests`、`code_agent_plusplus_impact`、`code_agent_plusplus_verify`、`code_agent_plusplus_evaluate`、`code_agent_plusplus_repair`、`code_agent_plusplus_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
+2. Executor Wrapper：`code-agent-plusplus agent run "<task>" . --executor opencode|mimocode --executor-command "<带 {prompt} 的命令>"` 完成 `pack -> run agent -> collect diff -> verify`。CI 和测试用的确定性 `mock` executor 已实现；真实 code agent CLI 先通过 `--executor-command` 接入，后续再补原生事件 normalizer。
+3. Orchestrator Loop：`code-agent-plusplus orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<带 {prompt} 的命令>"`，由 Code Agent++ 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
 
 核心抽象是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI、Claude Code 或其他 code agent；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
 
 ## MCP / Agent Native Runtime
 
-`repo-context-mcp` 当前提供 stdio MCP server 和一组工具定义。它已经可以被支持 MCP 的客户端或自研 Agent 接入；Codex CLI、Claude Code、Cursor、OpenCode、MiMoCode、LibreChat、OpenHands 等端到端集成仍按客户端逐个验证。
+`code-agent-plusplus-mcp` 当前提供 stdio MCP server 和一组工具定义。它已经可以被支持 MCP 的客户端或自研 Agent 接入；Codex CLI、Claude Code、Cursor、OpenCode、MiMoCode、LibreChat、OpenHands 等端到端集成仍按客户端逐个验证。
 
 ```txt
-repo_context_start_loop
-repo_context_step
-repo_context_evaluate
-repo_context_repair
-repo_context_finalize
+code_agent_plusplus_start_loop
+code_agent_plusplus_step
+code_agent_plusplus_evaluate
+code_agent_plusplus_repair
+code_agent_plusplus_finalize
 ```
 
 实验性 runtime loop 工具包括：start_loop 生成任务运行目录和 trace，step 记录编辑/测试/验证动作，evaluate 汇总 delta、loop、policy、verify 信号，repair 产出修复动作，finalize 在测试和 contract 证据齐全后收口。
 
 ## LLM 摘要配置
 
-默认离线可用；需要 LLM 摘要时，本地创建 `repo-context.local.yml`：
+默认离线可用；需要 LLM 摘要时，本地创建 `code-agent-plusplus.local.yml`：
 
 ```yaml
 llm:
@@ -301,7 +297,7 @@ llm:
 提交到仓库的配置只保留 `xx` 占位符。真实 key、URL、model 只放本地文件。
 
 ```bash
-repo-context build . --llm
+code-agent-plusplus build . --llm
 ```
 
 ## 文档

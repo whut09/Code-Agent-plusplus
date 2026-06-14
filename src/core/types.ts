@@ -5,7 +5,7 @@ export type TokenizerMode = "chars_approx" | "cl100k_base" | "o200k_base";
 export type AnalysisConfidence = "high" | "medium" | "low";
 export type TaskType = "bugfix" | "feature" | "refactor" | "auto";
 
-export interface RepoContextConfig {
+export interface CodeAgentPlusplusConfig {
   target: AgentTarget;
   tokenBudget: number;
   include: string[];
@@ -158,7 +158,7 @@ export interface DependencyGraph {
 }
 
 export interface ContextPackage {
-  config: RepoContextConfig;
+  config: CodeAgentPlusplusConfig;
   scan: RepoScan;
   index: RepoIndex;
   graph: DependencyGraph;
