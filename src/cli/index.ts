@@ -17,7 +17,7 @@ import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js"
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
-import { buildPolicyReport, renderPolicyReport } from "../outputs/policy-engine.js";
+import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
 import {
   appendExecutionTraceStep,
   executionTracePath,
@@ -338,12 +338,13 @@ program
   .argument("[repo]", "repository path", ".")
   .option("--base <ref>", "base git ref for runtime policy checks", "main")
   .option("--trace <id>", "execution trace id used as test and validation evidence")
-  .option("--strict", "fail on risk warnings as well as forbidden and missing required actions")
+  .option("--fail-on <level>", "failure threshold: forbidden, required, risk", parsePolicyFailOn)
+  .option("--strict", "alias for --fail-on risk")
   .option("--json", "print machine-readable policy report")
   .description("Enforce runtime agent policies over diff, contracts, context freshness, tests, and execution trace evidence.")
-  .action(async (repo: string, options: { base: string; trace?: string; strict?: boolean; json?: boolean }) => {
+  .action(async (repo: string, options: { base: string; trace?: string; failOn?: PolicyFailOn; strict?: boolean; json?: boolean }) => {
     const context = await buildContextPackage(repo);
-    const report = buildPolicyReport(context, { base: options.base, traceId: options.trace, strict: options.strict });
+    const report = buildPolicyReport(context, { base: options.base, traceId: options.trace, failOn: options.failOn, strict: options.strict });
     console.log(options.json ? JSON.stringify(report, null, 2) : renderPolicyReport(report));
     if (!report.passed) process.exitCode = 1;
   });
@@ -748,6 +749,11 @@ function parseTraceFinalState(value: string): ExecutionFinalState {
   if (value === "planned" || value === "in_progress" || value === "partial_success" || value === "success" || value === "failed" || value === "blocked")
     return value;
   throw new Error(`Unsupported trace final state: ${value}`);
+}
+
+function parsePolicyFailOn(value: string): PolicyFailOn {
+  if (value === "forbidden" || value === "required" || value === "risk") return value;
+  throw new Error(`Unsupported policy failure threshold: ${value}`);
 }
 
 function parseEvidenceSource(value: string): ExecutionEvidenceSource {

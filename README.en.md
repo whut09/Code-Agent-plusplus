@@ -65,7 +65,7 @@ repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
 repo-context trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
-repo-context policy . --base main --trace fix-login-timeout-bug
+repo-context policy . --base main --trace fix-login-timeout-bug --fail-on required
 repo-context tests . --diff --base main
 repo-context impact . --base main
 repo-context verify --diff .
@@ -170,7 +170,7 @@ repo-context loop "<task>" [repo] --phase after-edit
 repo-context trace start "<task>" [repo] --agent codex
 repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
 repo-context trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
-repo-context policy [repo] --base main --trace <trace-id>
+repo-context policy [repo] --base main --trace <trace-id> --fail-on required
 repo-context tests [repo] --diff --base main
 repo-context impact [repo] --base main
 repo-context verify --diff [repo]
@@ -182,6 +182,12 @@ repo-context benchmark [benchmarkDir] --top-k 8
 repo-context retrieve "<task>" [repo] --provider hybrid
 repo-context-mcp
 ```
+
+`policy --fail-on` supports three CI thresholds:
+
+- `forbidden`: fail only forbidden edits; useful for local exploration.
+- `required`: fail forbidden edits plus missing required actions; this is the default and works well for PR checks.
+- `risk`: fail forbidden, required, and risk warnings; equivalent to the legacy `--strict` mode and useful for main-branch or release gates.
 
 ## MCP / Agent Native Runtime
 

@@ -29,6 +29,25 @@ test("policy engine requires trace evidence for source edits", async () => {
   }
 });
 
+test("policy engine fail-on forbidden ignores missing required evidence", async () => {
+  const root = createPolicyRepo();
+  try {
+    await prepareGeneratedContext(root);
+    writeFileSync(path.join(root, "src", "core", "session.ts"), "export function loginSession() { return 'fixed'; }\n", "utf8");
+
+    const context = await buildContextPackage(root);
+    const forbiddenOnly = buildPolicyReport(context, { base: "main", failOn: "forbidden" });
+    const required = buildPolicyReport(context, { base: "main", failOn: "required" });
+
+    assert.equal(forbiddenOnly.passed, true);
+    assert.equal(forbiddenOnly.failOn, "forbidden");
+    assert.equal(required.passed, false);
+    assert.equal(required.failOn, "required");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("policy engine accepts passed trace evidence for required checks", async () => {
   const root = createPolicyRepo();
   try {
@@ -47,10 +66,20 @@ test("policy engine accepts passed trace evidence for required checks", async ()
       result: "passed"
     });
 
+    const updatedContext = await buildContextPackage(root);
+    writeContextPackage(updatedContext);
     const context = await buildContextPackage(root);
     const report = buildPolicyReport(context, { base: "main", traceId: trace.id });
+    const strictReport = buildPolicyReport(context, { base: "main", traceId: trace.id, failOn: "risk" });
+    const legacyStrictReport = buildPolicyReport(context, { base: "main", traceId: trace.id, strict: true });
     const rendered = renderPolicyReport(report);
 
+    assert.equal(report.passed, true);
+    assert.equal(report.failOn, "required");
+    assert.equal(strictReport.passed, false);
+    assert.equal(strictReport.failOn, "risk");
+    assert.equal(legacyStrictReport.passed, false);
+    assert.equal(legacyStrictReport.failOn, "risk");
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.tests" && finding.status === "satisfied"));
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.contract-validation" && finding.status === "satisfied"));
     assert.match(rendered, /Evidence level: manual/);
@@ -86,6 +115,32 @@ test("policy engine prefers harness-captured command evidence", async () => {
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.contract-validation" && finding.status === "satisfied"));
     assert.match(rendered, /Evidence level: command/);
     assert.doesNotMatch(rendered, /policy\.risk\.manual-test-evidence/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("policy engine does not treat policy wording as contract validation", async () => {
+  const root = createPolicyRepo();
+  try {
+    await prepareGeneratedContext(root);
+    writeFileSync(path.join(root, "src", "core", "session.ts"), "export function loginSession() { return 'fixed'; }\n", "utf8");
+    const updatedContext = await buildContextPackage(root);
+    writeContextPackage(updatedContext);
+
+    const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
+    runTraceCommand(root, trace.id, {
+      action: "run-test",
+      command: "node -e \"console.log('ok')\"",
+      reason: "policy smoke test evidence"
+    });
+
+    const context = await buildContextPackage(root);
+    const report = buildPolicyReport(context, { base: "main", traceId: trace.id, failOn: "required" });
+
+    assert.equal(report.passed, false);
+    assert.ok(report.findings.some((finding) => finding.id === "policy.required.tests" && finding.status === "satisfied"));
+    assert.ok(report.findings.some((finding) => finding.id === "policy.required.contract-validation" && finding.status === "missing"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

@@ -110,6 +110,12 @@ The Policy Engine prefers CI and harness-captured command evidence. Manual test 
 
 `repo-context policy . --base main --trace <trace-id>` merges diff, contracts, freshness, and trace evidence. It can block forbidden edits, flag risky behavior, and require test, contract, or context-refresh evidence before a loop is considered complete.
 
+`policy --fail-on` controls how hard the gate is:
+
+- `forbidden`: fail only forbidden edits.
+- `required`: fail forbidden edits and missing required actions; this is the default and fits PR checks.
+- `risk`: fail forbidden, required, and risk warnings; this is equivalent to `--strict` and fits main-branch or release gates.
+
 ## CLI Surface
 
 The runtime is exposed through CLI commands, including:

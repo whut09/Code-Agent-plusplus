@@ -7,7 +7,7 @@ import { buildContextPackage, type BuildOptions } from "../core/context-builder.
 import { buildContextDelta, renderContextDelta } from "../outputs/context-delta.js";
 import { buildChangeImpactReport, renderChangeImpactReport } from "../outputs/impact.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
-import { buildPolicyReport, renderPolicyReport } from "../outputs/policy-engine.js";
+import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { renderTaskContext } from "../outputs/task-context.js";
 import { buildTestSelection, renderTestSelection } from "../outputs/test-selector.js";
@@ -225,6 +225,7 @@ export function createRepoContextMcpServer(): McpServer {
         tokenBudget: z.number().int().positive().optional(),
         base: z.string().optional().default("main"),
         phase: z.enum(["preflight", "after-edit", "repair"]).optional().default("after-edit"),
+        failOn: z.enum(["forbidden", "required", "risk"]).optional(),
         strict: z.boolean().optional().default(false)
       })
     },
@@ -361,6 +362,7 @@ interface RuntimeEvaluateInput extends PlanInput {
   traceId?: string;
   base?: string;
   phase?: LoopPhase;
+  failOn?: PolicyFailOn;
   strict?: boolean;
 }
 
@@ -597,7 +599,7 @@ async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<RepoConte
     tokenBudget: args.tokenBudget,
     base: args.base ?? "main"
   });
-  const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: args.strict });
+  const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, failOn: args.failOn, strict: args.strict });
   const delta = buildContextDelta(context, { base: args.base ?? "main" });
   const verifyMarkdown = renderTaskVerify(context, { base: args.base ?? "main", diff: true });
 

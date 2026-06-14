@@ -67,7 +67,7 @@ repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
 repo-context trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
 repo-context trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
-repo-context policy . --base main --trace fix-login-timeout-bug
+repo-context policy . --base main --trace fix-login-timeout-bug --fail-on required
 repo-context tests . --diff --base main
 repo-context impact . --base main
 repo-context verify --diff .
@@ -172,7 +172,7 @@ repo-context loop "<task>" [repo] --phase after-edit
 repo-context trace start "<task>" [repo] --agent codex
 repo-context trace add <trace-id> [repo] --action edit --files src/auth/session.ts
 repo-context trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
-repo-context policy [repo] --base main --trace <trace-id>
+repo-context policy [repo] --base main --trace <trace-id> --fail-on required
 repo-context tests [repo] --diff --base main
 repo-context impact [repo] --base main
 repo-context verify --diff [repo]
@@ -184,6 +184,12 @@ repo-context benchmark [benchmarkDir] --top-k 8
 repo-context retrieve "<task>" [repo] --provider hybrid
 repo-context-mcp
 ```
+
+`policy --fail-on` 支持三档 CI 阈值：
+
+- `forbidden`：只让 forbidden edits 失败，适合本地探索。
+- `required`：forbidden + missing required actions 失败，是默认值，适合 PR 检查。
+- `risk`：forbidden + required + risk warnings 都失败，等价于旧的 `--strict`，适合 main 分支或发布门禁。
 
 ## MCP / Agent Native Runtime
 

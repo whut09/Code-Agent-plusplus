@@ -67,7 +67,7 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 
 ## Before Closing
 - Prefer `repo-context trace run <trace-id> . --action run-test --command "<test-command>"` over manual test claims when recording verification.
-- Prefer `repo-context policy . --base main --trace <trace-id>` when a trace exists.
+- Prefer `repo-context policy . --base main --trace <trace-id> --fail-on required` when a trace exists.
 - Run `repo-context verify --diff .` and `repo-context loop "<task>" . --phase after-edit` before final review.
 - Check `repo-context freshness .` and `repo-context drift .` if generated context may be stale.
 

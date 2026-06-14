@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 10541,
-  "remainingBudget": 1459,
+  "estimatedTokens": 10601,
+  "remainingBudget": 1399,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -78,7 +78,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 265
+      "estimatedTokens": 270
     },
     {
       "path": "src/mcp/server.ts",
@@ -122,7 +122,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 98
+      "estimatedTokens": 132
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -396,7 +396,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 294
+      "estimatedTokens": 315
     },
     {
       "path": "src/outputs/rag.ts",
@@ -750,15 +750,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 44
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
       "score": 14,
       "reasons": [
@@ -766,6 +757,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 45
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 44
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -822,15 +822,6 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 46
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
       "score": 8,
       "reasons": [
@@ -847,6 +838,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 46
     },
     {
       "path": ".env.example",
@@ -959,7 +959,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 265
+      "estimatedTokens": 270
     },
     {
       "path": "src/mcp/server.ts",
@@ -1005,7 +1005,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 98
+      "estimatedTokens": 132
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -1127,8 +1127,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 10541,
-    "remaining": 1459,
+    "used": 10601,
+    "remaining": 1399,
     "buckets": [
       {
         "name": "direct-source",
@@ -1146,7 +1146,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2127,
+        "tokens": 2161,
         "files": [
           "test/context-delta.test.ts",
           "test/execution-trace.test.ts",
@@ -1184,7 +1184,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 6247,
+        "tokens": 6268,
         "files": [
           "src/outputs/task-run.ts",
           "src/outputs/policy-engine.ts",
@@ -1232,17 +1232,17 @@
         "files": [
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/config/README.md",
+          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/api/package.json",
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/web/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
@@ -1252,7 +1252,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 589,
+        "tokens": 594,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

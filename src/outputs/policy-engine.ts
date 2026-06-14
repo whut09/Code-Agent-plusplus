@@ -10,11 +10,13 @@ import { bullet, code, heading, table } from "./markdown.js";
 export type PolicyKind = "forbidden" | "risk" | "required";
 export type PolicyStatus = "failed" | "warning" | "missing" | "satisfied";
 export type PolicySeverity = "error" | "warning" | "required" | "info";
+export type PolicyFailOn = "forbidden" | "required" | "risk";
 
 export interface PolicyEngineOptions {
   base?: string;
   traceId?: string;
   strict?: boolean;
+  failOn?: PolicyFailOn;
 }
 
 export interface PolicyFinding {
@@ -33,6 +35,7 @@ export interface PolicyEngineReport {
   base: string;
   traceId?: string;
   traceLoaded: boolean;
+  failOn: PolicyFailOn;
   changedFiles: string[];
   generatedContextFiles: string[];
   summary: {
@@ -55,6 +58,7 @@ interface TraceEvidenceResult {
 
 export function buildPolicyReport(context: ContextPackage, options: PolicyEngineOptions = {}): PolicyEngineReport {
   const base = options.base ?? "main";
+  const failOn = normalizeFailOn(options);
   const trace = options.traceId ? readExecutionTrace(context.scan.root, options.traceId) : null;
   const changed = changedFilesForPolicy(context, base);
   const indexed = new Map(context.index.files.map((file) => [file.path, file]));
@@ -225,10 +229,11 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
   };
 
   return {
-    passed: summary.forbidden === 0 && summary.requiredMissing === 0 && (!options.strict || summary.risks === 0),
+    passed: policyPassed(summary, failOn),
     base,
     traceId: options.traceId,
     traceLoaded: Boolean(trace),
+    failOn,
     changedFiles: changed.actionable,
     generatedContextFiles: changed.generatedContextFiles,
     summary,
@@ -242,6 +247,7 @@ export function renderPolicyReport(report: PolicyEngineReport): string {
     "",
     `Policy check: ${report.passed ? "passed" : "failed"}`,
     `Base: ${report.base}`,
+    `Fail on: ${report.failOn}`,
     report.traceId ? `Trace: ${report.traceId} (${report.traceLoaded ? "loaded" : "missing"})` : "Trace: none",
     "",
     heading(2, "Summary"),
@@ -286,6 +292,18 @@ function requiredFinding(
   };
 }
 
+function normalizeFailOn(options: PolicyEngineOptions): PolicyFailOn {
+  if (options.failOn) return options.failOn;
+  return options.strict ? "risk" : "required";
+}
+
+function policyPassed(summary: PolicyEngineReport["summary"], failOn: PolicyFailOn): boolean {
+  if (summary.forbidden > 0) return false;
+  if ((failOn === "required" || failOn === "risk") && summary.requiredMissing > 0) return false;
+  if (failOn === "risk" && summary.risks > 0) return false;
+  return true;
+}
+
 function changedFilesForPolicy(context: ContextPackage, base: string): { actionable: string[]; generatedContextFiles: string[] } {
   const files = new Set<string>();
   for (const file of changedFilesSince(context.scan.root, base)) files.add(file);
@@ -317,8 +335,9 @@ function traceTestEvidence(trace: ExecutionTrace | null): TraceEvidenceResult {
 
 function traceContractEvidence(trace: ExecutionTrace | null): TraceEvidenceResult {
   return traceEvidence(trace, (step) => {
-    const text = `${step.action} ${step.command ?? ""} ${step.reason ?? ""}`.toLowerCase();
-    return text.includes("validate-contracts") || text.includes("policy") || text.includes("contract validation");
+    const commandText = `${step.action} ${step.command ?? ""}`.toLowerCase();
+    const reasonText = (step.reason ?? "").toLowerCase();
+    return commandText.includes("validate-contracts") || commandText.includes("contract validation") || reasonText.includes("contract validation");
   });
 }
 

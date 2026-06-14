@@ -203,7 +203,7 @@ function harnessRuntimeLinks(): string[] {
 function beforeClosingCommands(): string[] {
   return [
     `Prefer ${code('repo-context trace run <trace-id> . --action run-test --command "<test-command>"')} over manual test claims when recording verification.`,
-    `Prefer ${code("repo-context policy . --base main --trace <trace-id>")} when a trace exists.`,
+    `Prefer ${code("repo-context policy . --base main --trace <trace-id> --fail-on required")} when a trace exists.`,
     `Run ${code("repo-context verify --diff .")} and ${code('repo-context loop "<task>" . --phase after-edit')} before final review.`,
     `Check ${code("repo-context freshness .")} and ${code("repo-context drift .")} if generated context may be stale.`
   ];

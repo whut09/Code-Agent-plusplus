@@ -2,8 +2,8 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 3165,
-  "remainingBudget": 8835,
+  "estimatedTokens": 3170,
+  "remainingBudget": 8830,
   "files": [
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -22,7 +22,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 265
+      "estimatedTokens": 270
     },
     {
       "path": "src/mcp/server.ts",
@@ -206,15 +206,6 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 46
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
       "score": 16,
       "reasons": [
@@ -231,6 +222,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 46
     },
     {
       "path": ".env.example",
@@ -287,15 +287,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 44
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
       "score": 14,
       "reasons": [
@@ -303,6 +294,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 45
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 44
     }
   ],
   "readFirst": [
@@ -323,7 +323,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 265
+      "estimatedTokens": 270
     },
     {
       "path": "src/mcp/server.ts",
@@ -484,8 +484,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3165,
-    "remaining": 8835,
+    "used": 3170,
+    "remaining": 8830,
     "buckets": [
       {
         "name": "direct-source",
@@ -533,23 +533,23 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/web/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
           "repo-context.config.yml",
           "tsconfig.json",
           ".github/workflows/ci.yml",
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md",
-          "benchmarks/fixtures/monorepo/packages/config/README.md"
+          "benchmarks/fixtures/monorepo/packages/config/README.md",
+          "benchmarks/fixtures/monorepo/packages/web/README.md"
         ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 589,
+        "tokens": 594,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
