@@ -2,11 +2,11 @@
 
 中文 | [English](README.en.md)
 
-面向编程 Agent 的 Agent Harness Runtime 控制面。
+Repo-to-Agent-Context 是面向 AI 编程 Agent 的 Harness Runtime 控制面。
 
-Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents.
+它不替代 Codex / Claude Code / Cursor 写代码，而是把仓库编译成 task-aware context，生成编辑边界，记录执行轨迹，检查策略与 contracts，分析 diff 影响，推荐测试与验证路径，并根据 freshness / trace / policy / impact 决定下一轮动作。
 
-它不替代 Codex / Claude Code / Cursor 写代码，而是负责任务上下文编译、编辑边界、执行轨迹、策略检查、影响分析、测试推荐和下一步 Loop 决策。核心主线是：
+核心闭环：
 
 ```txt
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop

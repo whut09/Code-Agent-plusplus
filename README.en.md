@@ -4,7 +4,9 @@
 
 Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents.
 
-It does not replace Codex, Claude Code, or Cursor as the coding agent. It compiles repository context, defines edit boundaries, records execution traces, evaluates diffs, enforces policies, recommends tests, and decides the next loop action. The core loop is:
+It does not replace Codex, Claude Code, or Cursor as the coding agent. It compiles a repository into task-aware context, generates edit boundaries, records execution traces, checks policies and contracts, analyzes diff impact, recommends tests and verification paths, and decides the next loop action from freshness / trace / policy / impact signals.
+
+Core loop:
 
 ```txt
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
