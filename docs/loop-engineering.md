@@ -6,9 +6,9 @@ Repo-to-Agent-Context is moving from a context compiler into an Agent Harness Ru
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-Current boundary: the project is a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor, not a fully autonomous agent executor. It does not call Codex, Claude Code, or Cursor to edit code by itself. It produces evidence-linked state transitions and next actions that an external agent or user can execute. The target direction is a more autonomous, evidence-driven Agent Harness Runtime.
+Current boundary: the project is a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor, not a fully autonomous agent executor. It does not call Codex, Claude Code, Cursor, OpenCode, or MiMoCode to edit code by itself. It produces evidence-linked state transitions and next actions that an external agent or user can execute. The target direction is a more autonomous, evidence-driven Agent Harness Runtime.
 
-The project does not directly ask Codex, Claude Code, or Cursor to edit code. Instead, it provides the control plane those agents need: what to read first, what not to edit, who is affected by a change, which tests to run, whether a run can close, and whether the next turn should rebuild context, repair contracts, add tests, expand context, or move to review.
+The project does not directly ask Codex, Claude Code, Cursor, OpenCode, or MiMoCode to edit code. Instead, it provides the control plane those agents need: what to read first, what not to edit, who is affected by a change, which tests to run, whether a run can close, and whether the next turn should rebuild context, repair contracts, add tests, expand context, or move to review.
 
 ## Main Build Path
 

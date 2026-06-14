@@ -1,6 +1,6 @@
 # Architecture
 
-Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents. It does not replace Codex, Claude Code, or Cursor as the coding agent; it compiles a repository into task-aware context, generates edit boundaries, records execution traces, checks policies and contracts, analyzes diff impact, recommends tests and verification paths, and decides the next loop action from freshness / trace / policy / impact signals.
+Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents. It does not replace Codex, Claude Code, Cursor, OpenCode, or MiMoCode as the coding agent; it compiles a repository into task-aware context, generates edit boundaries, records execution traces, checks policies and contracts, analyzes diff impact, recommends tests and verification paths, and decides the next loop action from freshness / trace / policy / impact signals.
 
 The core product is no longer just documentation generation or context-pack compilation. It is a static but verifiable Agent Runtime Loop control plane:
 
@@ -64,7 +64,7 @@ The v2 architecture is organized around five responsibilities:
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, and regression guards.
 - Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP server scaffold and core tools exist today; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `repo_context_build`, `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
 
-- External Agent Executor Layer: planned adapters for OpenCode, MiMoCode / MiMoCodex, Codex CLI, and Claude Code. These agents should remain responsible for reading files, editing code, running commands, and using their own tools. Repo-to-Agent-Context should orchestrate context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors.
+- External Agent Executor Layer: planned adapters for Codex, Claude Code, Cursor, OpenCode, and MiMoCode / MiMoCodex. These code agents own file reading, code edits, command execution, and their own tools. Repo-to-Agent-Context orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
@@ -157,7 +157,7 @@ Task packs use a three-stage retrieval pipeline:
 
 Bugfix, feature, and refactor tasks use different priorities and suggested commands.
 
-`repo-context run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, or automation a single task execution context instead of several disconnected command outputs.
+`repo-context run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, OpenCode, MiMoCode, or automation a single task execution context instead of several disconnected command outputs.
 
 The planner now treats task context as one mode among four:
 

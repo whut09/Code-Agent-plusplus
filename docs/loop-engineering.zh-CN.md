@@ -1,6 +1,6 @@
 # Loop Engineering 源码链路
 
-这份文档按代码执行链路解释 Repo-to-Agent-Context 如何从 Context Compiler 走向 Agent Harness Runtime 控制面。它不是只生成摘要文件，也不替代 Codex / Claude Code / Cursor 写代码，而是把仓库状态、任务上下文、编辑边界、测试建议、影响分析、contracts、trace、freshness 和 loop decision 组合成一个静态但可验证的 Agent Runtime Loop 控制面。
+这份文档按代码执行链路解释 Repo-to-Agent-Context 如何从 Context Compiler 走向 Agent Harness Runtime 控制面。它不是只生成摘要文件，也不替代 Codex / Claude Code / Cursor / OpenCode / MiMoCode 写代码，而是把仓库状态、任务上下文、编辑边界、测试建议、影响分析、contracts、trace、freshness 和 loop decision 组合成一个静态但可验证的 Agent Runtime Loop 控制面。
 
 核心闭环是：
 
@@ -8,9 +8,9 @@
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-当前实现不会直接调用 Codex、Claude Code 或 Cursor 去改代码。它提供的是控制面：让 Agent 知道先读什么、不要改什么、改完影响谁、该跑什么、是否能结束，以及下一轮应该补上下文、补测试、修 contract 还是进入 review。
+当前实现不会直接调用 Codex、Claude Code、Cursor、OpenCode 或 MiMoCode 去改代码。它提供的是控制面：让 Agent 知道先读什么、不要改什么、改完影响谁、该跑什么、是否能结束，以及下一轮应该补上下文、补测试、修 contract 还是进入 review。
 
-当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器，还不是完全自主的 agent executor。它不会自己调用 Codex / Claude Code / Cursor 改代码；它生成可验证、可排序、带证据的状态迁移和下一步动作，由外部 Agent 或用户执行。目标方向是更自主、证据驱动的 Agent Harness Runtime。
+当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器，还不是完全自主的 agent executor。它不会自己调用 Codex / Claude Code / Cursor / OpenCode / MiMoCode 改代码；它生成可验证、可排序、带证据的状态迁移和下一步动作，由外部 Agent 或用户执行。目标方向是更自主、证据驱动的 Agent Harness Runtime。
 
 ## 1. 总体执行链路
 

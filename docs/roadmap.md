@@ -1,8 +1,8 @@
 # Roadmap
 
-Repo-to-Agent-Context should evolve from "generate files that help an agent read a repo" into an External Agent Harness Control Plane: generate the context, boundaries, evidence requirements, and guardrails an existing coding agent needs to safely complete a task in a repo.
+Repo-to-Agent-Context is evolving from "generate files that help an agent read a repo" into an External Agent Harness Control Plane: it generates the context, boundaries, evidence requirements, and guardrails an existing code agent needs to safely complete a task in a repo.
 
-The project should not become another coding agent. OpenCode, MiMoCode / MiMoCodex, Codex CLI, and Claude Code already own TUI, model providers, tool calling, shell/edit/read/grep, sessions, subagents, workflow runtimes, and memory. Repo-to-Agent-Context should own repository analysis, task-aware context, edit boundaries, contracts, diff impact, test recommendations, evidence validation, policy gates, freshness/drift, context delta, and repair/finalize decisions.
+The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, and MiMoCode own the execution side: model providers, tool calling, shell/edit/read/grep, sessions, subagents, workflow runtimes, and memory. Repo-to-Agent-Context owns the control plane: repository analysis, task-aware context, edit boundaries, contracts, diff impact, test recommendations, evidence validation, policy gates, freshness/drift, context delta, and repair/finalize decisions. OpenCode and MiMoCode are priority executor targets because they are open-source code-agent runtimes.
 
 ## v0.2: Task Context Enhancement
 
@@ -36,7 +36,7 @@ The project should not become another coding agent. OpenCode, MiMoCode / MiMoCod
 - Incremental cache for file hashes, index entries, dependency graphs, and tokenizer counts
 
 - MCP server
-- MCP tools for external agents: build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize
+- MCP tools for code agents: build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize
 - OpenCode / MiMoCode / MiMoCodex MCP usage guide
 - VS Code/Cursor extension
 - Codex and Claude Code adapters
@@ -49,7 +49,7 @@ The project should not become another coding agent. OpenCode, MiMoCode / MiMoCod
 
 ```ts
 export interface AgentExecutor {
-  name: "opencode" | "mimocode" | "codex" | "claude-code" | "mock";
+  name: "opencode" | "mimocode" | "codex" | "claude-code" | "cursor" | "mock";
   run(input: { repo: string; task: string; prompt: string; agent?: string; outputDir: string; env?: Record<string, string> }): Promise<{
     exitCode: number;
     eventsPath?: string;
@@ -79,7 +79,7 @@ export interface AgentExecutor {
 
 - Compare no context, AGENTS.md only, context pack, and orchestrated external-agent loop
 - Measure wrong file edits, test failures, steps per task, token usage, stale evidence reuse, and repair loops
-- First targets: OpenCode, MiMoCode / MiMoCodex, Codex CLI, Claude Code
+- First targets: OpenCode, MiMoCode / MiMoCodex, Codex CLI, Claude Code, Cursor
 
 ## Longer-Term Language Analysis
 

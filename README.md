@@ -4,7 +4,7 @@
 
 Repo-to-Agent-Context 是面向 AI 编程 Agent 的 Harness Runtime 控制面。
 
-它不替代 Codex / Claude Code / Cursor 写代码，而是把仓库编译成 task-aware context，生成编辑边界，记录执行轨迹，检查策略与 contracts，分析 diff 影响，推荐测试与验证路径，并根据 freshness / trace / policy / impact 决定下一轮动作。
+它不替代 Codex / Claude Code / Cursor / OpenCode / MiMoCode 写代码，而是把仓库编译成 task-aware context，生成编辑边界，记录执行轨迹，检查策略与 contracts，分析 diff 影响，推荐测试与验证路径，并根据 freshness / trace / policy / impact 决定下一轮动作。
 
 核心闭环：
 
@@ -12,7 +12,7 @@ Repo-to-Agent-Context 是面向 AI 编程 Agent 的 Harness Runtime 控制面。
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-它不是简单 repo summarizer，也不只是 context pack tool。它的目标是给 Codex / Claude Code / Cursor 增加一个静态但可验证的工程控制面：更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
+它不是简单 repo summarizer，也不只是 context pack tool。它的目标是给 Codex / Claude Code / Cursor / OpenCode / MiMoCode 增加一个静态但可验证的工程控制面：更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
 
 当前实现更准确地说是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness，更新 `.agent-context/runs/<task-id>/state.json`，并生成下一步唯一优先动作。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
 
@@ -22,7 +22,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 ## 通过 AI Agent 使用
 
-这个项目的主要用户就是 AI 编程工具。你可以直接在 Codex、Claude Code、Cursor 或其他 Agent 里说：
+这个项目的主要用户就是 AI 编程工具。你可以直接在 Codex、Claude Code、Cursor、OpenCode、MiMoCode 或其他 Agent 里说：
 
 ```txt
 使用 https://github.com/whut09/Repo-to-Agent-Context 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。
@@ -195,31 +195,31 @@ repo-context-mcp
 - `required`：forbidden + missing required actions 失败，是默认值，适合 PR 检查。
 - `risk`：forbidden + required + risk warnings 都失败，等价于旧的 `--strict`，适合 main 分支或发布门禁。
 
-## OpenCode / MiMoCode 适用性
+## Code Agent 集成
 
-Repo-to-Agent-Context 不应该重写 OpenCode / MiMoCode / MiMoCodex 这类 coding agent runtime。更好的定位是 External Agent Harness Control Plane：
+Repo-to-Agent-Context 的定位是面向 code agent 的 External Agent Harness Control Plane。Codex / Claude Code / Cursor / OpenCode / MiMoCode 负责实际读代码、改代码和跑命令；Repo-to-Agent-Context 负责任务上下文、编辑边界、执行证据和验证闭环。
 
 ```txt
-OpenCode / MiMoCode / Codex / Claude Code
+Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> 负责读代码、改代码、跑命令、调用工具
 
 Repo-to-Agent-Context
   -> 负责上下文、边界、trace、policy、impact、tests、verify、repair/finalize 决策
 ```
 
-这让项目和 OpenCode / MiMoCode 天然互补：它们负责执行，Repo-to-Agent-Context 负责让执行更少乱读、更少乱改、改完知道怎么验证。
+这种分工让现有 code agent 的执行能力和 Repo-to-Agent-Context 的控制面能力自然组合。OpenCode / MiMoCode 是开源 code agent runtime，也是项目下一步优先接入和验证的执行器方向。
 
-推荐三阶段接入：
+项目集成路线分三阶段：
 
-1. MCP 接入：让 OpenCode / MiMoCode 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。
+1. MCP 接入：让 code agent 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
 2. Executor Wrapper：新增 `repo-context agent run "<task>" . --executor opencode|mimocode`，完成 `pack -> run agent -> collect diff -> verify`。
 3. Orchestrator Loop：新增 `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> policy/tests/impact/verify -> repair/finalize`。
 
-核心抽象会是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI 或 Claude Code；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
+核心抽象是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI、Claude Code 或其他 code agent；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
 
 ## MCP / Agent Native Runtime
 
-`repo-context-mcp` 当前提供 stdio MCP server 和一组工具定义。它已经可以被支持 MCP 的客户端或自研 Agent 接入；Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 等端到端集成仍按客户端逐个验证。
+`repo-context-mcp` 当前提供 stdio MCP server 和一组工具定义。它已经可以被支持 MCP 的客户端或自研 Agent 接入；Codex CLI、Claude Code、Cursor、OpenCode、MiMoCode、LibreChat、OpenHands 等端到端集成仍按客户端逐个验证。
 
 ```txt
 repo_context_start_loop

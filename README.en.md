@@ -4,7 +4,7 @@
 
 Repo-to-Agent-Context is an Agent Harness Runtime Control Plane for coding agents.
 
-It does not replace Codex, Claude Code, or Cursor as the coding agent. It compiles a repository into task-aware context, generates edit boundaries, records execution traces, checks policies and contracts, analyzes diff impact, recommends tests and verification paths, and decides the next loop action from freshness / trace / policy / impact signals.
+It does not replace Codex, Claude Code, Cursor, OpenCode, or MiMoCode as the coding agent. It compiles a repository into task-aware context, generates edit boundaries, records execution traces, checks policies and contracts, analyzes diff impact, recommends tests and verification paths, and decides the next loop action from freshness / trace / policy / impact signals.
 
 Core loop:
 
@@ -22,7 +22,7 @@ The current implementation is best understood as a Context / Policy / Trace repo
 
 ## Use It Through an AI Agent
 
-The primary users of this project are AI coding tools. You can ask Codex, Claude Code, Cursor, or another agent:
+The primary users of this project are AI coding tools. You can ask Codex, Claude Code, Cursor, OpenCode, MiMoCode, or another agent:
 
 ```txt
 Use https://github.com/whut09/Repo-to-Agent-Context to generate AGENTS.md and a .agent-context package for the xxx project.
@@ -195,31 +195,31 @@ repo-context-mcp
 - `required`: fail forbidden edits plus missing required actions; this is the default and works well for PR checks.
 - `risk`: fail forbidden, required, and risk warnings; equivalent to the legacy `--strict` mode and useful for main-branch or release gates.
 
-## OpenCode / MiMoCode Fit
+## Code Agent Integration
 
-Repo-to-Agent-Context should not reimplement coding-agent runtimes such as OpenCode, MiMoCode, or MiMoCodex. The stronger product position is External Agent Harness Control Plane:
+Repo-to-Agent-Context is an External Agent Harness Control Plane for code agents. Codex, Claude Code, Cursor, OpenCode, and MiMoCode remain responsible for reading code, editing code, and running commands; Repo-to-Agent-Context provides task context, edit boundaries, execution evidence, and the verification loop.
 
 ```txt
-OpenCode / MiMoCode / Codex / Claude Code
+Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> read code, edit code, run commands, call tools
 
 Repo-to-Agent-Context
   -> context, boundaries, traces, policies, impact, tests, verify, repair/finalize decisions
 ```
 
-This makes the project naturally complementary to OpenCode and MiMoCode: they execute; Repo-to-Agent-Context keeps execution repo-aware, bounded, and verifiable.
+This combines existing code-agent execution with Repo-to-Agent-Context's control plane. OpenCode and MiMoCode are open-source code-agent runtimes, so they are priority executor targets for the next integration phase.
 
-Recommended integration path:
+The integration path has three phases:
 
-1. MCP integration: let OpenCode / MiMoCode call `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_evaluate`, `repo_context_repair`, and `repo_context_finalize`.
+1. MCP integration: let code agents call `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_evaluate`, `repo_context_repair`, and `repo_context_finalize`. OpenCode and MiMoCode are the first open-source executor targets to validate.
 2. Executor Wrapper: add `repo-context agent run "<task>" . --executor opencode|mimocode` for `pack -> run agent -> collect diff -> verify`.
 3. Orchestrator Loop: add `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`, where Repo-to-Agent-Context owns `plan -> pack -> execute -> policy/tests/impact/verify -> repair/finalize`.
 
-The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, or Claude Code; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
+The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, Claude Code, or another code agent; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
 
 ## MCP / Agent Native Runtime
 
-`repo-context-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Claude Code, Cursor, Codex CLI, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
+`repo-context-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Codex CLI, Claude Code, Cursor, OpenCode, MiMoCode, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
 
 ```txt
 repo_context_start_loop
