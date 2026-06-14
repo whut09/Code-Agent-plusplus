@@ -14,6 +14,8 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 它不是简单 repo summarizer，也不只是 context pack tool。它的目标是给 Codex / Claude Code / Cursor 增加一个静态但可验证的工程控制面：更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
 
+当前实现更准确地说是 Context / Policy / Trace 报告系统 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness 来生成下一步决策。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
+
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context 输出效果动画">
 </p>

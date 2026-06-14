@@ -5,6 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
+import { appendExecutionTraceStep, startExecutionTrace } from "../src/outputs/execution-trace.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport } from "../src/outputs/loop-controller.js";
 import { writeContextPackage } from "../src/outputs/writer.js";
 
@@ -54,6 +55,38 @@ test("loop controller asks for context refresh and tests after source edits", as
     assert.ok(testDecision.signals.some((signal) => signal.startsWith("minimal tests detected:")));
     assert.ok(existsSync(path.join(result.dir, "loop.md")));
     assert.ok(existsSync(path.join(result.dir, "loop.json")));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("loop controller consumes passed test trace evidence", async () => {
+  const root = createLoopRepo();
+  try {
+    await prepareGeneratedContext(root);
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'fixed'; }\n", "utf8");
+    const updatedContext = await buildContextPackage(root);
+    writeContextPackage(updatedContext);
+
+    const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
+    appendExecutionTraceStep(root, trace.id, {
+      action: "run-test",
+      command: "npm test -- test/auth/session.test.ts",
+      result: "passed"
+    });
+
+    const context = await buildContextPackage(root);
+    const report = buildLoopControllerReport(context, "fix login timeout bug", { phase: "after-edit", type: "bugfix", base: "main", traceId: trace.id });
+    const rendered = renderLoopControllerReport(report);
+
+    assert.equal(report.trace.loaded, true);
+    assert.equal(report.trace.passedTestEvidence, "manual");
+    assert.equal(report.status, "ready");
+    assert.ok(report.changedFiles.includes("src/auth/session.ts"));
+    assert.ok(!report.decisions.some((decision) => decision.action === "run-tests"));
+    assert.ok(report.decisions.some((decision) => decision.action === "ready-for-review"));
+    assert.match(rendered, /Passed test evidence/);
+    assert.match(rendered, /passed test trace: manual/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

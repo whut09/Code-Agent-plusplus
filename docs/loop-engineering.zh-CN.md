@@ -10,6 +10,8 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 当前实现不会直接调用 Codex、Claude Code 或 Cursor 去改代码。它提供的是控制面：让 Agent 知道先读什么、不要改什么、改完影响谁、该跑什么、是否能结束，以及下一轮应该补上下文、补测试、修 contract 还是进入 review。
 
+当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 半自动 loop 建议器，还不是完全自主的 runtime state machine。它不会自己调用 Codex / Claude Code / Cursor 改代码；它生成可验证、可排序、带证据的下一步决策，由外部 Agent 或用户执行。目标方向是有状态、自主推进、证据驱动的 Agent Harness Runtime。
+
 ## 1. 总体执行链路
 
 主构建链路从 CLI 进入 `buildContextPackage()`：
@@ -215,6 +217,7 @@ diff + dependency impact + test gap + contract violations + risk score
 - changed files
 - test selection
 - task pack budget
+- trace evidence
 
 然后根据 phase 输出 next decisions。支持的 phase 有：
 
@@ -234,6 +237,8 @@ diff + dependency impact + test gap + contract violations + risk score
 - `ready-for-review`
 
 每个 decision 都是机器可读对象，包含 `action`、`priority`、`confidence`、`blocking`、`signals`、`reason` 和可选 `command`。这样 Agent 可以按优先级执行，也能区分“缺测试证据这类阻塞门禁”和“启动第一轮 Agent 这类非阻塞动作”。
+
+当传入 trace id 时，controller 会读取 `.agent-context/traces/<trace-id>.json` 里的 passed test evidence。如果 changed files 已经有通过的测试证据，controller 不会继续输出 `run-tests`；只要 freshness、drift、contract、budget、impact 等信号也不阻塞，就可以进入 `ready-for-review`。
 
 典型规则如下：
 

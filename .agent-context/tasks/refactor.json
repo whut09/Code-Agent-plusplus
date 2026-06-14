@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 10629,
-  "remainingBudget": 1371,
+  "estimatedTokens": 10691,
+  "remainingBudget": 1309,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -115,6 +115,16 @@
       "estimatedTokens": 78
     },
     {
+      "path": "test/loop-controller.test.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/execution-trace.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 99
+    },
+    {
       "path": "test/policy-engine.test.ts",
       "score": 46,
       "reasons": [
@@ -204,15 +214,6 @@
       ],
       "category": "test",
       "estimatedTokens": 77
-    },
-    {
-      "path": "test/loop-controller.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 85
     },
     {
       "path": "test/task-harness.test.ts",
@@ -388,6 +389,17 @@
       "estimatedTokens": 196
     },
     {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 74,
+      "reasons": [
+        "direct importer of src/outputs/execution-trace.ts",
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 322
+    },
+    {
       "path": "src/outputs/policy-engine.ts",
       "score": 74,
       "reasons": [
@@ -469,16 +481,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 327
-    },
-    {
-      "path": "src/outputs/loop-controller.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 274
     },
     {
       "path": "src/core/context-builder.ts",
@@ -998,6 +1000,16 @@
       "estimatedTokens": 78
     },
     {
+      "path": "test/loop-controller.test.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/execution-trace.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 99
+    },
+    {
       "path": "test/policy-engine.test.ts",
       "score": 46,
       "reasons": [
@@ -1089,15 +1101,6 @@
       "estimatedTokens": 77
     },
     {
-      "path": "test/loop-controller.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 85
-    },
-    {
       "path": "test/task-harness.test.ts",
       "score": 18,
       "reasons": [
@@ -1127,8 +1130,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 10629,
-    "remaining": 1371,
+    "used": 10691,
+    "remaining": 1309,
     "buckets": [
       {
         "name": "direct-source",
@@ -1146,10 +1149,11 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2167,
+        "tokens": 2181,
         "files": [
           "test/context-delta.test.ts",
           "test/execution-trace.test.ts",
+          "test/loop-controller.test.ts",
           "test/policy-engine.test.ts",
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
@@ -1160,7 +1164,6 @@
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/contract-validator.test.ts",
           "test/freshness.test.ts",
-          "test/loop-controller.test.ts",
           "test/task-harness.test.ts",
           "test/test-selector.test.ts",
           "test/agents-md.test.ts",
@@ -1184,9 +1187,10 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 6290,
+        "tokens": 6338,
         "files": [
           "src/outputs/task-run.ts",
+          "src/outputs/loop-controller.ts",
           "src/outputs/policy-engine.ts",
           "src/outputs/rag.ts",
           "src/core/types.ts",
@@ -1195,7 +1199,6 @@
           "src/core/freshness.ts",
           "src/outputs/task-harness.ts",
           "src/outputs/contract-validator.ts",
-          "src/outputs/loop-controller.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
           "src/outputs/impact.ts",
@@ -1267,7 +1270,7 @@
   ],
   "retrieval": {
     "directMatches": 6,
-    "dependencyNeighbors": 47,
+    "dependencyNeighbors": 49,
     "tests": 31,
     "configDocs": 17
   }

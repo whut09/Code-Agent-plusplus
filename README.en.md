@@ -14,6 +14,8 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 It is not just a repo summarizer or a context pack tool. Its goal is to give Codex, Claude Code, and Cursor a static but verifiable engineering control plane: read less noise, touch fewer unrelated files, validate changes, and decide whether the next step is repair, context expansion, policy enforcement, or finalization.
 
+The current implementation is best understood as a Context / Policy / Trace reporting system plus a semi-automatic loop advisor: it does not autonomously call an agent to edit code, but it does consume trace evidence, policies, contracts, impact, and freshness to produce the next decision. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context final output animation">
 </p>

@@ -7,17 +7,17 @@ Generated for target: `codex`.
 - Frameworks: none detected
 - Package managers: npm
 - Files scanned: 178
-- Symbols detected: 1991
-- Dependency edges detected: 465
+- Symbols detected: 2010
+- Dependency edges detected: 467
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,580,969 tokens
-Estimated context pack (chars_approx): 17,746 tokens
+Original repo (estimated, chars_approx): 1,583,013 tokens
+Estimated context pack (chars_approx): 17,778 tokens
 Compression: 89x
 Token budget: 90,000 (within budget)
 
 ## Repository Summary
-This repository contains 178 scanned files with 1991 detected symbols across 25 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agents-md.ts, src/outputs/architecture.ts); test (test/agents-md.test.ts, test/analyzers.test.ts); core (src/core/cache.ts, src/core/context-builder.ts); retrievers (src/retrievers/external.ts, src/retrievers/hybrid.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports.; src/outputs/contract-validator.ts: src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports.; src/outputs/execution-trace.ts: src/outputs/execution-trace.ts contains 49 detected symbols, 5 imports, 18 exports..
+This repository contains 178 scanned files with 2010 detected symbols across 25 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agents-md.ts, src/outputs/architecture.ts); test (test/agents-md.test.ts, test/analyzers.test.ts); core (src/core/cache.ts, src/core/context-builder.ts); retrievers (src/retrievers/external.ts, src/retrievers/hybrid.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports.; src/outputs/contract-validator.ts: src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports.; src/outputs/execution-trace.ts: src/outputs/execution-trace.ts contains 49 detected symbols, 5 imports, 18 exports..
 
 ## Summary Mode
 - Mode: offline

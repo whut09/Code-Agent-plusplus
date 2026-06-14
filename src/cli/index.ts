@@ -464,13 +464,23 @@ program
   .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
   .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
   .option("--base <ref>", "base git ref for diff, tests, impact, and contract checks", "main")
+  .option("--trace <id>", "execution trace id used as loop evidence")
   .option("--write", "write loop.md and loop.json under .agent-context/loops/<task-id>")
   .option("--json", "print machine-readable loop controller report")
   .description("Decide the next agent-loop step from context freshness, diff, contracts, tests, and impact signals.")
   .action(
     async (
       args: string[],
-      options: { repo?: string | string[]; phase: LoopPhase; type: TaskType; tokenBudget?: number; base: string; write?: boolean; json?: boolean }
+      options: {
+        repo?: string | string[];
+        phase: LoopPhase;
+        type: TaskType;
+        tokenBudget?: number;
+        base: string;
+        trace?: string;
+        write?: boolean;
+        json?: boolean;
+      }
     ) => {
       const { task, repo } = resolveTaskArguments(args, options.repo);
       const context = await buildContextPackage(repo);
@@ -478,7 +488,8 @@ program
         phase: options.phase,
         type: options.type,
         tokenBudget: options.tokenBudget,
-        base: options.base
+        base: options.base,
+        traceId: options.trace
       };
       const report = buildLoopControllerReport(context, task, loopOptions);
       if (options.json) {

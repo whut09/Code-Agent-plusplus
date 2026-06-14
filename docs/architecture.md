@@ -10,6 +10,8 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 The generated context remains important, but it is one part of the control plane: agents use it together with traces, policy checks, tests, freshness, drift, impact, and verification signals to plan, edit, repair, and finalize changes.
 
+Current boundary: this is not yet a fully autonomous runtime state machine. It is a context, policy, and trace reporting system with a semi-automatic loop advisor. The controller consumes repository state and trace evidence to decide the next action, but an external coding agent or user still executes edits and commands. The roadmap is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+
 ```mermaid
 graph TD
   CLI --> RepoScanner["Repo Scanner"]
@@ -231,7 +233,7 @@ The loop controller does not execute an agent directly. It reads the compiled co
 
 Every decision includes a numeric confidence score, a `blocking` flag, and evidence signals such as changed-file counts, test counts, context freshness, drift status, contract violations, or impact dependents. This keeps the loop output useful for humans while giving coding agents a stable ordering and stop/go signal.
 
-With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`. This is intentionally a control report rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable.
+With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`. This is intentionally a control report rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable. When `traceId` is provided, the controller consumes passed test evidence from the trace and can stop asking for `run-tests` once verification has been recorded.
 
 ## Execution Trace
 

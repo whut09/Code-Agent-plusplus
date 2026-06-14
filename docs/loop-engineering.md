@@ -6,6 +6,8 @@ Repo-to-Agent-Context is moving from a context compiler into an Agent Harness Ru
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
+Current boundary: the project is a Context / Policy / Trace reporting system plus a semi-automatic loop advisor, not a fully autonomous runtime state machine. It does not call Codex, Claude Code, or Cursor to edit code by itself. It produces evidence-linked decisions that an external agent or user can execute. The target direction is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+
 The project does not directly ask Codex, Claude Code, or Cursor to edit code. Instead, it provides the control plane those agents need: what to read first, what not to edit, who is affected by a change, which tests to run, whether a run can close, and whether the next turn should rebuild context, repair contracts, add tests, expand context, or move to review.
 
 ## Main Build Path
@@ -83,7 +85,7 @@ Every build writes `.agent-context/manifest.json` with hashes for source, config
 
 ## Loop Controller
 
-`buildLoopControllerReport()` combines freshness, drift, contracts, impact, changed files, tests, and task-pack budget. It supports `preflight`, `after-edit`, and `repair` phases and returns decisions such as:
+`buildLoopControllerReport()` combines freshness, drift, contracts, impact, changed files, tests, task-pack budget, and optional trace evidence. It supports `preflight`, `after-edit`, and `repair` phases and returns decisions such as:
 
 - `start-agent`
 - `rebuild-context`
@@ -95,6 +97,8 @@ Every build writes `.agent-context/manifest.json` with hashes for source, config
 - `ready-for-review`
 
 Each decision is machine-readable and includes `action`, `priority`, `confidence`, `blocking`, `signals`, `reason`, and an optional `command`. This lets agents sort the next actions by urgency and tell the difference between a blocking gate, such as missing tests, and a non-blocking handoff, such as starting the first agent turn.
+
+When a trace id is supplied, the controller reads passed test evidence from `.agent-context/traces/<trace-id>.json`. If changed files already have passed test evidence, the controller no longer emits `run-tests`; it can move to `ready-for-review` unless freshness, drift, contract, budget, or impact signals still block the loop.
 
 The controller is the bridge from static context generation to loop engineering: every turn can be evaluated against repository state and verification evidence.
 

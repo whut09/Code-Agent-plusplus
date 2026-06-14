@@ -5,6 +5,7 @@ import { changedFilesSince, runGit } from "../core/git.js";
 import { assessDrift, assessFreshness } from "../core/freshness.js";
 import { buildChangeImpactReport } from "./impact.js";
 import { validateContracts } from "./contract-validator.js";
+import { readExecutionTrace, type ExecutionTraceStep } from "./execution-trace.js";
 import { buildTaskPack } from "./task-context.js";
 import { buildTestSelection } from "./test-selector.js";
 import { bullet, code, heading, table } from "./markdown.js";
@@ -26,6 +27,7 @@ export interface LoopControllerOptions {
   base?: string;
   type?: TaskType;
   tokenBudget?: number;
+  traceId?: string;
 }
 
 export interface LoopDecision {
@@ -51,6 +53,13 @@ export interface LoopControllerReport {
     taskPackTokens: number;
     taskPackBudget: number;
   };
+  trace: {
+    id?: string;
+    loaded: boolean;
+    passedTestEvidence: LoopTraceEvidenceLevel;
+    stepId?: string;
+    signals: string[];
+  };
   checks: {
     contracts: "passed" | "failed";
     contractViolations: number;
@@ -60,6 +69,8 @@ export interface LoopControllerReport {
   };
   decisions: LoopDecision[];
 }
+
+type LoopTraceEvidenceLevel = "none" | "manual" | "command" | "ci";
 
 export interface LoopWriteResult {
   taskId: string;
@@ -80,6 +91,7 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
   const changedFiles = changedFilesForLoop(context, base);
   const tests = buildTestSelection(context, { diff: true, base });
   const taskPack = buildTaskPack(context, task, { type: options.type ?? "auto", tokenBudget: options.tokenBudget });
+  const traceEvidence = inspectTraceEvidence(context.scan.root, options.traceId);
   const decisions = decideNextSteps({
     task,
     phase,
@@ -98,6 +110,8 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
     taskPackOverBudget: taskPack.estimatedTokens > taskPack.tokenBudget,
     taskPackTokens: taskPack.estimatedTokens,
     taskPackBudget: taskPack.tokenBudget,
+    passedTestEvidence: traceEvidence.passedTestEvidence,
+    traceSignals: traceEvidence.signals,
     missingTestSignals: actionableContractViolations.filter((violation) => /test/i.test(`${violation.rule} ${violation.reason}`)).length
   });
 
@@ -114,6 +128,7 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
       taskPackTokens: taskPack.estimatedTokens,
       taskPackBudget: taskPack.tokenBudget
     },
+    trace: traceEvidence,
     checks: {
       contracts: actionableContractsPassed ? "passed" : "failed",
       contractViolations: actionableContractViolations.length,
@@ -145,6 +160,8 @@ export function renderLoopControllerReport(report: LoopControllerReport): string
         ["Minimal tests", String(report.checks.minimalTests)],
         ["Regression tests", String(report.checks.regressionTests)],
         ["Impact dependents", String(report.checks.impactDependents)],
+        ["Trace loaded", report.trace.loaded ? "yes" : "no"],
+        ["Passed test evidence", report.trace.passedTestEvidence],
         ["Task pack budget", `${report.context.taskPackTokens.toLocaleString()} / ${report.context.taskPackBudget.toLocaleString()} estimated tokens`]
       ]
     ),
@@ -189,6 +206,8 @@ function decideNextSteps(input: {
   taskPackOverBudget: boolean;
   taskPackTokens: number;
   taskPackBudget: number;
+  passedTestEvidence: LoopTraceEvidenceLevel;
+  traceSignals: string[];
   missingTestSignals: number;
 }): LoopDecision[] {
   const decisions: LoopDecision[] = [];
@@ -277,7 +296,7 @@ function decideNextSteps(input: {
     );
   }
 
-  if (input.changedFiles.length) {
+  if (input.changedFiles.length && input.passedTestEvidence === "none") {
     decisions.push(
       decision({
         action: "run-tests",
@@ -289,7 +308,7 @@ function decideNextSteps(input: {
           `changed files: ${input.changedFiles.length}`,
           `minimal tests detected: ${input.minimalTests}`,
           `regression tests detected: ${input.regressionTests}`,
-          "passed test trace: not evaluated by loop controller"
+          ...input.traceSignals
         ],
         command: firstUsefulCommand([...input.minimalCommands, ...input.regressionCommands], input.task) ?? `repo-context tests . --diff --base ${input.base}`
       })
@@ -297,14 +316,23 @@ function decideNextSteps(input: {
   }
 
   if (!decisions.length) {
+    const hasChangedFiles = input.changedFiles.length > 0;
     decisions.push(
       decision({
         action: "ready-for-review",
         priority: "low",
-        confidence: 0.72,
+        confidence: hasChangedFiles ? 0.78 : 0.72,
         blocking: false,
-        reason: "No stale context, contract failures, changed files, or high-risk impact signals were detected.",
-        signals: ["freshness: fresh", "drift: clean", "changed files: 0", "contracts: passed"]
+        reason: hasChangedFiles
+          ? "Changed files have passed test trace evidence and no blocking context, contract, or impact signals were detected."
+          : "No stale context, contract failures, changed files, or high-risk impact signals were detected.",
+        signals: [
+          "freshness: fresh",
+          "drift: clean",
+          `changed files: ${input.changedFiles.length}`,
+          "contracts: passed",
+          `passed test trace: ${input.passedTestEvidence}`
+        ]
       })
     );
   }
@@ -336,6 +364,80 @@ function changedFilesForLoop(context: ContextPackage, base: string): string[] {
     return [...files].sort();
   }
   return [...files].sort();
+}
+
+function inspectTraceEvidence(root: string, traceId: string | undefined): LoopControllerReport["trace"] {
+  if (!traceId) {
+    return {
+      loaded: false,
+      passedTestEvidence: "none",
+      signals: ["passed test trace: none", "trace: none"]
+    };
+  }
+
+  const trace = readExecutionTrace(root, traceId);
+  if (!trace) {
+    return {
+      id: traceId,
+      loaded: false,
+      passedTestEvidence: "none",
+      signals: [`trace: ${traceId} missing`, "passed test trace: none"]
+    };
+  }
+
+  const steps = trace.steps
+    .filter((step) => isTestStep(step) && stepPassed(step))
+    .map((step) => ({ step, level: evidenceLevelForStep(step) }))
+    .sort((a, b) => evidenceRank(b.level) - evidenceRank(a.level));
+  const match = steps[0];
+  if (!match) {
+    return {
+      id: trace.id,
+      loaded: true,
+      passedTestEvidence: "none",
+      signals: [`trace: ${trace.id} loaded`, "passed test trace: none"]
+    };
+  }
+
+  return {
+    id: trace.id,
+    loaded: true,
+    passedTestEvidence: match.level,
+    stepId: match.step.id,
+    signals: [`trace: ${trace.id} loaded`, `passed test trace: ${match.level}`, `passed test step: ${match.step.id}`]
+  };
+}
+
+function isTestStep(step: ExecutionTraceStep): boolean {
+  const text = `${step.action} ${step.command ?? ""} ${step.test ?? ""}`.toLowerCase();
+  return /\b(run-test|test|verify|check|lint|typecheck)\b/.test(text) || /\b(npm|pnpm|yarn|bun|pytest|vitest|jest|node --test)\b/.test(text);
+}
+
+function stepPassed(step: ExecutionTraceStep): boolean {
+  if (step.result === "passed") return true;
+  return (step.evidenceSource === "command" || step.evidenceSource === "ci") && step.exitCode === 0;
+}
+
+function evidenceLevelForStep(step: ExecutionTraceStep): LoopTraceEvidenceLevel {
+  if (step.evidenceSource === "ci") return "ci";
+  if (isHarnessCommandEvidence(step)) return "command";
+  return "manual";
+}
+
+function isHarnessCommandEvidence(step: ExecutionTraceStep): boolean {
+  return (
+    step.evidenceSource === "command" &&
+    step.capturedBy === "repo-context" &&
+    step.exitCode === 0 &&
+    Boolean(step.command && step.startedAt && step.finishedAt && step.stdoutHash && step.stderrHash && step.workingTreeHashBefore && step.workingTreeHashAfter)
+  );
+}
+
+function evidenceRank(level: LoopTraceEvidenceLevel): number {
+  if (level === "ci") return 3;
+  if (level === "command") return 2;
+  if (level === "manual") return 1;
+  return 0;
 }
 
 function isGeneratedContextState(file: string): boolean {

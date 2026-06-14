@@ -546,7 +546,8 @@ async function runStartLoop(args: RuntimeStartInput): Promise<RepoContextMcpResu
     phase: "preflight",
     type: args.type ?? "auto",
     tokenBudget: args.tokenBudget,
-    base: args.base ?? "main"
+    base: args.base ?? "main",
+    traceId: run.runId
   });
   const delta = buildContextDelta(context, { base: args.base ?? "main" });
 
@@ -597,7 +598,8 @@ async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<RepoConte
     phase: args.phase ?? "after-edit",
     type: args.type ?? "auto",
     tokenBudget: args.tokenBudget,
-    base: args.base ?? "main"
+    base: args.base ?? "main",
+    traceId: args.traceId
   });
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, failOn: args.failOn, strict: args.strict });
   const delta = buildContextDelta(context, { base: args.base ?? "main" });
@@ -622,7 +624,8 @@ async function runRuntimeRepair(args: RuntimeRepairInput): Promise<RepoContextMc
     phase: "repair",
     type: args.type ?? "auto",
     tokenBudget: args.tokenBudget,
-    base: args.base ?? "main"
+    base: args.base ?? "main",
+    traceId: args.traceId
   });
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
   const tests = buildTestSelection(context, { diff: true, base: args.base ?? "main" });
@@ -652,7 +655,7 @@ async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<RepoConte
     result: policy.passed ? "passed" : "failed",
     finalState: policy.passed ? (args.finalState ?? "success") : "blocked"
   });
-  const loop = buildLoopControllerReport(context, args.task, { phase: "after-edit", base: args.base ?? "main" });
+  const loop = buildLoopControllerReport(context, args.task, { phase: "after-edit", base: args.base ?? "main", traceId: args.traceId });
 
   return {
     task: args.task,
