@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 10932,
-  "remainingBudget": 1068,
+  "estimatedTokens": 11103,
+  "remainingBudget": 897,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -16,7 +16,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 256,
+      "score": 257,
       "reasons": [
         "lexical match: code",
         "direct dependency of src/outputs/context-delta.ts",
@@ -28,7 +28,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 231,
+      "score": 232,
       "reasons": [
         "lexical match: code"
       ],
@@ -44,7 +44,7 @@
         "shared API/refactor risk"
       ],
       "category": "direct-source",
-      "estimatedTokens": 322
+      "estimatedTokens": 332
     },
     {
       "path": "src/outputs/context-delta.ts",
@@ -122,7 +122,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 104
+      "estimatedTokens": 115
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -132,7 +132,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 132
+      "estimatedTokens": 142
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -397,7 +397,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 326
+      "estimatedTokens": 302
     },
     {
       "path": "src/outputs/policy-engine.ts",
@@ -408,7 +408,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 315
+      "estimatedTokens": 255
     },
     {
       "path": "src/outputs/rag.ts",
@@ -551,6 +551,16 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 188
+    },
+    {
+      "path": "src/outputs/evidence.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/outputs/execution-trace.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 224
     },
     {
       "path": "src/core/scanner.ts",
@@ -908,7 +918,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 256,
+      "score": 257,
       "reasons": [
         "lexical match: code",
         "direct dependency of src/outputs/context-delta.ts",
@@ -920,7 +930,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 231,
+      "score": 232,
       "reasons": [
         "lexical match: code"
       ],
@@ -936,7 +946,7 @@
         "shared API/refactor risk"
       ],
       "category": "direct-source",
-      "estimatedTokens": 322
+      "estimatedTokens": 332
     },
     {
       "path": "src/outputs/context-delta.ts",
@@ -1016,7 +1026,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 104
+      "estimatedTokens": 115
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -1026,7 +1036,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 132
+      "estimatedTokens": 142
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -1139,13 +1149,13 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 10932,
-    "remaining": 1068,
+    "used": 11103,
+    "remaining": 897,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 902,
+        "tokens": 912,
         "files": [
           "benchmarks/tasks/refactor-config-loader.json",
           "src/outputs/markdown.ts",
@@ -1158,7 +1168,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2187,
+        "tokens": 2208,
         "files": [
           "test/context-delta.test.ts",
           "test/execution-trace.test.ts",
@@ -1196,7 +1206,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 6573,
+        "tokens": 6713,
         "files": [
           "src/outputs/task-run.ts",
           "src/outputs/loop-controller.ts",
@@ -1215,6 +1225,7 @@
           "src/benchmarks/benchmark.ts",
           "src/retrievers/index.ts",
           "src/core/cache.ts",
+          "src/outputs/evidence.ts",
           "src/core/scanner.ts",
           "src/core/token-savings.ts",
           "src/outputs/architecture.ts",
@@ -1280,7 +1291,7 @@
   ],
   "retrieval": {
     "directMatches": 6,
-    "dependencyNeighbors": 49,
+    "dependencyNeighbors": 50,
     "tests": 31,
     "configDocs": 17
   }

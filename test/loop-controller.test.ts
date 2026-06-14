@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { appendExecutionTraceStep, startExecutionTrace } from "../src/outputs/execution-trace.js";
+import { appendExecutionTraceStep, runTraceCommand, startExecutionTrace } from "../src/outputs/execution-trace.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport } from "../src/outputs/loop-controller.js";
 import { writeContextPackage } from "../src/outputs/writer.js";
 
@@ -102,11 +102,38 @@ test("loop controller consumes passed test trace evidence", async () => {
   }
 });
 
+test("loop controller rejects stale test evidence after later edits", async () => {
+  const root = createLoopRepo();
+  try {
+    await prepareGeneratedContext(root);
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'first edit'; }\n", "utf8");
+    const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
+    runTraceCommand(root, trace.id, {
+      action: "run-test",
+      command: "npm run test",
+      reason: "test command evidence"
+    });
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'second edit'; }\n", "utf8");
+    const updatedContext = await buildContextPackage(root);
+    writeContextPackage(updatedContext);
+
+    const context = await buildContextPackage(root);
+    const report = buildLoopControllerReport(context, "fix login timeout bug", { phase: "after-edit", type: "bugfix", base: "main", traceId: trace.id });
+
+    assert.equal(report.trace.loaded, true);
+    assert.equal(report.trace.passedTestEvidence, "none");
+    assert.ok(report.decisions.some((decision) => decision.action === "run-tests"));
+    assert.ok(report.trace.signals.some((signal) => signal.includes("Working tree hash is stale")));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 function createLoopRepo(): string {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-loop-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
-  writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
+  writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"", check: "tsc --noEmit" } }), "utf8");
   writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function loginSession() { return 'ok'; }\n", "utf8");
   writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { loginSession } from '../../src/auth/session.js';\nloginSession();\n", "utf8");
   runGit(root, ["init"]);

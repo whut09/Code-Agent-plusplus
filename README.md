@@ -86,6 +86,7 @@ repo-context drift .
 - ✅ diff / impact / verify：面向改代码后的影响分析和验证报告。
 - ✅ loop controller + runtime state machine：根据 freshness、diff、contracts、tests、impact 和 trace evidence 决定下一步是重建上下文、补测试、修 contract 还是进入 review；同时写入 `.agent-context/runs/<task-id>/state.json`，记录当前状态、合法动作、下一步阻塞动作、满足证据和缺失证据。
 - ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态，并区分 manual / command / CI evidence。
+- ✅ evidence validation：trace 不再只是日志；测试/contract 证据会校验 required command、exit code、working tree hash、是否晚于最后一次编辑，避免“测试通过后又改代码”的证据污染。
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据；`trace run` 捕获 exit code、输出哈希和 working tree hash，可信度高于手动声明。
 - ✅ context delta：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件；`evolve` 当前是 cache-aware full refresh，selective output writes 仍在计划中。
 - 🧪 MCP runtime tools：stdio MCP server 已暴露 build / plan / pack / retrieve / tests / impact / verify 以及 start_loop / step / evaluate / repair / finalize 等工具；真实客户端集成仍需逐个验证。

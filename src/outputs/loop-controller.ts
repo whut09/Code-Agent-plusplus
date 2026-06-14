@@ -5,7 +5,8 @@ import { changedFilesSince, runGit } from "../core/git.js";
 import { assessDrift, assessFreshness } from "../core/freshness.js";
 import { buildChangeImpactReport } from "./impact.js";
 import { validateContracts } from "./contract-validator.js";
-import { readExecutionTrace, type ExecutionTraceStep } from "./execution-trace.js";
+import { currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
+import { evidenceSatisfies, type EvidenceLevel } from "./evidence.js";
 import { buildTaskPack } from "./task-context.js";
 import { buildTestSelection } from "./test-selector.js";
 import { bullet, code, heading, table } from "./markdown.js";
@@ -72,7 +73,7 @@ export interface LoopControllerReport {
   runtime: RunStateSnapshot;
 }
 
-type LoopTraceEvidenceLevel = "none" | "manual" | "command" | "ci";
+type LoopTraceEvidenceLevel = EvidenceLevel;
 
 export interface LoopWriteResult {
   taskId: string;
@@ -94,7 +95,11 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
   const changedFiles = changedFilesForLoop(context, base);
   const tests = buildTestSelection(context, { diff: true, base });
   const taskPack = buildTaskPack(context, task, { type: options.type ?? "auto", tokenBudget: options.tokenBudget });
-  const traceEvidence = inspectTraceEvidence(context.scan.root, options.traceId);
+  const traceEvidence = inspectTraceEvidence(context.scan.root, options.traceId, [
+    ...tests.minimalCommands,
+    ...tests.recommendedCommands,
+    ...tests.fullConfidenceCommands
+  ]);
   const decisions = decideNextSteps({
     task,
     phase,
@@ -402,7 +407,7 @@ function changedFilesForLoop(context: ContextPackage, base: string): string[] {
   return [...files].sort();
 }
 
-function inspectTraceEvidence(root: string, traceId: string | undefined): LoopControllerReport["trace"] {
+function inspectTraceEvidence(root: string, traceId: string | undefined, requiredCommands: string[]): LoopControllerReport["trace"] {
   if (!traceId) {
     return {
       loaded: false,
@@ -421,59 +426,36 @@ function inspectTraceEvidence(root: string, traceId: string | undefined): LoopCo
     };
   }
 
-  const steps = trace.steps
-    .filter((step) => isTestStep(step) && stepPassed(step))
-    .map((step) => ({ step, level: evidenceLevelForStep(step) }))
-    .sort((a, b) => evidenceRank(b.level) - evidenceRank(a.level));
-  const match = steps[0];
-  if (!match) {
+  const result = evidenceSatisfies(
+    {
+      kind: "tests",
+      currentRepoHash: currentWorkingTreeHash(root),
+      requiredCommands
+    },
+    trace
+  );
+  if (!result.satisfied) {
     return {
       id: trace.id,
       loaded: true,
       passedTestEvidence: "none",
-      signals: [`trace: ${trace.id} loaded`, "passed test trace: none"]
+      stepId: result.stepId,
+      signals: [`trace: ${trace.id} loaded`, "passed test trace: none", ...result.evidence]
     };
   }
 
   return {
     id: trace.id,
     loaded: true,
-    passedTestEvidence: match.level,
-    stepId: match.step.id,
-    signals: [`trace: ${trace.id} loaded`, `passed test trace: ${match.level}`, `passed test step: ${match.step.id}`]
+    passedTestEvidence: result.level,
+    stepId: result.stepId,
+    signals: [
+      `trace: ${trace.id} loaded`,
+      `passed test trace: ${result.level}`,
+      result.stepId ? `passed test step: ${result.stepId}` : "",
+      ...result.evidence
+    ].filter(Boolean)
   };
-}
-
-function isTestStep(step: ExecutionTraceStep): boolean {
-  const text = `${step.action} ${step.command ?? ""} ${step.test ?? ""}`.toLowerCase();
-  return /\b(run-test|test|verify|check|lint|typecheck)\b/.test(text) || /\b(npm|pnpm|yarn|bun|pytest|vitest|jest|node --test)\b/.test(text);
-}
-
-function stepPassed(step: ExecutionTraceStep): boolean {
-  if (step.result === "passed") return true;
-  return (step.evidenceSource === "command" || step.evidenceSource === "ci") && step.exitCode === 0;
-}
-
-function evidenceLevelForStep(step: ExecutionTraceStep): LoopTraceEvidenceLevel {
-  if (step.evidenceSource === "ci") return "ci";
-  if (isHarnessCommandEvidence(step)) return "command";
-  return "manual";
-}
-
-function isHarnessCommandEvidence(step: ExecutionTraceStep): boolean {
-  return (
-    step.evidenceSource === "command" &&
-    step.capturedBy === "repo-context" &&
-    step.exitCode === 0 &&
-    Boolean(step.command && step.startedAt && step.finishedAt && step.stdoutHash && step.stderrHash && step.workingTreeHashBefore && step.workingTreeHashAfter)
-  );
-}
-
-function evidenceRank(level: LoopTraceEvidenceLevel): number {
-  if (level === "ci") return 3;
-  if (level === "command") return 2;
-  if (level === "manual") return 1;
-  return 0;
 }
 
 function isGeneratedContextState(file: string): boolean {

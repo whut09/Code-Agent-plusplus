@@ -249,6 +249,8 @@ Each trace records:
 - command evidence captured by `repo-context trace run`, including exit code, timestamps, stdout/stderr hashes, and working-tree hashes before and after execution
 - final state such as `planned`, `in_progress`, `partial_success`, `success`, `failed`, or `blocked`
 
+Trace steps are not trusted as raw logs. `evidenceSatisfies()` evaluates whether a trace step can satisfy a harness requirement by checking the requirement type, required command match, exit code, working-tree hash, and whether the evidence was recorded after the last edit step. Command/CI evidence must match the current actionable working-tree hash, excluding generated context and trace files, so a test run does not stay valid after later source edits.
+
 Example:
 
 ```json

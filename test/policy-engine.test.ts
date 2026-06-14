@@ -98,7 +98,7 @@ test("policy engine prefers harness-captured command evidence", async () => {
     const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
     runTraceCommand(root, trace.id, {
       action: "run-test",
-      command: "node -e \"console.log('ok')\"",
+      command: "npm run test",
       reason: "test command evidence"
     });
     runTraceCommand(root, trace.id, {
@@ -131,7 +131,7 @@ test("policy engine does not treat policy wording as contract validation", async
     const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
     runTraceCommand(root, trace.id, {
       action: "run-test",
-      command: "node -e \"console.log('ok')\"",
+      command: "npm run test",
       reason: "policy smoke test evidence"
     });
 
@@ -141,6 +141,32 @@ test("policy engine does not treat policy wording as contract validation", async
     assert.equal(report.passed, false);
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.tests" && finding.status === "satisfied"));
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.contract-validation" && finding.status === "missing"));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("policy engine rejects stale command evidence after later edits", async () => {
+  const root = createPolicyRepo();
+  try {
+    await prepareGeneratedContext(root);
+    writeFileSync(path.join(root, "src", "core", "session.ts"), "export function loginSession() { return 'first edit'; }\n", "utf8");
+
+    const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
+    runTraceCommand(root, trace.id, {
+      action: "run-test",
+      command: "npm run test",
+      reason: "test command evidence"
+    });
+    writeFileSync(path.join(root, "src", "core", "session.ts"), "export function loginSession() { return 'second edit'; }\n", "utf8");
+
+    const context = await buildContextPackage(root);
+    const report = buildPolicyReport(context, { base: "main", traceId: trace.id });
+    const rendered = renderPolicyReport(report);
+
+    assert.equal(report.passed, false);
+    assert.ok(report.findings.some((finding) => finding.id === "policy.required.tests" && finding.status === "missing"));
+    assert.match(rendered, /Working tree hash is stale/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -168,7 +194,7 @@ function createPolicyRepo(): string {
   const root = mkdtempSync(path.join(tmpdir(), "repo-context-policy-"));
   mkdirSync(path.join(root, "src", "core"), { recursive: true });
   mkdirSync(path.join(root, "test", "core"), { recursive: true });
-  writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
+  writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"", check: "tsc --noEmit" } }), "utf8");
   writeFileSync(path.join(root, "src", "core", "session.ts"), "export function loginSession() { return 'ok'; }\n", "utf8");
   writeFileSync(path.join(root, "test", "core", "session.test.ts"), "import { loginSession } from '../../src/core/session.js';\nloginSession();\n", "utf8");
   return root;

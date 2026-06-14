@@ -148,7 +148,7 @@ export function appendExecutionTraceStep(root: string, traceId: string, input: T
 
 export function runTraceCommand(root: string, traceId: string, input: TraceCommandRunInput): TraceCommandRunResult {
   const startedAt = new Date().toISOString();
-  const workingTreeHashBefore = hashWorkingTree(root);
+  const workingTreeHashBefore = currentWorkingTreeHash(root);
   const result = spawnSync(input.command, {
     cwd: root,
     shell: true,
@@ -160,7 +160,7 @@ export function runTraceCommand(root: string, traceId: string, input: TraceComma
   const rawStderr = typeof result.stderr === "string" ? result.stderr : "";
   const stderr = result.error ? `${rawStderr}${rawStderr ? "\n" : ""}${result.error.message}` : rawStderr;
   const exitCode = typeof result.status === "number" ? result.status : result.error ? 1 : null;
-  const workingTreeHashAfter = hashWorkingTree(root);
+  const workingTreeHashAfter = currentWorkingTreeHash(root);
   const trace = appendExecutionTraceStep(root, traceId, {
     agent: input.agent,
     action: input.action ?? "run-test",
@@ -277,9 +277,10 @@ function summarizeCommandOutput(stdout: string, stderr: string): string {
   return combined.length > 2000 ? `${combined.slice(0, 2000)}\n... truncated ...` : combined;
 }
 
-function hashWorkingTree(root: string): string {
-  const status = safeGit(root, ["status", "--porcelain=v1", "--untracked-files=all"]);
-  const diff = safeGit(root, ["diff", "--binary"]);
+export function currentWorkingTreeHash(root: string): string {
+  const pathspec = ["--", ".", ":(exclude).agent-context/**", ":(exclude)AGENTS.md"];
+  const status = safeGit(root, ["status", "--porcelain=v1", "--untracked-files=all", ...pathspec]);
+  const diff = safeGit(root, ["diff", "--binary", ...pathspec]);
   return hashText([status, diff].join("\n"));
 }
 
