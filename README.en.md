@@ -220,6 +220,8 @@ This combines existing code-agent execution with Repo-to-Agent-Context's control
 
 The project supports two operating modes:
 
+For the detailed entry-point isolation guide, see [docs/integration-modes.md](docs/integration-modes.md).
+
 ### Mode 1: Code Agent-Led, Repo-to-Agent-Context Constrained
 
 This is the fastest integration path. Codex, Claude Code, Cursor, OpenCode, or MiMoCode remains the main actor and calls Repo-to-Agent-Context through MCP or CLI:

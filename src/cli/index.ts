@@ -444,7 +444,7 @@ program
   .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
   .option("-b, --token-budget <tokens>", "task run context token budget", parseInteger)
   .option("--base <ref>", "base git ref for impact and verification reports", "main")
-  .description("Write a complete task run under .agent-context/runs/<task-id> without editing code.")
+  .description("Agent-led handoff: write .agent-context/runs/<task-id> without spawning a code-agent executor.")
   .action(async (args: string[], options: { repo?: string | string[]; type: TaskType; tokenBudget?: number; base: string }) => {
     const { task, repo } = resolveTaskArguments(args, options.repo);
     const context = await buildContextPackage(repo);
@@ -522,7 +522,7 @@ program
   .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
   .option("--dry-run", "exercise the harness using the mock executor without editing files")
   .option("--json", "print machine-readable orchestrator report")
-  .description("Run the harness-led flow: plan/pack -> executor -> diff/trace evidence -> policy/impact/verify -> final decision.")
+  .description("Harness-led flow: plan/pack -> executor -> diff/trace evidence -> policy/impact/verify -> final decision.")
   .action(
     async (
       args: string[],
@@ -557,7 +557,7 @@ program
     }
   );
 
-const agent = program.command("agent").description("Run external coding agents under Repo-to-Agent-Context harness control.");
+const agent = program.command("agent").description("Harness-led executor commands for external coding agents.");
 
 agent
   .command("run")
@@ -572,7 +572,7 @@ agent
   .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
   .option("--dry-run", "exercise the harness using the mock executor without editing files")
   .option("--json", "print machine-readable orchestrator report")
-  .description("Alias for a one-pass harness-led orchestrator run with a selected coding agent executor.")
+  .description("Harness-led alias for one orchestrator pass with a selected coding agent executor.")
   .action(
     async (
       args: string[],

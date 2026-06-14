@@ -75,6 +75,8 @@ This keeps the project distinct from repo summarizers, README generators, and ra
 
 For a source-level walkthrough of the runtime loop, see [Loop Engineering Code Path](loop-engineering.md). The Chinese version is [Loop Engineering 源码链路](loop-engineering.zh-CN.md).
 
+For the two integration modes and their isolated entry points, see [Integration Modes and Entry Isolation](integration-modes.md). The Chinese version is [两套集成模式与入口隔离](integration-modes.zh-CN.md).
+
 ## Scanner
 
 The scanner walks the repository while respecting `.gitignore` and built-in excludes for dependency folders, build artifacts, generated output, virtual environments, and common caches.

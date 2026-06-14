@@ -123,7 +123,8 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
 function defaultWorkflow(): string[] {
   return [
     "Read `AGENTS.md` only before the task is concrete.",
-    'For a concrete task, run `repo-context run "<task>" .` or inspect `.agent-context/runs/<task-id>/` when a task run exists.',
+    'Agent-led handoff: run `repo-context run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.',
+    'Harness-led executor flow: run `repo-context orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>"` when Repo-to-Agent-Context should own the final gate.',
     "Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.",
     "Prefer source files over generated summaries for behavior, API, and test decisions."
   ];

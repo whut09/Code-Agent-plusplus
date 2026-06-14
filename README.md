@@ -220,6 +220,8 @@ Repo-to-Agent-Context
 
 项目支持两种工作模式：
 
+- 详细入口隔离说明见 [docs/integration-modes.zh-CN.md](docs/integration-modes.zh-CN.md)。
+
 ### 模式一：Code Agent 主导，Repo-to-Agent-Context 约束
 
 这是当前最容易接入的方式。Codex / Claude Code / Cursor / OpenCode / MiMoCode 作为主执行者，通过 MCP 或 CLI 调用 Repo-to-Agent-Context：
