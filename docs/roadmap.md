@@ -1,6 +1,8 @@
 # Roadmap
 
-Repo-to-Agent-Context should evolve from "generate files that help an agent read a repo" into "generate the context and guardrails an agent needs to safely complete a task in a repo." Future work should prioritize task context, impact analysis, test selection, edit boundaries, verification loops, and measurable context quality over more generic summary documents.
+Repo-to-Agent-Context should evolve from "generate files that help an agent read a repo" into an External Agent Harness Control Plane: generate the context, boundaries, evidence requirements, and guardrails an existing coding agent needs to safely complete a task in a repo.
+
+The project should not become another coding agent. OpenCode, MiMoCode / MiMoCodex, Codex CLI, and Claude Code already own TUI, model providers, tool calling, shell/edit/read/grep, sessions, subagents, workflow runtimes, and memory. Repo-to-Agent-Context should own repository analysis, task-aware context, edit boundaries, contracts, diff impact, test recommendations, evidence validation, policy gates, freshness/drift, context delta, and repair/finalize decisions.
 
 ## v0.2: Task Context Enhancement
 
@@ -34,10 +36,50 @@ Repo-to-Agent-Context should evolve from "generate files that help an agent read
 - Incremental cache for file hashes, index entries, dependency graphs, and tokenizer counts
 
 - MCP server
+- MCP tools for external agents: build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize
+- OpenCode / MiMoCode / MiMoCodex MCP usage guide
 - VS Code/Cursor extension
 - Codex and Claude Code adapters
 - Web graph viewer
 - Unified retriever adapters for static, ripgrep, LightRAG, embedding, and hybrid retrieval
+
+## v0.6: Agent Executor Wrappers
+
+- `AgentExecutor` interface for external coding agents:
+
+```ts
+export interface AgentExecutor {
+  name: "opencode" | "mimocode" | "codex" | "claude-code" | "mock";
+  run(input: { repo: string; task: string; prompt: string; agent?: string; outputDir: string; env?: Record<string, string> }): Promise<{
+    exitCode: number;
+    eventsPath?: string;
+    finalText?: string;
+    changedFiles: string[];
+    diffPath: string;
+  }>;
+}
+```
+
+- `repo-context agent run "<task>" . --executor opencode`
+- `repo-context agent run "<task>" . --executor mimocode`
+- Mock executor for CI and deterministic tests
+- Event normalizer for OpenCode JSON events, MiMoCode events, Codex JSONL, and Claude Code transcripts
+- One-shot flow: `pack -> run agent -> collect diff -> policy/tests/impact/verify`
+
+## v0.7: Orchestrator Loop
+
+- `repo-context orchestrate "<task>" . --executor opencode --max-loops 3 --fail-on required`
+- `repo-context orchestrate "<task>" . --executor mimocode --max-loops 3 --fail-on required`
+- Loop flow: `plan -> pack -> execute -> collect diff -> policy -> tests -> impact -> verify -> decision -> repair/finalize`
+- Runtime state persisted under `.agent-context/runs/<task-id>/state.json`
+- Repair planner that can repack context, request missing tests, or stop on policy failure
+- Finalize gate that requires fresh context, valid contracts, current test evidence, and no forbidden edits
+
+## v0.8: Agent Harness Benchmark
+
+- Compare no context, AGENTS.md only, context pack, and orchestrated external-agent loop
+- Measure wrong file edits, test failures, steps per task, token usage, stale evidence reuse, and repair loops
+- First targets: OpenCode, MiMoCode / MiMoCodex, Codex CLI, Claude Code
 
 ## Longer-Term Language Analysis
 

@@ -64,6 +64,8 @@ The v2 architecture is organized around five responsibilities:
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, and regression guards.
 - Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP server scaffold and core tools exist today; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `repo_context_build`, `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
 
+- External Agent Executor Layer: planned adapters for OpenCode, MiMoCode / MiMoCodex, Codex CLI, and Claude Code. These agents should remain responsible for reading files, editing code, running commands, and using their own tools. Repo-to-Agent-Context should orchestrate context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors.
+
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
 For a source-level walkthrough of the runtime loop, see [Loop Engineering Code Path](loop-engineering.md). The Chinese version is [Loop Engineering 源码链路](loop-engineering.zh-CN.md).

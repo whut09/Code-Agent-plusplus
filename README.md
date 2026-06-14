@@ -195,6 +195,28 @@ repo-context-mcp
 - `required`：forbidden + missing required actions 失败，是默认值，适合 PR 检查。
 - `risk`：forbidden + required + risk warnings 都失败，等价于旧的 `--strict`，适合 main 分支或发布门禁。
 
+## OpenCode / MiMoCode 适用性
+
+Repo-to-Agent-Context 不应该重写 OpenCode / MiMoCode / MiMoCodex 这类 coding agent runtime。更好的定位是 External Agent Harness Control Plane：
+
+```txt
+OpenCode / MiMoCode / Codex / Claude Code
+  -> 负责读代码、改代码、跑命令、调用工具
+
+Repo-to-Agent-Context
+  -> 负责上下文、边界、trace、policy、impact、tests、verify、repair/finalize 决策
+```
+
+这让项目和 OpenCode / MiMoCode 天然互补：它们负责执行，Repo-to-Agent-Context 负责让执行更少乱读、更少乱改、改完知道怎么验证。
+
+推荐三阶段接入：
+
+1. MCP 接入：让 OpenCode / MiMoCode 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。
+2. Executor Wrapper：新增 `repo-context agent run "<task>" . --executor opencode|mimocode`，完成 `pack -> run agent -> collect diff -> verify`。
+3. Orchestrator Loop：新增 `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> policy/tests/impact/verify -> repair/finalize`。
+
+核心抽象会是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI 或 Claude Code；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
+
 ## MCP / Agent Native Runtime
 
 `repo-context-mcp` 当前提供 stdio MCP server 和一组工具定义。它已经可以被支持 MCP 的客户端或自研 Agent 接入；Claude Code、Cursor、Codex CLI、LibreChat、OpenHands 等端到端集成仍按客户端逐个验证。

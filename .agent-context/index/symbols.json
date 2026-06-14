@@ -3930,6 +3930,60 @@
     "line": 1
   },
   {
+    "name": "LlmClient",
+    "kind": "interface",
+    "filePath": "src/llm/provider.ts",
+    "line": 3
+  },
+  {
+    "name": "createLlmClient",
+    "kind": "function",
+    "filePath": "src/llm/provider.ts",
+    "line": 7
+  },
+  {
+    "name": "OpenAiCompatibleClient",
+    "kind": "class",
+    "filePath": "src/llm/provider.ts",
+    "line": 15
+  },
+  {
+    "name": "url",
+    "kind": "const",
+    "filePath": "src/llm/provider.ts",
+    "line": 19
+  },
+  {
+    "name": "response",
+    "kind": "const",
+    "filePath": "src/llm/provider.ts",
+    "line": 20
+  },
+  {
+    "name": "payload",
+    "kind": "const",
+    "filePath": "src/llm/provider.ts",
+    "line": 47
+  },
+  {
+    "name": "content",
+    "kind": "const",
+    "filePath": "src/llm/provider.ts",
+    "line": 50
+  },
+  {
+    "name": "isPlaceholder",
+    "kind": "function",
+    "filePath": "src/llm/provider.ts",
+    "line": 59
+  },
+  {
+    "name": "ensureTrailingSlash",
+    "kind": "function",
+    "filePath": "src/llm/provider.ts",
+    "line": 63
+  },
+  {
     "name": "CACHE_VERSION",
     "kind": "const",
     "filePath": "src/core/cache.ts",
@@ -6588,60 +6642,6 @@
     "line": 91
   },
   {
-    "name": "LlmClient",
-    "kind": "interface",
-    "filePath": "src/llm/provider.ts",
-    "line": 3
-  },
-  {
-    "name": "createLlmClient",
-    "kind": "function",
-    "filePath": "src/llm/provider.ts",
-    "line": 7
-  },
-  {
-    "name": "OpenAiCompatibleClient",
-    "kind": "class",
-    "filePath": "src/llm/provider.ts",
-    "line": 15
-  },
-  {
-    "name": "url",
-    "kind": "const",
-    "filePath": "src/llm/provider.ts",
-    "line": 19
-  },
-  {
-    "name": "response",
-    "kind": "const",
-    "filePath": "src/llm/provider.ts",
-    "line": 20
-  },
-  {
-    "name": "payload",
-    "kind": "const",
-    "filePath": "src/llm/provider.ts",
-    "line": 47
-  },
-  {
-    "name": "content",
-    "kind": "const",
-    "filePath": "src/llm/provider.ts",
-    "line": 50
-  },
-  {
-    "name": "isPlaceholder",
-    "kind": "function",
-    "filePath": "src/llm/provider.ts",
-    "line": 59
-  },
-  {
-    "name": "ensureTrailingSlash",
-    "kind": "function",
-    "filePath": "src/llm/provider.ts",
-    "line": 63
-  },
-  {
     "name": "repoContextMcpToolNames",
     "kind": "const",
     "filePath": "src/mcp/server.ts",
@@ -7126,294 +7126,6 @@
     "kind": "function",
     "filePath": "src/mcp/server.ts",
     "line": 704
-  },
-  {
-    "name": "ExternalProtocolRetriever",
-    "kind": "class",
-    "filePath": "src/retrievers/external.ts",
-    "line": 3
-  },
-  {
-    "name": "HybridContextRetriever",
-    "kind": "class",
-    "filePath": "src/retrievers/hybrid.ts",
-    "line": 4
-  },
-  {
-    "name": "merged",
-    "kind": "const",
-    "filePath": "src/retrievers/hybrid.ts",
-    "line": 10
-  },
-  {
-    "name": "hits",
-    "kind": "const",
-    "filePath": "src/retrievers/hybrid.ts",
-    "line": 12
-  },
-  {
-    "name": "current",
-    "kind": "const",
-    "filePath": "src/retrievers/hybrid.ts",
-    "line": 14
-  },
-  {
-    "name": "createContextRetriever",
-    "kind": "function",
-    "filePath": "src/retrievers/index.ts",
-    "line": 11
-  },
-  {
-    "name": "renderContextHits",
-    "kind": "function",
-    "filePath": "src/retrievers/index.ts",
-    "line": 18
-  },
-  {
-    "name": "RipgrepContextRetriever",
-    "kind": "class",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 7
-  },
-  {
-    "name": "terms",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 13
-  },
-  {
-    "name": "fileMap",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 16
-  },
-  {
-    "name": "hitMap",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 17
-  },
-  {
-    "name": "file",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 20
-  },
-  {
-    "name": "current",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 22
-  },
-  {
-    "name": "lines",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 25
-  },
-  {
-    "name": "file",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 32
-  },
-  {
-    "name": "current",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 34
-  },
-  {
-    "name": "runRipgrep",
-    "kind": "function",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 43
-  },
-  {
-    "name": "output",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 45
-  },
-  {
-    "name": "parseRgLine",
-    "kind": "function",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 60
-  },
-  {
-    "name": "match",
-    "kind": "const",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 61
-  },
-  {
-    "name": "hitFor",
-    "kind": "function",
-    "filePath": "src/retrievers/ripgrep.ts",
-    "line": 70
-  },
-  {
-    "name": "StaticContextRetriever",
-    "kind": "class",
-    "filePath": "src/retrievers/static.ts",
-    "line": 5
-  },
-  {
-    "name": "terms",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 11
-  },
-  {
-    "name": "fileMap",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 12
-  },
-  {
-    "name": "changed",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 13
-  },
-  {
-    "name": "docs",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 14
-  },
-  {
-    "name": "hits",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 15
-  },
-  {
-    "name": "file",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 17
-  },
-  {
-    "name": "haystack",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 19
-  },
-  {
-    "name": "pathScore",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 20
-  },
-  {
-    "name": "textScore",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 21
-  },
-  {
-    "name": "changedBoost",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 22
-  },
-  {
-    "name": "importance",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 23
-  },
-  {
-    "name": "score",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 24
-  },
-  {
-    "name": "taskTerms",
-    "kind": "function",
-    "filePath": "src/retrievers/static.ts",
-    "line": 47
-  },
-  {
-    "name": "scoreTerms",
-    "kind": "function",
-    "filePath": "src/retrievers/static.ts",
-    "line": 58
-  },
-  {
-    "name": "snippetFor",
-    "kind": "function",
-    "filePath": "src/retrievers/static.ts",
-    "line": 62
-  },
-  {
-    "name": "normalized",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 63
-  },
-  {
-    "name": "lower",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 64
-  },
-  {
-    "name": "index",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 65
-  },
-  {
-    "name": "start",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 70
-  },
-  {
-    "name": "end",
-    "kind": "const",
-    "filePath": "src/retrievers/static.ts",
-    "line": 71
-  },
-  {
-    "name": "matchesFilters",
-    "kind": "function",
-    "filePath": "src/retrievers/static.ts",
-    "line": 75
-  },
-  {
-    "name": "sortHits",
-    "kind": "function",
-    "filePath": "src/retrievers/static.ts",
-    "line": 81
-  },
-  {
-    "name": "RetrieverProvider",
-    "kind": "type",
-    "filePath": "src/retrievers/types.ts",
-    "line": 1
-  },
-  {
-    "name": "ContextRetrieverOptions",
-    "kind": "interface",
-    "filePath": "src/retrievers/types.ts",
-    "line": 3
-  },
-  {
-    "name": "ContextHit",
-    "kind": "interface",
-    "filePath": "src/retrievers/types.ts",
-    "line": 10
-  },
-  {
-    "name": "ContextRetriever",
-    "kind": "interface",
-    "filePath": "src/retrievers/types.ts",
-    "line": 22
   },
   {
     "name": "renderAgentsMd",
@@ -12216,6 +11928,294 @@
     "line": 342
   },
   {
+    "name": "ExternalProtocolRetriever",
+    "kind": "class",
+    "filePath": "src/retrievers/external.ts",
+    "line": 3
+  },
+  {
+    "name": "HybridContextRetriever",
+    "kind": "class",
+    "filePath": "src/retrievers/hybrid.ts",
+    "line": 4
+  },
+  {
+    "name": "merged",
+    "kind": "const",
+    "filePath": "src/retrievers/hybrid.ts",
+    "line": 10
+  },
+  {
+    "name": "hits",
+    "kind": "const",
+    "filePath": "src/retrievers/hybrid.ts",
+    "line": 12
+  },
+  {
+    "name": "current",
+    "kind": "const",
+    "filePath": "src/retrievers/hybrid.ts",
+    "line": 14
+  },
+  {
+    "name": "createContextRetriever",
+    "kind": "function",
+    "filePath": "src/retrievers/index.ts",
+    "line": 11
+  },
+  {
+    "name": "renderContextHits",
+    "kind": "function",
+    "filePath": "src/retrievers/index.ts",
+    "line": 18
+  },
+  {
+    "name": "RipgrepContextRetriever",
+    "kind": "class",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 7
+  },
+  {
+    "name": "terms",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 13
+  },
+  {
+    "name": "fileMap",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 16
+  },
+  {
+    "name": "hitMap",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 17
+  },
+  {
+    "name": "file",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 20
+  },
+  {
+    "name": "current",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 22
+  },
+  {
+    "name": "lines",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 25
+  },
+  {
+    "name": "file",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 32
+  },
+  {
+    "name": "current",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 34
+  },
+  {
+    "name": "runRipgrep",
+    "kind": "function",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 43
+  },
+  {
+    "name": "output",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 45
+  },
+  {
+    "name": "parseRgLine",
+    "kind": "function",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 60
+  },
+  {
+    "name": "match",
+    "kind": "const",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 61
+  },
+  {
+    "name": "hitFor",
+    "kind": "function",
+    "filePath": "src/retrievers/ripgrep.ts",
+    "line": 70
+  },
+  {
+    "name": "StaticContextRetriever",
+    "kind": "class",
+    "filePath": "src/retrievers/static.ts",
+    "line": 5
+  },
+  {
+    "name": "terms",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 11
+  },
+  {
+    "name": "fileMap",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 12
+  },
+  {
+    "name": "changed",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 13
+  },
+  {
+    "name": "docs",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 14
+  },
+  {
+    "name": "hits",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 15
+  },
+  {
+    "name": "file",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 17
+  },
+  {
+    "name": "haystack",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 19
+  },
+  {
+    "name": "pathScore",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 20
+  },
+  {
+    "name": "textScore",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 21
+  },
+  {
+    "name": "changedBoost",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 22
+  },
+  {
+    "name": "importance",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 23
+  },
+  {
+    "name": "score",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 24
+  },
+  {
+    "name": "taskTerms",
+    "kind": "function",
+    "filePath": "src/retrievers/static.ts",
+    "line": 47
+  },
+  {
+    "name": "scoreTerms",
+    "kind": "function",
+    "filePath": "src/retrievers/static.ts",
+    "line": 58
+  },
+  {
+    "name": "snippetFor",
+    "kind": "function",
+    "filePath": "src/retrievers/static.ts",
+    "line": 62
+  },
+  {
+    "name": "normalized",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 63
+  },
+  {
+    "name": "lower",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 64
+  },
+  {
+    "name": "index",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 65
+  },
+  {
+    "name": "start",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 70
+  },
+  {
+    "name": "end",
+    "kind": "const",
+    "filePath": "src/retrievers/static.ts",
+    "line": 71
+  },
+  {
+    "name": "matchesFilters",
+    "kind": "function",
+    "filePath": "src/retrievers/static.ts",
+    "line": 75
+  },
+  {
+    "name": "sortHits",
+    "kind": "function",
+    "filePath": "src/retrievers/static.ts",
+    "line": 81
+  },
+  {
+    "name": "RetrieverProvider",
+    "kind": "type",
+    "filePath": "src/retrievers/types.ts",
+    "line": 1
+  },
+  {
+    "name": "ContextRetrieverOptions",
+    "kind": "interface",
+    "filePath": "src/retrievers/types.ts",
+    "line": 3
+  },
+  {
+    "name": "ContextHit",
+    "kind": "interface",
+    "filePath": "src/retrievers/types.ts",
+    "line": 10
+  },
+  {
+    "name": "ContextRetriever",
+    "kind": "interface",
+    "filePath": "src/retrievers/types.ts",
+    "line": 22
+  },
+  {
     "name": "list_admin_actions",
     "kind": "function",
     "line": 2,
@@ -12348,6 +12348,30 @@
     "line": 3
   },
   {
+    "name": "requireActiveSession",
+    "kind": "function",
+    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+    "line": 3
+  },
+  {
+    "name": "Session",
+    "kind": "interface",
+    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+    "line": 1
+  },
+  {
+    "name": "isSessionExpired",
+    "kind": "function",
+    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+    "line": 3
+  },
+  {
+    "name": "refreshSession",
+    "kind": "function",
+    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+    "line": 7
+  },
+  {
     "name": "AuditEvent",
     "kind": "interface",
     "filePath": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
@@ -12378,36 +12402,6 @@
     "line": 5
   },
   {
-    "name": "requireActiveSession",
-    "kind": "function",
-    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-    "line": 3
-  },
-  {
-    "name": "Session",
-    "kind": "interface",
-    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-    "line": 1
-  },
-  {
-    "name": "isSessionExpired",
-    "kind": "function",
-    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-    "line": 3
-  },
-  {
-    "name": "refreshSession",
-    "kind": "function",
-    "filePath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-    "line": 7
-  },
-  {
-    "name": "createSession",
-    "kind": "function",
-    "filePath": "test/fixtures/next-app/src/auth/session.ts",
-    "line": 1
-  },
-  {
     "name": "User",
     "kind": "class",
     "line": 1,
@@ -12420,6 +12414,12 @@
     "filePath": "test/fixtures/python-package/src/app/service.py"
   },
   {
+    "name": "createSession",
+    "kind": "function",
+    "filePath": "test/fixtures/next-app/src/auth/session.ts",
+    "line": 1
+  },
+  {
     "name": "apiConfig",
     "kind": "const",
     "filePath": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
@@ -12429,6 +12429,18 @@
     "name": "startServer",
     "kind": "function",
     "filePath": "benchmarks/fixtures/monorepo/packages/api/src/server.ts",
+    "line": 3
+  },
+  {
+    "name": "renderApp",
+    "kind": "function",
+    "filePath": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
+    "line": 3
+  },
+  {
+    "name": "webConfig",
+    "kind": "const",
+    "filePath": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
     "line": 3
   },
   {
@@ -12454,18 +12466,6 @@
     "kind": "function",
     "filePath": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
     "line": 5
-  },
-  {
-    "name": "renderApp",
-    "kind": "function",
-    "filePath": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
-    "line": 3
-  },
-  {
-    "name": "webConfig",
-    "kind": "const",
-    "filePath": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
-    "line": 3
   },
   {
     "name": "apiConfig",

@@ -195,6 +195,28 @@ repo-context-mcp
 - `required`: fail forbidden edits plus missing required actions; this is the default and works well for PR checks.
 - `risk`: fail forbidden, required, and risk warnings; equivalent to the legacy `--strict` mode and useful for main-branch or release gates.
 
+## OpenCode / MiMoCode Fit
+
+Repo-to-Agent-Context should not reimplement coding-agent runtimes such as OpenCode, MiMoCode, or MiMoCodex. The stronger product position is External Agent Harness Control Plane:
+
+```txt
+OpenCode / MiMoCode / Codex / Claude Code
+  -> read code, edit code, run commands, call tools
+
+Repo-to-Agent-Context
+  -> context, boundaries, traces, policies, impact, tests, verify, repair/finalize decisions
+```
+
+This makes the project naturally complementary to OpenCode and MiMoCode: they execute; Repo-to-Agent-Context keeps execution repo-aware, bounded, and verifiable.
+
+Recommended integration path:
+
+1. MCP integration: let OpenCode / MiMoCode call `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_evaluate`, `repo_context_repair`, and `repo_context_finalize`.
+2. Executor Wrapper: add `repo-context agent run "<task>" . --executor opencode|mimocode` for `pack -> run agent -> collect diff -> verify`.
+3. Orchestrator Loop: add `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`, where Repo-to-Agent-Context owns `plan -> pack -> execute -> policy/tests/impact/verify -> repair/finalize`.
+
+The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, or Claude Code; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
+
 ## MCP / Agent Native Runtime
 
 `repo-context-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Claude Code, Cursor, Codex CLI, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
