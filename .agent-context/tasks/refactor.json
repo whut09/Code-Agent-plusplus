@@ -2,12 +2,12 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11103,
-  "remainingBudget": 897,
+  "estimatedTokens": 11547,
+  "remainingBudget": 453,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 306,
+      "score": 307,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -16,19 +16,44 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 257,
+      "score": 273,
       "reasons": [
         "lexical match: code",
         "direct dependency of src/outputs/context-delta.ts",
         "direct dependency of src/outputs/execution-trace.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
         "shared API/refactor risk"
       ],
       "category": "direct-source",
       "estimatedTokens": 68
     },
     {
+      "path": "src/outputs/orchestrator.ts",
+      "score": 244,
+      "reasons": [
+        "lexical match: code",
+        "direct importer of src/outputs/execution-trace.ts",
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 366
+    },
+    {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 240,
+      "reasons": [
+        "lexical match: code",
+        "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 332
+    },
+    {
       "path": "assets/agent-context-code-layers.png",
-      "score": 232,
+      "score": 222,
       "reasons": [
         "lexical match: code"
       ],
@@ -36,19 +61,8 @@
       "estimatedTokens": 38
     },
     {
-      "path": "src/outputs/execution-trace.ts",
-      "score": 223,
-      "reasons": [
-        "lexical match: code",
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 332
-    },
-    {
       "path": "src/outputs/context-delta.ts",
-      "score": 223,
+      "score": 216,
       "reasons": [
         "lexical match: code",
         "direct importer of src/outputs/markdown.ts",
@@ -59,7 +73,7 @@
     },
     {
       "path": "src/core/token-estimator.ts",
-      "score": 195,
+      "score": 188,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -69,8 +83,9 @@
     },
     {
       "path": "src/cli/index.ts",
-      "score": 114,
+      "score": 142,
       "reasons": [
+        "direct importer of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/execution-trace.ts",
         "direct importer of src/outputs/context-delta.ts",
         "direct importer of src/core/token-estimator.ts",
@@ -78,7 +93,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 270
+      "estimatedTokens": 281
     },
     {
       "path": "src/mcp/server.ts",
@@ -91,6 +106,18 @@
       ],
       "category": "entrypoint",
       "estimatedTokens": 324
+    },
+    {
+      "path": "test/orchestrator.test.ts",
+      "score": 94,
+      "reasons": [
+        "direct importer of src/outputs/execution-trace.ts",
+        "direct importer of src/outputs/orchestrator.ts",
+        "related test",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 67
     },
     {
       "path": "test/context-delta.test.ts",
@@ -379,8 +406,9 @@
     },
     {
       "path": "src/outputs/task-run.ts",
-      "score": 74,
+      "score": 98,
       "reasons": [
+        "direct dependency of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/markdown.ts",
         "direct importer of src/outputs/execution-trace.ts",
         "shared API/refactor risk"
@@ -390,10 +418,11 @@
     },
     {
       "path": "src/outputs/loop-controller.ts",
-      "score": 74,
+      "score": 98,
       "reasons": [
         "direct importer of src/outputs/execution-trace.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -401,14 +430,27 @@
     },
     {
       "path": "src/outputs/policy-engine.ts",
-      "score": 74,
+      "score": 98,
       "reasons": [
+        "direct dependency of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/execution-trace.ts",
         "direct importer of src/outputs/markdown.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 255
+    },
+    {
+      "path": "src/core/types.ts",
+      "score": 90,
+      "reasons": [
+        "direct dependency of src/core/token-estimator.ts",
+        "direct dependency of src/outputs/context-delta.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 297
     },
     {
       "path": "src/outputs/rag.ts",
@@ -422,15 +464,48 @@
       "estimatedTokens": 113
     },
     {
-      "path": "src/core/types.ts",
-      "score": 66,
+      "path": "src/outputs/task-harness.ts",
+      "score": 70,
       "reasons": [
-        "direct dependency of src/core/token-estimator.ts",
-        "direct dependency of src/outputs/context-delta.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct importer of src/outputs/markdown.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 297
+      "estimatedTokens": 277
+    },
+    {
+      "path": "src/core/context-builder.ts",
+      "score": 70,
+      "reasons": [
+        "direct importer of src/core/token-estimator.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 106
+    },
+    {
+      "path": "src/outputs/writer.ts",
+      "score": 70,
+      "reasons": [
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct importer of src/core/token-estimator.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 246
+    },
+    {
+      "path": "src/outputs/impact.ts",
+      "score": 70,
+      "reasons": [
+        "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 230
     },
     {
       "path": "src/outputs/task-context.ts",
@@ -453,6 +528,16 @@
       "estimatedTokens": 159
     },
     {
+      "path": "src/core/git.ts",
+      "score": 48,
+      "reasons": [
+        "direct dependency of src/outputs/context-delta.ts",
+        "direct dependency of src/outputs/orchestrator.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 78
+    },
+    {
       "path": "src/core/freshness.ts",
       "score": 46,
       "reasons": [
@@ -463,16 +548,6 @@
       "estimatedTokens": 290
     },
     {
-      "path": "src/outputs/task-harness.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 277
-    },
-    {
       "path": "src/outputs/contract-validator.ts",
       "score": 46,
       "reasons": [
@@ -481,36 +556,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 327
-    },
-    {
-      "path": "src/core/context-builder.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/core/token-estimator.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 106
-    },
-    {
-      "path": "src/outputs/writer.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/core/token-estimator.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 246
-    },
-    {
-      "path": "src/outputs/impact.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 230
     },
     {
       "path": "src/outputs/test-selector.ts",
@@ -663,15 +708,6 @@
       "estimatedTokens": 56
     },
     {
-      "path": "src/core/git.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/outputs/context-delta.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 78
-    },
-    {
       "path": "src/retrievers/static.ts",
       "score": 18,
       "reasons": [
@@ -708,15 +744,6 @@
       "estimatedTokens": 79
     },
     {
-      "path": "src/core/indexer.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 225
-    },
-    {
       "path": "src/config/load-config.ts",
       "score": 18,
       "reasons": [
@@ -724,6 +751,15 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 160
+    },
+    {
+      "path": "src/core/indexer.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 225
     },
     {
       "path": "src/analyzers/python.ts",
@@ -909,7 +945,7 @@
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 306,
+      "score": 307,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -918,19 +954,44 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 257,
+      "score": 273,
       "reasons": [
         "lexical match: code",
         "direct dependency of src/outputs/context-delta.ts",
         "direct dependency of src/outputs/execution-trace.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
         "shared API/refactor risk"
       ],
       "category": "direct-source",
       "estimatedTokens": 68
     },
     {
+      "path": "src/outputs/orchestrator.ts",
+      "score": 244,
+      "reasons": [
+        "lexical match: code",
+        "direct importer of src/outputs/execution-trace.ts",
+        "direct importer of src/outputs/markdown.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 366
+    },
+    {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 240,
+      "reasons": [
+        "lexical match: code",
+        "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 332
+    },
+    {
       "path": "assets/agent-context-code-layers.png",
-      "score": 232,
+      "score": 222,
       "reasons": [
         "lexical match: code"
       ],
@@ -938,19 +999,8 @@
       "estimatedTokens": 38
     },
     {
-      "path": "src/outputs/execution-trace.ts",
-      "score": 223,
-      "reasons": [
-        "lexical match: code",
-        "direct importer of src/outputs/markdown.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 332
-    },
-    {
       "path": "src/outputs/context-delta.ts",
-      "score": 223,
+      "score": 216,
       "reasons": [
         "lexical match: code",
         "direct importer of src/outputs/markdown.ts",
@@ -961,7 +1011,7 @@
     },
     {
       "path": "src/core/token-estimator.ts",
-      "score": 195,
+      "score": 188,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -971,8 +1021,9 @@
     },
     {
       "path": "src/cli/index.ts",
-      "score": 114,
+      "score": 142,
       "reasons": [
+        "direct importer of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/execution-trace.ts",
         "direct importer of src/outputs/context-delta.ts",
         "direct importer of src/core/token-estimator.ts",
@@ -980,22 +1031,22 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 270
-    },
-    {
-      "path": "src/mcp/server.ts",
-      "score": 86,
-      "reasons": [
-        "direct importer of src/outputs/context-delta.ts",
-        "direct importer of src/outputs/execution-trace.ts",
-        "entrypoint",
-        "shared API/refactor risk"
-      ],
-      "category": "entrypoint",
-      "estimatedTokens": 324
+      "estimatedTokens": 281
     }
   ],
   "inspectIfNeeded": [
+    {
+      "path": "test/orchestrator.test.ts",
+      "score": 94,
+      "reasons": [
+        "direct importer of src/outputs/execution-trace.ts",
+        "direct importer of src/outputs/orchestrator.ts",
+        "related test",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 67
+    },
     {
       "path": "test/context-delta.test.ts",
       "score": 66,
@@ -1136,31 +1187,23 @@
       ],
       "category": "test",
       "estimatedTokens": 84
-    },
-    {
-      "path": "test/agents-md.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 62
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 11103,
-    "remaining": 897,
+    "used": 11547,
+    "remaining": 453,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 912,
+        "tokens": 1278,
         "files": [
           "benchmarks/tasks/refactor-config-loader.json",
           "src/outputs/markdown.ts",
-          "assets/agent-context-code-layers.png",
+          "src/outputs/orchestrator.ts",
           "src/outputs/execution-trace.ts",
+          "assets/agent-context-code-layers.png",
           "src/outputs/context-delta.ts",
           "src/core/token-estimator.ts"
         ]
@@ -1168,8 +1211,9 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2208,
+        "tokens": 2275,
         "files": [
+          "test/orchestrator.test.ts",
           "test/context-delta.test.ts",
           "test/execution-trace.test.ts",
           "test/loop-controller.test.ts",
@@ -1211,16 +1255,17 @@
           "src/outputs/task-run.ts",
           "src/outputs/loop-controller.ts",
           "src/outputs/policy-engine.ts",
-          "src/outputs/rag.ts",
           "src/core/types.ts",
-          "src/outputs/task-context.ts",
-          "src/outputs/agents-md.ts",
-          "src/core/freshness.ts",
+          "src/outputs/rag.ts",
           "src/outputs/task-harness.ts",
-          "src/outputs/contract-validator.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
           "src/outputs/impact.ts",
+          "src/outputs/task-context.ts",
+          "src/outputs/agents-md.ts",
+          "src/core/git.ts",
+          "src/core/freshness.ts",
+          "src/outputs/contract-validator.ts",
           "src/outputs/test-selector.ts",
           "src/benchmarks/benchmark.ts",
           "src/retrievers/index.ts",
@@ -1237,13 +1282,12 @@
           "src/outputs/repo-summary.ts",
           "src/outputs/token-savings.ts",
           "src/outputs/readiness.ts",
-          "src/core/git.ts",
           "src/retrievers/static.ts",
           "src/outputs/runtime-state.ts",
           "src/core/path-utils.ts",
           "src/retrievers/types.ts",
-          "src/core/indexer.ts",
           "src/config/load-config.ts",
+          "src/core/indexer.ts",
           "src/analyzers/python.ts",
           "src/analyzers/javascript.ts",
           "src/retrievers/ripgrep.ts"
@@ -1276,7 +1320,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 594,
+        "tokens": 605,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -1290,9 +1334,9 @@
     "npm run lint"
   ],
   "retrieval": {
-    "directMatches": 6,
-    "dependencyNeighbors": 50,
-    "tests": 31,
+    "directMatches": 7,
+    "dependencyNeighbors": 66,
+    "tests": 32,
     "configDocs": 17
   }
 }

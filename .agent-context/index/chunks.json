@@ -56,13 +56,13 @@
   {
     "path": "README.en.md",
     "moduleName": "root",
-    "tokenEstimate": 3932,
+    "tokenEstimate": 4185,
     "summary": "README.en.md is a docs file written as Markdown."
   },
   {
     "path": "README.md",
     "moduleName": "root",
-    "tokenEstimate": 3870,
+    "tokenEstimate": 4120,
     "summary": "README.md is a docs file written as Markdown."
   },
   {
@@ -146,7 +146,7 @@
   {
     "path": "docs/architecture.md",
     "moduleName": "docs",
-    "tokenEstimate": 5694,
+    "tokenEstimate": 5848,
     "summary": "docs/architecture.md is a docs file written as Markdown."
   },
   {
@@ -164,7 +164,7 @@
   {
     "path": "docs/roadmap.md",
     "moduleName": "docs",
-    "tokenEstimate": 1317,
+    "tokenEstimate": 1446,
     "summary": "docs/roadmap.md is a docs file written as Markdown."
   },
   {
@@ -244,6 +244,12 @@
     "moduleName": "test",
     "tokenEstimate": 1632,
     "summary": "test/mcp.test.ts contains 15 detected symbols, 7 imports, 0 exports."
+  },
+  {
+    "path": "test/orchestrator.test.ts",
+    "moduleName": "test",
+    "tokenEstimate": 908,
+    "summary": "test/orchestrator.test.ts contains 9 detected symbols, 8 imports, 0 exports."
   },
   {
     "path": "test/policy-engine.test.ts",
@@ -410,14 +416,32 @@
   {
     "path": "src/cli/index.ts",
     "moduleName": "cli",
-    "tokenEstimate": 9558,
-    "summary": "src/cli/index.ts contains 89 detected symbols, 28 imports, 0 exports."
+    "tokenEstimate": 10850,
+    "summary": "src/cli/index.ts contains 93 detected symbols, 29 imports, 0 exports."
   },
   {
     "path": "src/cli/task-args.ts",
     "moduleName": "cli",
     "tokenEstimate": 436,
     "summary": "src/cli/task-args.ts contains 16 detected symbols, 2 imports, 3 exports."
+  },
+  {
+    "path": "src/config/defaults.ts",
+    "moduleName": "config",
+    "tokenEstimate": 278,
+    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports."
+  },
+  {
+    "path": "src/config/load-config.ts",
+    "moduleName": "config",
+    "tokenEstimate": 2905,
+    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports."
+  },
+  {
+    "path": "src/config/starter-config.ts",
+    "moduleName": "config",
+    "tokenEstimate": 135,
+    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export."
   },
   {
     "path": "src/core/cache.ts",
@@ -522,34 +546,16 @@
     "summary": "src/core/validator.ts contains 11 detected symbols, 3 imports, 3 exports."
   },
   {
-    "path": "src/llm/provider.ts",
-    "moduleName": "llm",
-    "tokenEstimate": 479,
-    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports."
-  },
-  {
-    "path": "src/config/defaults.ts",
-    "moduleName": "config",
-    "tokenEstimate": 278,
-    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports."
-  },
-  {
-    "path": "src/config/load-config.ts",
-    "moduleName": "config",
-    "tokenEstimate": 2905,
-    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports."
-  },
-  {
-    "path": "src/config/starter-config.ts",
-    "moduleName": "config",
-    "tokenEstimate": 135,
-    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export."
-  },
-  {
     "path": "src/mcp/server.ts",
     "moduleName": "mcp",
     "tokenEstimate": 6161,
     "summary": "src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports."
+  },
+  {
+    "path": "src/llm/provider.ts",
+    "moduleName": "llm",
+    "tokenEstimate": 479,
+    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports."
   },
   {
     "path": "src/retrievers/external.ts",
@@ -676,6 +682,12 @@
     "moduleName": "outputs",
     "tokenEstimate": 371,
     "summary": "src/outputs/onboarding.ts contains 2 detected symbols, 2 imports, 1 export."
+  },
+  {
+    "path": "src/outputs/orchestrator.ts",
+    "moduleName": "outputs",
+    "tokenEstimate": 5039,
+    "summary": "src/outputs/orchestrator.ts contains 77 detected symbols, 15 imports, 9 exports."
   },
   {
     "path": "src/outputs/policy-engine.ts",
@@ -858,18 +870,6 @@
     "summary": "benchmarks/fixtures/fastapi-app/app/routes/users.py contains 2 detected Python symbols and 3 imports."
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "tokenEstimate": 19,
-    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "tokenEstimate": 197,
-    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown."
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
     "moduleName": "benchmarks/fixtures/monorepo/packages/api",
     "tokenEstimate": 7,
@@ -880,6 +880,18 @@
     "moduleName": "benchmarks/fixtures/monorepo/packages/api",
     "tokenEstimate": 197,
     "summary": "benchmarks/fixtures/monorepo/packages/api/README.md is a docs file written as Markdown."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "tokenEstimate": 19,
+    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "tokenEstimate": 197,
+    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown."
   },
   {
     "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
@@ -900,18 +912,6 @@
     "summary": "benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown."
   },
   {
-    "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-    "moduleName": "benchmarks/fixtures/react-app",
-    "tokenEstimate": 39,
-    "summary": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts contains 0 detected symbols, 1 import, 0 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-    "moduleName": "benchmarks/fixtures/react-app",
-    "tokenEstimate": 78,
-    "summary": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts contains 3 detected symbols, 0 imports, 2 exports."
-  },
-  {
     "path": "benchmarks/fixtures/react-app/src/billing/audit.ts",
     "moduleName": "benchmarks/fixtures/react-app",
     "tokenEstimate": 111,
@@ -922,6 +922,18 @@
     "moduleName": "benchmarks/fixtures/react-app",
     "tokenEstimate": 57,
     "summary": "benchmarks/fixtures/react-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+    "moduleName": "benchmarks/fixtures/react-app",
+    "tokenEstimate": 39,
+    "summary": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts contains 0 detected symbols, 1 import, 0 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+    "moduleName": "benchmarks/fixtures/react-app",
+    "tokenEstimate": 78,
+    "summary": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts contains 3 detected symbols, 0 imports, 2 exports."
   },
   {
     "path": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
@@ -1008,18 +1020,6 @@
     "summary": "test/fixtures/python-package/src/app/service.py contains 1 detected Python symbol and 1 import."
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "tokenEstimate": 64,
-    "summary": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts contains 2 detected symbols, 0 imports, 2 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "tokenEstimate": 38,
-    "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports."
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
     "moduleName": "benchmarks/fixtures/monorepo/packages/api",
     "tokenEstimate": 27,
@@ -1036,6 +1036,18 @@
     "moduleName": "benchmarks/fixtures/monorepo/packages/api",
     "tokenEstimate": 37,
     "summary": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts contains 0 detected symbols, 1 import, 0 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "tokenEstimate": 64,
+    "summary": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts contains 2 detected symbols, 0 imports, 2 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "tokenEstimate": 38,
+    "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports."
   },
   {
     "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",

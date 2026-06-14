@@ -595,6 +595,54 @@
       "isExternal": false
     },
     {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:assert/strict",
+      "specifier": "node:assert/strict",
+      "isExternal": true
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:os",
+      "specifier": "node:os",
+      "isExternal": true
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "node:test",
+      "specifier": "node:test",
+      "isExternal": true
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../src/core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "../src/outputs/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/orchestrator.test.ts",
+      "to": "src/outputs/orchestrator.ts",
+      "specifier": "../src/outputs/orchestrator.js",
+      "isExternal": false
+    },
+    {
       "from": "test/policy-engine.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1304,6 +1352,12 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/outputs/orchestrator.ts",
+      "specifier": "../outputs/orchestrator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/outputs/policy-engine.ts",
       "specifier": "../outputs/policy-engine.js",
       "isExternal": false
@@ -1373,6 +1427,42 @@
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
+    },
+    {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
     },
     {
       "from": "src/core/cache.ts",
@@ -1741,48 +1831,6 @@
       "isExternal": false
     },
     {
-      "from": "src/llm/provider.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/mcp/server.ts",
       "to": "node:path",
       "specifier": "node:path",
@@ -1888,6 +1936,12 @@
       "from": "src/mcp/server.ts",
       "to": "src/retrievers/types.ts",
       "specifier": "../retrievers/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
       "isExternal": false
     },
     {
@@ -2288,6 +2342,96 @@
     },
     {
       "from": "src/outputs/onboarding.ts",
+      "to": "src/outputs/markdown.ts",
+      "specifier": "./markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../core/context-builder.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/writer.ts",
+      "specifier": "./writer.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "./impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/loop-controller.ts",
+      "specifier": "./loop-controller.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/policy-engine.ts",
+      "specifier": "./policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/task-harness.ts",
+      "specifier": "./task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/task-run.ts",
+      "specifier": "./task-run.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/execution-trace.ts",
+      "specifier": "./execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
       "to": "src/outputs/markdown.ts",
       "specifier": "./markdown.js",
       "isExternal": false
@@ -2809,12 +2953,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "specifier": "../src/loader.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
       "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
       "specifier": "../../config/src/loader.js",
@@ -2830,6 +2968,12 @@
       "from": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
       "specifier": "../src/config.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "specifier": "../src/loader.js",
       "isExternal": false
     },
     {
@@ -2907,7 +3051,7 @@
     {
       "from": "cli",
       "to": "outputs",
-      "count": 13
+      "count": 14
     },
     {
       "from": "cli",
@@ -2962,7 +3106,7 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 40
+      "count": 43
     },
     {
       "from": "retrievers",
@@ -2997,7 +3141,7 @@
     {
       "from": "test",
       "to": "core",
-      "count": 36
+      "count": 37
     },
     {
       "from": "test",
@@ -3007,7 +3151,7 @@
     {
       "from": "test",
       "to": "outputs",
-      "count": 22
+      "count": 24
     },
     {
       "from": "test",

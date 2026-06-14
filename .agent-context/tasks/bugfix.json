@@ -2,12 +2,12 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 4087,
-  "remainingBudget": 7913,
+  "estimatedTokens": 4464,
+  "remainingBudget": 7536,
   "files": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 213,
+      "score": 214,
       "reasons": [
         "lexical match: regression"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 213,
+      "score": 214,
       "reasons": [
         "lexical match: regression"
       ],
@@ -43,7 +43,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 270
+      "estimatedTokens": 281
     },
     {
       "path": "test/task-harness.test.ts",
@@ -131,6 +131,15 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 255
+    },
+    {
+      "path": "src/outputs/orchestrator.ts",
+      "score": 28,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 366
     },
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -280,7 +289,7 @@
   "readFirst": [
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 213,
+      "score": 214,
       "reasons": [
         "lexical match: regression"
       ],
@@ -289,7 +298,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 213,
+      "score": 214,
       "reasons": [
         "lexical match: regression"
       ],
@@ -316,7 +325,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 270
+      "estimatedTokens": 281
     }
   ],
   "inspectIfNeeded": [
@@ -408,6 +417,15 @@
       "estimatedTokens": 255
     },
     {
+      "path": "src/outputs/orchestrator.ts",
+      "score": 28,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 366
+    },
+    {
       "path": "src/benchmarks/benchmark.ts",
       "score": 28,
       "reasons": [
@@ -460,21 +478,12 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 42
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 40
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 4087,
-    "remaining": 7913,
+    "used": 4464,
+    "remaining": 7536,
     "buckets": [
       {
         "name": "direct-source",
@@ -498,7 +507,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 2230,
+        "tokens": 2596,
         "files": [
           "src/outputs/task-run.ts",
           "src/core/types.ts",
@@ -506,6 +515,7 @@
           "src/core/git.ts",
           "src/outputs/loop-controller.ts",
           "src/outputs/policy-engine.ts",
+          "src/outputs/orchestrator.ts",
           "src/benchmarks/benchmark.ts",
           "src/outputs/contract-validator.ts",
           "src/outputs/task-context.ts"
@@ -534,7 +544,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 594,
+        "tokens": 605,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"
@@ -547,7 +557,7 @@
   ],
   "retrieval": {
     "directMatches": 2,
-    "dependencyNeighbors": 20,
+    "dependencyNeighbors": 21,
     "tests": 3,
     "configDocs": 13
   }

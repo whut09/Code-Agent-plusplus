@@ -64,6 +64,8 @@ node dist/cli/index.js build .
 
 ```bash
 repo-context run "fix login timeout bug" . --type bugfix
+repo-context orchestrate "fix login timeout bug" . --executor mock --fail-on required
+repo-context agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
 repo-context delta . --base main
 repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
@@ -105,6 +107,11 @@ repo-context drift .
 | token savings estimated + actual output tokens | ✅ implemented  |
 | readiness 分维度评分和硬上限                   | ✅ implemented  |
 | task plan / pack / run                         | ✅ implemented  |
+| harness orchestrator / `orchestrate`           | ✅ implemented  |
+| `agent run` executor wrapper                   | ✅ implemented  |
+| CI 和确定性测试用 mock executor                | ✅ implemented  |
+| 通用 executor command adapter                  | ✅ implemented  |
+| OpenCode / MiMoCode 原生事件 normalizer        | 🚧 planned      |
 | loop controller                                | ✅ implemented  |
 | runtime state machine / `state.json`           | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
@@ -170,6 +177,8 @@ repo-context build [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context run "<task>" [repo]
+repo-context orchestrate "<task>" [repo] --executor mock --fail-on required
+repo-context agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
 repo-context delta [repo] --base main
 repo-context evolve [repo] --base main
 repo-context loop "<task>" [repo] --phase after-edit
@@ -244,8 +253,8 @@ Repo-to-Agent-Context
 落地路线：
 
 1. MCP 接入：让 code agent 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
-2. Executor Wrapper：新增 `repo-context agent run "<task>" . --executor opencode|mimocode`，完成 `pack -> run agent -> collect diff -> verify`。
-3. Orchestrator Loop：新增 `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
+2. Executor Wrapper：`repo-context agent run "<task>" . --executor opencode|mimocode --executor-command "<带 {prompt} 的命令>"` 完成 `pack -> run agent -> collect diff -> verify`。CI 和测试用的确定性 `mock` executor 已实现；真实 code agent CLI 先通过 `--executor-command` 接入，后续再补原生事件 normalizer。
+3. Orchestrator Loop：`repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<带 {prompt} 的命令>"`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
 
 核心抽象是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI、Claude Code 或其他 code agent；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
 

@@ -63,10 +63,11 @@ export interface AgentExecutor {
 
 - `repo-context agent run "<task>" . --executor opencode`
 - `repo-context agent run "<task>" . --executor mimocode`
-- Mock executor for CI and deterministic tests
+- Mock executor for CI and deterministic tests: implemented
+- Generic `--executor-command` adapter for Codex, Claude Code, Cursor, OpenCode, MiMoCode, and other scriptable code agents: implemented
 - Event normalizer for OpenCode JSON events, MiMoCode events, Codex JSONL, and Claude Code transcripts
 - One-shot flow: `pack -> run agent -> collect diff -> policy/tests/impact/verify`
-- Harness-led one-shot mode: Repo-to-Agent-Context invokes the executor and owns verification
+- Harness-led one-shot mode: Repo-to-Agent-Context invokes the executor and owns verification: implemented through `repo-context agent run`
 
 ## v0.7: Orchestrator Loop
 
@@ -74,9 +75,10 @@ export interface AgentExecutor {
 - `repo-context orchestrate "<task>" . --executor mimocode --max-loops 3 --fail-on required`
 - Loop flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`
 - Decisions: `finalize`, `repair`, `repack`, `block`, `require human review`
+- Harness-led one-pass orchestrator with `mock` executor and generic command adapter: implemented
 - Runtime state persisted under `.agent-context/runs/<task-id>/state.json`
-- Repair planner that can repack context, request missing tests, or stop on policy failure
-- Finalize gate that requires fresh context, valid contracts, current test evidence, and no forbidden edits
+- Repair planner that can repack context, request missing tests, or stop on policy failure: partially implemented through loop decisions
+- Finalize gate that requires fresh context, valid contracts, current test evidence, and no forbidden edits: partially implemented through policy and loop reports
 
 ## v0.8: Agent Harness Benchmark
 
@@ -107,3 +109,6 @@ export interface AgentExecutor {
 - RAG export and retrieval protocol
 - Task context, impact, test selection, and benchmark foundations
 - Incremental cache for repeated builds and MCP/editor sessions
+- Harness-led `orchestrate` command
+- `agent run` executor wrapper
+- Mock executor and generic executor command adapter

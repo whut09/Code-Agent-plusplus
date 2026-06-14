@@ -6,18 +6,18 @@ Generated for target: `codex`.
 - Languages: JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML
 - Frameworks: none detected
 - Package managers: npm
-- Files scanned: 180
-- Symbols detected: 2084
-- Dependency edges detected: 477
+- Files scanned: 182
+- Symbols detected: 2174
+- Dependency edges detected: 501
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,592,113 tokens
-Estimated context pack (chars_approx): 18,014 tokens
+Original repo (estimated, chars_approx): 1,600,138 tokens
+Estimated context pack (chars_approx): 18,253 tokens
 Compression: 88x
 Token budget: 90,000 (within budget)
 
 ## Repository Summary
-This repository contains 180 scanned files with 2084 detected symbols across 25 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agents-md.ts, src/outputs/architecture.ts); test (test/agents-md.test.ts, test/analyzers.test.ts); core (src/core/cache.ts, src/core/context-builder.ts); retrievers (src/retrievers/external.ts, src/retrievers/hybrid.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports.; src/outputs/contract-validator.ts: src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports.; src/outputs/execution-trace.ts: src/outputs/execution-trace.ts contains 50 detected symbols, 5 imports, 19 exports..
+This repository contains 182 scanned files with 2174 detected symbols across 25 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agents-md.ts, src/outputs/architecture.ts); test (test/agents-md.test.ts, test/analyzers.test.ts); core (src/core/cache.ts, src/core/context-builder.ts); retrievers (src/retrievers/external.ts, src/retrievers/hybrid.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports.; src/outputs/contract-validator.ts: src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports.; src/outputs/task-run.ts: src/outputs/task-run.ts contains 42 detected symbols, 10 imports, 4 exports..
 
 ## Summary Mode
 - Mode: offline
@@ -39,8 +39,8 @@ This repository contains 180 scanned files with 2084 detected symbols across 25 
 - None detected.
 
 ## Top Modules
-- `outputs` - outputs contains 26 files and depends on core.
-- `test` - test contains 28 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
+- `outputs` - outputs contains 27 files and depends on core.
+- `test` - test contains 29 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.
 - `core` - core contains 17 files and depends on analyzers, config, llm, outputs.
 - `retrievers` - retrievers contains 6 files and depends on core, outputs.
 - `analyzers` - analyzers contains 6 files and depends on core.
@@ -51,10 +51,10 @@ This repository contains 180 scanned files with 2084 detected symbols across 25 
 - `src/core/freshness.ts` - 9 exports, 57 symbols
 - `src/outputs/task-harness.ts` - 5 exports, 67 symbols
 - `src/outputs/contract-validator.ts` - 5 exports, 65 symbols
-- `src/outputs/execution-trace.ts` - 19 exports, 50 symbols
-- `src/core/token-estimator.ts` - 7 exports, 15 symbols
 - `src/outputs/task-run.ts` - 4 exports, 42 symbols
-- `src/cli/index.ts` - entrypoint, 89 symbols
+- `src/outputs/execution-trace.ts` - 19 exports, 50 symbols
+- `src/outputs/loop-controller.ts` - 10 exports, 60 symbols
+- `src/outputs/policy-engine.ts` - 9 exports, 45 symbols
 
 ## Run Commands
 - `npm run dev`

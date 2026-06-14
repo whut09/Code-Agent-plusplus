@@ -64,6 +64,8 @@ Common task loop:
 
 ```bash
 repo-context run "fix login timeout bug" . --type bugfix
+repo-context orchestrate "fix login timeout bug" . --executor mock --fail-on required
+repo-context agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
 repo-context delta . --base main
 repo-context evolve . --base main
 repo-context loop "fix login timeout bug" . --phase after-edit
@@ -105,6 +107,11 @@ repo-context drift .
 | token savings estimated + actual output tokens | ✅ implemented  |
 | readiness dimensions and hard caps             | ✅ implemented  |
 | task plan / pack / run                         | ✅ implemented  |
+| harness orchestrator / `orchestrate`           | ✅ implemented  |
+| `agent run` executor wrapper                   | ✅ implemented  |
+| mock executor for CI and deterministic tests   | ✅ implemented  |
+| generic executor command adapter               | ✅ implemented  |
+| native OpenCode / MiMoCode event normalizers   | 🚧 planned      |
 | loop controller                                | ✅ implemented  |
 | runtime state machine / `state.json`           | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
@@ -170,6 +177,8 @@ repo-context build [repo]
 repo-context plan "<task>" [repo]
 repo-context pack "<task>" [repo]
 repo-context run "<task>" [repo]
+repo-context orchestrate "<task>" [repo] --executor mock --fail-on required
+repo-context agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
 repo-context delta [repo] --base main
 repo-context evolve [repo] --base main
 repo-context loop "<task>" [repo] --phase after-edit
@@ -244,8 +253,8 @@ In this mode, Repo-to-Agent-Context owns the stop/go decision: continue, repair,
 Delivery path:
 
 1. MCP integration: let code agents call `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_evaluate`, `repo_context_repair`, and `repo_context_finalize`. OpenCode and MiMoCode are the first open-source executor targets to validate.
-2. Executor Wrapper: add `repo-context agent run "<task>" . --executor opencode|mimocode` for `pack -> run agent -> collect diff -> verify`.
-3. Orchestrator Loop: add `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`, where Repo-to-Agent-Context owns `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`.
+2. Executor Wrapper: `repo-context agent run "<task>" . --executor opencode|mimocode --executor-command "<command with {prompt}>"` runs `pack -> run agent -> collect diff -> verify`. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs are connected through `--executor-command` until native event normalizers are added.
+3. Orchestrator Loop: `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<command with {prompt}>"`, where Repo-to-Agent-Context owns `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`.
 
 The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, Claude Code, or another code agent; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
 

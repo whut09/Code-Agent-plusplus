@@ -17,6 +17,7 @@ import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js"
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
+import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName } from "../outputs/orchestrator.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
 import {
   appendExecutionTraceStep,
@@ -508,6 +509,104 @@ program
   );
 
 program
+  .command("orchestrate")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--executor <executor>", "executor: codex, claude-code, opencode, mimocode, cursor, mock", parseAgentExecutor, "mock")
+  .option("--executor-command <command>", "shell command used to run the selected executor; supports {prompt}, {task}, {repo}, {runDir}, {agent}")
+  .option("--agent <agent>", "executor-specific agent/profile name")
+  .option("--max-loops <count>", "maximum loop count requested for the harness report", parseInteger, 1)
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
+  .option("--base <ref>", "base git ref for diff, policy, tests, impact, and verify", "main")
+  .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
+  .option("--dry-run", "exercise the harness using the mock executor without editing files")
+  .option("--json", "print machine-readable orchestrator report")
+  .description("Run the harness-led flow: plan/pack -> executor -> diff/trace evidence -> policy/impact/verify -> final decision.")
+  .action(
+    async (
+      args: string[],
+      options: {
+        repo?: string | string[];
+        executor: AgentExecutorName;
+        executorCommand?: string;
+        agent?: string;
+        maxLoops: number;
+        type: TaskType;
+        tokenBudget?: number;
+        base: string;
+        failOn: PolicyFailOn;
+        dryRun?: boolean;
+        json?: boolean;
+      }
+    ) => {
+      const { task, repo } = resolveTaskArguments(args, options.repo);
+      const result = await runHarnessOrchestrator(repo, task, {
+        executor: options.executor,
+        executorCommand: options.executorCommand,
+        agent: options.agent,
+        maxLoops: options.maxLoops,
+        type: options.type,
+        tokenBudget: options.tokenBudget,
+        base: options.base,
+        failOn: options.failOn,
+        dryRun: options.dryRun
+      });
+      console.log(options.json ? JSON.stringify(result.report, null, 2) : renderOrchestratorReport(result.report));
+      if (result.report.decision.blocking) process.exitCode = 1;
+    }
+  );
+
+const agent = program.command("agent").description("Run external coding agents under Repo-to-Agent-Context harness control.");
+
+agent
+  .command("run")
+  .argument("<args...>", "task description and optional repository path")
+  .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+  .option("--executor <executor>", "executor: codex, claude-code, opencode, mimocode, cursor, mock", parseAgentExecutor, "mock")
+  .option("--executor-command <command>", "shell command used to run the selected executor; supports {prompt}, {task}, {repo}, {runDir}, {agent}")
+  .option("--agent <agent>", "executor-specific agent/profile name")
+  .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+  .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
+  .option("--base <ref>", "base git ref for diff, policy, tests, impact, and verify", "main")
+  .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
+  .option("--dry-run", "exercise the harness using the mock executor without editing files")
+  .option("--json", "print machine-readable orchestrator report")
+  .description("Alias for a one-pass harness-led orchestrator run with a selected coding agent executor.")
+  .action(
+    async (
+      args: string[],
+      options: {
+        repo?: string | string[];
+        executor: AgentExecutorName;
+        executorCommand?: string;
+        agent?: string;
+        type: TaskType;
+        tokenBudget?: number;
+        base: string;
+        failOn: PolicyFailOn;
+        dryRun?: boolean;
+        json?: boolean;
+      }
+    ) => {
+      const { task, repo } = resolveTaskArguments(args, options.repo);
+      const result = await runHarnessOrchestrator(repo, task, {
+        executor: options.executor,
+        executorCommand: options.executorCommand,
+        agent: options.agent,
+        maxLoops: 1,
+        type: options.type,
+        tokenBudget: options.tokenBudget,
+        base: options.base,
+        failOn: options.failOn,
+        dryRun: options.dryRun
+      });
+      console.log(options.json ? JSON.stringify(result.report, null, 2) : renderOrchestratorReport(result.report));
+      if (result.report.decision.blocking) process.exitCode = 1;
+    }
+  );
+
+program
   .command("plan")
   .argument("<args...>", "task description and optional repository path")
   .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
@@ -749,6 +848,11 @@ function parseTaskType(value: string): TaskType {
 function parseLoopPhase(value: string): LoopPhase {
   if (value === "preflight" || value === "after-edit" || value === "repair") return value;
   throw new Error(`Unsupported loop phase: ${value}`);
+}
+
+function parseAgentExecutor(value: string): AgentExecutorName {
+  if (value === "codex" || value === "claude-code" || value === "opencode" || value === "mimocode" || value === "cursor" || value === "mock") return value;
+  throw new Error(`Unsupported agent executor: ${value}`);
 }
 
 function parseTraceResult(value: string): ExecutionStepResult {
