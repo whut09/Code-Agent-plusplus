@@ -311,10 +311,10 @@
   {
     "path": "README.en.md",
     "extension": ".md",
-    "sizeBytes": 13966,
+    "sizeBytes": 15728,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 3492,
+    "tokenEstimate": 3932,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -342,10 +342,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 13709,
+    "sizeBytes": 15479,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 3428,
+    "tokenEstimate": 3870,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -776,10 +776,10 @@
   {
     "path": "docs/architecture.md",
     "extension": ".md",
-    "sizeBytes": 22134,
+    "sizeBytes": 22774,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 5534,
+    "tokenEstimate": 5694,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -869,10 +869,10 @@
   {
     "path": "docs/roadmap.md",
     "extension": ".md",
-    "sizeBytes": 4899,
+    "sizeBytes": 5266,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 1225,
+    "tokenEstimate": 1317,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -12275,779 +12275,6 @@
     ]
   },
   {
-    "path": "src/config/defaults.ts",
-    "extension": ".ts",
-    "sizeBytes": 1110,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 278,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "DEFAULT_CONFIG",
-      "DEFAULT_EXCLUDES"
-    ],
-    "symbols": [
-      {
-        "name": "DEFAULT_EXCLUDES",
-        "kind": "const",
-        "filePath": "src/config/defaults.ts",
-        "line": 3
-      },
-      {
-        "name": "DEFAULT_CONFIG",
-        "kind": "const",
-        "filePath": "src/config/defaults.ts",
-        "line": 24
-      }
-    ],
-    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "DEFAULT_EXCLUDES",
-        "detail": "Declares const DEFAULT_EXCLUDES."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "DEFAULT_EXCLUDES",
-        "detail": "Exports DEFAULT_EXCLUDES."
-      },
-      {
-        "line": 24,
-        "kind": "symbol",
-        "symbol": "DEFAULT_CONFIG",
-        "detail": "Declares const DEFAULT_CONFIG."
-      },
-      {
-        "line": 24,
-        "kind": "export",
-        "symbol": "DEFAULT_CONFIG",
-        "detail": "Exports DEFAULT_CONFIG."
-      }
-    ],
-    "moduleName": "config",
-    "importanceScore": 29,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
-      "2 inbound dependencies",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/config/load-config.ts",
-    "extension": ".ts",
-    "sizeBytes": 11617,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 2905,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "node:fs",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:path",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "js-yaml",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "./defaults.js",
-        "resolvedPath": "src/config/defaults.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "loadConfig",
-      "validateConfig"
-    ],
-    "symbols": [
-      {
-        "name": "CONFIG_FILES",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 7
-      },
-      {
-        "name": "LOCAL_CONFIG_FILES",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 9
-      },
-      {
-        "name": "loadConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 11
-      },
-      {
-        "name": "configPath",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 12
-      },
-      {
-        "name": "localConfigPath",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 13
-      },
-      {
-        "name": "fileConfig",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 14
-      },
-      {
-        "name": "localConfig",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 15
-      },
-      {
-        "name": "config",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 17
-      },
-      {
-        "name": "readConfigFile",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 63
-      },
-      {
-        "name": "raw",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 64
-      },
-      {
-        "name": "parsed",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 66
-      },
-      {
-        "name": "normalizeConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 74
-      },
-      {
-        "name": "target",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 79
-      },
-      {
-        "name": "validateConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 93
-      },
-      {
-        "name": "allowedSections",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 115
-      },
-      {
-        "name": "toStringArray",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 134
-      },
-      {
-        "name": "validateRawConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 142
-      },
-      {
-        "name": "value",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 153
-      },
-      {
-        "name": "rag",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 160
-      },
-      {
-        "name": "llm",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 169
-      },
-      {
-        "name": "tokenizer",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 178
-      },
-      {
-        "name": "agents",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 187
-      },
-      {
-        "name": "allowedSections",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 194
-      },
-      {
-        "name": "normalizeTokenizerConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 211
-      },
-      {
-        "name": "normalizeAgentsConfig",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 218
-      },
-      {
-        "name": "toAgentsSectionArray",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 227
-      },
-      {
-        "name": "validateBooleanObject",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 235
-      },
-      {
-        "name": "record",
-        "kind": "const",
-        "filePath": "src/config/load-config.ts",
-        "line": 237
-      },
-      {
-        "name": "objectValue",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 248
-      },
-      {
-        "name": "stripUndefined",
-        "kind": "function",
-        "filePath": "src/config/load-config.ts",
-        "line": 255
-      }
-    ],
-    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 2,
-      "importsUnresolved": 3,
-      "symbolsDetected": 30,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports node:fs."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports node:path."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports js-yaml."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports ./defaults.js."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "CONFIG_FILES",
-        "detail": "Declares const CONFIG_FILES."
-      },
-      {
-        "line": 9,
-        "kind": "symbol",
-        "symbol": "LOCAL_CONFIG_FILES",
-        "detail": "Declares const LOCAL_CONFIG_FILES."
-      },
-      {
-        "line": 11,
-        "kind": "symbol",
-        "symbol": "loadConfig",
-        "detail": "Declares function loadConfig."
-      },
-      {
-        "line": 11,
-        "kind": "export",
-        "symbol": "loadConfig",
-        "detail": "Exports loadConfig."
-      },
-      {
-        "line": 12,
-        "kind": "symbol",
-        "symbol": "configPath",
-        "detail": "Declares const configPath."
-      },
-      {
-        "line": 13,
-        "kind": "symbol",
-        "symbol": "localConfigPath",
-        "detail": "Declares const localConfigPath."
-      },
-      {
-        "line": 14,
-        "kind": "symbol",
-        "symbol": "fileConfig",
-        "detail": "Declares const fileConfig."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "localConfig",
-        "detail": "Declares const localConfig."
-      },
-      {
-        "line": 17,
-        "kind": "symbol",
-        "symbol": "config",
-        "detail": "Declares const config."
-      },
-      {
-        "line": 63,
-        "kind": "symbol",
-        "symbol": "readConfigFile",
-        "detail": "Declares function readConfigFile."
-      },
-      {
-        "line": 64,
-        "kind": "symbol",
-        "symbol": "raw",
-        "detail": "Declares const raw."
-      },
-      {
-        "line": 66,
-        "kind": "symbol",
-        "symbol": "parsed",
-        "detail": "Declares const parsed."
-      },
-      {
-        "line": 74,
-        "kind": "symbol",
-        "symbol": "normalizeConfig",
-        "detail": "Declares function normalizeConfig."
-      },
-      {
-        "line": 79,
-        "kind": "symbol",
-        "symbol": "target",
-        "detail": "Declares const target."
-      },
-      {
-        "line": 93,
-        "kind": "symbol",
-        "symbol": "validateConfig",
-        "detail": "Declares function validateConfig."
-      },
-      {
-        "line": 93,
-        "kind": "export",
-        "symbol": "validateConfig",
-        "detail": "Exports validateConfig."
-      },
-      {
-        "line": 115,
-        "kind": "symbol",
-        "symbol": "allowedSections",
-        "detail": "Declares const allowedSections."
-      },
-      {
-        "line": 134,
-        "kind": "symbol",
-        "symbol": "toStringArray",
-        "detail": "Declares function toStringArray."
-      },
-      {
-        "line": 142,
-        "kind": "symbol",
-        "symbol": "validateRawConfig",
-        "detail": "Declares function validateRawConfig."
-      },
-      {
-        "line": 153,
-        "kind": "symbol",
-        "symbol": "value",
-        "detail": "Declares const value."
-      },
-      {
-        "line": 160,
-        "kind": "symbol",
-        "symbol": "rag",
-        "detail": "Declares const rag."
-      },
-      {
-        "line": 169,
-        "kind": "symbol",
-        "symbol": "llm",
-        "detail": "Declares const llm."
-      },
-      {
-        "line": 178,
-        "kind": "symbol",
-        "symbol": "tokenizer",
-        "detail": "Declares const tokenizer."
-      },
-      {
-        "line": 187,
-        "kind": "symbol",
-        "symbol": "agents",
-        "detail": "Declares const agents."
-      },
-      {
-        "line": 194,
-        "kind": "symbol",
-        "symbol": "allowedSections",
-        "detail": "Declares const allowedSections."
-      },
-      {
-        "line": 211,
-        "kind": "symbol",
-        "symbol": "normalizeTokenizerConfig",
-        "detail": "Declares function normalizeTokenizerConfig."
-      },
-      {
-        "line": 218,
-        "kind": "symbol",
-        "symbol": "normalizeAgentsConfig",
-        "detail": "Declares function normalizeAgentsConfig."
-      },
-      {
-        "line": 227,
-        "kind": "symbol",
-        "symbol": "toAgentsSectionArray",
-        "detail": "Declares function toAgentsSectionArray."
-      },
-      {
-        "line": 235,
-        "kind": "symbol",
-        "symbol": "validateBooleanObject",
-        "detail": "Declares function validateBooleanObject."
-      },
-      {
-        "line": 237,
-        "kind": "symbol",
-        "symbol": "record",
-        "detail": "Declares const record."
-      },
-      {
-        "line": 248,
-        "kind": "symbol",
-        "symbol": "objectValue",
-        "detail": "Declares function objectValue."
-      },
-      {
-        "line": 255,
-        "kind": "symbol",
-        "symbol": "stripUndefined",
-        "detail": "Declares function stripUndefined."
-      }
-    ],
-    "moduleName": "config",
-    "importanceScore": 48,
-    "importanceReasons": [
-      "2 exports",
-      "30 symbols",
-      "2 inbound dependencies",
-      "5 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/config/starter-config.ts",
-    "extension": ".ts",
-    "sizeBytes": 540,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 135,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "starterConfig"
-    ],
-    "symbols": [
-      {
-        "name": "starterConfig",
-        "kind": "function",
-        "filePath": "src/config/starter-config.ts",
-        "line": 1
-      }
-    ],
-    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "starterConfig",
-        "detail": "Declares function starterConfig."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "starterConfig",
-        "detail": "Exports starterConfig."
-      }
-    ],
-    "moduleName": "config",
-    "importanceScore": 21,
-    "importanceReasons": [
-      "1 export",
-      "1 symbol",
-      "2 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/llm/provider.ts",
-    "extension": ".ts",
-    "sizeBytes": 1914,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 479,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "LlmClient",
-      "createLlmClient"
-    ],
-    "symbols": [
-      {
-        "name": "LlmClient",
-        "kind": "interface",
-        "filePath": "src/llm/provider.ts",
-        "line": 3
-      },
-      {
-        "name": "createLlmClient",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 7
-      },
-      {
-        "name": "OpenAiCompatibleClient",
-        "kind": "class",
-        "filePath": "src/llm/provider.ts",
-        "line": 15
-      },
-      {
-        "name": "url",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 19
-      },
-      {
-        "name": "response",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 20
-      },
-      {
-        "name": "payload",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 47
-      },
-      {
-        "name": "content",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 50
-      },
-      {
-        "name": "isPlaceholder",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 59
-      },
-      {
-        "name": "ensureTrailingSlash",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 63
-      }
-    ],
-    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 9,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "LlmClient",
-        "detail": "Declares interface LlmClient."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "LlmClient",
-        "detail": "Exports LlmClient."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "createLlmClient",
-        "detail": "Declares function createLlmClient."
-      },
-      {
-        "line": 7,
-        "kind": "export",
-        "symbol": "createLlmClient",
-        "detail": "Exports createLlmClient."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "OpenAiCompatibleClient",
-        "detail": "Declares class OpenAiCompatibleClient."
-      },
-      {
-        "line": 19,
-        "kind": "symbol",
-        "symbol": "url",
-        "detail": "Declares const url."
-      },
-      {
-        "line": 20,
-        "kind": "symbol",
-        "symbol": "response",
-        "detail": "Declares const response."
-      },
-      {
-        "line": 47,
-        "kind": "symbol",
-        "symbol": "payload",
-        "detail": "Declares const payload."
-      },
-      {
-        "line": 50,
-        "kind": "symbol",
-        "symbol": "content",
-        "detail": "Declares const content."
-      },
-      {
-        "line": 59,
-        "kind": "symbol",
-        "symbol": "isPlaceholder",
-        "detail": "Declares function isPlaceholder."
-      },
-      {
-        "line": 63,
-        "kind": "symbol",
-        "symbol": "ensureTrailingSlash",
-        "detail": "Declares function ensureTrailingSlash."
-      }
-    ],
-    "moduleName": "llm",
-    "importanceScore": 35,
-    "importanceReasons": [
-      "2 exports",
-      "9 symbols",
-      "1 inbound dependency",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "src/core/cache.ts",
     "extension": ".ts",
     "sizeBytes": 9872,
@@ -20204,6 +19431,779 @@
     ]
   },
   {
+    "path": "src/llm/provider.ts",
+    "extension": ".ts",
+    "sizeBytes": 1914,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 479,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "LlmClient",
+      "createLlmClient"
+    ],
+    "symbols": [
+      {
+        "name": "LlmClient",
+        "kind": "interface",
+        "filePath": "src/llm/provider.ts",
+        "line": 3
+      },
+      {
+        "name": "createLlmClient",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 7
+      },
+      {
+        "name": "OpenAiCompatibleClient",
+        "kind": "class",
+        "filePath": "src/llm/provider.ts",
+        "line": 15
+      },
+      {
+        "name": "url",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 19
+      },
+      {
+        "name": "response",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 20
+      },
+      {
+        "name": "payload",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 47
+      },
+      {
+        "name": "content",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 50
+      },
+      {
+        "name": "isPlaceholder",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 59
+      },
+      {
+        "name": "ensureTrailingSlash",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 63
+      }
+    ],
+    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 9,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "LlmClient",
+        "detail": "Declares interface LlmClient."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "LlmClient",
+        "detail": "Exports LlmClient."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "createLlmClient",
+        "detail": "Declares function createLlmClient."
+      },
+      {
+        "line": 7,
+        "kind": "export",
+        "symbol": "createLlmClient",
+        "detail": "Exports createLlmClient."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "OpenAiCompatibleClient",
+        "detail": "Declares class OpenAiCompatibleClient."
+      },
+      {
+        "line": 19,
+        "kind": "symbol",
+        "symbol": "url",
+        "detail": "Declares const url."
+      },
+      {
+        "line": 20,
+        "kind": "symbol",
+        "symbol": "response",
+        "detail": "Declares const response."
+      },
+      {
+        "line": 47,
+        "kind": "symbol",
+        "symbol": "payload",
+        "detail": "Declares const payload."
+      },
+      {
+        "line": 50,
+        "kind": "symbol",
+        "symbol": "content",
+        "detail": "Declares const content."
+      },
+      {
+        "line": 59,
+        "kind": "symbol",
+        "symbol": "isPlaceholder",
+        "detail": "Declares function isPlaceholder."
+      },
+      {
+        "line": 63,
+        "kind": "symbol",
+        "symbol": "ensureTrailingSlash",
+        "detail": "Declares function ensureTrailingSlash."
+      }
+    ],
+    "moduleName": "llm",
+    "importanceScore": 35,
+    "importanceReasons": [
+      "2 exports",
+      "9 symbols",
+      "1 inbound dependency",
+      "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/config/defaults.ts",
+    "extension": ".ts",
+    "sizeBytes": 1110,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 278,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "DEFAULT_CONFIG",
+      "DEFAULT_EXCLUDES"
+    ],
+    "symbols": [
+      {
+        "name": "DEFAULT_EXCLUDES",
+        "kind": "const",
+        "filePath": "src/config/defaults.ts",
+        "line": 3
+      },
+      {
+        "name": "DEFAULT_CONFIG",
+        "kind": "const",
+        "filePath": "src/config/defaults.ts",
+        "line": 24
+      }
+    ],
+    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "DEFAULT_EXCLUDES",
+        "detail": "Declares const DEFAULT_EXCLUDES."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "DEFAULT_EXCLUDES",
+        "detail": "Exports DEFAULT_EXCLUDES."
+      },
+      {
+        "line": 24,
+        "kind": "symbol",
+        "symbol": "DEFAULT_CONFIG",
+        "detail": "Declares const DEFAULT_CONFIG."
+      },
+      {
+        "line": 24,
+        "kind": "export",
+        "symbol": "DEFAULT_CONFIG",
+        "detail": "Exports DEFAULT_CONFIG."
+      }
+    ],
+    "moduleName": "config",
+    "importanceScore": 29,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "2 inbound dependencies",
+      "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/config/load-config.ts",
+    "extension": ".ts",
+    "sizeBytes": 11617,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 2905,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "js-yaml",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "./defaults.js",
+        "resolvedPath": "src/config/defaults.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "loadConfig",
+      "validateConfig"
+    ],
+    "symbols": [
+      {
+        "name": "CONFIG_FILES",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 7
+      },
+      {
+        "name": "LOCAL_CONFIG_FILES",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 9
+      },
+      {
+        "name": "loadConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 11
+      },
+      {
+        "name": "configPath",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 12
+      },
+      {
+        "name": "localConfigPath",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 13
+      },
+      {
+        "name": "fileConfig",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 14
+      },
+      {
+        "name": "localConfig",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 15
+      },
+      {
+        "name": "config",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 17
+      },
+      {
+        "name": "readConfigFile",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 63
+      },
+      {
+        "name": "raw",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 64
+      },
+      {
+        "name": "parsed",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 66
+      },
+      {
+        "name": "normalizeConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 74
+      },
+      {
+        "name": "target",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 79
+      },
+      {
+        "name": "validateConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 93
+      },
+      {
+        "name": "allowedSections",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 115
+      },
+      {
+        "name": "toStringArray",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 134
+      },
+      {
+        "name": "validateRawConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 142
+      },
+      {
+        "name": "value",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 153
+      },
+      {
+        "name": "rag",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 160
+      },
+      {
+        "name": "llm",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 169
+      },
+      {
+        "name": "tokenizer",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 178
+      },
+      {
+        "name": "agents",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 187
+      },
+      {
+        "name": "allowedSections",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 194
+      },
+      {
+        "name": "normalizeTokenizerConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 211
+      },
+      {
+        "name": "normalizeAgentsConfig",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 218
+      },
+      {
+        "name": "toAgentsSectionArray",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 227
+      },
+      {
+        "name": "validateBooleanObject",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 235
+      },
+      {
+        "name": "record",
+        "kind": "const",
+        "filePath": "src/config/load-config.ts",
+        "line": 237
+      },
+      {
+        "name": "objectValue",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 248
+      },
+      {
+        "name": "stripUndefined",
+        "kind": "function",
+        "filePath": "src/config/load-config.ts",
+        "line": 255
+      }
+    ],
+    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 2,
+      "importsUnresolved": 3,
+      "symbolsDetected": 30,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports js-yaml."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports ./defaults.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "CONFIG_FILES",
+        "detail": "Declares const CONFIG_FILES."
+      },
+      {
+        "line": 9,
+        "kind": "symbol",
+        "symbol": "LOCAL_CONFIG_FILES",
+        "detail": "Declares const LOCAL_CONFIG_FILES."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "loadConfig",
+        "detail": "Declares function loadConfig."
+      },
+      {
+        "line": 11,
+        "kind": "export",
+        "symbol": "loadConfig",
+        "detail": "Exports loadConfig."
+      },
+      {
+        "line": 12,
+        "kind": "symbol",
+        "symbol": "configPath",
+        "detail": "Declares const configPath."
+      },
+      {
+        "line": 13,
+        "kind": "symbol",
+        "symbol": "localConfigPath",
+        "detail": "Declares const localConfigPath."
+      },
+      {
+        "line": 14,
+        "kind": "symbol",
+        "symbol": "fileConfig",
+        "detail": "Declares const fileConfig."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "localConfig",
+        "detail": "Declares const localConfig."
+      },
+      {
+        "line": 17,
+        "kind": "symbol",
+        "symbol": "config",
+        "detail": "Declares const config."
+      },
+      {
+        "line": 63,
+        "kind": "symbol",
+        "symbol": "readConfigFile",
+        "detail": "Declares function readConfigFile."
+      },
+      {
+        "line": 64,
+        "kind": "symbol",
+        "symbol": "raw",
+        "detail": "Declares const raw."
+      },
+      {
+        "line": 66,
+        "kind": "symbol",
+        "symbol": "parsed",
+        "detail": "Declares const parsed."
+      },
+      {
+        "line": 74,
+        "kind": "symbol",
+        "symbol": "normalizeConfig",
+        "detail": "Declares function normalizeConfig."
+      },
+      {
+        "line": 79,
+        "kind": "symbol",
+        "symbol": "target",
+        "detail": "Declares const target."
+      },
+      {
+        "line": 93,
+        "kind": "symbol",
+        "symbol": "validateConfig",
+        "detail": "Declares function validateConfig."
+      },
+      {
+        "line": 93,
+        "kind": "export",
+        "symbol": "validateConfig",
+        "detail": "Exports validateConfig."
+      },
+      {
+        "line": 115,
+        "kind": "symbol",
+        "symbol": "allowedSections",
+        "detail": "Declares const allowedSections."
+      },
+      {
+        "line": 134,
+        "kind": "symbol",
+        "symbol": "toStringArray",
+        "detail": "Declares function toStringArray."
+      },
+      {
+        "line": 142,
+        "kind": "symbol",
+        "symbol": "validateRawConfig",
+        "detail": "Declares function validateRawConfig."
+      },
+      {
+        "line": 153,
+        "kind": "symbol",
+        "symbol": "value",
+        "detail": "Declares const value."
+      },
+      {
+        "line": 160,
+        "kind": "symbol",
+        "symbol": "rag",
+        "detail": "Declares const rag."
+      },
+      {
+        "line": 169,
+        "kind": "symbol",
+        "symbol": "llm",
+        "detail": "Declares const llm."
+      },
+      {
+        "line": 178,
+        "kind": "symbol",
+        "symbol": "tokenizer",
+        "detail": "Declares const tokenizer."
+      },
+      {
+        "line": 187,
+        "kind": "symbol",
+        "symbol": "agents",
+        "detail": "Declares const agents."
+      },
+      {
+        "line": 194,
+        "kind": "symbol",
+        "symbol": "allowedSections",
+        "detail": "Declares const allowedSections."
+      },
+      {
+        "line": 211,
+        "kind": "symbol",
+        "symbol": "normalizeTokenizerConfig",
+        "detail": "Declares function normalizeTokenizerConfig."
+      },
+      {
+        "line": 218,
+        "kind": "symbol",
+        "symbol": "normalizeAgentsConfig",
+        "detail": "Declares function normalizeAgentsConfig."
+      },
+      {
+        "line": 227,
+        "kind": "symbol",
+        "symbol": "toAgentsSectionArray",
+        "detail": "Declares function toAgentsSectionArray."
+      },
+      {
+        "line": 235,
+        "kind": "symbol",
+        "symbol": "validateBooleanObject",
+        "detail": "Declares function validateBooleanObject."
+      },
+      {
+        "line": 237,
+        "kind": "symbol",
+        "symbol": "record",
+        "detail": "Declares const record."
+      },
+      {
+        "line": 248,
+        "kind": "symbol",
+        "symbol": "objectValue",
+        "detail": "Declares function objectValue."
+      },
+      {
+        "line": 255,
+        "kind": "symbol",
+        "symbol": "stripUndefined",
+        "detail": "Declares function stripUndefined."
+      }
+    ],
+    "moduleName": "config",
+    "importanceScore": 48,
+    "importanceReasons": [
+      "2 exports",
+      "30 symbols",
+      "2 inbound dependencies",
+      "5 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/config/starter-config.ts",
+    "extension": ".ts",
+    "sizeBytes": 540,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 135,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "starterConfig"
+    ],
+    "symbols": [
+      {
+        "name": "starterConfig",
+        "kind": "function",
+        "filePath": "src/config/starter-config.ts",
+        "line": 1
+      }
+    ],
+    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "starterConfig",
+        "detail": "Declares function starterConfig."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "starterConfig",
+        "detail": "Exports starterConfig."
+      }
+    ],
+    "moduleName": "config",
+    "importanceScore": 21,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "2 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "src/mcp/server.ts",
     "extension": ".ts",
     "sizeBytes": 24643,
@@ -21419,6 +21419,1126 @@
       "81 symbols",
       "1 inbound dependency",
       "18 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/retrievers/external.ts",
+    "extension": ".ts",
+    "sizeBytes": 590,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 148,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "./types.js",
+        "resolvedPath": "src/retrievers/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "ExternalProtocolRetriever"
+    ],
+    "symbols": [
+      {
+        "name": "ExternalProtocolRetriever",
+        "kind": "class",
+        "filePath": "src/retrievers/external.ts",
+        "line": 3
+      }
+    ],
+    "summary": "src/retrievers/external.ts contains 1 detected symbol, 1 import, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ./types.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "ExternalProtocolRetriever",
+        "detail": "Declares class ExternalProtocolRetriever."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "ExternalProtocolRetriever",
+        "detail": "Exports ExternalProtocolRetriever."
+      }
+    ],
+    "moduleName": "retrievers",
+    "importanceScore": 18,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "1 inbound dependency",
+      "1 outbound dependency",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/retrievers/hybrid.ts",
+    "extension": ".ts",
+    "sizeBytes": 1178,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 295,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "./types.js",
+        "resolvedPath": "src/retrievers/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./static.js",
+        "resolvedPath": "src/retrievers/static.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "HybridContextRetriever"
+    ],
+    "symbols": [
+      {
+        "name": "HybridContextRetriever",
+        "kind": "class",
+        "filePath": "src/retrievers/hybrid.ts",
+        "line": 4
+      },
+      {
+        "name": "merged",
+        "kind": "const",
+        "filePath": "src/retrievers/hybrid.ts",
+        "line": 10
+      },
+      {
+        "name": "hits",
+        "kind": "const",
+        "filePath": "src/retrievers/hybrid.ts",
+        "line": 12
+      },
+      {
+        "name": "current",
+        "kind": "const",
+        "filePath": "src/retrievers/hybrid.ts",
+        "line": 14
+      }
+    ],
+    "summary": "src/retrievers/hybrid.ts contains 4 detected symbols, 2 imports, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 2,
+      "importsUnresolved": 0,
+      "symbolsDetected": 4,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ./types.js."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports ./static.js."
+      },
+      {
+        "line": 4,
+        "kind": "symbol",
+        "symbol": "HybridContextRetriever",
+        "detail": "Declares class HybridContextRetriever."
+      },
+      {
+        "line": 4,
+        "kind": "export",
+        "symbol": "HybridContextRetriever",
+        "detail": "Exports HybridContextRetriever."
+      },
+      {
+        "line": 10,
+        "kind": "symbol",
+        "symbol": "merged",
+        "detail": "Declares const merged."
+      },
+      {
+        "line": 12,
+        "kind": "symbol",
+        "symbol": "hits",
+        "detail": "Declares const hits."
+      },
+      {
+        "line": 14,
+        "kind": "symbol",
+        "symbol": "current",
+        "detail": "Declares const current."
+      }
+    ],
+    "moduleName": "retrievers",
+    "importanceScore": 26,
+    "importanceReasons": [
+      "1 export",
+      "4 symbols",
+      "1 inbound dependency",
+      "2 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/retrievers/index.ts",
+    "extension": ".ts",
+    "sizeBytes": 1535,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 384,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./static.js",
+        "resolvedPath": "src/retrievers/static.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./ripgrep.js",
+        "resolvedPath": "src/retrievers/ripgrep.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./hybrid.js",
+        "resolvedPath": "src/retrievers/hybrid.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./external.js",
+        "resolvedPath": "src/retrievers/external.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./types.js",
+        "resolvedPath": "src/retrievers/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/markdown.js",
+        "resolvedPath": "src/outputs/markdown.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "ContextHit",
+      "ContextRetriever",
+      "ContextRetrieverOptions",
+      "RetrieverProvider",
+      "createContextRetriever",
+      "renderContextHits"
+    ],
+    "symbols": [
+      {
+        "name": "createContextRetriever",
+        "kind": "function",
+        "filePath": "src/retrievers/index.ts",
+        "line": 11
+      },
+      {
+        "name": "renderContextHits",
+        "kind": "function",
+        "filePath": "src/retrievers/index.ts",
+        "line": 18
+      }
+    ],
+    "summary": "src/retrievers/index.ts contains 2 detected symbols, 7 imports, 6 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 7,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports ./static.js."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports ./ripgrep.js."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports ./hybrid.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports ./external.js."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ./types.js."
+      },
+      {
+        "line": 7,
+        "kind": "import",
+        "detail": "Imports ../outputs/markdown.js."
+      },
+      {
+        "line": 9,
+        "kind": "import",
+        "detail": "Imports ./types.js."
+      },
+      {
+        "line": 9,
+        "kind": "export",
+        "symbol": "ContextHit",
+        "detail": "Exports ContextHit."
+      },
+      {
+        "line": 9,
+        "kind": "export",
+        "symbol": "ContextRetriever",
+        "detail": "Exports ContextRetriever."
+      },
+      {
+        "line": 9,
+        "kind": "export",
+        "symbol": "ContextRetrieverOptions",
+        "detail": "Exports ContextRetrieverOptions."
+      },
+      {
+        "line": 9,
+        "kind": "export",
+        "symbol": "RetrieverProvider",
+        "detail": "Exports RetrieverProvider."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "createContextRetriever",
+        "detail": "Declares function createContextRetriever."
+      },
+      {
+        "line": 11,
+        "kind": "export",
+        "symbol": "createContextRetriever",
+        "detail": "Exports createContextRetriever."
+      },
+      {
+        "line": 18,
+        "kind": "symbol",
+        "symbol": "renderContextHits",
+        "detail": "Declares function renderContextHits."
+      },
+      {
+        "line": 18,
+        "kind": "export",
+        "symbol": "renderContextHits",
+        "detail": "Exports renderContextHits."
+      }
+    ],
+    "moduleName": "retrievers",
+    "importanceScore": 58,
+    "importanceReasons": [
+      "6 exports",
+      "2 symbols",
+      "3 inbound dependencies",
+      "7 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/retrievers/ripgrep.ts",
+    "extension": ".ts",
+    "sizeBytes": 3100,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 775,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:child_process",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./types.js",
+        "resolvedPath": "src/retrievers/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./static.js",
+        "resolvedPath": "src/retrievers/static.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "RipgrepContextRetriever"
+    ],
+    "symbols": [
+      {
+        "name": "RipgrepContextRetriever",
+        "kind": "class",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 7
+      },
+      {
+        "name": "terms",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 13
+      },
+      {
+        "name": "fileMap",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 16
+      },
+      {
+        "name": "hitMap",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 17
+      },
+      {
+        "name": "file",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 20
+      },
+      {
+        "name": "current",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 22
+      },
+      {
+        "name": "lines",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 25
+      },
+      {
+        "name": "file",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 32
+      },
+      {
+        "name": "current",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 34
+      },
+      {
+        "name": "runRipgrep",
+        "kind": "function",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 43
+      },
+      {
+        "name": "output",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 45
+      },
+      {
+        "name": "parseRgLine",
+        "kind": "function",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 60
+      },
+      {
+        "name": "match",
+        "kind": "const",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 61
+      },
+      {
+        "name": "hitFor",
+        "kind": "function",
+        "filePath": "src/retrievers/ripgrep.ts",
+        "line": 70
+      }
+    ],
+    "summary": "src/retrievers/ripgrep.ts contains 14 detected symbols, 5 imports, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 3,
+      "importsUnresolved": 2,
+      "symbolsDetected": 14,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:child_process."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports ./types.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports ./static.js."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "RipgrepContextRetriever",
+        "detail": "Declares class RipgrepContextRetriever."
+      },
+      {
+        "line": 7,
+        "kind": "export",
+        "symbol": "RipgrepContextRetriever",
+        "detail": "Exports RipgrepContextRetriever."
+      },
+      {
+        "line": 13,
+        "kind": "symbol",
+        "symbol": "terms",
+        "detail": "Declares const terms."
+      },
+      {
+        "line": 16,
+        "kind": "symbol",
+        "symbol": "fileMap",
+        "detail": "Declares const fileMap."
+      },
+      {
+        "line": 17,
+        "kind": "symbol",
+        "symbol": "hitMap",
+        "detail": "Declares const hitMap."
+      },
+      {
+        "line": 20,
+        "kind": "symbol",
+        "symbol": "file",
+        "detail": "Declares const file."
+      },
+      {
+        "line": 22,
+        "kind": "symbol",
+        "symbol": "current",
+        "detail": "Declares const current."
+      },
+      {
+        "line": 25,
+        "kind": "symbol",
+        "symbol": "lines",
+        "detail": "Declares const lines."
+      },
+      {
+        "line": 32,
+        "kind": "symbol",
+        "symbol": "file",
+        "detail": "Declares const file."
+      },
+      {
+        "line": 34,
+        "kind": "symbol",
+        "symbol": "current",
+        "detail": "Declares const current."
+      },
+      {
+        "line": 43,
+        "kind": "symbol",
+        "symbol": "runRipgrep",
+        "detail": "Declares function runRipgrep."
+      },
+      {
+        "line": 45,
+        "kind": "symbol",
+        "symbol": "output",
+        "detail": "Declares const output."
+      },
+      {
+        "line": 60,
+        "kind": "symbol",
+        "symbol": "parseRgLine",
+        "detail": "Declares function parseRgLine."
+      },
+      {
+        "line": 61,
+        "kind": "symbol",
+        "symbol": "match",
+        "detail": "Declares const match."
+      },
+      {
+        "line": 70,
+        "kind": "symbol",
+        "symbol": "hitFor",
+        "detail": "Declares function hitFor."
+      }
+    ],
+    "moduleName": "retrievers",
+    "importanceScore": 39,
+    "importanceReasons": [
+      "1 export",
+      "14 symbols",
+      "1 inbound dependency",
+      "5 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/retrievers/static.ts",
+    "extension": ".ts",
+    "sizeBytes": 3314,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 829,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../outputs/rag.js",
+        "resolvedPath": "src/outputs/rag.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./types.js",
+        "resolvedPath": "src/retrievers/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "StaticContextRetriever",
+      "matchesFilters",
+      "scoreTerms",
+      "snippetFor",
+      "sortHits",
+      "taskTerms"
+    ],
+    "symbols": [
+      {
+        "name": "StaticContextRetriever",
+        "kind": "class",
+        "filePath": "src/retrievers/static.ts",
+        "line": 5
+      },
+      {
+        "name": "terms",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 11
+      },
+      {
+        "name": "fileMap",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 12
+      },
+      {
+        "name": "changed",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 13
+      },
+      {
+        "name": "docs",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 14
+      },
+      {
+        "name": "hits",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 15
+      },
+      {
+        "name": "file",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 17
+      },
+      {
+        "name": "haystack",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 19
+      },
+      {
+        "name": "pathScore",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 20
+      },
+      {
+        "name": "textScore",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 21
+      },
+      {
+        "name": "changedBoost",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 22
+      },
+      {
+        "name": "importance",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 23
+      },
+      {
+        "name": "score",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 24
+      },
+      {
+        "name": "taskTerms",
+        "kind": "function",
+        "filePath": "src/retrievers/static.ts",
+        "line": 47
+      },
+      {
+        "name": "scoreTerms",
+        "kind": "function",
+        "filePath": "src/retrievers/static.ts",
+        "line": 58
+      },
+      {
+        "name": "snippetFor",
+        "kind": "function",
+        "filePath": "src/retrievers/static.ts",
+        "line": 62
+      },
+      {
+        "name": "normalized",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 63
+      },
+      {
+        "name": "lower",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 64
+      },
+      {
+        "name": "index",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 65
+      },
+      {
+        "name": "start",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 70
+      },
+      {
+        "name": "end",
+        "kind": "const",
+        "filePath": "src/retrievers/static.ts",
+        "line": 71
+      },
+      {
+        "name": "matchesFilters",
+        "kind": "function",
+        "filePath": "src/retrievers/static.ts",
+        "line": 75
+      },
+      {
+        "name": "sortHits",
+        "kind": "function",
+        "filePath": "src/retrievers/static.ts",
+        "line": 81
+      }
+    ],
+    "summary": "src/retrievers/static.ts contains 23 detected symbols, 3 imports, 6 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 3,
+      "importsUnresolved": 0,
+      "symbolsDetected": 23,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports ../outputs/rag.js."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports ./types.js."
+      },
+      {
+        "line": 5,
+        "kind": "symbol",
+        "symbol": "StaticContextRetriever",
+        "detail": "Declares class StaticContextRetriever."
+      },
+      {
+        "line": 5,
+        "kind": "export",
+        "symbol": "StaticContextRetriever",
+        "detail": "Exports StaticContextRetriever."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "terms",
+        "detail": "Declares const terms."
+      },
+      {
+        "line": 12,
+        "kind": "symbol",
+        "symbol": "fileMap",
+        "detail": "Declares const fileMap."
+      },
+      {
+        "line": 13,
+        "kind": "symbol",
+        "symbol": "changed",
+        "detail": "Declares const changed."
+      },
+      {
+        "line": 14,
+        "kind": "symbol",
+        "symbol": "docs",
+        "detail": "Declares const docs."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "hits",
+        "detail": "Declares const hits."
+      },
+      {
+        "line": 17,
+        "kind": "symbol",
+        "symbol": "file",
+        "detail": "Declares const file."
+      },
+      {
+        "line": 19,
+        "kind": "symbol",
+        "symbol": "haystack",
+        "detail": "Declares const haystack."
+      },
+      {
+        "line": 20,
+        "kind": "symbol",
+        "symbol": "pathScore",
+        "detail": "Declares const pathScore."
+      },
+      {
+        "line": 21,
+        "kind": "symbol",
+        "symbol": "textScore",
+        "detail": "Declares const textScore."
+      },
+      {
+        "line": 22,
+        "kind": "symbol",
+        "symbol": "changedBoost",
+        "detail": "Declares const changedBoost."
+      },
+      {
+        "line": 23,
+        "kind": "symbol",
+        "symbol": "importance",
+        "detail": "Declares const importance."
+      },
+      {
+        "line": 24,
+        "kind": "symbol",
+        "symbol": "score",
+        "detail": "Declares const score."
+      },
+      {
+        "line": 47,
+        "kind": "symbol",
+        "symbol": "taskTerms",
+        "detail": "Declares function taskTerms."
+      },
+      {
+        "line": 47,
+        "kind": "export",
+        "symbol": "taskTerms",
+        "detail": "Exports taskTerms."
+      },
+      {
+        "line": 58,
+        "kind": "symbol",
+        "symbol": "scoreTerms",
+        "detail": "Declares function scoreTerms."
+      },
+      {
+        "line": 58,
+        "kind": "export",
+        "symbol": "scoreTerms",
+        "detail": "Exports scoreTerms."
+      },
+      {
+        "line": 62,
+        "kind": "symbol",
+        "symbol": "snippetFor",
+        "detail": "Declares function snippetFor."
+      },
+      {
+        "line": 62,
+        "kind": "export",
+        "symbol": "snippetFor",
+        "detail": "Exports snippetFor."
+      },
+      {
+        "line": 63,
+        "kind": "symbol",
+        "symbol": "normalized",
+        "detail": "Declares const normalized."
+      },
+      {
+        "line": 64,
+        "kind": "symbol",
+        "symbol": "lower",
+        "detail": "Declares const lower."
+      },
+      {
+        "line": 65,
+        "kind": "symbol",
+        "symbol": "index",
+        "detail": "Declares const index."
+      },
+      {
+        "line": 70,
+        "kind": "symbol",
+        "symbol": "start",
+        "detail": "Declares const start."
+      },
+      {
+        "line": 71,
+        "kind": "symbol",
+        "symbol": "end",
+        "detail": "Declares const end."
+      },
+      {
+        "line": 75,
+        "kind": "symbol",
+        "symbol": "matchesFilters",
+        "detail": "Declares function matchesFilters."
+      },
+      {
+        "line": 75,
+        "kind": "export",
+        "symbol": "matchesFilters",
+        "detail": "Exports matchesFilters."
+      },
+      {
+        "line": 81,
+        "kind": "symbol",
+        "symbol": "sortHits",
+        "detail": "Declares function sortHits."
+      },
+      {
+        "line": 81,
+        "kind": "export",
+        "symbol": "sortHits",
+        "detail": "Exports sortHits."
+      }
+    ],
+    "moduleName": "retrievers",
+    "importanceScore": 61,
+    "importanceReasons": [
+      "6 exports",
+      "23 symbols",
+      "3 inbound dependencies",
+      "3 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/retrievers/types.ts",
+    "extension": ".ts",
+    "sizeBytes": 605,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 152,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "ContextHit",
+      "ContextRetriever",
+      "ContextRetrieverOptions",
+      "RetrieverProvider"
+    ],
+    "symbols": [
+      {
+        "name": "RetrieverProvider",
+        "kind": "type",
+        "filePath": "src/retrievers/types.ts",
+        "line": 1
+      },
+      {
+        "name": "ContextRetrieverOptions",
+        "kind": "interface",
+        "filePath": "src/retrievers/types.ts",
+        "line": 3
+      },
+      {
+        "name": "ContextHit",
+        "kind": "interface",
+        "filePath": "src/retrievers/types.ts",
+        "line": 10
+      },
+      {
+        "name": "ContextRetriever",
+        "kind": "interface",
+        "filePath": "src/retrievers/types.ts",
+        "line": 22
+      }
+    ],
+    "summary": "src/retrievers/types.ts contains 4 detected symbols, 0 imports, 4 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 4,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "RetrieverProvider",
+        "detail": "Declares type RetrieverProvider."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "RetrieverProvider",
+        "detail": "Exports RetrieverProvider."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "ContextRetrieverOptions",
+        "detail": "Declares interface ContextRetrieverOptions."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "ContextRetrieverOptions",
+        "detail": "Exports ContextRetrieverOptions."
+      },
+      {
+        "line": 10,
+        "kind": "symbol",
+        "symbol": "ContextHit",
+        "detail": "Declares interface ContextHit."
+      },
+      {
+        "line": 10,
+        "kind": "export",
+        "symbol": "ContextHit",
+        "detail": "Exports ContextHit."
+      },
+      {
+        "line": 22,
+        "kind": "symbol",
+        "symbol": "ContextRetriever",
+        "detail": "Declares interface ContextRetriever."
+      },
+      {
+        "line": 22,
+        "kind": "export",
+        "symbol": "ContextRetriever",
+        "detail": "Exports ContextRetriever."
+      }
+    ],
+    "moduleName": "retrievers",
+    "importanceScore": 54,
+    "importanceReasons": [
+      "4 exports",
+      "4 symbols",
+      "6 inbound dependencies",
       "high-confidence analysis"
     ]
   },
@@ -33958,1126 +35078,6 @@
     ]
   },
   {
-    "path": "src/retrievers/external.ts",
-    "extension": ".ts",
-    "sizeBytes": 590,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 148,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "./types.js",
-        "resolvedPath": "src/retrievers/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "ExternalProtocolRetriever"
-    ],
-    "symbols": [
-      {
-        "name": "ExternalProtocolRetriever",
-        "kind": "class",
-        "filePath": "src/retrievers/external.ts",
-        "line": 3
-      }
-    ],
-    "summary": "src/retrievers/external.ts contains 1 detected symbol, 1 import, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 1,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ./types.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "ExternalProtocolRetriever",
-        "detail": "Declares class ExternalProtocolRetriever."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "ExternalProtocolRetriever",
-        "detail": "Exports ExternalProtocolRetriever."
-      }
-    ],
-    "moduleName": "retrievers",
-    "importanceScore": 18,
-    "importanceReasons": [
-      "1 export",
-      "1 symbol",
-      "1 inbound dependency",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/retrievers/hybrid.ts",
-    "extension": ".ts",
-    "sizeBytes": 1178,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 295,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "./types.js",
-        "resolvedPath": "src/retrievers/types.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./static.js",
-        "resolvedPath": "src/retrievers/static.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "HybridContextRetriever"
-    ],
-    "symbols": [
-      {
-        "name": "HybridContextRetriever",
-        "kind": "class",
-        "filePath": "src/retrievers/hybrid.ts",
-        "line": 4
-      },
-      {
-        "name": "merged",
-        "kind": "const",
-        "filePath": "src/retrievers/hybrid.ts",
-        "line": 10
-      },
-      {
-        "name": "hits",
-        "kind": "const",
-        "filePath": "src/retrievers/hybrid.ts",
-        "line": 12
-      },
-      {
-        "name": "current",
-        "kind": "const",
-        "filePath": "src/retrievers/hybrid.ts",
-        "line": 14
-      }
-    ],
-    "summary": "src/retrievers/hybrid.ts contains 4 detected symbols, 2 imports, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 2,
-      "importsUnresolved": 0,
-      "symbolsDetected": 4,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ./types.js."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports ./static.js."
-      },
-      {
-        "line": 4,
-        "kind": "symbol",
-        "symbol": "HybridContextRetriever",
-        "detail": "Declares class HybridContextRetriever."
-      },
-      {
-        "line": 4,
-        "kind": "export",
-        "symbol": "HybridContextRetriever",
-        "detail": "Exports HybridContextRetriever."
-      },
-      {
-        "line": 10,
-        "kind": "symbol",
-        "symbol": "merged",
-        "detail": "Declares const merged."
-      },
-      {
-        "line": 12,
-        "kind": "symbol",
-        "symbol": "hits",
-        "detail": "Declares const hits."
-      },
-      {
-        "line": 14,
-        "kind": "symbol",
-        "symbol": "current",
-        "detail": "Declares const current."
-      }
-    ],
-    "moduleName": "retrievers",
-    "importanceScore": 26,
-    "importanceReasons": [
-      "1 export",
-      "4 symbols",
-      "1 inbound dependency",
-      "2 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/retrievers/index.ts",
-    "extension": ".ts",
-    "sizeBytes": 1535,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 384,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./static.js",
-        "resolvedPath": "src/retrievers/static.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./ripgrep.js",
-        "resolvedPath": "src/retrievers/ripgrep.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./hybrid.js",
-        "resolvedPath": "src/retrievers/hybrid.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./external.js",
-        "resolvedPath": "src/retrievers/external.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./types.js",
-        "resolvedPath": "src/retrievers/types.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/markdown.js",
-        "resolvedPath": "src/outputs/markdown.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "ContextHit",
-      "ContextRetriever",
-      "ContextRetrieverOptions",
-      "RetrieverProvider",
-      "createContextRetriever",
-      "renderContextHits"
-    ],
-    "symbols": [
-      {
-        "name": "createContextRetriever",
-        "kind": "function",
-        "filePath": "src/retrievers/index.ts",
-        "line": 11
-      },
-      {
-        "name": "renderContextHits",
-        "kind": "function",
-        "filePath": "src/retrievers/index.ts",
-        "line": 18
-      }
-    ],
-    "summary": "src/retrievers/index.ts contains 2 detected symbols, 7 imports, 6 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 7,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports ./static.js."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports ./ripgrep.js."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports ./hybrid.js."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports ./external.js."
-      },
-      {
-        "line": 6,
-        "kind": "import",
-        "detail": "Imports ./types.js."
-      },
-      {
-        "line": 7,
-        "kind": "import",
-        "detail": "Imports ../outputs/markdown.js."
-      },
-      {
-        "line": 9,
-        "kind": "import",
-        "detail": "Imports ./types.js."
-      },
-      {
-        "line": 9,
-        "kind": "export",
-        "symbol": "ContextHit",
-        "detail": "Exports ContextHit."
-      },
-      {
-        "line": 9,
-        "kind": "export",
-        "symbol": "ContextRetriever",
-        "detail": "Exports ContextRetriever."
-      },
-      {
-        "line": 9,
-        "kind": "export",
-        "symbol": "ContextRetrieverOptions",
-        "detail": "Exports ContextRetrieverOptions."
-      },
-      {
-        "line": 9,
-        "kind": "export",
-        "symbol": "RetrieverProvider",
-        "detail": "Exports RetrieverProvider."
-      },
-      {
-        "line": 11,
-        "kind": "symbol",
-        "symbol": "createContextRetriever",
-        "detail": "Declares function createContextRetriever."
-      },
-      {
-        "line": 11,
-        "kind": "export",
-        "symbol": "createContextRetriever",
-        "detail": "Exports createContextRetriever."
-      },
-      {
-        "line": 18,
-        "kind": "symbol",
-        "symbol": "renderContextHits",
-        "detail": "Declares function renderContextHits."
-      },
-      {
-        "line": 18,
-        "kind": "export",
-        "symbol": "renderContextHits",
-        "detail": "Exports renderContextHits."
-      }
-    ],
-    "moduleName": "retrievers",
-    "importanceScore": 58,
-    "importanceReasons": [
-      "6 exports",
-      "2 symbols",
-      "3 inbound dependencies",
-      "7 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/retrievers/ripgrep.ts",
-    "extension": ".ts",
-    "sizeBytes": 3100,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 775,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "node:child_process",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:path",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./types.js",
-        "resolvedPath": "src/retrievers/types.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./static.js",
-        "resolvedPath": "src/retrievers/static.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "RipgrepContextRetriever"
-    ],
-    "symbols": [
-      {
-        "name": "RipgrepContextRetriever",
-        "kind": "class",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 7
-      },
-      {
-        "name": "terms",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 13
-      },
-      {
-        "name": "fileMap",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 16
-      },
-      {
-        "name": "hitMap",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 17
-      },
-      {
-        "name": "file",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 20
-      },
-      {
-        "name": "current",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 22
-      },
-      {
-        "name": "lines",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 25
-      },
-      {
-        "name": "file",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 32
-      },
-      {
-        "name": "current",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 34
-      },
-      {
-        "name": "runRipgrep",
-        "kind": "function",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 43
-      },
-      {
-        "name": "output",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 45
-      },
-      {
-        "name": "parseRgLine",
-        "kind": "function",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 60
-      },
-      {
-        "name": "match",
-        "kind": "const",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 61
-      },
-      {
-        "name": "hitFor",
-        "kind": "function",
-        "filePath": "src/retrievers/ripgrep.ts",
-        "line": 70
-      }
-    ],
-    "summary": "src/retrievers/ripgrep.ts contains 14 detected symbols, 5 imports, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 3,
-      "importsUnresolved": 2,
-      "symbolsDetected": 14,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports node:child_process."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports node:path."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports ./types.js."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports ./static.js."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "RipgrepContextRetriever",
-        "detail": "Declares class RipgrepContextRetriever."
-      },
-      {
-        "line": 7,
-        "kind": "export",
-        "symbol": "RipgrepContextRetriever",
-        "detail": "Exports RipgrepContextRetriever."
-      },
-      {
-        "line": 13,
-        "kind": "symbol",
-        "symbol": "terms",
-        "detail": "Declares const terms."
-      },
-      {
-        "line": 16,
-        "kind": "symbol",
-        "symbol": "fileMap",
-        "detail": "Declares const fileMap."
-      },
-      {
-        "line": 17,
-        "kind": "symbol",
-        "symbol": "hitMap",
-        "detail": "Declares const hitMap."
-      },
-      {
-        "line": 20,
-        "kind": "symbol",
-        "symbol": "file",
-        "detail": "Declares const file."
-      },
-      {
-        "line": 22,
-        "kind": "symbol",
-        "symbol": "current",
-        "detail": "Declares const current."
-      },
-      {
-        "line": 25,
-        "kind": "symbol",
-        "symbol": "lines",
-        "detail": "Declares const lines."
-      },
-      {
-        "line": 32,
-        "kind": "symbol",
-        "symbol": "file",
-        "detail": "Declares const file."
-      },
-      {
-        "line": 34,
-        "kind": "symbol",
-        "symbol": "current",
-        "detail": "Declares const current."
-      },
-      {
-        "line": 43,
-        "kind": "symbol",
-        "symbol": "runRipgrep",
-        "detail": "Declares function runRipgrep."
-      },
-      {
-        "line": 45,
-        "kind": "symbol",
-        "symbol": "output",
-        "detail": "Declares const output."
-      },
-      {
-        "line": 60,
-        "kind": "symbol",
-        "symbol": "parseRgLine",
-        "detail": "Declares function parseRgLine."
-      },
-      {
-        "line": 61,
-        "kind": "symbol",
-        "symbol": "match",
-        "detail": "Declares const match."
-      },
-      {
-        "line": 70,
-        "kind": "symbol",
-        "symbol": "hitFor",
-        "detail": "Declares function hitFor."
-      }
-    ],
-    "moduleName": "retrievers",
-    "importanceScore": 39,
-    "importanceReasons": [
-      "1 export",
-      "14 symbols",
-      "1 inbound dependency",
-      "5 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/retrievers/static.ts",
-    "extension": ".ts",
-    "sizeBytes": 3314,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 829,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../outputs/rag.js",
-        "resolvedPath": "src/outputs/rag.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "./types.js",
-        "resolvedPath": "src/retrievers/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "StaticContextRetriever",
-      "matchesFilters",
-      "scoreTerms",
-      "snippetFor",
-      "sortHits",
-      "taskTerms"
-    ],
-    "symbols": [
-      {
-        "name": "StaticContextRetriever",
-        "kind": "class",
-        "filePath": "src/retrievers/static.ts",
-        "line": 5
-      },
-      {
-        "name": "terms",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 11
-      },
-      {
-        "name": "fileMap",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 12
-      },
-      {
-        "name": "changed",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 13
-      },
-      {
-        "name": "docs",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 14
-      },
-      {
-        "name": "hits",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 15
-      },
-      {
-        "name": "file",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 17
-      },
-      {
-        "name": "haystack",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 19
-      },
-      {
-        "name": "pathScore",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 20
-      },
-      {
-        "name": "textScore",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 21
-      },
-      {
-        "name": "changedBoost",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 22
-      },
-      {
-        "name": "importance",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 23
-      },
-      {
-        "name": "score",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 24
-      },
-      {
-        "name": "taskTerms",
-        "kind": "function",
-        "filePath": "src/retrievers/static.ts",
-        "line": 47
-      },
-      {
-        "name": "scoreTerms",
-        "kind": "function",
-        "filePath": "src/retrievers/static.ts",
-        "line": 58
-      },
-      {
-        "name": "snippetFor",
-        "kind": "function",
-        "filePath": "src/retrievers/static.ts",
-        "line": 62
-      },
-      {
-        "name": "normalized",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 63
-      },
-      {
-        "name": "lower",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 64
-      },
-      {
-        "name": "index",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 65
-      },
-      {
-        "name": "start",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 70
-      },
-      {
-        "name": "end",
-        "kind": "const",
-        "filePath": "src/retrievers/static.ts",
-        "line": 71
-      },
-      {
-        "name": "matchesFilters",
-        "kind": "function",
-        "filePath": "src/retrievers/static.ts",
-        "line": 75
-      },
-      {
-        "name": "sortHits",
-        "kind": "function",
-        "filePath": "src/retrievers/static.ts",
-        "line": 81
-      }
-    ],
-    "summary": "src/retrievers/static.ts contains 23 detected symbols, 3 imports, 6 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 3,
-      "importsUnresolved": 0,
-      "symbolsDetected": 23,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports ../outputs/rag.js."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports ./types.js."
-      },
-      {
-        "line": 5,
-        "kind": "symbol",
-        "symbol": "StaticContextRetriever",
-        "detail": "Declares class StaticContextRetriever."
-      },
-      {
-        "line": 5,
-        "kind": "export",
-        "symbol": "StaticContextRetriever",
-        "detail": "Exports StaticContextRetriever."
-      },
-      {
-        "line": 11,
-        "kind": "symbol",
-        "symbol": "terms",
-        "detail": "Declares const terms."
-      },
-      {
-        "line": 12,
-        "kind": "symbol",
-        "symbol": "fileMap",
-        "detail": "Declares const fileMap."
-      },
-      {
-        "line": 13,
-        "kind": "symbol",
-        "symbol": "changed",
-        "detail": "Declares const changed."
-      },
-      {
-        "line": 14,
-        "kind": "symbol",
-        "symbol": "docs",
-        "detail": "Declares const docs."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "hits",
-        "detail": "Declares const hits."
-      },
-      {
-        "line": 17,
-        "kind": "symbol",
-        "symbol": "file",
-        "detail": "Declares const file."
-      },
-      {
-        "line": 19,
-        "kind": "symbol",
-        "symbol": "haystack",
-        "detail": "Declares const haystack."
-      },
-      {
-        "line": 20,
-        "kind": "symbol",
-        "symbol": "pathScore",
-        "detail": "Declares const pathScore."
-      },
-      {
-        "line": 21,
-        "kind": "symbol",
-        "symbol": "textScore",
-        "detail": "Declares const textScore."
-      },
-      {
-        "line": 22,
-        "kind": "symbol",
-        "symbol": "changedBoost",
-        "detail": "Declares const changedBoost."
-      },
-      {
-        "line": 23,
-        "kind": "symbol",
-        "symbol": "importance",
-        "detail": "Declares const importance."
-      },
-      {
-        "line": 24,
-        "kind": "symbol",
-        "symbol": "score",
-        "detail": "Declares const score."
-      },
-      {
-        "line": 47,
-        "kind": "symbol",
-        "symbol": "taskTerms",
-        "detail": "Declares function taskTerms."
-      },
-      {
-        "line": 47,
-        "kind": "export",
-        "symbol": "taskTerms",
-        "detail": "Exports taskTerms."
-      },
-      {
-        "line": 58,
-        "kind": "symbol",
-        "symbol": "scoreTerms",
-        "detail": "Declares function scoreTerms."
-      },
-      {
-        "line": 58,
-        "kind": "export",
-        "symbol": "scoreTerms",
-        "detail": "Exports scoreTerms."
-      },
-      {
-        "line": 62,
-        "kind": "symbol",
-        "symbol": "snippetFor",
-        "detail": "Declares function snippetFor."
-      },
-      {
-        "line": 62,
-        "kind": "export",
-        "symbol": "snippetFor",
-        "detail": "Exports snippetFor."
-      },
-      {
-        "line": 63,
-        "kind": "symbol",
-        "symbol": "normalized",
-        "detail": "Declares const normalized."
-      },
-      {
-        "line": 64,
-        "kind": "symbol",
-        "symbol": "lower",
-        "detail": "Declares const lower."
-      },
-      {
-        "line": 65,
-        "kind": "symbol",
-        "symbol": "index",
-        "detail": "Declares const index."
-      },
-      {
-        "line": 70,
-        "kind": "symbol",
-        "symbol": "start",
-        "detail": "Declares const start."
-      },
-      {
-        "line": 71,
-        "kind": "symbol",
-        "symbol": "end",
-        "detail": "Declares const end."
-      },
-      {
-        "line": 75,
-        "kind": "symbol",
-        "symbol": "matchesFilters",
-        "detail": "Declares function matchesFilters."
-      },
-      {
-        "line": 75,
-        "kind": "export",
-        "symbol": "matchesFilters",
-        "detail": "Exports matchesFilters."
-      },
-      {
-        "line": 81,
-        "kind": "symbol",
-        "symbol": "sortHits",
-        "detail": "Declares function sortHits."
-      },
-      {
-        "line": 81,
-        "kind": "export",
-        "symbol": "sortHits",
-        "detail": "Exports sortHits."
-      }
-    ],
-    "moduleName": "retrievers",
-    "importanceScore": 61,
-    "importanceReasons": [
-      "6 exports",
-      "23 symbols",
-      "3 inbound dependencies",
-      "3 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "src/retrievers/types.ts",
-    "extension": ".ts",
-    "sizeBytes": 605,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 152,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "ContextHit",
-      "ContextRetriever",
-      "ContextRetrieverOptions",
-      "RetrieverProvider"
-    ],
-    "symbols": [
-      {
-        "name": "RetrieverProvider",
-        "kind": "type",
-        "filePath": "src/retrievers/types.ts",
-        "line": 1
-      },
-      {
-        "name": "ContextRetrieverOptions",
-        "kind": "interface",
-        "filePath": "src/retrievers/types.ts",
-        "line": 3
-      },
-      {
-        "name": "ContextHit",
-        "kind": "interface",
-        "filePath": "src/retrievers/types.ts",
-        "line": 10
-      },
-      {
-        "name": "ContextRetriever",
-        "kind": "interface",
-        "filePath": "src/retrievers/types.ts",
-        "line": 22
-      }
-    ],
-    "summary": "src/retrievers/types.ts contains 4 detected symbols, 0 imports, 4 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 4,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "RetrieverProvider",
-        "detail": "Declares type RetrieverProvider."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "RetrieverProvider",
-        "detail": "Exports RetrieverProvider."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "ContextRetrieverOptions",
-        "detail": "Declares interface ContextRetrieverOptions."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "ContextRetrieverOptions",
-        "detail": "Exports ContextRetrieverOptions."
-      },
-      {
-        "line": 10,
-        "kind": "symbol",
-        "symbol": "ContextHit",
-        "detail": "Declares interface ContextHit."
-      },
-      {
-        "line": 10,
-        "kind": "export",
-        "symbol": "ContextHit",
-        "detail": "Exports ContextHit."
-      },
-      {
-        "line": 22,
-        "kind": "symbol",
-        "symbol": "ContextRetriever",
-        "detail": "Declares interface ContextRetriever."
-      },
-      {
-        "line": 22,
-        "kind": "export",
-        "symbol": "ContextRetriever",
-        "detail": "Exports ContextRetriever."
-      }
-    ],
-    "moduleName": "retrievers",
-    "importanceScore": 54,
-    "importanceReasons": [
-      "4 exports",
-      "4 symbols",
-      "6 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "benchmarks/fixtures/fastapi-app/pyproject.toml",
     "extension": ".toml",
     "sizeBytes": 104,
@@ -35993,6 +35993,68 @@
     ]
   },
   {
+    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+    "extension": ".json",
+    "sizeBytes": 74,
+    "kind": "config",
+    "language": "JSON",
+    "tokenEstimate": 19,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 17,
+    "importanceReasons": [
+      "configuration",
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+    "extension": ".md",
+    "sizeBytes": 785,
+    "kind": "docs",
+    "language": "Markdown",
+    "tokenEstimate": 197,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 15,
+    "importanceReasons": [
+      "readme",
+      "low-confidence analysis"
+    ]
+  },
+  {
     "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
     "extension": ".json",
     "sizeBytes": 26,
@@ -36052,68 +36114,6 @@
     "importanceScore": 33,
     "importanceReasons": [
       "route/api surface",
-      "readme",
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-    "extension": ".json",
-    "sizeBytes": 74,
-    "kind": "config",
-    "language": "JSON",
-    "tokenEstimate": 19,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 17,
-    "importanceReasons": [
-      "configuration",
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-    "extension": ".md",
-    "sizeBytes": 785,
-    "kind": "docs",
-    "language": "Markdown",
-    "tokenEstimate": 197,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 15,
-    "importanceReasons": [
       "readme",
       "low-confidence analysis"
     ]
@@ -37339,6 +37339,124 @@
     ]
   },
   {
+    "path": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+    "extension": ".ts",
+    "sizeBytes": 256,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 64,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "AppConfig",
+      "loadConfig"
+    ],
+    "symbols": [
+      {
+        "name": "AppConfig",
+        "kind": "interface",
+        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "line": 1
+      },
+      {
+        "name": "loadConfig",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "line": 3
+      }
+    ],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts contains 2 detected symbols, 0 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "AppConfig",
+        "detail": "Declares interface AppConfig."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "AppConfig",
+        "detail": "Exports AppConfig."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "loadConfig",
+        "detail": "Declares function loadConfig."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "loadConfig",
+        "detail": "Exports loadConfig."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 32,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "3 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 151,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 38,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "../src/loader.js",
+        "resolvedPath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../src/loader.js."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "importanceScore": 15,
+    "importanceReasons": [
+      "1 outbound dependency",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
     "extension": ".ts",
     "sizeBytes": 108,
@@ -37513,124 +37631,6 @@
     "importanceScore": 33,
     "importanceReasons": [
       "route/api surface",
-      "1 outbound dependency",
-      "test coverage signal",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-    "extension": ".ts",
-    "sizeBytes": 256,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 64,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [
-      "AppConfig",
-      "loadConfig"
-    ],
-    "symbols": [
-      {
-        "name": "AppConfig",
-        "kind": "interface",
-        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "line": 1
-      },
-      {
-        "name": "loadConfig",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "line": 3
-      }
-    ],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts contains 2 detected symbols, 0 imports, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 2,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "symbol",
-        "symbol": "AppConfig",
-        "detail": "Declares interface AppConfig."
-      },
-      {
-        "line": 1,
-        "kind": "export",
-        "symbol": "AppConfig",
-        "detail": "Exports AppConfig."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "loadConfig",
-        "detail": "Declares function loadConfig."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "loadConfig",
-        "detail": "Exports loadConfig."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 32,
-    "importanceReasons": [
-      "2 exports",
-      "2 symbols",
-      "3 inbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-    "extension": ".ts",
-    "sizeBytes": 151,
-    "kind": "test",
-    "language": "TypeScript",
-    "tokenEstimate": 38,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": true,
-    "imports": [
-      {
-        "specifier": "../src/loader.js",
-        "resolvedPath": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../src/loader.js."
-      }
-    ],
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "importanceScore": 15,
-    "importanceReasons": [
       "1 outbound dependency",
       "test coverage signal",
       "high-confidence analysis"

@@ -66,6 +66,11 @@ The v2 architecture is organized around five responsibilities:
 
 - External Agent Executor Layer: planned adapters for Codex, Claude Code, Cursor, OpenCode, and MiMoCode / MiMoCodex. These code agents own file reading, code edits, command execution, and their own tools. Repo-to-Agent-Context orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decisions around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
 
+The integration model has two modes:
+
+- Agent-led mode: a code agent calls Repo-to-Agent-Context tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
+- Harness-led mode: Repo-to-Agent-Context owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, or `require human review`.
+
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
 For a source-level walkthrough of the runtime loop, see [Loop Engineering Code Path](loop-engineering.md). The Chinese version is [Loop Engineering 源码链路](loop-engineering.zh-CN.md).

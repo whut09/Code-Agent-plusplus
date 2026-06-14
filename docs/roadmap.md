@@ -38,6 +38,7 @@ The project is not another coding agent. Codex, Claude Code, Cursor, OpenCode, a
 - MCP server
 - MCP tools for code agents: build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize
 - OpenCode / MiMoCode / MiMoCodex MCP usage guide
+- Agent-led mode documentation: code agent calls Repo-to-Agent-Context tools, with documented limitations that gates are advisory unless the host agent follows them
 - VS Code/Cursor extension
 - Codex and Claude Code adapters
 - Web graph viewer
@@ -65,12 +66,14 @@ export interface AgentExecutor {
 - Mock executor for CI and deterministic tests
 - Event normalizer for OpenCode JSON events, MiMoCode events, Codex JSONL, and Claude Code transcripts
 - One-shot flow: `pack -> run agent -> collect diff -> policy/tests/impact/verify`
+- Harness-led one-shot mode: Repo-to-Agent-Context invokes the executor and owns verification
 
 ## v0.7: Orchestrator Loop
 
 - `repo-context orchestrate "<task>" . --executor opencode --max-loops 3 --fail-on required`
 - `repo-context orchestrate "<task>" . --executor mimocode --max-loops 3 --fail-on required`
-- Loop flow: `plan -> pack -> execute -> collect diff -> policy -> tests -> impact -> verify -> decision -> repair/finalize`
+- Loop flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`
+- Decisions: `finalize`, `repair`, `repack`, `block`, `require human review`
 - Runtime state persisted under `.agent-context/runs/<task-id>/state.json`
 - Repair planner that can repack context, request missing tests, or stop on policy failure
 - Finalize gate that requires fresh context, valid contracts, current test evidence, and no forbidden edits

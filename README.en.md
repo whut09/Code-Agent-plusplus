@@ -12,7 +12,7 @@ Core loop:
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-It is not just a repo summarizer or a context pack tool. Its goal is to give Codex, Claude Code, and Cursor a static but verifiable engineering control plane: read less noise, touch fewer unrelated files, validate changes, and decide whether the next step is repair, context expansion, policy enforcement, or finalization.
+It is not just a repo summarizer or a context pack tool. Its goal is to give Codex, Claude Code, Cursor, OpenCode, and MiMoCode a static but verifiable engineering control plane: read less noise, touch fewer unrelated files, validate changes, and decide whether the next step is repair, context expansion, policy enforcement, or finalization.
 
 The current implementation is best understood as a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor: it does not autonomously call an agent to edit code, but it does consume trace evidence, policies, contracts, impact, and freshness, update `.agent-context/runs/<task-id>/state.json`, and produce the single highest-priority next action. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
 
@@ -209,11 +209,43 @@ Repo-to-Agent-Context
 
 This combines existing code-agent execution with Repo-to-Agent-Context's control plane. OpenCode and MiMoCode are open-source code-agent runtimes, so they are priority executor targets for the next integration phase.
 
-The integration path has three phases:
+The project supports two operating modes:
+
+### Mode 1: Code Agent-Led, Repo-to-Agent-Context Constrained
+
+This is the fastest integration path. Codex, Claude Code, Cursor, OpenCode, or MiMoCode remains the main actor and calls Repo-to-Agent-Context through MCP or CLI:
+
+```txt
+User task
+  -> code agent calls repo_context_plan / pack / retrieve
+  -> code agent reads code, edits code, runs commands
+  -> code agent calls tests / impact / verify / evaluate
+  -> Repo-to-Agent-Context returns policy, contracts, trace, and verify results
+```
+
+This mode feels natural and is ideal for OpenCode / MiMoCode MCP demos and daily assisted use. Its limitation is that the code agent still has final control: it may skip tool calls or ignore a gate, so Repo-to-Agent-Context can provide constraints and evidence but cannot fully guarantee the result.
+
+### Mode 2: Repo-to-Agent-Context-Led, Code Agent As Executor
+
+This is the formal Harness Runtime direction. Repo-to-Agent-Context owns orchestration and acceptance; the code agent is a replaceable coding executor:
+
+```txt
+User task
+  -> Repo-to-Agent-Context plan / pack
+  -> choose executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode
+  -> code agent executes code changes
+  -> Repo-to-Agent-Context collects diff / trace / test evidence
+  -> policy / contracts / tests / impact / verify
+  -> decision: finalize / repair / repack / block / require human review
+```
+
+In this mode, Repo-to-Agent-Context owns the stop/go decision: continue, repair, repack context, block, or require human review. The decision is based on the runtime state machine, trace evidence, policy gates, and verify reports. OpenCode and MiMoCode are priority executors because they are open-source, scriptable, and observable.
+
+Delivery path:
 
 1. MCP integration: let code agents call `repo_context_plan`, `repo_context_pack`, `repo_context_retrieve`, `repo_context_tests`, `repo_context_impact`, `repo_context_verify`, `repo_context_evaluate`, `repo_context_repair`, and `repo_context_finalize`. OpenCode and MiMoCode are the first open-source executor targets to validate.
 2. Executor Wrapper: add `repo-context agent run "<task>" . --executor opencode|mimocode` for `pack -> run agent -> collect diff -> verify`.
-3. Orchestrator Loop: add `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`, where Repo-to-Agent-Context owns `plan -> pack -> execute -> policy/tests/impact/verify -> repair/finalize`.
+3. Orchestrator Loop: add `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`, where Repo-to-Agent-Context owns `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`.
 
 The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, Claude Code, or another code agent; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
 

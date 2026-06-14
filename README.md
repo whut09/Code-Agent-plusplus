@@ -209,11 +209,43 @@ Repo-to-Agent-Context
 
 这种分工让现有 code agent 的执行能力和 Repo-to-Agent-Context 的控制面能力自然组合。OpenCode / MiMoCode 是开源 code agent runtime，也是项目下一步优先接入和验证的执行器方向。
 
-项目集成路线分三阶段：
+项目支持两种工作模式：
+
+### 模式一：Code Agent 主导，Repo-to-Agent-Context 约束
+
+这是当前最容易接入的方式。Codex / Claude Code / Cursor / OpenCode / MiMoCode 作为主执行者，通过 MCP 或 CLI 调用 Repo-to-Agent-Context：
+
+```txt
+用户任务
+  -> code agent 调用 repo_context_plan / pack / retrieve
+  -> code agent 读代码、改代码、跑命令
+  -> code agent 调用 tests / impact / verify / evaluate
+  -> Repo-to-Agent-Context 输出 policy、contracts、trace、verify 结果
+```
+
+这种模式的优点是体验自然、接入快，适合 OpenCode / MiMoCode 的 MCP demo 和日常辅助使用。限制是最高决策权仍在 code agent 内部：它可以忽略某些工具调用或绕过 gate，所以 Repo-to-Agent-Context 能提供约束和证据，但不能完全保证最终效果。
+
+### 模式二：Repo-to-Agent-Context 主导，Code Agent 作为编码执行器
+
+这是项目的正式 Harness Runtime 路线。Repo-to-Agent-Context 负责流程编排和验收，code agent 只作为可替换的编码执行器：
+
+```txt
+用户任务
+  -> Repo-to-Agent-Context plan / pack
+  -> 选择 executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode
+  -> code agent 执行代码修改
+  -> Repo-to-Agent-Context 收集 diff / trace / test evidence
+  -> policy / contracts / tests / impact / verify
+  -> decision: finalize / repair / repack / block / require human review
+```
+
+这种模式下项目拥有最高控制权：是否继续、是否修复、是否重打包上下文、是否阻塞、是否要求人工 review，都由 Repo-to-Agent-Context 根据状态机、trace evidence、policy gate 和 verify report 决定。OpenCode / MiMoCode 因为开源、可脚本化、可观察，是优先接入的 executor。
+
+落地路线：
 
 1. MCP 接入：让 code agent 调用 `repo_context_plan`、`repo_context_pack`、`repo_context_retrieve`、`repo_context_tests`、`repo_context_impact`、`repo_context_verify`、`repo_context_evaluate`、`repo_context_repair`、`repo_context_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
 2. Executor Wrapper：新增 `repo-context agent run "<task>" . --executor opencode|mimocode`，完成 `pack -> run agent -> collect diff -> verify`。
-3. Orchestrator Loop：新增 `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> policy/tests/impact/verify -> repair/finalize`。
+3. Orchestrator Loop：新增 `repo-context orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required`，由 Repo-to-Agent-Context 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
 
 核心抽象是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI、Claude Code 或其他 code agent；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
 
