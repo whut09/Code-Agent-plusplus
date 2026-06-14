@@ -6,7 +6,7 @@ Repo-to-Agent-Context is moving from a context compiler into an Agent Harness Ru
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-Current boundary: the project is a Context / Policy / Trace reporting system plus a semi-automatic loop advisor, not a fully autonomous runtime state machine. It does not call Codex, Claude Code, or Cursor to edit code by itself. It produces evidence-linked decisions that an external agent or user can execute. The target direction is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+Current boundary: the project is a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor, not a fully autonomous agent executor. It does not call Codex, Claude Code, or Cursor to edit code by itself. It produces evidence-linked state transitions and next actions that an external agent or user can execute. The target direction is a more autonomous, evidence-driven Agent Harness Runtime.
 
 The project does not directly ask Codex, Claude Code, or Cursor to edit code. Instead, it provides the control plane those agents need: what to read first, what not to edit, who is affected by a change, which tests to run, whether a run can close, and whether the next turn should rebuild context, repair contracts, add tests, expand context, or move to review.
 
@@ -100,7 +100,27 @@ Each decision is machine-readable and includes `action`, `priority`, `confidence
 
 When a trace id is supplied, the controller reads passed test evidence from `.agent-context/traces/<trace-id>.json`. If changed files already have passed test evidence, the controller no longer emits `run-tests`; it can move to `ready-for-review` unless freshness, drift, contract, budget, or impact signals still block the loop.
 
-The controller is the bridge from static context generation to loop engineering: every turn can be evaluated against repository state and verification evidence.
+The controller also updates `.agent-context/runs/<task-id>/state.json` when `repo-context loop "<task>" . --write` is used. That file stores:
+
+```json
+{
+  "state": "EDITED",
+  "taskId": "fix-timeout-bug",
+  "repoHash": "...",
+  "contextHash": "...",
+  "diffHash": "...",
+  "lastAction": "agent_edit",
+  "nextAction": {
+    "type": "run_tests",
+    "blocking": true,
+    "reason": "changed source files without command evidence"
+  },
+  "satisfiedEvidence": ["context_fresh", "contracts_valid"],
+  "missingEvidence": ["required_tests_passed"]
+}
+```
+
+The state model is explicit: `EMPTY`, `CONTEXT_READY`, `TASK_PACK_READY`, `EDIT_BOUNDARY_READY`, `AGENT_STARTED`, `EDITED`, `VERIFYING`, `REPAIRING`, `READY_FOR_REVIEW`, and `BLOCKED`. This is the bridge from static context generation to loop engineering: every turn can be evaluated against repository state, verification evidence, and the previously persisted runtime state.
 
 ## Trace And Policy
 

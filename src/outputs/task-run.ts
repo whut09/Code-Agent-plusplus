@@ -7,6 +7,7 @@ import { buildTaskPack, renderTaskContext, type TaskContextOptions } from "./tas
 import { renderTaskPlan, renderTaskVerify } from "./task-harness.js";
 import { buildTestSelection, renderTestSelection } from "./test-selector.js";
 import { executionTracePath, startExecutionTrace } from "./execution-trace.js";
+import { initialRunState, writeRunState } from "./runtime-state.js";
 
 export interface TaskRunOptions extends TaskContextOptions {
   base?: string;
@@ -71,6 +72,7 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
   });
   const trace = startExecutionTrace(context.scan.root, task, { id: runId, agent: "repo-context" });
   manifest.traceFile = path.relative(context.scan.root, executionTracePath(context.scan.root, trace.id)).replaceAll("\\", "/");
+  const stateFile = writeRunState(context.scan.root, initialRunState(context, runId, task));
 
   const outputs: Array<[string, string]> = [
     ["plan.md", renderTaskPlan(context, task, options)],
@@ -92,10 +94,14 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
     return filePath;
   });
 
-  manifest.files = [...files.map((filePath) => path.relative(context.scan.root, filePath).replaceAll("\\", "/")), manifest.traceFile];
+  manifest.files = [
+    ...files.map((filePath) => path.relative(context.scan.root, filePath).replaceAll("\\", "/")),
+    manifest.traceFile,
+    path.relative(context.scan.root, stateFile).replaceAll("\\", "/")
+  ];
   writeFileSync(path.join(runDir, "run.json"), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
 
-  return { runId, dir: runDir, files, manifest };
+  return { runId, dir: runDir, files: [...files, stateFile], manifest };
 }
 
 function buildTaskRunManifest(

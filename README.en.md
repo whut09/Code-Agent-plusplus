@@ -14,7 +14,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 It is not just a repo summarizer or a context pack tool. Its goal is to give Codex, Claude Code, and Cursor a static but verifiable engineering control plane: read less noise, touch fewer unrelated files, validate changes, and decide whether the next step is repair, context expansion, policy enforcement, or finalization.
 
-The current implementation is best understood as a Context / Policy / Trace reporting system plus a semi-automatic loop advisor: it does not autonomously call an agent to edit code, but it does consume trace evidence, policies, contracts, impact, and freshness to produce the next decision. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+The current implementation is best understood as a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor: it does not autonomously call an agent to edit code, but it does consume trace evidence, policies, contracts, impact, and freshness, update `.agent-context/runs/<task-id>/state.json`, and produce the single highest-priority next action. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context final output animation">
@@ -84,7 +84,7 @@ repo-context drift .
 - ✅ contracts: architecture, module-boundary, command, test, and safety constraints with `validate-contracts`.
 - ✅ tests recommendation: focused and regression tests from files or diffs.
 - ✅ diff / impact / verify: post-edit impact analysis and validation reports.
-- ✅ loop controller: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, and impact signals, with priority, confidence, blocking, and signals for each decision.
+- ✅ loop controller + runtime state machine: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, impact, and trace evidence; it also writes `.agent-context/runs/<task-id>/state.json` with the current state, allowed actions, blocking next action, satisfied evidence, and missing evidence.
 - ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state, with manual / command / CI evidence separated.
 - ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence. `trace run` captures exit code, output hashes, and working-tree hashes, which is stronger than a manual claim.
 - ✅ context delta: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff; `evolve` is currently a cache-aware full refresh, while selective output writes are planned.
@@ -105,6 +105,7 @@ repo-context drift .
 | readiness dimensions and hard caps             | ✅ implemented  |
 | task plan / pack / run                         | ✅ implemented  |
 | loop controller                                | ✅ implemented  |
+| runtime state machine / `state.json`           | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
 | context delta analysis                         | ✅ implemented  |

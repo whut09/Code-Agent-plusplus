@@ -99,6 +99,7 @@ test("task run writes a complete agent execution context", async () => {
       "prompt.codex.md",
       "prompt.cursor.md",
       "run.json",
+      "state.json",
       "tests.md",
       "verify.md"
     ]);
@@ -112,7 +113,11 @@ test("task run writes a complete agent execution context", async () => {
     assert.ok(Array.isArray(manifest.requiredCommands));
     assert.equal(manifest.traceFile, ".agent-context/traces/fix-login-timeout-bug.json");
     assert.ok(manifest.files.includes(".agent-context/runs/fix-login-timeout-bug/run.json"));
+    assert.ok(manifest.files.includes(".agent-context/runs/fix-login-timeout-bug/state.json"));
     assert.ok(manifest.files.includes(".agent-context/traces/fix-login-timeout-bug.json"));
+    const state = JSON.parse(readFileSync(path.join(result.dir, "state.json"), "utf8"));
+    assert.equal(state.state, "EDIT_BOUNDARY_READY");
+    assert.equal(state.nextAction.type, "start_agent");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

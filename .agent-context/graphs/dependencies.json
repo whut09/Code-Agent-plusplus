@@ -1411,6 +1411,12 @@
       "isExternal": false
     },
     {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/core/cache.ts",
       "to": "node:crypto",
       "specifier": "node:crypto",
@@ -1777,12 +1783,6 @@
       "isExternal": false
     },
     {
-      "from": "src/llm/provider.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/mcp/server.ts",
       "to": "node:path",
       "specifier": "node:path",
@@ -2143,6 +2143,12 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/loop-controller.ts",
+      "to": "src/outputs/runtime-state.ts",
+      "specifier": "./runtime-state.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/module-map.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -2263,6 +2269,36 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/task-context.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
@@ -2374,6 +2410,12 @@
       "from": "src/outputs/task-run.ts",
       "to": "src/outputs/execution-trace.ts",
       "specifier": "./execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/runtime-state.ts",
+      "specifier": "./runtime-state.js",
       "isExternal": false
     },
     {
@@ -2902,7 +2944,7 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 38
+      "count": 40
     },
     {
       "from": "retrievers",

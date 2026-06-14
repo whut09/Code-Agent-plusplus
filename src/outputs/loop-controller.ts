@@ -9,6 +9,7 @@ import { readExecutionTrace, type ExecutionTraceStep } from "./execution-trace.j
 import { buildTaskPack } from "./task-context.js";
 import { buildTestSelection } from "./test-selector.js";
 import { bullet, code, heading, table } from "./markdown.js";
+import { buildRunStateSnapshot, writeRunState, type RunStateSnapshot } from "./runtime-state.js";
 
 export type LoopPhase = "preflight" | "after-edit" | "repair";
 export type LoopStatus = "ready" | "needs-context" | "needs-repair" | "needs-validation" | "blocked";
@@ -68,6 +69,7 @@ export interface LoopControllerReport {
     impactDependents: number;
   };
   decisions: LoopDecision[];
+  runtime: RunStateSnapshot;
 }
 
 type LoopTraceEvidenceLevel = "none" | "manual" | "command" | "ci";
@@ -82,6 +84,7 @@ export interface LoopWriteResult {
 export function buildLoopControllerReport(context: ContextPackage, task: string, options: LoopControllerOptions = {}): LoopControllerReport {
   const base = options.base ?? "main";
   const phase = options.phase ?? "after-edit";
+  const taskId = taskSlug(task);
   const freshness = assessFreshness(context);
   const drift = assessDrift(context);
   const contracts = validateContracts(context, { base, diff: true });
@@ -114,6 +117,22 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
     traceSignals: traceEvidence.signals,
     missingTestSignals: actionableContractViolations.filter((violation) => /test/i.test(`${violation.rule} ${violation.reason}`)).length
   });
+  const runtime = buildRunStateSnapshot(context, {
+    taskId,
+    task,
+    phase,
+    contextFresh: freshness.status === "fresh",
+    driftClean: drift.status === "clean",
+    taskPackReady: true,
+    editBoundaryReady: true,
+    changedFiles,
+    contractsPassed: actionableContractsPassed,
+    contractViolations: actionableContractViolations.length,
+    taskPackOverBudget: taskPack.estimatedTokens > taskPack.tokenBudget,
+    impactRisk: impact.risk,
+    passedTestEvidence: traceEvidence.passedTestEvidence,
+    decisions
+  });
 
   return {
     task,
@@ -136,7 +155,8 @@ export function buildLoopControllerReport(context: ContextPackage, task: string,
       regressionTests: tests.recommendedRegressionTests.length,
       impactDependents: impact.directDependents.length + impact.transitiveDependents.length
     },
-    decisions
+    decisions,
+    runtime
   };
 }
 
@@ -166,6 +186,18 @@ export function renderLoopControllerReport(report: LoopControllerReport): string
       ]
     ),
     "",
+    heading(2, "Runtime State"),
+    table(
+      ["Field", "Value"],
+      [
+        ["State", report.runtime.state],
+        ["Previous state", report.runtime.previousState ?? "none"],
+        ["Last action", report.runtime.lastAction],
+        ["Next action", `${report.runtime.nextAction.type}${report.runtime.nextAction.blocking ? " (blocking)" : ""}`],
+        ["Missing evidence", report.runtime.missingEvidence.join(", ") || "none"]
+      ]
+    ),
+    "",
     heading(2, "Changed Files"),
     bullet(report.changedFiles.map(code)),
     "",
@@ -183,7 +215,11 @@ export function writeLoopControllerReport(context: ContextPackage, task: string,
   const dir = path.join(context.scan.root, ".agent-context", "loops", taskId);
   mkdirSync(dir, { recursive: true });
 
-  const files = [write(path.join(dir, "loop.md"), renderLoopControllerReport(report)), write(path.join(dir, "loop.json"), JSON.stringify(report, null, 2))];
+  const files = [
+    write(path.join(dir, "loop.md"), renderLoopControllerReport(report)),
+    write(path.join(dir, "loop.json"), JSON.stringify(report, null, 2)),
+    writeRunState(context.scan.root, report.runtime)
+  ];
 
   return { taskId, dir, files, report };
 }

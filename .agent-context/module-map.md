@@ -2,7 +2,7 @@
 
 | Module | Files | Score | Depends On | Summary |
 | --- | --- | --- | --- | --- |
-| outputs | 24 | 1216 | `core` | outputs contains 24 files and depends on core. |
+| outputs | 25 | 1276 | `core` | outputs contains 25 files and depends on core. |
 | test | 28 | 1004 | `analyzers`, `benchmarks`, `cli`, `config`, `core`, `mcp`, `outputs`, `retrievers` | test contains 28 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers. |
 | core | 17 | 874 | `analyzers`, `config`, `llm`, `outputs` | core contains 17 files and depends on analyzers, config, llm, outputs. |
 | retrievers | 6 | 256 | `core`, `outputs` | retrievers contains 6 files and depends on core, outputs. |

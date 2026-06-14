@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 10691,
-  "remainingBudget": 1309,
+  "estimatedTokens": 10932,
+  "remainingBudget": 1068,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -122,7 +122,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 99
+      "estimatedTokens": 104
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -222,7 +222,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 83
+      "estimatedTokens": 84
     },
     {
       "path": "test/test-selector.test.ts",
@@ -386,7 +386,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 196
+      "estimatedTokens": 199
     },
     {
       "path": "src/outputs/loop-controller.ts",
@@ -397,7 +397,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 322
+      "estimatedTokens": 326
     },
     {
       "path": "src/outputs/policy-engine.ts",
@@ -669,6 +669,15 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 128
+    },
+    {
+      "path": "src/outputs/runtime-state.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 228
     },
     {
       "path": "src/core/path-utils.ts",
@@ -1007,7 +1016,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 99
+      "estimatedTokens": 104
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -1107,7 +1116,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 83
+      "estimatedTokens": 84
     },
     {
       "path": "test/test-selector.test.ts",
@@ -1130,8 +1139,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 10691,
-    "remaining": 1309,
+    "used": 10932,
+    "remaining": 1068,
     "buckets": [
       {
         "name": "direct-source",
@@ -1149,7 +1158,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2181,
+        "tokens": 2187,
         "files": [
           "test/context-delta.test.ts",
           "test/execution-trace.test.ts",
@@ -1187,7 +1196,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 6338,
+        "tokens": 6573,
         "files": [
           "src/outputs/task-run.ts",
           "src/outputs/loop-controller.ts",
@@ -1219,6 +1228,7 @@
           "src/outputs/readiness.ts",
           "src/core/git.ts",
           "src/retrievers/static.ts",
+          "src/outputs/runtime-state.ts",
           "src/core/path-utils.ts",
           "src/retrievers/types.ts",
           "src/config/load-config.ts",

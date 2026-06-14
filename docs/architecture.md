@@ -10,7 +10,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 The generated context remains important, but it is one part of the control plane: agents use it together with traces, policy checks, tests, freshness, drift, impact, and verification signals to plan, edit, repair, and finalize changes.
 
-Current boundary: this is not yet a fully autonomous runtime state machine. It is a context, policy, and trace reporting system with a semi-automatic loop advisor. The controller consumes repository state and trace evidence to decide the next action, but an external coding agent or user still executes edits and commands. The roadmap is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+Current boundary: this is not yet a fully autonomous agent executor. It is a context, policy, trace, and runtime-state control plane with a semi-automatic loop advisor. The controller consumes repository state and trace evidence, persists `.agent-context/runs/<task-id>/state.json`, and decides the next allowed action, but an external coding agent or user still executes edits and commands. The roadmap is a more autonomous, evidence-driven Agent Harness Runtime.
 
 ```mermaid
 graph TD
@@ -233,7 +233,9 @@ The loop controller does not execute an agent directly. It reads the compiled co
 
 Every decision includes a numeric confidence score, a `blocking` flag, and evidence signals such as changed-file counts, test counts, context freshness, drift status, contract violations, or impact dependents. This keeps the loop output useful for humans while giving coding agents a stable ordering and stop/go signal.
 
-With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`. This is intentionally a control report rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable. When `traceId` is provided, the controller consumes passed test evidence from the trace and can stop asking for `run-tests` once verification has been recorded.
+With `--write`, the controller writes `.agent-context/loops/<task-id>/loop.md` and `loop.json`, then updates `.agent-context/runs/<task-id>/state.json`. This is intentionally a control report plus explicit state machine rather than a hidden executor: agents still inspect source files and run commands explicitly, while the harness makes the next action visible and auditable. When `traceId` is provided, the controller consumes passed test evidence from the trace and can stop asking for `run-tests` once verification has been recorded.
+
+The state file records `state`, `previousState`, repository/context/diff hashes, `lastAction`, the blocking `nextAction`, `allowedActions`, `satisfiedEvidence`, and `missingEvidence`. This gives MCP clients and coding agents a resumable runtime boundary instead of forcing them to infer progress from markdown.
 
 ## Execution Trace
 

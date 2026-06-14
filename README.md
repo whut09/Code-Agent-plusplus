@@ -14,7 +14,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 它不是简单 repo summarizer，也不只是 context pack tool。它的目标是给 Codex / Claude Code / Cursor 增加一个静态但可验证的工程控制面：更少乱读、更少乱改，改完知道怎么验证，并能根据 trace、policy、tests、diff 和 freshness 进入下一轮修复或收口。
 
-当前实现更准确地说是 Context / Policy / Trace 报告系统 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness 来生成下一步决策。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
+当前实现更准确地说是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness，更新 `.agent-context/runs/<task-id>/state.json`，并生成下一步唯一优先动作。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Repo-to-Agent-Context 输出效果动画">
@@ -84,7 +84,7 @@ repo-context drift .
 - ✅ contracts：生成架构、模块边界、命令、测试、安全约束，并支持 `validate-contracts`。
 - ✅ tests recommendation：根据文件和 diff 推荐最小测试/回归测试。
 - ✅ diff / impact / verify：面向改代码后的影响分析和验证报告。
-- ✅ loop controller：根据 freshness、diff、contracts、tests、impact 决定下一步是重建上下文、补测试、修 contract 还是进入 review，并给出 priority、confidence、blocking 和 signals。
+- ✅ loop controller + runtime state machine：根据 freshness、diff、contracts、tests、impact 和 trace evidence 决定下一步是重建上下文、补测试、修 contract 还是进入 review；同时写入 `.agent-context/runs/<task-id>/state.json`，记录当前状态、合法动作、下一步阻塞动作、满足证据和缺失证据。
 - ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态，并区分 manual / command / CI evidence。
 - ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据；`trace run` 捕获 exit code、输出哈希和 working tree hash，可信度高于手动声明。
 - ✅ context delta：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件；`evolve` 当前是 cache-aware full refresh，selective output writes 仍在计划中。
@@ -105,6 +105,7 @@ repo-context drift .
 | readiness 分维度评分和硬上限                   | ✅ implemented  |
 | task plan / pack / run                         | ✅ implemented  |
 | loop controller                                | ✅ implemented  |
+| runtime state machine / `state.json`           | ✅ implemented  |
 | execution trace                                | ✅ implemented  |
 | policy engine                                  | ✅ implemented  |
 | context delta analysis                         | ✅ implemented  |

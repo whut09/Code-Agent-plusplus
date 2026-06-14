@@ -58,7 +58,7 @@ graph TD
 | mcp | core | 1 |
 | mcp | outputs | 10 |
 | mcp | retrievers | 2 |
-| outputs | core | 38 |
+| outputs | core | 40 |
 | retrievers | core | 3 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |

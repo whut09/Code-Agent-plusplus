@@ -10,7 +10,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 当前实现不会直接调用 Codex、Claude Code 或 Cursor 去改代码。它提供的是控制面：让 Agent 知道先读什么、不要改什么、改完影响谁、该跑什么、是否能结束，以及下一轮应该补上下文、补测试、修 contract 还是进入 review。
 
-当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 半自动 loop 建议器，还不是完全自主的 runtime state machine。它不会自己调用 Codex / Claude Code / Cursor 改代码；它生成可验证、可排序、带证据的下一步决策，由外部 Agent 或用户执行。目标方向是有状态、自主推进、证据驱动的 Agent Harness Runtime。
+当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器，还不是完全自主的 agent executor。它不会自己调用 Codex / Claude Code / Cursor 改代码；它生成可验证、可排序、带证据的状态迁移和下一步动作，由外部 Agent 或用户执行。目标方向是更自主、证据驱动的 Agent Harness Runtime。
 
 ## 1. 总体执行链路
 
@@ -239,6 +239,28 @@ diff + dependency impact + test gap + contract violations + risk score
 每个 decision 都是机器可读对象，包含 `action`、`priority`、`confidence`、`blocking`、`signals`、`reason` 和可选 `command`。这样 Agent 可以按优先级执行，也能区分“缺测试证据这类阻塞门禁”和“启动第一轮 Agent 这类非阻塞动作”。
 
 当传入 trace id 时，controller 会读取 `.agent-context/traces/<trace-id>.json` 里的 passed test evidence。如果 changed files 已经有通过的测试证据，controller 不会继续输出 `run-tests`；只要 freshness、drift、contract、budget、impact 等信号也不阻塞，就可以进入 `ready-for-review`。
+
+当使用 `repo-context loop "<task>" . --write` 时，controller 还会更新 `.agent-context/runs/<task-id>/state.json`。这个文件是显式 runtime 状态机，而不是普通 markdown 报告：
+
+```json
+{
+  "state": "EDITED",
+  "taskId": "fix-timeout-bug",
+  "repoHash": "...",
+  "contextHash": "...",
+  "diffHash": "...",
+  "lastAction": "agent_edit",
+  "nextAction": {
+    "type": "run_tests",
+    "blocking": true,
+    "reason": "changed source files without command evidence"
+  },
+  "satisfiedEvidence": ["context_fresh", "contracts_valid"],
+  "missingEvidence": ["required_tests_passed"]
+}
+```
+
+当前状态模型包括：`EMPTY`、`CONTEXT_READY`、`TASK_PACK_READY`、`EDIT_BOUNDARY_READY`、`AGENT_STARTED`、`EDITED`、`VERIFYING`、`REPAIRING`、`READY_FOR_REVIEW` 和 `BLOCKED`。它让 Agent/MCP client 能明确知道：当前在哪个状态、哪些动作允许、唯一优先下一步是什么、执行后应该产生什么证据，以及缺失证据满足后如何迁移。
 
 典型规则如下：
 

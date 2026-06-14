@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -55,6 +55,12 @@ test("loop controller asks for context refresh and tests after source edits", as
     assert.ok(testDecision.signals.some((signal) => signal.startsWith("minimal tests detected:")));
     assert.ok(existsSync(path.join(result.dir, "loop.md")));
     assert.ok(existsSync(path.join(result.dir, "loop.json")));
+    const statePath = path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "state.json");
+    assert.ok(existsSync(statePath));
+    const state = JSON.parse(readFileSync(statePath, "utf8")) as { state: string; nextAction: { type: string }; missingEvidence: string[] };
+    assert.equal(state.state, "BLOCKED");
+    assert.equal(state.nextAction.type, "build_context");
+    assert.ok(state.missingEvidence.includes("context_fresh"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -85,7 +91,11 @@ test("loop controller consumes passed test trace evidence", async () => {
     assert.ok(report.changedFiles.includes("src/auth/session.ts"));
     assert.ok(!report.decisions.some((decision) => decision.action === "run-tests"));
     assert.ok(report.decisions.some((decision) => decision.action === "ready-for-review"));
+    assert.equal(report.runtime.state, "READY_FOR_REVIEW");
+    assert.equal(report.runtime.nextAction.type, "review");
+    assert.ok(report.runtime.satisfiedEvidence.includes("required_tests_passed"));
     assert.match(rendered, /Passed test evidence/);
+    assert.match(rendered, /Runtime State/);
     assert.match(rendered, /passed test trace: manual/);
   } finally {
     rmSync(root, { recursive: true, force: true });
