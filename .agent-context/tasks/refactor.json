@@ -7,7 +7,7 @@
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 308,
+      "score": 309,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 186,
+      "score": 187,
       "reasons": [
         "lexical match: code"
       ],
@@ -25,7 +25,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 186,
+      "score": 187,
       "reasons": [
         "lexical match: code"
       ],
@@ -34,7 +34,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 186,
+      "score": 187,
       "reasons": [
         "lexical match: code"
       ],
@@ -43,7 +43,7 @@
     },
     {
       "path": "src/core/types.ts",
-      "score": 171,
+      "score": 172,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -53,7 +53,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 171,
+      "score": 172,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -63,7 +63,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 183,
+      "score": 184,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -378,12 +378,12 @@
     },
     {
       "path": "src/outputs/context-delta.ts",
-      "score": 240,
+      "score": 241,
       "reasons": [
         "lexical match: code",
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -391,7 +391,7 @@
     },
     {
       "path": "src/outputs/orchestrator.ts",
-      "score": 216,
+      "score": 217,
       "reasons": [
         "lexical match: code",
         "direct importer of src/core/types.ts",
@@ -403,11 +403,11 @@
     },
     {
       "path": "src/outputs/execution-trace.ts",
-      "score": 212,
+      "score": 213,
       "reasons": [
         "lexical match: code",
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -415,7 +415,7 @@
     },
     {
       "path": "src/core/token-estimator.ts",
-      "score": 188,
+      "score": 189,
       "reasons": [
         "lexical match: code",
         "direct importer of src/core/types.ts",
@@ -428,9 +428,9 @@
       "path": "src/outputs/task-harness.ts",
       "score": 98,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -440,9 +440,9 @@
       "path": "src/outputs/task-run.ts",
       "score": 98,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -452,9 +452,9 @@
       "path": "src/outputs/loop-controller.ts",
       "score": 98,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -464,9 +464,9 @@
       "path": "src/outputs/policy-engine.ts",
       "score": 98,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -476,9 +476,9 @@
       "path": "src/outputs/impact.ts",
       "score": 98,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -488,9 +488,9 @@
       "path": "src/outputs/test-selector.ts",
       "score": 98,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
         "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -512,9 +512,9 @@
       "path": "src/outputs/task-context.ts",
       "score": 80,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
-        "direct importer of src/outputs/markdown.ts"
+        "direct importer of src/outputs/markdown.ts",
+        "direct dependency of src/mcp/server.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 252
@@ -578,8 +578,8 @@
       "path": "src/outputs/writer.ts",
       "score": 70,
       "reasons": [
-        "direct dependency of src/mcp/server.ts",
         "direct importer of src/core/types.ts",
+        "direct dependency of src/mcp/server.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -726,16 +726,6 @@
       "estimatedTokens": 211
     },
     {
-      "path": "src/core/indexer.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/core/types.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 225
-    },
-    {
       "path": "src/config/load-config.ts",
       "score": 46,
       "reasons": [
@@ -744,6 +734,16 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 160
+    },
+    {
+      "path": "src/core/indexer.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/core/types.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 225
     },
     {
       "path": "src/analyzers/python.ts",
@@ -904,7 +904,7 @@
     },
     {
       "path": "code-agent-plusplus.config.yml",
-      "score": 194,
+      "score": 195,
       "reasons": [
         "lexical match: code",
         "configuration"
@@ -916,7 +916,7 @@
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 308,
+      "score": 309,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -925,7 +925,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 186,
+      "score": 187,
       "reasons": [
         "lexical match: code"
       ],
@@ -934,7 +934,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 186,
+      "score": 187,
       "reasons": [
         "lexical match: code"
       ],
@@ -943,7 +943,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 186,
+      "score": 187,
       "reasons": [
         "lexical match: code"
       ],
@@ -952,7 +952,7 @@
     },
     {
       "path": "src/core/types.ts",
-      "score": 171,
+      "score": 172,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -962,7 +962,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 171,
+      "score": 172,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -972,7 +972,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 183,
+      "score": 184,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -1238,8 +1238,8 @@
           "src/outputs/runtime-state.ts",
           "src/core/cache.ts",
           "src/core/scanner.ts",
-          "src/core/indexer.ts",
           "src/config/load-config.ts",
+          "src/core/indexer.ts",
           "src/analyzers/python.ts",
           "src/analyzers/javascript.ts",
           "src/retrievers/ripgrep.ts",

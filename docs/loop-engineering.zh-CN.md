@@ -12,6 +12,16 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器，还不是完全自主的 agent executor。它不会自己调用 Codex / Claude Code / Cursor / OpenCode / MiMoCode 改代码；它生成可验证、可排序、带证据的状态迁移和下一步动作，由外部 Agent 或用户执行。目标方向是更自主、证据驱动的 Agent Harness Runtime。
 
+从 Guard 模块视角看，这个 loop 由几类可靠性检查组成：
+
+- Context Guard 决定 Agent 应该先读什么。
+- Boundary Guard 决定 Agent 可以改什么、不能改什么。
+- Evidence Guard 决定验证证据是否新鲜且可信。
+- Impact Guard 决定哪些模块、测试和 review 面受影响。
+- Loop Guard 决定 finalize、repair、repack、block 还是 require human review。
+
+Hallucination Guard 和 Regression Guard 是同一条 loop 的后续扩展：前者检查幻觉 API、命令、配置和项目约定，后者检查 known issues、历史 bug pattern 和回归风险。
+
 ## 1. 总体执行链路
 
 主构建链路从 CLI 进入 `buildContextPackage()`：

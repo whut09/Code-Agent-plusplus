@@ -12,6 +12,57 @@ The generated context remains important, but it is one part of the enhancement l
 
 Current boundary: this is not yet a fully autonomous agent executor. It is a context, policy, trace, and runtime-state control plane with a semi-automatic loop advisor. The controller consumes repository state and trace evidence, persists `.agent-context/runs/<task-id>/state.json`, and decides the next allowed action, but an external coding agent or user still executes edits and commands. The roadmap is a more autonomous, evidence-driven Agent Harness Runtime.
 
+## Reliability Layer Model
+
+Code Agent++ is organized as a set of Guard modules around existing coding agents:
+
+```txt
+Code Agent failure mode
+  -> Guard module
+  -> evidence-backed finding
+  -> repair / repack / rerun tests / finalize decision
+```
+
+The Guard map is:
+
+- Context Guard: task-aware repository context, instruction files, and validation hints.
+- Hallucination Guard: planned checks for nonexistent APIs, files, commands, config, dependencies, and conventions.
+- Boundary Guard: allowed/denied edit paths, protected paths, generated files, lockfiles, migrations, CI, deploy, and infra boundaries.
+- Regression Guard: planned fix-history, known-issue, fragile-module, and anti-regression checks.
+- Evidence Guard: command evidence, exit codes, timestamps, output hashes, and working-tree hashes.
+- Impact Guard: changed files, downstream dependents, affected modules, tests to run, and review risk.
+- Loop Guard: finalize, rerun tests, repair code, repair tests, repack context, block, rollback, or require human review.
+- Executor Adapter + Trace Normalizer: adapters for OpenCode, MiMoCode, Codex CLI, Claude Code, Cursor, and mock execution.
+
+This architecture keeps `AGENTS.md` in the right place: it is a Context Guard output, not the entire product. The larger product is an external reliability layer that constrains and evaluates code-agent execution.
+
+## Lifecycle Architecture
+
+The runtime lifecycle has three phases:
+
+1. Before execution: scan/index/graph/rank the repository, generate task-aware context, edit boundaries, known-risk notes, and recommended verification.
+2. During execution: hand a bounded task pack to a code-agent executor, then collect diff, trace, command output, and event logs.
+3. After execution: run Boundary, Evidence, Impact, Policy, and Loop checks to decide finalize, repair, repack, block, rollback, or human review.
+
+```txt
+Before execution
+  -> Context Guard
+  -> Boundary Guard preparation
+  -> Regression notes preparation
+
+During execution
+  -> Executor Adapter
+  -> Trace Normalizer
+
+After execution
+  -> Boundary Guard
+  -> Hallucination Guard
+  -> Regression Guard
+  -> Evidence Guard
+  -> Impact Guard
+  -> Loop Guard
+```
+
 ```mermaid
 graph TD
   CLI --> RepoScanner["Repo Scanner"]
@@ -76,6 +127,8 @@ This keeps the project distinct from repo summarizers, README generators, and ra
 For a source-level walkthrough of the runtime loop, see [Loop Engineering Code Path](loop-engineering.md). The Chinese version is [Loop Engineering 源码链路](loop-engineering.zh-CN.md).
 
 For the two integration modes and their isolated entry points, see [Integration Modes and Entry Isolation](integration-modes.md). The Chinese version is [两套集成模式与入口隔离](integration-modes.zh-CN.md).
+
+For Guard responsibilities and maturity, see [Guard Modules](guard-modules.md). The Chinese version is [Guard Modules](guard-modules.zh-CN.md).
 
 ## Scanner
 

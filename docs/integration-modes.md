@@ -2,6 +2,16 @@
 
 Code Agent++ supports two separate flows. The difference is not whether AI is used; the difference is who owns control.
 
+In both flows, Guard modules provide the reliability layer:
+
+- Context Guard prepares task-specific context.
+- Boundary Guard defines and checks the edit surface.
+- Evidence Guard validates command and test evidence.
+- Impact Guard explains blast radius and review risk.
+- Loop Guard decides whether to finalize, repair, repack, block, or require human review.
+
+The difference is whether those Guards are advisory signals for the host agent or acceptance gates owned by Code Agent++.
+
 ## Summary
 
 | Mode                                     | Controller                                         | Entry Points                                                                                                 | Executes a code agent?                      | Best For                                                                           |
@@ -63,6 +73,7 @@ Artifacts:
 Guarantee boundary:
 
 - This mode guarantees that context, boundaries, test recommendations, impact reports, and policy reports are available.
+- Guard findings are advisory unless the host agent chooses to obey them.
 - It cannot guarantee that the external code agent follows the report, because the external agent owns control.
 
 ## Mode 2: Code Agent++-Led, Code Agent As Executor
@@ -109,7 +120,7 @@ Artifacts:
 Guarantee boundary:
 
 - This mode guarantees that each run collects diff, trace, and executor events.
-- It guarantees one gate over policy / contracts / tests / impact / verify.
+- It guarantees one gate over Guard findings, policy / contracts / tests / impact / verify.
 - It produces an explicit decision: `finalize`, `repair`, `repack`, `block`, or `require-human-review`.
 - It cannot guarantee that the external executor edits code correctly; it guarantees auditable acceptance and next-step decisions after execution.
 

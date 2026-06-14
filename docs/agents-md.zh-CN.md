@@ -6,6 +6,8 @@
 
 Code Agent++ 会生成根目录 `AGENTS.md`，并把更详细的上下文放到 `.agent-context/`。
 
+在 Code Agent++ 架构里，`AGENTS.md` 是 Context Guard 的一种输出。它应该保持短小；Boundary、Evidence、Impact、Regression、Hallucination 和 Loop 检查会通过 `.agent-context/` 下的 contracts、traces、policy reports、verify reports 和 task runs 承载。
+
 根目录说明现在有明确分层：
 
 - `AGENTS.manual.md`：人工维护的环境、部署、运行手册、恢复步骤

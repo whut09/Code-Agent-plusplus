@@ -2,11 +2,27 @@
 
 中文 | [English](README.en.md)
 
-**Code Agent++: Make Coding Agents Safer, Smarter, and More Verifiable**
+**Code Agent++：面向 Code Agent 的外挂式增强与可靠性工程层。**
 
-Code Agent++ 是面向 AI 编程 Agent 的外挂增强层：为 Codex / OpenCode / Claude Code / Cursor / MiMoCode 等代码 Agent 提供上下文增强、编辑边界、回归防护、影响分析、测试证据验证与 repair/finalize 决策能力，让 Agent 不只是“能改代码”，而是能在复杂仓库中更可控、更可信、更少重复犯错。
+Code Agent++ 不做另一个代码生成 Agent，也不替代 Codex、OpenCode、Claude Code、Cursor、MiMoCode 写代码。它的定位是 **Code Agent Enhancement Layer / Agent Reliability Layer**：围绕 Code Agent 在真实工程中的常见失败模式，提供上下文、边界、验证、回归防护、幻觉抑制、影响分析和修复闭环等外挂式增强能力。
 
-它不是另一个代码生成 Agent，也不替代 Codex、OpenCode 或 Claude Code 写代码。Code Agent++ 的定位是 Code Agent Enhancement / Agent Reliability Layer：围绕代码 Agent 在真实工程中常见的问题，提供一组可外挂、可组合、可验证的增强模块。
+Code Agent 本身已经具备较强的读代码、改代码、跑命令能力，但在复杂仓库中仍然容易出现工程问题：
+
+- 缺少准确上下文，靠猜测定位文件和模块。
+- 修改范围失控，误改无关文件或 protected path。
+- 生成不存在的 API、配置、命令或项目约定，产生工程幻觉。
+- 测试证据不可信，先测试通过后又继续改代码。
+- 改动影响范围不可见，review 风险难以判断。
+- 曾经修复过的问题，在后续修改中被重新引入。
+- repair loop 反复执行，无法判断该继续、回滚还是收口。
+- `AGENTS.md`、`CLAUDE.md`、Cursor rules 等上下文文件过大、过旧或互相冲突。
+
+Code Agent++ 的目标不是让 Agent “更会生成代码”，而是让 Agent 的修改过程 **更有边界、更有证据、更可验证、更少回归**。
+
+```txt
+Code Agent 负责写代码
+Code Agent++ 负责约束、验证、记录、纠偏和防回归
+```
 
 核心闭环：
 
@@ -14,11 +30,7 @@ Code Agent++ 是面向 AI 编程 Agent 的外挂增强层：为 Codex / OpenCode
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-它不是简单 repo summarizer，也不只是 context pack tool。它的核心思想是：Agent 负责写代码，Code Agent++ 负责让这次修改有边界、有证据、可验证、少回归。
-
-它将“上下文、边界、验证、影响分析、回归防护、修复闭环”从 Prompt 中抽离出来，沉淀为可执行的 Harness Engineering 基础设施。
-
-当前实现更准确地说是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness，更新 `.agent-context/runs/<task-id>/state.json`，并生成下一步唯一优先动作。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
+当前实现更准确地说是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness，更新 `.agent-context/runs/<task-id>/state.json`，并生成下一步优先动作。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Code Agent++ 输出效果动画">
@@ -29,24 +41,134 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 这个项目的主要用户就是 AI 编程工具。你可以直接在 Codex、Claude Code、Cursor、OpenCode、MiMoCode 或其他 Agent 里说：
 
 ```txt
-使用 https://github.com/whut09/Code-Agent-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。
+使用 https://github.com/whut09/Code-Agent-plusplus 对 xxx 项目生成 Code Agent++ 上下文与可靠性增强包。
 请先检查目标仓库结构，再按需安装或克隆该工具。
 请强制启用 LLM 摘要：在目标仓库创建或更新 code-agent-plusplus.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置，或我提供的 key/baseUrl/model；如果缺少配置，请先问我。
-然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件，以及 LLM 摘要模式是否成功。
+然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件、哪些 Guard 能力可用，以及 LLM 摘要模式是否成功。
 ```
 
 把 `xxx 项目` 换成本地路径、GitHub 仓库或当前工作区名称即可。真实 key 只写入 `code-agent-plusplus.local.yml`，不要提交。
 
-## 它解决什么问题？
+## 核心理念
 
-AI 编程工具通常不是不会写代码，而是没吃对上下文：
+Code Agent++ 采用问题驱动的外挂式架构：
 
-- 上下文丢失：不知道入口文件、模块边界、测试命令和架构约束。
-- 乱读文件：把整个仓库塞进上下文，token 浪费严重。
-- 乱改文件：没有编辑边界，不知道哪些路径是 generated、lockfile、migration、env。
-- 改完不会验证：不知道该跑哪些测试、typecheck、lint 或 diff impact。
+```txt
+Code Agent 出现什么类型的问题
+  -> Code Agent++ 挂载对应的 Guard / Enhancer 模块
+```
 
-Code Agent++ 的目标是把“给 Agent 的仓库记忆”升级成可生成、可更新、可验证、可闭环控制的运行时系统。
+典型映射：
+
+| Code Agent 失败模式                | Code Agent++ 模块                   |
+| ---------------------------------- | ----------------------------------- |
+| 上下文不准、乱搜文件               | Context Guard                       |
+| 幻觉 API / 幻觉命令 / 幻觉项目约定 | Hallucination Guard                 |
+| 修改范围失控                       | Boundary Guard                      |
+| 重复引入历史 bug                   | Regression Guard                    |
+| 测试证据不可信                     | Evidence Guard                      |
+| 改动影响范围不可见                 | Impact Guard                        |
+| 修复循环无法收口                   | Loop Guard                          |
+| 多种 Agent 输出格式不统一          | Executor Adapter + Trace Normalizer |
+
+`AGENTS.md` 只是 Context Guard 的一种输出形式。Code Agent++ 更大的目标，是成为 Codex / OpenCode / Claude Code / Cursor / MiMoCode 的外挂可靠性层。
+
+## 技术路线
+
+Code Agent++ 的技术路线分为三层：执行前增强、执行中约束、执行后验证。
+
+### 1. 执行前：让 Agent 少猜
+
+在 Code Agent 开始改代码之前，Code Agent++ 先对仓库进行结构化分析，生成任务级上下文和工程边界。
+
+主要能力：
+
+- 仓库结构分析。
+- 模块关系分析。
+- 任务相关文件检索。
+- task-aware context pack。
+- `AGENTS.md` / `CLAUDE.md` / Cursor rules / OpenCode instructions 导出。
+- 编辑边界生成。
+- protected path 识别。
+- 历史修复记录、known issues、anti-regression notes 注入。
+- 推荐测试路径和验证命令。
+
+这一层解决：Agent 不知道该看哪里、不知道哪里不能动、不知道历史上踩过哪些坑、不知道改完该怎么验证。
+
+### 2. 执行中：让 Agent 有边界
+
+Code Agent++ 不直接替代 Agent 写代码，而是通过 Executor Adapter 外挂到不同 Code Agent：
+
+- OpenCode Executor
+- Codex CLI Executor
+- Claude Code Executor
+- Cursor Executor
+- MiMoCode Executor
+- Mock Executor
+
+典型流程：
+
+```txt
+Code Agent++ plan
+  -> Code Agent++ pack
+  -> 调用 OpenCode / Codex / Claude Code / Cursor / MiMoCode 执行修改
+  -> 收集 diff、命令、日志、事件流
+  -> 进入验证和决策
+```
+
+关键原则：**Code Agent 可以自主改代码，但不能自主宣布完成。** Agent 是否真的完成任务，要由 Code Agent++ 根据证据、diff、测试和策略门禁来判断。
+
+### 3. 执行后：让修改可验证、可审计、少回归
+
+Agent 修改完成后，Code Agent++ 进入验证与决策阶段。
+
+主要能力：
+
+- diff changed files 分析。
+- allowed / denied edit boundary 检查。
+- protected path 检查。
+- dependency impact / blast radius 分析。
+- 测试推荐与测试执行。
+- command trace 记录。
+- exit code、timestamp、working tree hash 校验。
+- 测试证据是否晚于最后一次编辑。
+- 回归风险检测。
+- 历史 bug / known issue 对照。
+- repair / repack / rerun tests / finalize 决策。
+
+这一层解决：Agent 说完成了到底有没有完成、测试证据可信吗、有没有越界修改、有没有引入旧 bug、影响了哪些下游模块、现在该继续修还是等待人工 review。
+
+## Guard 模块
+
+### Context Guard
+
+负责任务级上下文增强。输出包括 `AGENTS.md`、`CLAUDE.md`、Cursor rules、OpenCode instructions、task pack、module map、relevant files 和 validation hints。目标是减少上下文丢失、无效搜索和 token 浪费。
+
+### Hallucination Guard
+
+负责降低工程幻觉。检查 Agent 是否使用了仓库中不存在的文件、API、函数、配置项、CLI 命令、测试命令、项目约定、依赖包或环境变量。目标是把“模型觉得应该有”变成“仓库证据证明真的有”。
+
+### Boundary Guard
+
+负责约束修改范围。生成并检查 allowed edit paths、denied edit paths、protected paths、generated files、lockfiles、migration files、CI / deploy / infra 配置。目标是防止 Agent 为了完成局部任务而扩大修改面。
+
+### Regression Guard
+
+负责防止旧问题被重新引入。维护 fix history、known issues、previous bug patterns、regression notes、anti-regression tests、fragile modules 和 historical failure cases。目标是让 Agent 在新任务中记住过去已经修复过的问题。
+
+### Evidence Guard
+
+负责验证测试证据是否可信。它不只看 Agent 的自然语言总结，而是检查实际执行过什么命令、exit code 是否为 0、测试输出是否存在、测试时间是否晚于最后一次编辑、测试时的 working tree hash 是否匹配，以及是否存在“测试后又改代码”的证据污染。
+
+### Impact Guard
+
+负责分析 diff 的工程影响范围。检查 changed files、affected modules、downstream dependencies、tests to run、review risk、unexpected file changes 和 scope expansion。目标是让 Agent 的修改不只是能跑，还能被 review 和合并。
+
+### Loop Guard
+
+负责控制 repair/finalize 闭环。它会根据策略、测试、影响分析和证据验证结果，决定下一步应该 finalize、rerun tests、repair code、repair tests、repack context、block、rollback 或 require human review。
+
+更多实现细节见 [Guard Modules](docs/guard-modules.zh-CN.md)。
 
 ## 30 秒怎么用？
 
@@ -56,7 +178,7 @@ code-agent-plusplus plan "fix login timeout bug" .
 code-agent-plusplus pack "fix login timeout bug" .
 ```
 
-`agent-plus` / `code-agent-plusplus` 是新 CLI 别名；`code-agent-plusplus` 会继续保留，避免旧脚本和旧文档失效。
+`code-agent-plusplus` 是唯一推荐的 CLI 命令；MCP server 使用 `code-agent-plusplus-mcp`。
 
 本地源码运行：
 
@@ -72,70 +194,40 @@ node dist/cli/index.js build .
 code-agent-plusplus run "fix login timeout bug" . --type bugfix
 code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
-code-agent-plusplus delta . --base main
-code-agent-plusplus evolve . --base main
-code-agent-plusplus loop "fix login timeout bug" . --phase after-edit
-code-agent-plusplus trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
 code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
 code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
-code-agent-plusplus tests . --diff --base main
 code-agent-plusplus impact . --base main
 code-agent-plusplus verify --diff .
 code-agent-plusplus freshness .
 code-agent-plusplus drift .
 ```
 
-## 比 repo summarizer / RAG loader 多了什么？
-
-- ✅ task-aware context：按任务检索、图扩展、预算打包，而不是输出一堆摘要。
-- ✅ evidence-linked index：索引包含 analyzer、confidence、symbols、imports 和行级 evidence。
-- ✅ contracts：生成架构、模块边界、命令、测试、安全约束，并支持 `validate-contracts`。
-- ✅ tests recommendation：根据文件和 diff 推荐最小测试/回归测试。
-- ✅ diff / impact / verify：面向改代码后的影响分析和验证报告。
-- ✅ loop controller + runtime state machine：根据 freshness、diff、contracts、tests、impact 和 trace evidence 决定下一步是重建上下文、补测试、修 contract 还是进入 review；同时写入 `.agent-context/runs/<task-id>/state.json`，记录当前状态、合法动作、下一步阻塞动作、满足证据和缺失证据。
-- ✅ execution trace：结构化记录 Agent 的编辑、测试、验证和最终状态，并区分 manual / command / CI evidence。
-- ✅ evidence validation：trace 不再只是日志；测试/contract 证据会校验 required command、exit code、working tree hash、是否晚于最后一次编辑，避免“测试通过后又改代码”的证据污染。
-- ✅ policy engine：对 diff、contracts、freshness、trace 进行运行时护栏检查，拦截禁改行为、提示风险并强制测试/验证证据；`trace run` 捕获 exit code、输出哈希和 working tree hash，可信度高于手动声明。
-- ✅ context delta：从 git diff 推导需要更新的上下文产物、受影响图节点和 Agent 必须重读的文件；`evolve` 当前是 cache-aware full refresh，selective output writes 仍在计划中。
-- 🧪 MCP runtime tools：stdio MCP server 已暴露 build / plan / pack / retrieve / tests / impact / verify 以及 start_loop / step / evaluate / repair / finalize 等工具；真实客户端集成仍需逐个验证。
-- 🧪 benchmark：Loop Behavior Benchmark，对比 no-context / AGENTS.md / context pack / loop-enabled harness 下的错改、测试失败、步骤、token 和 repair loops。
-- 🧪 hybrid retrieve：统一 static / ripgrep 检索协议，为 RAG、MCP、编辑器扩展留接口。
-- 🚧 real agent benchmark：计划接入真实 Codex / Claude Code 运行数据。
-
 ## 当前状态
 
-| 能力                                           | 状态            |
-| ---------------------------------------------- | --------------- |
-| `build` / `AGENTS.md` / `.agent-context`       | ✅ implemented  |
-| minimal `AGENTS.md` + manual/generated 分层    | ✅ implemented  |
-| TypeScript Compiler API analyzer               | ✅ implemented  |
-| Python AST / optional Tree-sitter analyzer     | ✅ implemented  |
-| token savings estimated + actual output tokens | ✅ implemented  |
-| readiness 分维度评分和硬上限                   | ✅ implemented  |
-| task plan / pack / run                         | ✅ implemented  |
-| harness orchestrator / `orchestrate`           | ✅ implemented  |
-| `agent run` executor wrapper                   | ✅ implemented  |
-| CI 和确定性测试用 mock executor                | ✅ implemented  |
-| 通用 executor command adapter                  | ✅ implemented  |
-| OpenCode / MiMoCode 原生事件 normalizer        | 🚧 planned      |
-| loop controller                                | ✅ implemented  |
-| runtime state machine / `state.json`           | ✅ implemented  |
-| execution trace                                | ✅ implemented  |
-| policy engine                                  | ✅ implemented  |
-| context delta analysis                         | ✅ implemented  |
-| evolve cache-aware full refresh                | ✅ implemented  |
-| evolve selective output writes                 | 🚧 planned      |
-| tests / impact / verify                        | ✅ implemented  |
-| freshness / drift / manifest                   | ✅ implemented  |
-| contracts validation                           | ✅ implemented  |
-| MCP server scaffold                            | ✅ implemented  |
-| MCP tools: build / plan / pack / retrieve      | ✅ implemented  |
-| Agent Native Runtime loop tools                | 🧪 experimental |
-| benchmark harness                              | 🧪 experimental |
-| hybrid retrieve / RAG export                   | 🧪 experimental |
-| Claude / Cursor / Codex real integration       | 🚧 planned      |
-| direct LightRAG server sync                    | 🚧 planned      |
-| VS Code / Cursor extension                     | 🚧 planned      |
+| 能力                                                 | 状态                   |
+| ---------------------------------------------------- | ---------------------- |
+| `build` / `AGENTS.md` / `.agent-context`             | implemented            |
+| task plan / pack / run                               | implemented            |
+| TypeScript Compiler API analyzer                     | implemented            |
+| Python AST / optional Tree-sitter analyzer           | implemented            |
+| token savings estimated + actual output tokens       | implemented            |
+| readiness 分维度评分和硬上限                         | implemented            |
+| Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
+| Hallucination / Regression Guards                    | planned                |
+| harness orchestrator / `orchestrate`                 | implemented            |
+| `agent run` executor wrapper                         | implemented            |
+| mock executor                                        | implemented            |
+| generic executor command adapter                     | implemented            |
+| OpenCode / MiMoCode 原生事件 normalizer              | planned                |
+| runtime state machine / `state.json`                 | implemented            |
+| policy engine                                        | implemented            |
+| context delta analysis                               | implemented            |
+| tests / impact / verify                              | implemented            |
+| freshness / drift / manifest                         | implemented            |
+| MCP server scaffold                                  | implemented            |
+| Agent Native Runtime loop tools                      | experimental           |
+| benchmark harness                                    | experimental           |
+| direct LightRAG server sync                          | planned                |
 
 ## 输出内容
 
@@ -185,23 +277,21 @@ code-agent-plusplus pack "<task>" [repo]
 code-agent-plusplus run "<task>" [repo]
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --fail-on required
 code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
-code-agent-plusplus delta [repo] --base main
-code-agent-plusplus evolve [repo] --base main
-code-agent-plusplus loop "<task>" [repo] --phase after-edit
 code-agent-plusplus trace start "<task>" [repo] --agent codex
-code-agent-plusplus trace add <trace-id> [repo] --action edit --files src/auth/session.ts
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
 code-agent-plusplus tests [repo] --diff --base main
 code-agent-plusplus impact [repo] --base main
 code-agent-plusplus verify --diff [repo]
+code-agent-plusplus delta [repo] --base main
+code-agent-plusplus evolve [repo] --base main
+code-agent-plusplus loop "<task>" [repo] --phase after-edit
 code-agent-plusplus validate [repo]
 code-agent-plusplus validate-contracts [repo]
 code-agent-plusplus freshness [repo]
 code-agent-plusplus drift [repo]
 code-agent-plusplus benchmark [benchmarkDir] --top-k 8
 code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
-code-agent-plusplus
 code-agent-plusplus-mcp
 ```
 
@@ -209,7 +299,7 @@ code-agent-plusplus-mcp
 
 - `forbidden`：只让 forbidden edits 失败，适合本地探索。
 - `required`：forbidden + missing required actions 失败，是默认值，适合 PR 检查。
-- `risk`：forbidden + required + risk warnings 都失败，等价于旧的 `--strict`，适合 main 分支或发布门禁。
+- `risk`：forbidden + required + risk warnings 都失败，适合 main 分支或发布门禁。
 
 ## Code Agent 集成
 
@@ -220,52 +310,15 @@ Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> 负责读代码、改代码、跑命令、调用工具
 
 Code Agent++
-  -> 负责上下文、边界、trace、policy、impact、tests、verify、repair/finalize 决策
+  -> 负责 context、boundary、trace、policy、impact、tests、verify、repair/finalize 决策
 ```
-
-这种分工让现有 code agent 的执行能力和 Code Agent++ 的控制面能力自然组合。OpenCode / MiMoCode 是开源 code agent runtime，也是项目下一步优先接入和验证的执行器方向。
 
 项目支持两种工作模式：
 
-- 详细入口隔离说明见 [docs/integration-modes.zh-CN.md](docs/integration-modes.zh-CN.md)。
+- Code Agent 主导，Code Agent++ 约束：Agent 调用 CLI / MCP 工具，但最终是否遵守 gate 由宿主 Agent 决定。
+- Code Agent++ 主导，Code Agent 作为 executor：Code Agent++ 负责 plan / pack / execute / collect evidence / policy / verify / decision，外部 Agent 只作为可替换编码执行器。
 
-### 模式一：Code Agent 主导，Code Agent++ 约束
-
-这是当前最容易接入的方式。Codex / Claude Code / Cursor / OpenCode / MiMoCode 作为主执行者，通过 MCP 或 CLI 调用 Code Agent++：
-
-```txt
-用户任务
-  -> code agent 调用 code_agent_plusplus_plan / pack / retrieve
-  -> code agent 读代码、改代码、跑命令
-  -> code agent 调用 tests / impact / verify / evaluate
-  -> Code Agent++ 输出 policy、contracts、trace、verify 结果
-```
-
-这种模式的优点是体验自然、接入快，适合 OpenCode / MiMoCode 的 MCP demo 和日常辅助使用。限制是最高决策权仍在 code agent 内部：它可以忽略某些工具调用或绕过 gate，所以 Code Agent++ 能提供约束和证据，但不能完全保证最终效果。
-
-### 模式二：Code Agent++ 主导，Code Agent 作为编码执行器
-
-这是项目的正式 Harness Runtime 路线。Code Agent++ 负责流程编排和验收，code agent 只作为可替换的编码执行器：
-
-```txt
-用户任务
-  -> Code Agent++ plan / pack
-  -> 选择 executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode
-  -> code agent 执行代码修改
-  -> Code Agent++ 收集 diff / trace / test evidence
-  -> policy / contracts / tests / impact / verify
-  -> decision: finalize / repair / repack / block / require human review
-```
-
-这种模式下项目拥有最高控制权：是否继续、是否修复、是否重打包上下文、是否阻塞、是否要求人工 review，都由 Code Agent++ 根据状态机、trace evidence、policy gate 和 verify report 决定。OpenCode / MiMoCode 因为开源、可脚本化、可观察，是优先接入的 executor。
-
-落地路线：
-
-1. MCP 接入：让 code agent 调用 `code_agent_plusplus_plan`、`code_agent_plusplus_pack`、`code_agent_plusplus_retrieve`、`code_agent_plusplus_tests`、`code_agent_plusplus_impact`、`code_agent_plusplus_verify`、`code_agent_plusplus_evaluate`、`code_agent_plusplus_repair`、`code_agent_plusplus_finalize`。OpenCode / MiMoCode 作为开源执行器优先验证。
-2. Executor Wrapper：`code-agent-plusplus agent run "<task>" . --executor opencode|mimocode --executor-command "<带 {prompt} 的命令>"` 完成 `pack -> run agent -> collect diff -> verify`。CI 和测试用的确定性 `mock` executor 已实现；真实 code agent CLI 先通过 `--executor-command` 接入，后续再补原生事件 normalizer。
-3. Orchestrator Loop：`code-agent-plusplus orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<带 {prompt} 的命令>"`，由 Code Agent++ 主导 `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`。
-
-核心抽象是 `AgentExecutor`：底层可以是 OpenCode、MiMoCode、Codex CLI、Claude Code 或其他 code agent；Harness 只关心它改了哪些文件、事件日志是什么、测试是否真的跑过、diff 是否满足 policy gate。
+详细入口隔离说明见 [docs/integration-modes.zh-CN.md](docs/integration-modes.zh-CN.md)。
 
 ## MCP / Agent Native Runtime
 
@@ -279,7 +332,7 @@ code_agent_plusplus_repair
 code_agent_plusplus_finalize
 ```
 
-实验性 runtime loop 工具包括：start_loop 生成任务运行目录和 trace，step 记录编辑/测试/验证动作，evaluate 汇总 delta、loop、policy、verify 信号，repair 产出修复动作，finalize 在测试和 contract 证据齐全后收口。
+实验性 runtime loop 工具包括：`start_loop` 生成任务运行目录和 trace，`step` 记录编辑/测试/验证动作，`evaluate` 汇总 delta、loop、policy、verify 信号，`repair` 产出修复动作，`finalize` 在测试和 contract 证据齐全后收口。
 
 ## LLM 摘要配置
 
@@ -303,6 +356,7 @@ code-agent-plusplus build . --llm
 ## 文档
 
 - [架构设计](docs/architecture.md)
+- [Guard Modules](docs/guard-modules.zh-CN.md)
 - [Loop Engineering 源码链路](docs/loop-engineering.zh-CN.md)
 - [AGENTS.md 使用说明](docs/agents-md.zh-CN.md)
 - [Roadmap](docs/roadmap.md)

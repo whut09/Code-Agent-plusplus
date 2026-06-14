@@ -10,6 +10,16 @@ Current boundary: the project is a Context / Policy / Trace reporting system plu
 
 The project does not directly ask Codex, Claude Code, Cursor, OpenCode, or MiMoCode to edit code. Instead, it provides the control plane those agents need: what to read first, what not to edit, who is affected by a change, which tests to run, whether a run can close, and whether the next turn should rebuild context, repair contracts, add tests, expand context, or move to review.
 
+From the Guard-module view, the loop composes several reliability checks:
+
+- Context Guard decides what the agent should read.
+- Boundary Guard decides what the agent may edit.
+- Evidence Guard decides whether verification evidence is current and trustworthy.
+- Impact Guard decides what modules, tests, and review surfaces are affected.
+- Loop Guard decides whether to finalize, repair, repack, block, or require human review.
+
+Hallucination Guard and Regression Guard are planned extensions to this same loop: they will add repository-evidence checks for invented APIs/commands and historical-risk checks for known bug patterns.
+
 ## Main Build Path
 
 The build path starts at the CLI and flows through `buildContextPackage()`:

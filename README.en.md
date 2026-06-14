@@ -2,11 +2,27 @@
 
 [中文](README.md) | English
 
-**Code Agent++: Make Coding Agents Safer, Smarter, and More Verifiable**
+**Code Agent++: an external enhancement and reliability engineering layer for coding agents.**
 
-Code Agent++ is an external enhancement layer for AI coding agents: it gives Codex, OpenCode, Claude Code, Cursor, MiMoCode, and similar agents context enhancement, edit boundaries, regression guards, impact analysis, test-evidence validation, and repair/finalize decisions so agents are not merely able to edit code, but are more controllable, trustworthy, and less likely to repeat old mistakes in complex repositories.
+Code Agent++ is not another code-generation agent, and it does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode. It is a **Code Agent Enhancement Layer / Agent Reliability Layer**: an attachable set of engineering controls that gives coding agents better context, boundaries, verification, regression protection, hallucination suppression, impact analysis, and repair/finalize loops.
 
-It is not another code-generation agent and does not replace Codex, OpenCode, or Claude Code. Code Agent++ is a Code Agent Enhancement / Agent Reliability Layer: a set of attachable, composable, verifiable modules for the problems coding agents hit in real engineering work.
+Coding agents are already good at reading code, editing code, and running commands. In complex repositories, they still hit repeatable engineering failure modes:
+
+- Missing accurate context and guessing the right files or modules.
+- Expanding the edit scope and touching unrelated files or protected paths.
+- Inventing APIs, config keys, commands, or project conventions that do not exist.
+- Claiming tests passed with weak or stale evidence.
+- Making changes whose downstream impact is invisible during review.
+- Reintroducing bugs that were already fixed.
+- Getting stuck in repair loops without a clear stop condition.
+- Loading `AGENTS.md`, `CLAUDE.md`, Cursor rules, or other instruction files that are too large, stale, or conflicting.
+
+The goal is not to make agents “generate more code.” The goal is to make each change **bounded, evidenced, verifiable, and less regression-prone**.
+
+```txt
+Code Agent writes code
+Code Agent++ constrains, verifies, records, repairs, and prevents regressions
+```
 
 Core loop:
 
@@ -14,11 +30,7 @@ Core loop:
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-It is not just a repo summarizer or a context pack tool. The core idea is: the agent writes code; Code Agent++ makes the change bounded, evidenced, verifiable, and less regression-prone.
-
-It moves context, boundaries, verification, impact analysis, regression guards, and repair loops out of prompt text and into executable Harness Engineering infrastructure.
-
-The current implementation is best understood as a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor: it does not autonomously call an agent to edit code, but it does consume trace evidence, policies, contracts, impact, and freshness, update `.agent-context/runs/<task-id>/state.json`, and produce the single highest-priority next action. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+The current implementation is best understood as a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor. It does not autonomously call an agent to edit code yet, but it does consume trace evidence, policies, contracts, impact, and freshness, update `.agent-context/runs/<task-id>/state.json`, and produce the next highest-priority action. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Code Agent++ final output animation">
@@ -29,24 +41,134 @@ The current implementation is best understood as a Context / Policy / Trace repo
 The primary users of this project are AI coding tools. You can ask Codex, Claude Code, Cursor, OpenCode, MiMoCode, or another agent:
 
 ```txt
-Use https://github.com/whut09/Code-Agent-plusplus to generate AGENTS.md and a .agent-context package for the xxx project.
+Use https://github.com/whut09/Code-Agent-plusplus to generate a Code Agent++ context and reliability enhancement pack for the xxx project.
 Inspect the target repository first, then install or clone the tool if needed.
 Force LLM summaries: create or update code-agent-plusplus.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first.
-Then run code-agent-plusplus build <target-repo> --target codex --llm, run code-agent-plusplus validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
+Then run code-agent-plusplus build <target-repo> --target codex --llm, run code-agent-plusplus validate <target-repo>, and summarize the generated files, available Guard capabilities, and whether LLM summary mode succeeded.
 ```
 
 Replace `xxx project` with a local path, GitHub repository, or workspace name. Real keys should only go into `code-agent-plusplus.local.yml`; never commit them.
 
-## What Problem Does It Solve?
+## Core Idea
 
-AI coding tools usually do not fail because they cannot write code. They fail because they did not get the right context:
+Code Agent++ uses a problem-driven plugin-style architecture:
 
-- Lost context: missing entrypoints, module boundaries, test commands, and architecture constraints.
-- Noisy context: entire repositories are shoved into the prompt, wasting tokens.
-- Unsafe edits: no clear generated, lockfile, migration, or env boundaries.
-- Weak verification: agents do not know which tests, typechecks, lint commands, or impact checks to run.
+```txt
+When a coding agent shows a class of failure
+  -> attach the corresponding Guard / Enhancer module
+```
 
-Code Agent++ turns repository memory for agents into a generated, updatable, verifiable runtime loop.
+Typical mapping:
+
+| Coding agent failure mode               | Code Agent++ module                 |
+| --------------------------------------- | ----------------------------------- |
+| Wrong or missing context                | Context Guard                       |
+| Hallucinated API / command / convention | Hallucination Guard                 |
+| Unbounded edit scope                    | Boundary Guard                      |
+| Reintroduced historical bug             | Regression Guard                    |
+| Untrustworthy test evidence             | Evidence Guard                      |
+| Invisible blast radius                  | Impact Guard                        |
+| Repair loop cannot converge             | Loop Guard                          |
+| Inconsistent agent event formats        | Executor Adapter + Trace Normalizer |
+
+`AGENTS.md` is only one output of Context Guard. The larger goal is to become the external reliability layer for Codex, OpenCode, Claude Code, Cursor, and MiMoCode.
+
+## Technical Direction
+
+Code Agent++ is organized into three phases: pre-execution enhancement, in-execution constraints, and post-execution verification.
+
+### 1. Before Execution: Make Agents Guess Less
+
+Before the coding agent edits code, Code Agent++ analyzes the repository and generates task-level context plus engineering boundaries.
+
+Capabilities:
+
+- Repository structure analysis.
+- Module relationship analysis.
+- Task-relevant file retrieval.
+- Task-aware context packs.
+- `AGENTS.md` / `CLAUDE.md` / Cursor rules / OpenCode instructions export.
+- Edit boundary generation.
+- Protected path detection.
+- Fix-history, known-issue, and anti-regression notes injection.
+- Recommended tests and verification commands.
+
+This layer answers: where should the agent look, what must it avoid, what old failures matter, and how should the change be verified?
+
+### 2. During Execution: Give Agents Boundaries
+
+Code Agent++ does not replace the coding agent. It attaches through Executor Adapters:
+
+- OpenCode Executor
+- Codex CLI Executor
+- Claude Code Executor
+- Cursor Executor
+- MiMoCode Executor
+- Mock Executor
+
+Typical flow:
+
+```txt
+Code Agent++ plan
+  -> Code Agent++ pack
+  -> call OpenCode / Codex / Claude Code / Cursor / MiMoCode to edit
+  -> collect diff, commands, logs, event stream
+  -> verify and decide
+```
+
+Key principle: **the coding agent may edit code, but it cannot self-certify completion.** Completion is judged by Code Agent++ using evidence, diffs, tests, and policy gates.
+
+### 3. After Execution: Make Changes Verifiable and Less Regression-Prone
+
+After the agent edits code, Code Agent++ enters verification and decision mode.
+
+Capabilities:
+
+- Changed-file analysis.
+- Allowed / denied edit boundary checks.
+- Protected path checks.
+- Dependency impact and blast-radius analysis.
+- Test recommendation and command execution evidence.
+- Command trace recording.
+- Exit-code, timestamp, and working-tree-hash validation.
+- Verification-after-last-edit checks.
+- Regression risk checks.
+- Historical bug / known issue comparison.
+- Repair / repack / rerun tests / finalize decisions.
+
+This layer answers: did the agent actually finish, is the test evidence trustworthy, did it touch forbidden files, did it reintroduce a known bug, what downstream modules are affected, and should the loop continue or stop for review?
+
+## Guard Modules
+
+### Context Guard
+
+Builds task-level context: `AGENTS.md`, `CLAUDE.md`, Cursor rules, OpenCode instructions, task packs, module maps, relevant files, and validation hints. It reduces lost context, irrelevant search, and token waste.
+
+### Hallucination Guard
+
+Checks whether the agent referenced files, APIs, functions, config keys, CLI commands, test commands, project conventions, packages, or environment variables that are not backed by repository evidence.
+
+### Boundary Guard
+
+Constrains the edit surface with allowed paths, denied paths, protected paths, generated files, lockfiles, migration files, and CI/deploy/infra configuration boundaries.
+
+### Regression Guard
+
+Tracks fix history, known issues, previous bug patterns, regression notes, anti-regression tests, fragile modules, and historical failure cases so agents do not reintroduce already-fixed problems.
+
+### Evidence Guard
+
+Validates test evidence beyond natural-language claims: commands executed, exit code, output presence, timestamps, working-tree hash, and whether tests happened after the last edit.
+
+### Impact Guard
+
+Analyzes changed files, affected modules, downstream dependencies, tests to run, review risk, unexpected file changes, and scope expansion.
+
+### Loop Guard
+
+Controls repair/finalize decisions: finalize, rerun tests, repair code, repair tests, repack context, block, rollback, or require human review.
+
+See [Guard Modules](docs/guard-modules.md) for implementation details.
 
 ## 30-Second Start
 
@@ -66,76 +188,46 @@ npm run build
 node dist/cli/index.js build .
 ```
 
-Common task loop:
+Common loop:
 
 ```bash
 code-agent-plusplus run "fix login timeout bug" . --type bugfix
 code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
-code-agent-plusplus delta . --base main
-code-agent-plusplus evolve . --base main
-code-agent-plusplus loop "fix login timeout bug" . --phase after-edit
-code-agent-plusplus trace add fix-login-timeout-bug . --action edit --files src/auth/session.ts --reason "timeout logic"
 code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
 code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
-code-agent-plusplus tests . --diff --base main
 code-agent-plusplus impact . --base main
 code-agent-plusplus verify --diff .
 code-agent-plusplus freshness .
 code-agent-plusplus drift .
 ```
 
-## Why Not Just a Repo Summarizer or RAG Loader?
-
-- ✅ task-aware context: retrieval, graph expansion, and budget packing for a specific task.
-- ✅ evidence-linked index: analyzer, confidence, symbols, imports, and line-oriented evidence.
-- ✅ contracts: architecture, module-boundary, command, test, and safety constraints with `validate-contracts`.
-- ✅ tests recommendation: focused and regression tests from files or diffs.
-- ✅ diff / impact / verify: post-edit impact analysis and validation reports.
-- ✅ loop controller + runtime state machine: decides whether the next step is rebuild context, add tests, repair contracts, expand context, or enter review from freshness, diff, contracts, tests, impact, and trace evidence; it also writes `.agent-context/runs/<task-id>/state.json` with the current state, allowed actions, blocking next action, satisfied evidence, and missing evidence.
-- ✅ execution trace: structured records of agent edits, test runs, verification steps, and final state, with manual / command / CI evidence separated.
-- ✅ evidence validation: traces are decision evidence, not just logs; test and contract evidence checks required commands, exit codes, working-tree hashes, and whether verification happened after the last edit to prevent stale evidence pollution.
-- ✅ policy engine: runtime guardrails over diffs, contracts, freshness, and traces; blocks forbidden edits, flags risks, and requires test/validation evidence. `trace run` captures exit code, output hashes, and working-tree hashes, which is stronger than a manual claim.
-- ✅ context delta: derives stale context outputs, affected graph nodes, and files the agent must re-read from git diff; `evolve` is currently a cache-aware full refresh, while selective output writes are planned.
-- 🧪 MCP runtime tools: the stdio MCP server exposes build / plan / pack / retrieve / tests / impact / verify plus start_loop / step / evaluate / repair / finalize tools; real client integrations still need per-client validation.
-- 🧪 benchmark: Loop Behavior Benchmark comparing no-context, AGENTS.md, context pack, and loop-enabled harness runs across wrong edits, test failures, steps, tokens, and repair loops.
-- 🧪 hybrid retrieve: shared static / ripgrep retrieval protocol for RAG, MCP, and editor integrations.
-- 🚧 real agent benchmark: planned Codex / Claude Code run data.
-
 ## Current Status
 
-| Capability                                     | Status          |
-| ---------------------------------------------- | --------------- |
-| `build` / `AGENTS.md` / `.agent-context`       | ✅ implemented  |
-| minimal `AGENTS.md` + manual/generated layers  | ✅ implemented  |
-| TypeScript Compiler API analyzer               | ✅ implemented  |
-| Python AST / optional Tree-sitter analyzer     | ✅ implemented  |
-| token savings estimated + actual output tokens | ✅ implemented  |
-| readiness dimensions and hard caps             | ✅ implemented  |
-| task plan / pack / run                         | ✅ implemented  |
-| harness orchestrator / `orchestrate`           | ✅ implemented  |
-| `agent run` executor wrapper                   | ✅ implemented  |
-| mock executor for CI and deterministic tests   | ✅ implemented  |
-| generic executor command adapter               | ✅ implemented  |
-| native OpenCode / MiMoCode event normalizers   | 🚧 planned      |
-| loop controller                                | ✅ implemented  |
-| runtime state machine / `state.json`           | ✅ implemented  |
-| execution trace                                | ✅ implemented  |
-| policy engine                                  | ✅ implemented  |
-| context delta analysis                         | ✅ implemented  |
-| evolve cache-aware full refresh                | ✅ implemented  |
-| evolve selective output writes                 | 🚧 planned      |
-| tests / impact / verify                        | ✅ implemented  |
-| freshness / drift / manifest                   | ✅ implemented  |
-| contracts validation                           | ✅ implemented  |
-| MCP server scaffold                            | ✅ implemented  |
-| MCP tools: build / plan / pack / retrieve      | ✅ implemented  |
-| Agent Native Runtime loop tools                | 🧪 experimental |
-| benchmark harness                              | 🧪 experimental |
-| hybrid retrieve / RAG export                   | 🧪 experimental |
-| Claude / Cursor / Codex real integration       | 🚧 planned      |
-| direct LightRAG server sync                    | 🚧 planned      |
-| VS Code / Cursor extension                     | 🚧 planned      |
+| Capability                                           | Status                 |
+| ---------------------------------------------------- | ---------------------- |
+| `build` / `AGENTS.md` / `.agent-context`             | implemented            |
+| task plan / pack / run                               | implemented            |
+| TypeScript Compiler API analyzer                     | implemented            |
+| Python AST / optional Tree-sitter analyzer           | implemented            |
+| token savings estimated + actual output tokens       | implemented            |
+| readiness dimensions and hard caps                   | implemented            |
+| Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
+| Hallucination / Regression Guards                    | planned                |
+| harness orchestrator / `orchestrate`                 | implemented            |
+| `agent run` executor wrapper                         | implemented            |
+| mock executor                                        | implemented            |
+| generic executor command adapter                     | implemented            |
+| native OpenCode / MiMoCode event normalizers         | planned                |
+| runtime state machine / `state.json`                 | implemented            |
+| policy engine                                        | implemented            |
+| context delta analysis                               | implemented            |
+| tests / impact / verify                              | implemented            |
+| freshness / drift / manifest                         | implemented            |
+| MCP server scaffold                                  | implemented            |
+| Agent Native Runtime loop tools                      | experimental           |
+| benchmark harness                                    | experimental           |
+| direct LightRAG server sync                          | planned                |
 
 ## Outputs
 
@@ -185,23 +277,21 @@ code-agent-plusplus pack "<task>" [repo]
 code-agent-plusplus run "<task>" [repo]
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --fail-on required
 code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
-code-agent-plusplus delta [repo] --base main
-code-agent-plusplus evolve [repo] --base main
-code-agent-plusplus loop "<task>" [repo] --phase after-edit
 code-agent-plusplus trace start "<task>" [repo] --agent codex
-code-agent-plusplus trace add <trace-id> [repo] --action edit --files src/auth/session.ts
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
 code-agent-plusplus tests [repo] --diff --base main
 code-agent-plusplus impact [repo] --base main
 code-agent-plusplus verify --diff [repo]
+code-agent-plusplus delta [repo] --base main
+code-agent-plusplus evolve [repo] --base main
+code-agent-plusplus loop "<task>" [repo] --phase after-edit
 code-agent-plusplus validate [repo]
 code-agent-plusplus validate-contracts [repo]
 code-agent-plusplus freshness [repo]
 code-agent-plusplus drift [repo]
 code-agent-plusplus benchmark [benchmarkDir] --top-k 8
 code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
-code-agent-plusplus
 code-agent-plusplus-mcp
 ```
 
@@ -209,7 +299,7 @@ code-agent-plusplus-mcp
 
 - `forbidden`: fail only forbidden edits; useful for local exploration.
 - `required`: fail forbidden edits plus missing required actions; this is the default and works well for PR checks.
-- `risk`: fail forbidden, required, and risk warnings; equivalent to the legacy `--strict` mode and useful for main-branch or release gates.
+- `risk`: fail forbidden, required, and risk warnings; useful for main-branch or release gates.
 
 ## Code Agent Integration
 
@@ -223,49 +313,12 @@ Code Agent++
   -> context, boundaries, traces, policies, impact, tests, verify, repair/finalize decisions
 ```
 
-This combines existing code-agent execution with Code Agent++'s control plane. OpenCode and MiMoCode are open-source code-agent runtimes, so they are priority executor targets for the next integration phase.
-
 The project supports two operating modes:
 
+- Code agent-led, Code Agent++ constrained: the agent calls CLI / MCP tools, but the host agent still decides whether to obey gates.
+- Code Agent++-led, code agent as executor: Code Agent++ owns plan / pack / execute / collect evidence / policy / verify / decision; the external agent is a replaceable coding executor.
+
 For the detailed entry-point isolation guide, see [docs/integration-modes.md](docs/integration-modes.md).
-
-### Mode 1: Code Agent-Led, Code Agent++ Constrained
-
-This is the fastest integration path. Codex, Claude Code, Cursor, OpenCode, or MiMoCode remains the main actor and calls Code Agent++ through MCP or CLI:
-
-```txt
-User task
-  -> code agent calls code_agent_plusplus_plan / pack / retrieve
-  -> code agent reads code, edits code, runs commands
-  -> code agent calls tests / impact / verify / evaluate
-  -> Code Agent++ returns policy, contracts, trace, and verify results
-```
-
-This mode feels natural and is ideal for OpenCode / MiMoCode MCP demos and daily assisted use. Its limitation is that the code agent still has final control: it may skip tool calls or ignore a gate, so Code Agent++ can provide constraints and evidence but cannot fully guarantee the result.
-
-### Mode 2: Code Agent++-Led, Code Agent As Executor
-
-This is the formal Harness Runtime direction. Code Agent++ owns orchestration and acceptance; the code agent is a replaceable coding executor:
-
-```txt
-User task
-  -> Code Agent++ plan / pack
-  -> choose executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode
-  -> code agent executes code changes
-  -> Code Agent++ collects diff / trace / test evidence
-  -> policy / contracts / tests / impact / verify
-  -> decision: finalize / repair / repack / block / require human review
-```
-
-In this mode, Code Agent++ owns the stop/go decision: continue, repair, repack context, block, or require human review. The decision is based on the runtime state machine, trace evidence, policy gates, and verify reports. OpenCode and MiMoCode are priority executors because they are open-source, scriptable, and observable.
-
-Delivery path:
-
-1. MCP integration: let code agents call `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`, `code_agent_plusplus_tests`, `code_agent_plusplus_impact`, `code_agent_plusplus_verify`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`, and `code_agent_plusplus_finalize`. OpenCode and MiMoCode are the first open-source executor targets to validate.
-2. Executor Wrapper: `code-agent-plusplus agent run "<task>" . --executor opencode|mimocode --executor-command "<command with {prompt}>"` runs `pack -> run agent -> collect diff -> verify`. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs are connected through `--executor-command` until native event normalizers are added.
-3. Orchestrator Loop: `code-agent-plusplus orchestrate "<task>" . --executor opencode|mimocode --max-loops 3 --fail-on required --executor-command "<command with {prompt}>"`, where Code Agent++ owns `plan -> pack -> execute -> collect evidence -> policy/tests/impact/verify -> decision`.
-
-The key abstraction is `AgentExecutor`: the executor can be OpenCode, MiMoCode, Codex CLI, Claude Code, or another code agent; the harness only needs changed files, event logs, test evidence, diff state, and policy-gate results.
 
 ## MCP / Agent Native Runtime
 
@@ -279,7 +332,7 @@ code_agent_plusplus_repair
 code_agent_plusplus_finalize
 ```
 
-The experimental runtime loop tools are: start_loop writes the task run and trace, step records edits/tests/verification, evaluate combines delta, loop, policy, and verify signals, repair returns the next repair actions, and finalize closes the run after test and contract evidence exists.
+The experimental runtime loop tools are: `start_loop` writes the task run and trace, `step` records edits/tests/verification, `evaluate` combines delta, loop, policy, and verify signals, `repair` returns repair actions, and `finalize` closes the run after test and contract evidence exists.
 
 ## LLM Summary Configuration
 
@@ -303,6 +356,7 @@ code-agent-plusplus build . --llm
 ## Docs
 
 - [Architecture](docs/architecture.md)
+- [Guard Modules](docs/guard-modules.md)
 - [Loop Engineering code path](docs/loop-engineering.md)
 - [AGENTS.md usage](docs/agents-md.md)
 - [Roadmap](docs/roadmap.md)

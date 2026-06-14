@@ -6,6 +6,8 @@
 
 Code Agent++ writes a root `AGENTS.md` plus deeper context under `.agent-context/`.
 
+In the Code Agent++ architecture, `AGENTS.md` is a Context Guard output. It is intentionally small; Boundary, Evidence, Impact, Regression, Hallucination, and Loop checks live in contracts, traces, policy reports, verify reports, and task runs under `.agent-context/`.
+
 The root guide now has explicit ownership and loading layers:
 
 - `AGENTS.md`: L0, shortest always-loaded operating rules and default workflow
