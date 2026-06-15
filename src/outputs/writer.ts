@@ -14,6 +14,7 @@ import { renderOnboarding } from "./onboarding.js";
 import { renderReadiness } from "./readiness.js";
 import { renderRepoSummary } from "./repo-summary.js";
 import { buildRagDocuments, buildRagManifest, renderRagReadme } from "./rag.js";
+import { ensureRegressionMemory } from "./regression-guard.js";
 import { buildTaskPack, renderTaskContext } from "./task-context.js";
 import { renderTokenSavings } from "./token-savings.js";
 
@@ -104,6 +105,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
   writeJson(contractsDir, "commands.contract.json", contracts.commands, written);
   writeJson(contractsDir, "test.contract.json", contracts.test, written);
   writeJson(contractsDir, "safety.contract.json", contracts.safety, written);
+  written.push(...ensureRegressionMemory(context));
   if (context.config.outputs.rag) {
     writeRagExport(ragDir, context, written);
   }

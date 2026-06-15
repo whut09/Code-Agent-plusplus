@@ -7,6 +7,7 @@ import { buildTestSelection } from "./test-selector.js";
 import { currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
 import { evidenceSatisfies } from "./evidence.js";
 import { buildHallucinationReport, type HallucinationFinding } from "./hallucination-guard.js";
+import { buildRegressionReport } from "./regression-guard.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type PolicyKind = "forbidden" | "risk" | "required";
@@ -63,6 +64,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
   const impact = buildChangeImpactReport(context, { base });
   const tests = buildTestSelection(context, { diff: true, base });
   const hallucination = buildHallucinationReport(context, { base, traceId: options.traceId, task: trace?.task });
+  const regression = buildRegressionReport(context, { base, traceId: options.traceId, task: trace?.task, changedFiles: changed.actionable });
   const currentRepoHash = currentWorkingTreeHash(context.scan.root);
   const testEvidence = evidenceSatisfies(
     {
@@ -228,6 +230,20 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       evidence: changed.actionable.filter(isContractGeneratorPath),
       requiredAction: "code-agent-plusplus update ."
     });
+  }
+
+  if (regression.summary.matches > 0) {
+    findings.push(
+      requiredFinding("policy.required.regression-tests", regression.summary.missingRequiredTestEvidence === 0, {
+        message: "Matched regression memory requires passed anti-regression test evidence.",
+        evidence: [
+          `${regression.summary.matches} regression memory entr${regression.summary.matches === 1 ? "y" : "ies"} matched.`,
+          ...regression.matches.map((match) => `${match.id}: ${match.pattern}`),
+          ...regression.evidence.evidence
+        ],
+        requiredAction: regression.requiredTests[0] ?? `code-agent-plusplus regression . --base ${base}${options.traceId ? ` --trace ${options.traceId}` : ""}`
+      })
+    );
   }
 
   for (const finding of hallucination.findings) {

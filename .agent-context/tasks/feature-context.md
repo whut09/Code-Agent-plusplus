@@ -1,7 +1,7 @@
 # Task Context: add a feature or new behavior
 
 Type: feature
-Budget: 3,223 / 12,000 estimated tokens
+Budget: 3,238 / 12,000 estimated tokens
 
 ## Read First
 1. `src/benchmarks/benchmark.ts` - lexical match: behavior; defines BenchmarkTaskDefinition
@@ -20,8 +20,8 @@ Budget: 3,223 / 12,000 estimated tokens
 - `src/core/context-builder.ts` - direct dependency of src/benchmarks/benchmark.ts
 - `src/outputs/test-selector.ts` - direct dependency of src/benchmarks/benchmark.ts
 - `src/core/types.ts` - direct dependency of src/benchmarks/benchmark.ts
-- `src/outputs/markdown.ts` - direct dependency of src/benchmarks/benchmark.ts
 - `src/outputs/task-context.ts` - direct dependency of src/benchmarks/benchmark.ts
+- `src/outputs/markdown.ts` - direct dependency of src/benchmarks/benchmark.ts
 - `benchmarks/fixtures/monorepo/packages/api/package.json` - configuration
 - `package.json` - configuration
 - `benchmarks/fixtures/fastapi-app/pyproject.toml` - configuration
@@ -30,7 +30,7 @@ Budget: 3,223 / 12,000 estimated tokens
 | File | Category | Tokens | Why | Summary |
 | --- | --- | --- | --- | --- |
 | `src/benchmarks/benchmark.ts` | direct-source | 452 | lexical match: behavior | src/benchmarks/benchmark.ts contains 90 detected symbols, 7 imports, 11 exports. |
-| `src/cli/index.ts` | entrypoint | 302 | direct importer of src/benchmarks/benchmark.ts, entrypoint | src/cli/index.ts contains 99 detected symbols, 30 imports, 0 exports. |
+| `src/cli/index.ts` | entrypoint | 309 | direct importer of src/benchmarks/benchmark.ts, entrypoint | src/cli/index.ts contains 102 detected symbols, 31 imports, 0 exports. |
 | `src/mcp/server.ts` | entrypoint | 339 | entrypoint | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
 | `test/benchmark.test.ts` | test | 50 | direct importer of src/benchmarks/benchmark.ts, related test | test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
 | `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` | test | 63 | related test | benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports. |
@@ -43,8 +43,8 @@ Budget: 3,223 / 12,000 estimated tokens
 | `src/core/context-builder.ts` | dependency-neighbor | 106 | direct dependency of src/benchmarks/benchmark.ts | src/core/context-builder.ts contains 15 detected symbols, 11 imports, 2 exports. |
 | `src/outputs/test-selector.ts` | dependency-neighbor | 226 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/test-selector.ts contains 44 detected symbols, 3 imports, 4 exports. |
 | `src/core/types.ts` | dependency-neighbor | 300 | direct dependency of src/benchmarks/benchmark.ts | src/core/types.ts contains 35 detected symbols, 0 imports, 35 exports. |
+| `src/outputs/task-context.ts` | dependency-neighbor | 260 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/task-context.ts contains 67 detected symbols, 4 imports, 3 exports. |
 | `src/outputs/markdown.ts` | dependency-neighbor | 68 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
-| `src/outputs/task-context.ts` | dependency-neighbor | 252 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/task-context.ts contains 64 detected symbols, 3 imports, 3 exports. |
 | `benchmarks/fixtures/monorepo/packages/api/package.json` | config-doc | 51 | configuration | benchmarks/fixtures/monorepo/packages/api/package.json is a config file written as JSON. |
 | `package.json` | config-doc | 25 | configuration | package.json is a config file written as JSON. |
 | `benchmarks/fixtures/fastapi-app/pyproject.toml` | config-doc | 42 | configuration | benchmarks/fixtures/fastapi-app/pyproject.toml is a config file written as TOML. |
@@ -68,16 +68,22 @@ Budget: 3,223 / 12,000 estimated tokens
 | --- | --- | --- |
 | Directly relevant source files | 452 | `src/benchmarks/benchmark.ts` |
 | Tests | 499 | `test/benchmark.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` |
-| Dependency neighbors | 952 | `src/core/context-builder.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/outputs/task-context.ts` |
+| Dependency neighbors | 960 | `src/core/context-builder.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts`, `src/outputs/task-context.ts`, `src/outputs/markdown.ts` |
 | Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md` |
-| Entrypoints | 641 | `src/cli/index.ts`, `src/mcp/server.ts` |
+| Entrypoints | 648 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 8,777 estimated tokens
+Remaining budget: 8,762 estimated tokens
 
 ## Suggested Commands
 - npm run test -- feature
 - npm run build
 - npm run lint
+
+## Anti-Regression Notes
+- None detected.
+
+## Required Regression Tests
+- None detected.
 
 ## Suggested Agent Workflow
 - Confirm the intended behavior and entrypoint integration before implementation.

@@ -281,6 +281,11 @@ export interface TaskPack {
     }>;
   };
   suggestedCommands: string[];
+  regression: {
+    matchedIssues: number;
+    antiRegressionNotes: string[];
+    requiredTests: string[];
+  };
   retrieval: {
     directMatches: number;
     dependencyNeighbors: number;

@@ -9,7 +9,7 @@ Code Agent++ Guard modules are external enhancement components designed around c
 | Context Guard                       | Wrong context, irrelevant search, token waste | implemented foundation |
 | Hallucination Guard                 | Invented APIs, commands, config, conventions  | implemented foundation |
 | Boundary Guard                      | Edit scope expansion and protected path edits | implemented foundation |
-| Regression Guard                    | Reintroducing historical bugs                 | planned                |
+| Regression Guard                    | Reintroducing historical bugs                 | implemented foundation |
 | Evidence Guard                      | Untrustworthy or stale test evidence          | implemented foundation |
 | Impact Guard                        | Invisible blast radius and review risk        | implemented foundation |
 | Loop Guard                          | Repair loops that cannot converge             | implemented foundation |
@@ -119,23 +119,43 @@ Goals:
 
 ## Regression Guard
 
-Regression Guard prevents old problems from returning. It injects fix history, known issues, and fragile modules into task context and checks whether a new change steps back into old failure patterns.
+Regression Guard prevents old problems from returning. The MVP uses maintainable structured memory instead of trying to infer every historical bug automatically.
 
-Planned inputs:
+Memory files:
 
-- fix history
-- issue / PR notes
-- previous bug patterns
-- regression tests
-- fragile modules
-- known failure cases
+- `.agent-context/regression/known-issues.json`
+- `.agent-context/regression/fix-history.json`
+- `.agent-context/regression/fragile-modules.json`
+- `.agent-context/regression/anti-regression-tests.json`
 
-Planned outputs:
+Entry shape:
+
+```json
+{
+  "id": "auth-timeout-regression-001",
+  "module": "auth",
+  "files": ["src/auth/session.ts"],
+  "pattern": "session timeout must use server time, not client Date.now",
+  "requiredTests": ["npm test -- auth"],
+  "riskTriggers": ["timeout", "session", "ttl", "expire"],
+  "lastFixedIn": "PR #123"
+}
+```
+
+Outputs:
 
 - anti-regression notes
 - required regression tests
 - historical-risk findings
 - repair suggestions
+
+Current implementation:
+
+- `code-agent-plusplus regression`
+- task pack anti-regression notes and required tests
+- `.agent-context/runs/<task-id>/regression.md`
+- `.agent-context/regression/<task-id>.json`
+- policy required failure when matched regression memory lacks required test evidence
 
 Goal:
 

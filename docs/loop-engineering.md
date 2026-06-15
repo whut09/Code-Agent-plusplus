@@ -18,7 +18,7 @@ From the Guard-module view, the loop composes several reliability checks:
 - Impact Guard decides what modules, tests, and review surfaces are affected.
 - Loop Guard decides whether to finalize, repair, repack, block, or require human review.
 
-Hallucination Guard and Regression Guard are planned extensions to this same loop: they will add repository-evidence checks for invented APIs/commands and historical-risk checks for known bug patterns.
+Hallucination Guard and Regression Guard now participate in this same loop: Hallucination Guard checks repository evidence for invented APIs/commands, while Regression Guard matches structured known-issue memory and requires anti-regression test evidence before finalize.
 
 ## Main Build Path
 

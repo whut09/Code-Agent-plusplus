@@ -8,6 +8,7 @@ import { renderTaskPlan, renderTaskVerify } from "./task-harness.js";
 import { buildTestSelection, renderTestSelection } from "./test-selector.js";
 import { executionTracePath, startExecutionTrace } from "./execution-trace.js";
 import { initialRunState, writeRunState } from "./runtime-state.js";
+import { buildRegressionReport, renderRegressionReport } from "./regression-guard.js";
 
 export interface TaskRunOptions extends TaskContextOptions {
   base?: string;
@@ -30,6 +31,8 @@ export interface TaskRunManifest {
   avoidEditGlobs: string[];
   relatedTests: string[];
   requiredCommands: string[];
+  requiredRegressionTests: string[];
+  regressionMatches: string[];
   riskLevel: "low" | "medium" | "high";
   contextBudget: {
     maxTokens: number;
@@ -63,13 +66,15 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
   const testSelectionTargets = pack.files.filter((file) => file.category === "direct-source" || file.category === "entrypoint").map((file) => file.path);
   const testSelection = buildTestSelection(context, { forPaths: testSelectionTargets, base });
   const impact = buildChangeImpactReport(context, { base });
+  const regression = buildRegressionReport(context, { base, task });
   const manifest = buildTaskRunManifest(context, pack, {
     runId,
     base,
     allowedEditGlobs,
     avoidEditGlobs,
     testSelection,
-    impact
+    impact,
+    regression
   });
   const traceFile = executionTracePath(context.scan.root, runId);
   if (!options.preserveTrace || !existsSync(traceFile)) {
@@ -85,6 +90,7 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
     ["expected-diff.md", renderExpectedDiff(context, pack, manifest)],
     ["tests.md", renderTestSelection(context, { forPaths: testSelectionTargets, base })],
     ["verify.md", renderTaskVerify(context, { base, diff: true })],
+    ["regression.md", renderRegressionReport(regression)],
     ["impact.md", renderChangeImpactReport(context, { base })],
     ["prompt.codex.md", renderAgentPrompt("Codex", manifest)],
     ["prompt.claude.md", renderAgentPrompt("Claude Code", manifest)],
@@ -118,10 +124,16 @@ function buildTaskRunManifest(
     avoidEditGlobs: string[];
     testSelection: ReturnType<typeof buildTestSelection>;
     impact: ReturnType<typeof buildChangeImpactReport>;
+    regression: ReturnType<typeof buildRegressionReport>;
   }
 ): TaskRunManifest {
   const mustInspect = mustInspectFor(pack);
-  const requiredCommands = dedupe([...pack.suggestedCommands, ...options.testSelection.minimalCommands, ...options.impact.requiredVerification]);
+  const requiredCommands = dedupe([
+    ...pack.suggestedCommands,
+    ...options.testSelection.minimalCommands,
+    ...options.impact.requiredVerification,
+    ...options.regression.requiredTests
+  ]);
   return {
     id: options.runId,
     task: pack.task,
@@ -131,6 +143,8 @@ function buildTaskRunManifest(
     avoidEditGlobs: options.avoidEditGlobs,
     relatedTests: dedupe([...options.testSelection.minimalTests, ...options.testSelection.recommendedRegressionTests]),
     requiredCommands,
+    requiredRegressionTests: options.regression.requiredTests,
+    regressionMatches: options.regression.matches.map((match) => match.id),
     riskLevel: taskRiskLevel(context, pack, options.impact.risk),
     contextBudget: {
       maxTokens: pack.tokenBudget,
@@ -207,7 +221,7 @@ function renderAgentPrompt(agent: "Codex" | "Claude Code" | "Cursor", manifest: 
     agentNote,
     "",
     heading(2, "Read first"),
-    bullet(["plan.md", "edit-boundary.md", "pack.md", "tests.md", "impact.md"].map(code)),
+    bullet(["plan.md", "edit-boundary.md", "pack.md", "tests.md", "regression.md", "impact.md"].map(code)),
     "",
     heading(2, "Must inspect"),
     bullet(manifest.mustInspect.map(code)),
@@ -220,6 +234,9 @@ function renderAgentPrompt(agent: "Codex" | "Claude Code" | "Cursor", manifest: 
     "",
     heading(2, "Required verification"),
     bullet(manifest.requiredCommands.map(code)),
+    "",
+    heading(2, "Required regression tests"),
+    bullet(manifest.requiredRegressionTests.map(code)),
     "",
     "Before editing, state the files you intend to touch. After editing, update tests when needed and run the required verification commands."
   ].join("\n");

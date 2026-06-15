@@ -20,6 +20,7 @@ import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControl
 import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName, type OrchestratorCheckpointMode } from "../outputs/orchestrator.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
 import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../outputs/hallucination-guard.js";
+import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../outputs/regression-guard.js";
 import {
   appendExecutionTraceStep,
   executionTracePath,
@@ -371,6 +372,23 @@ program
   });
 
 program
+  .command("regression")
+  .argument("[repo]", "repository path", ".")
+  .option("--base <ref>", "base git ref for diff checks", "main")
+  .option("--trace <id>", "execution trace id used as regression test evidence")
+  .option("--task <task>", "task text used to match known issues and derive task id")
+  .option("--no-write", "print the report without writing .agent-context regression artifacts")
+  .option("--json", "print machine-readable regression report")
+  .description("Match structured regression memory and require anti-regression test evidence.")
+  .action(async (repo: string, options: { base: string; trace?: string; task?: string; write?: boolean; json?: boolean }) => {
+    const context = await buildContextPackage(repo);
+    const report = buildRegressionReport(context, { base: options.base, traceId: options.trace, task: options.task });
+    const written = options.write === false ? undefined : writeRegressionReport(context, report);
+    console.log(options.json ? JSON.stringify({ ...report, written }, null, 2) : renderRegressionReport(report));
+    if (report.summary.missingRequiredTestEvidence > 0) process.exitCode = 1;
+  });
+
+program
   .command("validate-contracts")
   .argument("[repo]", "repository path", ".")
   .option("--diff", "validate changed files from git diff and working tree", true)
@@ -673,10 +691,11 @@ program
   .argument("[repo]", "repository path", ".")
   .option("--diff", "verify changed files from git diff and working tree", true)
   .option("--base <ref>", "base git ref", "main")
+  .option("--trace <id>", "execution trace id used as regression test evidence")
   .description("Verify changed files against affected modules, tests, and risk signals.")
-  .action(async (repo: string, options: { diff?: boolean; base: string }) => {
+  .action(async (repo: string, options: { diff?: boolean; base: string; trace?: string }) => {
     const context = await buildContextPackage(repo);
-    console.log(renderTaskVerify(context, { base: options.base, diff: options.diff }));
+    console.log(renderTaskVerify(context, { base: options.base, diff: options.diff, traceId: options.trace }));
   });
 
 program

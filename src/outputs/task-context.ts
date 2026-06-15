@@ -1,5 +1,6 @@
 import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile, TaskType } from "../core/types.js";
 import { estimateTokens } from "../core/token-estimator.js";
+import { buildRegressionReport } from "./regression-guard.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export interface TaskContextOptions {
@@ -44,6 +45,12 @@ export function renderTaskContext(context: ContextPackage, task: string, options
     "",
     heading(2, "Suggested Commands"),
     bullet(pack.suggestedCommands),
+    "",
+    heading(2, "Anti-Regression Notes"),
+    bullet(pack.regression.antiRegressionNotes),
+    "",
+    heading(2, "Required Regression Tests"),
+    bullet(pack.regression.requiredTests.map(code)),
     "",
     heading(2, "Suggested Agent Workflow"),
     bullet(workflowFor(pack.type))
@@ -128,6 +135,8 @@ export function buildTaskPack(context: ContextPackage, task: string, options: Ta
   }
 
   const budget = buildBudget(tokenBudget, selected);
+  const regression = buildRegressionReport(context, { task });
+  const suggested = dedupe([...suggestedCommands(context, type, terms), ...regression.requiredTests]);
   return {
     task,
     type,
@@ -138,7 +147,12 @@ export function buildTaskPack(context: ContextPackage, task: string, options: Ta
     readFirst: selected.filter((file) => file.category === "direct-source" || file.category === "entrypoint").slice(0, 8),
     inspectIfNeeded: selected.filter((file) => file.category !== "direct-source" && file.category !== "entrypoint").slice(0, 16),
     budget,
-    suggestedCommands: suggestedCommands(context, type, terms),
+    suggestedCommands: suggested,
+    regression: {
+      matchedIssues: regression.matches.length,
+      antiRegressionNotes: regression.notes,
+      requiredTests: regression.requiredTests
+    },
     retrieval: {
       directMatches: direct.length,
       dependencyNeighbors: graphExpansion,
@@ -356,4 +370,8 @@ function workflowFor(type: Exclude<TaskType, "auto">): string[] {
   if (type === "bugfix") return ["Reproduce the failure and inspect related tests first.", ...common];
   if (type === "refactor") return ["Preserve exported APIs and inspect callers before moving code.", ...common];
   return ["Confirm the intended behavior and entrypoint integration before implementation.", ...common];
+}
+
+function dedupe(items: string[]): string[] {
+  return [...new Set(items)];
 }

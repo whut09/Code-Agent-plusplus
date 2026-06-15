@@ -132,23 +132,30 @@ Status: deterministic Hallucination Guard MVP implemented; semantic convention c
 
 Goal: prevent agents from reintroducing old bugs.
 
-Planned inputs:
+Implemented MVP inputs:
 
-- fix history
-- issue / PR notes
-- previous bug patterns
-- regression tests
-- fragile modules
-- historical failure cases
+- `.agent-context/regression/known-issues.json`
+- `.agent-context/regression/fix-history.json`
+- `.agent-context/regression/fragile-modules.json`
+- `.agent-context/regression/anti-regression-tests.json`
+- task text, changed files, affected modules, and trace evidence
 
-Planned outputs:
+Implemented MVP outputs:
 
 - anti-regression notes in task packs
 - required regression tests
 - historical risk findings
+- `.agent-context/runs/<task-id>/regression.md`
+- `.agent-context/regression/<task-id>.json`
+- policy required failure when matched memory lacks required regression test evidence
+
+Planned expansion:
+
+- import issue / PR notes automatically
+- richer pattern matching over historical failures
 - repair prompts when old bug patterns reappear
 
-Status: planned.
+Status: structured Regression Guard MVP implemented; richer history ingestion remains planned.
 
 ## v0.8: MCP and Agent-Native Runtime
 

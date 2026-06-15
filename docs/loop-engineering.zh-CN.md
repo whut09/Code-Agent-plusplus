@@ -20,7 +20,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 - Impact Guard 决定哪些模块、测试和 review 面受影响。
 - Loop Guard 决定 finalize、repair、repack、block 还是 require human review。
 
-Hallucination Guard 和 Regression Guard 是同一条 loop 的后续扩展：前者检查幻觉 API、命令、配置和项目约定，后者检查 known issues、历史 bug pattern 和回归风险。
+Hallucination Guard 和 Regression Guard 已经接入同一条 loop：前者检查幻觉 API、命令、配置和项目约定，后者匹配结构化 known issues / fix history / fragile modules，并在缺少 anti-regression test evidence 时阻止 finalize。
 
 ## 1. 总体执行链路
 

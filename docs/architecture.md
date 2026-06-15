@@ -28,7 +28,7 @@ The Guard map is:
 - Context Guard: task-aware repository context, instruction files, and validation hints.
 - Hallucination Guard: planned checks for nonexistent APIs, files, commands, config, dependencies, and conventions.
 - Boundary Guard: allowed/denied edit paths, protected paths, generated files, lockfiles, migrations, CI, deploy, and infra boundaries.
-- Regression Guard: planned fix-history, known-issue, fragile-module, and anti-regression checks.
+- Regression Guard: structured fix-history, known-issue, fragile-module, and anti-regression-test memory with task-pack injection and policy gates.
 - Evidence Guard: command evidence, exit codes, timestamps, output hashes, and working-tree hashes.
 - Impact Guard: changed files, downstream dependents, affected modules, tests to run, and review risk.
 - Loop Guard: finalize, rerun tests, repair code, repair tests, repack context, block, rollback, or require human review.

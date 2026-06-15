@@ -4,6 +4,7 @@ import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile } from "../cor
 import { changedFilesSince, runGit } from "../core/git.js";
 import { buildTaskPack, renderTaskContext, type TaskContextOptions } from "./task-context.js";
 import { validateContracts } from "./contract-validator.js";
+import { buildRegressionReport, renderRegressionReport } from "./regression-guard.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export interface TaskPackWriteResult {
@@ -16,6 +17,7 @@ export interface TaskPackWriteResult {
 export interface TaskVerifyOptions {
   base?: string;
   diff?: boolean;
+  traceId?: string;
 }
 
 export function renderTaskPlan(context: ContextPackage, task: string, options: TaskContextOptions = {}): string {
@@ -36,7 +38,13 @@ export function renderTaskPlan(context: ContextPackage, task: string, options: T
     bullet(doNotEditUnlessNecessary(context, pack)),
     "",
     heading(2, "Validation commands"),
-    bullet(pack.suggestedCommands.map(code))
+    bullet(pack.suggestedCommands.map(code)),
+    "",
+    heading(2, "Anti-regression notes"),
+    bullet(pack.regression.antiRegressionNotes),
+    "",
+    heading(2, "Required regression tests"),
+    bullet(pack.regression.requiredTests.map(code))
   ].join("\n");
 }
 
@@ -98,6 +106,7 @@ export function renderTaskVerify(context: ContextPackage, options: TaskVerifyOpt
   const recommended = recommendedVerifyCommands(context, indexedChanged, affected);
   const risk = verifyRisk(context, indexedChanged, changed, missing, affected);
   const contracts = validateContracts(context, { base, diff: options.diff ?? true });
+  const regression = buildRegressionReport(context, { base, traceId: options.traceId, changedFiles: changed });
 
   return [
     heading(1, "Task Verify"),
@@ -121,6 +130,8 @@ export function renderTaskVerify(context: ContextPackage, options: TaskVerifyOpt
     `Contract check: ${contracts.passed ? "passed" : "failed"}`,
     bullet(contracts.violations.map((violation) => `${violation.severity.toUpperCase()} ${code(violation.file)} - ${violation.reason} (${violation.rule})`)),
     "",
+    renderRegressionReport(regression),
+    "",
     heading(2, "Risk factors"),
     bullet(risk.factors)
   ].join("\n");
@@ -141,7 +152,13 @@ function renderTaskOverview(context: ContextPackage, pack: TaskPack): string {
     bullet(suspectedModules(context, pack)),
     "",
     heading(2, "Validation commands"),
-    bullet(pack.suggestedCommands.map(code))
+    bullet(pack.suggestedCommands.map(code)),
+    "",
+    heading(2, "Anti-regression notes"),
+    bullet(pack.regression.antiRegressionNotes),
+    "",
+    heading(2, "Required regression tests"),
+    bullet(pack.regression.requiredTests.map(code))
   ].join("\n");
 }
 
@@ -170,7 +187,7 @@ function renderTaskRisk(context: ContextPackage, pack: TaskPack): string {
     bullet(doNotEditUnlessNecessary(context, pack)),
     "",
     heading(2, "Regression watchpoints"),
-    bullet(regressionWatchpoints(context, pack))
+    bullet([...regressionWatchpoints(context, pack), ...pack.regression.antiRegressionNotes])
   ].join("\n");
 }
 

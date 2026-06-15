@@ -29,8 +29,8 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 - Entrypoint: `src/cli/index.ts`
 - Entrypoint: `src/mcp/server.ts`
 - Anchor: `src/core/freshness.ts` - 9 exports, 57 symbols
-- Anchor: `src/outputs/policy-engine.ts` - 9 exports, 47 symbols
-- Anchor: `src/outputs/task-harness.ts` - 5 exports, 67 symbols
+- Anchor: `src/outputs/policy-engine.ts` - 9 exports, 48 symbols
+- Anchor: `src/outputs/task-harness.ts` - 5 exports, 68 symbols
 
 ## Commands
 - Run: `npm run dev`
@@ -65,11 +65,13 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 - `.agent-context/loops/` - loop controller decisions when written with `code-agent-plusplus loop "<task>" . --write`
 - `.agent-context/traces/` - execution trace records for agent edits, tests, verification, final state, and manual/command/CI evidence
 - `.agent-context/hallucination/` - deterministic missing file, command, dependency, config, and symbol findings
+- `.agent-context/regression/` - known issues, fix history, fragile modules, and anti-regression test memory
 - `.agent-context/delta/` - context delta and files the agent should re-read after repository changes
 
 ## Before Closing
 - Prefer `code-agent-plusplus trace run <trace-id> . --action run-test --command "<test-command>"` over manual test claims when recording verification.
 - Run `code-agent-plusplus hallucination . --trace <trace-id> --base main` when the task has an execution trace.
+- Run `code-agent-plusplus regression . --trace <trace-id> --base main` when the task touches known fragile modules or historical bug patterns.
 - Prefer `code-agent-plusplus policy . --base main --trace <trace-id> --fail-on required` when a trace exists.
 - Run `code-agent-plusplus verify --diff .` and `code-agent-plusplus loop "<task>" . --phase after-edit` before final review.
 - Check `code-agent-plusplus freshness .` and `code-agent-plusplus drift .` if generated context may be stale.

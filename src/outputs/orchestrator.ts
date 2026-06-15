@@ -9,6 +9,7 @@ import { normalizeAgentEvents, type AgentEvent } from "./agent-events.js";
 import { writeContextPackage } from "./writer.js";
 import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport, type HallucinationGuardReport } from "./hallucination-guard.js";
 import { renderChangeImpactReport } from "./impact.js";
+import { buildRegressionReport, renderRegressionReport, writeRegressionReport, type RegressionGuardReport } from "./regression-guard.js";
 import { buildLoopControllerReport, renderLoopControllerReport, type LoopControllerReport } from "./loop-controller.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn, type PolicyEngineReport } from "./policy-engine.js";
 import { renderTaskVerify } from "./task-harness.js";
@@ -185,6 +186,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     const postContext = await buildContextPackage(root);
     const hallucination = buildHallucinationReport(postContext, { base, traceId: taskRun.runId, task });
     writeHallucinationReport(postContext, hallucination);
+    const regression = buildRegressionReport(postContext, { base, traceId: taskRun.runId, task });
+    writeRegressionReport(postContext, regression);
     const changedFiles = collectChangedFiles(root, base);
     const policy = buildPolicyReport(postContext, { base, traceId: taskRun.runId, failOn: options.failOn ?? "required" });
     const verify = renderTaskVerify(postContext, { base, diff: true });
@@ -219,6 +222,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       executorResult,
       agentEvents: normalized.events,
       hallucination,
+      regression,
       policy,
       verify,
       loop,
@@ -722,6 +726,7 @@ function writeIterationArtifacts(
     executorResult: AgentExecutorResult;
     agentEvents: AgentEvent[];
     hallucination: HallucinationGuardReport;
+    regression: RegressionGuardReport;
     policy: PolicyEngineReport;
     verify: string;
     loop: LoopControllerReport;
@@ -734,6 +739,8 @@ function writeIterationArtifacts(
     write(path.join(iterationDir, "executor.result.json"), JSON.stringify(input.executorResult, null, 2)),
     write(path.join(iterationDir, "hallucination.json"), JSON.stringify(input.hallucination, null, 2)),
     write(path.join(iterationDir, "hallucination.md"), renderHallucinationReport(input.hallucination)),
+    write(path.join(iterationDir, "regression.json"), JSON.stringify(input.regression, null, 2)),
+    write(path.join(iterationDir, "regression.md"), renderRegressionReport(input.regression)),
     write(path.join(iterationDir, "policy.json"), JSON.stringify(input.policy, null, 2)),
     write(path.join(iterationDir, "verify.json"), JSON.stringify({ markdown: input.verify }, null, 2)),
     write(path.join(iterationDir, "loop.json"), JSON.stringify(input.loop, null, 2)),

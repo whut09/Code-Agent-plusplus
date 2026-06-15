@@ -2,8 +2,8 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 3223,
-  "remainingBudget": 8777,
+  "estimatedTokens": 3238,
+  "remainingBudget": 8762,
   "files": [
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -22,7 +22,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 302
+      "estimatedTokens": 309
     },
     {
       "path": "src/mcp/server.ts",
@@ -134,6 +134,15 @@
       "estimatedTokens": 300
     },
     {
+      "path": "src/outputs/task-context.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 260
+    },
+    {
       "path": "src/outputs/markdown.ts",
       "score": 24,
       "reasons": [
@@ -141,15 +150,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 68
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 252
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -323,7 +323,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 302
+      "estimatedTokens": 309
     },
     {
       "path": "src/mcp/server.ts",
@@ -437,6 +437,15 @@
       "estimatedTokens": 300
     },
     {
+      "path": "src/outputs/task-context.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 260
+    },
+    {
       "path": "src/outputs/markdown.ts",
       "score": 24,
       "reasons": [
@@ -444,15 +453,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 68
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 252
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -484,8 +484,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3223,
-    "remaining": 8777,
+    "used": 3238,
+    "remaining": 8762,
     "buckets": [
       {
         "name": "direct-source",
@@ -513,13 +513,13 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 952,
+        "tokens": 960,
         "files": [
           "src/core/context-builder.ts",
           "src/outputs/test-selector.ts",
           "src/core/types.ts",
-          "src/outputs/markdown.ts",
-          "src/outputs/task-context.ts"
+          "src/outputs/task-context.ts",
+          "src/outputs/markdown.ts"
         ]
       },
       {
@@ -549,7 +549,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 641,
+        "tokens": 648,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -562,6 +562,11 @@
     "npm run build",
     "npm run lint"
   ],
+  "regression": {
+    "matchedIssues": 0,
+    "antiRegressionNotes": [],
+    "requiredTests": []
+  },
   "retrieval": {
     "directMatches": 1,
     "dependencyNeighbors": 7,

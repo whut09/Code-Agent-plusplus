@@ -214,7 +214,7 @@ code-agent-plusplus drift .
 | readiness 分维度评分和硬上限                         | implemented            |
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
 | Hallucination Guard MVP                              | implemented foundation |
-| Regression Guard                                     | planned                |
+| Regression Guard MVP                                 | implemented foundation |
 | multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | `agent run` executor wrapper                         | implemented            |
 | mock executor                                        | implemented            |
@@ -251,6 +251,7 @@ AGENTS.manual.md
   loops/
   traces/
   hallucination/
+  regression/
   delta/
   rag/
   evidence/
@@ -284,6 +285,7 @@ code-agent-plusplus orchestrate "<task>" [repo] --executor opencode --executor-c
 code-agent-plusplus trace start "<task>" [repo] --agent codex
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
 code-agent-plusplus hallucination [repo] --trace <trace-id> --base main
+code-agent-plusplus regression [repo] --trace <trace-id> --base main
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
 code-agent-plusplus tests [repo] --diff --base main
 code-agent-plusplus impact [repo] --base main
