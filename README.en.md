@@ -2,6 +2,19 @@
 
 [中文](README.md) | English
 
+## Relationship To Related Projects
+
+| Project                                                            | Primary Role                                                                     | Relationship To Code Agent++                                                                      |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [Codex](https://github.com/openai/codex)                           | Official coding agent for reading, editing, and running code                     | Serves as an executor; Code Agent++ adds external validation and constraints                      |
+| [OpenCode](https://github.com/anomalyco/opencode)                  | Multi-provider coding agent runtime                                              | Serves as an executor/runtime; Code Agent++ adds the outer harness layer                          |
+| [MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code)               | Terminal-native coding assistant with memory, context, subagents, and goal loops | Acts like an enhanced executor; Code Agent++ adds verification gates and regression protection    |
+| [CodeGraph](https://github.com/colbymchenry/codegraph)             | Code graph, symbols, call graph, and MCP capabilities                            | Related code-understanding capability and a potential backend for Code Agent++                    |
+| [Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent) | Agent harness, workflow, team mode, and multi-agent orchestration                | Shares the harness direction, while Code Agent++ focuses more narrowly on engineering reliability |
+| [OpenHarness](https://github.com/HKUDS/OpenHarness)                | General Agent Harness with tools, memory, permission, and plugins                | Shares the Agent Harness direction, while Code Agent++ focuses on coding-agent verification loops |
+| [OpenClaw](https://github.com/openclaw/openclaw)                   | Self-hosted personal AI assistant, gateway, and control plane                    | Belongs to the assistant-platform space; Code Agent++ focuses on reliable code tasks              |
+| Code Agent++                                                       | Verifier-gated harness, policy, evidence, guards, and repair loop                | This project: an external reliability enhancement layer for coding agents                         |
+
 **Code Agent++: an external enhancement and reliability engineering layer for coding agents.**
 
 Code Agent++ is not another code-generation agent, and it does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode. It is a **Code Agent Enhancement Layer / Agent Reliability Layer**: an attachable set of engineering controls that gives coding agents better context, boundaries, verification, regression protection, hallucination suppression, impact analysis, and repair/finalize loops.
@@ -384,3 +397,17 @@ npm run benchmark
 npm run build
 npm run pack:dry-run
 ```
+
+## Acknowledgements
+
+Code Agent++ is inspired by several excellent open-source projects:
+
+- [OpenAI Codex](https://github.com/openai/codex): the official coding agent / CLI shape and one of the most important executor targets for Code Agent++.
+- [OpenCode](https://github.com/anomalyco/opencode): an open, multi-provider coding agent runtime and one of the most important executor targets for Code Agent++.
+- [MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code): demonstrates engineering directions for terminal-native coding assistants, persistent memory, context management, subagents, and goal-driven loops.
+- [CodeGraph](https://github.com/colbymchenry/codegraph): provides local code knowledge graph, symbol / call graph, and MCP capabilities that can inform the Code Agent++ Context Guard and Impact Guard backends.
+- [Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent): demonstrates agent harnesses, workflows, team mode, and multi-agent orchestration for complex codebases.
+- [OpenHarness](https://github.com/HKUDS/OpenHarness): systematizes Agent Harness infrastructure such as agent loops, toolkits, memory, permissions, hooks, and plugins.
+- [OpenClaw](https://github.com/openclaw/openclaw): demonstrates a self-hosted personal AI assistant, channel gateway, skill system, and long-running local control plane.
+
+Code Agent++ takes a different entry point from these projects. It does not implement another coding agent or a full personal assistant platform; it focuses on the failure modes of existing coding agents in real engineering work and provides external reliability enhancement, verification gates, evidence auditing, regression protection, and repair loops.

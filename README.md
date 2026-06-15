@@ -2,6 +2,19 @@
 
 中文 | [English](README.en.md)
 
+## 与相关项目的关系
+
+| 项目                                                               | 主要职责                                                                       | 与 Code Agent++ 的关系                                                                    |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| [Codex](https://github.com/openai/codex)                           | 官方 coding agent，负责读 / 改 / 跑                                            | 作为 executor，Code Agent++ 提供外挂式验证和约束                                          |
+| [OpenCode](https://github.com/anomalyco/opencode)                  | 多 provider coding agent runtime                                               | 作为 executor/runtime，Code Agent++ 提供外层 harness                                      |
+| [MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code)               | terminal-native coding assistant，增强 memory / context / subagent / goal loop | 更像增强版 executor，Code Agent++ 补充验证门禁和回归防护                                  |
+| [CodeGraph](https://github.com/colbymchenry/codegraph)             | 代码图谱 / symbol / call graph / MCP                                           | 部分能力相关，可作为代码理解 backend                                                      |
+| [Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent) | agent harness / workflow / team mode / 多 agent 编排                           | 同属 harness 方向，但更偏 workflow / agent OS；Code Agent++ 更偏工程可靠性                |
+| [OpenHarness](https://github.com/HKUDS/OpenHarness)                | 通用 Agent Harness / tool / memory / permission / plugin                       | 同属 Agent Harness 方向，但 OpenHarness 更通用；Code Agent++ 更聚焦 coding agent 验证闭环 |
+| [OpenClaw](https://github.com/openclaw/openclaw)                   | 自托管个人 AI assistant / gateway / control plane                              | 属于 assistant 平台，Code Agent++ 聚焦代码任务可靠性                                      |
+| Code Agent++                                                       | verifier-gated harness / policy / evidence / guard / repair loop               | 本项目核心：外挂式可靠性增强层                                                            |
+
 **Code Agent++：面向 Code Agent 的外挂式增强与可靠性工程层。**
 
 Code Agent++ 不做另一个代码生成 Agent，也不替代 Codex、OpenCode、Claude Code、Cursor、MiMoCode 写代码。它的定位是 **Code Agent Enhancement Layer / Agent Reliability Layer**：围绕 Code Agent 在真实工程中的常见失败模式，提供上下文、边界、验证、回归防护、幻觉抑制、影响分析和修复闭环等外挂式增强能力。
@@ -380,3 +393,17 @@ npm run benchmark
 npm run build
 npm run pack:dry-run
 ```
+
+## 致谢
+
+Code Agent++ 的设计受到以下优秀开源项目启发：
+
+- [OpenAI Codex](https://github.com/openai/codex)：官方 coding agent / CLI 形态，是 Code Agent++ 重要的 executor 目标之一。
+- [OpenCode](https://github.com/anomalyco/opencode)：开放、多 provider 的 coding agent runtime，是 Code Agent++ 重要的 executor 目标之一。
+- [MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code)：展示了 terminal-native coding assistant、持久记忆、上下文管理、subagent 和 goal-driven loop 的工程化方向。
+- [CodeGraph](https://github.com/colbymchenry/codegraph)：提供本地代码知识图谱、symbol / call graph / MCP 能力，可作为 Code Agent++ Context Guard 与 Impact Guard 的 backend 参考。
+- [Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent)：展示了面向复杂代码库的 agent harness、workflow、team mode 和多 agent 编排实践。
+- [OpenHarness](https://github.com/HKUDS/OpenHarness)：系统化展示了 Agent Harness 中 agent loop、toolkit、memory、permission、hook 和 plugin 的基础设施设计。
+- [OpenClaw](https://github.com/openclaw/openclaw)：展示了自托管个人 AI assistant、channel gateway、技能系统和本地长期运行控制面的工程化方向。
+
+Code Agent++ 在这些项目基础上选择了不同切入点：不是再实现一个 coding agent，也不是完整个人助手平台，而是围绕现有 Code Agent 在真实工程中的失败模式，提供外挂式可靠性增强、验证门禁、证据审计、回归防护和 repair loop。

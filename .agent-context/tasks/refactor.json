@@ -510,8 +510,8 @@
       "path": "src/core/context-builder.ts",
       "score": 70,
       "reasons": [
-        "direct importer of src/core/types.ts",
         "direct dependency of src/mcp/server.ts",
+        "direct importer of src/core/types.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -673,16 +673,6 @@
       "estimatedTokens": 211
     },
     {
-      "path": "src/core/indexer.ts",
-      "score": 46,
-      "reasons": [
-        "direct importer of src/core/types.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 225
-    },
-    {
       "path": "src/config/load-config.ts",
       "score": 46,
       "reasons": [
@@ -691,6 +681,16 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 160
+    },
+    {
+      "path": "src/core/indexer.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/core/types.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 225
     },
     {
       "path": "src/analyzers/python.ts",
@@ -1110,8 +1110,8 @@
           "src/outputs/rag.ts",
           "src/core/cache.ts",
           "src/core/scanner.ts",
-          "src/core/indexer.ts",
           "src/config/load-config.ts",
+          "src/core/indexer.ts",
           "src/analyzers/python.ts",
           "src/analyzers/javascript.ts",
           "src/retrievers/ripgrep.ts",

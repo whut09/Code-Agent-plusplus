@@ -11,7 +11,7 @@ Generated for target: `codex`.
 - Dependency edges detected: 562
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,634,286 tokens
+Original repo (estimated, chars_approx): 1,636,405 tokens
 Estimated context pack (chars_approx): 19,027 tokens
 Compression: 86x
 Token budget: 100,000 (within budget)
