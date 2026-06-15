@@ -11,9 +11,11 @@ Run:
 
 ```bash
 npm run benchmark
+npm run benchmark:agent
 # or
 code-agent-plusplus benchmark benchmarks --top-k 8
 code-agent-plusplus benchmark benchmarks --json
+code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run
 ```
 
 Fixtures:
@@ -63,3 +65,59 @@ The benchmark groups runs by task and mode across:
 - `loop-enabled-harness`
 
 Legacy records using `task-pack` and `task-pack-contracts-verify` are still accepted and normalized to the new mode names.
+
+## Real Agent Behavior Benchmark
+
+`benchmark-agent` runs the same task through the same executor across four modes:
+
+- A. `no-context`: task only.
+- B. `agents-md`: task plus root `AGENTS.md`.
+- C. `context-pack`: task plus task-aware pack and edit boundary.
+- D. `loop-enabled-harness`: Code Agent++ owns the loop and the code agent is only the executor.
+
+Minimal dry run:
+
+```bash
+code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run
+```
+
+OpenCode example:
+
+```bash
+code-agent-plusplus benchmark-agent benchmarks \
+  --executor opencode \
+  --executor-command "opencode run --format json {prompt}" \
+  --max-loops 3 \
+  --fail-on required
+```
+
+Focused task example:
+
+```bash
+code-agent-plusplus benchmark-agent benchmarks \
+  --task fix-login-timeout \
+  --modes no-context,agents-md,context-pack,loop-enabled-harness \
+  --executor opencode \
+  --executor-command "opencode run --format json {prompt}" \
+  --keep-workdirs
+```
+
+The output table is designed to show behavior, not just static retrieval quality:
+
+| Mode            | Wrong edits | Stale evidence | Test pass | Loops   | Final gate |
+| --------------- | ----------- | -------------- | --------- | ------- | ---------- |
+| A. no context   | higher      | higher         | weaker    | higher  | weak       |
+| B. AGENTS.md    | lower       | medium         | better    | medium  | weak       |
+| C. context pack | lower       | lower          | better    | lower   | medium     |
+| D. harness-led  | lowest      | lowest         | strongest | bounded | strong     |
+
+Metrics collected per run:
+
+- `changedFiles`
+- `unrelatedChanges`
+- `passedTests`
+- `missingEvidence`
+- `loopCount`
+- `finalDecision`
+- `hallucinationFindings`
+- `regressionFindings`

@@ -39,12 +39,13 @@
       "integrations"
     ],
     "summary": "outputs contains 30 files and depends on core, integrations.",
-    "importanceScore": 1639
+    "importanceScore": 1659
   },
   {
     "name": "test",
     "pathPrefix": "test",
     "files": [
+      "test/agent-benchmark.test.ts",
       "test/agent-events.test.ts",
       "test/agents-md.test.ts",
       "test/analyzers.test.ts",
@@ -91,8 +92,8 @@
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 34 files and depends on analyzers, benchmarks, cli, config, core, integrations, mcp, outputs, retrievers.",
-    "importanceScore": 1237
+    "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, integrations, mcp, outputs, retrievers.",
+    "importanceScore": 1262
   },
   {
     "name": "core",
@@ -124,7 +125,7 @@
       "outputs"
     ],
     "summary": "core contains 18 files and depends on analyzers, config, llm, outputs.",
-    "importanceScore": 936
+    "importanceScore": 941
   },
   {
     "name": "retrievers",
@@ -145,6 +146,36 @@
     ],
     "summary": "retrievers contains 7 files and depends on core, integrations, outputs.",
     "importanceScore": 310
+  },
+  {
+    "name": "benchmarks",
+    "pathPrefix": "benchmarks",
+    "files": [
+      "benchmarks/README.md",
+      "benchmarks/agent-runs/manual-eval.json",
+      "benchmarks/expected/relevant-files.json",
+      "benchmarks/expected/required-tests.json",
+      "benchmarks/fixtures/fastapi-app/app/admin.py",
+      "benchmarks/fixtures/fastapi-app/app/billing.py",
+      "benchmarks/fixtures/fastapi-app/app/main.py",
+      "benchmarks/fixtures/fastapi-app/app/models.py",
+      "benchmarks/fixtures/fastapi-app/app/routes/users.py",
+      "benchmarks/fixtures/fastapi-app/app/schemas.py",
+      "benchmarks/fixtures/fastapi-app/pyproject.toml",
+      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "benchmarks/tasks/add-api-field.json",
+      "benchmarks/tasks/fix-login-timeout.json",
+      "benchmarks/tasks/fix-react-auth-state.json",
+      "benchmarks/tasks/refactor-config-loader.json",
+      "src/benchmarks/agent-benchmark.ts",
+      "src/benchmarks/benchmark.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs"
+    ],
+    "summary": "benchmarks contains 18 files and depends on core, outputs.",
+    "importanceScore": 266
   },
   {
     "name": "analyzers",
@@ -180,35 +211,6 @@
     "imports": [],
     "summary": "benchmarks/fixtures/small-ts-app contains 9 files.",
     "importanceScore": 219
-  },
-  {
-    "name": "benchmarks",
-    "pathPrefix": "benchmarks",
-    "files": [
-      "benchmarks/README.md",
-      "benchmarks/agent-runs/manual-eval.json",
-      "benchmarks/expected/relevant-files.json",
-      "benchmarks/expected/required-tests.json",
-      "benchmarks/fixtures/fastapi-app/app/admin.py",
-      "benchmarks/fixtures/fastapi-app/app/billing.py",
-      "benchmarks/fixtures/fastapi-app/app/main.py",
-      "benchmarks/fixtures/fastapi-app/app/models.py",
-      "benchmarks/fixtures/fastapi-app/app/routes/users.py",
-      "benchmarks/fixtures/fastapi-app/app/schemas.py",
-      "benchmarks/fixtures/fastapi-app/pyproject.toml",
-      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "benchmarks/tasks/add-api-field.json",
-      "benchmarks/tasks/fix-login-timeout.json",
-      "benchmarks/tasks/fix-react-auth-state.json",
-      "benchmarks/tasks/refactor-config-loader.json",
-      "src/benchmarks/benchmark.ts"
-    ],
-    "imports": [
-      "core",
-      "outputs"
-    ],
-    "summary": "benchmarks contains 17 files and depends on core, outputs.",
-    "importanceScore": 196
   },
   {
     "name": "benchmarks/fixtures/monorepo/packages/api",

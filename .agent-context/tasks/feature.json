@@ -2,27 +2,39 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 3265,
-  "remainingBudget": 8735,
+  "estimatedTokens": 6851,
+  "remainingBudget": 5149,
   "files": [
     {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 257,
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 263,
       "reasons": [
-        "lexical match: behavior"
+        "lexical match: behavior",
+        "direct importer of src/benchmarks/benchmark.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 364
+    },
+    {
+      "path": "src/benchmarks/benchmark.ts",
+      "score": 259,
+      "reasons": [
+        "lexical match: behavior",
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "direct-source",
       "estimatedTokens": 452
     },
     {
       "path": "src/cli/index.ts",
-      "score": 50,
+      "score": 78,
       "reasons": [
         "direct importer of src/benchmarks/benchmark.ts",
+        "direct importer of src/benchmarks/agent-benchmark.ts",
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 313
+      "estimatedTokens": 315
     },
     {
       "path": "src/mcp/server.ts",
@@ -32,6 +44,16 @@
       ],
       "category": "entrypoint",
       "estimatedTokens": 339
+    },
+    {
+      "path": "test/agent-benchmark.test.ts",
+      "score": 48,
+      "reasons": [
+        "direct importer of src/benchmarks/agent-benchmark.ts",
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 53
     },
     {
       "path": "test/benchmark.test.ts",
@@ -71,6 +93,15 @@
       "estimatedTokens": 72
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -89,15 +120,6 @@
       "estimatedTokens": 64
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
       "score": 20,
       "reasons": [
@@ -105,6 +127,89 @@
       ],
       "category": "test",
       "estimatedTokens": 63
+    },
+    {
+      "path": "src/core/context-builder.ts",
+      "score": 48,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/benchmarks/benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 106
+    },
+    {
+      "path": "src/outputs/markdown.ts",
+      "score": 48,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/benchmarks/benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 68
+    },
+    {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 302
+    },
+    {
+      "path": "src/outputs/policy-engine.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 271
+    },
+    {
+      "path": "src/outputs/regression-guard.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 297
+    },
+    {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 330
+    },
+    {
+      "path": "src/outputs/hallucination-guard.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 467
+    },
+    {
+      "path": "src/outputs/task-run.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 203
+    },
+    {
+      "path": "src/outputs/orchestrator.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 522
     },
     {
       "path": "src/outputs/test-selector.ts",
@@ -116,13 +221,22 @@
       "estimatedTokens": 249
     },
     {
-      "path": "src/core/context-builder.ts",
+      "path": "src/outputs/writer.ts",
       "score": 24,
       "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 106
+      "estimatedTokens": 246
+    },
+    {
+      "path": "src/core/safe-command.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 158
     },
     {
       "path": "src/core/types.ts",
@@ -143,13 +257,22 @@
       "estimatedTokens": 260
     },
     {
-      "path": "src/outputs/markdown.ts",
+      "path": "src/outputs/agent-events.ts",
       "score": 24,
       "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 68
+      "estimatedTokens": 293
+    },
+    {
+      "path": "src/core/git.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 78
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -188,15 +311,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/react-app/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 40
-    },
-    {
       "path": "benchmarks/fixtures/small-ts-app/package.json",
       "score": 16,
       "reasons": [
@@ -204,6 +318,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 42
+    },
+    {
+      "path": "benchmarks/fixtures/react-app/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 40
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
@@ -307,23 +430,35 @@
   ],
   "readFirst": [
     {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 257,
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 263,
       "reasons": [
-        "lexical match: behavior"
+        "lexical match: behavior",
+        "direct importer of src/benchmarks/benchmark.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 364
+    },
+    {
+      "path": "src/benchmarks/benchmark.ts",
+      "score": 259,
+      "reasons": [
+        "lexical match: behavior",
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "direct-source",
       "estimatedTokens": 452
     },
     {
       "path": "src/cli/index.ts",
-      "score": 50,
+      "score": 78,
       "reasons": [
         "direct importer of src/benchmarks/benchmark.ts",
+        "direct importer of src/benchmarks/agent-benchmark.ts",
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 313
+      "estimatedTokens": 315
     },
     {
       "path": "src/mcp/server.ts",
@@ -336,6 +471,16 @@
     }
   ],
   "inspectIfNeeded": [
+    {
+      "path": "test/agent-benchmark.test.ts",
+      "score": 48,
+      "reasons": [
+        "direct importer of src/benchmarks/agent-benchmark.ts",
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 53
+    },
     {
       "path": "test/benchmark.test.ts",
       "score": 48,
@@ -374,6 +519,15 @@
       "estimatedTokens": 72
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -392,15 +546,6 @@
       "estimatedTokens": 64
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
       "score": 20,
       "reasons": [
@@ -410,116 +555,122 @@
       "estimatedTokens": 63
     },
     {
-      "path": "src/outputs/test-selector.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 249
-    },
-    {
       "path": "src/core/context-builder.ts",
-      "score": 24,
+      "score": 48,
       "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/benchmarks/benchmark.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 106
     },
     {
-      "path": "src/core/types.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 300
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 260
-    },
-    {
       "path": "src/outputs/markdown.ts",
-      "score": 24,
+      "score": 48,
       "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/benchmarks/benchmark.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 68
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
-      "score": 16,
+      "path": "src/outputs/loop-controller.ts",
+      "score": 24,
       "reasons": [
-        "configuration"
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
-      "category": "config-doc",
-      "estimatedTokens": 51
+      "category": "dependency-neighbor",
+      "estimatedTokens": 302
     },
     {
-      "path": "package.json",
-      "score": 16,
+      "path": "src/outputs/policy-engine.ts",
+      "score": 24,
       "reasons": [
-        "configuration"
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
-      "category": "config-doc",
-      "estimatedTokens": 25
+      "category": "dependency-neighbor",
+      "estimatedTokens": 271
     },
     {
-      "path": "benchmarks/fixtures/fastapi-app/pyproject.toml",
-      "score": 16,
+      "path": "src/outputs/regression-guard.ts",
+      "score": 24,
       "reasons": [
-        "configuration"
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
-      "category": "config-doc",
-      "estimatedTokens": 42
+      "category": "dependency-neighbor",
+      "estimatedTokens": 297
+    },
+    {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 330
+    },
+    {
+      "path": "src/outputs/hallucination-guard.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 467
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 3265,
-    "remaining": 8735,
+    "used": 6851,
+    "remaining": 5149,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 452,
+        "tokens": 816,
         "files": [
+          "src/benchmarks/agent-benchmark.ts",
           "src/benchmarks/benchmark.ts"
         ]
       },
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 499,
+        "tokens": 552,
         "files": [
+          "test/agent-benchmark.test.ts",
           "test/benchmark.test.ts",
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
         ]
       },
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 983,
+        "tokens": 4150,
         "files": [
-          "src/outputs/test-selector.ts",
           "src/core/context-builder.ts",
+          "src/outputs/markdown.ts",
+          "src/outputs/loop-controller.ts",
+          "src/outputs/policy-engine.ts",
+          "src/outputs/regression-guard.ts",
+          "src/outputs/execution-trace.ts",
+          "src/outputs/hallucination-guard.ts",
+          "src/outputs/task-run.ts",
+          "src/outputs/orchestrator.ts",
+          "src/outputs/test-selector.ts",
+          "src/outputs/writer.ts",
+          "src/core/safe-command.ts",
           "src/core/types.ts",
           "src/outputs/task-context.ts",
-          "src/outputs/markdown.ts"
+          "src/outputs/agent-events.ts",
+          "src/core/git.ts"
         ]
       },
       {
@@ -531,8 +682,8 @@
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
+          "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
@@ -549,7 +700,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 652,
+        "tokens": 654,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -568,9 +719,9 @@
     "requiredTests": []
   },
   "retrieval": {
-    "directMatches": 1,
-    "dependencyNeighbors": 7,
-    "tests": 8,
+    "directMatches": 2,
+    "dependencyNeighbors": 24,
+    "tests": 9,
     "configDocs": 17
   }
 }

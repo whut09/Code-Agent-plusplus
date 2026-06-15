@@ -2,83 +2,44 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 8734,
-  "remainingBudget": 3266,
+  "estimatedTokens": 9455,
+  "remainingBudget": 2545,
   "files": [
     {
       "path": "src/outputs/regression-guard.ts",
-      "score": 341,
+      "score": 335,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct dependency of src/outputs/policy-engine.ts",
         "direct dependency of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
+        "direct dependency of src/outputs/task-harness.ts"
       ],
       "category": "direct-source",
       "estimatedTokens": 297
     },
     {
-      "path": "src/outputs/task-run.ts",
-      "score": 282,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 203
-    },
-    {
       "path": "src/outputs/orchestrator.ts",
-      "score": 262,
+      "score": 254,
       "reasons": [
         "lexical match: regression",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct importer of src/outputs/regression-guard.ts",
         "direct importer of src/outputs/policy-engine.ts",
-        "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/task-run.ts"
+        "direct importer of src/outputs/task-harness.ts"
       ],
       "category": "direct-source",
       "estimatedTokens": 522
     },
     {
-      "path": "src/outputs/task-harness.ts",
-      "score": 254,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 280
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 250,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct importer of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 260
-    },
-    {
       "path": "src/outputs/policy-engine.ts",
-      "score": 226,
+      "score": 246,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/regression-guard.ts"
       ],
@@ -86,8 +47,44 @@
       "estimatedTokens": 271
     },
     {
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 230,
+      "reasons": [
+        "lexical match: regression",
+        "direct importer of src/outputs/policy-engine.ts",
+        "direct importer of src/outputs/regression-guard.ts",
+        "direct importer of src/outputs/orchestrator.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 364
+    },
+    {
+      "path": "src/outputs/task-harness.ts",
+      "score": 226,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct importer of src/outputs/task-context.ts",
+        "direct importer of src/outputs/regression-guard.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 280
+    },
+    {
+      "path": "src/outputs/task-context.ts",
+      "score": 222,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of test/regression-guard.test.ts",
+        "direct importer of src/outputs/regression-guard.ts",
+        "direct dependency of src/outputs/task-harness.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 260
+    },
+    {
       "path": "src/integrations/codegraph.ts",
-      "score": 150,
+      "score": 146,
       "reasons": [
         "lexical match: regression"
       ],
@@ -99,8 +96,8 @@
       "score": 208,
       "reasons": [
         "direct importer of src/outputs/task-context.ts",
+        "direct importer of src/benchmarks/agent-benchmark.ts",
         "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/task-run.ts",
         "direct importer of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/policy-engine.ts",
         "direct importer of src/outputs/regression-guard.ts",
@@ -108,16 +105,15 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 313
+      "estimatedTokens": 315
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 124,
+      "score": 96,
       "reasons": [
         "direct importer of src/outputs/policy-engine.ts",
         "direct importer of src/outputs/task-harness.ts",
         "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/task-run.ts",
         "entrypoint"
       ],
       "category": "entrypoint",
@@ -125,28 +121,16 @@
     },
     {
       "path": "test/regression-guard.test.ts",
-      "score": 344,
+      "score": 310,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/outputs/policy-engine.ts",
         "direct importer of src/outputs/regression-guard.ts",
         "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/task-run.ts",
         "related test"
       ],
       "category": "test",
       "estimatedTokens": 86
-    },
-    {
-      "path": "test/task-harness.test.ts",
-      "score": 91,
-      "reasons": [
-        "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/task-run.ts",
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 84
     },
     {
       "path": "test/orchestrator.test.ts",
@@ -169,6 +153,16 @@
       "estimatedTokens": 142
     },
     {
+      "path": "test/task-harness.test.ts",
+      "score": 63,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts",
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 84
+    },
+    {
       "path": "test/codegraph.test.ts",
       "score": 63,
       "reasons": [
@@ -189,6 +183,79 @@
       "estimatedTokens": 59
     },
     {
+      "path": "test/agent-benchmark.test.ts",
+      "score": 63,
+      "reasons": [
+        "direct importer of src/benchmarks/agent-benchmark.ts",
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 53
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 63
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 66
+    },
+    {
+      "path": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 72
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
+      "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 61
+    },
+    {
+      "path": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 63
+    },
+    {
       "path": "test/contract-validator.test.ts",
       "score": 28,
       "reasons": [
@@ -196,15 +263,6 @@
       ],
       "category": "test",
       "estimatedTokens": 81
-    },
-    {
-      "path": "test/execution-trace.test.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/outputs/task-run.ts"
-      ],
-      "category": "test",
-      "estimatedTokens": 84
     },
     {
       "path": "test/hallucination-guard.test.ts",
@@ -216,23 +274,27 @@
       "estimatedTokens": 89
     },
     {
-      "path": "src/outputs/test-selector.ts",
-      "score": 226,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/task-run.ts",
-        "direct importer of src/integrations/codegraph.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 249
-    },
-    {
-      "path": "src/outputs/writer.ts",
-      "score": 220,
+      "path": "src/outputs/task-run.ts",
+      "score": 302,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct importer of src/outputs/task-context.ts",
+        "direct importer of src/outputs/task-harness.ts",
+        "direct importer of src/outputs/regression-guard.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 203
+    },
+    {
+      "path": "src/outputs/writer.ts",
+      "score": 241,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/regression-guard.ts",
         "direct importer of src/outputs/task-context.ts"
@@ -241,39 +303,50 @@
       "estimatedTokens": 246
     },
     {
+      "path": "src/outputs/test-selector.ts",
+      "score": 198,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of src/outputs/policy-engine.ts",
+        "direct importer of src/integrations/codegraph.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 249
+    },
+    {
+      "path": "src/outputs/markdown.ts",
+      "score": 144,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct dependency of src/outputs/policy-engine.ts",
+        "direct dependency of src/outputs/regression-guard.ts",
+        "direct dependency of src/outputs/task-context.ts",
+        "direct dependency of src/outputs/task-harness.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 68
+    },
+    {
       "path": "src/core/types.ts",
-      "score": 168,
+      "score": 144,
       "reasons": [
         "direct dependency of src/integrations/codegraph.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct dependency of src/outputs/policy-engine.ts",
         "direct dependency of src/outputs/regression-guard.ts",
         "direct dependency of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
+        "direct dependency of src/outputs/task-harness.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 300
     },
     {
-      "path": "src/outputs/markdown.ts",
+      "path": "src/core/git.ts",
       "score": 144,
       "reasons": [
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 68
-    },
-    {
-      "path": "src/core/git.ts",
-      "score": 120,
-      "reasons": [
         "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct dependency of src/outputs/policy-engine.ts",
         "direct dependency of src/outputs/regression-guard.ts",
@@ -283,28 +356,82 @@
       "estimatedTokens": 78
     },
     {
+      "path": "src/outputs/execution-trace.ts",
+      "score": 96,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct dependency of src/outputs/policy-engine.ts",
+        "direct dependency of src/outputs/regression-guard.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 330
+    },
+    {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 76,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct importer of src/outputs/task-context.ts",
+        "direct dependency of src/outputs/orchestrator.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 302
+    },
+    {
       "path": "src/outputs/impact.ts",
-      "score": 100,
+      "score": 76,
       "reasons": [
         "direct importer of src/integrations/codegraph.ts",
         "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/task-run.ts"
+        "direct dependency of src/outputs/policy-engine.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 260
     },
     {
-      "path": "src/outputs/execution-trace.ts",
-      "score": 96,
+      "path": "src/outputs/agent-events.ts",
+      "score": 76,
       "reasons": [
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-run.ts"
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct importer of src/outputs/orchestrator.ts",
+        "direct dependency of src/outputs/orchestrator.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 330
+      "estimatedTokens": 293
+    },
+    {
+      "path": "src/outputs/hallucination-guard.ts",
+      "score": 72,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct dependency of src/outputs/policy-engine.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 467
+    },
+    {
+      "path": "src/core/context-builder.ts",
+      "score": 72,
+      "reasons": [
+        "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/outputs/orchestrator.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 106
+    },
+    {
+      "path": "src/core/safe-command.ts",
+      "score": 72,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct dependency of src/integrations/codegraph.ts",
+        "direct dependency of src/outputs/orchestrator.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 158
     },
     {
       "path": "src/core/freshness.ts",
@@ -317,24 +444,14 @@
       "estimatedTokens": 290
     },
     {
-      "path": "src/outputs/loop-controller.ts",
+      "path": "src/benchmarks/benchmark.ts",
       "score": 52,
       "reasons": [
-        "direct importer of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/orchestrator.ts"
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
+        "direct importer of src/outputs/task-context.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 302
-    },
-    {
-      "path": "src/outputs/agent-events.ts",
-      "score": 52,
-      "reasons": [
-        "direct importer of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/orchestrator.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 293
+      "estimatedTokens": 452
     },
     {
       "path": "src/outputs/contract-validator.ts",
@@ -347,36 +464,6 @@
       "estimatedTokens": 327
     },
     {
-      "path": "src/outputs/hallucination-guard.ts",
-      "score": 48,
-      "reasons": [
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 467
-    },
-    {
-      "path": "src/core/context-builder.ts",
-      "score": 48,
-      "reasons": [
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/outputs/orchestrator.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 106
-    },
-    {
-      "path": "src/core/safe-command.ts",
-      "score": 48,
-      "reasons": [
-        "direct dependency of src/integrations/codegraph.ts",
-        "direct dependency of src/outputs/orchestrator.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 158
-    },
-    {
       "path": "src/outputs/evidence.ts",
       "score": 48,
       "reasons": [
@@ -385,15 +472,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 224
-    },
-    {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/outputs/task-context.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 452
     },
     {
       "path": "src/retrievers/codegraph.ts",
@@ -414,15 +492,6 @@
       "estimatedTokens": 132
     },
     {
-      "path": "src/outputs/runtime-state.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 228
-    },
-    {
       "path": "src/retrievers/types.ts",
       "score": 24,
       "reasons": [
@@ -430,6 +499,42 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 79
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/api/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
+      "path": "benchmarks/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 28
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 45
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 44
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -468,15 +573,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/react-app/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 40
-    },
-    {
       "path": "benchmarks/fixtures/small-ts-app/package.json",
       "score": 8,
       "reasons": [
@@ -484,6 +580,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 42
+    },
+    {
+      "path": "benchmarks/fixtures/react-app/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 40
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
@@ -552,78 +657,39 @@
   "readFirst": [
     {
       "path": "src/outputs/regression-guard.ts",
-      "score": 341,
+      "score": 335,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct dependency of src/outputs/policy-engine.ts",
         "direct dependency of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
+        "direct dependency of src/outputs/task-harness.ts"
       ],
       "category": "direct-source",
       "estimatedTokens": 297
     },
     {
-      "path": "src/outputs/task-run.ts",
-      "score": 282,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 203
-    },
-    {
       "path": "src/outputs/orchestrator.ts",
-      "score": 262,
+      "score": 254,
       "reasons": [
         "lexical match: regression",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct importer of src/outputs/regression-guard.ts",
         "direct importer of src/outputs/policy-engine.ts",
-        "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/task-run.ts"
+        "direct importer of src/outputs/task-harness.ts"
       ],
       "category": "direct-source",
       "estimatedTokens": 522
     },
     {
-      "path": "src/outputs/task-harness.ts",
-      "score": 254,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 280
-    },
-    {
-      "path": "src/outputs/task-context.ts",
-      "score": 250,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct importer of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 260
-    },
-    {
       "path": "src/outputs/policy-engine.ts",
-      "score": 226,
+      "score": 246,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/regression-guard.ts"
       ],
@@ -631,8 +697,44 @@
       "estimatedTokens": 271
     },
     {
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 230,
+      "reasons": [
+        "lexical match: regression",
+        "direct importer of src/outputs/policy-engine.ts",
+        "direct importer of src/outputs/regression-guard.ts",
+        "direct importer of src/outputs/orchestrator.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 364
+    },
+    {
+      "path": "src/outputs/task-harness.ts",
+      "score": 226,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of src/outputs/orchestrator.ts",
+        "direct importer of src/outputs/task-context.ts",
+        "direct importer of src/outputs/regression-guard.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 280
+    },
+    {
+      "path": "src/outputs/task-context.ts",
+      "score": 222,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of test/regression-guard.test.ts",
+        "direct importer of src/outputs/regression-guard.ts",
+        "direct dependency of src/outputs/task-harness.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 260
+    },
+    {
       "path": "src/integrations/codegraph.ts",
-      "score": 150,
+      "score": 146,
       "reasons": [
         "lexical match: regression"
       ],
@@ -644,8 +746,8 @@
       "score": 208,
       "reasons": [
         "direct importer of src/outputs/task-context.ts",
+        "direct importer of src/benchmarks/agent-benchmark.ts",
         "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/task-run.ts",
         "direct importer of src/outputs/orchestrator.ts",
         "direct importer of src/outputs/policy-engine.ts",
         "direct importer of src/outputs/regression-guard.ts",
@@ -653,34 +755,22 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 313
+      "estimatedTokens": 315
     }
   ],
   "inspectIfNeeded": [
     {
       "path": "test/regression-guard.test.ts",
-      "score": 344,
+      "score": 310,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/outputs/policy-engine.ts",
         "direct importer of src/outputs/regression-guard.ts",
         "direct importer of src/outputs/task-context.ts",
-        "direct importer of src/outputs/task-run.ts",
         "related test"
       ],
       "category": "test",
       "estimatedTokens": 86
-    },
-    {
-      "path": "test/task-harness.test.ts",
-      "score": 91,
-      "reasons": [
-        "direct importer of src/outputs/task-harness.ts",
-        "direct importer of src/outputs/task-run.ts",
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 84
     },
     {
       "path": "test/orchestrator.test.ts",
@@ -703,6 +793,16 @@
       "estimatedTokens": 142
     },
     {
+      "path": "test/task-harness.test.ts",
+      "score": 63,
+      "reasons": [
+        "direct importer of src/outputs/task-harness.ts",
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 84
+    },
+    {
       "path": "test/codegraph.test.ts",
       "score": 63,
       "reasons": [
@@ -723,6 +823,79 @@
       "estimatedTokens": 59
     },
     {
+      "path": "test/agent-benchmark.test.ts",
+      "score": 63,
+      "reasons": [
+        "direct importer of src/benchmarks/agent-benchmark.ts",
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 53
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 63
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 66
+    },
+    {
+      "path": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 72
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
+      "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 61
+    },
+    {
+      "path": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 63
+    },
+    {
       "path": "test/contract-validator.test.ts",
       "score": 28,
       "reasons": [
@@ -732,15 +905,6 @@
       "estimatedTokens": 81
     },
     {
-      "path": "test/execution-trace.test.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/outputs/task-run.ts"
-      ],
-      "category": "test",
-      "estimatedTokens": 84
-    },
-    {
       "path": "test/hallucination-guard.test.ts",
       "score": 28,
       "reasons": [
@@ -748,172 +912,92 @@
       ],
       "category": "test",
       "estimatedTokens": 89
-    },
-    {
-      "path": "src/outputs/test-selector.ts",
-      "score": 226,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/task-run.ts",
-        "direct importer of src/integrations/codegraph.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 249
-    },
-    {
-      "path": "src/outputs/writer.ts",
-      "score": 220,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct importer of src/outputs/regression-guard.ts",
-        "direct importer of src/outputs/task-context.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 246
-    },
-    {
-      "path": "src/core/types.ts",
-      "score": 168,
-      "reasons": [
-        "direct dependency of src/integrations/codegraph.ts",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 300
-    },
-    {
-      "path": "src/outputs/markdown.ts",
-      "score": 144,
-      "reasons": [
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-context.ts",
-        "direct dependency of src/outputs/task-harness.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 68
-    },
-    {
-      "path": "src/core/git.ts",
-      "score": 120,
-      "reasons": [
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-harness.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 78
-    },
-    {
-      "path": "src/outputs/impact.ts",
-      "score": 100,
-      "reasons": [
-        "direct importer of src/integrations/codegraph.ts",
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 260
-    },
-    {
-      "path": "src/outputs/execution-trace.ts",
-      "score": 96,
-      "reasons": [
-        "direct dependency of src/outputs/orchestrator.ts",
-        "direct dependency of src/outputs/policy-engine.ts",
-        "direct dependency of src/outputs/regression-guard.ts",
-        "direct dependency of src/outputs/task-run.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 330
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 8734,
-    "remaining": 3266,
+    "used": 9455,
+    "remaining": 2545,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 2127,
+        "tokens": 2288,
         "files": [
           "src/outputs/regression-guard.ts",
-          "src/outputs/task-run.ts",
           "src/outputs/orchestrator.ts",
+          "src/outputs/policy-engine.ts",
+          "src/benchmarks/agent-benchmark.ts",
           "src/outputs/task-harness.ts",
           "src/outputs/task-context.ts",
-          "src/outputs/policy-engine.ts",
           "src/integrations/codegraph.ts"
         ]
       },
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 783,
+        "tokens": 1201,
         "files": [
           "test/regression-guard.test.ts",
-          "test/task-harness.test.ts",
           "test/orchestrator.test.ts",
           "test/policy-engine.test.ts",
+          "test/task-harness.test.ts",
           "test/codegraph.test.ts",
           "test/task-context.test.ts",
+          "test/agent-benchmark.test.ts",
+          "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+          "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+          "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+          "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+          "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+          "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/contract-validator.test.ts",
-          "test/execution-trace.test.ts",
           "test/hallucination-guard.test.ts"
         ]
       },
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 4658,
+        "tokens": 4633,
         "files": [
-          "src/outputs/test-selector.ts",
+          "src/outputs/task-run.ts",
           "src/outputs/writer.ts",
-          "src/core/types.ts",
+          "src/outputs/test-selector.ts",
           "src/outputs/markdown.ts",
+          "src/core/types.ts",
           "src/core/git.ts",
-          "src/outputs/impact.ts",
           "src/outputs/execution-trace.ts",
-          "src/core/freshness.ts",
           "src/outputs/loop-controller.ts",
+          "src/outputs/impact.ts",
           "src/outputs/agent-events.ts",
-          "src/outputs/contract-validator.ts",
           "src/outputs/hallucination-guard.ts",
           "src/core/context-builder.ts",
           "src/core/safe-command.ts",
-          "src/outputs/evidence.ts",
+          "src/core/freshness.ts",
           "src/benchmarks/benchmark.ts",
+          "src/outputs/contract-validator.ts",
+          "src/outputs/evidence.ts",
           "src/retrievers/codegraph.ts",
           "src/core/token-estimator.ts",
-          "src/outputs/runtime-state.ts",
           "src/retrievers/types.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 514,
+        "tokens": 679,
         "files": [
+          "benchmarks/fixtures/monorepo/packages/api/README.md",
+          "benchmarks/README.md",
+          "benchmarks/fixtures/monorepo/packages/config/README.md",
+          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/api/package.json",
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
+          "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
@@ -926,7 +1010,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 652,
+        "tokens": 654,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -944,8 +1028,8 @@
   },
   "retrieval": {
     "directMatches": 8,
-    "dependencyNeighbors": 104,
-    "tests": 9,
-    "configDocs": 13
+    "dependencyNeighbors": 108,
+    "tests": 16,
+    "configDocs": 17
   }
 }

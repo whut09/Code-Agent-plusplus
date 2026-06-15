@@ -313,6 +313,7 @@ code-agent-plusplus validate-contracts [repo]
 code-agent-plusplus freshness [repo]
 code-agent-plusplus drift [repo]
 code-agent-plusplus benchmark [benchmarkDir] --top-k 8
+code-agent-plusplus benchmark-agent [benchmarkDir] --executor mock --dry-run
 code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
 code-agent-plusplus retrieve "<task>" [repo] --provider codegraph
 code-agent-plusplus-mcp

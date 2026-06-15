@@ -218,7 +218,77 @@ First targets:
 - Claude Code
 - Cursor
 
-Status: deterministic benchmark harness implemented; real-agent benchmark planned.
+Current MVP:
+
+- `code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run`
+- Real executor command hook through `--executor opencode|mimocode|codex|claude-code|cursor`.
+- Same task, same executor, same fixture, four modes: `no-context`, `agents-md`, `context-pack`, `loop-enabled-harness`.
+- Per-run metrics: changed files, unrelated changes, passed tests, missing evidence, loop count, final decision, hallucination findings, and regression findings.
+- Mode summary table: wrong edits, stale evidence, test pass rate, loops, and final gate strength.
+
+OpenCode example:
+
+```bash
+code-agent-plusplus benchmark-agent benchmarks \
+  --executor opencode \
+  --executor-command "opencode run --format json {prompt}" \
+  --max-loops 3 \
+  --fail-on required
+```
+
+Status: deterministic benchmark harness implemented; real-agent behavior benchmark MVP implemented with mock/generic executor support; repeated OpenCode/MiMoCode/Codex/Claude data collection remains ongoing.
+
+## v1.1: Runtime Codebase Refactor
+
+Goal: keep the harness maintainable as real executors, guards, and normalizers grow.
+
+Target module boundaries:
+
+```txt
+src/
+  guards/
+    boundary/
+    evidence/
+    impact/
+    hallucination/
+    regression/
+    loop/
+  runtime/
+    state-machine.ts
+    orchestrator.ts
+    decision-router.ts
+    checkpoint.ts
+    iteration-store.ts
+  executors/
+    index.ts
+    mock.ts
+    generic-command.ts
+    opencode.ts
+    codex.ts
+    claude-code.ts
+  normalizers/
+    opencode.ts
+    codex.ts
+    claude.ts
+    generic.ts
+  integrations/
+    mcp/
+    codegraph/
+    lightrag/
+  outputs/
+    markdown/
+    json/
+```
+
+Rationale:
+
+- `outputs/` should eventually focus on rendering.
+- `runtime/` should own loop orchestration and decisions.
+- `guards/` should own checks and findings.
+- `executors/` should own external code-agent invocation.
+- `normalizers/` should own event and transcript parsing.
+
+Status: planned refactor. Current implementation keeps compatibility while new behavior lands.
 
 ## Longer-Term Language Analysis
 

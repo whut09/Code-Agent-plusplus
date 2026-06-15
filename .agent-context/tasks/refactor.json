@@ -2,12 +2,12 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11999,
-  "remainingBudget": 1,
+  "estimatedTokens": 11985,
+  "remainingBudget": 15,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 312,
+      "score": 313,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "src/integrations/codegraph.ts",
-      "score": 215,
+      "score": 216,
       "reasons": [
         "lexical match: code",
         "direct dependency of test/codegraph.test.ts",
@@ -28,7 +28,7 @@
     },
     {
       "path": "src/retrievers/codegraph.ts",
-      "score": 195,
+      "score": 196,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -39,7 +39,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 149,
+      "score": 150,
       "reasons": [
         "lexical match: code"
       ],
@@ -48,7 +48,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 149,
+      "score": 150,
       "reasons": [
         "lexical match: code"
       ],
@@ -57,7 +57,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 149,
+      "score": 150,
       "reasons": [
         "lexical match: code"
       ],
@@ -66,7 +66,7 @@
     },
     {
       "path": "src/cli/index.ts",
-      "score": 172,
+      "score": 173,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -74,11 +74,11 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 313
+      "estimatedTokens": 315
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 153,
+      "score": 154,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -89,7 +89,7 @@
     },
     {
       "path": "test/codegraph.test.ts",
-      "score": 215,
+      "score": 216,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -101,7 +101,7 @@
     },
     {
       "path": "test/test-selector.test.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -111,7 +111,7 @@
     },
     {
       "path": "test/impact.test.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -157,6 +157,15 @@
       "estimatedTokens": 72
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -173,15 +182,6 @@
       ],
       "category": "test",
       "estimatedTokens": 64
-    },
-    {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -409,6 +409,15 @@
       "estimatedTokens": 51
     },
     {
+      "path": "test/agent-benchmark.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 53
+    },
+    {
       "path": "test/benchmark.test.ts",
       "score": 18,
       "reasons": [
@@ -419,7 +428,7 @@
     },
     {
       "path": "src/core/types.ts",
-      "score": 189,
+      "score": 190,
       "reasons": [
         "lexical match: code",
         "direct dependency of src/integrations/codegraph.ts",
@@ -431,7 +440,7 @@
     },
     {
       "path": "src/outputs/impact.ts",
-      "score": 160,
+      "score": 161,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -442,7 +451,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 160,
+      "score": 161,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -453,7 +462,7 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 141,
+      "score": 142,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -463,7 +472,7 @@
     },
     {
       "path": "src/outputs/agent-events.ts",
-      "score": 141,
+      "score": 142,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -484,7 +493,7 @@
     },
     {
       "path": "src/outputs/execution-trace.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -493,18 +502,8 @@
       "estimatedTokens": 330
     },
     {
-      "path": "src/core/token-estimator.ts",
-      "score": 132,
-      "reasons": [
-        "lexical match: code",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 132
-    },
-    {
       "path": "src/outputs/orchestrator.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -513,8 +512,18 @@
       "estimatedTokens": 522
     },
     {
+      "path": "src/core/token-estimator.ts",
+      "score": 133,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 132
+    },
+    {
       "path": "src/outputs/context-delta.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -544,16 +553,6 @@
       "estimatedTokens": 106
     },
     {
-      "path": "src/retrievers/static.ts",
-      "score": 42,
-      "reasons": [
-        "direct dependency of src/retrievers/codegraph.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 128
-    },
-    {
       "path": "src/core/safe-command.ts",
       "score": 42,
       "reasons": [
@@ -562,6 +561,16 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 158
+    },
+    {
+      "path": "src/retrievers/static.ts",
+      "score": 42,
+      "reasons": [
+        "direct dependency of src/retrievers/codegraph.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 128
     },
     {
       "path": "src/retrievers/ripgrep.ts",
@@ -590,6 +599,15 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 290
+    },
+    {
+      "path": "src/outputs/loop-controller.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 302
     },
     {
       "path": "src/outputs/policy-engine.ts",
@@ -628,6 +646,15 @@
       "estimatedTokens": 327
     },
     {
+      "path": "src/outputs/hallucination-guard.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 467
+    },
+    {
       "path": "src/outputs/task-run.ts",
       "score": 18,
       "reasons": [
@@ -637,22 +664,13 @@
       "estimatedTokens": 203
     },
     {
-      "path": "src/outputs/loop-controller.ts",
+      "path": "src/benchmarks/benchmark.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 302
-    },
-    {
-      "path": "src/outputs/hallucination-guard.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 467
+      "estimatedTokens": 452
     },
     {
       "path": "src/outputs/writer.ts",
@@ -664,6 +682,15 @@
       "estimatedTokens": 246
     },
     {
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 364
+    },
+    {
       "path": "src/outputs/task-context.ts",
       "score": 18,
       "reasons": [
@@ -671,15 +698,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 260
-    },
-    {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 452
     },
     {
       "path": "src/outputs/runtime-state.ts",
@@ -736,31 +754,23 @@
       "estimatedTokens": 211
     },
     {
-      "path": "src/config/load-config.ts",
-      "score": 18,
+      "path": "code-agent-plusplus.config.yml",
+      "score": 158,
       "reasons": [
-        "shared API/refactor risk"
+        "lexical match: code",
+        "configuration"
       ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 160
+      "category": "config-doc",
+      "estimatedTokens": 38
     },
     {
-      "path": "src/core/indexer.ts",
-      "score": 18,
+      "path": "benchmarks/fixtures/monorepo/packages/api/README.md",
+      "score": 14,
       "reasons": [
-        "shared API/refactor risk"
+        "owning module documentation"
       ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 225
-    },
-    {
-      "path": "src/analyzers/python.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 159
+      "category": "config-doc",
+      "estimatedTokens": 48
     },
     {
       "path": "benchmarks/README.md",
@@ -770,12 +780,21 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 28
+    },
+    {
+      "path": "package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 25
     }
   ],
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 312,
+      "score": 313,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -784,7 +803,7 @@
     },
     {
       "path": "src/integrations/codegraph.ts",
-      "score": 215,
+      "score": 216,
       "reasons": [
         "lexical match: code",
         "direct dependency of test/codegraph.test.ts",
@@ -796,7 +815,7 @@
     },
     {
       "path": "src/retrievers/codegraph.ts",
-      "score": 195,
+      "score": 196,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -807,7 +826,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 149,
+      "score": 150,
       "reasons": [
         "lexical match: code"
       ],
@@ -816,7 +835,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 149,
+      "score": 150,
       "reasons": [
         "lexical match: code"
       ],
@@ -825,7 +844,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 149,
+      "score": 150,
       "reasons": [
         "lexical match: code"
       ],
@@ -834,7 +853,7 @@
     },
     {
       "path": "src/cli/index.ts",
-      "score": 172,
+      "score": 173,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -842,11 +861,11 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 313
+      "estimatedTokens": 315
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 153,
+      "score": 154,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -859,7 +878,7 @@
   "inspectIfNeeded": [
     {
       "path": "test/codegraph.test.ts",
-      "score": 215,
+      "score": 216,
       "reasons": [
         "lexical match: code",
         "direct importer of src/integrations/codegraph.ts",
@@ -871,7 +890,7 @@
     },
     {
       "path": "test/test-selector.test.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -881,7 +900,7 @@
     },
     {
       "path": "test/impact.test.ts",
-      "score": 132,
+      "score": 133,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -927,6 +946,15 @@
       "estimatedTokens": 72
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -943,15 +971,6 @@
       ],
       "category": "test",
       "estimatedTokens": 64
-    },
-    {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -1010,8 +1029,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11999,
-    "remaining": 1,
+    "used": 11985,
+    "remaining": 15,
     "buckets": [
       {
         "name": "direct-source",
@@ -1029,7 +1048,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2626,
+        "tokens": 2679,
         "files": [
           "test/codegraph.test.ts",
           "test/test-selector.test.ts",
@@ -1038,9 +1057,9 @@
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/context-delta.test.ts",
           "test/contract-validator.test.ts",
@@ -1066,13 +1085,14 @@
           "test/validator.test.ts",
           "test/scanner.test.ts",
           "test/snapshot.test.ts",
+          "test/agent-benchmark.test.ts",
           "test/benchmark.test.ts"
         ]
       },
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8185,
+        "tokens": 8005,
         "files": [
           "src/core/types.ts",
           "src/outputs/impact.ts",
@@ -1081,49 +1101,50 @@
           "src/outputs/agent-events.ts",
           "src/retrievers/index.ts",
           "src/outputs/execution-trace.ts",
-          "src/core/token-estimator.ts",
           "src/outputs/orchestrator.ts",
+          "src/core/token-estimator.ts",
           "src/outputs/context-delta.ts",
           "src/retrievers/types.ts",
           "src/core/context-builder.ts",
-          "src/retrievers/static.ts",
           "src/core/safe-command.ts",
+          "src/retrievers/static.ts",
           "src/retrievers/ripgrep.ts",
           "src/retrievers/hybrid.ts",
           "src/core/freshness.ts",
+          "src/outputs/loop-controller.ts",
           "src/outputs/policy-engine.ts",
           "src/outputs/task-harness.ts",
           "src/outputs/regression-guard.ts",
           "src/outputs/contract-validator.ts",
-          "src/outputs/task-run.ts",
-          "src/outputs/loop-controller.ts",
           "src/outputs/hallucination-guard.ts",
-          "src/outputs/writer.ts",
-          "src/outputs/task-context.ts",
+          "src/outputs/task-run.ts",
           "src/benchmarks/benchmark.ts",
+          "src/outputs/writer.ts",
+          "src/benchmarks/agent-benchmark.ts",
+          "src/outputs/task-context.ts",
           "src/outputs/runtime-state.ts",
           "src/core/path-utils.ts",
           "src/outputs/evidence.ts",
           "src/outputs/rag.ts",
           "src/core/cache.ts",
-          "src/core/scanner.ts",
-          "src/config/load-config.ts",
-          "src/core/indexer.ts",
-          "src/analyzers/python.ts"
+          "src/core/scanner.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 28,
+        "tokens": 139,
         "files": [
-          "benchmarks/README.md"
+          "code-agent-plusplus.config.yml",
+          "benchmarks/fixtures/monorepo/packages/api/README.md",
+          "benchmarks/README.md",
+          "package.json"
         ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 652,
+        "tokens": 654,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -1144,7 +1165,7 @@
   "retrieval": {
     "directMatches": 8,
     "dependencyNeighbors": 17,
-    "tests": 36,
-    "configDocs": 1
+    "tests": 37,
+    "configDocs": 4
   }
 }

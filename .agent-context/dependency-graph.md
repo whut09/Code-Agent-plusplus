@@ -46,11 +46,11 @@ graph TD
 | From | To | Count |
 | --- | --- | --- |
 | analyzers | core | 5 |
-| benchmarks | core | 2 |
-| benchmarks | outputs | 3 |
+| benchmarks | core | 5 |
+| benchmarks | outputs | 13 |
 | benchmarks/fixtures/monorepo/packages/api | benchmarks/fixtures/monorepo/packages/config | 1 |
 | benchmarks/fixtures/monorepo/packages/web | benchmarks/fixtures/monorepo/packages/config | 1 |
-| cli | benchmarks | 1 |
+| cli | benchmarks | 2 |
 | cli | config | 1 |
 | cli | core | 8 |
 | cli | integrations | 1 |
@@ -73,7 +73,7 @@ graph TD
 | retrievers | integrations | 1 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |
-| test | benchmarks | 1 |
+| test | benchmarks | 2 |
 | test | cli | 1 |
 | test | config | 3 |
 | test | core | 43 |

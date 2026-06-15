@@ -195,6 +195,45 @@
         "src/retrievers/types.ts"
       ]
     },
+    "benchmarks": {
+      "owns": [
+        "benchmarks/**",
+        "src/benchmarks/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/benchmarks/**",
+        "src/config/**",
+        "src/core/**",
+        "src/outputs/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs"
+      ],
+      "publicFiles": [
+        "benchmarks/fixtures/fastapi-app/app/admin.py",
+        "benchmarks/fixtures/fastapi-app/app/billing.py",
+        "benchmarks/fixtures/fastapi-app/app/models.py",
+        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
+        "benchmarks/fixtures/fastapi-app/app/schemas.py",
+        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+        "src/benchmarks/agent-benchmark.ts",
+        "src/benchmarks/benchmark.ts"
+      ]
+    },
     "analyzers": {
       "owns": [
         "src/analyzers/**"
@@ -257,44 +296,6 @@
         "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
         "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
         "benchmarks/fixtures/small-ts-app/src/index.ts"
-      ]
-    },
-    "benchmarks": {
-      "owns": [
-        "benchmarks/**",
-        "src/benchmarks/**"
-      ],
-      "allowedImports": [
-        "benchmarks/**",
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/benchmarks/**",
-        "src/config/**",
-        "src/core/**",
-        "src/outputs/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "core",
-        "outputs"
-      ],
-      "publicFiles": [
-        "benchmarks/fixtures/fastapi-app/app/admin.py",
-        "benchmarks/fixtures/fastapi-app/app/billing.py",
-        "benchmarks/fixtures/fastapi-app/app/models.py",
-        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
-        "benchmarks/fixtures/fastapi-app/app/schemas.py",
-        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-        "src/benchmarks/benchmark.ts"
       ]
     },
     "benchmarks/fixtures/monorepo/packages/api": {
