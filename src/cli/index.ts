@@ -19,6 +19,7 @@ import { writeTaskRun } from "../outputs/task-run.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
 import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName, type OrchestratorCheckpointMode } from "../outputs/orchestrator.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
+import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../outputs/hallucination-guard.js";
 import {
   appendExecutionTraceStep,
   executionTracePath,
@@ -350,6 +351,23 @@ program
     const report = buildPolicyReport(context, { base: options.base, traceId: options.trace, failOn: options.failOn, strict: options.strict });
     console.log(options.json ? JSON.stringify(report, null, 2) : renderPolicyReport(report));
     if (!report.passed) process.exitCode = 1;
+  });
+
+program
+  .command("hallucination")
+  .argument("[repo]", "repository path", ".")
+  .option("--base <ref>", "base git ref for diff checks", "main")
+  .option("--trace <id>", "execution trace id used as transcript evidence")
+  .option("--task <task>", "task text used to derive the task id when no trace id is provided")
+  .option("--no-write", "print the report without writing .agent-context hallucination artifacts")
+  .option("--json", "print machine-readable hallucination report")
+  .description("Detect deterministic agent hallucinations: missing files, symbols, commands, dependencies, and config keys.")
+  .action(async (repo: string, options: { base: string; trace?: string; task?: string; write?: boolean; json?: boolean }) => {
+    const context = await buildContextPackage(repo);
+    const report = buildHallucinationReport(context, { base: options.base, traceId: options.trace, task: options.task });
+    const written = options.write === false ? undefined : writeHallucinationReport(context, report);
+    console.log(options.json ? JSON.stringify({ ...report, written }, null, 2) : renderHallucinationReport(report));
+    if (report.summary.errors > 0) process.exitCode = 1;
   });
 
 program

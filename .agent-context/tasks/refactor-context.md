@@ -1,7 +1,7 @@
 # Task Context: refactor code safely
 
 Type: refactor
-Budget: 11,987 / 12,000 estimated tokens
+Budget: 11,999 / 12,000 estimated tokens
 
 ## Read First
 1. `benchmarks/tasks/refactor-config-loader.json` - lexical match: refactor
@@ -41,7 +41,7 @@ Budget: 11,987 / 12,000 estimated tokens
 | `src/core/types.ts` | direct-source | 300 | lexical match: code, shared API/refactor risk | src/core/types.ts contains 35 detected symbols, 0 imports, 35 exports. |
 | `src/outputs/agent-events.ts` | direct-source | 293 | lexical match: code, shared API/refactor risk | src/outputs/agent-events.ts contains 70 detected symbols, 3 imports, 6 exports. |
 | `src/mcp/server.ts` | entrypoint | 339 | lexical match: code, entrypoint, shared API/refactor risk | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
-| `src/cli/index.ts` | entrypoint | 295 | direct importer of src/core/types.ts, entrypoint, shared API/refactor risk | src/cli/index.ts contains 96 detected symbols, 29 imports, 0 exports. |
+| `src/cli/index.ts` | entrypoint | 302 | direct importer of src/core/types.ts, entrypoint, shared API/refactor risk | src/cli/index.ts contains 99 detected symbols, 30 imports, 0 exports. |
 | `test/mcp.test.ts` | test | 78 | direct importer of src/mcp/server.ts, related test, shared API/refactor risk | test/mcp.test.ts contains 15 detected symbols, 7 imports, 0 exports. |
 | `test/agent-events.test.ts` | test | 60 | direct importer of src/outputs/agent-events.ts, related test, shared API/refactor risk | test/agent-events.test.ts contains 7 detected symbols, 6 imports, 0 exports. |
 | `test/analyzers.test.ts` | test | 63 | direct importer of src/core/types.ts, shared API/refactor risk | test/analyzers.test.ts contains 9 detected symbols, 6 imports, 0 exports. |
@@ -58,6 +58,7 @@ Budget: 11,987 / 12,000 estimated tokens
 | `test/contract-validator.test.ts` | test | 81 | shared API/refactor risk | test/contract-validator.test.ts contains 12 detected symbols, 10 imports, 0 exports. |
 | `test/execution-trace.test.ts` | test | 84 | shared API/refactor risk | test/execution-trace.test.ts contains 18 detected symbols, 9 imports, 0 exports. |
 | `test/freshness.test.ts` | test | 77 | shared API/refactor risk | test/freshness.test.ts contains 13 detected symbols, 9 imports, 0 exports. |
+| `test/hallucination-guard.test.ts` | test | 89 | shared API/refactor risk | test/hallucination-guard.test.ts contains 14 detected symbols, 11 imports, 0 exports. |
 | `test/loop-controller.test.ts` | test | 115 | shared API/refactor risk | test/loop-controller.test.ts contains 27 detected symbols, 10 imports, 0 exports. |
 | `test/orchestrator.test.ts` | test | 96 | shared API/refactor risk | test/orchestrator.test.ts contains 22 detected symbols, 8 imports, 0 exports. |
 | `test/policy-engine.test.ts` | test | 142 | shared API/refactor risk | test/policy-engine.test.ts contains 38 detected symbols, 10 imports, 0 exports. |
@@ -75,16 +76,16 @@ Budget: 11,987 / 12,000 estimated tokens
 | `test/scanner.test.ts` | test | 47 | shared API/refactor risk | test/scanner.test.ts contains 2 detected symbols, 7 imports, 0 exports. |
 | `test/snapshot.test.ts` | test | 51 | shared API/refactor risk | test/snapshot.test.ts contains 3 detected symbols, 4 imports, 0 exports. |
 | `test/benchmark.test.ts` | test | 50 | shared API/refactor risk | test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
-| `src/outputs/orchestrator.ts` | dependency-neighbor | 515 | lexical match: code, direct dependency of src/outputs/agent-events.ts, direct importer of src/core/types.ts, direct importer of src/outputs/agent-events.ts, shared API/refactor risk | src/outputs/orchestrator.ts contains 110 detected symbols, 16 imports, 11 exports. |
+| `src/outputs/orchestrator.ts` | dependency-neighbor | 519 | lexical match: code, direct dependency of src/outputs/agent-events.ts, direct importer of src/core/types.ts, direct importer of src/outputs/agent-events.ts, shared API/refactor risk | src/outputs/orchestrator.ts contains 111 detected symbols, 17 imports, 11 exports. |
 | `src/outputs/context-delta.ts` | dependency-neighbor | 304 | lexical match: code, direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/context-delta.ts contains 66 detected symbols, 5 imports, 9 exports. |
 | `src/core/token-estimator.ts` | dependency-neighbor | 132 | lexical match: code, direct importer of src/core/types.ts, shared API/refactor risk | src/core/token-estimator.ts contains 15 detected symbols, 3 imports, 7 exports. |
 | `src/outputs/execution-trace.ts` | dependency-neighbor | 330 | lexical match: code, direct dependency of src/mcp/server.ts, shared API/refactor risk | src/outputs/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports. |
 | `src/outputs/markdown.ts` | dependency-neighbor | 68 | lexical match: code, shared API/refactor risk | src/outputs/markdown.ts contains 8 detected symbols, 0 imports, 5 exports. |
+| `src/outputs/policy-engine.ts` | dependency-neighbor | 268 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/policy-engine.ts contains 47 detected symbols, 10 imports, 9 exports. |
 | `src/outputs/task-harness.ts` | dependency-neighbor | 277 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/task-harness.ts contains 67 detected symbols, 7 imports, 5 exports. |
 | `src/outputs/task-run.ts` | dependency-neighbor | 200 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/task-run.ts contains 42 detected symbols, 10 imports, 4 exports. |
 | `src/outputs/loop-controller.ts` | dependency-neighbor | 302 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/loop-controller.ts contains 60 detected symbols, 13 imports, 10 exports. |
-| `src/outputs/policy-engine.ts` | dependency-neighbor | 255 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/policy-engine.ts contains 45 detected symbols, 9 imports, 9 exports. |
-| `src/core/context-builder.ts` | dependency-neighbor | 106 | direct importer of src/core/types.ts, direct dependency of src/mcp/server.ts, shared API/refactor risk | src/core/context-builder.ts contains 15 detected symbols, 11 imports, 2 exports. |
+| `src/core/context-builder.ts` | dependency-neighbor | 106 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/core/context-builder.ts contains 15 detected symbols, 11 imports, 2 exports. |
 | `src/outputs/writer.ts` | dependency-neighbor | 246 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/writer.ts contains 55 detected symbols, 18 imports, 2 exports. |
 | `src/outputs/impact.ts` | dependency-neighbor | 230 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/impact.ts contains 46 detected symbols, 3 imports, 4 exports. |
 | `src/outputs/test-selector.ts` | dependency-neighbor | 226 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/test-selector.ts contains 44 detected symbols, 3 imports, 4 exports. |
@@ -92,6 +93,7 @@ Budget: 11,987 / 12,000 estimated tokens
 | `src/outputs/task-context.ts` | dependency-neighbor | 252 | direct dependency of src/mcp/server.ts, direct importer of src/core/types.ts | src/outputs/task-context.ts contains 64 detected symbols, 3 imports, 3 exports. |
 | `src/core/freshness.ts` | dependency-neighbor | 290 | direct importer of src/core/types.ts, shared API/refactor risk | src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports. |
 | `src/outputs/contract-validator.ts` | dependency-neighbor | 327 | direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports. |
+| `src/outputs/hallucination-guard.ts` | dependency-neighbor | 467 | direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/hallucination-guard.ts contains 106 detected symbols, 6 imports, 8 exports. |
 | `src/benchmarks/benchmark.ts` | dependency-neighbor | 452 | direct importer of src/core/types.ts, shared API/refactor risk | src/benchmarks/benchmark.ts contains 90 detected symbols, 7 imports, 11 exports. |
 | `src/retrievers/static.ts` | dependency-neighbor | 128 | direct importer of src/core/types.ts, shared API/refactor risk | src/retrievers/static.ts contains 23 detected symbols, 3 imports, 6 exports. |
 | `src/outputs/runtime-state.ts` | dependency-neighbor | 228 | direct importer of src/core/types.ts, shared API/refactor risk | src/outputs/runtime-state.ts contains 41 detected symbols, 5 imports, 10 exports. |
@@ -113,23 +115,18 @@ Budget: 11,987 / 12,000 estimated tokens
 | `src/analyzers/tree-sitter.ts` | dependency-neighbor | 117 | direct importer of src/core/types.ts | src/analyzers/tree-sitter.ts contains 12 detected symbols, 2 imports, 2 exports. |
 | `src/outputs/architecture.ts` | dependency-neighbor | 70 | direct importer of src/core/types.ts | src/outputs/architecture.ts contains 3 detected symbols, 2 imports, 1 export. |
 | `src/outputs/dependency-graph.ts` | dependency-neighbor | 85 | direct importer of src/core/types.ts | src/outputs/dependency-graph.ts contains 7 detected symbols, 2 imports, 2 exports. |
-| `src/outputs/agents-md.ts` | dependency-neighbor | 159 | direct importer of src/core/types.ts | src/outputs/agents-md.ts contains 31 detected symbols, 3 imports, 1 export. |
-| `src/llm/provider.ts` | dependency-neighbor | 82 | direct importer of src/core/types.ts | src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports. |
-| `src/core/summarizer.ts` | dependency-neighbor | 97 | direct importer of src/core/types.ts | src/core/summarizer.ts contains 13 detected symbols, 2 imports, 1 export. |
-| `src/core/graph.ts` | dependency-neighbor | 70 | direct importer of src/core/types.ts | src/core/graph.ts contains 8 detected symbols, 1 import, 1 export. |
-| `src/core/ranker.ts` | dependency-neighbor | 121 | direct importer of src/core/types.ts | src/core/ranker.ts contains 20 detected symbols, 1 import, 1 export. |
-| `src/config/defaults.ts` | dependency-neighbor | 64 | direct importer of src/core/types.ts | src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports. |
+| `package.json` | config-doc | 25 | configuration | package.json is a config file written as JSON. |
 
 ## Budget Packing
 | Bucket | Tokens | Files |
 | --- | --- | --- |
 | Directly relevant source files | 738 | `benchmarks/tasks/refactor-config-loader.json`, `code-agent-plusplus.config.example.yml`, `code-agent-plusplus.local.example.yml`, `assets/agent-context-code-layers.png`, `src/core/types.ts`, `src/outputs/agent-events.ts` |
-| Tests | 2,370 | `test/mcp.test.ts`, `test/agent-events.test.ts`, `test/analyzers.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/context-delta.test.ts`, `test/contract-validator.test.ts`, `test/execution-trace.test.ts`, `test/freshness.test.ts`, `test/loop-controller.test.ts`, `test/orchestrator.test.ts`, `test/policy-engine.test.ts`, `test/task-harness.test.ts`, `test/test-selector.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/cache.test.ts`, `test/impact.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/benchmark.test.ts` |
-| Dependency neighbors | 8,245 | `src/outputs/orchestrator.ts`, `src/outputs/context-delta.ts`, `src/core/token-estimator.ts`, `src/outputs/execution-trace.ts`, `src/outputs/markdown.ts`, `src/outputs/task-harness.ts`, `src/outputs/task-run.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts`, `src/core/context-builder.ts`, `src/outputs/writer.ts`, `src/outputs/impact.ts`, `src/outputs/test-selector.ts`, `src/retrievers/index.ts`, `src/outputs/task-context.ts`, `src/core/freshness.ts`, `src/outputs/contract-validator.ts`, `src/benchmarks/benchmark.ts`, `src/retrievers/static.ts`, `src/outputs/runtime-state.ts`, `src/outputs/rag.ts`, `src/core/cache.ts`, `src/core/scanner.ts`, `src/config/load-config.ts`, `src/core/indexer.ts`, `src/analyzers/python.ts`, `src/analyzers/javascript.ts`, `src/retrievers/ripgrep.ts`, `src/retrievers/types.ts`, `src/core/token-savings.ts`, `src/core/readiness.ts`, `src/core/validator.ts`, `src/analyzers/types.ts`, `src/outputs/contracts.ts`, `src/core/file-classifier.ts`, `src/analyzers/tree-sitter.ts`, `src/outputs/architecture.ts`, `src/outputs/dependency-graph.ts`, `src/outputs/agents-md.ts`, `src/llm/provider.ts`, `src/core/summarizer.ts`, `src/core/graph.ts`, `src/core/ranker.ts`, `src/config/defaults.ts` |
-| Config/docs | 0 | none |
-| Entrypoints | 634 | `src/mcp/server.ts`, `src/cli/index.ts` |
+| Tests | 2,459 | `test/mcp.test.ts`, `test/agent-events.test.ts`, `test/analyzers.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/context-delta.test.ts`, `test/contract-validator.test.ts`, `test/execution-trace.test.ts`, `test/freshness.test.ts`, `test/hallucination-guard.test.ts`, `test/loop-controller.test.ts`, `test/orchestrator.test.ts`, `test/policy-engine.test.ts`, `test/task-harness.test.ts`, `test/test-selector.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/cache.test.ts`, `test/impact.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/benchmark.test.ts` |
+| Dependency neighbors | 8,136 | `src/outputs/orchestrator.ts`, `src/outputs/context-delta.ts`, `src/core/token-estimator.ts`, `src/outputs/execution-trace.ts`, `src/outputs/markdown.ts`, `src/outputs/policy-engine.ts`, `src/outputs/task-harness.ts`, `src/outputs/task-run.ts`, `src/outputs/loop-controller.ts`, `src/core/context-builder.ts`, `src/outputs/writer.ts`, `src/outputs/impact.ts`, `src/outputs/test-selector.ts`, `src/retrievers/index.ts`, `src/outputs/task-context.ts`, `src/core/freshness.ts`, `src/outputs/contract-validator.ts`, `src/outputs/hallucination-guard.ts`, `src/benchmarks/benchmark.ts`, `src/retrievers/static.ts`, `src/outputs/runtime-state.ts`, `src/outputs/rag.ts`, `src/core/cache.ts`, `src/core/scanner.ts`, `src/config/load-config.ts`, `src/core/indexer.ts`, `src/analyzers/python.ts`, `src/analyzers/javascript.ts`, `src/retrievers/ripgrep.ts`, `src/retrievers/types.ts`, `src/core/token-savings.ts`, `src/core/readiness.ts`, `src/core/validator.ts`, `src/analyzers/types.ts`, `src/outputs/contracts.ts`, `src/core/file-classifier.ts`, `src/analyzers/tree-sitter.ts`, `src/outputs/architecture.ts`, `src/outputs/dependency-graph.ts` |
+| Config/docs | 25 | `package.json` |
+| Entrypoints | 641 | `src/mcp/server.ts`, `src/cli/index.ts` |
 
-Remaining budget: 13 estimated tokens
+Remaining budget: 1 estimated tokens
 
 ## Suggested Commands
 - npm run test -- refactor

@@ -215,7 +215,8 @@ code-agent-plusplus drift .
 | token savings estimated + actual output tokens       | implemented            |
 | readiness dimensions and hard caps                   | implemented            |
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
-| Hallucination / Regression Guards                    | planned                |
+| Hallucination Guard MVP                              | implemented foundation |
+| Regression Guard                                     | planned                |
 | multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | `agent run` executor wrapper                         | implemented            |
 | mock executor                                        | implemented            |
@@ -251,6 +252,7 @@ AGENTS.manual.md
   runs/
   loops/
   traces/
+  hallucination/
   delta/
   rag/
   evidence/
@@ -283,6 +285,7 @@ code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-com
 code-agent-plusplus orchestrate "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}" --opencode-transcript .opencode/session.jsonl
 code-agent-plusplus trace start "<task>" [repo] --agent codex
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
+code-agent-plusplus hallucination [repo] --trace <trace-id> --base main
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
 code-agent-plusplus tests [repo] --diff --base main
 code-agent-plusplus impact [repo] --base main

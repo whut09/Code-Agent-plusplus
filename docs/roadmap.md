@@ -104,23 +104,29 @@ Status: mock executor, generic command adapter, and OpenCode stdout/transcript/f
 
 Goal: make repository evidence the source of truth for APIs, commands, config, and conventions.
 
-Planned checks:
+Implemented MVP checks:
 
 - Missing file references.
 - Missing symbols or exports.
 - Nonexistent package scripts or test commands.
 - Nonexistent config keys and environment variables.
 - Missing dependencies.
-- Paths and APIs that contradict local conventions.
 
-Planned outputs:
+Implemented outputs:
 
-- hallucination findings
-- evidence references
-- repair suggestions
+- `.agent-context/hallucination/<task-id>.json`
+- `.agent-context/runs/<task-id>/hallucination.md`
+- policy findings for missing commands, missing symbols, missing local import files, missing dependencies, missing config keys, and missing file references.
+- evidence references and repair suggestions.
 - “verify existence first” prompts
 
-Status: planned.
+Planned expansion:
+
+- APIs or paths that contradict local conventions.
+- Framework-specific route/config checks.
+- Agent-specific transcript parsers beyond the current OpenCode foundation.
+
+Status: deterministic Hallucination Guard MVP implemented; semantic convention checks remain planned.
 
 ## v0.7: Regression Guard
 

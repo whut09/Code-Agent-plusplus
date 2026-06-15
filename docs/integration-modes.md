@@ -5,6 +5,7 @@ Code Agent++ supports two separate flows. The difference is not whether AI is us
 In both flows, Guard modules provide the reliability layer:
 
 - Context Guard prepares task-specific context.
+- Hallucination Guard checks deterministic missing files, commands, symbols, dependencies, and config keys.
 - Boundary Guard defines and checks the edit surface.
 - Evidence Guard validates command and test evidence.
 - Impact Guard explains blast radius and review risk.

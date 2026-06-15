@@ -7,6 +7,7 @@ import { changedFilesSince, runGit } from "../core/git.js";
 import { runSafeCommand, shellQuote } from "../core/safe-command.js";
 import { normalizeAgentEvents, type AgentEvent } from "./agent-events.js";
 import { writeContextPackage } from "./writer.js";
+import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport, type HallucinationGuardReport } from "./hallucination-guard.js";
 import { renderChangeImpactReport } from "./impact.js";
 import { buildLoopControllerReport, renderLoopControllerReport, type LoopControllerReport } from "./loop-controller.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn, type PolicyEngineReport } from "./policy-engine.js";
@@ -182,6 +183,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex, normalized.warnings);
 
     const postContext = await buildContextPackage(root);
+    const hallucination = buildHallucinationReport(postContext, { base, traceId: taskRun.runId, task });
+    writeHallucinationReport(postContext, hallucination);
     const changedFiles = collectChangedFiles(root, base);
     const policy = buildPolicyReport(postContext, { base, traceId: taskRun.runId, failOn: options.failOn ?? "required" });
     const verify = renderTaskVerify(postContext, { base, diff: true });
@@ -215,6 +218,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       promptFile,
       executorResult,
       agentEvents: normalized.events,
+      hallucination,
       policy,
       verify,
       loop,
@@ -717,6 +721,7 @@ function writeIterationArtifacts(
     promptFile: string;
     executorResult: AgentExecutorResult;
     agentEvents: AgentEvent[];
+    hallucination: HallucinationGuardReport;
     policy: PolicyEngineReport;
     verify: string;
     loop: LoopControllerReport;
@@ -727,6 +732,8 @@ function writeIterationArtifacts(
     input.promptFile,
     write(path.join(iterationDir, "executor.events.jsonl"), formatAgentEvents(input.agentEvents)),
     write(path.join(iterationDir, "executor.result.json"), JSON.stringify(input.executorResult, null, 2)),
+    write(path.join(iterationDir, "hallucination.json"), JSON.stringify(input.hallucination, null, 2)),
+    write(path.join(iterationDir, "hallucination.md"), renderHallucinationReport(input.hallucination)),
     write(path.join(iterationDir, "policy.json"), JSON.stringify(input.policy, null, 2)),
     write(path.join(iterationDir, "verify.json"), JSON.stringify({ markdown: input.verify }, null, 2)),
     write(path.join(iterationDir, "loop.json"), JSON.stringify(input.loop, null, 2)),

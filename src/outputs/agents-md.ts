@@ -197,6 +197,7 @@ function harnessRuntimeLinks(): string[] {
     `${code(".agent-context/runs/")} - complete task run contexts with plan, pack, tests, impact, verify, and prompts`,
     `${code(".agent-context/loops/")} - loop controller decisions when written with ${code('code-agent-plusplus loop "<task>" . --write')}`,
     `${code(".agent-context/traces/")} - execution trace records for agent edits, tests, verification, final state, and manual/command/CI evidence`,
+    `${code(".agent-context/hallucination/")} - deterministic missing file, command, dependency, config, and symbol findings`,
     `${code(".agent-context/delta/")} - context delta and files the agent should re-read after repository changes`
   ];
 }
@@ -204,6 +205,7 @@ function harnessRuntimeLinks(): string[] {
 function beforeClosingCommands(): string[] {
   return [
     `Prefer ${code('code-agent-plusplus trace run <trace-id> . --action run-test --command "<test-command>"')} over manual test claims when recording verification.`,
+    `Run ${code("code-agent-plusplus hallucination . --trace <trace-id> --base main")} when the task has an execution trace.`,
     `Prefer ${code("code-agent-plusplus policy . --base main --trace <trace-id> --fail-on required")} when a trace exists.`,
     `Run ${code("code-agent-plusplus verify --diff .")} and ${code('code-agent-plusplus loop "<task>" . --phase after-edit')} before final review.`,
     `Check ${code("code-agent-plusplus freshness .")} and ${code("code-agent-plusplus drift .")} if generated context may be stale.`

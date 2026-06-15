@@ -2,12 +2,12 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11987,
-  "remainingBudget": 13,
+  "estimatedTokens": 11999,
+  "remainingBudget": 1,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 310,
+      "score": 311,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -43,7 +43,7 @@
     },
     {
       "path": "src/core/types.ts",
-      "score": 168,
+      "score": 169,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -53,7 +53,7 @@
     },
     {
       "path": "src/outputs/agent-events.ts",
-      "score": 168,
+      "score": 169,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -63,7 +63,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 180,
+      "score": 181,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -81,7 +81,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 295
+      "estimatedTokens": 302
     },
     {
       "path": "test/mcp.test.ts",
@@ -233,6 +233,15 @@
       ],
       "category": "test",
       "estimatedTokens": 77
+    },
+    {
+      "path": "test/hallucination-guard.test.ts",
+      "score": 18,
+      "reasons": [
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 89
     },
     {
       "path": "test/loop-controller.test.ts",
@@ -398,7 +407,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 515
+      "estimatedTokens": 519
     },
     {
       "path": "src/outputs/context-delta.ts",
@@ -436,13 +445,24 @@
     },
     {
       "path": "src/outputs/markdown.ts",
-      "score": 168,
+      "score": 169,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 68
+    },
+    {
+      "path": "src/outputs/policy-engine.ts",
+      "score": 70,
+      "reasons": [
+        "direct dependency of src/mcp/server.ts",
+        "direct importer of src/core/types.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 268
     },
     {
       "path": "src/outputs/task-harness.ts",
@@ -478,22 +498,11 @@
       "estimatedTokens": 302
     },
     {
-      "path": "src/outputs/policy-engine.ts",
-      "score": 70,
-      "reasons": [
-        "direct dependency of src/mcp/server.ts",
-        "direct importer of src/core/types.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 255
-    },
-    {
       "path": "src/core/context-builder.ts",
       "score": 70,
       "reasons": [
-        "direct importer of src/core/types.ts",
         "direct dependency of src/mcp/server.ts",
+        "direct importer of src/core/types.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
@@ -572,6 +581,16 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 327
+    },
+    {
+      "path": "src/outputs/hallucination-guard.ts",
+      "score": 46,
+      "reasons": [
+        "direct importer of src/core/types.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 467
     },
     {
       "path": "src/benchmarks/benchmark.ts",
@@ -775,64 +794,19 @@
       "estimatedTokens": 85
     },
     {
-      "path": "src/outputs/agents-md.ts",
-      "score": 28,
+      "path": "package.json",
+      "score": 8,
       "reasons": [
-        "direct importer of src/core/types.ts"
+        "configuration"
       ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 159
-    },
-    {
-      "path": "src/llm/provider.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/core/types.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 82
-    },
-    {
-      "path": "src/core/summarizer.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/core/types.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 97
-    },
-    {
-      "path": "src/core/graph.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/core/types.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 70
-    },
-    {
-      "path": "src/core/ranker.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/core/types.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 121
-    },
-    {
-      "path": "src/config/defaults.ts",
-      "score": 28,
-      "reasons": [
-        "direct importer of src/core/types.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 64
+      "category": "config-doc",
+      "estimatedTokens": 25
     }
   ],
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 310,
+      "score": 311,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -868,7 +842,7 @@
     },
     {
       "path": "src/core/types.ts",
-      "score": 168,
+      "score": 169,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -878,7 +852,7 @@
     },
     {
       "path": "src/outputs/agent-events.ts",
-      "score": 168,
+      "score": 169,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -888,7 +862,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 180,
+      "score": 181,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -906,7 +880,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 295
+      "estimatedTokens": 302
     }
   ],
   "inspectIfNeeded": [
@@ -1064,8 +1038,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11987,
-    "remaining": 13,
+    "used": 11999,
+    "remaining": 1,
     "buckets": [
       {
         "name": "direct-source",
@@ -1083,7 +1057,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2370,
+        "tokens": 2459,
         "files": [
           "test/mcp.test.ts",
           "test/agent-events.test.ts",
@@ -1101,6 +1075,7 @@
           "test/contract-validator.test.ts",
           "test/execution-trace.test.ts",
           "test/freshness.test.ts",
+          "test/hallucination-guard.test.ts",
           "test/loop-controller.test.ts",
           "test/orchestrator.test.ts",
           "test/policy-engine.test.ts",
@@ -1123,17 +1098,17 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8245,
+        "tokens": 8136,
         "files": [
           "src/outputs/orchestrator.ts",
           "src/outputs/context-delta.ts",
           "src/core/token-estimator.ts",
           "src/outputs/execution-trace.ts",
           "src/outputs/markdown.ts",
+          "src/outputs/policy-engine.ts",
           "src/outputs/task-harness.ts",
           "src/outputs/task-run.ts",
           "src/outputs/loop-controller.ts",
-          "src/outputs/policy-engine.ts",
           "src/core/context-builder.ts",
           "src/outputs/writer.ts",
           "src/outputs/impact.ts",
@@ -1142,6 +1117,7 @@
           "src/outputs/task-context.ts",
           "src/core/freshness.ts",
           "src/outputs/contract-validator.ts",
+          "src/outputs/hallucination-guard.ts",
           "src/benchmarks/benchmark.ts",
           "src/retrievers/static.ts",
           "src/outputs/runtime-state.ts",
@@ -1162,25 +1138,21 @@
           "src/core/file-classifier.ts",
           "src/analyzers/tree-sitter.ts",
           "src/outputs/architecture.ts",
-          "src/outputs/dependency-graph.ts",
-          "src/outputs/agents-md.ts",
-          "src/llm/provider.ts",
-          "src/core/summarizer.ts",
-          "src/core/graph.ts",
-          "src/core/ranker.ts",
-          "src/config/defaults.ts"
+          "src/outputs/dependency-graph.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 0,
-        "files": []
+        "tokens": 25,
+        "files": [
+          "package.json"
+        ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 634,
+        "tokens": 641,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"
@@ -1195,8 +1167,8 @@
   ],
   "retrieval": {
     "directMatches": 8,
-    "dependencyNeighbors": 69,
-    "tests": 33,
-    "configDocs": 0
+    "dependencyNeighbors": 70,
+    "tests": 34,
+    "configDocs": 1
   }
 }

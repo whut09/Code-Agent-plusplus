@@ -6,6 +6,7 @@ import { validateContracts } from "./contract-validator.js";
 import { buildTestSelection } from "./test-selector.js";
 import { currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
 import { evidenceSatisfies } from "./evidence.js";
+import { buildHallucinationReport, type HallucinationFinding } from "./hallucination-guard.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type PolicyKind = "forbidden" | "risk" | "required";
@@ -61,6 +62,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
   const drift = assessDrift(context);
   const impact = buildChangeImpactReport(context, { base });
   const tests = buildTestSelection(context, { diff: true, base });
+  const hallucination = buildHallucinationReport(context, { base, traceId: options.traceId, task: trace?.task });
   const currentRepoHash = currentWorkingTreeHash(context.scan.root);
   const testEvidence = evidenceSatisfies(
     {
@@ -228,6 +230,10 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     });
   }
 
+  for (const finding of hallucination.findings) {
+    findings.push(policyFindingFromHallucination(finding));
+  }
+
   const summary = {
     forbidden: findings.filter((finding) => finding.kind === "forbidden" && finding.status === "failed").length,
     risks: findings.filter((finding) => finding.kind === "risk").length,
@@ -359,6 +365,42 @@ function requiresContractRegeneration(files: string[]): boolean {
 
 function firstRunnableCommand(commands: string[]): string | undefined {
   return commands.find((command) => !/^No .*detected/i.test(command));
+}
+
+function policyFindingFromHallucination(finding: HallucinationFinding): PolicyFinding {
+  if (finding.kind === "missing_command") {
+    return {
+      id: "policy.required.hallucination.missing-command",
+      kind: "required",
+      status: "missing",
+      severity: "required",
+      message: `Hallucinated command: ${finding.claim}`,
+      evidence: finding.evidenceChecked,
+      requiredAction: finding.repairSuggestion
+    };
+  }
+
+  if (finding.kind === "missing_symbol" || (finding.kind === "missing_file" && finding.severity === "error")) {
+    return {
+      id: `policy.forbidden.hallucination.${finding.kind.replace("_", "-")}`,
+      kind: "forbidden",
+      status: "failed",
+      severity: "error",
+      message: `Hallucinated repository reference: ${finding.claim}`,
+      evidence: finding.evidenceChecked,
+      requiredAction: finding.repairSuggestion
+    };
+  }
+
+  return {
+    id: `policy.risk.hallucination.${finding.kind.replace("_", "-")}`,
+    kind: "risk",
+    status: "warning",
+    severity: "warning",
+    message: `Potential hallucination: ${finding.claim}`,
+    evidence: finding.evidenceChecked,
+    requiredAction: finding.repairSuggestion
+  };
 }
 
 function formatPolicyFinding(finding: PolicyFinding): string {

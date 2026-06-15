@@ -7,7 +7,7 @@ Code Agent++ Guard modules are external enhancement components designed around c
 | Guard                               | Problem                                       | Status                 |
 | ----------------------------------- | --------------------------------------------- | ---------------------- |
 | Context Guard                       | Wrong context, irrelevant search, token waste | implemented foundation |
-| Hallucination Guard                 | Invented APIs, commands, config, conventions  | planned                |
+| Hallucination Guard                 | Invented APIs, commands, config, conventions  | implemented foundation |
 | Boundary Guard                      | Edit scope expansion and protected path edits | implemented foundation |
 | Regression Guard                    | Reintroducing historical bugs                 | planned                |
 | Evidence Guard                      | Untrustworthy or stale test evidence          | implemented foundation |
@@ -48,21 +48,38 @@ Goals:
 
 Hallucination Guard reduces engineering hallucination by checking whether the agent referenced objects that are not backed by repository evidence.
 
-Checks:
+MVP checks:
 
 - missing files
 - missing functions, classes, types, or exports
 - missing CLI commands, npm scripts, or test commands
 - missing config keys or environment variables
 - missing dependencies
-- APIs or paths that conflict with project conventions
 
-Planned outputs:
+Inputs:
 
-- hallucination findings
+- execution trace / normalized executor events
+- git diff and changed files
+- package scripts and dependency declarations
+- env examples and config files
+- symbol/export index
+
+Outputs:
+
+- `.agent-context/hallucination/<task-id>.json`
+- `.agent-context/runs/<task-id>/hallucination.md`
 - evidence references
 - repair suggestions
 - items that require existence verification
+
+Policy mapping:
+
+- missing command -> required failure
+- missing symbol in modified code -> forbidden failure
+- missing local import file in modified code -> forbidden failure
+- missing dependency -> risk warning
+- missing config key -> risk warning
+- missing file mentioned by transcript or diff explanation -> warning
 
 Goal:
 
