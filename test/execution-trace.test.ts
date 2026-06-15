@@ -75,6 +75,26 @@ test("execution trace run captures command evidence", () => {
   }
 });
 
+test("execution trace run rejects shell control operators", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-trace-command-safe-"));
+  try {
+    const trace = startExecutionTrace(root, "run focused tests", { agent: "codex" });
+
+    const result = runTraceCommand(root, trace.id, {
+      action: "run-test",
+      command: `node -e "console.log('ok')" && node -e "require('node:fs').writeFileSync('pwned.txt', '')"`,
+      reason: "reject shell injection"
+    });
+
+    assert.equal(result.exitCode, 2);
+    assert.match(result.stderr, /Unsupported shell control operator/);
+    assert.equal(result.trace.steps.at(-1)?.result, "failed");
+    assert.equal(existsSync(path.join(root, "pwned.txt")), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("task run creates a matching execution trace", async () => {
   const root = createTraceRepo();
   try {

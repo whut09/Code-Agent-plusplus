@@ -1,10 +1,10 @@
-import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { changedFilesSince, runGit } from "../core/git.js";
+import { runSafeCommand, shellQuote } from "../core/safe-command.js";
 import { writeContextPackage } from "./writer.js";
 import { renderChangeImpactReport } from "./impact.js";
 import { buildLoopControllerReport, renderLoopControllerReport, type LoopControllerReport } from "./loop-controller.js";
@@ -336,18 +336,29 @@ function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): A
   const command = expandExecutorCommand(input.executorCommand ?? "", input);
   const startedHash = currentWorkingTreeHash(input.repo);
   const startedAt = new Date().toISOString();
-  const result = spawnSync(command, {
-    cwd: input.repo,
-    shell: true,
-    encoding: "utf8",
-    maxBuffer: 20 * 1024 * 1024
-  });
+  let result: ReturnType<typeof runSafeCommand>;
+  try {
+    result = runSafeCommand(command, {
+      cwd: input.repo,
+      encoding: "utf8",
+      maxBuffer: 20 * 1024 * 1024
+    });
+  } catch (error) {
+    result = {
+      command,
+      file: "",
+      args: [],
+      stdout: "",
+      stderr: error instanceof Error ? error.message : String(error),
+      status: 2,
+      error: error instanceof Error ? error : undefined
+    };
+  }
   const finishedAt = new Date().toISOString();
   const finishedHash = currentWorkingTreeHash(input.repo);
-  const stdout = typeof result.stdout === "string" ? result.stdout : "";
-  const rawStderr = typeof result.stderr === "string" ? result.stderr : "";
-  const stderr = result.error ? `${rawStderr}${rawStderr ? "\n" : ""}${result.error.message}` : rawStderr;
-  const exitCode = typeof result.status === "number" ? result.status : result.error ? 1 : null;
+  const stdout = result.stdout;
+  const stderr = result.stderr;
+  const exitCode = result.status;
   const eventsPath = writeExecutorEvents(input.repo, input.runDir, name, {
     command,
     exitCode,
@@ -548,7 +559,7 @@ function write(filePath: string, content: string): string {
 }
 
 function quote(value: string): string {
-  return `"${value.replace(/"/g, '\\"')}"`;
+  return shellQuote(value);
 }
 
 function summarizeOutput(stdout: string, stderr: string): string {

@@ -106,6 +106,8 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 - `{runDir}`: `.agent-context/runs/<task-id>/`.
 - `{agent}`: executor-specific agent/profile value.
 
+Executor commands are parsed as argv-style executable calls and executed without a shell. Quoted paths with spaces or non-ASCII characters are preserved; shell control operators such as `&&`, `|`, `>`, `<`, `;`, and backticks are rejected. Put complex command sequences in a script and call the script directly.
+
 Artifacts:
 
 - `.agent-context/runs/<task-id>/`

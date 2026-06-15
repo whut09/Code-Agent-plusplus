@@ -2,6 +2,7 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { runSafeCommand } from "../core/safe-command.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type ExecutionFinalState = "planned" | "in_progress" | "partial_success" | "success" | "failed" | "blocked";
@@ -149,17 +150,28 @@ export function appendExecutionTraceStep(root: string, traceId: string, input: T
 export function runTraceCommand(root: string, traceId: string, input: TraceCommandRunInput): TraceCommandRunResult {
   const startedAt = new Date().toISOString();
   const workingTreeHashBefore = currentWorkingTreeHash(root);
-  const result = spawnSync(input.command, {
-    cwd: root,
-    shell: true,
-    encoding: "utf8",
-    maxBuffer: 10 * 1024 * 1024
-  });
+  let result: ReturnType<typeof runSafeCommand>;
+  try {
+    result = runSafeCommand(input.command, {
+      cwd: root,
+      encoding: "utf8",
+      maxBuffer: 10 * 1024 * 1024
+    });
+  } catch (error) {
+    result = {
+      command: input.command,
+      file: "",
+      args: [],
+      stdout: "",
+      stderr: error instanceof Error ? error.message : String(error),
+      status: 2,
+      error: error instanceof Error ? error : undefined
+    };
+  }
   const finishedAt = new Date().toISOString();
-  const stdout = typeof result.stdout === "string" ? result.stdout : "";
-  const rawStderr = typeof result.stderr === "string" ? result.stderr : "";
-  const stderr = result.error ? `${rawStderr}${rawStderr ? "\n" : ""}${result.error.message}` : rawStderr;
-  const exitCode = typeof result.status === "number" ? result.status : result.error ? 1 : null;
+  const stdout = result.stdout;
+  const stderr = result.stderr;
+  const exitCode = result.status;
   const workingTreeHashAfter = currentWorkingTreeHash(root);
   const trace = appendExecutionTraceStep(root, traceId, {
     agent: input.agent,

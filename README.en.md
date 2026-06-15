@@ -202,6 +202,8 @@ code-agent-plusplus freshness .
 code-agent-plusplus drift .
 ```
 
+`--executor-command` and `trace run --command` are parsed as argv-style commands and executed without a shell. Quoted paths with spaces or non-ASCII characters are preserved; shell control operators such as `&&`, `|`, `>`, `<`, `;`, and backticks are rejected. Put complex shell logic in a checked-in script and invoke that script directly.
+
 ## Current Status
 
 | Capability                                           | Status                 |
@@ -333,6 +335,8 @@ code_agent_plusplus_finalize
 ```
 
 The experimental runtime loop tools are: `start_loop` writes the task run and trace, `step` records edits/tests/verification, `evaluate` combines delta, loop, policy, and verify signals, `repair` returns repair actions, and `finalize` closes the run after test and contract evidence exists.
+
+`--executor-command` and `trace run --command` are parsed as argv-style commands and executed without a shell. Quoted paths with spaces or non-ASCII characters are preserved; shell control operators such as `&&`, `|`, `>`, `<`, `;`, and backticks are rejected. Put complex shell logic in a checked-in script and invoke that script directly.
 
 ## LLM Summary Configuration
 

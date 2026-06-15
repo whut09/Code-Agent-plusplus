@@ -59,6 +59,28 @@ test("harness orchestrator blocks when a selected executor has no command adapte
   }
 });
 
+test("harness orchestrator treats injected shell syntax as plain executor template data", async () => {
+  const root = createOrchestratorRepo();
+  try {
+    const maliciousTask = "fix login timeout bug $(touch pwned-task.txt) `touch pwned-backtick.txt`";
+    const result = await runHarnessOrchestrator(root, maliciousTask, {
+      executor: "opencode",
+      executorCommand: `"${process.execPath}" -e "console.log(process.argv[1])" {task}`,
+      type: "bugfix",
+      tokenBudget: 2000,
+      base: "main"
+    });
+
+    assert.equal(result.report.executorResult.exitCode, 0);
+    assert.match(result.report.taskId, /^fix-login-timeout-bug/);
+    assert.match(result.report.executorResult.stdout, /\$\(touch pwned-task\.txt\)/);
+    assert.equal(existsSync(path.join(root, "pwned-task.txt")), false);
+    assert.equal(existsSync(path.join(root, "pwned-backtick.txt")), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 function createOrchestratorRepo(): string {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-orchestrator-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
