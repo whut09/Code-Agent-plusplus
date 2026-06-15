@@ -1,13 +1,17 @@
 import type { ContextPackage, IndexedFile } from "../core/types.js";
 import { changedFilesSince } from "../core/git.js";
+import { type CodeGraphStatus, type CodeIntelligenceBackend, codeGraphStatus, impactWithCodeGraph } from "../integrations/codegraph.js";
 import { bullet, code, heading } from "./markdown.js";
 
 export interface ChangeImpactOptions {
   base?: string;
+  backend?: CodeIntelligenceBackend;
 }
 
 export interface ChangeImpactReport {
   base: string;
+  backend: CodeIntelligenceBackend;
+  backendStatus: CodeGraphStatus;
   changedFiles: string[];
   directDependents: string[];
   transitiveDependents: string[];
@@ -19,15 +23,23 @@ export interface ChangeImpactReport {
 
 export function buildChangeImpactReport(context: ContextPackage, options: ChangeImpactOptions = {}): ChangeImpactReport {
   const base = options.base ?? "main";
+  const backend = options.backend ?? "internal";
   const changedFiles = changedFilesSince(context.scan.root, base).sort();
   const changedSet = new Set(changedFiles);
-  const directDependents = directDependentsOf(context, changedSet);
-  const transitiveDependents = transitiveDependentsOf(context, changedSet, new Set(directDependents));
-  const relatedTests = relatedTestsFor(context, changedSet, new Set([...directDependents, ...transitiveDependents]));
-  const risk = impactRisk(context, changedFiles, directDependents, transitiveDependents, relatedTests);
+  const internalDirectDependents = directDependentsOf(context, changedSet);
+  const internalTransitiveDependents = transitiveDependentsOf(context, changedSet, new Set(internalDirectDependents));
+  const internalRelatedTests = relatedTestsFor(context, changedSet, new Set([...internalDirectDependents, ...internalTransitiveDependents]));
+  const codegraph =
+    backend === "codegraph" ? impactWithCodeGraph(context, changedFiles) : { status: codeGraphStatus(context, false), impact: emptyCodeGraphImpact() };
+  const directDependents = sortedUnique([...internalDirectDependents, ...codegraph.impact.directDependents]);
+  const transitiveDependents = sortedUnique([...internalTransitiveDependents, ...codegraph.impact.transitiveDependents]);
+  const relatedTests = sortedUnique([...internalRelatedTests, ...codegraph.impact.relatedTests]);
+  const risk = impactRisk(context, changedFiles, directDependents, transitiveDependents, relatedTests, codegraph.impact.riskFactors);
 
   return {
     base,
+    backend,
+    backendStatus: codegraph.status,
     changedFiles,
     directDependents,
     transitiveDependents,
@@ -44,6 +56,7 @@ export function renderChangeImpactReport(context: ContextPackage, options: Chang
     heading(1, "Change Impact Report"),
     "",
     `Base: ${report.base}`,
+    `Backend: ${report.backend}${report.backend === "codegraph" ? ` (${report.backendStatus.used ? "used" : `fallback: ${report.backendStatus.reason}`})` : ""}`,
     "",
     heading(2, "Changed files"),
     bullet(report.changedFiles.map(code)),
@@ -163,7 +176,8 @@ function impactRisk(
   changedFiles: string[],
   directDependents: string[],
   transitiveDependents: string[],
-  relatedTests: string[]
+  relatedTests: string[],
+  backendRiskFactors: string[] = []
 ): { level: ChangeImpactReport["risk"]; factors: string[] } {
   let score = 0;
   const factors: string[] = [];
@@ -194,6 +208,10 @@ function impactRisk(
   if (indexedChanged.some((file) => file.importanceScore >= 40)) {
     score += 10;
     factors.push("high-importance files changed");
+  }
+  if (backendRiskFactors.length) {
+    score += Math.min(15, backendRiskFactors.length * 5);
+    factors.push(...backendRiskFactors.map((factor) => `CodeGraph: ${factor}`));
   }
   if (!factors.length) factors.push("no indexed source/config impact detected");
 
@@ -236,4 +254,8 @@ function isUsefulFocusTerm(term: string): boolean {
 
 function sortedUnique(items: string[]): string[] {
   return [...new Set(items.filter(Boolean))].sort();
+}
+
+function emptyCodeGraphImpact() {
+  return { directDependents: [], transitiveDependents: [], relatedTests: [], riskFactors: [] };
 }

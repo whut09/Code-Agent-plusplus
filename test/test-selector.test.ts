@@ -47,6 +47,12 @@ test("test selector chooses minimal and regression tests for a file", async () =
     assert.match(markdown, /## Minimal tests/);
     assert.match(markdown, /## Recommended regression tests/);
     assert.match(markdown, /## Full confidence/);
+
+    const codegraphSelection = buildTestSelection(context, { forPaths: ["src/auth/session.ts"], backend: "codegraph" });
+    assert.equal(codegraphSelection.backend, "codegraph");
+    assert.equal(codegraphSelection.backendStatus.used, false);
+    assert.match(codegraphSelection.backendStatus.reason, /\.codegraph/);
+    assert.ok(codegraphSelection.minimalCommands.includes("npm run test -- test/auth/session.test.ts"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

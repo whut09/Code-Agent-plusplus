@@ -40,6 +40,7 @@ import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
+import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
 
 const program = new Command();
 const executableName = path.basename(process.argv[1] ?? "code-agent-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
@@ -275,7 +276,7 @@ rag
   .command("search")
   .argument("<task>", "task or search query")
   .argument("[repo]", "repository path", ".")
-  .option("--provider <provider>", "retriever provider: static, ripgrep, hybrid, lightrag, embedding", parseRetrieverProvider, "hybrid")
+  .option("--provider <provider>", "retriever provider: static, ripgrep, hybrid, lightrag, embedding, codegraph", parseRetrieverProvider, "hybrid")
   .option("-k, --top-k <count>", "number of context hits", parseInteger, 8)
   .option("--modules <modules>", "comma-separated module filter")
   .option("--changed-files <files>", "comma-separated changed file filter")
@@ -717,20 +718,22 @@ program
   .option("--for <path...>", "select tests for one or more changed source files")
   .option("--diff", "select tests for files changed from the base ref")
   .option("--base <ref>", "base git ref for --diff", "main")
+  .option("--backend <backend>", "code intelligence backend: internal, codegraph", parseCodeBackend, "internal")
   .description("Select minimal, regression, and full-confidence tests for a file or diff.")
-  .action(async (repo: string, options: { for?: string[]; diff?: boolean; base: string }) => {
+  .action(async (repo: string, options: { for?: string[]; diff?: boolean; base: string; backend: CodeIntelligenceBackend }) => {
     const context = await buildContextPackage(repo);
-    console.log(renderTestSelection(context, { forPaths: options.for, diff: options.diff, base: options.base }));
+    console.log(renderTestSelection(context, { forPaths: options.for, diff: options.diff, base: options.base, backend: options.backend }));
   });
 
 program
   .command("impact")
   .argument("[repo]", "repository path", ".")
   .option("--base <ref>", "base git ref", "main")
+  .option("--backend <backend>", "code intelligence backend: internal, codegraph", parseCodeBackend, "internal")
   .description("Analyze changed files, dependents, related tests, and required verification.")
-  .action(async (repo: string, options: { base: string }) => {
+  .action(async (repo: string, options: { base: string; backend: CodeIntelligenceBackend }) => {
     const context = await buildContextPackage(repo);
-    console.log(renderChangeImpactReport(context, { base: options.base }));
+    console.log(renderChangeImpactReport(context, { base: options.base, backend: options.backend }));
   });
 
 program
@@ -748,7 +751,7 @@ program
   .command("retrieve")
   .argument("<task>", "task or search query")
   .argument("[repo]", "repository path", ".")
-  .option("--provider <provider>", "retriever provider: static, ripgrep, hybrid, lightrag, embedding", parseRetrieverProvider, "hybrid")
+  .option("--provider <provider>", "retriever provider: static, ripgrep, hybrid, lightrag, embedding, codegraph", parseRetrieverProvider, "hybrid")
   .option("-k, --top-k <count>", "number of context hits", parseInteger, 8)
   .option("--modules <modules>", "comma-separated module filter")
   .option("--changed-files <files>", "comma-separated changed file filter")
@@ -870,8 +873,13 @@ function splitCsv(value: string | undefined): string[] | undefined {
 }
 
 function parseRetrieverProvider(value: string): RetrieverProvider {
-  if (value === "static" || value === "ripgrep" || value === "hybrid" || value === "lightrag" || value === "embedding") return value;
+  if (value === "static" || value === "ripgrep" || value === "hybrid" || value === "lightrag" || value === "embedding" || value === "codegraph") return value;
   throw new Error(`Unsupported retriever provider: ${value}`);
+}
+
+function parseCodeBackend(value: string): CodeIntelligenceBackend {
+  if (value === "internal" || value === "codegraph") return value;
+  throw new Error(`Unsupported code intelligence backend: ${value}`);
 }
 
 function parseTarget(value: string): AgentTarget {

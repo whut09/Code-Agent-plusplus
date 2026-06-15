@@ -62,6 +62,12 @@ test("impact report traces dependents, related tests, risk, and verification", a
     assert.match(markdown, /# Change Impact Report/);
     assert.match(markdown, /## Direct dependents/);
     assert.match(markdown, /## Required verification/);
+
+    const codegraphReport = buildChangeImpactReport(context, { base: "main", backend: "codegraph" });
+    assert.equal(codegraphReport.backend, "codegraph");
+    assert.equal(codegraphReport.backendStatus.used, false);
+    assert.match(codegraphReport.backendStatus.reason, /\.codegraph/);
+    assert.ok(codegraphReport.directDependents.includes("src/auth/middleware.ts"));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

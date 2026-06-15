@@ -61,6 +61,23 @@ test("hybrid retriever merges static and ripgrep protocol hits", async () => {
   }
 });
 
+test("CodeGraph retriever falls back when no CodeGraph project exists", async () => {
+  const root = createRetrieverRepo();
+  try {
+    const context = await buildContextPackage(root);
+    const retriever = createContextRetriever(context, "codegraph");
+    const hits = await retriever.search("session timeout", { topK: 5, includeTests: true });
+
+    assert.ok(hits.some((hit) => hit.path === "src/auth/session.ts"));
+    assert.ok(hits.some((hit) => typeof hit.metadata.codegraphFallbackReason === "string"));
+
+    const markdown = renderContextHits("session timeout", "codegraph", hits);
+    assert.match(markdown, /Fallback: No \.codegraph directory detected/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("external retriever protocols fail with adapter guidance", async () => {
   const root = createRetrieverRepo();
   try {

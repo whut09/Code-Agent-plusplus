@@ -303,7 +303,9 @@ code-agent-plusplus hallucination [repo] --trace <trace-id> --base main
 code-agent-plusplus regression [repo] --trace <trace-id> --base main
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
 code-agent-plusplus tests [repo] --diff --base main
+code-agent-plusplus tests [repo] --diff --base main --backend codegraph
 code-agent-plusplus impact [repo] --base main
+code-agent-plusplus impact [repo] --base main --backend codegraph
 code-agent-plusplus verify --diff [repo]
 code-agent-plusplus delta [repo] --base main
 code-agent-plusplus evolve [repo] --base main
@@ -314,6 +316,7 @@ code-agent-plusplus freshness [repo]
 code-agent-plusplus drift [repo]
 code-agent-plusplus benchmark [benchmarkDir] --top-k 8
 code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
+code-agent-plusplus retrieve "<task>" [repo] --provider codegraph
 code-agent-plusplus-mcp
 ```
 
@@ -341,6 +344,26 @@ The project supports two operating modes:
 - Code Agent++-led, code agent as executor: Code Agent++ owns plan / pack / execute / collect evidence / policy / verify / decision; the external agent is a replaceable coding executor.
 
 For the detailed entry-point isolation guide, see [docs/integration-modes.md](docs/integration-modes.md).
+
+## Optional CodeGraph Backend
+
+Code Agent++ keeps its internal dependency graph as the portable foundation: it works without extra services and supports context packs, task packs, impact, tests, policy, and verify.
+
+When a target repository already uses [CodeGraph](https://github.com/colbymchenry/codegraph), Code Agent++ can use it as an optional deep code-intelligence backend:
+
+```bash
+code-agent-plusplus retrieve "fix auth timeout" . --provider codegraph
+code-agent-plusplus impact . --backend codegraph
+code-agent-plusplus tests . --backend codegraph
+```
+
+The adapter detects `.codegraph`, then tries `codegraph explore <task> --json` and `codegraph affected <changed-files> --json`. If `.codegraph` is missing, the command is unavailable, or the JSON cannot be parsed, Code Agent++ falls back to `hybrid` retrieval or the internal graph and reports the fallback reason.
+
+Positioning:
+
+- Internal graph = portable foundation.
+- CodeGraph backend = optional deep code intelligence.
+- Harness decisions = still owned by Code Agent++.
 
 ## MCP / Agent Native Runtime
 

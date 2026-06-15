@@ -364,10 +364,24 @@ Built-in retrievers are:
 - `static`: deterministic search over generated context documents, indexed files, symbols, summaries, and evidence.
 - `ripgrep`: source-text retrieval through `rg` when it is available in the runtime.
 - `hybrid`: score-level merge of static and ripgrep results.
+- `codegraph`: optional adapter that uses an existing `.codegraph` project and `codegraph explore <task> --json`; if CodeGraph is unavailable or returns unusable JSON, it falls back to `hybrid`.
 - `lightrag`: external adapter slot for LightRAG services.
 - `embedding`: external adapter slot for vector stores and embedding services.
 
 The protocol is intended for MCP, VS Code, Cursor, Codex CLI, and external RAG systems. LightRAG remains an adapter target, not a core coupling.
+
+CodeGraph can also be used as an optional backend for `impact` and `tests`:
+
+```bash
+code-agent-plusplus impact . --backend codegraph
+code-agent-plusplus tests . --backend codegraph
+```
+
+The adapter checks for `.codegraph`, calls `codegraph affected <changed-files> --json`, then merges any returned dependents or test files with the internal graph result. If CodeGraph is not initialized, missing from PATH, or returns invalid JSON, Code Agent++ keeps the internal result and prints the fallback reason. The boundary is deliberate:
+
+- Internal graph = portable foundation.
+- CodeGraph backend = optional deep code intelligence.
+- Harness decisions = still owned by Code Agent++.
 
 ## RAG Adapter
 

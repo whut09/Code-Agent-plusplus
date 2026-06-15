@@ -2,12 +2,12 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 3238,
-  "remainingBudget": 8762,
+  "estimatedTokens": 3265,
+  "remainingBudget": 8735,
   "files": [
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 256,
+      "score": 257,
       "reasons": [
         "lexical match: behavior"
       ],
@@ -22,7 +22,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 309
+      "estimatedTokens": 313
     },
     {
       "path": "src/mcp/server.ts",
@@ -107,6 +107,15 @@
       "estimatedTokens": 63
     },
     {
+      "path": "src/outputs/test-selector.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 249
+    },
+    {
       "path": "src/core/context-builder.ts",
       "score": 24,
       "reasons": [
@@ -114,15 +123,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 106
-    },
-    {
-      "path": "src/outputs/test-selector.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 226
     },
     {
       "path": "src/core/types.ts",
@@ -308,7 +308,7 @@
   "readFirst": [
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 256,
+      "score": 257,
       "reasons": [
         "lexical match: behavior"
       ],
@@ -323,7 +323,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 309
+      "estimatedTokens": 313
     },
     {
       "path": "src/mcp/server.ts",
@@ -410,6 +410,15 @@
       "estimatedTokens": 63
     },
     {
+      "path": "src/outputs/test-selector.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 249
+    },
+    {
       "path": "src/core/context-builder.ts",
       "score": 24,
       "reasons": [
@@ -417,15 +426,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 106
-    },
-    {
-      "path": "src/outputs/test-selector.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 226
     },
     {
       "path": "src/core/types.ts",
@@ -484,8 +484,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 3238,
-    "remaining": 8762,
+    "used": 3265,
+    "remaining": 8735,
     "buckets": [
       {
         "name": "direct-source",
@@ -513,10 +513,10 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 960,
+        "tokens": 983,
         "files": [
-          "src/core/context-builder.ts",
           "src/outputs/test-selector.ts",
+          "src/core/context-builder.ts",
           "src/core/types.ts",
           "src/outputs/task-context.ts",
           "src/outputs/markdown.ts"
@@ -549,7 +549,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 648,
+        "tokens": 652,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

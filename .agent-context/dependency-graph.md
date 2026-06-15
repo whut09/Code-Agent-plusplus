@@ -11,6 +11,7 @@ graph TD
   cli["cli"] --> benchmarks["benchmarks"]
   cli["cli"] --> config["config"]
   cli["cli"] --> core["core"]
+  cli["cli"] --> integrations["integrations"]
   cli["cli"] --> outputs["outputs"]
   cli["cli"] --> retrievers["retrievers"]
   config["config"] --> core["core"]
@@ -18,18 +19,23 @@ graph TD
   core["core"] --> config["config"]
   core["core"] --> llm["llm"]
   core["core"] --> outputs["outputs"]
+  integrations["integrations"] --> core["core"]
+  integrations["integrations"] --> retrievers["retrievers"]
   llm["llm"] --> core["core"]
   mcp["mcp"] --> core["core"]
   mcp["mcp"] --> outputs["outputs"]
   mcp["mcp"] --> retrievers["retrievers"]
   outputs["outputs"] --> core["core"]
+  outputs["outputs"] --> integrations["integrations"]
   retrievers["retrievers"] --> core["core"]
+  retrievers["retrievers"] --> integrations["integrations"]
   retrievers["retrievers"] --> outputs["outputs"]
   test["test"] --> analyzers["analyzers"]
   test["test"] --> benchmarks["benchmarks"]
   test["test"] --> cli["cli"]
   test["test"] --> config["config"]
   test["test"] --> core["core"]
+  test["test"] --> integrations["integrations"]
   test["test"] --> mcp["mcp"]
   test["test"] --> outputs["outputs"]
   test["test"] --> retrievers["retrievers"]
@@ -47,6 +53,7 @@ graph TD
 | cli | benchmarks | 1 |
 | cli | config | 1 |
 | cli | core | 8 |
+| cli | integrations | 1 |
 | cli | outputs | 16 |
 | cli | retrievers | 1 |
 | config | core | 2 |
@@ -54,18 +61,23 @@ graph TD
 | core | config | 1 |
 | core | llm | 1 |
 | core | outputs | 3 |
+| integrations | core | 2 |
+| integrations | retrievers | 1 |
 | llm | core | 1 |
 | mcp | core | 1 |
 | mcp | outputs | 10 |
 | mcp | retrievers | 2 |
 | outputs | core | 49 |
-| retrievers | core | 3 |
+| outputs | integrations | 2 |
+| retrievers | core | 4 |
+| retrievers | integrations | 1 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |
 | test | benchmarks | 1 |
 | test | cli | 1 |
 | test | config | 3 |
-| test | core | 42 |
+| test | core | 43 |
+| test | integrations | 1 |
 | test | mcp | 1 |
 | test | outputs | 34 |
 | test | retrievers | 1 |

@@ -1,14 +1,18 @@
 import type { ContextPackage, IndexedFile } from "../core/types.js";
 import { changedFilesSince } from "../core/git.js";
+import { type CodeGraphStatus, type CodeIntelligenceBackend, codeGraphStatus, testsWithCodeGraph } from "../integrations/codegraph.js";
 import { bullet, code, heading } from "./markdown.js";
 
 export interface TestSelectionOptions {
   forPaths?: string[];
   diff?: boolean;
   base?: string;
+  backend?: CodeIntelligenceBackend;
 }
 
 export interface TestSelectionReport {
+  backend: CodeIntelligenceBackend;
+  backendStatus: CodeGraphStatus;
   targetFiles: string[];
   minimalTests: string[];
   recommendedRegressionTests: string[];
@@ -18,6 +22,7 @@ export interface TestSelectionReport {
 }
 
 export function buildTestSelection(context: ContextPackage, options: TestSelectionOptions = {}): TestSelectionReport {
+  const backend = options.backend ?? "internal";
   const targets = targetFiles(context, options);
   const targetSet = new Set(targets);
   const targetIndexFiles = indexedFiles(context, targets);
@@ -27,19 +32,21 @@ export function buildTestSelection(context: ContextPackage, options: TestSelecti
   const minimalTests = sortedByPath([...changedTests, ...relatedTestsFor(sourceTargets, allTests)]);
   const dependentFiles = dependentsOf(context, targetSet);
   const regressionTests = relatedTestsFor(dependentFiles, allTests).filter((file) => !minimalTests.some((testFile) => testFile.path === file.path));
+  const codegraph = backend === "codegraph" ? testsWithCodeGraph(context, targets) : { status: codeGraphStatus(context, false), tests: emptyCodeGraphTests() };
+  const minimalTestPaths = sortedUnique([...minimalTests.map((file) => file.path), ...codegraph.tests.minimalTests]);
+  const regressionTestPaths = sortedUnique([
+    ...regressionTests.map((file) => file.path),
+    ...codegraph.tests.regressionTests.filter((filePath) => !minimalTestPaths.includes(filePath))
+  ]);
 
   return {
+    backend,
+    backendStatus: codegraph.status,
     targetFiles: targets,
-    minimalTests: minimalTests.map((file) => file.path),
-    recommendedRegressionTests: regressionTests.map((file) => file.path),
-    minimalCommands: focusedTestCommands(
-      context,
-      minimalTests.map((file) => file.path)
-    ),
-    recommendedCommands: recommendedRegressionCommands(
-      context,
-      regressionTests.map((file) => file.path)
-    ),
+    minimalTests: minimalTestPaths,
+    recommendedRegressionTests: regressionTestPaths,
+    minimalCommands: focusedTestCommands(context, minimalTestPaths),
+    recommendedCommands: recommendedRegressionCommands(context, regressionTestPaths),
     fullConfidenceCommands: fullConfidenceCommands(context)
   };
 }
@@ -48,6 +55,8 @@ export function renderTestSelection(context: ContextPackage, options: TestSelect
   const report = buildTestSelection(context, options);
   return [
     heading(1, "Test Selection"),
+    "",
+    `Backend: ${report.backend}${report.backend === "codegraph" ? ` (${report.backendStatus.used ? "used" : `fallback: ${report.backendStatus.reason}`})` : ""}`,
     "",
     heading(2, "Target files"),
     bullet(report.targetFiles.map(code)),
@@ -172,4 +181,12 @@ function indexedFiles(context: ContextPackage, paths: string[]): IndexedFile[] {
 
 function sortedByPath(files: IndexedFile[]): IndexedFile[] {
   return [...new Map(files.map((file) => [file.path, file])).values()].sort((a, b) => a.path.localeCompare(b.path));
+}
+
+function sortedUnique(items: string[]): string[] {
+  return [...new Set(items.filter(Boolean))].sort();
+}
+
+function emptyCodeGraphTests() {
+  return { minimalTests: [], regressionTests: [] };
 }

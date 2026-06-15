@@ -3,6 +3,7 @@ import { StaticContextRetriever } from "./static.js";
 import { RipgrepContextRetriever } from "./ripgrep.js";
 import { HybridContextRetriever } from "./hybrid.js";
 import { ExternalProtocolRetriever } from "./external.js";
+import { CodeGraphContextRetriever } from "./codegraph.js";
 import type { ContextHit, ContextRetriever, RetrieverProvider } from "./types.js";
 import { code, heading, table } from "../outputs/markdown.js";
 
@@ -12,15 +13,18 @@ export function createContextRetriever(context: ContextPackage, provider: Retrie
   if (provider === "static") return new StaticContextRetriever(context);
   if (provider === "ripgrep") return new RipgrepContextRetriever(context);
   if (provider === "hybrid") return new HybridContextRetriever([new StaticContextRetriever(context), new RipgrepContextRetriever(context)]);
+  if (provider === "codegraph") return new CodeGraphContextRetriever(context);
   return new ExternalProtocolRetriever(provider);
 }
 
 export function renderContextHits(task: string, provider: RetrieverProvider, hits: ContextHit[]): string {
+  const fallbackReason = firstFallbackReason(hits);
   return [
     heading(1, "Context Retrieval"),
     "",
     `Task: ${task}`,
     `Provider: ${provider}`,
+    ...(fallbackReason ? [`Fallback: ${fallbackReason}`] : []),
     "",
     table(
       ["Score", "Path", "Module", "Kind", "Source"],
@@ -30,4 +34,12 @@ export function renderContextHits(task: string, provider: RetrieverProvider, hit
     heading(2, "Snippets"),
     ...hits.flatMap((hit) => ["", heading(3, hit.path), hit.snippet || "No snippet available."])
   ].join("\n");
+}
+
+function firstFallbackReason(hits: ContextHit[]): string | undefined {
+  for (const hit of hits) {
+    const reason = hit.metadata.codegraphFallbackReason;
+    if (typeof reason === "string" && reason.trim()) return reason;
+  }
+  return undefined;
 }

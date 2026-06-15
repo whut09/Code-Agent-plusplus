@@ -1,4 +1,4 @@
-export type RetrieverProvider = "static" | "ripgrep" | "hybrid" | "lightrag" | "embedding";
+export type RetrieverProvider = "static" | "ripgrep" | "hybrid" | "lightrag" | "embedding" | "codegraph";
 
 export interface ContextRetrieverOptions {
   topK: number;

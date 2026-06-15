@@ -35,10 +35,11 @@
       "src/outputs/writer.ts"
     ],
     "imports": [
-      "core"
+      "core",
+      "integrations"
     ],
-    "summary": "outputs contains 30 files and depends on core.",
-    "importanceScore": 1635
+    "summary": "outputs contains 30 files and depends on core, integrations.",
+    "importanceScore": 1639
   },
   {
     "name": "test",
@@ -49,6 +50,7 @@
       "test/analyzers.test.ts",
       "test/benchmark.test.ts",
       "test/cache.test.ts",
+      "test/codegraph.test.ts",
       "test/config.test.ts",
       "test/context-delta.test.ts",
       "test/contract-validator.test.ts",
@@ -84,12 +86,13 @@
       "cli",
       "config",
       "core",
+      "integrations",
       "mcp",
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 33 files and depends on analyzers, benchmarks, cli, config, core, mcp, outputs, retrievers.",
-    "importanceScore": 1193
+    "summary": "test contains 34 files and depends on analyzers, benchmarks, cli, config, core, integrations, mcp, outputs, retrievers.",
+    "importanceScore": 1237
   },
   {
     "name": "core",
@@ -121,12 +124,13 @@
       "outputs"
     ],
     "summary": "core contains 18 files and depends on analyzers, config, llm, outputs.",
-    "importanceScore": 931
+    "importanceScore": 936
   },
   {
     "name": "retrievers",
     "pathPrefix": "retrievers",
     "files": [
+      "src/retrievers/codegraph.ts",
       "src/retrievers/external.ts",
       "src/retrievers/hybrid.ts",
       "src/retrievers/index.ts",
@@ -136,10 +140,11 @@
     ],
     "imports": [
       "core",
+      "integrations",
       "outputs"
     ],
-    "summary": "retrievers contains 6 files and depends on core, outputs.",
-    "importanceScore": 256
+    "summary": "retrievers contains 7 files and depends on core, integrations, outputs.",
+    "importanceScore": 310
   },
   {
     "name": "analyzers",
@@ -249,10 +254,11 @@
       "benchmarks",
       "config",
       "core",
+      "integrations",
       "outputs",
       "retrievers"
     ],
-    "summary": "cli contains 2 files and depends on benchmarks, config, core, outputs, retrievers.",
+    "summary": "cli contains 2 files and depends on benchmarks, config, core, integrations, outputs, retrievers.",
     "importanceScore": 116
   },
   {
@@ -307,6 +313,19 @@
     "imports": [],
     "summary": "benchmarks/fixtures/monorepo/packages/config contains 4 files.",
     "importanceScore": 79
+  },
+  {
+    "name": "integrations",
+    "pathPrefix": "integrations",
+    "files": [
+      "src/integrations/codegraph.ts"
+    ],
+    "imports": [
+      "core",
+      "retrievers"
+    ],
+    "summary": "integrations contains 1 file and depends on core, retrievers.",
+    "importanceScore": 75
   },
   {
     "name": "root",

@@ -12,6 +12,7 @@
         "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
+        "src/integrations/**",
         "src/outputs/**"
       ],
       "forbiddenImports": [
@@ -25,7 +26,8 @@
         "src/payments/**"
       ],
       "observedImports": [
-        "core"
+        "core",
+        "integrations"
       ],
       "publicFiles": [
         "src/outputs/agent-events.ts",
@@ -73,6 +75,7 @@
         "src/cli/**",
         "src/config/**",
         "src/core/**",
+        "src/integrations/**",
         "src/mcp/**",
         "src/outputs/**",
         "src/retrievers/**",
@@ -94,6 +97,7 @@
         "cli",
         "config",
         "core",
+        "integrations",
         "mcp",
         "outputs",
         "retrievers"
@@ -162,6 +166,7 @@
         "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
+        "src/integrations/**",
         "src/outputs/**",
         "src/retrievers/**"
       ],
@@ -177,9 +182,11 @@
       ],
       "observedImports": [
         "core",
+        "integrations",
         "outputs"
       ],
       "publicFiles": [
+        "src/retrievers/codegraph.ts",
         "src/retrievers/external.ts",
         "src/retrievers/hybrid.ts",
         "src/retrievers/index.ts",
@@ -361,6 +368,7 @@
         "src/cli/**",
         "src/config/**",
         "src/core/**",
+        "src/integrations/**",
         "src/outputs/**",
         "src/retrievers/**"
       ],
@@ -378,6 +386,7 @@
         "benchmarks",
         "config",
         "core",
+        "integrations",
         "outputs",
         "retrievers"
       ],
@@ -497,6 +506,36 @@
       "observedImports": [],
       "publicFiles": [
         "benchmarks/fixtures/monorepo/packages/config/src/loader.ts"
+      ]
+    },
+    "integrations": {
+      "owns": [
+        "src/integrations/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "src/integrations/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "src/integrations/codegraph.ts"
       ]
     },
     "benchmarks/fixtures/monorepo/packages/web": {

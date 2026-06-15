@@ -301,7 +301,9 @@ code-agent-plusplus hallucination [repo] --trace <trace-id> --base main
 code-agent-plusplus regression [repo] --trace <trace-id> --base main
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required
 code-agent-plusplus tests [repo] --diff --base main
+code-agent-plusplus tests [repo] --diff --base main --backend codegraph
 code-agent-plusplus impact [repo] --base main
+code-agent-plusplus impact [repo] --base main --backend codegraph
 code-agent-plusplus verify --diff [repo]
 code-agent-plusplus delta [repo] --base main
 code-agent-plusplus evolve [repo] --base main
@@ -312,6 +314,7 @@ code-agent-plusplus freshness [repo]
 code-agent-plusplus drift [repo]
 code-agent-plusplus benchmark [benchmarkDir] --top-k 8
 code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
+code-agent-plusplus retrieve "<task>" [repo] --provider codegraph
 code-agent-plusplus-mcp
 ```
 
@@ -339,6 +342,26 @@ Code Agent++
 - Code Agent++ 主导，Code Agent 作为 executor：Code Agent++ 负责 plan / pack / execute / collect evidence / policy / verify / decision，外部 Agent 只作为可替换编码执行器。
 
 详细入口隔离说明见 [docs/integration-modes.zh-CN.md](docs/integration-modes.zh-CN.md)。
+
+## CodeGraph 可选后端
+
+Code Agent++ 的内部依赖图是便携基础：不用额外服务，也能支持 context pack、task pack、impact、tests、policy 和 verify。
+
+如果目标仓库已经接入 [CodeGraph](https://github.com/colbymchenry/codegraph)，可以把它作为可选深度代码智能后端：
+
+```bash
+code-agent-plusplus retrieve "fix auth timeout" . --provider codegraph
+code-agent-plusplus impact . --backend codegraph
+code-agent-plusplus tests . --backend codegraph
+```
+
+当前 adapter 会检测 `.codegraph`，再尝试调用 `codegraph explore <task> --json` 和 `codegraph affected <changed-files> --json`。如果 `.codegraph` 不存在、命令不可用或 JSON 不可解析，会自动回退到 `hybrid` retrieval 或 internal graph，并在报告里写明 fallback reason。
+
+定位边界：
+
+- Internal graph = portable foundation。
+- CodeGraph backend = optional deep code intelligence。
+- Harness decisions = still owned by Code Agent++。
 
 ## MCP / Agent Native Runtime
 
