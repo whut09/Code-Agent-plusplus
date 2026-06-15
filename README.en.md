@@ -30,7 +30,7 @@ Core loop:
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-The current implementation is best understood as a Context / Policy / Trace reporting system plus an explicit runtime state machine and semi-automatic loop advisor. It does not autonomously call an agent to edit code yet, but it does consume trace evidence, policies, contracts, impact, and freshness, update `.agent-context/runs/<task-id>/state.json`, and produce the next highest-priority action. The target shape is a stateful, autonomous, evidence-driven Agent Harness Runtime.
+The current implementation supports two paths. In agent-led mode, it is a Context / Policy / Trace reporting system plus an explicit runtime state machine. In Code Agent++-led mode, `orchestrate` invokes a replaceable executor, runs bounded `pack -> execute -> evaluate -> repair/repack/finalize` loops through `--max-loops`, and writes every iteration under `.agent-context/runs/<task-id>/iterations/`. It still does not replace the external coding agent, but it can own acceptance gates and the next-loop decision.
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Code Agent++ final output animation">
@@ -192,7 +192,7 @@ Common loop:
 
 ```bash
 code-agent-plusplus run "fix login timeout bug" . --type bugfix
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
 code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
 code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
@@ -216,7 +216,7 @@ code-agent-plusplus drift .
 | readiness dimensions and hard caps                   | implemented            |
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
 | Hallucination / Regression Guards                    | planned                |
-| harness orchestrator / `orchestrate`                 | implemented            |
+| multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | `agent run` executor wrapper                         | implemented            |
 | mock executor                                        | implemented            |
 | generic executor command adapter                     | implemented            |
@@ -277,7 +277,7 @@ code-agent-plusplus build [repo]
 code-agent-plusplus plan "<task>" [repo]
 code-agent-plusplus pack "<task>" [repo]
 code-agent-plusplus run "<task>" [repo]
-code-agent-plusplus orchestrate "<task>" [repo] --executor mock --fail-on required
+code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
 code-agent-plusplus trace start "<task>" [repo] --agent codex
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"

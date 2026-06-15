@@ -17,7 +17,7 @@ import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js"
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
-import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName } from "../outputs/orchestrator.js";
+import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName, type OrchestratorCheckpointMode } from "../outputs/orchestrator.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
 import {
   appendExecutionTraceStep,
@@ -517,11 +517,12 @@ program
   .option("--executor <executor>", "executor: codex, claude-code, opencode, mimocode, cursor, mock", parseAgentExecutor, "mock")
   .option("--executor-command <command>", "argv-style command used to run the selected executor; supports {prompt}, {task}, {repo}, {runDir}, {agent}")
   .option("--agent <agent>", "executor-specific agent/profile name")
-  .option("--max-loops <count>", "maximum loop count requested for the harness report", parseInteger, 1)
+  .option("--max-loops <count>", "maximum orchestrator iterations before requiring human review", parseInteger, 1)
   .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
   .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
   .option("--base <ref>", "base git ref for diff, policy, tests, impact, and verify", "main")
   .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
+  .option("--checkpoint <mode>", "checkpoint mode: none, git-worktree", parseOrchestratorCheckpoint, "none")
   .option("--dry-run", "exercise the harness using the mock executor without editing files")
   .option("--json", "print machine-readable orchestrator report")
   .description("Harness-led flow: plan/pack -> executor -> diff/trace evidence -> policy/impact/verify -> final decision.")
@@ -538,6 +539,7 @@ program
         tokenBudget?: number;
         base: string;
         failOn: PolicyFailOn;
+        checkpoint: OrchestratorCheckpointMode;
         dryRun?: boolean;
         json?: boolean;
       }
@@ -552,6 +554,7 @@ program
         tokenBudget: options.tokenBudget,
         base: options.base,
         failOn: options.failOn,
+        checkpoint: options.checkpoint,
         dryRun: options.dryRun
       });
       console.log(options.json ? JSON.stringify(result.report, null, 2) : renderOrchestratorReport(result.report));
@@ -572,6 +575,7 @@ agent
   .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
   .option("--base <ref>", "base git ref for diff, policy, tests, impact, and verify", "main")
   .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
+  .option("--checkpoint <mode>", "checkpoint mode: none, git-worktree", parseOrchestratorCheckpoint, "none")
   .option("--dry-run", "exercise the harness using the mock executor without editing files")
   .option("--json", "print machine-readable orchestrator report")
   .description("Harness-led alias for one orchestrator pass with a selected coding agent executor.")
@@ -587,6 +591,7 @@ agent
         tokenBudget?: number;
         base: string;
         failOn: PolicyFailOn;
+        checkpoint: OrchestratorCheckpointMode;
         dryRun?: boolean;
         json?: boolean;
       }
@@ -601,6 +606,7 @@ agent
         tokenBudget: options.tokenBudget,
         base: options.base,
         failOn: options.failOn,
+        checkpoint: options.checkpoint,
         dryRun: options.dryRun
       });
       console.log(options.json ? JSON.stringify(result.report, null, 2) : renderOrchestratorReport(result.report));
@@ -855,6 +861,11 @@ function parseLoopPhase(value: string): LoopPhase {
 function parseAgentExecutor(value: string): AgentExecutorName {
   if (value === "codex" || value === "claude-code" || value === "opencode" || value === "mimocode" || value === "cursor" || value === "mock") return value;
   throw new Error(`Unsupported agent executor: ${value}`);
+}
+
+function parseOrchestratorCheckpoint(value: string): OrchestratorCheckpointMode {
+  if (value === "none" || value === "git-worktree") return value;
+  throw new Error(`Unsupported orchestrator checkpoint mode: ${value}`);
 }
 
 function parseTraceResult(value: string): ExecutionStepResult {

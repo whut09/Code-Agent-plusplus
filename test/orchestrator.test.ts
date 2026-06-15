@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -27,7 +27,7 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
     assert.equal(report.decision.blocking, false);
     assert.ok(report.artifacts.orchestratorFiles.includes(".agent-context/orchestrator/fix-login-timeout-bug/orchestrator.json"));
     assert.ok(existsSync(path.join(root, ".agent-context", "orchestrator", "fix-login-timeout-bug", "policy.md")));
-    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "executor.mock.json")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.mock.json")));
     assert.match(rendered, /# Harness Orchestrator/);
     assert.match(rendered, /Decision: finalize/);
 
@@ -65,7 +65,7 @@ test("harness orchestrator treats injected shell syntax as plain executor templa
     const maliciousTask = "fix login timeout bug $(touch pwned-task.txt) `touch pwned-backtick.txt`";
     const result = await runHarnessOrchestrator(root, maliciousTask, {
       executor: "opencode",
-      executorCommand: `"${process.execPath}" -e "console.log(process.argv[1])" {task}`,
+      executorCommand: `node -e "console.log(process.argv[1])" {task}`,
       type: "bugfix",
       tokenBudget: 2000,
       base: "main"
@@ -76,6 +76,37 @@ test("harness orchestrator treats injected shell syntax as plain executor templa
     assert.match(result.report.executorResult.stdout, /\$\(touch pwned-task\.txt\)/);
     assert.equal(existsSync(path.join(root, "pwned-task.txt")), false);
     assert.equal(existsSync(path.join(root, "pwned-backtick.txt")), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("harness orchestrator writes multi-loop iteration artifacts before max-loop review", async () => {
+  const root = createOrchestratorRepo();
+  try {
+    const source = Buffer.from("export function loginSession() { return 'fixed'; }\n").toString("base64");
+    const command = `node -e "require('fs').writeFileSync('src/auth/session.ts', Buffer.from('${source}', 'base64').toString())"`;
+    const result = await runHarnessOrchestrator(root, "fix login timeout bug", {
+      executor: "opencode",
+      executorCommand: command,
+      type: "bugfix",
+      tokenBudget: 2000,
+      base: "main",
+      maxLoops: 2,
+      checkpoint: "git-worktree"
+    });
+
+    assert.equal(result.report.executor, "opencode");
+    assert.equal(result.report.iterations.length, 2);
+    assert.equal(result.report.iterations[0]?.decision.action, "repack");
+    assert.equal(result.report.decision.action, "require-human-review");
+    assert.ok(result.report.artifacts.checkpointFile?.endsWith("checkpoint.patch"));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "prompt.md")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.events.jsonl")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "002", "decision.json")));
+    const secondPrompt = readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "002", "prompt.md"), "utf8");
+    assert.match(secondPrompt, /Previous harness decision/);
+    assert.match(secondPrompt, /Action: repack/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

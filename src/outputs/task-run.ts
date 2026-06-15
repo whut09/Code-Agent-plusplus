@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage, IndexedFile, TaskPack } from "../core/types.js";
 import { buildChangeImpactReport, renderChangeImpactReport } from "./impact.js";
@@ -11,6 +11,7 @@ import { initialRunState, writeRunState } from "./runtime-state.js";
 
 export interface TaskRunOptions extends TaskContextOptions {
   base?: string;
+  preserveTrace?: boolean;
 }
 
 export interface TaskRunWriteResult {
@@ -70,8 +71,11 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
     testSelection,
     impact
   });
-  const trace = startExecutionTrace(context.scan.root, task, { id: runId, agent: "code-agent-plusplus" });
-  manifest.traceFile = path.relative(context.scan.root, executionTracePath(context.scan.root, trace.id)).replaceAll("\\", "/");
+  const traceFile = executionTracePath(context.scan.root, runId);
+  if (!options.preserveTrace || !existsSync(traceFile)) {
+    startExecutionTrace(context.scan.root, task, { id: runId, agent: "code-agent-plusplus" });
+  }
+  manifest.traceFile = path.relative(context.scan.root, traceFile).replaceAll("\\", "/");
   const stateFile = writeRunState(context.scan.root, initialRunState(context, runId, task));
 
   const outputs: Array<[string, string]> = [

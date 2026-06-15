@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
@@ -11,11 +11,12 @@ import { buildLoopControllerReport, renderLoopControllerReport, type LoopControl
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn, type PolicyEngineReport } from "./policy-engine.js";
 import { renderTaskVerify } from "./task-harness.js";
 import { writeTaskRun, type TaskRunWriteResult } from "./task-run.js";
-import { appendExecutionTraceStep, currentWorkingTreeHash } from "./execution-trace.js";
+import { appendExecutionTraceStep, currentWorkingTreeHash, executionTracePath } from "./execution-trace.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type AgentExecutorName = "codex" | "claude-code" | "opencode" | "mimocode" | "cursor" | "mock";
-export type OrchestratorDecision = "finalize" | "repair" | "repack" | "block" | "require-human-review";
+export type OrchestratorDecision = "finalize" | "repair" | "repack" | "block" | "rollback" | "require-human-review";
+export type OrchestratorCheckpointMode = "none" | "git-worktree";
 
 export interface HarnessOrchestratorOptions {
   executor?: AgentExecutorName;
@@ -27,6 +28,7 @@ export interface HarnessOrchestratorOptions {
   tokenBudget?: number;
   base?: string;
   dryRun?: boolean;
+  checkpoint?: OrchestratorCheckpointMode;
 }
 
 export interface AgentExecutorInput {
@@ -71,6 +73,7 @@ export interface HarnessOrchestratorReport {
   phases: Array<"plan" | "pack" | "execute" | "collect" | "evaluate" | "decision">;
   executorResult: AgentExecutorResult;
   changedFiles: string[];
+  iterations: OrchestratorIterationReport[];
   policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
   loop: Pick<LoopControllerReport, "status" | "risk" | "decisions">;
   decision: {
@@ -85,8 +88,22 @@ export interface HarnessOrchestratorReport {
     contextFiles: string[];
     runFiles: string[];
     orchestratorFiles: string[];
+    iterationFiles: string[];
+    checkpointFile?: string;
     diffFile?: string;
   };
+}
+
+export interface OrchestratorIterationReport {
+  index: number;
+  dir: string;
+  promptFile: string;
+  executorResult: AgentExecutorResult;
+  changedFiles: string[];
+  policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
+  loop: Pick<LoopControllerReport, "status" | "risk" | "decisions">;
+  decision: HarnessOrchestratorReport["decision"];
+  files: string[];
 }
 
 export interface HarnessOrchestratorWriteResult {
@@ -99,64 +116,129 @@ type AgentExecutor = (input: AgentExecutorInput) => AgentExecutorResult;
 export async function runHarnessOrchestrator(repo: string, task: string, options: HarnessOrchestratorOptions = {}): Promise<HarnessOrchestratorWriteResult> {
   const base = options.base ?? "main";
   const executorName = options.executor ?? "mock";
+  const maxLoops = Math.max(1, options.maxLoops ?? 1);
   const root = path.resolve(repo);
 
   const preContext = await buildContextPackage(root);
   const contextWrite = writeContextPackage(preContext);
-  const taskRun = writeTaskRun(preContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget });
-  const prompt = buildExecutorPrompt(preContext, taskRun, executorName, options);
   const executor = createAgentExecutor(executorName);
-  const executorResult = executor({
-    repo: root,
-    task,
-    prompt,
-    runDir: taskRun.dir,
-    runId: taskRun.runId,
-    base,
-    agent: options.agent,
-    executorCommand: options.executorCommand,
-    dryRun: options.dryRun
-  });
-
-  appendExecutionTraceStep(root, taskRun.runId, {
-    agent: executorName,
-    action: "agent-execute",
-    files: executorResult.changedFiles,
-    command: executorResult.command,
-    reason: `${executorName} executor returned exit code ${executorResult.exitCode ?? "unknown"}.`,
-    result: executorResult.exitCode === 0 ? "passed" : "failed",
-    finalState: executorResult.exitCode === 0 ? "partial_success" : "blocked",
-    evidenceSource: executorResult.command ? "command" : "manual",
-    capturedBy: executorResult.command ? "code-agent-plusplus" : "external",
-    exitCode: executorResult.exitCode,
-    output: summarizeOutput(executorResult.stdout, executorResult.stderr),
-    startedAt: executorResult.startedAt,
-    finishedAt: executorResult.finishedAt,
-    stdoutHash: executorResult.stdoutHash,
-    stderrHash: executorResult.stderrHash,
-    workingTreeHashBefore: executorResult.workingTreeHashBefore,
-    workingTreeHashAfter: executorResult.workingTreeHashAfter
-  });
-
-  const postContext = await buildContextPackage(root);
-  const changedFiles = collectChangedFiles(root, base);
-  const policy = buildPolicyReport(postContext, { base, traceId: taskRun.runId, failOn: options.failOn ?? "required" });
-  const verify = renderTaskVerify(postContext, { base, diff: true });
-  const loop = buildLoopControllerReport(postContext, task, {
-    phase: "after-edit",
-    base,
-    type: options.type ?? "auto",
-    tokenBudget: options.tokenBudget,
-    traceId: taskRun.runId
-  });
-  const decision = decideOrchestratorAction({
-    executorResult,
-    changedFiles,
-    policy,
-    loop
-  });
+  const taskRun = writeTaskRun(preContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
   const dir = path.join(root, ".agent-context", "orchestrator", taskRun.runId);
   mkdirSync(dir, { recursive: true });
+  const checkpoint = createCheckpoint(root, taskRun.runId, taskRun.dir, options.checkpoint ?? "none");
+  const iterations: OrchestratorIterationReport[] = [];
+  let previousDecision: HarnessOrchestratorReport["decision"] | undefined;
+  let latestContext = preContext;
+  let latestExecutorResult: AgentExecutorResult | undefined;
+  let latestPolicy: PolicyEngineReport | undefined;
+  let latestLoop: LoopControllerReport | undefined;
+  let latestChangedFiles: string[] = [];
+  let latestDecision: HarnessOrchestratorReport["decision"] | undefined;
+
+  for (let loopIndex = 1; loopIndex <= maxLoops; loopIndex += 1) {
+    if (loopIndex > 1 || previousDecision?.action === "repack") {
+      latestContext = await buildContextPackage(root);
+      writeContextPackage(latestContext);
+      writeTaskRun(latestContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
+    }
+
+    const iterationDir = path.join(taskRun.dir, "iterations", String(loopIndex).padStart(3, "0"));
+    mkdirSync(iterationDir, { recursive: true });
+    const prompt = buildExecutorPrompt(latestContext, taskRun, executorName, options, previousDecision, loopIndex);
+    const promptFile = write(path.join(iterationDir, "prompt.md"), prompt);
+    const executorResult = executor({
+      repo: root,
+      task,
+      prompt,
+      runDir: iterationDir,
+      runId: taskRun.runId,
+      base,
+      agent: options.agent,
+      executorCommand: options.executorCommand,
+      dryRun: options.dryRun
+    });
+
+    appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex);
+
+    const postContext = await buildContextPackage(root);
+    const changedFiles = collectChangedFiles(root, base);
+    const policy = buildPolicyReport(postContext, { base, traceId: taskRun.runId, failOn: options.failOn ?? "required" });
+    const verify = renderTaskVerify(postContext, { base, diff: true });
+    const loop = buildLoopControllerReport(postContext, task, {
+      phase: loopIndex === 1 ? "after-edit" : previousDecision?.action === "repair" ? "repair" : "after-edit",
+      base,
+      type: options.type ?? "auto",
+      tokenBudget: options.tokenBudget,
+      traceId: taskRun.runId
+    });
+    const decision = decideOrchestratorAction({
+      executorResult,
+      changedFiles,
+      policy,
+      loop,
+      checkpointMode: options.checkpoint ?? "none"
+    });
+    if (
+      loopIndex === maxLoops &&
+      decision.action !== "finalize" &&
+      decision.action !== "block" &&
+      decision.action !== "rollback" &&
+      decision.action !== "require-human-review"
+    ) {
+      latestDecision = maxLoopDecision(maxLoops, decision);
+    } else {
+      latestDecision = decision;
+    }
+
+    const iterationFiles = writeIterationArtifacts(root, iterationDir, {
+      promptFile,
+      executorResult,
+      policy,
+      verify,
+      loop,
+      decision: latestDecision
+    });
+    const iterationReport: OrchestratorIterationReport = {
+      index: loopIndex,
+      dir: path.relative(root, iterationDir).replaceAll("\\", "/"),
+      promptFile: path.relative(root, promptFile).replaceAll("\\", "/"),
+      executorResult,
+      changedFiles,
+      policy: {
+        passed: policy.passed,
+        failOn: policy.failOn,
+        summary: policy.summary
+      },
+      loop: {
+        status: loop.status,
+        risk: loop.risk,
+        decisions: loop.decisions
+      },
+      decision: latestDecision,
+      files: iterationFiles.map((file) => path.relative(root, file).replaceAll("\\", "/"))
+    };
+    iterations.push(iterationReport);
+
+    latestContext = postContext;
+    latestExecutorResult = executorResult;
+    latestPolicy = policy;
+    latestLoop = loop;
+    latestChangedFiles = changedFiles;
+    previousDecision = latestDecision;
+
+    if (
+      latestDecision.action === "finalize" ||
+      latestDecision.action === "block" ||
+      latestDecision.action === "rollback" ||
+      latestDecision.action === "require-human-review"
+    ) {
+      break;
+    }
+  }
+
+  if (!latestExecutorResult || !latestPolicy || !latestLoop || !latestDecision) {
+    throw new Error("Orchestrator loop did not produce an iteration.");
+  }
 
   const report: HarnessOrchestratorReport = {
     task,
@@ -166,37 +248,40 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     executor: executorName,
     runDir: path.relative(root, taskRun.dir).replaceAll("\\", "/"),
     traceId: taskRun.runId,
-    maxLoops: options.maxLoops ?? 1,
+    maxLoops,
     dryRun: Boolean(options.dryRun),
     phases: ["plan", "pack", "execute", "collect", "evaluate", "decision"],
-    executorResult,
-    changedFiles,
+    executorResult: latestExecutorResult,
+    changedFiles: latestChangedFiles,
+    iterations,
     policy: {
-      passed: policy.passed,
-      failOn: policy.failOn,
-      summary: policy.summary
+      passed: latestPolicy.passed,
+      failOn: latestPolicy.failOn,
+      summary: latestPolicy.summary
     },
     loop: {
-      status: loop.status,
-      risk: loop.risk,
-      decisions: loop.decisions
+      status: latestLoop.status,
+      risk: latestLoop.risk,
+      decisions: latestLoop.decisions
     },
-    decision,
+    decision: latestDecision,
     artifacts: {
       contextFiles: contextWrite.files.map((file) => path.relative(root, file).replaceAll("\\", "/")),
       runFiles: taskRun.files.map((file) => path.relative(root, file).replaceAll("\\", "/")),
       orchestratorFiles: [],
-      diffFile: executorResult.diffPath
+      iterationFiles: iterations.flatMap((iteration) => iteration.files),
+      checkpointFile: checkpoint?.relativePath,
+      diffFile: latestExecutorResult.diffPath
     }
   };
 
   const files = [
     write(path.join(dir, "orchestrator.md"), renderOrchestratorReport(report)),
     write(path.join(dir, "orchestrator.json"), JSON.stringify(report, null, 2)),
-    write(path.join(dir, "policy.md"), renderPolicyReport(policy)),
-    write(path.join(dir, "impact.md"), renderChangeImpactReport(postContext, { base })),
-    write(path.join(dir, "verify.md"), verify),
-    write(path.join(dir, "loop.md"), renderLoopControllerReport(loop))
+    write(path.join(dir, "policy.md"), renderPolicyReport(latestPolicy)),
+    write(path.join(dir, "impact.md"), renderChangeImpactReport(latestContext, { base })),
+    write(path.join(dir, "verify.md"), renderTaskVerify(latestContext, { base, diff: true })),
+    write(path.join(dir, "loop.md"), renderLoopControllerReport(latestLoop))
   ];
   report.artifacts.orchestratorFiles = files.map((file) => path.relative(root, file).replaceAll("\\", "/"));
   writeFileSync(path.join(dir, "orchestrator.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
@@ -241,6 +326,18 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     heading(2, "Signals"),
     bullet(report.decision.signals),
     "",
+    heading(2, "Loop Iterations"),
+    table(
+      ["Loop", "Decision", "Exit", "Changed files", "Directory"],
+      report.iterations.map((iteration) => [
+        String(iteration.index),
+        iteration.decision.action,
+        String(iteration.executorResult.exitCode ?? "unknown"),
+        String(iteration.changedFiles.length),
+        code(iteration.dir)
+      ])
+    ),
+    "",
     heading(2, "Executor Result"),
     table(
       ["Field", "Value"],
@@ -272,7 +369,11 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     bullet(report.loop.decisions.map((decision) => `${decision.action}: ${decision.reason}`)),
     "",
     heading(2, "Artifacts"),
-    bullet(report.artifacts.orchestratorFiles.map(code))
+    bullet(
+      [...report.artifacts.orchestratorFiles, ...report.artifacts.iterationFiles, report.artifacts.checkpointFile ? report.artifacts.checkpointFile : ""]
+        .filter(Boolean)
+        .map(code)
+    )
   ].join("\n");
 }
 
@@ -393,7 +494,9 @@ function buildExecutorPrompt(
   context: ContextPackage,
   taskRun: TaskRunWriteResult,
   executorName: AgentExecutorName,
-  options: HarnessOrchestratorOptions
+  options: HarnessOrchestratorOptions,
+  previousDecision: HarnessOrchestratorReport["decision"] | undefined,
+  loopIndex: number
 ): string {
   const promptFile = promptFileFor(context.scan.root, taskRun.runId, executorName);
   const basePrompt = existsSync(promptFile)
@@ -414,7 +517,17 @@ function buildExecutorPrompt(
     "- Keep changes inside the edit boundary unless the task cannot be completed otherwise.",
     "- Prefer command evidence for tests and verification.",
     `- Executor: ${executorName}`,
-    `- Max loops requested: ${options.maxLoops ?? 1}`
+    `- Loop iteration: ${loopIndex} / ${options.maxLoops ?? 1}`,
+    ...(previousDecision
+      ? [
+          "",
+          "Previous harness decision:",
+          `- Action: ${previousDecision.action}`,
+          `- Reason: ${previousDecision.reason}`,
+          previousDecision.nextCommand ? `- Suggested command: ${previousDecision.nextCommand}` : "",
+          ...previousDecision.signals.map((signal) => `- Signal: ${signal}`)
+        ].filter(Boolean)
+      : [])
   ].join("\n");
 }
 
@@ -428,6 +541,7 @@ function decideOrchestratorAction(input: {
   changedFiles: string[];
   policy: PolicyEngineReport;
   loop: LoopControllerReport;
+  checkpointMode: OrchestratorCheckpointMode;
 }): HarnessOrchestratorReport["decision"] {
   if (input.executorResult.exitCode !== 0) {
     return decision("block", true, 0.94, "The selected executor failed before the harness could trust the result.", [
@@ -437,7 +551,7 @@ function decideOrchestratorAction(input: {
   }
 
   if (input.policy.summary.forbidden > 0) {
-    return decision("block", true, 0.96, "Forbidden policy findings were detected in the diff.", [
+    return decision(input.checkpointMode === "git-worktree" ? "rollback" : "block", true, 0.96, "Forbidden policy findings were detected in the diff.", [
       `forbidden findings: ${input.policy.summary.forbidden}`,
       `policy fail-on: ${input.policy.failOn}`
     ]);
@@ -481,6 +595,104 @@ function decideOrchestratorAction(input: {
     `loop status: ${input.loop.status}`,
     "policy: passed"
   ]);
+}
+
+function appendExecutorTrace(root: string, traceId: string, executorName: AgentExecutorName, executorResult: AgentExecutorResult, loopIndex: number): void {
+  appendExecutionTraceStep(root, traceId, {
+    agent: executorName,
+    action: "agent-execute",
+    files: executorResult.changedFiles,
+    command: executorResult.command,
+    reason: `Loop ${loopIndex}: ${executorName} executor returned exit code ${executorResult.exitCode ?? "unknown"}.`,
+    result: executorResult.exitCode === 0 ? "passed" : "failed",
+    finalState: executorResult.exitCode === 0 ? "partial_success" : "blocked",
+    evidenceSource: executorResult.command ? "command" : "manual",
+    capturedBy: executorResult.command ? "code-agent-plusplus" : "external",
+    exitCode: executorResult.exitCode,
+    output: summarizeOutput(executorResult.stdout, executorResult.stderr),
+    startedAt: executorResult.startedAt,
+    finishedAt: executorResult.finishedAt,
+    stdoutHash: executorResult.stdoutHash,
+    stderrHash: executorResult.stderrHash,
+    workingTreeHashBefore: executorResult.workingTreeHashBefore,
+    workingTreeHashAfter: executorResult.workingTreeHashAfter
+  });
+}
+
+function writeIterationArtifacts(
+  root: string,
+  iterationDir: string,
+  input: {
+    promptFile: string;
+    executorResult: AgentExecutorResult;
+    policy: PolicyEngineReport;
+    verify: string;
+    loop: LoopControllerReport;
+    decision: HarnessOrchestratorReport["decision"];
+  }
+): string[] {
+  const files = [
+    input.promptFile,
+    write(path.join(iterationDir, "executor.events.jsonl"), `${JSON.stringify(input.executorResult)}\n`),
+    write(path.join(iterationDir, "policy.json"), JSON.stringify(input.policy, null, 2)),
+    write(path.join(iterationDir, "verify.json"), JSON.stringify({ markdown: input.verify }, null, 2)),
+    write(path.join(iterationDir, "loop.json"), JSON.stringify(input.loop, null, 2)),
+    write(path.join(iterationDir, "decision.json"), JSON.stringify(input.decision, null, 2))
+  ];
+
+  if (input.executorResult.diffPath) {
+    const diffSource = path.join(root, input.executorResult.diffPath);
+    const diffTarget = path.join(iterationDir, "diff.patch");
+    if (existsSync(diffSource)) {
+      copyFileSync(diffSource, diffTarget);
+    } else {
+      writeFileSync(diffTarget, "", "utf8");
+    }
+    files.push(diffTarget);
+  }
+
+  const traceSource = executionTracePath(root, path.basename(path.dirname(path.dirname(iterationDir))));
+  const traceTarget = path.join(iterationDir, "trace.json");
+  if (existsSync(traceSource)) {
+    copyFileSync(traceSource, traceTarget);
+    files.push(traceTarget);
+  }
+
+  return files;
+}
+
+function maxLoopDecision(maxLoops: number, lastDecision: HarnessOrchestratorReport["decision"]): HarnessOrchestratorReport["decision"] {
+  return decision(
+    "require-human-review",
+    true,
+    0.9,
+    `Maximum orchestrator loop count (${maxLoops}) reached before the harness could finalize.`,
+    [`max loops: ${maxLoops}`, `last action: ${lastDecision.action}`, ...lastDecision.signals],
+    lastDecision.nextCommand
+  );
+}
+
+function createCheckpoint(root: string, runId: string, runDir: string, mode: OrchestratorCheckpointMode): { relativePath: string } | undefined {
+  if (mode === "none") return undefined;
+  const filePath = path.join(runDir, "checkpoint.patch");
+  let patch = "";
+  try {
+    patch = runGit(root, ["diff", "--binary", "--", ".", ":(exclude).agent-context/**", ":(exclude)AGENTS.md"]);
+  } catch (error) {
+    patch = `Unable to create checkpoint patch: ${error instanceof Error ? error.message : String(error)}\n`;
+  }
+  writeFileSync(
+    filePath,
+    [
+      `# checkpoint for ${runId}`,
+      "# mode: git-worktree",
+      "# This file captures the source diff before executor loops. Code Agent++ does not run destructive rollback commands automatically.",
+      "",
+      patch
+    ].join("\n"),
+    "utf8"
+  );
+  return { relativePath: path.relative(root, filePath).replaceAll("\\", "/") };
 }
 
 function decision(

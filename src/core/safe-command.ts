@@ -18,24 +18,52 @@ export interface SafeCommandRunResult {
 
 export function runSafeCommand(command: string, options: SafeCommandRunOptions): SafeCommandRunResult {
   const parsed = parseCommandLine(command);
-  const result = spawnSync(parsed.file, parsed.args, {
+  const result = runParsedCommand(parsed.file, parsed.args, options);
+  const fallback = shouldTryWindowsCmdFallback(parsed.file, result.error) ? runWindowsCmdCommand(`${parsed.file}.cmd`, parsed.args, options) : undefined;
+  const finalResult = fallback && !fallback.error && fallback.status !== null ? fallback : result;
+  const file = fallback && !fallback.error ? `${parsed.file}.cmd` : parsed.file;
+  const stdout = typeof finalResult.stdout === "string" ? finalResult.stdout : "";
+  const rawStderr = typeof finalResult.stderr === "string" ? finalResult.stderr : "";
+  const stderr = finalResult.error ? `${rawStderr}${rawStderr ? "\n" : ""}${finalResult.error.message}` : rawStderr;
+  return {
+    command,
+    file,
+    args: parsed.args,
+    stdout,
+    stderr,
+    status: typeof finalResult.status === "number" ? finalResult.status : finalResult.error ? 1 : null,
+    error: finalResult.error
+  };
+}
+
+function runParsedCommand(file: string, args: string[], options: SafeCommandRunOptions): ReturnType<typeof spawnSync> {
+  return spawnSync(file, args, {
     cwd: options.cwd,
     shell: false,
     encoding: options.encoding ?? "utf8",
     maxBuffer: options.maxBuffer
   });
-  const stdout = typeof result.stdout === "string" ? result.stdout : "";
-  const rawStderr = typeof result.stderr === "string" ? result.stderr : "";
-  const stderr = result.error ? `${rawStderr}${rawStderr ? "\n" : ""}${result.error.message}` : rawStderr;
-  return {
-    command,
-    file: parsed.file,
-    args: parsed.args,
-    stdout,
-    stderr,
-    status: typeof result.status === "number" ? result.status : result.error ? 1 : null,
-    error: result.error
-  };
+}
+
+function runWindowsCmdCommand(file: string, args: string[], options: SafeCommandRunOptions): ReturnType<typeof spawnSync> {
+  const command = [file, ...args].map(windowsCmdQuote).join(" ");
+  return spawnSync("cmd.exe", ["/d", "/s", "/c", command], {
+    cwd: options.cwd,
+    shell: false,
+    encoding: options.encoding ?? "utf8",
+    maxBuffer: options.maxBuffer
+  });
+}
+
+function shouldTryWindowsCmdFallback(file: string, error: Error | undefined): boolean {
+  if (process.platform !== "win32") return false;
+  if (!error || !("code" in error) || (error as NodeJS.ErrnoException).code !== "ENOENT") return false;
+  return !/\.(cmd|bat|exe|ps1)$/i.test(file);
+}
+
+function windowsCmdQuote(value: string): string {
+  if (value && !/[\s"&|<>^]/.test(value)) return value;
+  return `"${value.replace(/(["^])/g, "^$1")}"`;
 }
 
 export function parseCommandLine(command: string): { file: string; args: string[] } {

@@ -154,6 +154,33 @@ The Policy Engine prefers CI and harness-captured command evidence. Manual test 
 - `required`: fail forbidden edits and missing required actions; this is the default and fits PR checks.
 - `risk`: fail forbidden, required, and risk warnings; this is equivalent to `--strict` and fits main-branch or release gates.
 
+## Multi-Loop Orchestrator
+
+`code-agent-plusplus orchestrate "<task>" . --max-loops 3` is the harness-led runtime path. It repeatedly builds or refreshes the task pack, invokes the selected executor, normalizes executor evidence, evaluates policy / impact / verify / loop signals, then decides one of:
+
+- `finalize`
+- `repair`
+- `repack`
+- `block`
+- `rollback`
+- `require-human-review`
+
+Each loop writes a durable iteration directory:
+
+```txt
+.agent-context/runs/<task-id>/iterations/001/
+  prompt.md
+  executor.events.jsonl
+  diff.patch
+  trace.json
+  policy.json
+  verify.json
+  loop.json
+  decision.json
+```
+
+`repair` and `repack` continue until a blocking/final decision or `--max-loops` is reached. `--checkpoint git-worktree` writes a source-diff checkpoint before the executor loops; rollback decisions are recorded, but destructive working-tree rollback is intentionally not automatic.
+
 ## CLI Surface
 
 The runtime is exposed through CLI commands, including:

@@ -30,7 +30,7 @@ Code Agent++ 负责约束、验证、记录、纠偏和防回归
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-当前实现更准确地说是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器：它不会自主调用 Agent 改代码，但会消费 trace evidence、policy、contracts、impact 和 freshness，更新 `.agent-context/runs/<task-id>/state.json`，并生成下一步优先动作。目标形态是有状态、自主推进、证据驱动的 Agent Harness Runtime。
+当前实现已经支持两种路径：Agent 主导时，它是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机；Code Agent++ 主导时，`orchestrate` 会调用可替换 executor，按 `--max-loops` 执行多轮 `pack -> execute -> evaluate -> repair/repack/finalize`，并把每轮证据写入 `.agent-context/runs/<task-id>/iterations/`。它仍不替代外部 Code Agent 写代码，但已经可以拥有验收权和下一轮决策权。
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Code Agent++ 输出效果动画">
@@ -192,7 +192,7 @@ node dist/cli/index.js build .
 
 ```bash
 code-agent-plusplus run "fix login timeout bug" . --type bugfix
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
 code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
 code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
@@ -214,7 +214,7 @@ code-agent-plusplus drift .
 | readiness 分维度评分和硬上限                         | implemented            |
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
 | Hallucination / Regression Guards                    | planned                |
-| harness orchestrator / `orchestrate`                 | implemented            |
+| multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | `agent run` executor wrapper                         | implemented            |
 | mock executor                                        | implemented            |
 | generic executor command adapter                     | implemented            |
@@ -275,7 +275,7 @@ code-agent-plusplus build [repo]
 code-agent-plusplus plan "<task>" [repo]
 code-agent-plusplus pack "<task>" [repo]
 code-agent-plusplus run "<task>" [repo]
-code-agent-plusplus orchestrate "<task>" [repo] --executor mock --fail-on required
+code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
 code-agent-plusplus trace start "<task>" [repo] --agent codex
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"

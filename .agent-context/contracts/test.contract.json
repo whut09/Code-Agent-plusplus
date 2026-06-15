@@ -22,6 +22,7 @@
     "test/policy-engine.test.ts",
     "test/readiness.test.ts",
     "test/retrievers.test.ts",
+    "test/safe-command.test.ts",
     "test/scanner.test.ts",
     "test/snapshot.test.ts",
     "test/task-args.test.ts",
@@ -57,16 +58,6 @@
   "sourceToRelatedTests": {
     "eslint.config.js": [],
     "prettier.config.cjs": [],
-    "src/benchmarks/benchmark.ts": [
-      "test/benchmark.test.ts",
-      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
-    ],
     "src/analyzers/generic.ts": [
       "test/analyzers.test.ts"
     ],
@@ -87,6 +78,16 @@
     ],
     "src/analyzers/types.ts": [
       "test/analyzers.test.ts"
+    ],
+    "src/benchmarks/benchmark.ts": [
+      "test/benchmark.test.ts",
+      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
     ],
     "src/cli/index.ts": [
       "test/fixtures/monorepo/packages/web/src/index.ts",
@@ -117,7 +118,6 @@
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
       "test/fixtures/monorepo/packages/api/src/config.ts"
     ],
-    "src/llm/provider.ts": [],
     "src/core/cache.ts": [
       "test/cache.test.ts"
     ],
@@ -166,6 +166,9 @@
     "src/core/readiness.ts": [
       "test/readiness.test.ts"
     ],
+    "src/core/safe-command.ts": [
+      "test/safe-command.test.ts"
+    ],
     "src/core/scanner.ts": [
       "test/scanner.test.ts"
     ],
@@ -182,6 +185,10 @@
     "src/core/validator.ts": [
       "test/contract-validator.test.ts",
       "test/validator.test.ts"
+    ],
+    "src/llm/provider.ts": [],
+    "src/mcp/server.ts": [
+      "test/mcp.test.ts"
     ],
     "src/outputs/agents-md.ts": [
       "test/agents-md.test.ts"
@@ -250,9 +257,6 @@
       "test/policy-engine.test.ts",
       "test/validator.test.ts",
       "test/writer.test.ts"
-    ],
-    "src/mcp/server.ts": [
-      "test/mcp.test.ts"
     ],
     "src/retrievers/external.ts": [
       "test/retrievers.test.ts"

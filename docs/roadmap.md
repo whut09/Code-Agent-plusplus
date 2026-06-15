@@ -70,7 +70,7 @@ Goal: stop trusting the agent’s “done” claim and make the next action expl
 - Repair planner that can request missing tests, contract repair, context refresh, or wider impact analysis.
 - Finalize gate through policy and loop reports.
 
-Status: implemented foundation; multi-iteration autonomous repair is planned.
+Status: implemented foundation; `orchestrate` now runs multiple bounded iterations, while richer autonomous repair planning remains ongoing.
 
 ## v0.5: Executor Adapter Layer
 
@@ -95,8 +95,8 @@ export interface AgentExecutor {
 - `code-agent-plusplus agent run "<task>" . --executor mimocode`
 - Mock executor for CI and deterministic tests.
 - Generic `--executor-command` adapter for Codex, Claude Code, Cursor, OpenCode, MiMoCode, and other scriptable code agents.
-- One-shot flow: `pack -> run agent -> collect diff -> policy/tests/impact/verify`.
-- Harness-led one-shot mode through `code-agent-plusplus agent run`.
+- One-shot flow through `code-agent-plusplus agent run`: `pack -> run agent -> collect diff -> policy/tests/impact/verify`.
+- Multi-loop harness flow through `code-agent-plusplus orchestrate`: `pack -> run agent -> evaluate -> repair/repack/finalize/block`.
 
 Status: mock executor and generic command adapter implemented; native event normalizers planned.
 
@@ -162,15 +162,15 @@ Status: MCP scaffold and core tools implemented; per-client validation planned.
 
 Goal: make Code Agent++ the runtime controller and the code agent a replaceable executor.
 
-- `code-agent-plusplus orchestrate "<task>" . --executor opencode --max-loops 3 --fail-on required`
-- `code-agent-plusplus orchestrate "<task>" . --executor mimocode --max-loops 3 --fail-on required`
+- `code-agent-plusplus orchestrate "<task>" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
+- `code-agent-plusplus orchestrate "<task>" . --executor mimocode --executor-command "mimocode run {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
 - Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guards -> decision`.
-- Decisions: `finalize`, `repair`, `repack`, `block`, `require human review`.
-- Multi-iteration autonomous repair.
+- Decisions: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.
+- Multi-iteration loop runner with per-iteration artifacts under `.agent-context/runs/<task-id>/iterations/<nnn>/`.
 - Native executor event parsing.
-- Rollback and checkpoint integration.
+- Checkpoint patch integration through `--checkpoint git-worktree`; destructive rollback is intentionally not automatic.
 
-Status: harness-led one-pass orchestrator implemented with mock executor and generic command adapter; multi-loop execution planned.
+Status: multi-loop orchestrator implemented with mock executor, generic command adapter, per-iteration artifacts, decision gates, and checkpoint patch output; native event normalizers and isolated executor worktrees remain planned.
 
 ## v1.0: Agent Harness Benchmark
 
@@ -232,3 +232,4 @@ Status: deterministic benchmark harness implemented; real-agent benchmark planne
 - Harness-led `orchestrate` command.
 - `agent run` executor wrapper.
 - Mock executor and generic executor command adapter.
+- Multi-loop orchestrator iterations with prompt, executor events, diff, trace, policy, verify, loop, and decision artifacts.

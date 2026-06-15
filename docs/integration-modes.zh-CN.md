@@ -87,14 +87,14 @@ code_agent_plusplus_finalize
   -> executor 执行代码修改
   -> Code Agent++ 收集 diff / trace / test evidence
   -> Guard modules + policy / contracts / tests / impact / verify
-  -> decision: finalize / repair / repack / block / require-human-review
+  -> decision: finalize / repair / repack / block / rollback / require-human-review
 ```
 
 推荐 CLI 入口：
 
 ```bash
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
 
@@ -103,12 +103,20 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 - `{prompt}`：Code Agent++ 写出的 executor prompt 文件路径。
 - `{task}`：原始任务描述。
 - `{repo}`：仓库根目录。
-- `{runDir}`：`.agent-context/runs/<task-id>/` 目录。
+- `{runDir}`：当前轮次目录，例如 `.agent-context/runs/<task-id>/iterations/001/`。
 - `{agent}`：传入的 executor-specific agent/profile 名称。
 
 产物位置：
 
 - `.agent-context/runs/<task-id>/`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/prompt.md`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/verify.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/loop.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/decision.json`
 - `.agent-context/traces/<task-id>.json`
 - `.agent-context/orchestrator/<task-id>/orchestrator.md`
 - `.agent-context/orchestrator/<task-id>/orchestrator.json`
@@ -121,7 +129,8 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 
 - 可以保证每次执行后都收集 diff、trace 和 executor 事件。
 - 可以保证通过 Guard findings、policy / contracts / tests / impact / verify 生成统一 gate。
-- 可以保证输出明确 decision：`finalize`、`repair`、`repack`、`block` 或 `require-human-review`。
+- 可以保证输出明确 decision：`finalize`、`repair`、`repack`、`block`、`rollback` 或 `require-human-review`。
+- `--checkpoint git-worktree` 会在 executor loop 开始前写入源码 diff checkpoint。Code Agent++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
 - 不能保证外部 executor 本身一定能正确改代码；它保证的是执行后的验收和下一步决策可审计。
 
 ## 选择建议

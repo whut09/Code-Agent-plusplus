@@ -87,14 +87,14 @@ User task
   -> executor edits code
   -> Code Agent++ collects diff / trace / test evidence
   -> policy / contracts / tests / impact / verify
-  -> decision: finalize / repair / repack / block / require-human-review
+  -> decision: finalize / repair / repack / block / rollback / require-human-review
 ```
 
 Recommended CLI entries:
 
 ```bash
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --fail-on required
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
 
@@ -103,7 +103,7 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 - `{prompt}`: path to the executor prompt file written by Code Agent++.
 - `{task}`: original task text.
 - `{repo}`: repository root.
-- `{runDir}`: `.agent-context/runs/<task-id>/`.
+- `{runDir}`: the current iteration directory, for example `.agent-context/runs/<task-id>/iterations/001/`.
 - `{agent}`: executor-specific agent/profile value.
 
 Executor commands are parsed as argv-style executable calls and executed without a shell. Quoted paths with spaces or non-ASCII characters are preserved; shell control operators such as `&&`, `|`, `>`, `<`, `;`, and backticks are rejected. Put complex command sequences in a script and call the script directly.
@@ -111,6 +111,14 @@ Executor commands are parsed as argv-style executable calls and executed without
 Artifacts:
 
 - `.agent-context/runs/<task-id>/`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/prompt.md`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/verify.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/loop.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/decision.json`
 - `.agent-context/traces/<task-id>.json`
 - `.agent-context/orchestrator/<task-id>/orchestrator.md`
 - `.agent-context/orchestrator/<task-id>/orchestrator.json`
@@ -123,7 +131,8 @@ Guarantee boundary:
 
 - This mode guarantees that each run collects diff, trace, and executor events.
 - It guarantees one gate over Guard findings, policy / contracts / tests / impact / verify.
-- It produces an explicit decision: `finalize`, `repair`, `repack`, `block`, or `require-human-review`.
+- It produces an explicit decision: `finalize`, `repair`, `repack`, `block`, `rollback`, or `require-human-review`.
+- `--checkpoint git-worktree` writes a source-diff checkpoint before executor loops. Code Agent++ records rollback decisions and checkpoint evidence, but it intentionally avoids destructive rollback commands in the user's working tree.
 - It cannot guarantee that the external executor edits code correctly; it guarantees auditable acceptance and next-step decisions after execution.
 
 ## Which Mode Should I Use?

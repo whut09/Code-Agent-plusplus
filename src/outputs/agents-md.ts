@@ -124,7 +124,7 @@ function defaultWorkflow(): string[] {
   return [
     "Read `AGENTS.md` only before the task is concrete.",
     'Agent-led handoff: run `code-agent-plusplus run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.',
-    'Harness-led executor flow: run `code-agent-plusplus orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>"` when Code Agent++ should own the final gate.',
+    'Harness-led executor flow: run `code-agent-plusplus orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>" --max-loops 3 --checkpoint git-worktree` when Code Agent++ should own multi-loop gates.',
     "Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.",
     "Prefer source files over generated summaries for behavior, API, and test decisions."
   ];

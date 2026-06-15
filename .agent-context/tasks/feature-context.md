@@ -1,7 +1,7 @@
 # Task Context: add a feature or new behavior
 
 Type: feature
-Budget: 3,209 / 12,000 estimated tokens
+Budget: 3,216 / 12,000 estimated tokens
 
 ## Read First
 1. `src/benchmarks/benchmark.ts` - lexical match: behavior; defines BenchmarkTaskDefinition
@@ -30,7 +30,7 @@ Budget: 3,209 / 12,000 estimated tokens
 | File | Category | Tokens | Why | Summary |
 | --- | --- | --- | --- | --- |
 | `src/benchmarks/benchmark.ts` | direct-source | 452 | lexical match: behavior | src/benchmarks/benchmark.ts contains 90 detected symbols, 7 imports, 11 exports. |
-| `src/cli/index.ts` | entrypoint | 288 | direct importer of src/benchmarks/benchmark.ts, entrypoint | src/cli/index.ts contains 95 detected symbols, 29 imports, 0 exports. |
+| `src/cli/index.ts` | entrypoint | 295 | direct importer of src/benchmarks/benchmark.ts, entrypoint | src/cli/index.ts contains 96 detected symbols, 29 imports, 0 exports. |
 | `src/mcp/server.ts` | entrypoint | 339 | entrypoint | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
 | `test/benchmark.test.ts` | test | 50 | direct importer of src/benchmarks/benchmark.ts, related test | test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
 | `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` | test | 63 | related test | benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports. |
@@ -70,9 +70,9 @@ Budget: 3,209 / 12,000 estimated tokens
 | Tests | 499 | `test/benchmark.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` |
 | Dependency neighbors | 952 | `src/core/context-builder.ts`, `src/outputs/test-selector.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/outputs/task-context.ts` |
 | Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md` |
-| Entrypoints | 627 | `src/cli/index.ts`, `src/mcp/server.ts` |
+| Entrypoints | 634 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 8,791 estimated tokens
+Remaining budget: 8,784 estimated tokens
 
 ## Suggested Commands
 - npm run test -- feature

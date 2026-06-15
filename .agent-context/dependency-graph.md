@@ -58,14 +58,14 @@ graph TD
 | mcp | core | 1 |
 | mcp | outputs | 10 |
 | mcp | retrievers | 2 |
-| outputs | core | 43 |
+| outputs | core | 45 |
 | retrievers | core | 3 |
 | retrievers | outputs | 2 |
 | test | analyzers | 3 |
 | test | benchmarks | 1 |
 | test | cli | 1 |
 | test | config | 3 |
-| test | core | 37 |
+| test | core | 38 |
 | test | mcp | 1 |
 | test | outputs | 24 |
 | test | retrievers | 1 |

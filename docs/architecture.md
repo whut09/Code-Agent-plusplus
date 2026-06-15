@@ -120,7 +120,7 @@ The v2 architecture is organized around five responsibilities:
 The integration model has two modes:
 
 - Agent-led mode: a code agent calls Code Agent++ tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
-- Harness-led mode: Code Agent++ owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, or `require human review`. The current implementation supports this as a one-pass orchestrator through `code-agent-plusplus orchestrate` and `code-agent-plusplus agent run`; multi-iteration autonomous repair loops and native executor event parsing are the next step.
+- Harness-led mode: Code Agent++ owns the loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision`. Decisions are `finalize`, `repair`, `repack`, `block`, `rollback`, or `require human review`. `code-agent-plusplus orchestrate` now runs a bounded multi-loop controller and writes each turn under `.agent-context/runs/<task-id>/iterations/<nnn>/`; `code-agent-plusplus agent run` remains the one-pass executor wrapper. Native executor event parsing and isolated executor worktrees are the next step.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
