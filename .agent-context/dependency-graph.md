@@ -67,6 +67,6 @@ graph TD
 | test | config | 3 |
 | test | core | 38 |
 | test | mcp | 1 |
-| test | outputs | 24 |
+| test | outputs | 25 |
 | test | retrievers | 1 |
 | test/fixtures/monorepo/packages/web | test/fixtures/monorepo/packages/api | 1 |

@@ -112,6 +112,36 @@ test("harness orchestrator writes multi-loop iteration artifacts before max-loop
   }
 });
 
+test("harness orchestrator normalizes OpenCode JSON stdout into execution trace", async () => {
+  const root = createOrchestratorRepo();
+  try {
+    const command = [
+      "node",
+      "-e",
+      `"console.log(JSON.stringify({type:'message.part.updated',part:{type:'text',text:'reading auth'}}));console.log(JSON.stringify({type:'tool.call',name:'Read',args:{path:'src/auth/session.ts'}}));console.log(JSON.stringify({type:'tool.call',name:'Bash',args:{command:'npm run test -- auth'},exitCode:0}));"`
+    ].join(" ");
+    const result = await runHarnessOrchestrator(root, "fix login timeout bug", {
+      executor: "opencode",
+      executorCommand: command,
+      type: "bugfix",
+      tokenBudget: 2000,
+      base: "main"
+    });
+
+    const trace = readExecutionTrace(root, result.report.traceId);
+    assert.ok(trace?.steps.some((step) => step.action === "message" && step.output?.includes("reading auth")));
+    assert.ok(trace?.steps.some((step) => step.action === "file-read" && step.files.includes("src/auth/session.ts")));
+    assert.ok(trace?.steps.some((step) => step.action === "run-test" && step.command === "npm run test -- auth"));
+    assert.equal(result.report.executorResult.normalizerSource, "opencode-json");
+    assert.ok((result.report.executorResult.normalizedEventsCount ?? 0) >= 3);
+    const eventLog = readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.events.jsonl"), "utf8");
+    assert.match(eventLog, /file_read/);
+    assert.match(eventLog, /test_run/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 function createOrchestratorRepo(): string {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-orchestrator-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });

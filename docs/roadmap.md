@@ -98,7 +98,7 @@ export interface AgentExecutor {
 - One-shot flow through `code-agent-plusplus agent run`: `pack -> run agent -> collect diff -> policy/tests/impact/verify`.
 - Multi-loop harness flow through `code-agent-plusplus orchestrate`: `pack -> run agent -> evaluate -> repair/repack/finalize/block`.
 
-Status: mock executor and generic command adapter implemented; native event normalizers planned.
+Status: mock executor, generic command adapter, and OpenCode stdout/transcript/fallback event normalizer implemented; MiMoCode, Codex, and Claude native event normalizers planned.
 
 ## v0.6: Hallucination Guard
 
@@ -167,10 +167,11 @@ Goal: make Code Agent++ the runtime controller and the code agent a replaceable 
 - Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guards -> decision`.
 - Decisions: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.
 - Multi-iteration loop runner with per-iteration artifacts under `.agent-context/runs/<task-id>/iterations/<nnn>/`.
-- Native executor event parsing.
+- Native OpenCode event parsing for `opencode run --format json`, transcript files, and stdout/stderr fallback.
+- Native MiMoCode / Codex / Claude event parsing.
 - Checkpoint patch integration through `--checkpoint git-worktree`; destructive rollback is intentionally not automatic.
 
-Status: multi-loop orchestrator implemented with mock executor, generic command adapter, per-iteration artifacts, decision gates, and checkpoint patch output; native event normalizers and isolated executor worktrees remain planned.
+Status: multi-loop orchestrator implemented with mock executor, generic command adapter, OpenCode event normalizer, per-iteration artifacts, decision gates, and checkpoint patch output; MiMoCode, Codex, Claude event normalizers and isolated executor worktrees remain planned.
 
 ## v1.0: Agent Harness Benchmark
 

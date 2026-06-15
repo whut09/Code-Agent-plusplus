@@ -218,7 +218,8 @@ code-agent-plusplus drift .
 | `agent run` executor wrapper                         | implemented            |
 | mock executor                                        | implemented            |
 | generic executor command adapter                     | implemented            |
-| OpenCode / MiMoCode 原生事件 normalizer              | planned                |
+| OpenCode 原生事件 normalizer                         | implemented foundation |
+| MiMoCode 原生事件 normalizer                         | planned                |
 | runtime state machine / `state.json`                 | implemented            |
 | policy engine                                        | implemented            |
 | context delta analysis                               | implemented            |
@@ -277,6 +278,7 @@ code-agent-plusplus pack "<task>" [repo]
 code-agent-plusplus run "<task>" [repo]
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}"
+code-agent-plusplus orchestrate "<task>" [repo] --executor opencode --executor-command "opencode run --format json {prompt}" --opencode-transcript .opencode/session.jsonl
 code-agent-plusplus trace start "<task>" [repo] --agent codex
 code-agent-plusplus trace run <trace-id> [repo] --action run-test --command "npm test -- auth"
 code-agent-plusplus policy [repo] --base main --trace <trace-id> --fail-on required

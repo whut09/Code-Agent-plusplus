@@ -94,9 +94,11 @@ Recommended CLI entries:
 
 ```bash
 code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
+
+For OpenCode, Code Agent++ normalizes `opencode run --format json` stdout, optional `--opencode-transcript` files, and generic stdout/stderr fallback into the same trace event model.
 
 `--executor-command` supports placeholders:
 
@@ -112,7 +114,7 @@ Artifacts:
 
 - `.agent-context/runs/<task-id>/`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/prompt.md`
-- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl` - normalized `AgentEvent` JSONL from the executor
 - `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`

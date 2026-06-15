@@ -94,9 +94,11 @@ code_agent_plusplus_finalize
 
 ```bash
 code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required
+code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
+
+对 OpenCode，Code Agent++ 会把 `opencode run --format json` 的 stdout、可选的 `--opencode-transcript` 文件，以及普通 stdout/stderr fallback 统一归一化为同一套 trace event model。
 
 `--executor-command` 支持占位符：
 
@@ -110,7 +112,7 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 
 - `.agent-context/runs/<task-id>/`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/prompt.md`
-- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl` - executor 归一化后的 `AgentEvent` JSONL
 - `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`

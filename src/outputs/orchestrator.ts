@@ -5,6 +5,7 @@ import type { ContextPackage, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { changedFilesSince, runGit } from "../core/git.js";
 import { runSafeCommand, shellQuote } from "../core/safe-command.js";
+import { normalizeAgentEvents, type AgentEvent } from "./agent-events.js";
 import { writeContextPackage } from "./writer.js";
 import { renderChangeImpactReport } from "./impact.js";
 import { buildLoopControllerReport, renderLoopControllerReport, type LoopControllerReport } from "./loop-controller.js";
@@ -29,6 +30,7 @@ export interface HarnessOrchestratorOptions {
   base?: string;
   dryRun?: boolean;
   checkpoint?: OrchestratorCheckpointMode;
+  opencodeTranscript?: string;
 }
 
 export interface AgentExecutorInput {
@@ -58,6 +60,9 @@ export interface AgentExecutorResult {
   stderrHash?: string;
   workingTreeHashBefore?: string;
   workingTreeHashAfter?: string;
+  normalizedEventsPath?: string;
+  normalizedEventsCount?: number;
+  normalizerSource?: string;
 }
 
 export interface HarnessOrchestratorReport {
@@ -158,7 +163,23 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       dryRun: options.dryRun
     });
 
-    appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex);
+    const normalized = normalizeAgentEvents({
+      executor: executorName,
+      stdout: executorResult.stdout,
+      stderr: executorResult.stderr,
+      repo: root,
+      transcriptPath: options.opencodeTranscript,
+      startedAt: executorResult.startedAt,
+      finishedAt: executorResult.finishedAt,
+      exitCode: executorResult.exitCode
+    });
+    const normalizedEventsPath = writeAgentEvents(iterationDir, normalized.events);
+    executorResult.normalizedEventsPath = path.relative(root, normalizedEventsPath).replaceAll("\\", "/");
+    executorResult.normalizedEventsCount = normalized.events.length;
+    executorResult.normalizerSource = normalized.source;
+
+    appendAgentEventsToTrace(root, taskRun.runId, executorName, normalized.events);
+    appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex, normalized.warnings);
 
     const postContext = await buildContextPackage(root);
     const changedFiles = collectChangedFiles(root, base);
@@ -193,6 +214,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     const iterationFiles = writeIterationArtifacts(root, iterationDir, {
       promptFile,
       executorResult,
+      agentEvents: normalized.events,
       policy,
       verify,
       loop,
@@ -597,7 +619,14 @@ function decideOrchestratorAction(input: {
   ]);
 }
 
-function appendExecutorTrace(root: string, traceId: string, executorName: AgentExecutorName, executorResult: AgentExecutorResult, loopIndex: number): void {
+function appendExecutorTrace(
+  root: string,
+  traceId: string,
+  executorName: AgentExecutorName,
+  executorResult: AgentExecutorResult,
+  loopIndex: number,
+  warnings: string[] = []
+): void {
   appendExecutionTraceStep(root, traceId, {
     agent: executorName,
     action: "agent-execute",
@@ -609,7 +638,7 @@ function appendExecutorTrace(root: string, traceId: string, executorName: AgentE
     evidenceSource: executorResult.command ? "command" : "manual",
     capturedBy: executorResult.command ? "code-agent-plusplus" : "external",
     exitCode: executorResult.exitCode,
-    output: summarizeOutput(executorResult.stdout, executorResult.stderr),
+    output: summarizeOutput(executorResult.stdout, executorResult.stderr, warnings),
     startedAt: executorResult.startedAt,
     finishedAt: executorResult.finishedAt,
     stdoutHash: executorResult.stdoutHash,
@@ -619,12 +648,75 @@ function appendExecutorTrace(root: string, traceId: string, executorName: AgentE
   });
 }
 
+function appendAgentEventsToTrace(root: string, traceId: string, executorName: AgentExecutorName, events: AgentEvent[]): void {
+  for (const event of events) {
+    if (event.type === "message") {
+      appendExecutionTraceStep(root, traceId, {
+        at: event.ts,
+        agent: executorName,
+        action: "message",
+        reason: event.role,
+        output: event.text,
+        evidenceSource: "manual"
+      });
+    } else if (event.type === "tool_call") {
+      appendExecutionTraceStep(root, traceId, {
+        at: event.ts,
+        agent: executorName,
+        action: "tool-call",
+        reason: event.tool,
+        output: safeStringify(event.args),
+        evidenceSource: "manual"
+      });
+    } else if (event.type === "file_read") {
+      appendExecutionTraceStep(root, traceId, {
+        at: event.ts,
+        agent: executorName,
+        action: "file-read",
+        files: [event.path],
+        evidenceSource: "manual"
+      });
+    } else if (event.type === "file_edit") {
+      appendExecutionTraceStep(root, traceId, {
+        at: event.ts,
+        agent: executorName,
+        action: "edit",
+        files: [event.path],
+        evidenceSource: "manual"
+      });
+    } else if (event.type === "command_run" || event.type === "test_run") {
+      appendExecutionTraceStep(root, traceId, {
+        at: event.ts,
+        agent: executorName,
+        action: event.type === "test_run" ? "run-test" : "run-command",
+        command: event.command,
+        result: event.exitCode === undefined ? "unknown" : event.exitCode === 0 ? "passed" : "failed",
+        evidenceSource: "command",
+        capturedBy: "external",
+        exitCode: event.exitCode,
+        startedAt: event.ts,
+        finishedAt: event.ts
+      });
+    } else if (event.type === "error") {
+      appendExecutionTraceStep(root, traceId, {
+        at: event.ts,
+        agent: executorName,
+        action: "error",
+        result: "failed",
+        output: event.message,
+        evidenceSource: "manual"
+      });
+    }
+  }
+}
+
 function writeIterationArtifacts(
   root: string,
   iterationDir: string,
   input: {
     promptFile: string;
     executorResult: AgentExecutorResult;
+    agentEvents: AgentEvent[];
     policy: PolicyEngineReport;
     verify: string;
     loop: LoopControllerReport;
@@ -633,7 +725,8 @@ function writeIterationArtifacts(
 ): string[] {
   const files = [
     input.promptFile,
-    write(path.join(iterationDir, "executor.events.jsonl"), `${JSON.stringify(input.executorResult)}\n`),
+    write(path.join(iterationDir, "executor.events.jsonl"), formatAgentEvents(input.agentEvents)),
+    write(path.join(iterationDir, "executor.result.json"), JSON.stringify(input.executorResult, null, 2)),
     write(path.join(iterationDir, "policy.json"), JSON.stringify(input.policy, null, 2)),
     write(path.join(iterationDir, "verify.json"), JSON.stringify({ markdown: input.verify }, null, 2)),
     write(path.join(iterationDir, "loop.json"), JSON.stringify(input.loop, null, 2)),
@@ -659,6 +752,24 @@ function writeIterationArtifacts(
   }
 
   return files;
+}
+
+function writeAgentEvents(iterationDir: string, events: AgentEvent[]): string {
+  const filePath = path.join(iterationDir, "executor.events.jsonl");
+  writeFileSync(filePath, formatAgentEvents(events), "utf8");
+  return filePath;
+}
+
+function formatAgentEvents(events: AgentEvent[]): string {
+  return events.map((event) => JSON.stringify(event)).join("\n") + (events.length ? "\n" : "");
+}
+
+function safeStringify(value: unknown): string {
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
 }
 
 function maxLoopDecision(maxLoops: number, lastDecision: HarnessOrchestratorReport["decision"]): HarnessOrchestratorReport["decision"] {
@@ -774,8 +885,8 @@ function quote(value: string): string {
   return shellQuote(value);
 }
 
-function summarizeOutput(stdout: string, stderr: string): string {
-  const combined = [stdout.trim(), stderr.trim()].filter(Boolean).join("\n--- stderr ---\n");
+function summarizeOutput(stdout: string, stderr: string, warnings: string[] = []): string {
+  const combined = [stdout.trim(), stderr.trim(), ...warnings.map((warning) => `normalizer warning: ${warning}`)].filter(Boolean).join("\n--- stderr ---\n");
   if (!combined) return "";
   return combined.length > 2000 ? `${combined.slice(0, 2000)}\n... truncated ...` : combined;
 }

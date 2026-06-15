@@ -49,6 +49,7 @@ export interface TraceStartOptions {
 }
 
 export interface TraceStepInput {
+  at?: string;
   agent?: string;
   action: string;
   files?: string[];
@@ -118,7 +119,7 @@ export function appendExecutionTraceStep(root: string, traceId: string, input: T
     throw new Error(`Execution trace not found: ${traceId}`);
   }
 
-  const now = new Date().toISOString();
+  const now = input.at ?? new Date().toISOString();
   trace.steps.push({
     id: `step-${String(trace.steps.length + 1).padStart(3, "0")}`,
     at: now,

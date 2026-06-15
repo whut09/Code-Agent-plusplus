@@ -223,7 +223,7 @@ Current capabilities:
 
 Planned capabilities:
 
-- OpenCode JSON event normalizer
+- OpenCode JSON stdout / transcript / fallback normalizer (implemented foundation)
 - MiMoCode event normalizer
 - Codex JSONL normalizer
 - Claude Code transcript normalizer
