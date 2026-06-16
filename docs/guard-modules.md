@@ -6,14 +6,29 @@ Code Agent++ Guard modules are external enhancement components designed around c
 
 | Guard                               | Problem                                       | Status                 |
 | ----------------------------------- | --------------------------------------------- | ---------------------- |
-| Context Guard                       | Wrong context, irrelevant search, token waste | implemented foundation |
-| Hallucination Guard                 | Invented APIs, commands, config, conventions  | implemented foundation |
-| Boundary Guard                      | Edit scope expansion and protected path edits | implemented foundation |
-| Regression Guard                    | Reintroducing historical bugs                 | implemented foundation |
-| Evidence Guard                      | Untrustworthy or stale test evidence          | implemented foundation |
+| Context Guard                       | Wrong context, irrelevant search, token waste | gate foundation        |
+| Hallucination Guard                 | Invented APIs, commands, config, conventions  | gate foundation        |
+| Boundary Guard                      | Edit scope expansion and protected path edits | gate foundation        |
+| Regression Guard                    | Reintroducing historical bugs                 | gate foundation        |
+| Evidence Guard                      | Untrustworthy or stale test evidence          | gate foundation        |
 | Impact Guard                        | Invisible blast radius and review risk        | implemented foundation |
 | Loop Guard                          | Repair loops that cannot converge             | implemented foundation |
 | Executor Adapter + Trace Normalizer | Inconsistent agent event formats              | partial                |
+
+## Guard Gates
+
+Each Guard now emits explicit gate decisions through `.agent-context/runs/<task-id>/iterations/<nnn>/guard.gates.json`. `guard.findings.json` records normalized evidence; `guard.gates.json` decides whether the evidence blocks the loop and which action the orchestrator should take.
+
+| Guard               | Blocking Conditions                                                                                      | Gate Action                               |
+| ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+| Context Guard       | context stale; task pack over budget; task pack requires a replan or expanded context                    | `repack` / `expand-context`               |
+| Boundary Guard      | forbidden path changed; generated source/build output changed; protected lockfile/CI/migration violation | `rollback` in git-worktree mode, or block |
+| Boundary Guard      | generated `.agent-context` changes or large diff                                                         | `human-review`                            |
+| Evidence Guard      | no test command after last edit; non-zero test exit code; failure output; stale working tree hash        | `run-tests` / `repair`                    |
+| Hallucination Guard | nonexistent script, file, symbol, dependency, config key, or env reference                               | `repair` / `block`                        |
+| Regression Guard    | fragile module or historical bug pattern matched without required regression test evidence               | `run-regression-tests` / `human-review`   |
+
+The orchestrator consumes these gates before finalizing a run. A blocking gate turns the next action into `repack`, `repair`, `rollback`, `block`, or `require-human-review`; a passed gate can proceed toward finalize.
 
 ## Context Guard
 

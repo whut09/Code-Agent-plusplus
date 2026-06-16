@@ -19,6 +19,7 @@ import { renderTaskVerify } from "./task-harness.js";
 import { writeTaskRun, type TaskRunWriteResult } from "./task-run.js";
 import { appendExecutionTraceStep, currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
 import { buildGuardFindingsArtifact, type GuardFindingsArtifact } from "./guard-finding.js";
+import { buildGuardGateReport, type GuardGateAction, type GuardGateReport } from "./guard-gates.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type AgentExecutorName = "codex" | "claude-code" | "opencode" | "mimocode" | "cursor" | "mock";
@@ -101,6 +102,7 @@ export interface HarnessOrchestratorReport {
   iterations: OrchestratorIterationReport[];
   policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
   loop: Pick<LoopControllerReport, "status" | "risk" | "trace" | "checks" | "decisions">;
+  gates: Pick<GuardGateReport, "summary" | "gates">;
   decision: {
     action: OrchestratorDecision;
     priority: number;
@@ -134,6 +136,7 @@ export interface OrchestratorIterationReport {
   changedFiles: string[];
   policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
   loop: Pick<LoopControllerReport, "status" | "risk" | "trace" | "checks" | "decisions">;
+  gates: Pick<GuardGateReport, "summary" | "gates">;
   decision: HarnessOrchestratorReport["decision"];
   files: string[];
 }
@@ -158,6 +161,7 @@ interface IterationArtifactInput {
   loop: LoopControllerReport;
   decision: HarnessOrchestratorReport["decision"];
   guardFindings: GuardFindingsArtifact;
+  guardGates: GuardGateReport;
 }
 
 export async function runHarnessOrchestrator(repo: string, task: string, options: HarnessOrchestratorOptions = {}): Promise<HarnessOrchestratorWriteResult> {
@@ -188,6 +192,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
   let latestExecutorResult: AgentExecutorResult | undefined;
   let latestPolicy: PolicyEngineReport | undefined;
   let latestLoop: LoopControllerReport | undefined;
+  let latestGuardGates: GuardGateReport | undefined;
   let latestChangedFiles: string[] = [];
   let latestDecision: HarnessOrchestratorReport["decision"] | undefined;
 
@@ -260,11 +265,23 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         hallucination,
         regression
       });
+      const trace = readExecutionTrace(root, taskRun.runId);
+      const guardGates = buildGuardGateReport({
+        runId: taskRun.runId,
+        iteration: loopIndex,
+        policy,
+        loop,
+        guardFindings,
+        trace,
+        changedFiles,
+        checkpointMode: options.checkpoint ?? "none"
+      });
       const decision = decideOrchestratorAction({
         executorResult,
         changedFiles,
         policy,
         loop,
+        guardGates,
         checkpointMode: options.checkpoint ?? "none"
       });
       if (
@@ -291,7 +308,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         verify,
         loop,
         decision: latestDecision,
-        guardFindings
+        guardFindings,
+        guardGates
       });
       const iterationReport: OrchestratorIterationReport = {
         index: loopIndex,
@@ -311,6 +329,10 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
           checks: loop.checks,
           decisions: loop.decisions
         },
+        gates: {
+          summary: guardGates.summary,
+          gates: guardGates.gates
+        },
         decision: latestDecision,
         files: iterationFiles.map((file) => path.relative(root, file).replaceAll("\\", "/"))
       };
@@ -320,6 +342,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       latestExecutorResult = executorResult;
       latestPolicy = policy;
       latestLoop = loop;
+      latestGuardGates = guardGates;
       latestChangedFiles = changedFiles;
       previousDecision = latestDecision;
 
@@ -333,7 +356,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       }
     }
 
-    if (!latestExecutorResult || !latestPolicy || !latestLoop || !latestDecision) {
+    if (!latestExecutorResult || !latestPolicy || !latestLoop || !latestGuardGates || !latestDecision) {
       throw new Error("Orchestrator loop did not produce an iteration.");
     }
 
@@ -362,6 +385,10 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         trace: latestLoop.trace,
         checks: latestLoop.checks,
         decisions: latestLoop.decisions
+      },
+      gates: {
+        summary: latestGuardGates.summary,
+        gates: latestGuardGates.gates
       },
       decision: latestDecision,
       artifacts: {
@@ -447,11 +474,18 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
           `${report.loop.checks.contracts} (${report.loop.checks.contractViolations} violation${report.loop.checks.contractViolations === 1 ? "" : "s"})`
         ],
         ["Policy gate", report.policy.passed ? "passed" : "failed"],
+        ["Blocking Guard gates", String(report.gates.summary.blocking)],
         ["Missing required evidence", String(report.policy.summary.requiredMissing)],
         ["Forbidden findings", String(report.policy.summary.forbidden)],
         ["Impact risk", report.loop.risk],
         ["Final decision", `${report.decision.action} - ${report.decision.reason}`]
       ]
+    ),
+    "",
+    heading(2, "Guard Gates"),
+    table(
+      ["Guard", "Condition", "Status", "Action"],
+      report.gates.gates.map((gate) => [gate.guard, gate.condition, gate.status, gate.action])
     ),
     "",
     heading(2, "Sandbox"),
@@ -698,6 +732,7 @@ function decideOrchestratorAction(input: {
   changedFiles: string[];
   policy: PolicyEngineReport;
   loop: LoopControllerReport;
+  guardGates: GuardGateReport;
   checkpointMode: OrchestratorCheckpointMode;
 }): HarnessOrchestratorReport["decision"] {
   if (input.executorResult.exitCode !== 0) {
@@ -712,6 +747,18 @@ function decideOrchestratorAction(input: {
       `forbidden findings: ${input.policy.summary.forbidden}`,
       `policy fail-on: ${input.policy.failOn}`
     ]);
+  }
+
+  const blockingGate = input.guardGates.gates.find((gate) => gate.status === "blocked");
+  if (blockingGate) {
+    return decision(
+      decisionForGate(blockingGate.action, input.checkpointMode),
+      true,
+      0.93,
+      `${blockingGate.guard} guard blocked: ${blockingGate.condition}.`,
+      [`guard: ${blockingGate.guard}`, `condition: ${blockingGate.condition}`, `action: ${blockingGate.action}`, ...blockingGate.evidence.slice(0, 5)],
+      commandForGate(blockingGate.action)
+    );
   }
 
   const needsContext = input.loop.decisions.find((item) => item.action === "rebuild-context" || item.action === "replan" || item.action === "expand-context");
@@ -892,7 +939,8 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
       policy: input.policy.summary,
       loopStatus: input.loop.status,
       loopRisk: input.loop.risk,
-      guardFindings: input.guardFindings.summary
+      guardFindings: input.guardFindings.summary,
+      guardGates: input.guardGates.summary
     },
     decision: input.decision
   };
@@ -910,6 +958,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
       diff: "diff.patch",
       trace: "trace.json",
       guardFindings: "guard.findings.json",
+      guardGates: "guard.gates.json",
       policy: "policy.json",
       verify: "verify.json",
       loop: "loop.json",
@@ -920,6 +969,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
       exitCode: input.executorResult.exitCode,
       changedFiles: input.executorResult.changedFiles.length,
       guardFindings: input.guardFindings.summary.total,
+      guardGates: input.guardGates.summary.blocking,
       policyPassed: input.policy.passed,
       loopStatus: input.loop.status,
       decision: input.decision.action
@@ -935,6 +985,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
     write(path.join(iterationDir, "regression.json"), JSON.stringify(input.regression, null, 2)),
     write(path.join(iterationDir, "regression.md"), renderRegressionReport(input.regression)),
     write(path.join(iterationDir, "guard.findings.json"), JSON.stringify(input.guardFindings, null, 2)),
+    write(path.join(iterationDir, "guard.gates.json"), JSON.stringify(input.guardGates, null, 2)),
     write(path.join(iterationDir, "policy.json"), JSON.stringify(input.policy, null, 2)),
     write(path.join(iterationDir, "verify.json"), JSON.stringify({ markdown: input.verify }, null, 2)),
     write(path.join(iterationDir, "loop.json"), JSON.stringify(input.loop, null, 2)),
@@ -1029,6 +1080,22 @@ function decision(
     nextCommand,
     signals: signals.filter(Boolean)
   };
+}
+
+function decisionForGate(action: GuardGateAction, checkpointMode: OrchestratorCheckpointMode): OrchestratorDecision {
+  if (action === "rollback") return checkpointMode === "git-worktree" ? "rollback" : "block";
+  if (action === "block") return "block";
+  if (action === "repack" || action === "expand-context") return "repack";
+  if (action === "run-tests" || action === "run-regression-tests" || action === "repair") return "repair";
+  return "require-human-review";
+}
+
+function commandForGate(action: GuardGateAction): string | undefined {
+  if (action === "repack" || action === "expand-context") return 'code-agent-plusplus pack "<task>" .';
+  if (action === "run-tests") return "code-agent-plusplus tests . --diff --base main";
+  if (action === "run-regression-tests") return "code-agent-plusplus regression . --base main --trace <trace-id>";
+  if (action === "repair") return 'code-agent-plusplus loop "<task>" . --phase repair';
+  return undefined;
 }
 
 function expandExecutorCommand(command: string, input: AgentExecutorInput): string {

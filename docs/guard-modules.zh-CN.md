@@ -15,6 +15,21 @@ Code Agent++ 的 Guard 模块是面向 Code Agent 失败模式设计的外挂式
 | Loop Guard                          | repair loop 无法收口              | implemented foundation |
 | Executor Adapter + Trace Normalizer | 多 Agent 输出格式不统一           | partial                |
 
+## Guard Gates
+
+每个 Guard 现在都会通过 `.agent-context/runs/<task-id>/iterations/<nnn>/guard.gates.json` 输出明确 gate。`guard.findings.json` 记录统一证据，`guard.gates.json` 决定这些证据是否阻断当前 loop，以及 orchestrator 应该采取什么动作。
+
+| Guard               | 阻断条件                                                                                      | Gate 动作                                |
+| ------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Context Guard       | context stale；task pack 超预算；需要 replan 或 expand context                                | `repack` / `expand-context`              |
+| Boundary Guard      | forbidden path 变更；generated source/build output 变更；lockfile/CI/migration/protected 违规 | git-worktree 模式 `rollback`，否则 block |
+| Boundary Guard      | `.agent-context` 生成物被改；diff 太大                                                        | `human-review`                           |
+| Evidence Guard      | 最后一次 edit 后没有测试命令；测试 exit code 非 0；测试输出含失败；working tree hash 不匹配   | `run-tests` / `repair`                   |
+| Hallucination Guard | 不存在的 script、file、symbol、dependency、config key、env reference                          | `repair` / `block`                       |
+| Regression Guard    | fragile module 或历史 bug pattern 命中，但缺少 required regression test evidence              | `run-regression-tests` / `human-review`  |
+
+orchestrator 会在 finalize 之前先消费这些 gates。blocking gate 会把下一步变成 `repack`、`repair`、`rollback`、`block` 或 `require-human-review`；gate 通过后才允许继续收口。
+
 ## Context Guard
 
 Context Guard 负责任务级上下文增强。它不把整个仓库塞给 Agent，而是先扫描、索引、构图、排序，再按任务生成最小上下文包。

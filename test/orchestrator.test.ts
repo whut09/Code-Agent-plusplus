@@ -30,8 +30,10 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.mock.json")));
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "iteration.json")));
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.findings.json")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.gates.json")));
     assert.match(rendered, /# Harness Orchestrator/);
     assert.match(rendered, /## Evidence Summary/);
+    assert.match(rendered, /## Guard Gates/);
     assert.match(rendered, /Decision: finalize/);
 
     const executorArtifact = JSON.parse(
@@ -71,6 +73,14 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
     assert.equal(guardArtifact.kind, "guard-findings");
     assert.equal(guardArtifact.summary.total, guardArtifact.findings.length);
     assert.ok(guardArtifact.findings.every((finding) => finding.schemaVersion === "code-agent-plusplus.guard-finding.v1"));
+
+    const gateArtifact = JSON.parse(
+      readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.gates.json"), "utf8")
+    ) as { schemaVersion: string; kind: string; summary: { total: number }; gates: Array<{ guard: string; action: string; condition: string }> };
+    assert.equal(gateArtifact.schemaVersion, "code-agent-plusplus.guard-gates.v1");
+    assert.equal(gateArtifact.kind, "guard-gates");
+    assert.equal(gateArtifact.summary.total, gateArtifact.gates.length);
+    assert.ok(gateArtifact.gates.every((gate) => gate.guard && gate.action && gate.condition));
 
     const trace = readExecutionTrace(root, report.traceId);
     assert.ok(trace);

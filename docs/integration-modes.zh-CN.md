@@ -119,6 +119,7 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 - `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json` - 执行 trace 的 schema wrapper 和可信证据摘要
 - `.agent-context/runs/<task-id>/iterations/<nnn>/guard.findings.json` - policy、hallucination、regression checks 的统一 `GuardFinding` 记录
+- `.agent-context/runs/<task-id>/iterations/<nnn>/guard.gates.json` - orchestrator decision 消费的阻断型 Guard gates 和 required actions
 - `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/verify.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/loop.json`

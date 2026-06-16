@@ -351,13 +351,14 @@ build/refresh pack
   diff.patch
   trace.json
   guard.findings.json
+  guard.gates.json
   policy.json
   verify.json
   loop.json
   decision.json
 ```
 
-`iteration.json` 是当前轮次目录的稳定索引。`executor.result.json` 记录 executor 命令、exit code、hash、变更文件和归一化事件摘要。`trace.json` 是执行 trace 的 schema wrapper，并汇总可信命令/测试证据。`guard.findings.json` 将 policy、hallucination、regression findings 统一成 `GuardFinding` schema。`decision.json` 记录最终 action、priority、confidence、blocking 状态和输入信号。
+`iteration.json` 是当前轮次目录的稳定索引。`executor.result.json` 记录 executor 命令、exit code、hash、变更文件和归一化事件摘要。`trace.json` 是执行 trace 的 schema wrapper，并汇总可信命令/测试证据。`guard.findings.json` 将 policy、hallucination、regression findings 统一成 `GuardFinding` schema。`guard.gates.json` 会把 Guard findings 转成阻断条件和 required actions。`decision.json` 记录最终 action、priority、confidence、blocking 状态和输入信号。
 
 `executor.events.jsonl` 保存归一化后的 `AgentEvent` 记录。OpenCode 当前支持 `opencode run --format json` stdout、可选 transcript 文件，以及普通 stdout/stderr fallback；后续 MiMoCode、Codex、Claude Code、Cursor adapter 也会输出同一套事件模型。
 

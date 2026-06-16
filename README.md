@@ -228,6 +228,7 @@ code-agent-plusplus drift .
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
 | Hallucination Guard MVP                              | implemented foundation |
 | Regression Guard MVP                                 | implemented foundation |
+| Guard Gates / blocking actions                       | implemented            |
 | multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | git-worktree executor sandbox                        | implemented            |
 | `agent run` executor wrapper                         | implemented            |
@@ -337,6 +338,7 @@ code-agent-plusplus orchestrate "fix a small bug" . \
 - `.agent-context/runs/<task-id>/iterations/001/executor.result.json`：executor、命令、exit code、stdout/stderr hash、working tree hash、归一化事件数量。
 - `.agent-context/runs/<task-id>/iterations/001/trace.json`：trace wrapper，说明测试/命令证据是否来自 command evidence，是否可信。
 - `.agent-context/runs/<task-id>/iterations/001/guard.findings.json`：统一 GuardFinding schema，聚合 policy、hallucination、regression findings。
+- `.agent-context/runs/<task-id>/iterations/001/guard.gates.json`：阻断型 Guard gates 和必须执行的动作，例如 `repack`、`repair`、`rollback` 或 `human-review`。
 - `.agent-context/runs/<task-id>/iterations/001/decision.json`：decision、priority、blocking、confidence、输入信号和下一步建议。
 - `.agent-context/runs/<task-id>/iterations/001/diff.patch`：Agent 实际改动。
 

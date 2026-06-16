@@ -234,6 +234,7 @@ After the run, inspect:
 - `.agent-context/runs/<task-id>/iterations/001/executor.result.json`: executor, command, exit code, stdout/stderr hashes, working-tree hash, and normalized event count.
 - `.agent-context/runs/<task-id>/iterations/001/trace.json`: trace wrapper showing whether test/command evidence came from command evidence and whether it is trustworthy.
 - `.agent-context/runs/<task-id>/iterations/001/guard.findings.json`: unified `GuardFinding` schema that aggregates policy, hallucination, and regression findings.
+- `.agent-context/runs/<task-id>/iterations/001/guard.gates.json`: blocking Guard gates and their required action, such as `repack`, `repair`, `rollback`, or `human-review`.
 - `.agent-context/runs/<task-id>/iterations/001/decision.json`: decision, priority, blocking flag, confidence, input signals, and next-step guidance.
 - `.agent-context/runs/<task-id>/iterations/001/diff.patch`: the actual executor changes.
 
@@ -252,6 +253,7 @@ When `--checkpoint git-worktree` is enabled, Code Agent++ creates a temporary gi
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
 | Hallucination Guard MVP                              | implemented foundation |
 | Regression Guard MVP                                 | implemented foundation |
+| Guard Gates / blocking actions                       | implemented            |
 | multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | git-worktree executor sandbox                        | implemented            |
 | `agent run` executor wrapper                         | implemented            |

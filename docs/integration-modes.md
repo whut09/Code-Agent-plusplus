@@ -121,6 +121,7 @@ Artifacts:
 - `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json` - schema wrapper around the normalized execution trace and trusted evidence summary
 - `.agent-context/runs/<task-id>/iterations/<nnn>/guard.findings.json` - unified `GuardFinding` records from policy, hallucination, and regression checks
+- `.agent-context/runs/<task-id>/iterations/<nnn>/guard.gates.json` - blocking Guard gates and required actions consumed by the orchestrator decision
 - `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/verify.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/loop.json`
