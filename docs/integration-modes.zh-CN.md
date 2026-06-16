@@ -136,7 +136,7 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 - 可以保证每次执行后都收集 diff、trace 和 executor 事件。
 - 可以保证通过 Guard findings、policy / contracts / tests / impact / verify 生成统一 gate。
 - 可以保证输出明确 decision：`finalize`、`repair`、`repack`、`block`、`rollback` 或 `require-human-review`。
-- `--checkpoint git-worktree` 会在 executor loop 开始前写入源码 diff checkpoint。Code Agent++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
+- `--checkpoint git-worktree` 会在系统临时目录创建 git worktree sandbox，让 executor 在隔离 checkout 中运行，把每轮 patch 导出回 `.agent-context/runs/<task-id>/iterations/<nnn>/`，然后 discard worktree。Code Agent++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
 - 不能保证外部 executor 本身一定能正确改代码；它保证的是执行后的验收和下一步决策可审计。
 
 ## 选择建议

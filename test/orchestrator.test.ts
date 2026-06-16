@@ -138,6 +138,9 @@ test("harness orchestrator writes multi-loop iteration artifacts before max-loop
     });
 
     assert.equal(result.report.executor, "opencode");
+    assert.equal(result.report.sandbox.mode, "git-worktree");
+    assert.equal(result.report.sandbox.discarded, true);
+    assert.equal(existsSync(result.report.sandbox.root), false);
     assert.equal(result.report.iterations.length, 2);
     assert.equal(result.report.iterations[0]?.decision.action, "repack");
     assert.equal(result.report.decision.action, "require-human-review");
@@ -145,6 +148,8 @@ test("harness orchestrator writes multi-loop iteration artifacts before max-loop
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "prompt.md")));
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.events.jsonl")));
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "002", "decision.json")));
+    assert.match(readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "diff.opencode.patch"), "utf8"), /fixed/);
+    assert.match(readFileSync(path.join(root, "src", "auth", "session.ts"), "utf8"), /return 'ok'/);
     const secondPrompt = readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "002", "prompt.md"), "utf8");
     assert.match(secondPrompt, /Previous harness decision/);
     assert.match(secondPrompt, /Action: repack/);

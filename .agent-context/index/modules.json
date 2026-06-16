@@ -37,9 +37,10 @@
     ],
     "imports": [
       "core",
-      "integrations"
+      "integrations",
+      "sandbox"
     ],
-    "summary": "outputs contains 31 files and depends on core, integrations.",
+    "summary": "outputs contains 31 files and depends on core, integrations, sandbox.",
     "importanceScore": 1710
   },
   {
@@ -263,6 +264,20 @@
     ],
     "summary": "cli contains 2 files and depends on benchmarks, config, core, integrations, outputs, retrievers.",
     "importanceScore": 116
+  },
+  {
+    "name": "sandbox",
+    "pathPrefix": "sandbox",
+    "files": [
+      "src/sandbox/git-worktree-sandbox.ts",
+      "src/sandbox/host-sandbox.ts",
+      "src/sandbox/sandbox-adapter.ts"
+    ],
+    "imports": [
+      "core"
+    ],
+    "summary": "sandbox contains 3 files and depends on core.",
+    "importanceScore": 111
   },
   {
     "name": "test/fixtures/monorepo/packages/api",

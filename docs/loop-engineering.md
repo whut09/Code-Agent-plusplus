@@ -186,7 +186,7 @@ Each loop writes a durable iteration directory:
 
 `executor.events.jsonl` stores normalized `AgentEvent` records. OpenCode currently supports `opencode run --format json` stdout, optional transcript files, and generic stdout/stderr fallback; later executor adapters can produce the same event model for MiMoCode, Codex, Claude Code, and Cursor.
 
-`repair` and `repack` continue until a blocking/final decision or `--max-loops` is reached. `--checkpoint git-worktree` writes a source-diff checkpoint before the executor loops; rollback decisions are recorded, but destructive working-tree rollback is intentionally not automatic.
+`repair` and `repack` continue until a blocking/final decision or `--max-loops` is reached. `--checkpoint git-worktree` now creates a temporary git worktree sandbox for executor edits, exports patches back to the host run directory, and discards the sandbox after the final gate. Rollback decisions are recorded, but destructive working-tree rollback is intentionally not automatic.
 
 ## CLI Surface
 

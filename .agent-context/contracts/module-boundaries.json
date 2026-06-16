@@ -13,7 +13,8 @@
         "src/config/**",
         "src/core/**",
         "src/integrations/**",
-        "src/outputs/**"
+        "src/outputs/**",
+        "src/sandbox/**"
       ],
       "forbiddenImports": [
         "**/*.generated.*",
@@ -27,7 +28,8 @@
       ],
       "observedImports": [
         "core",
-        "integrations"
+        "integrations",
+        "sandbox"
       ],
       "publicFiles": [
         "src/outputs/agent-events.ts",
@@ -395,6 +397,36 @@
       "publicFiles": [
         "src/cli/index.ts",
         "src/cli/task-args.ts"
+      ]
+    },
+    "sandbox": {
+      "owns": [
+        "src/sandbox/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "src/sandbox/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core"
+      ],
+      "publicFiles": [
+        "src/sandbox/git-worktree-sandbox.ts",
+        "src/sandbox/host-sandbox.ts",
+        "src/sandbox/sandbox-adapter.ts"
       ]
     },
     "test/fixtures/monorepo/packages/api": {

@@ -229,6 +229,7 @@ code-agent-plusplus drift .
 | Hallucination Guard MVP                              | implemented foundation |
 | Regression Guard MVP                                 | implemented foundation |
 | multi-loop harness orchestrator / `orchestrate`      | implemented            |
+| git-worktree executor sandbox                        | implemented            |
 | `agent run` executor wrapper                         | implemented            |
 | mock executor                                        | implemented            |
 | generic executor command adapter                     | implemented            |
@@ -338,6 +339,8 @@ code-agent-plusplus orchestrate "fix a small bug" . \
 - `.agent-context/runs/<task-id>/iterations/001/guard.findings.json`：统一 GuardFinding schema，聚合 policy、hallucination、regression findings。
 - `.agent-context/runs/<task-id>/iterations/001/decision.json`：decision、priority、blocking、confidence、输入信号和下一步建议。
 - `.agent-context/runs/<task-id>/iterations/001/diff.patch`：Agent 实际改动。
+
+启用 `--checkpoint git-worktree` 时，Code Agent++ 会创建临时 git worktree sandbox，让 executor 在隔离目录里修改代码；主仓库不会被 Agent 直接污染。每轮结束后会导出 patch，验收通过时提示人工或 CI apply patch，失败时 discard worktree。
 
 `policy --fail-on` 支持三档 CI 阈值：
 

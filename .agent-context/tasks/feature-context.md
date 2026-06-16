@@ -1,7 +1,7 @@
 # Task Context: add a feature or new behavior
 
 Type: feature
-Budget: 6,892 / 12,000 estimated tokens
+Budget: 6,953 / 12,000 estimated tokens
 
 ## Read First
 1. `src/benchmarks/agent-benchmark.ts` - lexical match: behavior, direct importer of src/benchmarks/benchmark.ts; defines AgentBenchmarkFinalDecision
@@ -51,9 +51,9 @@ Budget: 6,892 / 12,000 estimated tokens
 | `src/outputs/execution-trace.ts` | dependency-neighbor | 330 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports. |
 | `src/outputs/hallucination-guard.ts` | dependency-neighbor | 467 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/hallucination-guard.ts contains 106 detected symbols, 6 imports, 8 exports. |
 | `src/outputs/task-run.ts` | dependency-neighbor | 203 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/task-run.ts contains 43 detected symbols, 11 imports, 4 exports. |
-| `src/outputs/orchestrator.ts` | dependency-neighbor | 563 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/orchestrator.ts contains 119 detected symbols, 19 imports, 12 exports. |
+| `src/outputs/orchestrator.ts` | dependency-neighbor | 605 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/orchestrator.ts contains 130 detected symbols, 22 imports, 12 exports. |
 | `src/outputs/test-selector.ts` | dependency-neighbor | 249 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/test-selector.ts contains 50 detected symbols, 4 imports, 4 exports. |
-| `src/outputs/writer.ts` | dependency-neighbor | 246 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/writer.ts contains 55 detected symbols, 19 imports, 2 exports. |
+| `src/outputs/writer.ts` | dependency-neighbor | 265 | direct dependency of src/benchmarks/agent-benchmark.ts | src/outputs/writer.ts contains 61 detected symbols, 19 imports, 2 exports. |
 | `src/core/safe-command.ts` | dependency-neighbor | 158 | direct dependency of src/benchmarks/agent-benchmark.ts | src/core/safe-command.ts contains 26 detected symbols, 1 import, 5 exports. |
 | `src/core/types.ts` | dependency-neighbor | 300 | direct dependency of src/benchmarks/benchmark.ts | src/core/types.ts contains 35 detected symbols, 0 imports, 35 exports. |
 | `src/outputs/task-context.ts` | dependency-neighbor | 260 | direct dependency of src/benchmarks/benchmark.ts | src/outputs/task-context.ts contains 67 detected symbols, 4 imports, 3 exports. |
@@ -66,27 +66,27 @@ Budget: 6,892 / 12,000 estimated tokens
 | `benchmarks/fixtures/react-app/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/react-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
-| `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
+| `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
 | `.env.example` | config-doc | 25 | configuration | .env.example is a config file. |
 | `code-agent-plusplus.config.yml` | config-doc | 38 | configuration | code-agent-plusplus.config.yml is a config file written as YAML. |
 | `tsconfig.json` | config-doc | 34 | configuration | tsconfig.json is a config file written as JSON. |
 | `.github/workflows/ci.yml` | config-doc | 35 | configuration | .github/workflows/ci.yml is a config file written as YAML. |
 | `benchmarks/fixtures/monorepo/packages/api/README.md` | config-doc | 48 | owning module documentation | benchmarks/fixtures/monorepo/packages/api/README.md is a docs file written as Markdown. |
 | `benchmarks/README.md` | config-doc | 28 | owning module documentation | benchmarks/README.md is a docs file written as Markdown. |
-| `benchmarks/fixtures/monorepo/packages/web/README.md` | config-doc | 44 | owning module documentation | benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown. |
 | `benchmarks/fixtures/monorepo/packages/config/README.md` | config-doc | 45 | owning module documentation | benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown. |
+| `benchmarks/fixtures/monorepo/packages/web/README.md` | config-doc | 44 | owning module documentation | benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown. |
 
 ## Budget Packing
 | Bucket | Tokens | Files |
 | --- | --- | --- |
 | Directly relevant source files | 816 | `src/benchmarks/agent-benchmark.ts`, `src/benchmarks/benchmark.ts` |
 | Tests | 552 | `test/agent-benchmark.test.ts`, `test/benchmark.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` |
-| Dependency neighbors | 4,191 | `src/core/context-builder.ts`, `src/outputs/markdown.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts`, `src/outputs/regression-guard.ts`, `src/outputs/execution-trace.ts`, `src/outputs/hallucination-guard.ts`, `src/outputs/task-run.ts`, `src/outputs/orchestrator.ts`, `src/outputs/test-selector.ts`, `src/outputs/writer.ts`, `src/core/safe-command.ts`, `src/core/types.ts`, `src/outputs/task-context.ts`, `src/outputs/agent-events.ts`, `src/core/git.ts` |
-| Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md` |
+| Dependency neighbors | 4,252 | `src/core/context-builder.ts`, `src/outputs/markdown.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts`, `src/outputs/regression-guard.ts`, `src/outputs/execution-trace.ts`, `src/outputs/hallucination-guard.ts`, `src/outputs/task-run.ts`, `src/outputs/orchestrator.ts`, `src/outputs/test-selector.ts`, `src/outputs/writer.ts`, `src/core/safe-command.ts`, `src/core/types.ts`, `src/outputs/task-context.ts`, `src/outputs/agent-events.ts`, `src/core/git.ts` |
+| Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md` |
 | Entrypoints | 654 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 5,108 estimated tokens
+Remaining budget: 5,047 estimated tokens
 
 ## Suggested Commands
 - npm run test -- feature

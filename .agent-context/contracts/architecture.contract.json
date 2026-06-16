@@ -112,9 +112,10 @@
       ],
       "imports": [
         "core",
-        "integrations"
+        "integrations",
+        "sandbox"
       ],
-      "summary": "outputs contains 31 files and depends on core, integrations."
+      "summary": "outputs contains 31 files and depends on core, integrations, sandbox."
     },
     {
       "name": "test",
@@ -221,6 +222,16 @@
         "retrievers"
       ],
       "summary": "cli contains 2 files and depends on benchmarks, config, core, integrations, outputs, retrievers."
+    },
+    {
+      "name": "sandbox",
+      "owns": [
+        "src/sandbox/**"
+      ],
+      "imports": [
+        "core"
+      ],
+      "summary": "sandbox contains 3 files and depends on core."
     },
     {
       "name": "test/fixtures/monorepo/packages/api",

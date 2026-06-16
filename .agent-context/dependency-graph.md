@@ -27,9 +27,11 @@ graph TD
   mcp["mcp"] --> retrievers["retrievers"]
   outputs["outputs"] --> core["core"]
   outputs["outputs"] --> integrations["integrations"]
+  outputs["outputs"] --> sandbox["sandbox"]
   retrievers["retrievers"] --> core["core"]
   retrievers["retrievers"] --> integrations["integrations"]
   retrievers["retrievers"] --> outputs["outputs"]
+  sandbox["sandbox"] --> core["core"]
   test["test"] --> analyzers["analyzers"]
   test["test"] --> benchmarks["benchmarks"]
   test["test"] --> cli["cli"]
@@ -69,9 +71,11 @@ graph TD
 | mcp | retrievers | 2 |
 | outputs | core | 49 |
 | outputs | integrations | 2 |
+| outputs | sandbox | 3 |
 | retrievers | core | 4 |
 | retrievers | integrations | 1 |
 | retrievers | outputs | 2 |
+| sandbox | core | 4 |
 | test | analyzers | 3 |
 | test | benchmarks | 2 |
 | test | cli | 1 |

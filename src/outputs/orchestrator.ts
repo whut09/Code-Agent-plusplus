@@ -4,7 +4,10 @@ import path from "node:path";
 import type { ContextPackage, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { changedFilesSince, runGit } from "../core/git.js";
-import { runSafeCommand, shellQuote } from "../core/safe-command.js";
+import { shellQuote } from "../core/safe-command.js";
+import { GitWorktreeSandboxAdapter } from "../sandbox/git-worktree-sandbox.js";
+import { HostSandboxAdapter } from "../sandbox/host-sandbox.js";
+import type { ExecResult, SandboxAdapter, SandboxHandle } from "../sandbox/sandbox-adapter.js";
 import { normalizeAgentEvents, type AgentEvent } from "./agent-events.js";
 import { writeContextPackage } from "./writer.js";
 import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport, type HallucinationGuardReport } from "./hallucination-guard.js";
@@ -47,11 +50,14 @@ export interface HarnessOrchestratorOptions {
 
 export interface AgentExecutorInput {
   repo: string;
+  hostRepo: string;
   task: string;
   prompt: string;
   runDir: string;
   runId: string;
   base: string;
+  sandbox: SandboxAdapter;
+  sandboxHandle: SandboxHandle;
   agent?: string;
   executorCommand?: string;
   dryRun?: boolean;
@@ -75,6 +81,8 @@ export interface AgentExecutorResult {
   normalizedEventsPath?: string;
   normalizedEventsCount?: number;
   normalizerSource?: string;
+  sandboxMode?: SandboxHandle["mode"];
+  sandboxRoot?: string;
 }
 
 export interface HarnessOrchestratorReport {
@@ -110,6 +118,12 @@ export interface HarnessOrchestratorReport {
     checkpointFile?: string;
     diffFile?: string;
   };
+  sandbox: {
+    mode: SandboxHandle["mode"];
+    root: string;
+    discarded: boolean;
+    initialPatch: boolean;
+  };
 }
 
 export interface OrchestratorIterationReport {
@@ -129,7 +143,7 @@ export interface HarnessOrchestratorWriteResult {
   files: string[];
 }
 
-type AgentExecutor = (input: AgentExecutorInput) => AgentExecutorResult;
+type AgentExecutor = (input: AgentExecutorInput) => Promise<AgentExecutorResult>;
 
 interface IterationArtifactInput {
   runId: string;
@@ -159,204 +173,239 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
   const dir = path.join(root, ".agent-context", "orchestrator", taskRun.runId);
   mkdirSync(dir, { recursive: true });
   const checkpoint = createCheckpoint(root, taskRun.runId, taskRun.dir, options.checkpoint ?? "none");
+  const sandbox = createSandboxAdapter(options.checkpoint ?? "none");
+  const sandboxHandle = await sandbox.prepare(taskRun.runId, root);
+  let sandboxDiscarded = sandboxHandle.mode === "host";
   const iterations: OrchestratorIterationReport[] = [];
   let previousDecision: HarnessOrchestratorReport["decision"] | undefined;
   let latestContext = preContext;
+  if (sandboxHandle.mode === "git-worktree") {
+    latestContext = await buildContextPackage(sandboxHandle.root);
+    writeContextPackage(latestContext);
+    writeTaskRun(latestContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
+    mirrorTraceForEvaluation(root, sandboxHandle.root, taskRun.runId);
+  }
   let latestExecutorResult: AgentExecutorResult | undefined;
   let latestPolicy: PolicyEngineReport | undefined;
   let latestLoop: LoopControllerReport | undefined;
   let latestChangedFiles: string[] = [];
   let latestDecision: HarnessOrchestratorReport["decision"] | undefined;
 
-  for (let loopIndex = 1; loopIndex <= maxLoops; loopIndex += 1) {
-    if (loopIndex > 1 || previousDecision?.action === "repack") {
-      latestContext = await buildContextPackage(root);
-      writeContextPackage(latestContext);
-      writeTaskRun(latestContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
+  try {
+    for (let loopIndex = 1; loopIndex <= maxLoops; loopIndex += 1) {
+      if (loopIndex > 1 || previousDecision?.action === "repack") {
+        latestContext = await buildContextPackage(sandboxHandle.root);
+        writeContextPackage(latestContext);
+        writeTaskRun(latestContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
+        mirrorTraceForEvaluation(root, sandboxHandle.root, taskRun.runId);
+      }
+
+      const iterationDir = path.join(taskRun.dir, "iterations", String(loopIndex).padStart(3, "0"));
+      mkdirSync(iterationDir, { recursive: true });
+      const prompt = buildExecutorPrompt(latestContext, taskRun, executorName, options, previousDecision, loopIndex);
+      const promptFile = write(path.join(iterationDir, "prompt.md"), prompt);
+      const executorResult = await executor({
+        repo: sandboxHandle.root,
+        hostRepo: root,
+        task,
+        prompt,
+        runDir: iterationDir,
+        runId: taskRun.runId,
+        base,
+        sandbox,
+        sandboxHandle,
+        agent: options.agent,
+        executorCommand: options.executorCommand,
+        dryRun: options.dryRun
+      });
+
+      const normalized = normalizeAgentEvents({
+        executor: executorName,
+        stdout: executorResult.stdout,
+        stderr: executorResult.stderr,
+        repo: sandboxHandle.root,
+        transcriptPath: options.opencodeTranscript,
+        startedAt: executorResult.startedAt,
+        finishedAt: executorResult.finishedAt,
+        exitCode: executorResult.exitCode
+      });
+      const normalizedEventsPath = writeAgentEvents(iterationDir, normalized.events);
+      executorResult.normalizedEventsPath = path.relative(root, normalizedEventsPath).replaceAll("\\", "/");
+      executorResult.normalizedEventsCount = normalized.events.length;
+      executorResult.normalizerSource = normalized.source;
+
+      appendAgentEventsToTrace(root, taskRun.runId, executorName, normalized.events);
+      appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex, normalized.warnings);
+      mirrorTraceForEvaluation(root, sandboxHandle.root, taskRun.runId);
+
+      const postContext = await buildContextPackage(sandboxHandle.root);
+      const hallucination = buildHallucinationReport(postContext, { base, traceId: taskRun.runId, task });
+      writeHallucinationReport(postContext, hallucination);
+      const regression = buildRegressionReport(postContext, { base, traceId: taskRun.runId, task });
+      writeRegressionReport(postContext, regression);
+      const changedFiles = collectChangedFiles(sandboxHandle.root, base);
+      const policy = buildPolicyReport(postContext, { base, traceId: taskRun.runId, failOn: options.failOn ?? "required" });
+      const verify = renderTaskVerify(postContext, { base, diff: true });
+      const loop = buildLoopControllerReport(postContext, task, {
+        phase: loopIndex === 1 ? "after-edit" : previousDecision?.action === "repair" ? "repair" : "after-edit",
+        base,
+        type: options.type ?? "auto",
+        tokenBudget: options.tokenBudget,
+        traceId: taskRun.runId
+      });
+      const guardFindings = buildGuardFindingsArtifact({
+        runId: taskRun.runId,
+        iteration: loopIndex,
+        policy,
+        hallucination,
+        regression
+      });
+      const decision = decideOrchestratorAction({
+        executorResult,
+        changedFiles,
+        policy,
+        loop,
+        checkpointMode: options.checkpoint ?? "none"
+      });
+      if (
+        loopIndex === maxLoops &&
+        decision.action !== "finalize" &&
+        decision.action !== "block" &&
+        decision.action !== "rollback" &&
+        decision.action !== "require-human-review"
+      ) {
+        latestDecision = maxLoopDecision(maxLoops, decision);
+      } else {
+        latestDecision = decision;
+      }
+
+      const iterationFiles = writeIterationArtifacts(root, iterationDir, {
+        runId: taskRun.runId,
+        iteration: loopIndex,
+        promptFile,
+        executorResult,
+        agentEvents: normalized.events,
+        hallucination,
+        regression,
+        policy,
+        verify,
+        loop,
+        decision: latestDecision,
+        guardFindings
+      });
+      const iterationReport: OrchestratorIterationReport = {
+        index: loopIndex,
+        dir: path.relative(root, iterationDir).replaceAll("\\", "/"),
+        promptFile: path.relative(root, promptFile).replaceAll("\\", "/"),
+        executorResult,
+        changedFiles,
+        policy: {
+          passed: policy.passed,
+          failOn: policy.failOn,
+          summary: policy.summary
+        },
+        loop: {
+          status: loop.status,
+          risk: loop.risk,
+          trace: loop.trace,
+          checks: loop.checks,
+          decisions: loop.decisions
+        },
+        decision: latestDecision,
+        files: iterationFiles.map((file) => path.relative(root, file).replaceAll("\\", "/"))
+      };
+      iterations.push(iterationReport);
+
+      latestContext = postContext;
+      latestExecutorResult = executorResult;
+      latestPolicy = policy;
+      latestLoop = loop;
+      latestChangedFiles = changedFiles;
+      previousDecision = latestDecision;
+
+      if (
+        latestDecision.action === "finalize" ||
+        latestDecision.action === "block" ||
+        latestDecision.action === "rollback" ||
+        latestDecision.action === "require-human-review"
+      ) {
+        break;
+      }
     }
 
-    const iterationDir = path.join(taskRun.dir, "iterations", String(loopIndex).padStart(3, "0"));
-    mkdirSync(iterationDir, { recursive: true });
-    const prompt = buildExecutorPrompt(latestContext, taskRun, executorName, options, previousDecision, loopIndex);
-    const promptFile = write(path.join(iterationDir, "prompt.md"), prompt);
-    const executorResult = executor({
-      repo: root,
+    if (!latestExecutorResult || !latestPolicy || !latestLoop || !latestDecision) {
+      throw new Error("Orchestrator loop did not produce an iteration.");
+    }
+
+    const report: HarnessOrchestratorReport = {
       task,
-      prompt,
-      runDir: iterationDir,
-      runId: taskRun.runId,
-      base,
-      agent: options.agent,
-      executorCommand: options.executorCommand,
-      dryRun: options.dryRun
-    });
-
-    const normalized = normalizeAgentEvents({
-      executor: executorName,
-      stdout: executorResult.stdout,
-      stderr: executorResult.stderr,
+      taskId: taskRun.runId,
       repo: root,
-      transcriptPath: options.opencodeTranscript,
-      startedAt: executorResult.startedAt,
-      finishedAt: executorResult.finishedAt,
-      exitCode: executorResult.exitCode
-    });
-    const normalizedEventsPath = writeAgentEvents(iterationDir, normalized.events);
-    executorResult.normalizedEventsPath = path.relative(root, normalizedEventsPath).replaceAll("\\", "/");
-    executorResult.normalizedEventsCount = normalized.events.length;
-    executorResult.normalizerSource = normalized.source;
-
-    appendAgentEventsToTrace(root, taskRun.runId, executorName, normalized.events);
-    appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex, normalized.warnings);
-
-    const postContext = await buildContextPackage(root);
-    const hallucination = buildHallucinationReport(postContext, { base, traceId: taskRun.runId, task });
-    writeHallucinationReport(postContext, hallucination);
-    const regression = buildRegressionReport(postContext, { base, traceId: taskRun.runId, task });
-    writeRegressionReport(postContext, regression);
-    const changedFiles = collectChangedFiles(root, base);
-    const policy = buildPolicyReport(postContext, { base, traceId: taskRun.runId, failOn: options.failOn ?? "required" });
-    const verify = renderTaskVerify(postContext, { base, diff: true });
-    const loop = buildLoopControllerReport(postContext, task, {
-      phase: loopIndex === 1 ? "after-edit" : previousDecision?.action === "repair" ? "repair" : "after-edit",
       base,
-      type: options.type ?? "auto",
-      tokenBudget: options.tokenBudget,
-      traceId: taskRun.runId
-    });
-    const guardFindings = buildGuardFindingsArtifact({
-      runId: taskRun.runId,
-      iteration: loopIndex,
-      policy,
-      hallucination,
-      regression
-    });
-    const decision = decideOrchestratorAction({
-      executorResult,
-      changedFiles,
-      policy,
-      loop,
-      checkpointMode: options.checkpoint ?? "none"
-    });
-    if (
-      loopIndex === maxLoops &&
-      decision.action !== "finalize" &&
-      decision.action !== "block" &&
-      decision.action !== "rollback" &&
-      decision.action !== "require-human-review"
-    ) {
-      latestDecision = maxLoopDecision(maxLoops, decision);
-    } else {
-      latestDecision = decision;
-    }
-
-    const iterationFiles = writeIterationArtifacts(root, iterationDir, {
-      runId: taskRun.runId,
-      iteration: loopIndex,
-      promptFile,
-      executorResult,
-      agentEvents: normalized.events,
-      hallucination,
-      regression,
-      policy,
-      verify,
-      loop,
-      decision: latestDecision,
-      guardFindings
-    });
-    const iterationReport: OrchestratorIterationReport = {
-      index: loopIndex,
-      dir: path.relative(root, iterationDir).replaceAll("\\", "/"),
-      promptFile: path.relative(root, promptFile).replaceAll("\\", "/"),
-      executorResult,
-      changedFiles,
+      executor: executorName,
+      runDir: path.relative(root, taskRun.dir).replaceAll("\\", "/"),
+      traceId: taskRun.runId,
+      maxLoops,
+      dryRun: Boolean(options.dryRun),
+      phases: ["plan", "pack", "execute", "collect", "evaluate", "decision"],
+      executorResult: latestExecutorResult,
+      changedFiles: latestChangedFiles,
+      iterations,
       policy: {
-        passed: policy.passed,
-        failOn: policy.failOn,
-        summary: policy.summary
+        passed: latestPolicy.passed,
+        failOn: latestPolicy.failOn,
+        summary: latestPolicy.summary
       },
       loop: {
-        status: loop.status,
-        risk: loop.risk,
-        trace: loop.trace,
-        checks: loop.checks,
-        decisions: loop.decisions
+        status: latestLoop.status,
+        risk: latestLoop.risk,
+        trace: latestLoop.trace,
+        checks: latestLoop.checks,
+        decisions: latestLoop.decisions
       },
       decision: latestDecision,
-      files: iterationFiles.map((file) => path.relative(root, file).replaceAll("\\", "/"))
+      artifacts: {
+        contextFiles: contextWrite.files.map((file) => path.relative(root, file).replaceAll("\\", "/")),
+        runFiles: taskRun.files.map((file) => path.relative(root, file).replaceAll("\\", "/")),
+        orchestratorFiles: [],
+        iterationFiles: iterations.flatMap((iteration) => iteration.files),
+        checkpointFile: checkpoint?.relativePath,
+        diffFile: latestExecutorResult.diffPath
+      },
+      sandbox: {
+        mode: sandboxHandle.mode,
+        root: sandboxHandle.root,
+        discarded: sandboxDiscarded,
+        initialPatch: Boolean(sandboxHandle.initialPatch)
+      }
     };
-    iterations.push(iterationReport);
 
-    latestContext = postContext;
-    latestExecutorResult = executorResult;
-    latestPolicy = policy;
-    latestLoop = loop;
-    latestChangedFiles = changedFiles;
-    previousDecision = latestDecision;
+    const impactMd = renderChangeImpactReport(latestContext, { base });
+    const verifyMd = renderTaskVerify(latestContext, { base, diff: true });
+    const loopMd = renderLoopControllerReport(latestLoop);
+    if (sandboxHandle.mode === "git-worktree") {
+      await sandbox.discard();
+      sandboxDiscarded = true;
+      report.sandbox.discarded = true;
+    }
 
-    if (
-      latestDecision.action === "finalize" ||
-      latestDecision.action === "block" ||
-      latestDecision.action === "rollback" ||
-      latestDecision.action === "require-human-review"
-    ) {
-      break;
+    const files = [
+      write(path.join(dir, "orchestrator.md"), renderOrchestratorReport(report)),
+      write(path.join(dir, "orchestrator.json"), JSON.stringify(report, null, 2)),
+      write(path.join(dir, "policy.md"), renderPolicyReport(latestPolicy)),
+      write(path.join(dir, "impact.md"), impactMd),
+      write(path.join(dir, "verify.md"), verifyMd),
+      write(path.join(dir, "loop.md"), loopMd)
+    ];
+    report.artifacts.orchestratorFiles = files.map((file) => path.relative(root, file).replaceAll("\\", "/"));
+    writeFileSync(path.join(dir, "orchestrator.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+
+    return { report, files };
+  } finally {
+    if (sandboxHandle.mode === "git-worktree" && !sandboxDiscarded) {
+      await sandbox.discard();
     }
   }
-
-  if (!latestExecutorResult || !latestPolicy || !latestLoop || !latestDecision) {
-    throw new Error("Orchestrator loop did not produce an iteration.");
-  }
-
-  const report: HarnessOrchestratorReport = {
-    task,
-    taskId: taskRun.runId,
-    repo: root,
-    base,
-    executor: executorName,
-    runDir: path.relative(root, taskRun.dir).replaceAll("\\", "/"),
-    traceId: taskRun.runId,
-    maxLoops,
-    dryRun: Boolean(options.dryRun),
-    phases: ["plan", "pack", "execute", "collect", "evaluate", "decision"],
-    executorResult: latestExecutorResult,
-    changedFiles: latestChangedFiles,
-    iterations,
-    policy: {
-      passed: latestPolicy.passed,
-      failOn: latestPolicy.failOn,
-      summary: latestPolicy.summary
-    },
-    loop: {
-      status: latestLoop.status,
-      risk: latestLoop.risk,
-      trace: latestLoop.trace,
-      checks: latestLoop.checks,
-      decisions: latestLoop.decisions
-    },
-    decision: latestDecision,
-    artifacts: {
-      contextFiles: contextWrite.files.map((file) => path.relative(root, file).replaceAll("\\", "/")),
-      runFiles: taskRun.files.map((file) => path.relative(root, file).replaceAll("\\", "/")),
-      orchestratorFiles: [],
-      iterationFiles: iterations.flatMap((iteration) => iteration.files),
-      checkpointFile: checkpoint?.relativePath,
-      diffFile: latestExecutorResult.diffPath
-    }
-  };
-
-  const files = [
-    write(path.join(dir, "orchestrator.md"), renderOrchestratorReport(report)),
-    write(path.join(dir, "orchestrator.json"), JSON.stringify(report, null, 2)),
-    write(path.join(dir, "policy.md"), renderPolicyReport(latestPolicy)),
-    write(path.join(dir, "impact.md"), renderChangeImpactReport(latestContext, { base })),
-    write(path.join(dir, "verify.md"), renderTaskVerify(latestContext, { base, diff: true })),
-    write(path.join(dir, "loop.md"), renderLoopControllerReport(latestLoop))
-  ];
-  report.artifacts.orchestratorFiles = files.map((file) => path.relative(root, file).replaceAll("\\", "/"));
-  writeFileSync(path.join(dir, "orchestrator.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
-
-  return { report, files };
 }
 
 export function renderOrchestratorReport(report: HarnessOrchestratorReport): string {
@@ -368,6 +417,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     `Executor: ${report.executor}`,
     `Decision: ${report.decision.action}`,
     `Base: ${report.base}`,
+    `Sandbox: ${report.sandbox.mode}${report.sandbox.discarded ? " (discarded)" : ""}`,
     "",
     heading(2, "Architecture Flow"),
     bullet(
@@ -388,6 +438,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
         ["Which agent executed?", report.executor],
         ["Which files changed?", report.changedFiles.length ? report.changedFiles.map(code).join(", ") : "none"],
         ["Which executor command ran?", report.executorResult.command ? code(report.executorResult.command) : "none"],
+        ["Where did the executor run?", report.sandbox.mode === "git-worktree" ? code(report.sandbox.root) : "host repository"],
         ["Normalized executor events", String(report.executorResult.normalizedEventsCount ?? 0)],
         ["Trusted test evidence", report.loop.trace.passedTestEvidence],
         ["Trace loaded", report.loop.trace.loaded ? "yes" : "no"],
@@ -400,6 +451,17 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
         ["Forbidden findings", String(report.policy.summary.forbidden)],
         ["Impact risk", report.loop.risk],
         ["Final decision", `${report.decision.action} - ${report.decision.reason}`]
+      ]
+    ),
+    "",
+    heading(2, "Sandbox"),
+    table(
+      ["Field", "Value"],
+      [
+        ["Mode", report.sandbox.mode],
+        ["Root", code(report.sandbox.root)],
+        ["Initial source patch applied", report.sandbox.initialPatch ? "yes" : "no"],
+        ["Discarded after export", report.sandbox.discarded ? "yes" : "no"]
       ]
     ),
     "",
@@ -471,7 +533,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
 }
 
 function createAgentExecutor(name: AgentExecutorName): AgentExecutor {
-  return (input) => {
+  return async (input) => {
     if (input.dryRun || name === "mock") return runMockExecutor(name, input);
     if (!input.executorCommand) {
       return {
@@ -479,14 +541,16 @@ function createAgentExecutor(name: AgentExecutorName): AgentExecutor {
         exitCode: 2,
         stdout: "",
         stderr: `No executor command configured for ${name}. Pass --executor-command with placeholders such as {prompt}, {task}, {repo}, and {runDir}.`,
-        changedFiles: collectChangedFiles(input.repo, input.base)
+        changedFiles: collectChangedFiles(input.repo, input.base),
+        sandboxMode: input.sandboxHandle.mode,
+        sandboxRoot: input.sandboxHandle.root
       };
     }
     return runShellExecutor(name, input);
   };
 }
 
-function runMockExecutor(name: AgentExecutorName, input: AgentExecutorInput): AgentExecutorResult {
+async function runMockExecutor(name: AgentExecutorName, input: AgentExecutorInput): Promise<AgentExecutorResult> {
   const startedAt = new Date().toISOString();
   const workingTreeHashBefore = currentWorkingTreeHash(input.repo);
   const eventsPath = path.join(input.runDir, "executor.mock.json");
@@ -504,7 +568,7 @@ function runMockExecutor(name: AgentExecutorName, input: AgentExecutorInput): Ag
     )}\n`,
     "utf8"
   );
-  const diffPath = writeDiffSnapshot(input.repo, input.runDir, "mock");
+  const diffPath = writePatchSnapshot(input.hostRepo, input.runDir, "mock", await input.sandbox.exportPatch());
   const finishedAt = new Date().toISOString();
   const workingTreeHashAfter = currentWorkingTreeHash(input.repo);
   const stdout = "mock executor completed without editing files";
@@ -512,7 +576,7 @@ function runMockExecutor(name: AgentExecutorName, input: AgentExecutorInput): Ag
   return {
     executor: name,
     exitCode: 0,
-    eventsPath: path.relative(input.repo, eventsPath).replaceAll("\\", "/"),
+    eventsPath: path.relative(input.hostRepo, eventsPath).replaceAll("\\", "/"),
     stdout,
     stderr,
     changedFiles: collectChangedFiles(input.repo, input.base),
@@ -522,21 +586,19 @@ function runMockExecutor(name: AgentExecutorName, input: AgentExecutorInput): Ag
     stdoutHash: hashText(stdout),
     stderrHash: hashText(stderr),
     workingTreeHashBefore,
-    workingTreeHashAfter
+    workingTreeHashAfter,
+    sandboxMode: input.sandboxHandle.mode,
+    sandboxRoot: input.sandboxHandle.root
   };
 }
 
-function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): AgentExecutorResult {
+async function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): Promise<AgentExecutorResult> {
   const command = expandExecutorCommand(input.executorCommand ?? "", input);
   const startedHash = currentWorkingTreeHash(input.repo);
   const startedAt = new Date().toISOString();
-  let result: ReturnType<typeof runSafeCommand>;
+  let result: ExecResult;
   try {
-    result = runSafeCommand(command, {
-      cwd: input.repo,
-      encoding: "utf8",
-      maxBuffer: 20 * 1024 * 1024
-    });
+    result = await input.sandbox.execute(command);
   } catch (error) {
     result = {
       command,
@@ -553,7 +615,7 @@ function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): A
   const stdout = result.stdout;
   const stderr = result.stderr;
   const exitCode = result.status;
-  const eventsPath = writeExecutorEvents(input.repo, input.runDir, name, {
+  const eventsPath = writeExecutorEvents(input.hostRepo, input.runDir, name, {
     command,
     exitCode,
     startedAt,
@@ -563,7 +625,7 @@ function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): A
     stdoutHash: hashText(stdout),
     stderrHash: hashText(stderr)
   });
-  const diffPath = writeDiffSnapshot(input.repo, input.runDir, name);
+  const diffPath = writePatchSnapshot(input.hostRepo, input.runDir, name, await input.sandbox.exportPatch());
 
   return {
     executor: name,
@@ -579,7 +641,9 @@ function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): A
     stdoutHash: hashText(stdout),
     stderrHash: hashText(stderr),
     workingTreeHashBefore: startedHash,
-    workingTreeHashAfter: finishedHash
+    workingTreeHashAfter: finishedHash,
+    sandboxMode: input.sandboxHandle.mode,
+    sandboxRoot: input.sandboxHandle.root
   };
 }
 
@@ -796,7 +860,8 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
       command: input.executorResult.command,
       changedFiles: input.executorResult.changedFiles,
       events: input.executorResult.normalizedEventsCount ?? input.agentEvents.length,
-      normalizerSource: input.executorResult.normalizerSource ?? "unknown"
+      normalizerSource: input.executorResult.normalizerSource ?? "unknown",
+      sandboxMode: input.executorResult.sandboxMode ?? "host"
     },
     executorResult: input.executorResult
   };
@@ -943,6 +1008,10 @@ function createCheckpoint(root: string, runId: string, runDir: string, mode: Orc
   return { relativePath: path.relative(root, filePath).replaceAll("\\", "/") };
 }
 
+function createSandboxAdapter(mode: OrchestratorCheckpointMode): SandboxAdapter {
+  return mode === "git-worktree" ? new GitWorktreeSandboxAdapter() : new HostSandboxAdapter();
+}
+
 function decision(
   action: OrchestratorDecision,
   blocking: boolean,
@@ -983,22 +1052,18 @@ function writeExecutorEvents(root: string, runDir: string, executor: AgentExecut
   return path.relative(root, filePath).replaceAll("\\", "/");
 }
 
-function writeDiffSnapshot(root: string, runDir: string, executor: AgentExecutorName): string {
+function writePatchSnapshot(hostRoot: string, runDir: string, executor: AgentExecutorName, patch: string): string {
   const filePath = path.join(runDir, `diff.${executor}.patch`);
-  let diff = "";
-  try {
-    diff = runGit(root, ["diff", "--binary"]);
-  } catch (error) {
-    diff = `Unable to capture diff: ${error instanceof Error ? error.message : String(error)}\n`;
-  }
-  writeFileSync(filePath, diff, "utf8");
-  return path.relative(root, filePath).replaceAll("\\", "/");
+  writeFileSync(filePath, patch, "utf8");
+  return path.relative(hostRoot, filePath).replaceAll("\\", "/");
 }
 
 function collectChangedFiles(root: string, base: string): string[] {
   const files = new Set<string>();
   try {
-    for (const file of changedFilesSince(root, base)) files.add(file);
+    for (const file of changedFilesSince(root, base)) {
+      if (!isHarnessGeneratedPath(file)) files.add(file);
+    }
   } catch {
     // Status-only collection below still captures useful local evidence.
   }
@@ -1006,12 +1071,26 @@ function collectChangedFiles(root: string, base: string): string[] {
     for (const line of runGit(root, ["status", "--porcelain", "--untracked-files=all"]).split(/\r?\n/)) {
       if (line.length <= 3) continue;
       const file = line.slice(3).trim().replace(/\\/g, "/").split(" -> ").pop();
-      if (file) files.add(file);
+      if (file && !isHarnessGeneratedPath(file)) files.add(file);
     }
   } catch {
     return [...files].sort();
   }
   return [...files].sort();
+}
+
+function mirrorTraceForEvaluation(hostRoot: string, evaluationRoot: string, traceId: string): void {
+  if (path.resolve(hostRoot) === path.resolve(evaluationRoot)) return;
+  const trace = readExecutionTrace(hostRoot, traceId);
+  if (!trace) return;
+  const traceDir = path.join(evaluationRoot, ".agent-context", "traces");
+  mkdirSync(traceDir, { recursive: true });
+  writeFileSync(path.join(traceDir, `${traceId}.json`), `${JSON.stringify(trace, null, 2)}\n`, "utf8");
+}
+
+function isHarnessGeneratedPath(filePath: string): boolean {
+  const normalized = filePath.replace(/\\/g, "/");
+  return normalized === "AGENTS.md" || normalized.startsWith(".agent-context/");
 }
 
 function write(filePath: string, content: string): string {

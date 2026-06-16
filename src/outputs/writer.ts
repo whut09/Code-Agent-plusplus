@@ -127,7 +127,7 @@ export function writeContextPackage(context: ContextPackage): WriteResult {
 }
 
 function rewriteJson(filePath: string, value: unknown): void {
-  writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+  writeTextFile(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
 function measureActualOutputs(
@@ -202,7 +202,7 @@ function ensureManualAgentsLayer(root: string, manualSources: string[], written:
   }
 
   const migrated = extractManualContent(existing);
-  writeFileSync(primaryManualPath, `${migrated.trim()}\n`, "utf8");
+  writeTextFile(primaryManualPath, `${migrated.trim()}\n`);
   written.push(primaryManualPath);
 }
 
@@ -298,7 +298,7 @@ function removeGeneratedPath(contextDir: string, relativePath: string): void {
 
 function write(baseDir: string, fileName: string, content: string, written: string[]): void {
   const filePath = path.join(baseDir, fileName);
-  writeFileSync(filePath, `${content.trim()}\n`, "utf8");
+  writeTextFile(filePath, `${content.trim()}\n`);
   written.push(filePath);
 }
 
@@ -335,6 +335,30 @@ function sanitizeIndexedFile(file: ContextPackage["index"]["files"][number]): Om
   const { absolutePath, ...safeFile } = file;
   void absolutePath;
   return safeFile;
+}
+
+function writeTextFile(filePath: string, content: string): void {
+  const maxAttempts = 5;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      writeFileSync(filePath, content, "utf8");
+      return;
+    } catch (error) {
+      if (attempt === maxAttempts || !isRetryableWriteError(error)) throw error;
+      sleepSync(40 * attempt);
+    }
+  }
+}
+
+function isRetryableWriteError(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+  const code = "code" in error ? String((error as { code?: unknown }).code) : "";
+  return code === "UNKNOWN" || code === "EPERM" || code === "EACCES" || code === "EBUSY";
+}
+
+function sleepSync(ms: number): void {
+  const view = new Int32Array(new SharedArrayBuffer(4));
+  Atomics.wait(view, 0, 0, ms);
 }
 
 function dedupe<T>(items: T[]): T[] {

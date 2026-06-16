@@ -182,9 +182,9 @@ Goal: make Code Agent++ the runtime controller and the code agent a replaceable 
 - Multi-iteration loop runner with per-iteration artifacts under `.agent-context/runs/<task-id>/iterations/<nnn>/`.
 - Native OpenCode event parsing for `opencode run --format json`, transcript files, and stdout/stderr fallback.
 - Native MiMoCode / Codex / Claude event parsing.
-- Checkpoint patch integration through `--checkpoint git-worktree`; destructive rollback is intentionally not automatic.
+- Git worktree sandbox integration through `--checkpoint git-worktree`; executors run in an isolated worktree, patches are exported back to the host run directory, and destructive rollback is intentionally not automatic.
 
-Status: multi-loop orchestrator implemented with mock executor, generic command adapter, OpenCode event normalizer, per-iteration artifacts, decision gates, and checkpoint patch output; MiMoCode, Codex, Claude event normalizers and isolated executor worktrees remain planned.
+Status: multi-loop orchestrator implemented with mock executor, generic command adapter, OpenCode event normalizer, per-iteration artifacts, decision gates, checkpoint patch output, and git-worktree executor sandbox; MiMoCode, Codex, and Claude event normalizers remain planned.
 
 ## v1.0: Agent Harness Benchmark
 
