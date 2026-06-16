@@ -1849,6 +1849,36 @@
       "isExternal": false
     },
     {
+      "from": "src/integrations/codegraph.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "../retrievers/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/core/cache.ts",
       "to": "node:crypto",
       "specifier": "node:crypto",
@@ -2218,36 +2248,6 @@
       "from": "src/core/validator.ts",
       "to": "src/core/types.ts",
       "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "../retrievers/types.js",
       "isExternal": false
     },
     {
@@ -2701,6 +2701,24 @@
       "isExternal": false
     },
     {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/outputs/hallucination-guard.ts",
+      "specifier": "./hallucination-guard.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/outputs/policy-engine.ts",
+      "specifier": "./policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/outputs/regression-guard.ts",
+      "specifier": "./regression-guard.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/hallucination-guard.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -2974,6 +2992,12 @@
       "from": "src/outputs/orchestrator.ts",
       "to": "src/outputs/execution-trace.ts",
       "specifier": "./execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/orchestrator.ts",
+      "to": "src/outputs/guard-finding.ts",
+      "specifier": "./guard-finding.js",
       "isExternal": false
     },
     {
@@ -3499,6 +3523,12 @@
       "isExternal": true
     },
     {
+      "from": "benchmarks/fixtures/react-app/src/App.tsx",
+      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+      "specifier": "./components/LoginStatus",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/small-ts-app/src/index.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "specifier": "./api/login.js",
@@ -3508,12 +3538,6 @@
       "from": "benchmarks/fixtures/small-ts-app/src/index.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
       "specifier": "./auth/middleware.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/App.tsx",
-      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "specifier": "./components/LoginStatus",
       "isExternal": false
     },
     {
@@ -3533,6 +3557,24 @@
       "to": "app.schemas",
       "specifier": "app.schemas",
       "isExternal": true
+    },
+    {
+      "from": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+      "specifier": "./useAuthState",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+      "specifier": "./LoginStatus",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+      "specifier": "../auth/useAuthState",
+      "isExternal": false
     },
     {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
@@ -3556,24 +3598,6 @@
       "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../../src/auth/session.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-      "specifier": "./useAuthState",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "specifier": "./LoginStatus",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-      "specifier": "../auth/useAuthState",
       "isExternal": false
     },
     {
@@ -3601,12 +3625,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "specifier": "../src/loader.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
       "to": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "specifier": "./config.js",
@@ -3619,15 +3637,21 @@
       "isExternal": false
     },
     {
-      "from": "test/fixtures/monorepo/packages/web/src/index.ts",
-      "to": "test/fixtures/monorepo/packages/api/src/index.ts",
-      "specifier": "@fixture/api",
+      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "specifier": "../src/loader.js",
       "isExternal": false
     },
     {
       "from": "test/fixtures/monorepo/packages/api/src/index.ts",
       "to": "test/fixtures/monorepo/packages/api/src/config.ts",
       "specifier": "#config",
+      "isExternal": false
+    },
+    {
+      "from": "test/fixtures/monorepo/packages/web/src/index.ts",
+      "to": "test/fixtures/monorepo/packages/api/src/index.ts",
+      "specifier": "@fixture/api",
       "isExternal": false
     },
     {

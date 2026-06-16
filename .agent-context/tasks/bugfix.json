@@ -2,12 +2,12 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 9455,
-  "remainingBudget": 2545,
+  "estimatedTokens": 9638,
+  "remainingBudget": 2362,
   "files": [
     {
       "path": "src/outputs/regression-guard.ts",
-      "score": 335,
+      "score": 330,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -22,7 +22,7 @@
     },
     {
       "path": "src/outputs/orchestrator.ts",
-      "score": 254,
+      "score": 250,
       "reasons": [
         "lexical match: regression",
         "direct dependency of src/benchmarks/agent-benchmark.ts",
@@ -31,11 +31,11 @@
         "direct importer of src/outputs/task-harness.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 522
+      "estimatedTokens": 563
     },
     {
       "path": "src/outputs/policy-engine.ts",
-      "score": 246,
+      "score": 242,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -48,7 +48,7 @@
     },
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 230,
+      "score": 226,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/outputs/policy-engine.ts",
@@ -60,7 +60,7 @@
     },
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 226,
+      "score": 222,
       "reasons": [
         "lexical match: regression",
         "direct dependency of src/outputs/orchestrator.ts",
@@ -72,7 +72,7 @@
     },
     {
       "path": "src/outputs/task-context.ts",
-      "score": 222,
+      "score": 218,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -84,7 +84,7 @@
     },
     {
       "path": "src/integrations/codegraph.ts",
-      "score": 146,
+      "score": 142,
       "reasons": [
         "lexical match: regression"
       ],
@@ -121,7 +121,7 @@
     },
     {
       "path": "test/regression-guard.test.ts",
-      "score": 310,
+      "score": 305,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/outputs/policy-engine.ts",
@@ -140,7 +140,7 @@
         "related test"
       ],
       "category": "test",
-      "estimatedTokens": 96
+      "estimatedTokens": 113
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -220,15 +220,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 35,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 35,
       "reasons": [
@@ -245,6 +236,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -275,7 +275,7 @@
     },
     {
       "path": "src/outputs/task-run.ts",
-      "score": 302,
+      "score": 298,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -290,7 +290,7 @@
     },
     {
       "path": "src/outputs/writer.ts",
-      "score": 241,
+      "score": 238,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -304,7 +304,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 198,
+      "score": 194,
       "reasons": [
         "lexical match: regression",
         "direct dependency of src/outputs/policy-engine.ts",
@@ -312,6 +312,18 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 249
+    },
+    {
+      "path": "src/outputs/guard-finding.ts",
+      "score": 190,
+      "reasons": [
+        "lexical match: regression",
+        "direct importer of src/outputs/policy-engine.ts",
+        "direct importer of src/outputs/regression-guard.ts",
+        "direct dependency of src/outputs/orchestrator.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 125
     },
     {
       "path": "src/outputs/markdown.ts",
@@ -519,15 +531,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 45
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
       "score": 14,
       "reasons": [
@@ -535,6 +538,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 44
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 45
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -573,15 +585,6 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 42
-    },
-    {
       "path": "benchmarks/fixtures/react-app/package.json",
       "score": 8,
       "reasons": [
@@ -591,13 +594,13 @@
       "estimatedTokens": 40
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "path": "benchmarks/fixtures/small-ts-app/package.json",
       "score": 8,
       "reasons": [
         "configuration"
       ],
       "category": "config-doc",
-      "estimatedTokens": 48
+      "estimatedTokens": 42
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
@@ -616,6 +619,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -657,7 +669,7 @@
   "readFirst": [
     {
       "path": "src/outputs/regression-guard.ts",
-      "score": 335,
+      "score": 330,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -672,7 +684,7 @@
     },
     {
       "path": "src/outputs/orchestrator.ts",
-      "score": 254,
+      "score": 250,
       "reasons": [
         "lexical match: regression",
         "direct dependency of src/benchmarks/agent-benchmark.ts",
@@ -681,11 +693,11 @@
         "direct importer of src/outputs/task-harness.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 522
+      "estimatedTokens": 563
     },
     {
       "path": "src/outputs/policy-engine.ts",
-      "score": 246,
+      "score": 242,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -698,7 +710,7 @@
     },
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 230,
+      "score": 226,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/outputs/policy-engine.ts",
@@ -710,7 +722,7 @@
     },
     {
       "path": "src/outputs/task-harness.ts",
-      "score": 226,
+      "score": 222,
       "reasons": [
         "lexical match: regression",
         "direct dependency of src/outputs/orchestrator.ts",
@@ -722,7 +734,7 @@
     },
     {
       "path": "src/outputs/task-context.ts",
-      "score": 222,
+      "score": 218,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -734,7 +746,7 @@
     },
     {
       "path": "src/integrations/codegraph.ts",
-      "score": 146,
+      "score": 142,
       "reasons": [
         "lexical match: regression"
       ],
@@ -761,7 +773,7 @@
   "inspectIfNeeded": [
     {
       "path": "test/regression-guard.test.ts",
-      "score": 310,
+      "score": 305,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/outputs/policy-engine.ts",
@@ -780,7 +792,7 @@
         "related test"
       ],
       "category": "test",
-      "estimatedTokens": 96
+      "estimatedTokens": 113
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -860,15 +872,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 35,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 35,
       "reasons": [
@@ -885,6 +888,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 35,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -916,13 +928,13 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 9455,
-    "remaining": 2545,
+    "used": 9638,
+    "remaining": 2362,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 2288,
+        "tokens": 2329,
         "files": [
           "src/outputs/regression-guard.ts",
           "src/outputs/orchestrator.ts",
@@ -936,7 +948,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 1201,
+        "tokens": 1218,
         "files": [
           "test/regression-guard.test.ts",
           "test/orchestrator.test.ts",
@@ -948,9 +960,9 @@
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/contract-validator.test.ts",
           "test/hallucination-guard.test.ts"
@@ -959,11 +971,12 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 4633,
+        "tokens": 4758,
         "files": [
           "src/outputs/task-run.ts",
           "src/outputs/writer.ts",
           "src/outputs/test-selector.ts",
+          "src/outputs/guard-finding.ts",
           "src/outputs/markdown.ts",
           "src/core/types.ts",
           "src/core/git.ts",
@@ -990,17 +1003,17 @@
         "files": [
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/config/README.md",
           "benchmarks/fixtures/monorepo/packages/web/README.md",
+          "benchmarks/fixtures/monorepo/packages/config/README.md",
           "benchmarks/fixtures/monorepo/packages/api/package.json",
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
-          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
+          "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           ".env.example",
           "code-agent-plusplus.config.yml",
           "tsconfig.json",
@@ -1028,7 +1041,7 @@
   },
   "retrieval": {
     "directMatches": 8,
-    "dependencyNeighbors": 108,
+    "dependencyNeighbors": 111,
     "tests": 16,
     "configDocs": 17
   }

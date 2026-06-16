@@ -319,6 +319,26 @@ code-agent-plusplus retrieve "<task>" [repo] --provider codegraph
 code-agent-plusplus-mcp
 ```
 
+## 真实 OpenCode Demo
+
+```bash
+code-agent-plusplus orchestrate "fix a small bug" . \
+  --executor opencode \
+  --executor-command "opencode run --format json {prompt}" \
+  --max-loops 2 \
+  --fail-on required
+```
+
+运行后重点看：
+
+- `.agent-context/orchestrator/<task-id>/orchestrator.md`：一页报告，说明执行了哪个 Agent、改了哪些文件、policy 是否通过、impact risk、最终为什么 `finalize` / `repair` / `require-human-review`。
+- `.agent-context/runs/<task-id>/iterations/001/iteration.json`：本轮稳定 schema 入口。
+- `.agent-context/runs/<task-id>/iterations/001/executor.result.json`：executor、命令、exit code、stdout/stderr hash、working tree hash、归一化事件数量。
+- `.agent-context/runs/<task-id>/iterations/001/trace.json`：trace wrapper，说明测试/命令证据是否来自 command evidence，是否可信。
+- `.agent-context/runs/<task-id>/iterations/001/guard.findings.json`：统一 GuardFinding schema，聚合 policy、hallucination、regression findings。
+- `.agent-context/runs/<task-id>/iterations/001/decision.json`：decision、priority、blocking、confidence、输入信号和下一步建议。
+- `.agent-context/runs/<task-id>/iterations/001/diff.patch`：Agent 实际改动。
+
 `policy --fail-on` 支持三档 CI 阈值：
 
 - `forbidden`：只让 forbidden edits 失败，适合本地探索。

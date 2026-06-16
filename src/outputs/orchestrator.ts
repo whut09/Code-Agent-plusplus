@@ -14,12 +14,22 @@ import { buildLoopControllerReport, renderLoopControllerReport, type LoopControl
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn, type PolicyEngineReport } from "./policy-engine.js";
 import { renderTaskVerify } from "./task-harness.js";
 import { writeTaskRun, type TaskRunWriteResult } from "./task-run.js";
-import { appendExecutionTraceStep, currentWorkingTreeHash, executionTracePath } from "./execution-trace.js";
+import { appendExecutionTraceStep, currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
+import { buildGuardFindingsArtifact, type GuardFindingsArtifact } from "./guard-finding.js";
 import { bullet, code, heading, table } from "./markdown.js";
 
 export type AgentExecutorName = "codex" | "claude-code" | "opencode" | "mimocode" | "cursor" | "mock";
 export type OrchestratorDecision = "finalize" | "repair" | "repack" | "block" | "rollback" | "require-human-review";
 export type OrchestratorCheckpointMode = "none" | "git-worktree";
+
+export const ORCHESTRATOR_DECISION_PRIORITY: Record<OrchestratorDecision, number> = {
+  rollback: 100,
+  block: 90,
+  repack: 80,
+  repair: 70,
+  "require-human-review": 60,
+  finalize: 10
+};
 
 export interface HarnessOrchestratorOptions {
   executor?: AgentExecutorName;
@@ -82,9 +92,10 @@ export interface HarnessOrchestratorReport {
   changedFiles: string[];
   iterations: OrchestratorIterationReport[];
   policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
-  loop: Pick<LoopControllerReport, "status" | "risk" | "decisions">;
+  loop: Pick<LoopControllerReport, "status" | "risk" | "trace" | "checks" | "decisions">;
   decision: {
     action: OrchestratorDecision;
+    priority: number;
     blocking: boolean;
     confidence: number;
     reason: string;
@@ -108,7 +119,7 @@ export interface OrchestratorIterationReport {
   executorResult: AgentExecutorResult;
   changedFiles: string[];
   policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
-  loop: Pick<LoopControllerReport, "status" | "risk" | "decisions">;
+  loop: Pick<LoopControllerReport, "status" | "risk" | "trace" | "checks" | "decisions">;
   decision: HarnessOrchestratorReport["decision"];
   files: string[];
 }
@@ -119,6 +130,21 @@ export interface HarnessOrchestratorWriteResult {
 }
 
 type AgentExecutor = (input: AgentExecutorInput) => AgentExecutorResult;
+
+interface IterationArtifactInput {
+  runId: string;
+  iteration: number;
+  promptFile: string;
+  executorResult: AgentExecutorResult;
+  agentEvents: AgentEvent[];
+  hallucination: HallucinationGuardReport;
+  regression: RegressionGuardReport;
+  policy: PolicyEngineReport;
+  verify: string;
+  loop: LoopControllerReport;
+  decision: HarnessOrchestratorReport["decision"];
+  guardFindings: GuardFindingsArtifact;
+}
 
 export async function runHarnessOrchestrator(repo: string, task: string, options: HarnessOrchestratorOptions = {}): Promise<HarnessOrchestratorWriteResult> {
   const base = options.base ?? "main";
@@ -198,6 +224,13 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       tokenBudget: options.tokenBudget,
       traceId: taskRun.runId
     });
+    const guardFindings = buildGuardFindingsArtifact({
+      runId: taskRun.runId,
+      iteration: loopIndex,
+      policy,
+      hallucination,
+      regression
+    });
     const decision = decideOrchestratorAction({
       executorResult,
       changedFiles,
@@ -218,6 +251,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     }
 
     const iterationFiles = writeIterationArtifacts(root, iterationDir, {
+      runId: taskRun.runId,
+      iteration: loopIndex,
       promptFile,
       executorResult,
       agentEvents: normalized.events,
@@ -226,7 +261,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       policy,
       verify,
       loop,
-      decision: latestDecision
+      decision: latestDecision,
+      guardFindings
     });
     const iterationReport: OrchestratorIterationReport = {
       index: loopIndex,
@@ -242,6 +278,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       loop: {
         status: loop.status,
         risk: loop.risk,
+        trace: loop.trace,
+        checks: loop.checks,
         decisions: loop.decisions
       },
       decision: latestDecision,
@@ -292,6 +330,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     loop: {
       status: latestLoop.status,
       risk: latestLoop.risk,
+      trace: latestLoop.trace,
+      checks: latestLoop.checks,
       decisions: latestLoop.decisions
     },
     decision: latestDecision,
@@ -341,11 +381,34 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
       ].map((item) => item)
     ),
     "",
+    heading(2, "Evidence Summary"),
+    table(
+      ["Question", "Answer"],
+      [
+        ["Which agent executed?", report.executor],
+        ["Which files changed?", report.changedFiles.length ? report.changedFiles.map(code).join(", ") : "none"],
+        ["Which executor command ran?", report.executorResult.command ? code(report.executorResult.command) : "none"],
+        ["Normalized executor events", String(report.executorResult.normalizedEventsCount ?? 0)],
+        ["Trusted test evidence", report.loop.trace.passedTestEvidence],
+        ["Trace loaded", report.loop.trace.loaded ? "yes" : "no"],
+        [
+          "Boundary / contract check",
+          `${report.loop.checks.contracts} (${report.loop.checks.contractViolations} violation${report.loop.checks.contractViolations === 1 ? "" : "s"})`
+        ],
+        ["Policy gate", report.policy.passed ? "passed" : "failed"],
+        ["Missing required evidence", String(report.policy.summary.requiredMissing)],
+        ["Forbidden findings", String(report.policy.summary.forbidden)],
+        ["Impact risk", report.loop.risk],
+        ["Final decision", `${report.decision.action} - ${report.decision.reason}`]
+      ]
+    ),
+    "",
     heading(2, "Decision"),
     table(
       ["Field", "Value"],
       [
         ["Action", report.decision.action],
+        ["Priority", String(report.decision.priority)],
         ["Blocking", report.decision.blocking ? "yes" : "no"],
         ["Confidence", report.decision.confidence.toFixed(2)],
         ["Reason", report.decision.reason.replace(/\|/g, "\\|")],
@@ -718,33 +781,100 @@ function appendAgentEventsToTrace(root: string, traceId: string, executorName: A
   }
 }
 
-function writeIterationArtifacts(
-  root: string,
-  iterationDir: string,
-  input: {
-    promptFile: string;
-    executorResult: AgentExecutorResult;
-    agentEvents: AgentEvent[];
-    hallucination: HallucinationGuardReport;
-    regression: RegressionGuardReport;
-    policy: PolicyEngineReport;
-    verify: string;
-    loop: LoopControllerReport;
-    decision: HarnessOrchestratorReport["decision"];
-  }
-): string[] {
+function writeIterationArtifacts(root: string, iterationDir: string, input: IterationArtifactInput): string[] {
+  const generatedAt = new Date().toISOString();
+  const trace = readExecutionTrace(root, input.runId);
+  const executorArtifact = {
+    schemaVersion: "code-agent-plusplus.executor-result.v1",
+    kind: "executor-result",
+    generatedAt,
+    runId: input.runId,
+    iteration: input.iteration,
+    summary: {
+      executor: input.executorResult.executor,
+      exitCode: input.executorResult.exitCode,
+      command: input.executorResult.command,
+      changedFiles: input.executorResult.changedFiles,
+      events: input.executorResult.normalizedEventsCount ?? input.agentEvents.length,
+      normalizerSource: input.executorResult.normalizerSource ?? "unknown"
+    },
+    executorResult: input.executorResult
+  };
+  const traceArtifact = {
+    schemaVersion: "code-agent-plusplus.trace-artifact.v1",
+    kind: "trace",
+    generatedAt,
+    runId: input.runId,
+    iteration: input.iteration,
+    summary: {
+      traceLoaded: Boolean(trace),
+      steps: trace?.steps.length ?? 0,
+      commandEvidence: trace?.steps.filter((step) => step.evidenceSource === "command").length ?? 0,
+      filesTouched: [...new Set(trace?.steps.flatMap((step) => step.files) ?? [])].sort()
+    },
+    trace
+  };
+  const decisionArtifact = {
+    schemaVersion: "code-agent-plusplus.decision.v1",
+    kind: "decision",
+    generatedAt,
+    runId: input.runId,
+    iteration: input.iteration,
+    priorityOrder: ORCHESTRATOR_DECISION_PRIORITY,
+    inputs: {
+      executorExitCode: input.executorResult.exitCode,
+      changedFiles: input.executorResult.changedFiles,
+      policy: input.policy.summary,
+      loopStatus: input.loop.status,
+      loopRisk: input.loop.risk,
+      guardFindings: input.guardFindings.summary
+    },
+    decision: input.decision
+  };
+  const iterationArtifact = {
+    schemaVersion: "code-agent-plusplus.iteration.v1",
+    kind: "iteration",
+    generatedAt,
+    runId: input.runId,
+    iteration: input.iteration,
+    directory: path.relative(root, iterationDir).replaceAll("\\", "/"),
+    artifacts: {
+      prompt: "prompt.md",
+      executorEvents: "executor.events.jsonl",
+      executorResult: "executor.result.json",
+      diff: "diff.patch",
+      trace: "trace.json",
+      guardFindings: "guard.findings.json",
+      policy: "policy.json",
+      verify: "verify.json",
+      loop: "loop.json",
+      decision: "decision.json"
+    },
+    summary: {
+      executor: input.executorResult.executor,
+      exitCode: input.executorResult.exitCode,
+      changedFiles: input.executorResult.changedFiles.length,
+      guardFindings: input.guardFindings.summary.total,
+      policyPassed: input.policy.passed,
+      loopStatus: input.loop.status,
+      decision: input.decision.action
+    }
+  };
   const files = [
     input.promptFile,
+    write(path.join(iterationDir, "iteration.json"), JSON.stringify(iterationArtifact, null, 2)),
     write(path.join(iterationDir, "executor.events.jsonl"), formatAgentEvents(input.agentEvents)),
-    write(path.join(iterationDir, "executor.result.json"), JSON.stringify(input.executorResult, null, 2)),
+    write(path.join(iterationDir, "executor.result.json"), JSON.stringify(executorArtifact, null, 2)),
     write(path.join(iterationDir, "hallucination.json"), JSON.stringify(input.hallucination, null, 2)),
     write(path.join(iterationDir, "hallucination.md"), renderHallucinationReport(input.hallucination)),
     write(path.join(iterationDir, "regression.json"), JSON.stringify(input.regression, null, 2)),
     write(path.join(iterationDir, "regression.md"), renderRegressionReport(input.regression)),
+    write(path.join(iterationDir, "guard.findings.json"), JSON.stringify(input.guardFindings, null, 2)),
     write(path.join(iterationDir, "policy.json"), JSON.stringify(input.policy, null, 2)),
     write(path.join(iterationDir, "verify.json"), JSON.stringify({ markdown: input.verify }, null, 2)),
     write(path.join(iterationDir, "loop.json"), JSON.stringify(input.loop, null, 2)),
-    write(path.join(iterationDir, "decision.json"), JSON.stringify(input.decision, null, 2))
+    write(path.join(iterationDir, "decision.json"), JSON.stringify(decisionArtifact, null, 2)),
+    write(path.join(iterationDir, "trace.json"), JSON.stringify(traceArtifact, null, 2))
   ];
 
   if (input.executorResult.diffPath) {
@@ -756,13 +886,6 @@ function writeIterationArtifacts(
       writeFileSync(diffTarget, "", "utf8");
     }
     files.push(diffTarget);
-  }
-
-  const traceSource = executionTracePath(root, path.basename(path.dirname(path.dirname(iterationDir))));
-  const traceTarget = path.join(iterationDir, "trace.json");
-  if (existsSync(traceSource)) {
-    copyFileSync(traceSource, traceTarget);
-    files.push(traceTarget);
   }
 
   return files;
@@ -830,6 +953,7 @@ function decision(
 ): HarnessOrchestratorReport["decision"] {
   return {
     action,
+    priority: ORCHESTRATOR_DECISION_PRIORITY[action],
     blocking,
     confidence: Math.round(Math.max(0, Math.min(1, confidence)) * 100) / 100,
     reason,

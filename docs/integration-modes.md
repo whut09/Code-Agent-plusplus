@@ -115,13 +115,16 @@ Artifacts:
 
 - `.agent-context/runs/<task-id>/`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/prompt.md`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/iteration.json` - stable schema entry for the iteration artifact directory
+- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.result.json` - executor command, exit code, hashes, changed files, and event summary
 - `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl` - normalized `AgentEvent` JSONL from the executor
 - `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
-- `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json` - schema wrapper around the normalized execution trace and trusted evidence summary
+- `.agent-context/runs/<task-id>/iterations/<nnn>/guard.findings.json` - unified `GuardFinding` records from policy, hallucination, and regression checks
 - `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/verify.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/loop.json`
-- `.agent-context/runs/<task-id>/iterations/<nnn>/decision.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/decision.json` - explicit decision, priority, confidence, blocking status, and input signals
 - `.agent-context/traces/<task-id>.json`
 - `.agent-context/orchestrator/<task-id>/orchestrator.md`
 - `.agent-context/orchestrator/<task-id>/orchestrator.json`

@@ -217,6 +217,26 @@ code-agent-plusplus drift .
 
 `--executor-command` and `trace run --command` are parsed as argv-style commands and executed without a shell. Quoted paths with spaces or non-ASCII characters are preserved; shell control operators such as `&&`, `|`, `>`, `<`, `;`, and backticks are rejected. Put complex shell logic in a checked-in script and invoke that script directly.
 
+## Real OpenCode Demo
+
+```bash
+code-agent-plusplus orchestrate "fix a small bug" . \
+  --executor opencode \
+  --executor-command "opencode run --format json {prompt}" \
+  --max-loops 2 \
+  --fail-on required
+```
+
+After the run, inspect:
+
+- `.agent-context/orchestrator/<task-id>/orchestrator.md`: a one-page report showing executor, changed files, command evidence, boundary status, impact risk, and final decision.
+- `.agent-context/runs/<task-id>/iterations/001/iteration.json`: stable schema entry for the iteration directory.
+- `.agent-context/runs/<task-id>/iterations/001/executor.result.json`: executor, command, exit code, stdout/stderr hashes, working-tree hash, and normalized event count.
+- `.agent-context/runs/<task-id>/iterations/001/trace.json`: trace wrapper showing whether test/command evidence came from command evidence and whether it is trustworthy.
+- `.agent-context/runs/<task-id>/iterations/001/guard.findings.json`: unified `GuardFinding` schema that aggregates policy, hallucination, and regression findings.
+- `.agent-context/runs/<task-id>/iterations/001/decision.json`: decision, priority, blocking flag, confidence, input signals, and next-step guidance.
+- `.agent-context/runs/<task-id>/iterations/001/diff.patch`: the actual executor changes.
+
 ## Current Status
 
 | Capability                                           | Status                 |

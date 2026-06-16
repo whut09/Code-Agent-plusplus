@@ -113,13 +113,16 @@ code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --ex
 
 - `.agent-context/runs/<task-id>/`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/prompt.md`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/iteration.json` - 当前轮次目录的稳定 schema 入口
+- `.agent-context/runs/<task-id>/iterations/<nnn>/executor.result.json` - executor 命令、exit code、hash、变更文件和事件摘要
 - `.agent-context/runs/<task-id>/iterations/<nnn>/executor.events.jsonl` - executor 归一化后的 `AgentEvent` JSONL
 - `.agent-context/runs/<task-id>/iterations/<nnn>/diff.patch`
-- `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/trace.json` - 执行 trace 的 schema wrapper 和可信证据摘要
+- `.agent-context/runs/<task-id>/iterations/<nnn>/guard.findings.json` - policy、hallucination、regression checks 的统一 `GuardFinding` 记录
 - `.agent-context/runs/<task-id>/iterations/<nnn>/policy.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/verify.json`
 - `.agent-context/runs/<task-id>/iterations/<nnn>/loop.json`
-- `.agent-context/runs/<task-id>/iterations/<nnn>/decision.json`
+- `.agent-context/runs/<task-id>/iterations/<nnn>/decision.json` - 明确 decision、priority、confidence、blocking 状态和输入信号
 - `.agent-context/traces/<task-id>.json`
 - `.agent-context/orchestrator/<task-id>/orchestrator.md`
 - `.agent-context/orchestrator/<task-id>/orchestrator.json`

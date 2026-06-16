@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11985,
-  "remainingBudget": 15,
+  "estimatedTokens": 11978,
+  "remainingBudget": 22,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -157,15 +157,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -182,6 +173,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -253,7 +253,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 96
+      "estimatedTokens": 113
     },
     {
       "path": "test/policy-engine.test.ts",
@@ -509,7 +509,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 522
+      "estimatedTokens": 563
     },
     {
       "path": "src/core/token-estimator.ts",
@@ -745,50 +745,22 @@
       "estimatedTokens": 188
     },
     {
-      "path": "src/core/scanner.ts",
+      "path": "src/outputs/guard-finding.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 211
+      "estimatedTokens": 125
     },
     {
-      "path": "code-agent-plusplus.config.yml",
-      "score": 158,
+      "path": "src/config/load-config.ts",
+      "score": 18,
       "reasons": [
-        "lexical match: code",
-        "configuration"
+        "shared API/refactor risk"
       ],
-      "category": "config-doc",
-      "estimatedTokens": 38
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/api/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
-    },
-    {
-      "path": "benchmarks/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 28
-    },
-    {
-      "path": "package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 25
+      "category": "dependency-neighbor",
+      "estimatedTokens": 160
     }
   ],
   "readFirst": [
@@ -946,15 +918,6 @@
       "estimatedTokens": 72
     },
     {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
-    },
-    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -971,6 +934,15 @@
       ],
       "category": "test",
       "estimatedTokens": 64
+    },
+    {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -1029,8 +1001,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11985,
-    "remaining": 15,
+    "used": 11978,
+    "remaining": 22,
     "buckets": [
       {
         "name": "direct-source",
@@ -1048,7 +1020,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2679,
+        "tokens": 2696,
         "files": [
           "test/codegraph.test.ts",
           "test/test-selector.test.ts",
@@ -1057,9 +1029,9 @@
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/context-delta.test.ts",
           "test/contract-validator.test.ts",
@@ -1092,7 +1064,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8005,
+        "tokens": 8120,
         "files": [
           "src/core/types.ts",
           "src/outputs/impact.ts",
@@ -1127,19 +1099,15 @@
           "src/outputs/evidence.ts",
           "src/outputs/rag.ts",
           "src/core/cache.ts",
-          "src/core/scanner.ts"
+          "src/outputs/guard-finding.ts",
+          "src/config/load-config.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 139,
-        "files": [
-          "code-agent-plusplus.config.yml",
-          "benchmarks/fixtures/monorepo/packages/api/README.md",
-          "benchmarks/README.md",
-          "package.json"
-        ]
+        "tokens": 0,
+        "files": []
       },
       {
         "name": "entrypoints",
@@ -1166,6 +1134,6 @@
     "directMatches": 8,
     "dependencyNeighbors": 17,
     "tests": 37,
-    "configDocs": 4
+    "configDocs": 0
   }
 }

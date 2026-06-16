@@ -9,7 +9,7 @@ This document is generated from static repository signals. Treat it as a startin
 - Internal modules: 26
 
 ## Important Modules
-- `outputs`: outputs contains 30 files and depends on core, integrations.
+- `outputs`: outputs contains 31 files and depends on core, integrations.
 - `test`: test contains 35 files and depends on analyzers, benchmarks, cli, config, core, integrations, mcp, outputs, retrievers.
 - `core`: core contains 18 files and depends on analyzers, config, llm, outputs.
 - `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.

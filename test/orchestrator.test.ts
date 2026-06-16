@@ -28,8 +28,49 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
     assert.ok(report.artifacts.orchestratorFiles.includes(".agent-context/orchestrator/fix-login-timeout-bug/orchestrator.json"));
     assert.ok(existsSync(path.join(root, ".agent-context", "orchestrator", "fix-login-timeout-bug", "policy.md")));
     assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.mock.json")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "iteration.json")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.findings.json")));
     assert.match(rendered, /# Harness Orchestrator/);
+    assert.match(rendered, /## Evidence Summary/);
     assert.match(rendered, /Decision: finalize/);
+
+    const executorArtifact = JSON.parse(
+      readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.result.json"), "utf8")
+    ) as { schemaVersion: string; kind: string; runId: string; iteration: number; summary: { executor: string; exitCode: number } };
+    assert.equal(executorArtifact.schemaVersion, "code-agent-plusplus.executor-result.v1");
+    assert.equal(executorArtifact.kind, "executor-result");
+    assert.equal(executorArtifact.runId, "fix-login-timeout-bug");
+    assert.equal(executorArtifact.iteration, 1);
+    assert.equal(executorArtifact.summary.executor, "mock");
+    assert.equal(executorArtifact.summary.exitCode, 0);
+
+    const decisionArtifact = JSON.parse(
+      readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "decision.json"), "utf8")
+    ) as { schemaVersion: string; kind: string; decision: { action: string; priority: number }; priorityOrder: Record<string, number> };
+    assert.equal(decisionArtifact.schemaVersion, "code-agent-plusplus.decision.v1");
+    assert.equal(decisionArtifact.kind, "decision");
+    assert.equal(decisionArtifact.decision.action, "finalize");
+    assert.equal(decisionArtifact.decision.priority, decisionArtifact.priorityOrder.finalize);
+
+    const traceArtifact = JSON.parse(
+      readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "trace.json"), "utf8")
+    ) as {
+      schemaVersion: string;
+      kind: string;
+      summary: { traceLoaded: boolean; steps: number };
+    };
+    assert.equal(traceArtifact.schemaVersion, "code-agent-plusplus.trace-artifact.v1");
+    assert.equal(traceArtifact.kind, "trace");
+    assert.equal(traceArtifact.summary.traceLoaded, true);
+    assert.ok(traceArtifact.summary.steps > 0);
+
+    const guardArtifact = JSON.parse(
+      readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.findings.json"), "utf8")
+    ) as { schemaVersion: string; kind: string; summary: { total: number }; findings: Array<{ schemaVersion: string; source: string }> };
+    assert.equal(guardArtifact.schemaVersion, "code-agent-plusplus.guard-findings.v1");
+    assert.equal(guardArtifact.kind, "guard-findings");
+    assert.equal(guardArtifact.summary.total, guardArtifact.findings.length);
+    assert.ok(guardArtifact.findings.every((finding) => finding.schemaVersion === "code-agent-plusplus.guard-finding.v1"));
 
     const trace = readExecutionTrace(root, report.traceId);
     assert.ok(trace);

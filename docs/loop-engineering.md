@@ -170,14 +170,19 @@ Each loop writes a durable iteration directory:
 ```txt
 .agent-context/runs/<task-id>/iterations/001/
   prompt.md
+  iteration.json
+  executor.result.json
   executor.events.jsonl
   diff.patch
   trace.json
+  guard.findings.json
   policy.json
   verify.json
   loop.json
   decision.json
 ```
+
+`iteration.json` is the stable directory index. `executor.result.json` records the executor command, exit code, hashes, changed files, and normalized event summary. `trace.json` is a schema wrapper around the normalized execution trace and trusted evidence summary. `guard.findings.json` normalizes policy, hallucination, and regression findings into one `GuardFinding` schema. `decision.json` records the selected action with priority, confidence, blocking status, and input signals.
 
 `executor.events.jsonl` stores normalized `AgentEvent` records. OpenCode currently supports `opencode run --format json` stdout, optional transcript files, and generic stdout/stderr fallback; later executor adapters can produce the same event model for MiMoCode, Codex, Claude Code, and Cursor.
 
