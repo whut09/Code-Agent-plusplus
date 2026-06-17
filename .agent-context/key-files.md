@@ -4,7 +4,7 @@ L3 evidence index. Do not load this file by default; use it only after L1/L2 con
 
 | File | Score | Kind | Analysis | Resolved Imports | Why | Summary |
 | --- | --- | --- | --- | --- | --- | --- |
-| `src/mcp/server.ts` | 91 | source | high (typescript-compiler-api) | 13/18 | entrypoint, 4 exports, 81 symbols, 1 inbound dependency, 18 outbound dependencies, high-confidence analysis | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
+| `src/mcp/server.ts` | 91 | source | high (typescript-compiler-api) | 13/19 | entrypoint, 4 exports, 102 symbols, 1 inbound dependency, 19 outbound dependencies, high-confidence analysis | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
 | `src/core/freshness.ts` | 80 | source | high (typescript-compiler-api) | 5/8 | 9 exports, 57 symbols, 6 inbound dependencies, 8 outbound dependencies, high-confidence analysis | src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports. |
 | `src/outputs/loop-controller.ts` | 80 | source | high (typescript-compiler-api) | 11/13 | 10 exports, 60 symbols, 6 inbound dependencies, 13 outbound dependencies, high-confidence analysis | src/outputs/loop-controller.ts contains 60 detected symbols, 13 imports, 10 exports. |
 | `src/outputs/policy-engine.ts` | 80 | source | high (typescript-compiler-api) | 11/11 | 9 exports, 48 symbols, 9 inbound dependencies, 11 outbound dependencies, high-confidence analysis | src/outputs/policy-engine.ts contains 48 detected symbols, 11 imports, 9 exports. |

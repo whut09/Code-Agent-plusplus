@@ -403,6 +403,22 @@ code_agent_plusplus_finalize
 
 实验性 runtime loop 工具包括：`start_loop` 生成任务运行目录和 trace，`step` 记录编辑/测试/验证动作，`evaluate` 汇总 delta、loop、policy、verify 信号，`repair` 产出修复动作，`finalize` 在测试和 contract 证据齐全后收口。
 
+runtime 工具会返回结构化字段，方便 MCP 客户端直接做 gate：
+
+- `nextAction`：下一步建议，例如 `run-tests`、`repair-contracts`、`ready-for-review`。
+- `blocking`：当前是否阻塞 finalize。
+- `requiredCommands`：必须执行或记录证据的命令。
+- `mustInspect`：Agent 修改前必须阅读的源文件。
+- `allowedEditGlobs` / `avoidEditGlobs`：本轮允许和应避免的编辑边界。
+- `missingEvidence`：缺失的测试、contract、context 或 policy 证据。
+
+客户端接入说明：
+
+- [Codex MCP Integration](docs/integrations/codex-mcp.md)
+- [OpenCode MCP Integration](docs/integrations/opencode-mcp.md)
+- [Claude Code MCP Integration](docs/integrations/claude-code-mcp.md)
+- [Cursor MCP Integration](docs/integrations/cursor-mcp.md)
+
 ## LLM 摘要配置
 
 默认离线可用；需要 LLM 摘要时，本地创建 `code-agent-plusplus.local.yml`：
@@ -428,6 +444,10 @@ code-agent-plusplus build . --llm
 - [Guard Modules](docs/guard-modules.zh-CN.md)
 - [Loop Engineering 源码链路](docs/loop-engineering.zh-CN.md)
 - [AGENTS.md 使用说明](docs/agents-md.zh-CN.md)
+- [MCP 集成：Codex](docs/integrations/codex-mcp.md)
+- [MCP 集成：OpenCode](docs/integrations/opencode-mcp.md)
+- [MCP 集成：Claude Code](docs/integrations/claude-code-mcp.md)
+- [MCP 集成：Cursor](docs/integrations/cursor-mcp.md)
 - [Roadmap](docs/roadmap.md)
 - [Benchmark](benchmarks/README.md)
 

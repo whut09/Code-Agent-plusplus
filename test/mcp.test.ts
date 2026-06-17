@@ -117,6 +117,12 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     assert.equal(started.runtime, "agent-native");
     assert.equal(traceId, "fix-login-timeout-bug");
     assert.ok(Array.isArray(started.mustInspect));
+    assert.equal(typeof started.blocking, "boolean");
+    assert.ok(Array.isArray(started.requiredCommands));
+    assert.ok(Array.isArray(started.allowedEditGlobs));
+    assert.ok(Array.isArray(started.avoidEditGlobs));
+    assert.ok(Array.isArray(started.missingEvidence));
+    assert.equal(typeof (started.nextAction as { action?: unknown }).action, "string");
 
     writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function refreshSessionTimeout() { return 'fixed'; }\n", "utf8");
 
@@ -139,6 +145,10 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
       strict: true
     });
     assert.equal(missingEvidence.passed, false);
+    assert.equal(missingEvidence.blocking, true);
+    assert.ok((missingEvidence.missingEvidence as string[]).some((item) => item.includes("test") || item.includes("contract")));
+    assert.ok((missingEvidence.requiredCommands as string[]).length > 0);
+    assert.ok(Array.isArray(missingEvidence.mustInspect));
     assert.match(String(missingEvidence.markdown), /Policy Engine/);
 
     const repair = await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_repair", {
@@ -148,6 +158,8 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
       type: "bugfix",
       base: "main"
     });
+    assert.equal(repair.blocking, true);
+    assert.ok(Array.isArray(repair.allowedEditGlobs));
     assert.ok((repair.requiredActions as string[]).some((action) => action.includes("validate-contracts")));
 
     await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_step", {
@@ -178,6 +190,8 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     });
     assert.equal(finalized.passed, true);
     assert.equal(finalized.finalState, "success");
+    assert.equal(finalized.blocking, false);
+    assert.ok(Array.isArray(finalized.requiredCommands));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

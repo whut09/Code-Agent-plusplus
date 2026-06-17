@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
@@ -9,7 +10,7 @@ import { buildChangeImpactReport, renderChangeImpactReport } from "../outputs/im
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
-import { renderTaskContext } from "../outputs/task-context.js";
+import { buildTaskPack, renderTaskContext } from "../outputs/task-context.js";
 import { buildTestSelection, renderTestSelection } from "../outputs/test-selector.js";
 import {
   appendExecutionTraceStep,
@@ -18,7 +19,7 @@ import {
   type ExecutionFinalState,
   type ExecutionStepResult
 } from "../outputs/execution-trace.js";
-import { writeTaskRun } from "../outputs/task-run.js";
+import { writeTaskRun, type TaskRunManifest } from "../outputs/task-run.js";
 import { writeContextPackage } from "../outputs/writer.js";
 import { createContextRetriever } from "../retrievers/index.js";
 import type { RetrieverProvider } from "../retrievers/types.js";
@@ -43,6 +44,16 @@ type CodeAgentPlusplusMcpToolName = (typeof codeAgentPlusplusMcpToolNames)[numbe
 
 interface CodeAgentPlusplusMcpResult {
   [key: string]: unknown;
+}
+
+interface RuntimeGuidance {
+  nextAction: CodeAgentPlusplusMcpResult;
+  blocking: boolean;
+  requiredCommands: string[];
+  mustInspect: string[];
+  allowedEditGlobs: string[];
+  avoidEditGlobs: string[];
+  missingEvidence: string[];
 }
 
 interface RetrieveArguments {
@@ -550,6 +561,10 @@ async function runStartLoop(args: RuntimeStartInput): Promise<CodeAgentPlusplusM
     traceId: run.runId
   });
   const delta = buildContextDelta(context, { base: args.base ?? "main" });
+  const guidance = buildRuntimeGuidance(context, args.task, {
+    loop,
+    manifest: run.manifest
+  });
 
   return {
     runtime: "agent-native",
@@ -560,13 +575,9 @@ async function runStartLoop(args: RuntimeStartInput): Promise<CodeAgentPlusplusM
     taskRunDir: path.relative(context.scan.root, run.dir).replaceAll("\\", "/"),
     traceFile: run.manifest.traceFile,
     generatedFiles: writeResult.files.map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/")),
-    requiredCommands: run.manifest.requiredCommands,
-    mustInspect: run.manifest.mustInspect,
-    allowedEditGlobs: run.manifest.allowedEditGlobs,
-    avoidEditGlobs: run.manifest.avoidEditGlobs,
     loop,
     delta,
-    nextAction: firstDecision(loop)
+    ...guidance
   };
 }
 
@@ -604,16 +615,24 @@ async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<CodeAgent
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, failOn: args.failOn, strict: args.strict });
   const delta = buildContextDelta(context, { base: args.base ?? "main" });
   const verifyMarkdown = renderTaskVerify(context, { base: args.base ?? "main", diff: true });
+  const manifest = readTaskRunManifest(context.scan.root, args.traceId ?? taskSlug(args.task));
+  const guidance = buildRuntimeGuidance(context, args.task, {
+    loop,
+    policy,
+    manifest,
+    type: args.type ?? "auto",
+    tokenBudget: args.tokenBudget
+  });
 
   return {
     runtime: "agent-native",
     task: args.task,
     traceId: args.traceId,
-    passed: policy.passed && loop.status !== "needs-repair" && loop.status !== "blocked",
-    nextAction: firstDecision(loop),
+    passed: policy.passed && !guidance.blocking,
     loop,
     policy,
     delta,
+    ...guidance,
     markdown: [renderLoopControllerReport(loop), "", renderPolicyReport(policy), "", renderContextDelta(delta), "", verifyMarkdown].join("\n")
   };
 }
@@ -629,6 +648,14 @@ async function runRuntimeRepair(args: RuntimeRepairInput): Promise<CodeAgentPlus
   });
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
   const tests = buildTestSelection(context, { diff: true, base: args.base ?? "main" });
+  const manifest = readTaskRunManifest(context.scan.root, args.traceId ?? taskSlug(args.task));
+  const guidance = buildRuntimeGuidance(context, args.task, {
+    loop: loopResult.report,
+    policy,
+    manifest,
+    type: args.type ?? "auto",
+    tokenBudget: args.tokenBudget
+  });
 
   return {
     task: args.task,
@@ -636,7 +663,9 @@ async function runRuntimeRepair(args: RuntimeRepairInput): Promise<CodeAgentPlus
     loop: loopResult.report,
     policy,
     repairFiles: loopResult.files.map((file) => path.relative(context.scan.root, file).replaceAll("\\", "/")),
+    ...guidance,
     requiredActions: unique([
+      ...guidance.requiredCommands,
       ...loopResult.report.decisions.map((decision) => decision.command).filter((command): command is string => Boolean(command)),
       ...policy.findings.map((finding) => finding.requiredAction).filter((command): command is string => Boolean(command)),
       ...tests.fullConfidenceCommands
@@ -649,24 +678,104 @@ async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<CodeAgent
   const context = await buildContextPackage(args.repo ?? ".");
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
   const traceBefore = readExecutionTrace(context.scan.root, args.traceId);
+  const loop = buildLoopControllerReport(context, args.task, { phase: "after-edit", base: args.base ?? "main", traceId: args.traceId });
+  const manifest = readTaskRunManifest(context.scan.root, args.traceId ?? taskSlug(args.task));
+  const guidance = buildRuntimeGuidance(context, args.task, {
+    loop,
+    policy,
+    manifest
+  });
+  const passed = policy.passed && !guidance.blocking;
   const trace = appendExecutionTraceStep(context.scan.root, args.traceId, {
     action: "finalize",
-    reason: policy.passed ? "Runtime policy passed; finalizing runtime loop." : "Runtime policy failed; finalizing with unresolved findings.",
-    result: policy.passed ? "passed" : "failed",
-    finalState: policy.passed ? (args.finalState ?? "success") : "blocked"
+    reason: passed ? "Runtime policy and loop gates passed; finalizing runtime loop." : "Runtime gates failed; finalizing with unresolved findings.",
+    result: passed ? "passed" : "failed",
+    finalState: passed ? (args.finalState ?? "success") : "blocked"
   });
-  const loop = buildLoopControllerReport(context, args.task, { phase: "after-edit", base: args.base ?? "main", traceId: args.traceId });
 
   return {
     task: args.task,
     traceId: trace.id,
     previousFinalState: traceBefore?.finalState ?? null,
     finalState: trace.finalState,
-    passed: policy.passed,
+    passed,
     loop,
     policy,
+    ...guidance,
     markdown: [renderPolicyReport(policy), "", renderExecutionTrace(trace)].join("\n")
   };
+}
+
+function buildRuntimeGuidance(
+  context: Awaited<ReturnType<typeof buildContextPackage>>,
+  task: string,
+  input: {
+    loop: ReturnType<typeof buildLoopControllerReport>;
+    policy?: ReturnType<typeof buildPolicyReport>;
+    manifest?: TaskRunManifest;
+    type?: PlanInput["type"];
+    tokenBudget?: number;
+  }
+): RuntimeGuidance {
+  const fallback = input.manifest ?? fallbackManifest(context, task, input.type, input.tokenBudget);
+  const nextAction = firstDecision(input.loop);
+  const policyCommands = input.policy?.findings.map((finding) => finding.requiredAction).filter((command): command is string => Boolean(command)) ?? [];
+  const missingEvidence = unique([
+    ...input.loop.runtime.missingEvidence,
+    ...input.loop.decisions.filter((decision) => decision.blocking).map((decision) => decision.reason),
+    ...(input.policy?.findings
+      .filter((finding) => finding.status === "missing" || finding.status === "failed")
+      .map((finding) => `${finding.id}: ${finding.message}`) ?? [])
+  ]);
+
+  return {
+    nextAction,
+    blocking: Boolean(nextAction.blocking) || input.loop.decisions.some((decision) => decision.blocking) || Boolean(input.policy && !input.policy.passed),
+    requiredCommands: unique([
+      ...fallback.requiredCommands,
+      ...input.loop.decisions.map((decision) => decision.command).filter((command): command is string => Boolean(command)),
+      ...policyCommands
+    ]).filter(isRunnableCommand),
+    mustInspect: fallback.mustInspect,
+    allowedEditGlobs: fallback.allowedEditGlobs,
+    avoidEditGlobs: fallback.avoidEditGlobs,
+    missingEvidence
+  };
+}
+
+function fallbackManifest(
+  context: Awaited<ReturnType<typeof buildContextPackage>>,
+  task: string,
+  type: PlanInput["type"] = "auto",
+  tokenBudget?: number
+): Pick<TaskRunManifest, "requiredCommands" | "mustInspect" | "allowedEditGlobs" | "avoidEditGlobs"> {
+  const pack = buildTaskPack(context, task, { type, tokenBudget });
+  const tests = buildTestSelection(context, {
+    forPaths: pack.files.filter((file) => file.category === "direct-source" || file.category === "entrypoint").map((file) => file.path)
+  });
+
+  return {
+    requiredCommands: unique([...pack.suggestedCommands, ...tests.minimalCommands, ...tests.recommendedCommands, ...tests.fullConfidenceCommands]),
+    mustInspect: unique([...pack.readFirst.map((file) => file.path), ...pack.files.filter((file) => file.category === "test").map((file) => file.path)]).slice(
+      0,
+      14
+    ),
+    allowedEditGlobs: unique(
+      pack.files.filter((file) => file.category === "direct-source" || file.category === "entrypoint" || file.category === "test").map((file) => file.path)
+    ).slice(0, 24),
+    avoidEditGlobs: ["dist/**", "node_modules/**", ".agent-context/**", "**/*.lock", "package-lock.json"]
+  };
+}
+
+function readTaskRunManifest(root: string, runId: string | undefined): TaskRunManifest | undefined {
+  if (!runId) return undefined;
+  const filePath = path.join(root, ".agent-context", "runs", runId, "run.json");
+  if (!existsSync(filePath)) return undefined;
+  try {
+    return JSON.parse(readFileSync(filePath, "utf8")) as TaskRunManifest;
+  } catch {
+    return undefined;
+  }
 }
 
 function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): CodeAgentPlusplusMcpResult {
@@ -684,6 +793,16 @@ function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): Code
     : { action: "ready-for-review", confidence: 0.72, blocking: false, signals: ["no loop decisions returned"] };
 }
 
+function taskSlug(task: string): string {
+  return (
+    task
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 64) || "task"
+  );
+}
+
 function confidenceForScore(score: number): "high" | "medium" | "low" {
   if (score >= 40) return "high";
   if (score >= 15) return "medium";
@@ -692,6 +811,7 @@ function confidenceForScore(score: number): "high" | "medium" | "low" {
 
 function jsonToolResult(result: CodeAgentPlusplusMcpResult) {
   return {
+    structuredContent: result,
     content: [
       {
         type: "text" as const,
@@ -699,6 +819,10 @@ function jsonToolResult(result: CodeAgentPlusplusMcpResult) {
       }
     ]
   };
+}
+
+function isRunnableCommand(command: string): boolean {
+  return Boolean(command) && !/^No .*detected/i.test(command);
 }
 
 function unique(items: string[]): string[] {

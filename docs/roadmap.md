@@ -162,14 +162,16 @@ Status: structured Regression Guard MVP implemented; richer history ingestion re
 Goal: let coding agents call Code Agent++ as a native reliability backend.
 
 - MCP tools for build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize.
-- OpenCode / MiMoCode / MiMoCodex MCP usage guide.
+- Verifiable MCP runtime fields: `nextAction`, `blocking`, `requiredCommands`, `mustInspect`, `allowedEditGlobs`, `avoidEditGlobs`, and `missingEvidence`.
+- Client usage guides for Codex, OpenCode, Claude Code, and Cursor under `docs/integrations/`.
+- OpenCode / MiMoCode / MiMoCodex MCP usage guide and native event validation.
 - Agent-led mode documentation: code agent calls Code Agent++ tools, with documented limitations that gates are advisory unless the host agent follows them.
 - Harness-led mode documentation: Code Agent++ invokes the executor and owns verification.
 - Codex and Claude Code adapters.
 - Cursor integration guide.
 - Unified retriever adapters for static, ripgrep, LightRAG, embedding, and hybrid retrieval.
 
-Status: MCP scaffold and core tools implemented; per-client validation planned.
+Status: MCP scaffold, core tools, structured runtime gate fields, and Codex/OpenCode/Claude Code/Cursor integration guides implemented; per-client end-to-end validation and native event normalization remain planned.
 
 ## v0.9: Orchestrator Loop
 

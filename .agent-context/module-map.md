@@ -25,7 +25,7 @@
 | benchmarks/fixtures/monorepo/packages/shared | 2 | 34 | none | benchmarks/fixtures/monorepo/packages/shared contains 2 files. |
 | test/fixtures/monorepo/packages/web | 2 | 30 | `test/fixtures/monorepo/packages/api` | test/fixtures/monorepo/packages/web contains 2 files and depends on test/fixtures/monorepo/packages/api. |
 | benchmarks/fixtures/monorepo | 1 | 17 | none | benchmarks/fixtures/monorepo contains 1 file. |
-| docs | 10 | 13 | none | docs contains 10 files. |
+| docs | 14 | 13 | none | docs contains 14 files. |
 | test/fixtures/monorepo | 3 | 9 | none | test/fixtures/monorepo contains 3 files. |
 | .github | 1 | 0 | none | .github contains 1 file. |
 | assets | 4 | 0 | none | assets contains 4 files. |

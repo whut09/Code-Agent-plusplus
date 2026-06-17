@@ -1,7 +1,7 @@
 # Task Context: fix a bug or regression
 
 Type: bugfix
-Budget: 10,003 / 12,000 estimated tokens
+Budget: 10,223 / 12,000 estimated tokens
 
 ## Read First
 1. `src/outputs/regression-guard.ts` - lexical match: regression, direct dependency of test/regression-guard.test.ts; defines RegressionMemoryEntry
@@ -42,7 +42,7 @@ Budget: 10,003 / 12,000 estimated tokens
 | `src/outputs/guard-gates.ts` | direct-source | 194 | lexical match: regression, direct importer of src/outputs/policy-engine.ts, direct dependency of src/outputs/orchestrator.ts | src/outputs/guard-gates.ts contains 34 detected symbols, 4 imports, 6 exports. |
 | `src/integrations/codegraph.ts` | direct-source | 294 | lexical match: regression | src/integrations/codegraph.ts contains 59 detected symbols, 5 imports, 11 exports. |
 | `src/cli/index.ts` | entrypoint | 315 | direct importer of src/outputs/task-context.ts, direct importer of src/benchmarks/agent-benchmark.ts, direct importer of src/outputs/orchestrator.ts, direct importer of src/outputs/policy-engine.ts, direct importer of src/outputs/regression-guard.ts, direct importer of src/integrations/codegraph.ts, entrypoint | src/cli/index.ts contains 104 detected symbols, 33 imports, 0 exports. |
-| `src/mcp/server.ts` | entrypoint | 339 | direct importer of src/outputs/policy-engine.ts, direct importer of src/outputs/task-context.ts, entrypoint | src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports. |
+| `src/mcp/server.ts` | entrypoint | 405 | direct importer of src/outputs/policy-engine.ts, direct importer of src/outputs/task-context.ts, entrypoint | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
 | `test/regression-guard.test.ts` | test | 86 | lexical match: regression, direct importer of src/outputs/policy-engine.ts, direct importer of src/outputs/regression-guard.ts, direct importer of src/outputs/task-context.ts, related test | test/regression-guard.test.ts contains 14 detected symbols, 12 imports, 0 exports. |
 | `test/orchestrator.test.ts` | test | 116 | direct importer of src/outputs/orchestrator.ts, related test | test/orchestrator.test.ts contains 27 detected symbols, 8 imports, 0 exports. |
 | `test/policy-engine.test.ts` | test | 142 | direct importer of src/outputs/policy-engine.ts, related test | test/policy-engine.test.ts contains 38 detected symbols, 10 imports, 0 exports. |
@@ -86,6 +86,10 @@ Budget: 10,003 / 12,000 estimated tokens
 | `benchmarks/README.md` | config-doc | 28 | owning module documentation | benchmarks/README.md is a docs file written as Markdown. |
 | `benchmarks/fixtures/monorepo/packages/config/README.md` | config-doc | 45 | owning module documentation | benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown. |
 | `benchmarks/fixtures/monorepo/packages/web/README.md` | config-doc | 44 | owning module documentation | benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown. |
+| `docs/integrations/claude-code-mcp.md` | config-doc | 40 | owning module documentation | docs/integrations/claude-code-mcp.md is a docs file written as Markdown. |
+| `docs/integrations/codex-mcp.md` | config-doc | 37 | owning module documentation | docs/integrations/codex-mcp.md is a docs file written as Markdown. |
+| `docs/integrations/cursor-mcp.md` | config-doc | 38 | owning module documentation | docs/integrations/cursor-mcp.md is a docs file written as Markdown. |
+| `docs/integrations/opencode-mcp.md` | config-doc | 39 | owning module documentation | docs/integrations/opencode-mcp.md is a docs file written as Markdown. |
 | `benchmarks/fixtures/monorepo/packages/api/package.json` | config-doc | 51 | configuration | benchmarks/fixtures/monorepo/packages/api/package.json is a config file written as JSON. |
 | `package.json` | config-doc | 25 | configuration | package.json is a config file written as JSON. |
 | `benchmarks/fixtures/fastapi-app/pyproject.toml` | config-doc | 42 | configuration | benchmarks/fixtures/fastapi-app/pyproject.toml is a config file written as TOML. |
@@ -106,10 +110,10 @@ Budget: 10,003 / 12,000 estimated tokens
 | Directly relevant source files | 2,306 | `src/outputs/regression-guard.ts`, `src/outputs/policy-engine.ts`, `src/outputs/orchestrator.ts`, `src/benchmarks/agent-benchmark.ts`, `src/outputs/task-context.ts`, `src/outputs/guard-gates.ts`, `src/integrations/codegraph.ts` |
 | Tests | 1,056 | `test/regression-guard.test.ts`, `test/orchestrator.test.ts`, `test/policy-engine.test.ts`, `test/codegraph.test.ts`, `test/task-context.test.ts`, `test/agent-benchmark.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/hallucination-guard.test.ts` |
 | Dependency neighbors | 5,308 | `src/outputs/task-run.ts`, `src/outputs/writer.ts`, `src/outputs/task-harness.ts`, `src/outputs/guard-finding.ts`, `src/outputs/test-selector.ts`, `src/outputs/execution-trace.ts`, `src/outputs/markdown.ts`, `src/core/types.ts`, `src/core/git.ts`, `src/outputs/loop-controller.ts`, `src/outputs/impact.ts`, `src/outputs/agent-events.ts`, `src/outputs/hallucination-guard.ts`, `src/core/context-builder.ts`, `src/core/safe-command.ts`, `src/core/freshness.ts`, `src/benchmarks/benchmark.ts`, `src/outputs/evidence.ts`, `src/retrievers/codegraph.ts`, `src/outputs/contract-validator.ts`, `src/core/token-estimator.ts`, `src/retrievers/types.ts`, `src/sandbox/git-worktree-sandbox.ts`, `src/sandbox/sandbox-adapter.ts`, `src/sandbox/host-sandbox.ts` |
-| Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
-| Entrypoints | 654 | `src/cli/index.ts`, `src/mcp/server.ts` |
+| Config/docs | 833 | `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `docs/integrations/claude-code-mcp.md`, `docs/integrations/codex-mcp.md`, `docs/integrations/cursor-mcp.md`, `docs/integrations/opencode-mcp.md`, `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
+| Entrypoints | 720 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 1,997 estimated tokens
+Remaining budget: 1,777 estimated tokens
 
 ## Suggested Commands
 - npm run test -- regression

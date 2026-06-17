@@ -6,18 +6,18 @@ Generated for target: `codex`.
 - Languages: JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML
 - Frameworks: none detected
 - Package managers: npm
-- Files scanned: 204
-- Symbols detected: 2812
-- Dependency edges detected: 627
+- Files scanned: 208
+- Symbols detected: 2833
+- Dependency edges detected: 628
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,661,169 tokens
-Estimated context pack (chars_approx): 20,095 tokens
+Original repo (estimated, chars_approx): 1,666,267 tokens
+Estimated context pack (chars_approx): 20,100 tokens
 Compression: 83x
 Token budget: 100,000 (within budget)
 
 ## Repository Summary
-This repository contains 204 scanned files with 2812 detected symbols across 27 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agent-events.ts, src/outputs/agents-md.ts); test (test/agent-benchmark.test.ts, test/agent-events.test.ts); core (src/core/cache.ts, src/core/context-builder.ts); retrievers (src/retrievers/codegraph.ts, src/retrievers/external.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 81 detected symbols, 18 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/outputs/loop-controller.ts: src/outputs/loop-controller.ts contains 60 detected symbols, 13 imports, 10 exports.; src/outputs/policy-engine.ts: src/outputs/policy-engine.ts contains 48 detected symbols, 11 imports, 9 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 68 detected symbols, 8 imports, 5 exports..
+This repository contains 208 scanned files with 2833 detected symbols across 27 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: outputs (src/outputs/agent-events.ts, src/outputs/agents-md.ts); test (test/agent-benchmark.test.ts, test/agent-events.test.ts); core (src/core/cache.ts, src/core/context-builder.ts); retrievers (src/retrievers/codegraph.ts, src/retrievers/external.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/outputs/loop-controller.ts: src/outputs/loop-controller.ts contains 60 detected symbols, 13 imports, 10 exports.; src/outputs/policy-engine.ts: src/outputs/policy-engine.ts contains 48 detected symbols, 11 imports, 9 exports.; src/outputs/task-harness.ts: src/outputs/task-harness.ts contains 68 detected symbols, 8 imports, 5 exports..
 
 ## Summary Mode
 - Mode: offline

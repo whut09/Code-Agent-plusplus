@@ -405,6 +405,22 @@ code_agent_plusplus_finalize
 
 The experimental runtime loop tools are: `start_loop` writes the task run and trace, `step` records edits/tests/verification, `evaluate` combines delta, loop, policy, and verify signals, `repair` returns repair actions, and `finalize` closes the run after test and contract evidence exists.
 
+Runtime tools return structured gate fields that MCP clients can consume directly:
+
+- `nextAction`: the recommended next step, such as `run-tests`, `repair-contracts`, or `ready-for-review`.
+- `blocking`: whether the current state blocks finalize.
+- `requiredCommands`: commands that must be run or recorded as evidence.
+- `mustInspect`: source files the agent should read before editing.
+- `allowedEditGlobs` / `avoidEditGlobs`: the edit boundary for this loop.
+- `missingEvidence`: missing test, contract, context, or policy evidence.
+
+Client integration guides:
+
+- [Codex MCP Integration](docs/integrations/codex-mcp.md)
+- [OpenCode MCP Integration](docs/integrations/opencode-mcp.md)
+- [Claude Code MCP Integration](docs/integrations/claude-code-mcp.md)
+- [Cursor MCP Integration](docs/integrations/cursor-mcp.md)
+
 `--executor-command` and `trace run --command` are parsed as argv-style commands and executed without a shell. Quoted paths with spaces or non-ASCII characters are preserved; shell control operators such as `&&`, `|`, `>`, `<`, `;`, and backticks are rejected. Put complex shell logic in a checked-in script and invoke that script directly.
 
 ## LLM Summary Configuration
@@ -432,6 +448,10 @@ code-agent-plusplus build . --llm
 - [Guard Modules](docs/guard-modules.md)
 - [Loop Engineering code path](docs/loop-engineering.md)
 - [AGENTS.md usage](docs/agents-md.md)
+- [MCP Integration: Codex](docs/integrations/codex-mcp.md)
+- [MCP Integration: OpenCode](docs/integrations/opencode-mcp.md)
+- [MCP Integration: Claude Code](docs/integrations/claude-code-mcp.md)
+- [MCP Integration: Cursor](docs/integrations/cursor-mcp.md)
 - [Roadmap](docs/roadmap.md)
 - [Benchmark](benchmarks/README.md)
 
