@@ -2,28 +2,28 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 7040,
-  "remainingBudget": 4960,
+  "estimatedTokens": 7158,
+  "remainingBudget": 4842,
   "files": [
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 266,
+      "score": 270,
       "reasons": [
         "lexical match: behavior",
         "direct importer of src/benchmarks/benchmark.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 364
+      "estimatedTokens": 466
     },
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 262,
+      "score": 266,
       "reasons": [
         "lexical match: behavior",
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 452
+      "estimatedTokens": 468
     },
     {
       "path": "src/cli/index.ts",
@@ -329,15 +329,6 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
@@ -354,6 +345,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -410,15 +410,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 45
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
       "score": 14,
       "reasons": [
@@ -426,28 +417,37 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 44
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 45
     }
   ],
   "readFirst": [
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 266,
+      "score": 270,
       "reasons": [
         "lexical match: behavior",
         "direct importer of src/benchmarks/benchmark.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 364
+      "estimatedTokens": 466
     },
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 262,
+      "score": 266,
       "reasons": [
         "lexical match: behavior",
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 452
+      "estimatedTokens": 468
     },
     {
       "path": "src/cli/index.ts",
@@ -622,13 +622,13 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 7040,
-    "remaining": 4960,
+    "used": 7158,
+    "remaining": 4842,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 816,
+        "tokens": 934,
         "files": [
           "src/benchmarks/agent-benchmark.ts",
           "src/benchmarks/benchmark.ts"
@@ -684,17 +684,17 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           ".env.example",
           "code-agent-plusplus.config.yml",
           "tsconfig.json",
           ".github/workflows/ci.yml",
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/config/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md"
+          "benchmarks/fixtures/monorepo/packages/web/README.md",
+          "benchmarks/fixtures/monorepo/packages/config/README.md"
         ]
       },
       {

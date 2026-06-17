@@ -24,13 +24,13 @@
     "mcp": "tsx src/mcp/server.ts",
     "check": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json",
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
-    "format": "prettier --ignore-unknown --write \"src/**/*.ts\" \"test/**/*.ts\" \"README*.md\" \"docs/**/*.md\" \"*.{json,yml,yaml,cjs,js}\" \".github/**/*.yml\" \".env.example\" \"benchmarks/README.md\" \"benchmarks/expected/*.json\" \"benchmarks/tasks/*.json\"",
-    "format:check": "prettier --ignore-unknown --check \"src/**/*.ts\" \"test/**/*.ts\" \"README*.md\" \"docs/**/*.md\" \"*.{json,yml,yaml,cjs,js}\" \".github/**/*.yml\" \".env.example\" \"benchmarks/README.md\" \"benchmarks/expected/*.json\" \"benchmarks/tasks/*.json\"",
+    "format": "prettier --ignore-unknown --write \"src/**/*.ts\" \"test/**/*.ts\" \"README*.md\" \"docs/**/*.md\" \"*.{json,yml,yaml,cjs,js}\" \".github/**/*.yml\" \".env.example\" \"benchmarks/README.md\" \"benchmarks/expected/*.json\" \"benchmarks/tasks/*.json\" \"benchmarks/agent-runs/*.json\" \"benchmarks/fixtures/**/*.json\"",
+    "format:check": "prettier --ignore-unknown --check \"src/**/*.ts\" \"test/**/*.ts\" \"README*.md\" \"docs/**/*.md\" \"*.{json,yml,yaml,cjs,js}\" \".github/**/*.yml\" \".env.example\" \"benchmarks/README.md\" \"benchmarks/expected/*.json\" \"benchmarks/tasks/*.json\" \"benchmarks/agent-runs/*.json\" \"benchmarks/fixtures/**/*.json\"",
     "test": "tsx --test test/*.test.ts",
     "benchmark": "tsx src/cli/index.ts benchmark benchmarks --top-k 8",
     "benchmark:agent": "tsx src/cli/index.ts benchmark-agent benchmarks --executor mock --dry-run",
     "pack:dry-run": "npm pack --dry-run",
-    "prepublishOnly": "npm run check && npm run lint && npm run format:check && npm test && npm run benchmark && npm run build"
+    "prepublishOnly": "npm run check && npm run lint && npm run format:check && npm test && npm run benchmark && npm run benchmark:agent && npm run build"
   },
   "engines": {
     "node": ">=20"

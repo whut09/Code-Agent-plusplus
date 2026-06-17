@@ -6,12 +6,12 @@ import { runBenchmark, renderBenchmarkReport } from "../src/benchmarks/benchmark
 test("benchmark evaluates loop behavior against expected files and tests", async () => {
   const result = await runBenchmark({ benchmarkDir: path.resolve("benchmarks"), topK: 8 });
 
-  assert.equal(result.summary.cases, 4);
+  assert.equal(result.summary.cases, 10);
   assert.ok(result.summary.averageRecallAtK > 0.5);
   assert.ok(result.summary.averagePrecisionAtK > 0);
   assert.ok(result.summary.averageTokenCompressionRatio > 1);
   assert.ok(result.summary.averageTestRecommendationAccuracy > 0.5);
-  assert.equal(result.summary.agentRunCases, 4);
+  assert.equal(result.summary.agentRunCases, 10);
   assert.ok(result.summary.averageAgentSuccessDelta !== null);
   assert.ok(result.summary.averageAgentSuccessDelta > 0);
   assert.ok(result.summary.averageWrongFileEditReduction !== null);
@@ -34,6 +34,7 @@ test("benchmark evaluates loop behavior against expected files and tests", async
   const markdown = renderBenchmarkReport(result);
   assert.match(markdown, /# Loop Behavior Benchmark/);
   assert.match(markdown, /Behavior Comparison/);
+  assert.match(markdown, /Phase 6 Metrics/);
   assert.match(markdown, /Loop Harness Delta/);
   assert.match(markdown, /Wrong file edits/);
   assert.match(markdown, /Repair loops/);
@@ -41,4 +42,6 @@ test("benchmark evaluates loop behavior against expected files and tests", async
   assert.match(markdown, /Recall@K/);
   assert.match(markdown, /Agent success delta/);
   assert.match(markdown, /Agent success delta proxy/);
+  assert.match(markdown, /Hallucinated commands/);
+  assert.match(markdown, /Human review/);
 });

@@ -1,0 +1,12 @@
+[
+  {
+    "id": "auth-timeout-regression-001",
+    "module": "auth",
+    "files": ["src/auth/session.ts"],
+    "pattern": "session timeout must use server-side time and preserve ttl refresh behavior",
+    "requiredTests": ["npm test -- test/auth/session.test.ts"],
+    "riskTriggers": ["timeout", "session", "ttl", "expire", "client time"],
+    "lastFixedIn": "benchmark-fixture",
+    "severity": "error"
+  }
+]

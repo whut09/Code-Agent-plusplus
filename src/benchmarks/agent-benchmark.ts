@@ -42,11 +42,18 @@ export interface AgentBehaviorBenchmarkRun {
   workdir: string;
   changedFiles: string[];
   unrelatedChanges: number;
+  forbiddenFilesChanged: number;
   passedTests: boolean;
   missingEvidence: number;
+  testsMissing: number;
+  testsFailed: number;
+  hallucinatedCommands: number;
   loopCount: number;
+  iterationsToFinish: number;
   finalDecision: AgentBenchmarkFinalDecision;
   finalGate: AgentBenchmarkGate;
+  finalDecisionAccuracy: boolean;
+  humanReviewNeeded: boolean;
   hallucinationFindings: number;
   regressionFindings: number;
   exitCode: number | null;
@@ -56,9 +63,15 @@ export interface AgentBehaviorModeSummary {
   mode: AgentRunMode;
   runs: number;
   wrongEdits: number;
+  forbiddenEdits: number;
   staleEvidence: number;
+  testsMissing: number;
+  testsFailed: number;
+  hallucinatedCommands: number;
   testPassRate: number;
   loops: number;
+  finalDecisionAccuracy: number;
+  humanReviewNeeded: number;
   finalGate: AgentBenchmarkGate;
 }
 
@@ -107,30 +120,47 @@ export function renderAgentBehaviorBenchmark(result: AgentBehaviorBenchmarkResul
     "",
     heading(2, "Mode Comparison"),
     table(
-      ["Mode", "Wrong edits", "Stale evidence", "Test pass", "Loops", "Final gate"],
+      [
+        "Mode",
+        "Wrong files",
+        "Forbidden",
+        "Tests missing",
+        "Tests failed",
+        "Hallucinated commands",
+        "Iterations",
+        "Decision accuracy",
+        "Human review",
+        "Final gate"
+      ],
       result.summary.map((item) => [
         displayMode(item.mode),
         item.wrongEdits.toFixed(1),
-        item.staleEvidence.toFixed(1),
-        percent(item.testPassRate),
+        item.forbiddenEdits.toFixed(1),
+        item.testsMissing.toFixed(1),
+        item.testsFailed.toFixed(1),
+        item.hallucinatedCommands.toFixed(1),
         item.loops.toFixed(1),
+        percent(item.finalDecisionAccuracy),
+        percent(item.humanReviewNeeded),
         item.finalGate
       ])
     ),
     "",
     heading(2, "Run Details"),
     table(
-      ["Task", "Fixture", "Mode", "Changed", "Wrong edits", "Missing evidence", "Decision", "Hallucinations", "Regressions"],
+      ["Task", "Fixture", "Mode", "Changed", "Wrong", "Forbidden", "Missing tests", "Failed tests", "Hallucinated commands", "Decision", "Human review"],
       result.runs.map((run) => [
         run.taskId,
         run.fixture,
         displayMode(run.mode),
         String(run.changedFiles.length),
         String(run.unrelatedChanges),
-        String(run.missingEvidence),
+        String(run.forbiddenFilesChanged),
+        String(run.testsMissing),
+        String(run.testsFailed),
+        String(run.hallucinatedCommands),
         run.finalDecision,
-        String(run.hallucinationFindings),
-        String(run.regressionFindings)
+        run.humanReviewNeeded ? "yes" : "no"
       ])
     ),
     "",
@@ -141,6 +171,7 @@ export function renderAgentBehaviorBenchmark(result: AgentBehaviorBenchmarkResul
     "- C context-pack: task plus task-aware pack and edit boundary.",
     "- D harness-led: Code Agent++ owns the loop and the code agent is only the executor.",
     "- `mock` and `--dry-run` validate the benchmark harness without editing fixtures.",
+    "- Core Phase 6 metrics: wrong files changed, forbidden files changed, tests missing, tests failed, hallucinated commands, iterations to finish, final decision accuracy, and human review needed.",
     '- Real OpenCode runs can be recorded with `--executor opencode --executor-command "opencode run --format json {prompt}"`.'
   ].join("\n");
 }
@@ -152,6 +183,10 @@ async function runAgentModeBenchmark(
   executor: AgentExecutorName,
   options: AgentBehaviorBenchmarkOptions
 ): Promise<AgentBehaviorBenchmarkRun> {
+  if (options.dryRun && executor === "mock") {
+    return mockDryRunAgentModeBenchmark(benchmarkDir, task, mode, executor);
+  }
+
   const workspace = mkdtempSync(path.join(tmpdir(), `code-agent-plusplus-agent-benchmark-${task.id}-${mode}-`));
   const repo = path.join(workspace, task.fixture);
   cpSync(path.join(benchmarkDir, "fixtures", task.fixture), repo, { recursive: true });
@@ -169,6 +204,59 @@ async function runAgentModeBenchmark(
 
   if (!options.keepWorkdirs) rmSync(workspace, { recursive: true, force: true });
   return result;
+}
+
+function mockDryRunAgentModeBenchmark(
+  benchmarkDir: string,
+  task: BenchmarkTaskDefinition,
+  mode: AgentRunMode,
+  executor: AgentExecutorName
+): AgentBehaviorBenchmarkRun {
+  const modeRank: Record<AgentRunMode, number> = {
+    "no-context": 0,
+    "agents-md": 1,
+    "context-pack": 2,
+    "loop-enabled-harness": 3
+  };
+  const rank = modeRank[mode];
+  const isHallucinationTask = /hallucinat/i.test(task.id);
+  const isProtectedTask = /protected/i.test(task.id);
+  const isRegressionTask = /regression/i.test(task.id);
+  const changedFiles =
+    rank >= 2 ? task.changedFiles : rank === 1 ? task.changedFiles.slice(0, Math.max(1, task.changedFiles.length - 1)) : ["unrelated/file.ts"];
+  const forbiddenFilesChanged = isProtectedTask && rank < 2 ? 1 : 0;
+  const hallucinatedCommands = isHallucinationTask && rank < 2 ? 1 : 0;
+  const testsMissing = rank < 2 || (isRegressionTask && rank < 2) ? 1 : 0;
+  const testsFailed = rank === 0 ? 1 : 0;
+  const expectedBlock = forbiddenFilesChanged > 0 || hallucinatedCommands > 0 || testsMissing > 0 || testsFailed > 0;
+  const finalGate: AgentBenchmarkGate = rank === 3 ? "strong" : rank === 2 ? "medium" : "blocked";
+  const finalDecision: AgentBenchmarkFinalDecision = rank === 3 ? "finalize" : rank === 2 ? "weak-pass" : "weak-block";
+
+  return {
+    taskId: task.id,
+    fixture: task.fixture,
+    task: task.task,
+    mode,
+    executor,
+    workdir: path.join(benchmarkDir, "fixtures", task.fixture),
+    changedFiles,
+    unrelatedChanges: rank >= 2 ? 0 : rank === 1 ? 1 : Math.max(1, task.changedFiles.length),
+    forbiddenFilesChanged,
+    passedTests: rank >= 2,
+    missingEvidence: testsMissing,
+    testsMissing,
+    testsFailed,
+    hallucinatedCommands,
+    loopCount: rank === 3 ? 2 : rank === 2 ? 3 : rank === 1 ? 4 : 6,
+    iterationsToFinish: rank === 3 ? 2 : rank === 2 ? 3 : rank === 1 ? 4 : 6,
+    finalDecision,
+    finalGate,
+    finalDecisionAccuracy: expectedBlock ? rank < 2 : rank >= 2,
+    humanReviewNeeded: expectedBlock,
+    hallucinationFindings: hallucinatedCommands,
+    regressionFindings: isRegressionTask ? 1 : 0,
+    exitCode: testsFailed ? 1 : 0
+  };
 }
 
 async function runHarnessMode(
@@ -192,6 +280,14 @@ async function runHarnessMode(
   const hallucination = buildHallucinationReport(postContext, { base: options.base ?? "main", traceId: result.report.traceId, task: task.task });
   const regression = buildRegressionReport(postContext, { base: options.base ?? "main", traceId: result.report.traceId, task: task.task, changedFiles });
   const policy = buildPolicyReport(postContext, { base: options.base ?? "main", traceId: result.report.traceId, failOn: options.failOn ?? "required" });
+  const finalGate: AgentBenchmarkGate = result.report.decision.blocking ? "blocked" : "strong";
+  const metrics = behaviorMetrics({
+    policy,
+    hallucination,
+    exitCode: result.report.executorResult.exitCode,
+    finalDecision: result.report.decision.action,
+    finalGate
+  });
 
   return {
     taskId: task.id,
@@ -202,11 +298,18 @@ async function runHarnessMode(
     workdir: repo,
     changedFiles,
     unrelatedChanges: unrelatedChanges(changedFiles, task),
+    forbiddenFilesChanged: metrics.forbiddenFilesChanged,
     passedTests: policy.passed && policy.summary.requiredMissing === 0 && result.report.executorResult.exitCode === 0,
     missingEvidence: policy.summary.requiredMissing,
+    testsMissing: metrics.testsMissing,
+    testsFailed: metrics.testsFailed,
+    hallucinatedCommands: metrics.hallucinatedCommands,
     loopCount: result.report.iterations.length,
+    iterationsToFinish: result.report.iterations.length,
     finalDecision: result.report.decision.action,
-    finalGate: result.report.decision.blocking ? "blocked" : "strong",
+    finalGate,
+    finalDecisionAccuracy: metrics.finalDecisionAccuracy,
+    humanReviewNeeded: metrics.humanReviewNeeded,
     hallucinationFindings: hallucination.summary.errors + hallucination.summary.warnings,
     regressionFindings: regression.summary.matches,
     exitCode: result.report.executorResult.exitCode
@@ -284,6 +387,15 @@ async function runDirectMode(
     type: task.type ?? "auto",
     traceId: trace.id
   });
+  const finalDecision: AgentBenchmarkFinalDecision = policy.passed ? "weak-pass" : "weak-block";
+  const finalGate: AgentBenchmarkGate = policy.passed && loop.status === "ready" ? (mode === "context-pack" ? "medium" : "weak") : "blocked";
+  const metrics = behaviorMetrics({
+    policy,
+    hallucination,
+    exitCode: execution.exitCode,
+    finalDecision,
+    finalGate
+  });
 
   return {
     taskId: task.id,
@@ -294,11 +406,18 @@ async function runDirectMode(
     workdir: repo,
     changedFiles,
     unrelatedChanges: unrelatedChanges(changedFiles, task),
+    forbiddenFilesChanged: metrics.forbiddenFilesChanged,
     passedTests: policy.passed && policy.summary.requiredMissing === 0 && execution.exitCode === 0,
     missingEvidence: policy.summary.requiredMissing,
+    testsMissing: metrics.testsMissing,
+    testsFailed: metrics.testsFailed,
+    hallucinatedCommands: metrics.hallucinatedCommands,
     loopCount: 1,
-    finalDecision: policy.passed ? "weak-pass" : "weak-block",
-    finalGate: policy.passed && loop.status === "ready" ? (mode === "context-pack" ? "medium" : "weak") : "blocked",
+    iterationsToFinish: 1,
+    finalDecision,
+    finalGate,
+    finalDecisionAccuracy: metrics.finalDecisionAccuracy,
+    humanReviewNeeded: metrics.humanReviewNeeded,
     hallucinationFindings: hallucination.summary.errors + hallucination.summary.warnings,
     regressionFindings: regression.summary.matches,
     exitCode: execution.exitCode
@@ -435,12 +554,57 @@ function summarizeAgentBehavior(runs: AgentBehaviorBenchmarkRun[], modes: AgentR
       mode,
       runs: modeRuns.length,
       wrongEdits: average(modeRuns.map((run) => run.unrelatedChanges)),
+      forbiddenEdits: average(modeRuns.map((run) => run.forbiddenFilesChanged)),
       staleEvidence: average(modeRuns.map((run) => run.missingEvidence)),
+      testsMissing: average(modeRuns.map((run) => run.testsMissing)),
+      testsFailed: average(modeRuns.map((run) => run.testsFailed)),
+      hallucinatedCommands: average(modeRuns.map((run) => run.hallucinatedCommands)),
       testPassRate: average(modeRuns.map((run) => (run.passedTests ? 1 : 0))),
-      loops: average(modeRuns.map((run) => run.loopCount)),
+      loops: average(modeRuns.map((run) => run.iterationsToFinish)),
+      finalDecisionAccuracy: average(modeRuns.map((run) => (run.finalDecisionAccuracy ? 1 : 0))),
+      humanReviewNeeded: average(modeRuns.map((run) => (run.humanReviewNeeded ? 1 : 0))),
       finalGate: summarizeGate(modeRuns)
     };
   });
+}
+
+function behaviorMetrics(input: {
+  policy: ReturnType<typeof buildPolicyReport>;
+  hallucination: ReturnType<typeof buildHallucinationReport>;
+  exitCode: number | null;
+  finalDecision: AgentBenchmarkFinalDecision;
+  finalGate: AgentBenchmarkGate;
+}): Pick<
+  AgentBehaviorBenchmarkRun,
+  "forbiddenFilesChanged" | "testsMissing" | "testsFailed" | "hallucinatedCommands" | "finalDecisionAccuracy" | "humanReviewNeeded"
+> {
+  const forbiddenFilesChanged = unique(
+    input.policy.findings.filter((finding) => finding.kind === "forbidden" && finding.status === "failed").map((finding) => finding.file ?? finding.id)
+  ).length;
+  const testsMissing = input.policy.findings.filter(
+    (finding) => finding.kind === "required" && finding.status === "missing" && /test|regression/i.test(`${finding.id} ${finding.message}`)
+  ).length;
+  const testsFailed = input.exitCode !== null && input.exitCode !== 0 ? 1 : 0;
+  const hallucinatedCommands = input.hallucination.findings.filter((finding) => finding.kind === "missing_command").length;
+  const expectedBlock =
+    forbiddenFilesChanged > 0 || testsMissing > 0 || testsFailed > 0 || hallucinatedCommands > 0 || input.policy.summary.requiredMissing > 0;
+  const actualBlock =
+    input.finalGate === "blocked" ||
+    input.finalDecision === "block" ||
+    input.finalDecision === "rollback" ||
+    input.finalDecision === "require-human-review" ||
+    input.finalDecision === "repair" ||
+    input.finalDecision === "repack" ||
+    input.finalDecision === "weak-block";
+
+  return {
+    forbiddenFilesChanged,
+    testsMissing,
+    testsFailed,
+    hallucinatedCommands,
+    finalDecisionAccuracy: expectedBlock ? actualBlock : !actualBlock,
+    humanReviewNeeded: input.finalDecision === "require-human-review" || input.finalDecision === "rollback" || input.finalGate === "blocked"
+  };
 }
 
 function summarizeGate(runs: AgentBehaviorBenchmarkRun[]): AgentBenchmarkGate {
@@ -449,6 +613,10 @@ function summarizeGate(runs: AgentBehaviorBenchmarkRun[]): AgentBenchmarkGate {
   if (runs.some((run) => run.finalGate === "weak")) return "weak";
   if (runs.some((run) => run.finalGate === "medium")) return "medium";
   return "strong";
+}
+
+function unique<T>(items: T[]): T[] {
+  return [...new Set(items)];
 }
 
 function average(values: number[]): number {

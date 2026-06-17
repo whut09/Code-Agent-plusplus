@@ -268,7 +268,7 @@ When `--checkpoint git-worktree` is enabled, Code Agent++ creates a temporary gi
 | freshness / drift / manifest                         | implemented            |
 | MCP server scaffold                                  | implemented            |
 | Agent Native Runtime loop tools                      | experimental           |
-| benchmark harness                                    | experimental           |
+| benchmark harness                                    | implemented foundation |
 | direct LightRAG server sync                          | planned                |
 
 ## Outputs
@@ -345,6 +345,19 @@ code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
 code-agent-plusplus retrieve "<task>" [repo] --provider codegraph
 code-agent-plusplus-mcp
 ```
+
+## Benchmark: Proving Project Value
+
+`benchmarks/` now contains 10 tasks: 3 bugfix tasks, 2 feature tasks, 2 refactor tasks, 1 hallucinated-command trigger, 1 protected-path trigger, and 1 regression trigger.
+
+It compares four modes:
+
+- OpenCode / executor only: `no-context`
+- OpenCode / executor + `AGENTS.md`
+- OpenCode / executor + Code Agent++ context pack
+- Code Agent++ orchestrate + guards
+
+Core output metrics include: `wrong_files_changed`, `forbidden_files_changed`, `tests_missing`, `tests_failed`, `hallucinated_commands`, `iterations_to_finish`, `final_decision_accuracy`, and `human_review_needed`.
 
 `policy --fail-on` supports three CI thresholds:
 

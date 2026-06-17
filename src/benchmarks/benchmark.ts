@@ -43,6 +43,13 @@ export interface AgentRunRecord {
   changedFiles: string[];
   passedTests: boolean;
   unrelatedChanges: number;
+  forbiddenFilesChanged?: number;
+  testsMissing?: number;
+  testsFailed?: number;
+  hallucinatedCommands?: number;
+  iterationsToFinish?: number;
+  finalDecisionAccuracy?: boolean;
+  humanReviewNeeded?: boolean;
   score: number;
   foundCorrectFiles?: boolean;
   modifiedCorrectLocation?: boolean;
@@ -306,7 +313,30 @@ function renderAgentRunModes(result: BenchmarkRunResult): string {
     return "No `benchmarks/agent-runs/*.json` records found.";
   }
 
-  return table(["Task", "Mode", "Runs", "Score", "Wrong file edits", "Test failures", "Steps", "Tokens", "Repair loops"], rows);
+  const detailedRows = result.cases.flatMap((item) =>
+    item.agentRuns.map((run) => [
+      item.id,
+      displayAgentRunMode(run.mode),
+      String(run.unrelatedChanges),
+      String(run.forbiddenFilesChanged ?? 0),
+      String(run.testsMissing ?? 0),
+      String(run.testsFailed ?? (run.passedTests ? 0 : 1)),
+      String(run.hallucinatedCommands ?? 0),
+      String(run.iterationsToFinish ?? run.iterations ?? "n/a"),
+      inferredDecisionAccuracy(run) ? "yes" : "no",
+      inferredHumanReviewNeeded(run) ? "yes" : "no"
+    ])
+  );
+
+  return [
+    table(["Task", "Mode", "Runs", "Score", "Wrong file edits", "Test failures", "Steps", "Tokens", "Repair loops"], rows),
+    "",
+    heading(3, "Phase 6 Metrics"),
+    table(
+      ["Task", "Mode", "Wrong files", "Forbidden", "Tests missing", "Tests failed", "Hallucinated commands", "Iterations", "Decision accurate", "Human review"],
+      detailedRows
+    )
+  ].join("\n");
 }
 
 function readTasks(tasksDir: string): BenchmarkTaskDefinition[] {
@@ -480,6 +510,13 @@ function normalizeAgentRunRecord(value: unknown): AgentRunRecord | null {
     changedFiles: candidate.changedFiles,
     passedTests: candidate.passedTests,
     unrelatedChanges: candidate.unrelatedChanges,
+    forbiddenFilesChanged: candidate.forbiddenFilesChanged,
+    testsMissing: candidate.testsMissing,
+    testsFailed: candidate.testsFailed,
+    hallucinatedCommands: candidate.hallucinatedCommands,
+    iterationsToFinish: candidate.iterationsToFinish,
+    finalDecisionAccuracy: candidate.finalDecisionAccuracy,
+    humanReviewNeeded: candidate.humanReviewNeeded,
     score: candidate.score,
     foundCorrectFiles: candidate.foundCorrectFiles,
     modifiedCorrectLocation: candidate.modifiedCorrectLocation,
@@ -496,6 +533,16 @@ function isKnownAgentRunMode(value: string): value is LegacyAgentRunMode {
 
 function isNumber(value: number | null | undefined): value is number {
   return typeof value === "number";
+}
+
+function inferredDecisionAccuracy(run: AgentRunRecord): boolean {
+  if (run.finalDecisionAccuracy !== undefined) return run.finalDecisionAccuracy;
+  return run.mode === "loop-enabled-harness" || (run.passedTests && run.unrelatedChanges === 0);
+}
+
+function inferredHumanReviewNeeded(run: AgentRunRecord): boolean {
+  if (run.humanReviewNeeded !== undefined) return run.humanReviewNeeded;
+  return !run.passedTests || run.unrelatedChanges > 0 || (run.forbiddenFilesChanged ?? 0) > 0 || (run.hallucinatedCommands ?? 0) > 0;
 }
 
 function displayAgentRunMode(mode: AgentRunMode): string {

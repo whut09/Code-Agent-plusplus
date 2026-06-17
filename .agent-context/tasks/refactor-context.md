@@ -1,15 +1,16 @@
 # Task Context: refactor code safely
 
 Type: refactor
-Budget: 12,000 / 12,000 estimated tokens
+Budget: 11,999 / 12,000 estimated tokens
 
 ## Read First
 1. `benchmarks/tasks/refactor-config-loader.json` - lexical match: refactor
-2. `code-agent-plusplus.config.example.yml` - lexical match: code
-3. `code-agent-plusplus.local.example.yml` - lexical match: code
-4. `assets/agent-context-code-layers.png` - lexical match: code
-5. `src/mcp/server.ts` - lexical match: code, entrypoint; defines codeAgentPlusplusMcpToolNames
-6. `src/cli/index.ts` - lexical match: code, entrypoint; defines program
+2. `benchmarks/tasks/refactor-session-expiry.json` - lexical match: refactor
+3. `code-agent-plusplus.config.example.yml` - lexical match: code
+4. `code-agent-plusplus.local.example.yml` - lexical match: code
+5. `assets/agent-context-code-layers.png` - lexical match: code
+6. `src/mcp/server.ts` - lexical match: code, entrypoint; defines codeAgentPlusplusMcpToolNames
+7. `src/cli/index.ts` - lexical match: code, entrypoint; defines program
 
 ## Then Inspect If Needed
 - `test/codegraph.test.ts` - lexical match: code, related test
@@ -33,6 +34,7 @@ Budget: 12,000 / 12,000 estimated tokens
 | File | Category | Tokens | Why | Summary |
 | --- | --- | --- | --- | --- |
 | `benchmarks/tasks/refactor-config-loader.json` | direct-source | 38 | lexical match: refactor | benchmarks/tasks/refactor-config-loader.json is a unknown file written as JSON. |
+| `benchmarks/tasks/refactor-session-expiry.json` | direct-source | 38 | lexical match: refactor | benchmarks/tasks/refactor-session-expiry.json is a unknown file written as JSON. |
 | `code-agent-plusplus.config.example.yml` | direct-source | 35 | lexical match: code | code-agent-plusplus.config.example.yml is a unknown file written as YAML. |
 | `code-agent-plusplus.local.example.yml` | direct-source | 34 | lexical match: code | code-agent-plusplus.local.example.yml is a unknown file written as YAML. |
 | `assets/agent-context-code-layers.png` | direct-source | 38 | lexical match: code | assets/agent-context-code-layers.png is a asset file. |
@@ -97,10 +99,10 @@ Budget: 12,000 / 12,000 estimated tokens
 | `src/outputs/contract-validator.ts` | dependency-neighbor | 327 | shared API/refactor risk | src/outputs/contract-validator.ts contains 65 detected symbols, 6 imports, 5 exports. |
 | `src/outputs/hallucination-guard.ts` | dependency-neighbor | 467 | shared API/refactor risk | src/outputs/hallucination-guard.ts contains 106 detected symbols, 6 imports, 8 exports. |
 | `src/outputs/task-run.ts` | dependency-neighbor | 203 | shared API/refactor risk | src/outputs/task-run.ts contains 43 detected symbols, 11 imports, 4 exports. |
-| `src/benchmarks/benchmark.ts` | dependency-neighbor | 452 | shared API/refactor risk | src/benchmarks/benchmark.ts contains 90 detected symbols, 7 imports, 11 exports. |
+| `src/benchmarks/benchmark.ts` | dependency-neighbor | 468 | shared API/refactor risk | src/benchmarks/benchmark.ts contains 93 detected symbols, 7 imports, 11 exports. |
 | `src/core/safe-command.ts` | dependency-neighbor | 158 | shared API/refactor risk | src/core/safe-command.ts contains 26 detected symbols, 1 import, 5 exports. |
 | `src/retrievers/static.ts` | dependency-neighbor | 128 | shared API/refactor risk | src/retrievers/static.ts contains 23 detected symbols, 3 imports, 6 exports. |
-| `src/benchmarks/agent-benchmark.ts` | dependency-neighbor | 364 | shared API/refactor risk | src/benchmarks/agent-benchmark.ts contains 71 detected symbols, 17 imports, 9 exports. |
+| `src/benchmarks/agent-benchmark.ts` | dependency-neighbor | 466 | shared API/refactor risk | src/benchmarks/agent-benchmark.ts contains 98 detected symbols, 17 imports, 9 exports. |
 | `src/outputs/task-context.ts` | dependency-neighbor | 260 | shared API/refactor risk | src/outputs/task-context.ts contains 67 detected symbols, 4 imports, 3 exports. |
 | `src/outputs/runtime-state.ts` | dependency-neighbor | 228 | shared API/refactor risk | src/outputs/runtime-state.ts contains 41 detected symbols, 5 imports, 10 exports. |
 | `src/core/path-utils.ts` | dependency-neighbor | 98 | shared API/refactor risk | src/core/path-utils.ts contains 9 detected symbols, 1 import, 5 exports. |
@@ -109,19 +111,18 @@ Budget: 12,000 / 12,000 estimated tokens
 | `src/core/cache.ts` | dependency-neighbor | 188 | shared API/refactor risk | src/core/cache.ts contains 34 detected symbols, 5 imports, 4 exports. |
 | `src/outputs/guard-finding.ts` | dependency-neighbor | 126 | shared API/refactor risk | src/outputs/guard-finding.ts contains 8 detected symbols, 3 imports, 7 exports. |
 | `src/retrievers/types.ts` | dependency-neighbor | 79 | shared API/refactor risk | src/retrievers/types.ts contains 4 detected symbols, 0 imports, 4 exports. |
-| `src/config/load-config.ts` | dependency-neighbor | 160 | shared API/refactor risk | src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports. |
-| `package.json` | config-doc | 25 | configuration | package.json is a config file written as JSON. |
+| `benchmarks/README.md` | config-doc | 28 | owning module documentation | benchmarks/README.md is a docs file written as Markdown. |
 
 ## Budget Packing
 | Bucket | Tokens | Files |
 | --- | --- | --- |
-| Directly relevant source files | 145 | `benchmarks/tasks/refactor-config-loader.json`, `code-agent-plusplus.config.example.yml`, `code-agent-plusplus.local.example.yml`, `assets/agent-context-code-layers.png` |
+| Directly relevant source files | 183 | `benchmarks/tasks/refactor-config-loader.json`, `benchmarks/tasks/refactor-session-expiry.json`, `code-agent-plusplus.config.example.yml`, `code-agent-plusplus.local.example.yml`, `assets/agent-context-code-layers.png` |
 | Tests | 2,699 | `test/codegraph.test.ts`, `test/test-selector.test.ts`, `test/impact.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/context-delta.test.ts`, `test/contract-validator.test.ts`, `test/execution-trace.test.ts`, `test/freshness.test.ts`, `test/hallucination-guard.test.ts`, `test/loop-controller.test.ts`, `test/orchestrator.test.ts`, `test/policy-engine.test.ts`, `test/regression-guard.test.ts`, `test/task-harness.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/mcp.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/analyzers.test.ts`, `test/cache.test.ts`, `test/agent-events.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/agent-benchmark.test.ts`, `test/benchmark.test.ts` |
-| Dependency neighbors | 8,411 | `src/integrations/codegraph.ts`, `src/retrievers/codegraph.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/outputs/agent-events.ts`, `src/outputs/execution-trace.ts`, `src/outputs/orchestrator.ts`, `src/core/token-estimator.ts`, `src/outputs/impact.ts`, `src/outputs/test-selector.ts`, `src/outputs/writer.ts`, `src/outputs/context-delta.ts`, `src/retrievers/index.ts`, `src/core/context-builder.ts`, `src/core/freshness.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts`, `src/outputs/task-harness.ts`, `src/outputs/regression-guard.ts`, `src/outputs/contract-validator.ts`, `src/outputs/hallucination-guard.ts`, `src/outputs/task-run.ts`, `src/benchmarks/benchmark.ts`, `src/core/safe-command.ts`, `src/retrievers/static.ts`, `src/benchmarks/agent-benchmark.ts`, `src/outputs/task-context.ts`, `src/outputs/runtime-state.ts`, `src/core/path-utils.ts`, `src/outputs/evidence.ts`, `src/outputs/rag.ts`, `src/core/cache.ts`, `src/outputs/guard-finding.ts`, `src/retrievers/types.ts`, `src/config/load-config.ts` |
-| Config/docs | 25 | `package.json` |
+| Dependency neighbors | 8,369 | `src/integrations/codegraph.ts`, `src/retrievers/codegraph.ts`, `src/core/types.ts`, `src/outputs/markdown.ts`, `src/outputs/agent-events.ts`, `src/outputs/execution-trace.ts`, `src/outputs/orchestrator.ts`, `src/core/token-estimator.ts`, `src/outputs/impact.ts`, `src/outputs/test-selector.ts`, `src/outputs/writer.ts`, `src/outputs/context-delta.ts`, `src/retrievers/index.ts`, `src/core/context-builder.ts`, `src/core/freshness.ts`, `src/outputs/loop-controller.ts`, `src/outputs/policy-engine.ts`, `src/outputs/task-harness.ts`, `src/outputs/regression-guard.ts`, `src/outputs/contract-validator.ts`, `src/outputs/hallucination-guard.ts`, `src/outputs/task-run.ts`, `src/benchmarks/benchmark.ts`, `src/core/safe-command.ts`, `src/retrievers/static.ts`, `src/benchmarks/agent-benchmark.ts`, `src/outputs/task-context.ts`, `src/outputs/runtime-state.ts`, `src/core/path-utils.ts`, `src/outputs/evidence.ts`, `src/outputs/rag.ts`, `src/core/cache.ts`, `src/outputs/guard-finding.ts`, `src/retrievers/types.ts` |
+| Config/docs | 28 | `benchmarks/README.md` |
 | Entrypoints | 720 | `src/mcp/server.ts`, `src/cli/index.ts` |
 
-Remaining budget: 0 estimated tokens
+Remaining budget: 1 estimated tokens
 
 ## Suggested Commands
 - npm run test -- refactor

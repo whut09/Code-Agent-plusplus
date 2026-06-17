@@ -225,8 +225,10 @@ Current MVP:
 - `code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run`
 - Real executor command hook through `--executor opencode|mimocode|codex|claude-code|cursor`.
 - Same task, same executor, same fixture, four modes: `no-context`, `agents-md`, `context-pack`, `loop-enabled-harness`.
-- Per-run metrics: changed files, unrelated changes, passed tests, missing evidence, loop count, final decision, hallucination findings, and regression findings.
-- Mode summary table: wrong edits, stale evidence, test pass rate, loops, and final gate strength.
+- Phase 6 task set: 10 tasks covering 3 bugfix, 2 feature, 2 refactor, 1 hallucinated-command trigger, 1 protected-path trigger, and 1 regression trigger.
+- Per-run metrics: `wrong_files_changed`, `forbidden_files_changed`, `tests_missing`, `tests_failed`, `hallucinated_commands`, `iterations_to_finish`, `final_decision_accuracy`, and `human_review_needed`.
+- Mode summary table: wrong files, forbidden files, missing tests, failed tests, hallucinated commands, iterations, decision accuracy, human review rate, and final gate strength.
+- `benchmarks/agent-runs/*.json` supports manual or automated OpenCode/Codex/Claude/Cursor/MiMoCode run records for repeatable behavior comparison.
 
 OpenCode example:
 
@@ -238,7 +240,7 @@ code-agent-plusplus benchmark-agent benchmarks \
   --fail-on required
 ```
 
-Status: deterministic benchmark harness implemented; real-agent behavior benchmark MVP implemented with mock/generic executor support; repeated OpenCode/MiMoCode/Codex/Claude data collection remains ongoing.
+Status: deterministic benchmark harness implemented; Phase 6 10-task value benchmark implemented with mock/generic executor support and manual four-mode records; repeated OpenCode/MiMoCode/Codex/Claude real-agent data collection remains ongoing.
 
 ## v1.1: Runtime Codebase Refactor
 

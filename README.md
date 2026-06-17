@@ -243,7 +243,7 @@ code-agent-plusplus drift .
 | freshness / drift / manifest                         | implemented            |
 | MCP server scaffold                                  | implemented            |
 | Agent Native Runtime loop tools                      | experimental           |
-| benchmark harness                                    | experimental           |
+| benchmark harness                                    | implemented foundation |
 | direct LightRAG server sync                          | planned                |
 
 ## 输出内容
@@ -320,6 +320,19 @@ code-agent-plusplus retrieve "<task>" [repo] --provider hybrid
 code-agent-plusplus retrieve "<task>" [repo] --provider codegraph
 code-agent-plusplus-mcp
 ```
+
+## Benchmark：证明项目价值
+
+`benchmarks/` 当前包含 10 个任务：3 个 bugfix、2 个 feature、2 个 refactor、1 个 hallucinated command 诱发任务、1 个 protected path 诱发任务、1 个 regression 诱发任务。
+
+它对比四种模式：
+
+- OpenCode / executor only：`no-context`
+- OpenCode / executor + `AGENTS.md`
+- OpenCode / executor + Code Agent++ context pack
+- Code Agent++ orchestrate + guards
+
+核心输出指标包括：`wrong_files_changed`、`forbidden_files_changed`、`tests_missing`、`tests_failed`、`hallucinated_commands`、`iterations_to_finish`、`final_decision_accuracy`、`human_review_needed`。
 
 ## 真实 OpenCode Demo
 

@@ -156,6 +156,7 @@
     "files": [
       "benchmarks/README.md",
       "benchmarks/agent-runs/manual-eval.json",
+      "benchmarks/agent-runs/phase6-manual-eval.json",
       "benchmarks/expected/relevant-files.json",
       "benchmarks/expected/required-tests.json",
       "benchmarks/fixtures/fastapi-app/app/admin.py",
@@ -167,9 +168,15 @@
       "benchmarks/fixtures/fastapi-app/pyproject.toml",
       "benchmarks/fixtures/fastapi-app/tests/test_users.py",
       "benchmarks/tasks/add-api-field.json",
+      "benchmarks/tasks/add-auth-audit-event.json",
+      "benchmarks/tasks/fix-fastapi-user-default.json",
       "benchmarks/tasks/fix-login-timeout.json",
       "benchmarks/tasks/fix-react-auth-state.json",
+      "benchmarks/tasks/hallucinated-auth-command.json",
+      "benchmarks/tasks/protected-lockfile-edit.json",
       "benchmarks/tasks/refactor-config-loader.json",
+      "benchmarks/tasks/refactor-session-expiry.json",
+      "benchmarks/tasks/regression-session-ttl.json",
       "src/benchmarks/agent-benchmark.ts",
       "src/benchmarks/benchmark.ts"
     ],
@@ -177,7 +184,7 @@
       "core",
       "outputs"
     ],
-    "summary": "benchmarks contains 18 files and depends on core, outputs.",
+    "summary": "benchmarks contains 25 files and depends on core, outputs.",
     "importanceScore": 266
   },
   {
@@ -201,6 +208,14 @@
     "name": "benchmarks/fixtures/small-ts-app",
     "pathPrefix": "benchmarks/fixtures/small-ts-app",
     "files": [
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/file-hashes.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/graph-cache.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/index-cache.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/tokenizer-cache.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
       "benchmarks/fixtures/small-ts-app/package.json",
       "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
@@ -212,7 +227,7 @@
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts"
     ],
     "imports": [],
-    "summary": "benchmarks/fixtures/small-ts-app contains 9 files.",
+    "summary": "benchmarks/fixtures/small-ts-app contains 17 files.",
     "importanceScore": 219
   },
   {

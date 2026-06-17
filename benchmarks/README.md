@@ -25,8 +25,25 @@ Fixtures:
 - `fastapi-app`: FastAPI route/schema flow.
 - `monorepo`: shared config package used by API and web packages.
 
+Phase 6 task set:
+
+- 3 bugfix tasks: `fix-login-timeout`, `fix-react-auth-state`, `fix-fastapi-user-default`.
+- 2 feature tasks: `add-api-field`, `add-auth-audit-event`.
+- 2 refactor tasks: `refactor-config-loader`, `refactor-session-expiry`.
+- 1 hallucinated API / command task: `hallucinated-auth-command`.
+- 1 protected path task: `protected-lockfile-edit`.
+- 1 regression task: `regression-session-ttl`.
+
 Metrics:
 
+- `wrong_files_changed`: files changed outside the expected edit surface.
+- `forbidden_files_changed`: protected or forbidden files changed.
+- `tests_missing`: required test evidence missing.
+- `tests_failed`: executor or test command failure count.
+- `hallucinated_commands`: missing package scripts or commands claimed by the agent.
+- `iterations_to_finish`: loop iterations or agent turns needed to reach the final decision.
+- `final_decision_accuracy`: whether the gate decision matches the observed evidence.
+- `human_review_needed`: whether the run should stop for human review.
 - `Wrong file edits reduction`: unrelated-file edits reduced from A to D.
 - `Test failure reduction`: failed-test rate reduced from A to D.
 - `Steps per task reduction`: iterations or turns reduced from A to D.
@@ -115,9 +132,16 @@ Metrics collected per run:
 
 - `changedFiles`
 - `unrelatedChanges`
+- `forbiddenFilesChanged`
 - `passedTests`
 - `missingEvidence`
+- `testsMissing`
+- `testsFailed`
+- `hallucinatedCommands`
 - `loopCount`
+- `iterationsToFinish`
 - `finalDecision`
+- `finalDecisionAccuracy`
+- `humanReviewNeeded`
 - `hallucinationFindings`
 - `regressionFindings`

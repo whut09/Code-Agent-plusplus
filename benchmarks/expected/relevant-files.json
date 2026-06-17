@@ -1,6 +1,17 @@
 {
-  "fix-login-timeout": ["src/auth/session.ts", "src/auth/middleware.ts", "src/api/login.ts", "test/auth/session.test.ts", "test/api/login.test.ts"],
   "add-api-field": ["app/routes/users.py", "app/schemas.py", "tests/test_users.py"],
+  "add-auth-audit-event": ["src/api/login.ts", "src/auth/session.ts", "src/billing/audit.ts", "test/api/login.test.ts"],
+  "fix-fastapi-user-default": ["app/models.py", "app/routes/users.py", "app/schemas.py", "tests/test_users.py"],
+  "fix-login-timeout": ["src/auth/session.ts", "src/auth/middleware.ts", "src/api/login.ts", "test/auth/session.test.ts", "test/api/login.test.ts"],
+  "fix-react-auth-state": [
+    "src/auth/useAuthState.ts",
+    "src/components/LoginStatus.tsx",
+    "src/App.tsx",
+    "src/auth/useAuthState.test.ts",
+    "src/components/LoginStatus.test.tsx"
+  ],
+  "hallucinated-auth-command": ["src/auth/session.ts", "src/auth/middleware.ts", "test/auth/session.test.ts", "package.json"],
+  "protected-lockfile-edit": ["src/auth/session.ts", "src/auth/middleware.ts", "src/api/login.ts", "test/auth/session.test.ts", "package.json"],
   "refactor-config-loader": [
     "packages/config/src/loader.ts",
     "packages/api/src/config.ts",
@@ -8,11 +19,6 @@
     "packages/config/test/loader.test.ts",
     "packages/api/test/config.test.ts"
   ],
-  "fix-react-auth-state": [
-    "src/auth/useAuthState.ts",
-    "src/components/LoginStatus.tsx",
-    "src/App.tsx",
-    "src/auth/useAuthState.test.ts",
-    "src/components/LoginStatus.test.tsx"
-  ]
+  "refactor-session-expiry": ["src/auth/session.ts", "src/auth/middleware.ts", "src/api/login.ts", "test/auth/session.test.ts", "test/api/login.test.ts"],
+  "regression-session-ttl": ["src/auth/session.ts", "src/auth/middleware.ts", "test/auth/session.test.ts", ".agent-context/regression/known-issues.json"]
 }

@@ -22,6 +22,12 @@ test("agent behavior benchmark runs all context modes with the mock executor", a
   assert.ok(result.summary.some((item) => item.mode === "loop-enabled-harness"));
   assert.ok(result.runs.every((run) => run.executor === "mock"));
   assert.ok(result.runs.every((run) => run.loopCount >= 1));
+  assert.ok(result.runs.every((run) => typeof run.forbiddenFilesChanged === "number"));
+  assert.ok(result.runs.every((run) => typeof run.testsMissing === "number"));
+  assert.ok(result.runs.every((run) => typeof run.testsFailed === "number"));
+  assert.ok(result.runs.every((run) => typeof run.hallucinatedCommands === "number"));
+  assert.ok(result.runs.every((run) => typeof run.finalDecisionAccuracy === "boolean"));
+  assert.ok(result.runs.every((run) => typeof run.humanReviewNeeded === "boolean"));
 
   const markdown = renderAgentBehaviorBenchmark(result);
   assert.match(markdown, /# Real Agent Behavior Benchmark/);
@@ -29,4 +35,6 @@ test("agent behavior benchmark runs all context modes with the mock executor", a
   assert.match(markdown, /A\. no context/);
   assert.match(markdown, /D\. harness-led/);
   assert.match(markdown, /OpenCode/);
+  assert.match(markdown, /Hallucinated commands/);
+  assert.match(markdown, /Human review/);
 });
