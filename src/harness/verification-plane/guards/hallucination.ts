@@ -4,6 +4,8 @@ import type { ContextPackage, IndexedFile, ImportRef } from "../../../core/types
 import { changedFilesSince, runGit } from "../../../core/git.js";
 import { readExecutionTrace, traceIdForTask } from "../../observability/execution-trace.js";
 import { bullet, heading, table } from "../../../outputs/renderers/markdown.js";
+import type { GuardResult } from "../../types.js";
+import { createGuardResult } from "../../types.js";
 
 export type HallucinationKind = "missing_file" | "missing_symbol" | "missing_command" | "missing_dependency" | "missing_config";
 export type HallucinationSeverity = "error" | "warning";
@@ -40,6 +42,7 @@ export interface HallucinationGuardReport {
     warnings: number;
   };
   findings: HallucinationFinding[];
+  results: GuardResult[];
 }
 
 interface CommandClaim {
@@ -131,6 +134,7 @@ export function buildHallucinationReport(context: ContextPackage, options: Hallu
   }
 
   const deduped = dedupeFindings(findings);
+  const results = deduped.map(hallucinationFindingToResult);
   return {
     taskId,
     task,
@@ -148,7 +152,8 @@ export function buildHallucinationReport(context: ContextPackage, options: Hallu
       errors: deduped.filter((finding) => finding.severity === "error").length,
       warnings: deduped.filter((finding) => finding.severity === "warning").length
     },
-    findings: deduped
+    findings: deduped,
+    results
   };
 }
 
@@ -495,6 +500,24 @@ function readFile(filePath: string): string | undefined {
 
 function recordValue(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+}
+
+function hallucinationFindingToResult(finding: HallucinationFinding, index: number): GuardResult {
+  const blocking = finding.severity === "error";
+  return createGuardResult({
+    id: `hallucination.${finding.kind}.${index + 1}`,
+    source: "hallucination",
+    kind: blocking ? "forbidden" : "risk",
+    status: blocking ? "failed" : "warning",
+    severity: finding.severity,
+    message: `${finding.kind}: ${finding.claim}`,
+    blocking,
+    confidence: blocking ? 0.92 : 0.72,
+    reasons: [finding.claim, finding.repairSuggestion, ...finding.evidenceChecked],
+    requiredCommands: [],
+    artifacts: [],
+    evidence: finding.evidenceChecked
+  });
 }
 
 function dedupeFindings(findings: HallucinationFinding[]): HallucinationFinding[] {

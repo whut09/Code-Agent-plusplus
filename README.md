@@ -346,7 +346,7 @@ code-agent-plusplus orchestrate "fix a small bug" . \
 
 运行后重点看：
 
-- `.agent-context/orchestrator/<task-id>/orchestrator.md`：一页报告，说明执行了哪个 Agent、改了哪些文件、policy 是否通过、impact risk、最终为什么 `finalize` / `repair` / `require-human-review`。
+- `.agent-context/orchestrator/<task-id>/orchestrator.md`：一页报告，说明执行了哪个 Agent、改了哪些文件、policy 是否通过、impact risk、最终为什么 `finalize` / `repair` / `human-review`。
 - `.agent-context/runs/<task-id>/iterations/001/iteration.json`：本轮稳定 schema 入口。
 - `.agent-context/runs/<task-id>/iterations/001/executor.result.json`：executor、命令、exit code、stdout/stderr hash、working tree hash、归一化事件数量。
 - `.agent-context/runs/<task-id>/iterations/001/trace.json`：trace wrapper，说明测试/命令证据是否来自 command evidence，是否可信。

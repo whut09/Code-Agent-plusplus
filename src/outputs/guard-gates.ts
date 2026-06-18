@@ -68,7 +68,7 @@ export function buildGuardGateReport(input: {
 
 function contextGates(policy: PolicyEngineReport, loop: LoopControllerReport): GuardGate[] {
   const gates: GuardGate[] = [];
-  const contextRefresh = policy.findings.find((finding) => finding.id === "policy.required.context-refresh" && finding.status === "missing");
+  const contextRefresh = policy.results.find((finding) => finding.id === "policy.required.context-refresh" && finding.status === "missing");
   if (contextRefresh || loop.context.freshness !== "fresh" || loop.context.drift !== "clean") {
     gates.push({
       id: "context.stale",
@@ -101,7 +101,7 @@ function contextGates(policy: PolicyEngineReport, loop: LoopControllerReport): G
 
 function boundaryGates(policy: PolicyEngineReport, changedFiles: string[], checkpointMode: "none" | "git-worktree"): GuardGate[] {
   const gates: GuardGate[] = [];
-  const forbidden = policy.findings.filter((finding) => finding.kind === "forbidden" && finding.status === "failed");
+  const forbidden = policy.results.filter((finding) => finding.kind === "forbidden" && finding.status === "failed");
   if (forbidden.length) {
     gates.push({
       id: "boundary.forbidden-path",
@@ -128,7 +128,7 @@ function boundaryGates(policy: PolicyEngineReport, changedFiles: string[], check
     });
   }
 
-  const protectedFindings = policy.findings.filter((finding) => /lockfile|migration|ci|deploy|contract|protected/i.test(`${finding.id} ${finding.message}`));
+  const protectedFindings = policy.results.filter((finding) => /lockfile|migration|ci|deploy|contract|protected/i.test(`${finding.id} ${finding.message}`));
   if (protectedFindings.some((finding) => finding.status === "failed" || finding.status === "warning")) {
     gates.push({
       id: "boundary.protected-change",
@@ -142,7 +142,7 @@ function boundaryGates(policy: PolicyEngineReport, changedFiles: string[], check
     });
   }
 
-  const largeDiff = policy.findings.find((finding) => finding.id === "policy.risk.large-diff");
+  const largeDiff = policy.results.find((finding) => finding.id === "policy.risk.large-diff");
   if (largeDiff || changedFiles.length >= 10) {
     gates.push({
       id: "boundary.diff-too-large",
@@ -161,7 +161,7 @@ function boundaryGates(policy: PolicyEngineReport, changedFiles: string[], check
 
 function evidenceGates(policy: PolicyEngineReport, loop: LoopControllerReport, trace: ExecutionTrace | null | undefined): GuardGate[] {
   const gates: GuardGate[] = [];
-  const testFinding = policy.findings.find((finding) => finding.id === "policy.required.tests" && finding.status === "missing");
+  const testFinding = policy.results.find((finding) => finding.id === "policy.required.tests" && finding.status === "missing");
   if (testFinding || (loop.changedFiles.length > 0 && loop.trace.passedTestEvidence === "none")) {
     gates.push({
       id: "evidence.no-test-after-edit",
@@ -207,7 +207,7 @@ function evidenceGates(policy: PolicyEngineReport, loop: LoopControllerReport, t
     });
   }
 
-  const staleEvidence = policy.findings.find((finding) => finding.evidence.some((item) => /Working tree hash is stale/i.test(item)));
+  const staleEvidence = policy.results.find((finding) => finding.evidence.some((item) => /Working tree hash is stale/i.test(item)));
   if (staleEvidence) {
     gates.push({
       id: "evidence.working-tree-hash-mismatch",
@@ -247,7 +247,7 @@ function regressionGates(guardFindings: GuardFindingsArtifact, policy: PolicyEng
   const regressionFindings = guardFindings.findings.filter((finding) => finding.source === "regression");
   if (!regressionFindings.length) return [];
   const missingEvidence = regressionFindings.filter((finding) => finding.status === "missing");
-  const policyRegression = policy.findings.find((finding) => finding.id === "policy.required.regression-tests" && finding.status === "missing");
+  const policyRegression = policy.results.find((finding) => finding.id === "policy.required.regression-tests" && finding.status === "missing");
   return [
     {
       id: missingEvidence.length ? "regression.missing-required-test" : "regression.fragile-module",

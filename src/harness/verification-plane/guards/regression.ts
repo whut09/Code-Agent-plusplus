@@ -5,6 +5,8 @@ import { changedFilesSince, runGit } from "../../../core/git.js";
 import { currentWorkingTreeHash, readExecutionTrace, traceIdForTask } from "../../observability/execution-trace.js";
 import { evidenceSatisfies, type EvidenceResult } from "../../../outputs/evidence.js";
 import { bullet, code, heading, table } from "../../../outputs/renderers/markdown.js";
+import type { GuardResult } from "../../types.js";
+import { createGuardResult } from "../../types.js";
 
 export interface RegressionMemoryEntry {
   id: string;
@@ -54,6 +56,7 @@ export interface RegressionGuardReport {
   requiredTests: string[];
   evidence: EvidenceResult;
   notes: string[];
+  results: GuardResult[];
 }
 
 const MEMORY_FILES: Array<{ source: RegressionMatch["source"]; file: string }> = [
@@ -85,6 +88,7 @@ export function buildRegressionReport(context: ContextPackage, options: Regressi
     trace
   );
   const missingRequiredTestEvidence = requiredTests.length && !evidence.satisfied ? requiredTests.length : 0;
+  const results = matches.map((match) => regressionMatchToResult(match, missingRequiredTestEvidence > 0));
   return {
     taskId,
     task,
@@ -101,7 +105,8 @@ export function buildRegressionReport(context: ContextPackage, options: Regressi
     matches,
     requiredTests,
     evidence,
-    notes: matches.flatMap(regressionNotesFor)
+    notes: matches.flatMap(regressionNotesFor),
+    results
   };
 }
 
@@ -164,6 +169,24 @@ export function renderRegressionReport(report: RegressionGuardReport): string {
     heading(2, "Evidence"),
     bullet(report.evidence.evidence)
   ].join("\n");
+}
+
+function regressionMatchToResult(match: RegressionMatch, missingEvidence: boolean): GuardResult {
+  const blocking = missingEvidence || match.severity === "error";
+  return createGuardResult({
+    id: `regression.${match.id}`,
+    source: "regression",
+    kind: blocking ? "required" : "risk",
+    status: missingEvidence ? "missing" : "warning",
+    severity: blocking ? "required" : "warning",
+    message: match.pattern,
+    blocking,
+    confidence: blocking ? 0.86 : 0.68,
+    reasons: match.matchedBy,
+    requiredCommands: missingEvidence ? match.requiredTests : [],
+    artifacts: [],
+    evidence: match.matchedBy
+  });
 }
 
 function readRegressionMemory(context: ContextPackage): RegressionMatch[] {

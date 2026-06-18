@@ -6,9 +6,11 @@ import { validateContracts } from "../../outputs/contract-validator.js";
 import { buildTestSelection } from "../../outputs/test-selector.js";
 import { currentWorkingTreeHash, readExecutionTrace } from "../observability/execution-trace.js";
 import { evidenceSatisfies } from "../../outputs/evidence.js";
-import { buildHallucinationReport, type HallucinationFinding } from "./guards/hallucination.js";
+import { buildHallucinationReport } from "./guards/hallucination.js";
 import { buildRegressionReport } from "./guards/regression.js";
 import { bullet, code, heading, table } from "../../outputs/renderers/markdown.js";
+import type { GuardResult } from "../types.js";
+import { createGuardResult } from "../types.js";
 
 export type PolicyKind = "forbidden" | "risk" | "required";
 export type PolicyStatus = "failed" | "warning" | "missing" | "satisfied";
@@ -22,7 +24,7 @@ export interface PolicyEngineOptions {
   failOn?: PolicyFailOn;
 }
 
-export interface PolicyFinding {
+export interface PolicyFinding extends Partial<Pick<GuardResult, "blocking" | "confidence" | "reasons" | "requiredCommands" | "artifacts">> {
   id: string;
   kind: PolicyKind;
   status: PolicyStatus;
@@ -48,6 +50,7 @@ export interface PolicyEngineReport {
     requiredSatisfied: number;
   };
   findings: PolicyFinding[];
+  results: GuardResult[];
 }
 
 export function buildPolicyReport(context: ContextPackage, options: PolicyEngineOptions = {}): PolicyEngineReport {
@@ -246,8 +249,8 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     );
   }
 
-  for (const finding of hallucination.findings) {
-    findings.push(policyFindingFromHallucination(finding));
+  for (const result of hallucination.results) {
+    findings.push(policyFindingFromGuardResult(result));
   }
 
   const summary = {
@@ -256,6 +259,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     requiredMissing: findings.filter((finding) => finding.kind === "required" && finding.status === "missing").length,
     requiredSatisfied: findings.filter((finding) => finding.kind === "required" && finding.status === "satisfied").length
   };
+  const results = findings.map(policyFindingToResult);
 
   return {
     passed: policyPassed(summary, failOn),
@@ -266,7 +270,8 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     changedFiles: changed.actionable,
     generatedContextFiles: changed.generatedContextFiles,
     summary,
-    findings
+    findings,
+    results
   };
 }
 
@@ -299,6 +304,37 @@ export function renderPolicyReport(report: PolicyEngineReport): string {
     heading(2, "Findings"),
     bullet(report.findings.map(formatPolicyFinding))
   ].join("\n");
+}
+
+function policyFindingToResult(finding: PolicyFinding): GuardResult {
+  const blocking = finding.blocking ?? ((finding.kind === "forbidden" && finding.status === "failed") || (finding.kind === "required" && finding.status === "missing"));
+  return createGuardResult({
+    id: finding.id,
+    source: "policy",
+    kind: finding.kind,
+    status: finding.status,
+    severity: finding.severity,
+    message: finding.message,
+    file: finding.file,
+    blocking,
+    confidence: finding.confidence ?? confidenceForPolicyFinding(finding),
+    reasons: finding.reasons ?? [finding.message, ...finding.evidence],
+    requiredCommands: finding.requiredCommands ?? commandFromRequiredAction(finding.requiredAction),
+    artifacts: finding.artifacts ?? [],
+    evidence: finding.evidence
+  });
+}
+
+function confidenceForPolicyFinding(finding: PolicyFinding): number {
+  if (finding.kind === "forbidden") return 0.95;
+  if (finding.kind === "required" && finding.status === "missing") return 0.86;
+  if (finding.kind === "risk") return 0.68;
+  return 0.6;
+}
+
+function commandFromRequiredAction(action: string | undefined): string[] {
+  if (!action) return [];
+  return /^(code-agent-plusplus|npm|pnpm|yarn|bun|npx)\b/.test(action) ? [action] : [];
 }
 
 function requiredFinding(
@@ -383,40 +419,44 @@ function firstRunnableCommand(commands: string[]): string | undefined {
   return commands.find((command) => !/^No .*detected/i.test(command));
 }
 
-function policyFindingFromHallucination(finding: HallucinationFinding): PolicyFinding {
-  if (finding.kind === "missing_command") {
+function policyFindingFromGuardResult(result: GuardResult): PolicyFinding {
+  if (result.status === "missing") {
     return {
-      id: "policy.required.hallucination.missing-command",
+      id: `policy.required.${result.id}`,
       kind: "required",
       status: "missing",
       severity: "required",
-      message: `Hallucinated command: ${finding.claim}`,
-      evidence: finding.evidenceChecked,
-      requiredAction: finding.repairSuggestion
+      message: result.message,
+      evidence: result.evidence,
+      requiredAction: actionFromGuardResult(result)
     };
   }
 
-  if (finding.kind === "missing_symbol" || (finding.kind === "missing_file" && finding.severity === "error")) {
+  if (result.status === "failed") {
     return {
-      id: `policy.forbidden.hallucination.${finding.kind.replace("_", "-")}`,
+      id: `policy.forbidden.${result.id}`,
       kind: "forbidden",
       status: "failed",
       severity: "error",
-      message: `Hallucinated repository reference: ${finding.claim}`,
-      evidence: finding.evidenceChecked,
-      requiredAction: finding.repairSuggestion
+      message: result.message,
+      evidence: result.evidence,
+      requiredAction: actionFromGuardResult(result)
     };
   }
 
   return {
-    id: `policy.risk.hallucination.${finding.kind.replace("_", "-")}`,
+    id: `policy.risk.${result.id}`,
     kind: "risk",
     status: "warning",
     severity: "warning",
-    message: `Potential hallucination: ${finding.claim}`,
-    evidence: finding.evidenceChecked,
-    requiredAction: finding.repairSuggestion
+    message: result.message,
+    evidence: result.evidence,
+    requiredAction: actionFromGuardResult(result)
   };
+}
+
+function actionFromGuardResult(result: GuardResult): string | undefined {
+  return result.requiredCommands[0] ?? result.reasons[1] ?? result.reasons[0];
 }
 
 function formatPolicyFinding(finding: PolicyFinding): string {

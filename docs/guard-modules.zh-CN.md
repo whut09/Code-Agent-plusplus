@@ -28,7 +28,7 @@ Code Agent++ 的 Guard 模块是面向 Code Agent 失败模式设计的外挂式
 | Hallucination Guard | 不存在的 script、file、symbol、dependency、config key、env reference                          | `repair` / `block`                       |
 | Regression Guard    | fragile module 或历史 bug pattern 命中，但缺少 required regression test evidence              | `run-regression-tests` / `human-review`  |
 
-orchestrator 会在 finalize 之前先消费这些 gates。blocking gate 会把下一步变成 `repack`、`repair`、`rollback`、`block` 或 `require-human-review`；gate 通过后才允许继续收口。
+orchestrator 会在 finalize 之前先消费这些 gates。blocking gate 会把下一步变成 `repack`、`repair`、`rollback`、`block` 或 `human-review`；gate 通过后才允许继续收口。
 
 ## Context Guard
 

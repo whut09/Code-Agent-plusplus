@@ -19,21 +19,16 @@ import { renderTaskVerify } from "../../outputs/task-harness.js";
 import { writeTaskRun, type TaskRunWriteResult } from "../../outputs/task-run.js";
 import { appendExecutionTraceStep, currentWorkingTreeHash, readExecutionTrace } from "../observability/execution-trace.js";
 import { buildGuardFindingsArtifact, type GuardFindingsArtifact } from "../../outputs/guard-finding.js";
-import { buildGuardGateReport, type GuardGateAction, type GuardGateReport } from "../../outputs/guard-gates.js";
+import { buildGuardGateReport, type GuardGateReport } from "../../outputs/guard-gates.js";
 import { bullet, code, heading, table } from "../../outputs/renderers/markdown.js";
+import type { HarnessDecision, HarnessDecisionAction } from "../types.js";
+import { decideHarnessAction, HARNESS_DECISION_PRIORITY, maxLoopHarnessDecision } from "./decision-engine.js";
 
 export type AgentExecutorName = "codex" | "claude-code" | "opencode" | "mimocode" | "cursor" | "mock";
-export type OrchestratorDecision = "finalize" | "repair" | "repack" | "block" | "rollback" | "require-human-review";
+export type OrchestratorDecision = HarnessDecisionAction;
 export type OrchestratorCheckpointMode = "none" | "git-worktree";
 
-export const ORCHESTRATOR_DECISION_PRIORITY: Record<OrchestratorDecision, number> = {
-  rollback: 100,
-  block: 90,
-  repack: 80,
-  repair: 70,
-  "require-human-review": 60,
-  finalize: 10
-};
+export const ORCHESTRATOR_DECISION_PRIORITY = HARNESS_DECISION_PRIORITY;
 
 export interface HarnessOrchestratorOptions {
   executor?: AgentExecutorName;
@@ -103,15 +98,7 @@ export interface HarnessOrchestratorReport {
   policy: Pick<PolicyEngineReport, "passed" | "failOn" | "summary">;
   loop: Pick<LoopControllerReport, "status" | "risk" | "trace" | "checks" | "decisions">;
   gates: Pick<GuardGateReport, "summary" | "gates">;
-  decision: {
-    action: OrchestratorDecision;
-    priority: number;
-    blocking: boolean;
-    confidence: number;
-    reason: string;
-    nextCommand?: string;
-    signals: string[];
-  };
+  decision: HarnessDecision;
   artifacts: {
     contextFiles: string[];
     runFiles: string[];
@@ -276,7 +263,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         changedFiles,
         checkpointMode: options.checkpoint ?? "none"
       });
-      const decision = decideOrchestratorAction({
+      const decision = decideHarnessAction({
         executorResult,
         changedFiles,
         policy,
@@ -289,9 +276,9 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         decision.action !== "finalize" &&
         decision.action !== "block" &&
         decision.action !== "rollback" &&
-        decision.action !== "require-human-review"
+        decision.action !== "human-review"
       ) {
-        latestDecision = maxLoopDecision(maxLoops, decision);
+        latestDecision = maxLoopHarnessDecision(maxLoops, decision);
       } else {
         latestDecision = decision;
       }
@@ -350,7 +337,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         latestDecision.action === "finalize" ||
         latestDecision.action === "block" ||
         latestDecision.action === "rollback" ||
-        latestDecision.action === "require-human-review"
+        latestDecision.action === "human-review"
       ) {
         break;
       }
@@ -435,6 +422,14 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
   }
 }
 
+function decisionReason(decision: HarnessDecision): string {
+  return decision.reasons[0] ?? decision.action;
+}
+
+function decisionPriority(decision: HarnessDecision): number {
+  return ORCHESTRATOR_DECISION_PRIORITY[decision.action];
+}
+
 export function renderOrchestratorReport(report: HarnessOrchestratorReport): string {
   return [
     heading(1, "Harness Orchestrator"),
@@ -478,7 +473,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
         ["Missing required evidence", String(report.policy.summary.requiredMissing)],
         ["Forbidden findings", String(report.policy.summary.forbidden)],
         ["Impact risk", report.loop.risk],
-        ["Final decision", `${report.decision.action} - ${report.decision.reason}`]
+        ["Final decision", `${report.decision.action} - ${decisionReason(report.decision)}`]
       ]
     ),
     "",
@@ -504,16 +499,16 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
       ["Field", "Value"],
       [
         ["Action", report.decision.action],
-        ["Priority", String(report.decision.priority)],
+        ["Priority", String(decisionPriority(report.decision))],
         ["Blocking", report.decision.blocking ? "yes" : "no"],
         ["Confidence", report.decision.confidence.toFixed(2)],
-        ["Reason", report.decision.reason.replace(/\|/g, "\\|")],
-        ["Next command", report.decision.nextCommand ? code(report.decision.nextCommand) : "none"]
+        ["Reason", decisionReason(report.decision).replace(/\|/g, "\\|")],
+        ["Required commands", report.decision.requiredCommands.length ? report.decision.requiredCommands.map(code).join(", ") : "none"]
       ]
     ),
     "",
-    heading(2, "Signals"),
-    bullet(report.decision.signals),
+    heading(2, "Decision Reasons"),
+    bullet(report.decision.reasons),
     "",
     heading(2, "Loop Iterations"),
     table(
@@ -725,80 +720,6 @@ function buildExecutorPrompt(
 function promptFileFor(root: string, runId: string, executorName: AgentExecutorName): string {
   const promptName = executorName === "claude-code" ? "prompt.claude.md" : executorName === "cursor" ? "prompt.cursor.md" : "prompt.codex.md";
   return path.join(root, ".agent-context", "runs", runId, promptName);
-}
-
-function decideOrchestratorAction(input: {
-  executorResult: AgentExecutorResult;
-  changedFiles: string[];
-  policy: PolicyEngineReport;
-  loop: LoopControllerReport;
-  guardGates: GuardGateReport;
-  checkpointMode: OrchestratorCheckpointMode;
-}): HarnessOrchestratorReport["decision"] {
-  if (input.executorResult.exitCode !== 0) {
-    return decision("block", true, 0.94, "The selected executor failed before the harness could trust the result.", [
-      `executor exit code: ${input.executorResult.exitCode ?? "unknown"}`,
-      input.executorResult.stderr ? "executor stderr captured" : "executor stderr empty"
-    ]);
-  }
-
-  if (input.policy.summary.forbidden > 0) {
-    return decision(input.checkpointMode === "git-worktree" ? "rollback" : "block", true, 0.96, "Forbidden policy findings were detected in the diff.", [
-      `forbidden findings: ${input.policy.summary.forbidden}`,
-      `policy fail-on: ${input.policy.failOn}`
-    ]);
-  }
-
-  const blockingGate = input.guardGates.gates.find((gate) => gate.status === "blocked");
-  if (blockingGate) {
-    return decision(
-      decisionForGate(blockingGate.action, input.checkpointMode),
-      true,
-      0.93,
-      `${blockingGate.guard} guard blocked: ${blockingGate.condition}.`,
-      [`guard: ${blockingGate.guard}`, `condition: ${blockingGate.condition}`, `action: ${blockingGate.action}`, ...blockingGate.evidence.slice(0, 5)],
-      commandForGate(blockingGate.action)
-    );
-  }
-
-  const needsContext = input.loop.decisions.find((item) => item.action === "rebuild-context" || item.action === "replan" || item.action === "expand-context");
-  if (needsContext) {
-    return decision(
-      "repack",
-      true,
-      needsContext.confidence,
-      "The next loop needs refreshed or expanded context before continuing.",
-      needsContext.signals,
-      needsContext.command
-    );
-  }
-
-  const needsRepair = input.loop.decisions.find(
-    (item) => item.action === "repair-contracts" || item.action === "add-or-update-tests" || item.action === "run-tests"
-  );
-  if (needsRepair || input.policy.summary.requiredMissing > 0) {
-    return decision(
-      "repair",
-      true,
-      needsRepair?.confidence ?? 0.88,
-      needsRepair?.reason ?? "Required policy evidence is missing.",
-      needsRepair?.signals ?? [`required missing: ${input.policy.summary.requiredMissing}`],
-      needsRepair?.command
-    );
-  }
-
-  if (input.loop.risk === "High" || input.policy.summary.risks > 0) {
-    return decision("require-human-review", true, 0.82, "The diff has high-impact or risk policy signals even though hard gates passed.", [
-      `impact risk: ${input.loop.risk}`,
-      `policy risks: ${input.policy.summary.risks}`
-    ]);
-  }
-
-  return decision("finalize", false, input.changedFiles.length ? 0.8 : 0.72, "No blocking policy, context, impact, or verification signals remain.", [
-    `changed files: ${input.changedFiles.length}`,
-    `loop status: ${input.loop.status}`,
-    "policy: passed"
-  ]);
 }
 
 function appendExecutorTrace(
@@ -1025,17 +946,6 @@ function safeStringify(value: unknown): string {
   }
 }
 
-function maxLoopDecision(maxLoops: number, lastDecision: HarnessOrchestratorReport["decision"]): HarnessOrchestratorReport["decision"] {
-  return decision(
-    "require-human-review",
-    true,
-    0.9,
-    `Maximum orchestrator loop count (${maxLoops}) reached before the harness could finalize.`,
-    [`max loops: ${maxLoops}`, `last action: ${lastDecision.action}`, ...lastDecision.signals],
-    lastDecision.nextCommand
-  );
-}
-
 function createCheckpoint(root: string, runId: string, runDir: string, mode: OrchestratorCheckpointMode): { relativePath: string } | undefined {
   if (mode === "none") return undefined;
   const filePath = path.join(runDir, "checkpoint.patch");
@@ -1061,41 +971,6 @@ function createCheckpoint(root: string, runId: string, runDir: string, mode: Orc
 
 function createSandboxAdapter(mode: OrchestratorCheckpointMode): SandboxAdapter {
   return mode === "git-worktree" ? new GitWorktreeSandboxAdapter() : new HostSandboxAdapter();
-}
-
-function decision(
-  action: OrchestratorDecision,
-  blocking: boolean,
-  confidence: number,
-  reason: string,
-  signals: string[],
-  nextCommand?: string
-): HarnessOrchestratorReport["decision"] {
-  return {
-    action,
-    priority: ORCHESTRATOR_DECISION_PRIORITY[action],
-    blocking,
-    confidence: Math.round(Math.max(0, Math.min(1, confidence)) * 100) / 100,
-    reason,
-    nextCommand,
-    signals: signals.filter(Boolean)
-  };
-}
-
-function decisionForGate(action: GuardGateAction, checkpointMode: OrchestratorCheckpointMode): OrchestratorDecision {
-  if (action === "rollback") return checkpointMode === "git-worktree" ? "rollback" : "block";
-  if (action === "block") return "block";
-  if (action === "repack" || action === "expand-context") return "repack";
-  if (action === "run-tests" || action === "run-regression-tests" || action === "repair") return "repair";
-  return "require-human-review";
-}
-
-function commandForGate(action: GuardGateAction): string | undefined {
-  if (action === "repack" || action === "expand-context") return 'code-agent-plusplus pack "<task>" .';
-  if (action === "run-tests") return "code-agent-plusplus tests . --diff --base main";
-  if (action === "run-regression-tests") return "code-agent-plusplus regression . --base main --trace <trace-id>";
-  if (action === "repair") return 'code-agent-plusplus loop "<task>" . --phase repair';
-  return undefined;
 }
 
 function expandExecutorCommand(command: string, input: AgentExecutorInput): string {

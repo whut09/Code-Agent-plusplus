@@ -163,7 +163,7 @@ The Policy Engine prefers CI and harness-captured command evidence. Manual test 
 - `repack`
 - `block`
 - `rollback`
-- `require-human-review`
+- `human-review`
 
 Each loop writes a durable iteration directory:
 

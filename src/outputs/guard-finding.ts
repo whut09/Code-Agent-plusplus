@@ -1,6 +1,7 @@
 import type { HallucinationGuardReport } from "../harness/verification-plane/guards/hallucination.js";
 import type { PolicyEngineReport } from "../harness/verification-plane/policy-engine.js";
 import type { RegressionGuardReport } from "../harness/verification-plane/guards/regression.js";
+import type { GuardResult } from "../harness/types.js";
 
 export type GuardFindingSource = "policy" | "hallucination" | "regression";
 export type GuardFindingKind = "forbidden" | "required" | "risk" | "info";
@@ -37,6 +38,21 @@ export interface GuardFindingsArtifact {
   };
 }
 
+function guardFindingFromResult(result: GuardResult): GuardFinding {
+  return {
+    schemaVersion: "code-agent-plusplus.guard-finding.v1",
+    id: result.id,
+    source: result.source === "policy" || result.source === "hallucination" || result.source === "regression" ? result.source : "policy",
+    kind: result.kind,
+    status: result.status,
+    severity: result.severity,
+    message: result.message,
+    file: result.file,
+    evidence: result.evidence,
+    requiredAction: result.requiredCommands[0]
+  };
+}
+
 export function buildGuardFindingsArtifact(input: {
   runId: string;
   iteration: number;
@@ -45,48 +61,7 @@ export function buildGuardFindingsArtifact(input: {
   hallucination: HallucinationGuardReport;
   regression: RegressionGuardReport;
 }): GuardFindingsArtifact {
-  const findings = [
-    ...input.policy.findings.map(
-      (finding): GuardFinding => ({
-        schemaVersion: "code-agent-plusplus.guard-finding.v1",
-        id: finding.id,
-        source: "policy",
-        kind: finding.kind === "forbidden" ? "forbidden" : finding.kind === "required" ? "required" : "risk",
-        status: finding.status,
-        severity: finding.severity,
-        message: finding.message,
-        file: finding.file,
-        evidence: finding.evidence,
-        requiredAction: finding.requiredAction
-      })
-    ),
-    ...input.hallucination.findings.map(
-      (finding, index): GuardFinding => ({
-        schemaVersion: "code-agent-plusplus.guard-finding.v1",
-        id: `hallucination.${finding.kind}.${index + 1}`,
-        source: "hallucination",
-        kind: finding.severity === "error" ? "forbidden" : "risk",
-        status: finding.severity === "error" ? "failed" : "warning",
-        severity: finding.severity,
-        message: `${finding.kind}: ${finding.claim}`,
-        evidence: finding.evidenceChecked,
-        requiredAction: finding.repairSuggestion
-      })
-    ),
-    ...input.regression.matches.map(
-      (match): GuardFinding => ({
-        schemaVersion: "code-agent-plusplus.guard-finding.v1",
-        id: `regression.${match.id}`,
-        source: "regression",
-        kind: match.severity === "error" ? "required" : "risk",
-        status: input.regression.summary.missingRequiredTestEvidence > 0 ? "missing" : "warning",
-        severity: match.severity === "error" ? "required" : "warning",
-        message: match.pattern,
-        evidence: match.matchedBy,
-        requiredAction: match.requiredTests[0]
-      })
-    )
-  ];
+  const findings = [...input.policy.results, ...input.hallucination.results, ...input.regression.results].map(guardFindingFromResult);
 
   return {
     schemaVersion: "code-agent-plusplus.guard-findings.v1",

@@ -592,7 +592,7 @@ function behaviorMetrics(input: {
     input.finalGate === "blocked" ||
     input.finalDecision === "block" ||
     input.finalDecision === "rollback" ||
-    input.finalDecision === "require-human-review" ||
+    input.finalDecision === "human-review" ||
     input.finalDecision === "repair" ||
     input.finalDecision === "repack" ||
     input.finalDecision === "weak-block";
@@ -603,7 +603,7 @@ function behaviorMetrics(input: {
     testsFailed,
     hallucinatedCommands,
     finalDecisionAccuracy: expectedBlock ? actualBlock : !actualBlock,
-    humanReviewNeeded: input.finalDecision === "require-human-review" || input.finalDecision === "rollback" || input.finalGate === "blocked"
+    humanReviewNeeded: input.finalDecision === "human-review" || input.finalDecision === "rollback" || input.finalGate === "blocked"
   };
 }
 

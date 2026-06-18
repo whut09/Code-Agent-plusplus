@@ -28,7 +28,7 @@ Each Guard now emits explicit gate decisions through `.agent-context/runs/<task-
 | Hallucination Guard | nonexistent script, file, symbol, dependency, config key, or env reference                               | `repair` / `block`                        |
 | Regression Guard    | fragile module or historical bug pattern matched without required regression test evidence               | `run-regression-tests` / `human-review`   |
 
-The orchestrator consumes these gates before finalizing a run. A blocking gate turns the next action into `repack`, `repair`, `rollback`, `block`, or `require-human-review`; a passed gate can proceed toward finalize.
+The orchestrator consumes these gates before finalizing a run. A blocking gate turns the next action into `repack`, `repair`, `rollback`, `block`, or `human-review`; a passed gate can proceed toward finalize.
 
 ## Context Guard
 
