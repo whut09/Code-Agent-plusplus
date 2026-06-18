@@ -151,6 +151,12 @@ test("harness orchestrator writes multi-loop iteration artifacts before max-loop
     assert.equal(result.report.sandbox.mode, "git-worktree");
     assert.equal(result.report.sandbox.discarded, true);
     assert.equal(existsSync(result.report.sandbox.root), false);
+    assert.equal(result.report.sandbox.gatewayDir, ".agent-context/worktrees/fix-login-timeout-bug");
+    assert.equal(result.report.sandbox.manifestPath, ".agent-context/worktrees/fix-login-timeout-bug/manifest.json");
+    assert.equal(result.report.sandbox.patchPath, ".agent-context/worktrees/fix-login-timeout-bug/diff.patch");
+    assert.equal(result.report.sandbox.applyCommand, "git apply .agent-context/worktrees/fix-login-timeout-bug/diff.patch");
+    assert.ok(existsSync(path.join(root, ".agent-context", "worktrees", "fix-login-timeout-bug", "manifest.json")));
+    assert.ok(existsSync(path.join(root, ".agent-context", "worktrees", "fix-login-timeout-bug", "diff.patch")));
     assert.equal(result.report.iterations.length, 2);
     assert.equal(result.report.iterations[0]?.decision.action, "repack");
     assert.equal(result.report.decision.action, "human-review");

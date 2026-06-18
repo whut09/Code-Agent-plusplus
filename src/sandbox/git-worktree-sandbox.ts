@@ -1,5 +1,4 @@
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
 import path from "node:path";
 import { runGit } from "../core/git.js";
 import { runSafeCommand } from "../core/safe-command.js";
@@ -7,34 +6,40 @@ import type { ExecResult, SandboxAdapter, SandboxHandle } from "./sandbox-adapte
 
 export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   private handle?: SandboxHandle;
-  private tempBase = path.join(tmpdir(), "code-agent-plusplus");
 
   async prepare(runId: string, repo: string): Promise<SandboxHandle> {
-    mkdirSync(this.tempBase, { recursive: true });
-    const root = path.join(this.tempBase, `${safeSegment(runId)}-${Date.now()}`);
+    const gatewayDir = path.join(repo, ".agent-context", "worktrees", safeSegment(runId));
+    const root = path.join(gatewayDir, "worktree");
+    rmSync(gatewayDir, { recursive: true, force: true });
+    mkdirSync(gatewayDir, { recursive: true });
     runGit(repo, ["worktree", "add", "--detach", root, "HEAD"]);
 
     const initialPatch = initialSourcePatch(repo);
     if (initialPatch.trim()) {
-      const patchFile = path.join(root, ".code-agent-plusplus-initial.patch");
+      const patchFile = path.join(gatewayDir, "initial.patch");
       writeFileSync(patchFile, initialPatch, "utf8");
       try {
         runGit(root, ["apply", "--whitespace=nowarn", patchFile]);
       } catch (error) {
-        throw new Error(`Unable to apply current source diff to sandbox: ${error instanceof Error ? error.message : String(error)}`);
-      } finally {
-        rmSync(patchFile, { force: true });
+        throw new Error(`Unable to apply current source diff to sandbox gateway: ${error instanceof Error ? error.message : String(error)}`);
       }
     }
 
+    const manifestPath = path.join(gatewayDir, "manifest.json");
+    const patchPath = path.join(gatewayDir, "diff.patch");
     this.handle = {
       mode: "git-worktree",
       runId,
       hostRepo: repo,
       root,
       createdAt: new Date().toISOString(),
-      initialPatch: initialPatch.trim() ? initialPatch : undefined
+      initialPatch: initialPatch.trim() ? initialPatch : undefined,
+      gatewayDir,
+      manifestPath,
+      patchPath,
+      applyCommand: `git apply ${quotePath(path.relative(repo, patchPath).replaceAll("\\", "/"))}`
     };
+    writeManifest(this.handle, "prepared");
     return this.handle;
   }
 
@@ -48,9 +53,11 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   }
 
   async diff(): Promise<string> {
-    const root = this.requireHandle().root;
-    markUntrackedForDiff(root);
-    return runGit(root, ["diff", "--binary", "--", ".", ":(exclude).agent-context/**", ":(exclude)AGENTS.md"]);
+    const handle = this.requireHandle();
+    markUntrackedForDiff(handle.root);
+    const diff = runGit(handle.root, ["diff", "--binary", "--", ".", ":(exclude).agent-context/**", ":(exclude)AGENTS.md"]);
+    writePatch(handle, diff);
+    return diff;
   }
 
   async changedFiles(): Promise<string[]> {
@@ -70,16 +77,18 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   async discard(): Promise<void> {
     const handle = this.handle;
     if (!handle) return;
+    const gatewayDir = requireGatewayDir(handle);
     const resolvedRoot = path.resolve(handle.root);
-    const resolvedBase = path.resolve(this.tempBase);
-    if (!isInside(resolvedRoot, resolvedBase)) {
-      throw new Error(`Refusing to remove sandbox outside temp base: ${resolvedRoot}`);
+    const resolvedGateway = path.resolve(gatewayDir);
+    if (!isInside(resolvedRoot, resolvedGateway)) {
+      throw new Error(`Refusing to remove sandbox outside gateway: ${resolvedRoot}`);
     }
     try {
       runGit(handle.hostRepo, ["worktree", "remove", "--force", handle.root]);
     } catch {
       rmSync(handle.root, { recursive: true, force: true });
     }
+    writeManifest(handle, "discarded");
     this.handle = undefined;
   }
 
@@ -88,7 +97,7 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   }
 
   private requireHandle(): SandboxHandle {
-    if (!this.handle) throw new Error("Sandbox has not been prepared.");
+    if (!this.handle) throw new Error("Sandbox gateway has not been prepared.");
     return this.handle;
   }
 }
@@ -117,4 +126,42 @@ function markUntrackedForDiff(root: string): void {
     .filter((file) => file && !file.startsWith(".agent-context/") && file !== "AGENTS.md");
   if (!files.length) return;
   runGit(root, ["add", "-N", "--", ...files]);
+}
+
+function writePatch(handle: SandboxHandle, diff: string): void {
+  if (!handle.patchPath) return;
+  writeFileSync(handle.patchPath, diff, "utf8");
+  writeManifest(handle, "patch-exported");
+}
+
+function writeManifest(handle: SandboxHandle, status: "prepared" | "patch-exported" | "discarded"): void {
+  if (!handle.manifestPath) return;
+  const gatewayDir = requireGatewayDir(handle);
+  mkdirSync(gatewayDir, { recursive: true });
+  const patchRelative = handle.patchPath ? path.relative(handle.hostRepo, handle.patchPath).replaceAll("\\", "/") : undefined;
+  const manifest = {
+    schemaVersion: "code-agent-plusplus.sandbox-gateway.v1",
+    kind: "sandbox-gateway",
+    status,
+    runId: handle.runId,
+    mode: handle.mode,
+    hostRepo: handle.hostRepo,
+    gatewayDir: path.relative(handle.hostRepo, gatewayDir).replaceAll("\\", "/"),
+    worktreeRoot: path.relative(handle.hostRepo, handle.root).replaceAll("\\", "/"),
+    patch: patchRelative,
+    applyCommand: handle.applyCommand,
+    createdAt: handle.createdAt,
+    updatedAt: new Date().toISOString(),
+    initialPatch: Boolean(handle.initialPatch)
+  };
+  writeFileSync(handle.manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+}
+
+function requireGatewayDir(handle: SandboxHandle): string {
+  if (!handle.gatewayDir) throw new Error("Sandbox gateway directory is missing.");
+  return handle.gatewayDir;
+}
+
+function quotePath(value: string): string {
+  return /[\s"'`$]/.test(value) ? JSON.stringify(value) : value;
 }

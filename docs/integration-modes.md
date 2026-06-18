@@ -139,7 +139,7 @@ Guarantee boundary:
 - This mode guarantees that each run collects diff, trace, and executor events.
 - It guarantees one gate over Guard findings, policy / contracts / tests / impact / verify.
 - It produces an explicit decision: `finalize`, `repair`, `repack`, `block`, `rollback`, or `human-review`.
-- `--checkpoint git-worktree` creates a temporary git worktree sandbox under the system temp directory, runs the executor in that isolated checkout, exports each iteration patch back to `.agent-context/runs/<task-id>/iterations/<nnn>/`, then discards the worktree. Code Agent++ records rollback decisions and checkpoint evidence, but it intentionally avoids destructive rollback commands in the user's working tree.
+- `--checkpoint git-worktree` creates a Sandbox Gateway git worktree under `.agent-context/worktrees/<run-id>/`, runs the executor in that isolated checkout, exports the gateway patch to `.agent-context/worktrees/<run-id>/diff.patch` and mirrors each iteration patch into `.agent-context/runs/<task-id>/iterations/<nnn>/`, then discards the worktree. Code Agent++ records rollback decisions and checkpoint evidence, but it intentionally avoids destructive rollback commands in the user's working tree.
 - It cannot guarantee that the external executor edits code correctly; it guarantees auditable acceptance and next-step decisions after execution.
 
 ## Which Mode Should I Use?

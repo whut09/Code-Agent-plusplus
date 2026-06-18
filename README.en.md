@@ -238,7 +238,7 @@ After the run, inspect:
 - `.agent-context/runs/<task-id>/iterations/001/decision.json`: decision, priority, blocking flag, confidence, input signals, and next-step guidance.
 - `.agent-context/runs/<task-id>/iterations/001/diff.patch`: the actual executor changes.
 
-When `--checkpoint git-worktree` is enabled, Code Agent++ creates a temporary git worktree sandbox and runs the executor there. The original repository is not directly polluted by agent edits. Each iteration exports a patch; passing gates can prompt a human or CI job to apply it, while failing gates discard the worktree.
+When `--checkpoint git-worktree` is enabled, Code Agent++ creates a Sandbox Gateway git worktree under `.agent-context/worktrees/<run-id>/` and runs the executor there. The original repository is not directly polluted by agent edits. Each run writes `.agent-context/worktrees/<run-id>/manifest.json` and `diff.patch`; passing gates can prompt a human or CI job to run the manifest apply command, while failing gates discard the worktree checkout.
 
 ## Current Status
 

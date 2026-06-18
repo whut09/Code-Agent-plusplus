@@ -106,12 +106,18 @@ export interface HarnessOrchestratorReport {
     iterationFiles: string[];
     checkpointFile?: string;
     diffFile?: string;
+    sandboxGatewayManifest?: string;
+    sandboxPatchFile?: string;
   };
   sandbox: {
     mode: SandboxHandle["mode"];
     root: string;
     discarded: boolean;
     initialPatch: boolean;
+    gatewayDir?: string;
+    manifestPath?: string;
+    patchPath?: string;
+    applyCommand?: string;
   };
 }
 
@@ -384,13 +390,19 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         orchestratorFiles: [],
         iterationFiles: iterations.flatMap((iteration) => iteration.files),
         checkpointFile: checkpoint?.relativePath,
-        diffFile: latestExecutorResult.diffPath
+        diffFile: latestExecutorResult.diffPath,
+        sandboxGatewayManifest: relativeOptional(root, sandboxHandle.manifestPath),
+        sandboxPatchFile: relativeOptional(root, sandboxHandle.patchPath)
       },
       sandbox: {
         mode: sandboxHandle.mode,
         root: sandboxHandle.root,
         discarded: sandboxDiscarded,
-        initialPatch: Boolean(sandboxHandle.initialPatch)
+        initialPatch: Boolean(sandboxHandle.initialPatch),
+        gatewayDir: relativeOptional(root, sandboxHandle.gatewayDir),
+        manifestPath: relativeOptional(root, sandboxHandle.manifestPath),
+        patchPath: relativeOptional(root, sandboxHandle.patchPath),
+        applyCommand: sandboxHandle.applyCommand
       }
     };
 
@@ -420,6 +432,10 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       await sandbox.discard();
     }
   }
+}
+
+function relativeOptional(root: string, filePath: string | undefined): string | undefined {
+  return filePath ? path.relative(root, filePath).replaceAll("\\", "/") : undefined;
 }
 
 function decisionReason(decision: HarnessDecision): string {
@@ -490,7 +506,11 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
         ["Mode", report.sandbox.mode],
         ["Root", code(report.sandbox.root)],
         ["Initial source patch applied", report.sandbox.initialPatch ? "yes" : "no"],
-        ["Discarded after export", report.sandbox.discarded ? "yes" : "no"]
+        ["Discarded after export", report.sandbox.discarded ? "yes" : "no"],
+        ["Gateway", report.sandbox.gatewayDir ? code(report.sandbox.gatewayDir) : "none"],
+        ["Gateway manifest", report.sandbox.manifestPath ? code(report.sandbox.manifestPath) : "none"],
+        ["Patch", report.sandbox.patchPath ? code(report.sandbox.patchPath) : "none"],
+        ["Apply command", report.sandbox.applyCommand ? code(report.sandbox.applyCommand) : "none"]
       ]
     ),
     "",
@@ -554,7 +574,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     "",
     heading(2, "Artifacts"),
     bullet(
-      [...report.artifacts.orchestratorFiles, ...report.artifacts.iterationFiles, report.artifacts.checkpointFile ? report.artifacts.checkpointFile : ""]
+      [...report.artifacts.orchestratorFiles, ...report.artifacts.iterationFiles, report.artifacts.checkpointFile ? report.artifacts.checkpointFile : "", report.artifacts.sandboxGatewayManifest ? report.artifacts.sandboxGatewayManifest : "", report.artifacts.sandboxPatchFile ? report.artifacts.sandboxPatchFile : ""]
         .filter(Boolean)
         .map(code)
     )

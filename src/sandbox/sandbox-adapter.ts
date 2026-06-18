@@ -15,6 +15,10 @@ export interface SandboxHandle {
   root: string;
   createdAt: string;
   initialPatch?: string;
+  gatewayDir?: string;
+  manifestPath?: string;
+  patchPath?: string;
+  applyCommand?: string;
 }
 
 export interface SandboxAdapter {
