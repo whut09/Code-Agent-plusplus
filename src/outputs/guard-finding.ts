@@ -1,6 +1,6 @@
-import type { HallucinationGuardReport } from "./hallucination-guard.js";
-import type { PolicyEngineReport } from "./policy-engine.js";
-import type { RegressionGuardReport } from "./regression-guard.js";
+import type { HallucinationGuardReport } from "../harness/verification-plane/guards/hallucination.js";
+import type { PolicyEngineReport } from "../harness/verification-plane/policy-engine.js";
+import type { RegressionGuardReport } from "../harness/verification-plane/guards/regression.js";
 
 export type GuardFindingSource = "policy" | "hallucination" | "regression";
 export type GuardFindingKind = "forbidden" | "required" | "risk" | "info";

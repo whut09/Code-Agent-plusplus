@@ -7,8 +7,8 @@ import * as z from "zod/v4";
 import { buildContextPackage, type BuildOptions } from "../core/context-builder.js";
 import { buildContextDelta, renderContextDelta } from "../outputs/context-delta.js";
 import { buildChangeImpactReport, renderChangeImpactReport } from "../outputs/impact.js";
-import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
-import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
+import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../harness/control-plane/loop-controller.js";
+import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../harness/verification-plane/policy-engine.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { buildTaskPack, renderTaskContext } from "../outputs/task-context.js";
 import { buildTestSelection, renderTestSelection } from "../outputs/test-selector.js";
@@ -18,9 +18,9 @@ import {
   renderExecutionTrace,
   type ExecutionFinalState,
   type ExecutionStepResult
-} from "../outputs/execution-trace.js";
+} from "../harness/observability/execution-trace.js";
 import { writeTaskRun, type TaskRunManifest } from "../outputs/task-run.js";
-import { writeContextPackage } from "../outputs/writer.js";
+import { writeContextPackage } from "../outputs/renderers/writer.js";
 import { createContextRetriever } from "../retrievers/index.js";
 import type { RetrieverProvider } from "../retrievers/types.js";
 

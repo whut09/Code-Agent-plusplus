@@ -1,7 +1,7 @@
 import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile, TaskType } from "../core/types.js";
 import { estimateTokens } from "../core/token-estimator.js";
-import { buildRegressionReport } from "./regression-guard.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import { buildRegressionReport } from "../harness/verification-plane/guards/regression.js";
+import { bullet, code, heading, table } from "./renderers/markdown.js";
 
 export interface TaskContextOptions {
   type?: TaskType;

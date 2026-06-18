@@ -1,9 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { ContextPackage, IndexedFile, ImportRef } from "../core/types.js";
-import { changedFilesSince, runGit } from "../core/git.js";
-import { readExecutionTrace, traceIdForTask } from "./execution-trace.js";
-import { bullet, heading, table } from "./markdown.js";
+import type { ContextPackage, IndexedFile, ImportRef } from "../../../core/types.js";
+import { changedFilesSince, runGit } from "../../../core/git.js";
+import { readExecutionTrace, traceIdForTask } from "../../observability/execution-trace.js";
+import { bullet, heading, table } from "../../../outputs/renderers/markdown.js";
 
 export type HallucinationKind = "missing_file" | "missing_symbol" | "missing_command" | "missing_dependency" | "missing_config";
 export type HallucinationSeverity = "error" | "warning";

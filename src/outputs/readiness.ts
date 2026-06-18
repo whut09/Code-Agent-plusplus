@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { bullet, heading, table } from "./markdown.js";
+import { bullet, heading, table } from "./renderers/markdown.js";
 
 export function renderReadiness(context: ContextPackage): string {
   return [

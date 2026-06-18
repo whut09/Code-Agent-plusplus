@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
-import type { AgentExecutorName } from "./orchestrator.js";
+import type { AgentExecutorName } from "../harness/control-plane/orchestrator.js";
 
 export type AgentEvent =
   | { type: "message"; role: "assistant" | "user"; text: string; ts: string }

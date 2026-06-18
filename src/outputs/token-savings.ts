@@ -1,6 +1,6 @@
 import type { ContextPackage } from "../core/types.js";
 import { formatTokenSavings } from "../core/token-savings.js";
-import { bullet, heading } from "./markdown.js";
+import { bullet, heading } from "./renderers/markdown.js";
 
 export function renderTokenSavings(context: ContextPackage): string {
   return [

@@ -5,10 +5,10 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { appendExecutionTraceStep, startExecutionTrace } from "../src/outputs/execution-trace.js";
-import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../src/outputs/hallucination-guard.js";
-import { buildPolicyReport } from "../src/outputs/policy-engine.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { appendExecutionTraceStep, startExecutionTrace } from "../src/harness/observability/execution-trace.js";
+import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../src/harness/verification-plane/guards/hallucination.js";
+import { buildPolicyReport } from "../src/harness/verification-plane/policy-engine.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("hallucination guard detects missing files, commands, dependencies, config, and symbols", async () => {
   const root = createHallucinationRepo();

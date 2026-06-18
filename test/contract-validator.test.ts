@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { renderContractValidationReport, validateContracts } from "../src/outputs/contract-validator.js";
 import { renderTaskVerify } from "../src/outputs/task-harness.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 function createContractRepo(): string {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-contract-validate-"));
@@ -33,7 +33,7 @@ test("contract validator fails changed files that break edit boundaries", async 
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
 
-    writeFileSync(path.join(root, "src", "core", "indexer.ts"), "import { heading } from '../outputs/markdown.js';\nexport const indexer = heading;\n", "utf8");
+    writeFileSync(path.join(root, "src", "core", "indexer.ts"), "import { heading } from '../outputs/renderers/markdown.js';\nexport const indexer = heading;\n", "utf8");
     writeFileSync(path.join(root, "package-lock.json"), '{"lockfileVersion":3}\n', "utf8");
 
     const context = await buildContextPackage(root);

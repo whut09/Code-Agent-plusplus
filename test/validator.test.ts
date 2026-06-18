@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { validateContextPackage } from "../src/core/validator.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("validator detects token budget overflow and invalid generated JSON", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-validate-"));

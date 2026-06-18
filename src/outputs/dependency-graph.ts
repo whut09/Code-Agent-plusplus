@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { fenced, heading, table } from "./markdown.js";
+import { fenced, heading, table } from "./renderers/markdown.js";
 
 export function renderDependencyGraph(context: ContextPackage): string {
   const mermaid = renderMermaidGraph(context);

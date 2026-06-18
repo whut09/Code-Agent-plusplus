@@ -4,8 +4,8 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { runGit } from "../src/core/git.js";
-import { readExecutionTrace } from "../src/outputs/execution-trace.js";
-import { renderOrchestratorReport, runHarnessOrchestrator } from "../src/outputs/orchestrator.js";
+import { readExecutionTrace } from "../src/harness/observability/execution-trace.js";
+import { renderOrchestratorReport, runHarnessOrchestrator } from "../src/harness/control-plane/orchestrator.js";
 
 test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock executor", async () => {
   const root = createOrchestratorRepo();

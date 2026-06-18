@@ -1,4 +1,4 @@
-import type { ExecutionTrace, ExecutionTraceStep } from "./execution-trace.js";
+import type { ExecutionTrace, ExecutionTraceStep } from "../harness/observability/execution-trace.js";
 
 export type EvidenceLevel = "none" | "manual" | "command" | "ci";
 export type HarnessRequirementKind = "tests" | "contract-validation";

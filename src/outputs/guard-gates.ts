@@ -1,7 +1,7 @@
-import type { ExecutionTrace } from "./execution-trace.js";
+import type { ExecutionTrace } from "../harness/observability/execution-trace.js";
 import type { GuardFindingsArtifact } from "./guard-finding.js";
-import type { LoopControllerReport } from "./loop-controller.js";
-import type { PolicyEngineReport } from "./policy-engine.js";
+import type { LoopControllerReport } from "../harness/control-plane/loop-controller.js";
+import type { PolicyEngineReport } from "../harness/verification-plane/policy-engine.js";
 
 export type GuardGateName = "context" | "boundary" | "evidence" | "hallucination" | "regression";
 export type GuardGateAction = "repack" | "expand-context" | "rollback" | "human-review" | "run-tests" | "repair" | "block" | "run-regression-tests";

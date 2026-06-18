@@ -12,7 +12,7 @@ import {
   renderExecutionTrace,
   runTraceCommand,
   startExecutionTrace
-} from "../src/outputs/execution-trace.js";
+} from "../src/harness/observability/execution-trace.js";
 import { writeTaskRun } from "../src/outputs/task-run.js";
 
 test("execution trace records agent steps and final state", () => {

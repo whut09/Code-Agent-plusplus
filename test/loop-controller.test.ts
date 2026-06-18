@@ -5,9 +5,9 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { appendExecutionTraceStep, runTraceCommand, startExecutionTrace } from "../src/outputs/execution-trace.js";
-import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport } from "../src/outputs/loop-controller.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { appendExecutionTraceStep, runTraceCommand, startExecutionTrace } from "../src/harness/observability/execution-trace.js";
+import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport } from "../src/harness/control-plane/loop-controller.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("loop controller starts the agent from a clean preflight", async () => {
   const root = createLoopRepo();

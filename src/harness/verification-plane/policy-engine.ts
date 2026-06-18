@@ -1,14 +1,14 @@
-import type { ContextPackage, IndexedFile } from "../core/types.js";
-import { changedFilesSince, runGit } from "../core/git.js";
-import { assessDrift, assessFreshness } from "../core/freshness.js";
-import { buildChangeImpactReport } from "./impact.js";
-import { validateContracts } from "./contract-validator.js";
-import { buildTestSelection } from "./test-selector.js";
-import { currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
-import { evidenceSatisfies } from "./evidence.js";
-import { buildHallucinationReport, type HallucinationFinding } from "./hallucination-guard.js";
-import { buildRegressionReport } from "./regression-guard.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import type { ContextPackage, IndexedFile } from "../../core/types.js";
+import { changedFilesSince, runGit } from "../../core/git.js";
+import { assessDrift, assessFreshness } from "../../core/freshness.js";
+import { buildChangeImpactReport } from "../../outputs/impact.js";
+import { validateContracts } from "../../outputs/contract-validator.js";
+import { buildTestSelection } from "../../outputs/test-selector.js";
+import { currentWorkingTreeHash, readExecutionTrace } from "../observability/execution-trace.js";
+import { evidenceSatisfies } from "../../outputs/evidence.js";
+import { buildHallucinationReport, type HallucinationFinding } from "./guards/hallucination.js";
+import { buildRegressionReport } from "./guards/regression.js";
+import { bullet, code, heading, table } from "../../outputs/renderers/markdown.js";
 
 export type PolicyKind = "forbidden" | "risk" | "required";
 export type PolicyStatus = "failed" | "warning" | "missing" | "satisfied";

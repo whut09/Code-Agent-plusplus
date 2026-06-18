@@ -1,7 +1,7 @@
 import type { ContextPackage, IndexedFile } from "../core/types.js";
 import { changedFilesSince } from "../core/git.js";
 import { type CodeGraphStatus, type CodeIntelligenceBackend, codeGraphStatus, testsWithCodeGraph } from "../integrations/codegraph.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 
 export interface TestSelectionOptions {
   forPaths?: string[];

@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage, IndexedFile } from "../core/types.js";
 import { changedFilesSince, runGit } from "../core/git.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 import { buildRepoContracts } from "./contracts.js";
 
 export interface ContractValidationOptions {

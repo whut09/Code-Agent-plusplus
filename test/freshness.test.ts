@@ -6,7 +6,7 @@ import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { assessDrift, assessFreshness, readContextManifest } from "../src/core/freshness.js";
 import { runGit } from "../src/core/git.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("freshness is fresh after build and stale after source changes", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-freshness-"));

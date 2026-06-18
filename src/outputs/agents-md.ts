@@ -1,6 +1,6 @@
 import { estimateTokens } from "../core/token-estimator.js";
 import type { AgentsSection, ContextPackage, IndexedFile } from "../core/types.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 
 export function renderAgentsMd(context: ContextPackage): string {
   const mode = context.config.agents.mode;

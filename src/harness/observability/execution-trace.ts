@@ -2,8 +2,8 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { runSafeCommand } from "../core/safe-command.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import { runSafeCommand } from "../../core/safe-command.js";
+import { bullet, code, heading, table } from "../../outputs/renderers/markdown.js";
 
 export type ExecutionFinalState = "planned" | "in_progress" | "partial_success" | "success" | "failed" | "blocked";
 export type ExecutionStepResult = "passed" | "failed" | "skipped" | "unknown";

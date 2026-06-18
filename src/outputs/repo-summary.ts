@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 import { formatTokenSavings } from "../core/token-savings.js";
 
 export function renderRepoSummary(context: ContextPackage): string {

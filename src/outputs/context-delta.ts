@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage, IndexedFile } from "../core/types.js";
 import { changedFilesSince, runGit } from "../core/git.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import { bullet, code, heading, table } from "./renderers/markdown.js";
 
 export type DeltaImpactLevel = "none" | "low" | "medium" | "high";
 export type ContextOutputArea =

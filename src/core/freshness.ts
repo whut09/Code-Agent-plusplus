@@ -5,7 +5,7 @@ import type { ContextPackage } from "./types.js";
 import { runGit } from "./git.js";
 import { buildRepoContracts } from "../outputs/contracts.js";
 import { buildTaskPack } from "../outputs/task-context.js";
-import { bullet, code, heading } from "../outputs/markdown.js";
+import { bullet, code, heading } from "../outputs/renderers/markdown.js";
 
 const TOOL_VERSION = "0.1.0";
 const MANIFEST_PATH = ".agent-context/manifest.json";

@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { code, heading, table } from "./markdown.js";
+import { code, heading, table } from "./renderers/markdown.js";
 
 export function renderKeyFiles(context: ContextPackage): string {
   const rows = context.keyFiles

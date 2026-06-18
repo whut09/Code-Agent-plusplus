@@ -5,7 +5,7 @@ import { Command } from "commander";
 import type { AgentTarget, CacheStats, IndexedFile, TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { changedFilesSince } from "../core/git.js";
-import { writeContextPackage } from "../outputs/writer.js";
+import { writeContextPackage } from "../outputs/renderers/writer.js";
 import { renderDependencyGraph } from "../outputs/dependency-graph.js";
 import { summarizeReadiness } from "../core/readiness.js";
 import { formatTokenSavings } from "../core/token-savings.js";
@@ -17,11 +17,11 @@ import { renderBenchmarkReport, runBenchmark } from "../benchmarks/benchmark.js"
 import { parseAgentBenchmarkModes, renderAgentBehaviorBenchmark, runAgentBehaviorBenchmark } from "../benchmarks/agent-benchmark.js";
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
-import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../outputs/loop-controller.js";
-import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName, type OrchestratorCheckpointMode } from "../outputs/orchestrator.js";
-import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../outputs/policy-engine.js";
-import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../outputs/hallucination-guard.js";
-import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../outputs/regression-guard.js";
+import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../harness/control-plane/loop-controller.js";
+import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName, type OrchestratorCheckpointMode } from "../harness/control-plane/orchestrator.js";
+import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../harness/verification-plane/policy-engine.js";
+import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../harness/verification-plane/guards/hallucination.js";
+import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../harness/verification-plane/guards/regression.js";
 import {
   appendExecutionTraceStep,
   executionTracePath,
@@ -32,7 +32,7 @@ import {
   type ExecutionEvidenceSource,
   type ExecutionFinalState,
   type ExecutionStepResult
-} from "../outputs/execution-trace.js";
+} from "../harness/observability/execution-trace.js";
 import { renderContractValidationReport, validateContracts } from "../outputs/contract-validator.js";
 import { validateContextPackage } from "../core/validator.js";
 import { assessDrift, assessFreshness, buildContextManifest, renderDriftReport, renderFreshnessReport } from "../core/freshness.js";

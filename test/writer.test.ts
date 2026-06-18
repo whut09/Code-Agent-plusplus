@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("writer honors optional output switches", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-"));

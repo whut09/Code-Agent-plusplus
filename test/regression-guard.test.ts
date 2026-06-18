@@ -5,11 +5,11 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { buildPolicyReport } from "../src/outputs/policy-engine.js";
-import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../src/outputs/regression-guard.js";
+import { buildPolicyReport } from "../src/harness/verification-plane/policy-engine.js";
+import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../src/harness/verification-plane/guards/regression.js";
 import { buildTaskPack } from "../src/outputs/task-context.js";
 import { writeTaskRun } from "../src/outputs/task-run.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("regression guard matches structured memory and injects task-pack tests", async () => {
   const root = createRegressionRepo();

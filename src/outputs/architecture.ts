@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 
 export function renderArchitecture(context: ContextPackage): string {
   const topModules = [...context.index.modules].sort((a, b) => b.importanceScore - a.importanceScore).slice(0, 10);

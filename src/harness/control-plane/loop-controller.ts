@@ -1,16 +1,16 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { ContextPackage, TaskType } from "../core/types.js";
-import { changedFilesSince, runGit } from "../core/git.js";
-import { assessDrift, assessFreshness } from "../core/freshness.js";
-import { buildChangeImpactReport } from "./impact.js";
-import { validateContracts } from "./contract-validator.js";
-import { currentWorkingTreeHash, readExecutionTrace } from "./execution-trace.js";
-import { evidenceSatisfies, type EvidenceLevel } from "./evidence.js";
-import { buildTaskPack } from "./task-context.js";
-import { buildTestSelection } from "./test-selector.js";
-import { bullet, code, heading, table } from "./markdown.js";
-import { buildRunStateSnapshot, writeRunState, type RunStateSnapshot } from "./runtime-state.js";
+import type { ContextPackage, TaskType } from "../../core/types.js";
+import { changedFilesSince, runGit } from "../../core/git.js";
+import { assessDrift, assessFreshness } from "../../core/freshness.js";
+import { buildChangeImpactReport } from "../../outputs/impact.js";
+import { validateContracts } from "../../outputs/contract-validator.js";
+import { currentWorkingTreeHash, readExecutionTrace } from "../observability/execution-trace.js";
+import { evidenceSatisfies, type EvidenceLevel } from "../../outputs/evidence.js";
+import { buildTaskPack } from "../../outputs/task-context.js";
+import { buildTestSelection } from "../../outputs/test-selector.js";
+import { bullet, code, heading, table } from "../../outputs/renderers/markdown.js";
+import { buildRunStateSnapshot, writeRunState, type RunStateSnapshot } from "../../outputs/runtime-state.js";
 
 export type LoopPhase = "preflight" | "after-edit" | "repair";
 export type LoopStatus = "ready" | "needs-context" | "needs-repair" | "needs-validation" | "blocked";

@@ -1,6 +1,6 @@
 import type { ContextPackage, IndexedFile } from "../core/types.js";
 import { estimateTokens } from "../core/token-estimator.js";
-import { heading } from "./markdown.js";
+import { heading } from "./renderers/markdown.js";
 
 export interface RagDocument {
   id: string;

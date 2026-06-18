@@ -4,8 +4,8 @@ import type { ContextPackage, IndexedFile, TaskPack, TaskPackFile } from "../cor
 import { changedFilesSince, runGit } from "../core/git.js";
 import { buildTaskPack, renderTaskContext, type TaskContextOptions } from "./task-context.js";
 import { validateContracts } from "./contract-validator.js";
-import { buildRegressionReport, renderRegressionReport } from "./regression-guard.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import { buildRegressionReport, renderRegressionReport } from "../harness/verification-plane/guards/regression.js";
+import { bullet, code, heading, table } from "./renderers/markdown.js";
 
 export interface TaskPackWriteResult {
   taskId: string;

@@ -5,9 +5,9 @@ import path from "node:path";
 import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
-import { appendExecutionTraceStep, runTraceCommand, startExecutionTrace } from "../src/outputs/execution-trace.js";
-import { buildPolicyReport, renderPolicyReport } from "../src/outputs/policy-engine.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { appendExecutionTraceStep, runTraceCommand, startExecutionTrace } from "../src/harness/observability/execution-trace.js";
+import { buildPolicyReport, renderPolicyReport } from "../src/harness/verification-plane/policy-engine.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("policy engine requires trace evidence for source edits", async () => {
   const root = createPolicyRepo();

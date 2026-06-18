@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { buildContextDelta, renderContextDelta, writeContextDelta } from "../src/outputs/context-delta.js";
 import { runGit } from "../src/core/git.js";
 import { assessFreshness, buildContextManifest } from "../src/core/freshness.js";
-import { writeContextPackage } from "../src/outputs/writer.js";
+import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("context delta reports stale outputs and agent re-read files", async () => {
   const root = createDeltaRepo();

@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 
 export function renderOnboarding(context: ContextPackage): string {
   const firstReads = [code(".agent-context/repo-summary.md")];

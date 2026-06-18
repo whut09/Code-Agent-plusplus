@@ -4,7 +4,7 @@ import type { TaskType } from "../core/types.js";
 import { buildContextPackage } from "../core/context-builder.js";
 import { buildTaskPack } from "../outputs/task-context.js";
 import { buildTestSelection } from "../outputs/test-selector.js";
-import { code, heading, table } from "../outputs/markdown.js";
+import { code, heading, table } from "../outputs/renderers/markdown.js";
 
 export interface BenchmarkTaskDefinition {
   id: string;

@@ -1,10 +1,10 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import type { ContextPackage } from "../core/types.js";
-import { changedFilesSince, runGit } from "../core/git.js";
-import { currentWorkingTreeHash, readExecutionTrace, traceIdForTask } from "./execution-trace.js";
-import { evidenceSatisfies, type EvidenceResult } from "./evidence.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import type { ContextPackage } from "../../../core/types.js";
+import { changedFilesSince, runGit } from "../../../core/git.js";
+import { currentWorkingTreeHash, readExecutionTrace, traceIdForTask } from "../../observability/execution-trace.js";
+import { evidenceSatisfies, type EvidenceResult } from "../../../outputs/evidence.js";
+import { bullet, code, heading, table } from "../../../outputs/renderers/markdown.js";
 
 export interface RegressionMemoryEntry {
   id: string;

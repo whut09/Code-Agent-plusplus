@@ -2,13 +2,13 @@ import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage, IndexedFile, TaskPack } from "../core/types.js";
 import { buildChangeImpactReport, renderChangeImpactReport } from "./impact.js";
-import { bullet, code, heading, table } from "./markdown.js";
+import { bullet, code, heading, table } from "./renderers/markdown.js";
 import { buildTaskPack, renderTaskContext, type TaskContextOptions } from "./task-context.js";
 import { renderTaskPlan, renderTaskVerify } from "./task-harness.js";
 import { buildTestSelection, renderTestSelection } from "./test-selector.js";
-import { executionTracePath, startExecutionTrace } from "./execution-trace.js";
+import { executionTracePath, startExecutionTrace } from "../harness/observability/execution-trace.js";
 import { initialRunState, writeRunState } from "./runtime-state.js";
-import { buildRegressionReport, renderRegressionReport } from "./regression-guard.js";
+import { buildRegressionReport, renderRegressionReport } from "../harness/verification-plane/guards/regression.js";
 
 export interface TaskRunOptions extends TaskContextOptions {
   base?: string;

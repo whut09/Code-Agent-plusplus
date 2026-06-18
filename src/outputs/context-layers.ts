@@ -1,5 +1,5 @@
 import type { ContextPackage } from "../core/types.js";
-import { bullet, code, heading } from "./markdown.js";
+import { bullet, code, heading } from "./renderers/markdown.js";
 
 export function renderContextLayers(context: ContextPackage): string {
   return [
