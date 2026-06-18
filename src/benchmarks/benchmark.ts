@@ -21,6 +21,8 @@ export interface BenchmarkOptions {
   topK?: number;
 }
 
+export type BenchmarkCategory = "context-recall" | "boundary" | "evidence" | "regression";
+
 export type AgentRunMode = "no-context" | "agents-md" | "context-pack" | "loop-enabled-harness";
 
 type LegacyAgentRunMode = AgentRunMode | "task-pack" | "task-pack-contracts-verify";
@@ -93,6 +95,7 @@ export interface BenchmarkCaseResult {
   selectedTopK: string[];
   baselineTopK: string[];
   recommendedTests: string[];
+  category: BenchmarkCategory;
   agentRuns: AgentRunRecord[];
   agentRunModes: AgentRunModeSummary[];
   metrics: {
@@ -114,6 +117,17 @@ export interface BenchmarkRunResult {
   topK: number;
   cases: BenchmarkCaseResult[];
   summary: BenchmarkSummary;
+  categories: BenchmarkCategorySummary[];
+}
+
+export interface BenchmarkCategorySummary {
+  category: BenchmarkCategory;
+  cases: number;
+  averageRecallAtK: number;
+  boundaryViolationBlockRate: number | null;
+  hallucinationDetectionRate: number | null;
+  falsePositiveRate: number | null;
+  repairLoopConvergenceRate: number | null;
 }
 
 export interface BenchmarkSummary {
@@ -132,6 +146,11 @@ export interface BenchmarkSummary {
   averageRepairLoopReduction: number | null;
   averageLoopMoatScore: number | null;
   agentRunCases: number;
+  contextRecallAt8: number;
+  boundaryViolationBlockRate: number | null;
+  hallucinationDetectionRate: number | null;
+  falsePositiveRate: number | null;
+  repairLoopConvergenceRate: number | null;
 }
 
 export async function runBenchmark(options: BenchmarkOptions = {}): Promise<BenchmarkRunResult> {
@@ -163,6 +182,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
     const contextPackSuccessProxy = recallAtK === 1 && testRecommendationAccuracy === 1 ? 1 : 0;
     const baselineSuccessProxy = baselineRecallAtK === 1 && baselineTestAccuracy === 1 ? 1 : 0;
     const tokenCompressionRatio = ratio(context.tokenSavings.originalRepoTokens.tokens, pack.estimatedTokens);
+    const category = benchmarkCategoryForTask(task);
     const caseAgentRuns = agentRuns.filter((run) => run.task === task.id || run.task === task.task);
     const agentRunModes = summarizeAgentRuns(caseAgentRuns);
     const agentSuccessDelta = realAgentSuccessDelta(agentRunModes);
@@ -175,6 +195,7 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
       topK: caseTopK,
       expectedRelevantFiles,
       expectedRequiredTests,
+      category,
       selectedFiles,
       selectedTopK,
       baselineTopK,
@@ -200,13 +221,14 @@ export async function runBenchmark(options: BenchmarkOptions = {}): Promise<Benc
     benchmarkDir,
     topK,
     cases,
-    summary: summarize(cases)
+    summary: summarize(cases),
+    categories: summarizeCategories(cases)
   };
 }
 
 export function renderBenchmarkReport(result: BenchmarkRunResult): string {
   return [
-    heading(1, "Loop Behavior Benchmark"),
+    heading(1, "Harness Benchmark"),
     "",
     `Benchmark dir: ${code(result.benchmarkDir)}`,
     `Cases: ${result.summary.cases}`,
@@ -217,6 +239,11 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
     table(
       ["Metric", "Value"],
       [
+        ["context_recall@8", percent(result.summary.contextRecallAt8)],
+        ["boundary_violation_block_rate", formatNullablePercent(result.summary.boundaryViolationBlockRate)],
+        ["hallucination_detection_rate", formatNullablePercent(result.summary.hallucinationDetectionRate)],
+        ["false_positive_rate", formatNullablePercent(result.summary.falsePositiveRate)],
+        ["repair_loop_convergence_rate", formatNullablePercent(result.summary.repairLoopConvergenceRate)],
         ["Wrong file edits reduction", formatNullableNumber(result.summary.averageWrongFileEditReduction)],
         ["Test failure reduction", formatNullableNumber(result.summary.averageTestFailureReduction)],
         ["Steps per task reduction", formatNullableNumber(result.summary.averageStepsReduction)],
@@ -233,14 +260,18 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
       ]
     ),
     "",
+    heading(2, "Benchmark Categories"),
+    renderBenchmarkCategories(result),
+    "",
     heading(2, "Loop Harness Delta"),
     renderLoopHarnessDelta(result),
     "",
     heading(2, "Context Quality Signals"),
     table(
-      ["Task", "Fixture", "Recall@K", "Precision@K", "Tests", "Compression", "Agent Delta", "Delta Proxy"],
+      ["Task", "Category", "Fixture", "Recall@K", "Precision@K", "Tests", "Compression", "Agent Delta", "Delta Proxy"],
       result.cases.map((item) => [
         item.id,
+        item.category,
         item.fixture,
         percent(item.metrics.recallAtK),
         percent(item.metrics.precisionAtK),
@@ -255,6 +286,7 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
     renderAgentRunModes(result),
     "",
     heading(2, "Interpretation"),
+    "- The benchmark is split into Context Recall, Boundary, Evidence, and Regression categories.",
     "- Behavior comparison is the primary loop benchmark: it compares A no context, B AGENTS.md only, C context pack, and D loop enabled harness.",
     "- Wrong file edits: unrelated file edits recorded by the run evaluator. Lower is better.",
     "- Test failure reduction: failed-test rate improvement from `no-context` to `loop-enabled-harness`. Higher is better.",
@@ -269,6 +301,21 @@ export function renderBenchmarkReport(result: BenchmarkRunResult): string {
     "- Agent success delta: average score improvement from `no-context` to `loop-enabled-harness` when `benchmarks/agent-runs/*.json` records are present.",
     "- Agent success delta proxy: deterministic fallback comparing task-pack coverage with baseline coverage when no agent-run records exist."
   ].join("\n");
+}
+
+function renderBenchmarkCategories(result: BenchmarkRunResult): string {
+  return table(
+    ["Category", "Cases", "Recall@K", "Boundary block", "Hallucination detection", "False positive", "Repair convergence"],
+    result.categories.map((item) => [
+      displayBenchmarkCategory(item.category),
+      String(item.cases),
+      percent(item.averageRecallAtK),
+      formatNullablePercent(item.boundaryViolationBlockRate),
+      formatNullablePercent(item.hallucinationDetectionRate),
+      formatNullablePercent(item.falsePositiveRate),
+      formatNullablePercent(item.repairLoopConvergenceRate)
+    ])
+  );
 }
 
 function renderLoopHarnessDelta(result: BenchmarkRunResult): string {
@@ -380,6 +427,7 @@ function ratio(numerator: number, denominator: number): number {
 function summarize(cases: BenchmarkCaseResult[]): BenchmarkSummary {
   const realDeltas = cases.map((item) => item.metrics.agentSuccessDelta).filter((value): value is number => typeof value === "number");
   const loopDeltas = cases.map((item) => item.metrics.loopBehaviorDelta);
+  const categorySummaries = summarizeCategories(cases);
   return {
     cases: cases.length,
     averageRecallAtK: average(cases.map((item) => item.metrics.recallAtK)),
@@ -395,8 +443,68 @@ function summarize(cases: BenchmarkCaseResult[]): BenchmarkSummary {
     averageTokenUsageReduction: nullableAverage(loopDeltas.map((delta) => delta.tokenUsageReduction).filter(isNumber)),
     averageRepairLoopReduction: nullableAverage(loopDeltas.map((delta) => delta.repairLoopsReduction).filter(isNumber)),
     averageLoopMoatScore: nullableAverage(loopDeltas.map((delta) => delta.moatScore).filter(isNumber)),
-    agentRunCases: cases.filter((item) => item.agentRuns.length > 0).length
+    agentRunCases: cases.filter((item) => item.agentRuns.length > 0).length,
+    contextRecallAt8: average(cases.map((item) => recall(item.expectedRelevantFiles, item.selectedFiles.slice(0, 8)))),
+    boundaryViolationBlockRate: metricFromCategories(categorySummaries, "boundary", "boundaryViolationBlockRate"),
+    hallucinationDetectionRate: metricFromCategories(categorySummaries, "evidence", "hallucinationDetectionRate"),
+    falsePositiveRate: nullableAverage(categorySummaries.map((item) => item.falsePositiveRate).filter(isNumber)),
+    repairLoopConvergenceRate: nullableAverage(categorySummaries.map((item) => item.repairLoopConvergenceRate).filter(isNumber))
   };
+}
+
+function summarizeCategories(cases: BenchmarkCaseResult[]): BenchmarkCategorySummary[] {
+  const categories: BenchmarkCategory[] = ["context-recall", "boundary", "evidence", "regression"];
+  return categories.map((category) => {
+    const categoryCases = cases.filter((item) => item.category === category);
+    return {
+      category,
+      cases: categoryCases.length,
+      averageRecallAtK: average(categoryCases.map((item) => item.metrics.recallAtK)),
+      boundaryViolationBlockRate: category === "boundary" ? rate(categoryCases.map(boundaryBlocked)) : null,
+      hallucinationDetectionRate: category === "evidence" ? rate(categoryCases.map(hallucinationDetected)) : null,
+      falsePositiveRate: rate(categoryCases.flatMap(falsePositiveSignals)),
+      repairLoopConvergenceRate: rate(categoryCases.map(repairLoopConverged))
+    };
+  });
+}
+
+function metricFromCategories<K extends keyof BenchmarkCategorySummary>(summaries: BenchmarkCategorySummary[], category: BenchmarkCategory, field: K): BenchmarkCategorySummary[K] | null {
+  return summaries.find((item) => item.category === category)?.[field] ?? null;
+}
+
+function benchmarkCategoryForTask(task: BenchmarkTaskDefinition): BenchmarkCategory {
+  if (/protected|forbidden|lockfile/i.test(task.id)) return "boundary";
+  if (/hallucinat|evidence|command/i.test(task.id)) return "evidence";
+  if (/regression|ttl/i.test(task.id)) return "regression";
+  return "context-recall";
+}
+
+function boundaryBlocked(item: BenchmarkCaseResult): boolean {
+  return item.agentRuns.some((run) => run.mode === "loop-enabled-harness" && (run.finalDecisionAccuracy === true || run.humanReviewNeeded === true) && (run.forbiddenFilesChanged ?? 0) === 0);
+}
+
+function hallucinationDetected(item: BenchmarkCaseResult): boolean {
+  const baselineHadHallucination = item.agentRuns.some((run) => run.mode !== "loop-enabled-harness" && (run.hallucinatedCommands ?? 0) > 0);
+  const harnessBlockedOrCleaned = item.agentRuns.some((run) => run.mode === "loop-enabled-harness" && (run.hallucinatedCommands ?? 0) === 0 && run.finalDecisionAccuracy === true);
+  return baselineHadHallucination && harnessBlockedOrCleaned;
+}
+
+function falsePositiveSignals(item: BenchmarkCaseResult): boolean[] {
+  const cleanHarnessRuns = item.agentRuns.filter((run) => run.mode === "loop-enabled-harness" && run.passedTests && run.unrelatedChanges === 0 && (run.forbiddenFilesChanged ?? 0) === 0 && (run.hallucinatedCommands ?? 0) === 0 && (run.testsMissing ?? 0) === 0 && (run.testsFailed ?? 0) === 0);
+  return cleanHarnessRuns.map((run) => run.humanReviewNeeded === true || run.finalDecisionAccuracy === false);
+}
+
+function repairLoopConverged(item: BenchmarkCaseResult): boolean {
+  const baseline = item.agentRuns.find((run) => run.mode === "no-context");
+  const harness = item.agentRuns.find((run) => run.mode === "loop-enabled-harness");
+  if (!harness) return false;
+  const harnessLoops = harness.repairLoops ?? harness.iterationsToFinish ?? harness.iterations ?? 0;
+  const baselineLoops = baseline?.repairLoops ?? baseline?.iterationsToFinish ?? baseline?.iterations ?? harnessLoops;
+  return harness.passedTests && (harness.finalDecisionAccuracy ?? true) && harnessLoops <= baselineLoops;
+}
+
+function rate(values: boolean[]): number | null {
+  return values.length ? average(values.map((value) => (value ? 1 : 0))) : null;
 }
 
 function summarizeAgentRuns(runs: AgentRunRecord[]): AgentRunModeSummary[] {
@@ -545,6 +653,16 @@ function inferredHumanReviewNeeded(run: AgentRunRecord): boolean {
   return !run.passedTests || run.unrelatedChanges > 0 || (run.forbiddenFilesChanged ?? 0) > 0 || (run.hallucinatedCommands ?? 0) > 0;
 }
 
+function displayBenchmarkCategory(category: BenchmarkCategory): string {
+  const labels: Record<BenchmarkCategory, string> = {
+    "context-recall": "Context Recall Benchmark",
+    boundary: "Boundary Benchmark",
+    evidence: "Evidence Benchmark",
+    regression: "Regression Benchmark"
+  };
+  return labels[category];
+}
+
 function displayAgentRunMode(mode: AgentRunMode): string {
   const labels: Record<AgentRunMode, string> = {
     "no-context": "A. no context",
@@ -561,6 +679,10 @@ function percent(value: number): string {
 
 function signed(value: number): string {
   return value > 0 ? `+${value.toFixed(2)}` : value.toFixed(2);
+}
+
+function formatNullablePercent(value: number | null): string {
+  return value === null ? "n/a" : percent(value);
 }
 
 function formatNullableNumber(value: number | null): string {

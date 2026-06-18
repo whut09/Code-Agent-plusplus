@@ -247,6 +247,7 @@ code-agent-plusplus drift .
 | MCP server scaffold                                  | implemented            |
 | Agent Native Runtime loop tools                      | experimental           |
 | benchmark harness                                    | implemented foundation |
+| Context / Boundary / Evidence / Regression Benchmark | implemented foundation |
 | direct LightRAG server sync                          | planned                |
 
 ## 输出内容
@@ -335,7 +336,14 @@ code-agent-plusplus-mcp
 - OpenCode / executor + Code Agent++ context pack
 - Code Agent++ orchestrate + guards
 
-核心输出指标包括：`wrong_files_changed`、`forbidden_files_changed`、`tests_missing`、`tests_failed`、`hallucinated_commands`、`iterations_to_finish`、`final_decision_accuracy`、`human_review_needed`。
+Benchmark 明确分成四类：
+
+- Context Recall Benchmark：给任务，看 task pack top K 是否找到了正确文件。
+- Boundary Benchmark：故意让 Agent 修改 forbidden path，看 harness 是否拦截或清理。
+- Evidence Benchmark：伪造测试通过或诱导 hallucinated command，看是否识别证据污染。
+- Regression Benchmark：重复引入历史 bug，看是否要求回归测试。
+
+README 和 `benchmark` 输出展示核心指标：`context_recall@8`、`boundary_violation_block_rate`、`hallucination_detection_rate`、`false_positive_rate`、`repair_loop_convergence_rate`。
 
 ## 真实 OpenCode Demo
 

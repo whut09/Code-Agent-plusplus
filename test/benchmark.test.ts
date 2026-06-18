@@ -12,6 +12,16 @@ test("benchmark evaluates loop behavior against expected files and tests", async
   assert.ok(result.summary.averageTokenCompressionRatio > 1);
   assert.ok(result.summary.averageTestRecommendationAccuracy > 0.5);
   assert.equal(result.summary.agentRunCases, 10);
+  assert.equal(result.categories.length, 4);
+  assert.ok(result.categories.some((item) => item.category === "context-recall"));
+  assert.ok(result.categories.some((item) => item.category === "boundary"));
+  assert.ok(result.categories.some((item) => item.category === "evidence"));
+  assert.ok(result.categories.some((item) => item.category === "regression"));
+  assert.ok(result.summary.contextRecallAt8 > 0.5);
+  assert.ok(result.summary.boundaryViolationBlockRate !== null);
+  assert.ok(result.summary.hallucinationDetectionRate !== null);
+  assert.ok(result.summary.falsePositiveRate !== null);
+  assert.ok(result.summary.repairLoopConvergenceRate !== null);
   assert.ok(result.summary.averageAgentSuccessDelta !== null);
   assert.ok(result.summary.averageAgentSuccessDelta > 0);
   assert.ok(result.summary.averageWrongFileEditReduction !== null);
@@ -32,7 +42,17 @@ test("benchmark evaluates loop behavior against expected files and tests", async
   assert.ok(result.cases.every((item) => item.agentRunModes.some((mode) => mode.mode === "loop-enabled-harness")));
 
   const markdown = renderBenchmarkReport(result);
-  assert.match(markdown, /# Loop Behavior Benchmark/);
+  assert.match(markdown, /# Harness Benchmark/);
+  assert.match(markdown, /Benchmark Categories/);
+  assert.match(markdown, /Context Recall Benchmark/);
+  assert.match(markdown, /Boundary Benchmark/);
+  assert.match(markdown, /Evidence Benchmark/);
+  assert.match(markdown, /Regression Benchmark/);
+  assert.match(markdown, /context_recall@8/);
+  assert.match(markdown, /boundary_violation_block_rate/);
+  assert.match(markdown, /hallucination_detection_rate/);
+  assert.match(markdown, /false_positive_rate/);
+  assert.match(markdown, /repair_loop_convergence_rate/);
   assert.match(markdown, /Behavior Comparison/);
   assert.match(markdown, /Phase 6 Metrics/);
   assert.match(markdown, /Loop Harness Delta/);

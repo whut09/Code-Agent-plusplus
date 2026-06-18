@@ -1,4 +1,4 @@
-# Loop Behavior Benchmark
+# Harness Benchmark
 
 This demo benchmark measures whether the project changes agent behavior, not just whether it produces attractive context files. It compares four modes:
 
@@ -34,7 +34,22 @@ Phase 6 task set:
 - 1 protected path task: `protected-lockfile-edit`.
 - 1 regression task: `regression-session-ttl`.
 
-Metrics:
+Benchmark categories:
+
+- Context Recall Benchmark: given a task, checks whether the top K task pack includes the expected source and test files.
+- Boundary Benchmark: uses protected-path tasks and measures whether harness evaluation blocks or cleans forbidden edits.
+- Evidence Benchmark: uses hallucinated or fake verification tasks and measures whether missing or polluted evidence is detected.
+- Regression Benchmark: repeats historical bug patterns and measures whether required regression tests are preserved.
+
+Headline metrics shown in README and benchmark output:
+
+- `context_recall@8`: expected task-relevant files found in the task pack top 8.
+- `boundary_violation_block_rate`: protected-path scenarios where the loop-enabled harness blocks or prevents forbidden edits.
+- `hallucination_detection_rate`: fake command / invented evidence scenarios caught or cleaned by the harness.
+- `false_positive_rate`: clean loop-enabled harness runs that still require human review or inaccurate blocking. Lower is better.
+- `repair_loop_convergence_rate`: tasks where loop-enabled harness converges with no more repair loops than the no-context baseline.
+
+Detailed metrics:
 
 - `wrong_files_changed`: files changed outside the expected edit surface.
 - `forbidden_files_changed`: protected or forbidden files changed.
