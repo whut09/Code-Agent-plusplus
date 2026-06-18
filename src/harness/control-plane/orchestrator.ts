@@ -13,6 +13,7 @@ import { writeContextPackage } from "../../outputs/renderers/writer.js";
 import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport, type HallucinationGuardReport } from "../verification-plane/guards/hallucination.js";
 import { renderChangeImpactReport } from "../../outputs/impact.js";
 import { buildRegressionReport, renderRegressionReport, writeRegressionReport, type RegressionGuardReport } from "../verification-plane/guards/regression.js";
+import { writeFinalizeMemoryCandidate } from "../verification-plane/guards/regression-memory.js";
 import { buildLoopControllerReport, renderLoopControllerReport, type LoopControllerReport } from "./loop-controller.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn, type PolicyEngineReport } from "../verification-plane/policy-engine.js";
 import { renderTaskVerify } from "../../outputs/task-harness.js";
@@ -108,6 +109,7 @@ export interface HarnessOrchestratorReport {
     diffFile?: string;
     sandboxGatewayManifest?: string;
     sandboxPatchFile?: string;
+    memoryCandidateFile?: string;
   };
   sandbox: {
     mode: SandboxHandle["mode"];
@@ -409,6 +411,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     const impactMd = renderChangeImpactReport(latestContext, { base });
     const verifyMd = renderTaskVerify(latestContext, { base, diff: true });
     const loopMd = renderLoopControllerReport(latestLoop);
+    const memoryCandidate = latestDecision.action === "finalize" ? writeFinalizeMemoryCandidate(latestContext, task, base, latestChangedFiles, root) : undefined;
+    report.artifacts.memoryCandidateFile = memoryCandidate?.file;
     if (sandboxHandle.mode === "git-worktree") {
       await sandbox.discard();
       sandboxDiscarded = true;
@@ -574,7 +578,14 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     "",
     heading(2, "Artifacts"),
     bullet(
-      [...report.artifacts.orchestratorFiles, ...report.artifacts.iterationFiles, report.artifacts.checkpointFile ? report.artifacts.checkpointFile : "", report.artifacts.sandboxGatewayManifest ? report.artifacts.sandboxGatewayManifest : "", report.artifacts.sandboxPatchFile ? report.artifacts.sandboxPatchFile : ""]
+      [
+        ...report.artifacts.orchestratorFiles,
+        ...report.artifacts.iterationFiles,
+        report.artifacts.checkpointFile ? report.artifacts.checkpointFile : "",
+        report.artifacts.sandboxGatewayManifest ? report.artifacts.sandboxGatewayManifest : "",
+        report.artifacts.sandboxPatchFile ? report.artifacts.sandboxPatchFile : "",
+        report.artifacts.memoryCandidateFile ? report.artifacts.memoryCandidateFile : ""
+      ]
         .filter(Boolean)
         .map(code)
     )

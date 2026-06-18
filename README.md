@@ -167,7 +167,7 @@ Agent 修改完成后，Code Agent++ 进入验证与决策阶段。
 
 ### Regression Guard
 
-负责防止旧问题被重新引入。维护 fix history、known issues、previous bug patterns、regression notes、anti-regression tests、fragile modules 和 historical failure cases。目标是让 Agent 在新任务中记住过去已经修复过的问题。
+负责防止旧问题被重新引入。维护 fix history、known issues、previous bug patterns、regression notes、anti-regression tests、fragile modules 和 historical failure cases。`finalize` 后会自动把候选记忆写入 `.agent-context/memory/candidates/`，但不会自动写入长期 memory；人工 review 后再用 `code-agent-plusplus memory add-fix .` 确认进入 `.agent-context/regression/fix-history.json`。目标是让 Agent 在新任务中记住过去已经修复过的问题。
 
 ### Evidence Guard
 
@@ -208,6 +208,8 @@ code-agent-plusplus run "fix login timeout bug" . --type bugfix
 code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}"
 code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --command "npm test -- auth"
+code-agent-plusplus memory learn-from-pr . --base main --task "fix login timeout bug"
+code-agent-plusplus memory add-fix .
 code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
 code-agent-plusplus impact . --base main
 code-agent-plusplus verify --diff .
@@ -228,6 +230,7 @@ code-agent-plusplus drift .
 | Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
 | Hallucination Guard MVP                              | implemented foundation |
 | Regression Guard MVP                                 | implemented foundation |
+| Regression memory candidates / `memory add-fix`       | implemented foundation |
 | Guard Gates / blocking actions                       | implemented            |
 | multi-loop harness orchestrator / `orchestrate`      | implemented            |
 | git-worktree executor sandbox                        | implemented            |

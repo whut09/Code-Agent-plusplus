@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -7,6 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { buildPolicyReport } from "../src/harness/verification-plane/policy-engine.js";
 import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../src/harness/verification-plane/guards/regression.js";
+import { addRegressionMemoryFromCandidate, buildRegressionMemoryCandidate, writeFinalizeMemoryCandidate, writeRegressionMemoryCandidate } from "../src/harness/verification-plane/guards/regression-memory.js";
 import { buildTaskPack } from "../src/outputs/task-context.js";
 import { writeTaskRun } from "../src/outputs/task-run.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
@@ -46,6 +47,60 @@ test("policy engine requires regression test evidence for changed risky modules"
 
     assert.equal(report.passed, false);
     assert.ok(report.findings.some((finding) => finding.id === "policy.required.regression-tests" && finding.status === "missing"));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("finalize memory candidates are written without mutating long-term regression memory", async () => {
+  const root = createRegressionRepo();
+  try {
+    await prepareRegressionContext(root);
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function sessionTtl() { return Date.now(); }\n", "utf8");
+
+    const context = await buildContextPackage(root);
+    const written = writeFinalizeMemoryCandidate(context, "fix login timeout bug", "main", ["src/auth/session.ts"]);
+
+    assert.ok(written);
+    assert.equal(written.file.startsWith(".agent-context/memory/candidates/"), true);
+    assert.equal(written.candidate.source, "finalize");
+    assert.deepEqual(written.candidate.changedFiles, ["src/auth/session.ts"]);
+    assert.match(written.candidate.bugPattern, /fix login timeout bug/);
+    assert.ok(existsSync(path.join(root, written.file)));
+    assert.equal(existsSync(path.join(root, ".agent-context", "regression", "fix-history.json")), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("regression memory candidates require explicit confirmation before fix history is updated", async () => {
+  const root = createRegressionRepo();
+  try {
+    await prepareRegressionContext(root);
+    writeFileSync(path.join(root, "src", "auth", "session.ts"), "export function sessionTtl() { return Date.now(); }\n", "utf8");
+
+    const context = await buildContextPackage(root);
+    const candidate = buildRegressionMemoryCandidate(context, {
+      source: "learn-from-pr",
+      task: "timeout calculation must use server time",
+      changedFiles: ["src/auth/session.ts"],
+      bugPattern: "timeout calculation must use server time",
+      requiredTests: ["npm test -- auth"],
+      riskTriggers: ["timeout", "session", "ttl"]
+    });
+    const written = writeRegressionMemoryCandidate(context, candidate);
+
+    assert.equal(written.file.startsWith(".agent-context/memory/candidates/"), true);
+    assert.ok(existsSync(path.join(root, written.file)));
+    assert.equal(existsSync(path.join(root, ".agent-context", "regression", "fix-history.json")), false);
+
+    const added = addRegressionMemoryFromCandidate(root, written.file);
+    const fixHistory = JSON.parse(readFileSync(path.join(root, added.memoryFile), "utf8")) as Array<{ id: string; files: string[]; pattern: string }>;
+
+    assert.equal(added.entry.id, candidate.id.replace(/^candidate-/, "fix-"));
+    assert.deepEqual(added.entry.files, ["src/auth/session.ts"]);
+    assert.equal(added.entry.pattern, "timeout calculation must use server time");
+    assert.ok(fixHistory.some((entry) => entry.id === added.entry.id));
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
