@@ -1,6 +1,6 @@
 # Token Savings Report
 
-Original repo (estimated, chars_approx): 1,703,985 tokens
+Original repo (estimated, chars_approx): 1,704,030 tokens
 Estimated context pack (chars_approx): 21,299 tokens
 Compression: 17x
 Token budget: 120,000 (within budget)
@@ -15,7 +15,7 @@ Actual context pack (chars_approx): 101,889 tokens
 - Actual context pack tokens are counted from generated Markdown, Mermaid, and RAG JSONL files after writing.
 
 ## Estimated Tokens
-- Original repo: 1,703,985 tokens (chars_approx)
+- Original repo: 1,704,030 tokens (chars_approx)
 - Estimated context pack: 21,299 tokens (chars_approx)
 
 ## Actual Generated Output

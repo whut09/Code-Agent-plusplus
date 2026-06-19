@@ -11,6 +11,95 @@ Coding agents read code, edit code, and run commands.
 Code Agent++ provides context, boundaries, evidence, gates, impact analysis, and decision reports.
 ```
 
+## 30-Second Start
+
+```bash
+npm i -g code-agent-plusplus opencode-ai
+cd your-repo
+capp
+```
+
+Then chat like you normally would in OpenCode:
+
+```txt
+Fix the login timeout bug.
+Add tests for this module.
+Refactor this function while preserving behavior.
+```
+
+Code Agent++ runs quietly around the chat loop:
+
+- initializes and refreshes repository context
+- checks edit boundaries
+- blocks dangerous or hallucinated commands
+- blocks protected / secret paths before execution
+- records sidecar events and verification evidence
+- incrementally verifies the current diff on idle
+- reports impact and regression risk
+- writes the latest verification report
+
+It stays quiet by default and only interrupts the TUI when blockers are found.
+
+## Daily Commands
+
+```bash
+capp          # OpenCode chat mode with the Code Agent++ sidecar
+capp report   # show the latest sidecar check
+capp status   # show whether the sidecar is active
+capp doctor   # diagnose OpenCode / auth / git / context / plugin
+capp --pure   # plain OpenCode without Code Agent++
+```
+
+`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository.
+
+## Advanced: Batch Harness Mode
+
+Use batch mode when Code Agent++ should run an external executor, collect diff / trace / policy / verify artifacts, and emit a decision report:
+
+```bash
+capp oc init .
+capp oc "fix login timeout bug" .
+capp oc report --last
+capp oc repair
+```
+
+Use the full orchestrator when you need a custom executor command:
+
+```bash
+npx code-agent-plusplus orchestrate "fix login timeout bug" . \
+  --executor opencode \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
+  --max-loops 3 \
+  --checkpoint git-worktree \
+  --fail-on required
+```
+
+Manual verification commands remain available for advanced users:
+
+```bash
+npx code-agent-plusplus build .
+npx code-agent-plusplus verify --diff .
+npx code-agent-plusplus policy . --base main --fail-on required
+npx code-agent-plusplus impact . --base main
+```
+
+Outputs are written to:
+
+```txt
+AGENTS.md
+.agent-context/
+  repo-summary.md
+  key-files.md
+  contracts/
+  runs/<task-id>/
+  traces/
+  sidecar/
+  hallucination/
+  regression/
+  graphs/
+  index/
+```
+
 ## Relationship To Related Projects
 
 | Project                       | Main role                                    | Relationship to Code Agent++                                                     |
@@ -28,65 +117,6 @@ Code Agent++ provides context, boundaries, evidence, gates, impact analysis, and
 - Agents claim tests passed without reliable exit-code, timestamp, or working-tree-hash evidence.
 - Agents make changes whose downstream impact is invisible during review.
 - Agents reintroduce historical bugs or keep repairing without a clear stop condition.
-
-## 30-Second Start
-
-```bash
-npm i -g code-agent-plusplus opencode-ai
-cd your-repo
-capp
-```
-
-`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository. The sidecar plugin listens for `tool.execute.before`, `file.edited`, and `session.idle`: it blocks dangerous commands, hallucinated package scripts / Makefile targets, and protected / secret paths before execution. When OpenCode becomes idle, it runs incremental verification and writes `.agent-context/sidecar/latest.json` and `.agent-context/sidecar/latest.md`; the TUI is only interrupted when blockers are found. You can also check it manually before finalizing:
-
-```bash
-capp sidecar verify .
-capp sidecar check-command . --command "npm run test"
-```
-
-Most users only need:
-
-```bash
-capp          # OpenCode chat mode with the Code Agent++ sidecar
-capp report   # show the latest sidecar check
-capp status   # show whether the sidecar is active
-capp doctor   # diagnose OpenCode / auth / git / context / plugin
-capp --pure   # plain OpenCode without Code Agent++
-```
-
-Batch / CI harness-led executor flow:
-
-```bash
-capp oc init .
-npx code-agent-plusplus opencode doctor .
-npx code-agent-plusplus opencode run "fix login timeout bug" .
-# short alias:
-capp oc "fix login timeout bug" .
-capp oc report --last
-capp oc repair
-```
-
-The OpenCode preset internally uses:
-
-```bash
-opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
-```
-
-Outputs are written to:
-
-```txt
-AGENTS.md
-.agent-context/
-  repo-summary.md
-  key-files.md
-  contracts/
-  runs/<task-id>/
-  traces/
-  hallucination/
-  regression/
-  graphs/
-  index/
-```
 
 ## Use It Through An AI Agent
 
