@@ -47,14 +47,14 @@ Status: implemented foundation.
 Goal: make edits bounded, reviewable, and verifiable.
 
 - Contracts for architecture, module boundaries, commands, tests, and safety.
-- `code-agent-plusplus validate-contracts`.
-- `code-agent-plusplus policy --fail-on forbidden|required|risk`.
+- `opencode-plusplus validate-contracts`.
+- `opencode-plusplus policy --fail-on forbidden|required|risk`.
 - Execution trace with manual / command / CI evidence.
 - `code-agent-plusplus trace run` for command-captured evidence.
 - Exit code and command evidence recording.
 - Test selection for files and diffs.
 - Change impact report with direct and transitive dependents.
-- `code-agent-plusplus verify --diff`.
+- `opencode-plusplus verify --diff`.
 - Freshness / drift / manifest checks.
 
 Status: implemented foundation.
@@ -91,12 +91,12 @@ export interface AgentExecutor {
 }
 ```
 
-- `code-agent-plusplus agent run "<task>" . --executor opencode`
-- `code-agent-plusplus agent run "<task>" . --executor mimocode`
+- `opencode-plusplus agent run "<task>" . --executor opencode`
+- `opencode-plusplus agent run "<task>" . --executor mimocode`
 - Mock executor for CI and deterministic tests.
 - Generic `--executor-command` adapter for Codex, Claude Code, Cursor, OpenCode, MiMoCode, and other scriptable code agents.
-- One-shot flow through `code-agent-plusplus agent run`: `pack -> run agent -> collect diff -> policy/tests/impact/verify`.
-- Multi-loop harness flow through `code-agent-plusplus orchestrate`: `pack -> run agent -> evaluate -> repair/repack/finalize/block`.
+- One-shot flow through `opencode-plusplus agent run`: `pack -> run agent -> collect diff -> policy/tests/impact/verify`.
+- Multi-loop harness flow through `opencode-plusplus orchestrate`: `pack -> run agent -> evaluate -> repair/repack/finalize/block`.
 
 Status: mock executor, generic command adapter, and OpenCode stdout/transcript/fallback event normalizer implemented; MiMoCode, Codex, and Claude native event normalizers planned.
 
@@ -177,10 +177,10 @@ Status: MCP stdio server, core tools, structured runtime gate fields, and Codex/
 
 Goal: make OpenCode++ a bounded runtime controller while the code agent remains a replaceable executor.
 
-- `code-agent-plusplus opencode doctor .`
-- `code-agent-plusplus opencode run "<task>" . --max-loops 3 --checkpoint git-worktree --fail-on required`
-- `code-agent-plusplus oc "<task>" .`
-- `code-agent-plusplus orchestrate "<task>" . --executor mimocode --executor-command "mimocode run {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
+- `opencode-plusplus opencode doctor .`
+- `opencode-plusplus opencode run "<task>" . --max-loops 3 --checkpoint git-worktree --fail-on required`
+- `opencode-plusplus oc "<task>" .`
+- `opencode-plusplus orchestrate "<task>" . --executor mimocode --executor-command "mimocode run {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
 - Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guard gates -> decision report`.
 - Decision reports: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.
 - Multi-iteration loop runner with per-iteration artifacts under `.agent-context/runs/<task-id>/iterations/<nnn>/`.
@@ -224,7 +224,7 @@ First targets:
 
 Current MVP:
 
-- `code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run`
+- `opencode-plusplus benchmark-agent benchmarks --executor mock --dry-run`
 - Real executor command hook through `--executor opencode|mimocode|codex|claude-code|cursor`.
 - Same task, same executor, same fixture, four modes: `no-context`, `agents-md`, `context-pack`, `loop-enabled-harness`.
 - Phase 6 task set: 10 tasks covering 3 bugfix, 2 feature, 2 refactor, 1 hallucinated-command trigger, 1 protected-path trigger, and 1 regression trigger.
@@ -235,7 +235,7 @@ Current MVP:
 OpenCode example:
 
 ```bash
-code-agent-plusplus benchmark-agent benchmarks \
+opencode-plusplus benchmark-agent benchmarks \
   --executor opencode \
   --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \

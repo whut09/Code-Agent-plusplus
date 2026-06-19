@@ -12,22 +12,22 @@ npm install
 npm run build
 npm link
 cd your-repo
-capp
+ocpp
 ```
 
-`capp` starts the OpenCode TUI for the current repository after preflight and injects the OpenCode++ sidecar plugin. It is the default transparent chat mode for daily coding.
+`ocpp` starts the OpenCode TUI for the current repository after preflight and injects the OpenCode++ sidecar plugin. It is the default transparent chat mode for daily coding. `capp` remains available as a legacy alias.
 
 Read the full sidecar flow in [OpenCode Transparent Sidecar Mode](opencode-sidecar.md).
 
 ## OpenCode Preset
 
 ```bash
-capp oc init .
-code-agent-plusplus opencode doctor .
-code-agent-plusplus opencode run "fix login timeout bug" .
-capp oc "fix login timeout bug" .
-capp oc report --last
-capp oc repair
+ocpp oc init .
+opencode-plusplus opencode doctor .
+opencode-plusplus opencode run "fix login timeout bug" .
+ocpp oc "fix login timeout bug" .
+ocpp oc report --last
+ocpp oc repair
 ```
 
 The preset uses the built-in command template:
@@ -41,12 +41,15 @@ opencode run --format json --dir {repo} --file {prompt} "Follow the attached Ope
 `oc init` creates OpenCode-native commands and an agent profile:
 
 ```txt
+.opencode/commands/ocpp.md
+.opencode/commands/ocpp-verify.md
+.opencode/agents/opencode-plusplus.md
 .opencode/commands/capp.md
 .opencode/commands/capp-verify.md
 .opencode/agents/code-agent-plusplus.md
 ```
 
-Inside OpenCode, use `/capp <task>` to start a OpenCode++ harness-led run and `/capp-verify` before finalizing.
+Inside OpenCode, use `/ocpp <task>` to start an OpenCode++ harness-led run and `/ocpp-verify` before finalizing. `/capp` and `/capp-verify` remain as legacy aliases.
 
 OpenCode preset runs print a compact terminal summary by default:
 
@@ -65,14 +68,14 @@ Blocking gates:
 - Evidence Guard: no test command after last edit
 
 Next:
-  capp oc repair
-  capp oc report --last
+  ocpp oc repair
+  ocpp oc report --last
 ```
 
 ## Generic Command Adapter
 
 ```bash
-code-agent-plusplus orchestrate "fix login timeout bug" . \
+opencode-plusplus orchestrate "fix login timeout bug" . \
   --executor opencode \
   --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \

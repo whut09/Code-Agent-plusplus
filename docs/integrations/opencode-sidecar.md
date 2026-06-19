@@ -1,12 +1,12 @@
 # OpenCode Transparent Sidecar Mode
 
-OpenCode Transparent Sidecar Mode is the default `capp` experience. Users keep working in the normal OpenCode TUI while OpenCode++ runs as a quiet reliability layer around the session.
+OpenCode Transparent Sidecar Mode is the default `ocpp` experience. Users keep working in the normal OpenCode TUI while OpenCode++ runs as a quiet reliability layer around the session.
 
 OpenCode++ does not replace OpenCode. OpenCode reads, edits, and runs tools; OpenCode++ prepares repository context, installs the sidecar plugin, records execution evidence, blocks unsafe commands or paths, and writes verification reports.
 
 ## User Experience
 
-`code-agent-plusplus` has not been published to npm yet. Install OpenCode from npm, then install OpenCode++ from source and link `capp` globally:
+`opencode-plusplus` has not been published to npm yet. Install OpenCode from npm, then install OpenCode++ from source and link `ocpp` globally:
 
 ```bash
 npm i -g opencode-ai
@@ -21,17 +21,17 @@ Then enter the repository where you want the sidecar:
 
 ```bash
 cd your-repo
-capp
+ocpp
 ```
 
-After the package is published to npm, the install step will become `npm i -g code-agent-plusplus opencode-ai`.
+After the package is published to npm, the install step will become `npm i -g opencode-plusplus opencode-ai`.
 
-`capp` runs preflight, prints a compact readiness summary, and then launches OpenCode:
+`ocpp` runs preflight, prints a compact readiness summary, and then launches OpenCode:
 
 ```txt
 OpenCode++ sidecar ready
 - Context: ready (.agent-context already exists)
-- Plugin: ready (.opencode/plugins/code-agent-plusplus.ts generated)
+- Plugin: ready (.opencode/plugins/opencode-plusplus.ts generated)
 - Report: .agent-context/sidecar/latest.md
 
 Launching OpenCode...
@@ -50,7 +50,7 @@ The sidecar stays quiet by default. It only surfaces a TUI message when a blocke
 ## Workflow
 
 ```txt
-capp
+ocpp
   -> preflight
   -> ensure .agent-context
   -> ensure .opencode plugin / commands / agent profile
@@ -71,7 +71,10 @@ The generated OpenCode plugin listens for:
 ## Generated Files
 
 ```txt
-.opencode/plugins/code-agent-plusplus.ts
+.opencode/plugins/opencode-plusplus.ts
+.opencode/commands/ocpp.md
+.opencode/commands/ocpp-verify.md
+.opencode/agents/opencode-plusplus.md
 .opencode/commands/capp.md
 .opencode/commands/capp-verify.md
 .opencode/agents/code-agent-plusplus.md
@@ -90,52 +93,52 @@ The generated OpenCode plugin listens for:
 ## Common Commands
 
 ```bash
-capp
-capp --pure
-capp status
-capp report
-capp doctor
-capp sidecar verify
+ocpp
+ocpp --pure
+ocpp status
+ocpp report
+ocpp doctor
+ocpp sidecar verify
 ```
 
-`capp --pure` launches plain OpenCode without generating context or injecting the sidecar.
+`ocpp --pure` launches plain OpenCode without generating context or injecting the sidecar.
 
-`capp status` checks whether the sidecar plugin, event log, and latest report exist.
+`ocpp status` checks whether the sidecar plugin, event log, and latest report exist.
 
-`capp report` opens `.agent-context/sidecar/latest.md`.
+`ocpp report` opens `.agent-context/sidecar/latest.md`.
 
-`capp doctor` checks OpenCode, auth, git, context, plugin, and sidecar readiness.
+`ocpp doctor` checks OpenCode, auth, git, context, plugin, and sidecar readiness.
 
-`capp sidecar verify` runs the shared guard stack and writes the latest sidecar report. It is also what the plugin runs automatically on idle when the repository is dirty.
+`ocpp sidecar verify` runs the shared guard stack and writes the latest sidecar report. It is also what the plugin runs automatically on idle when the repository is dirty.
 
 ## Difference From Batch Mode
 
-| Mode                | Command                                        | Best for                                                   | Who drives the loop                                             |
-| ------------------- | ---------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
-| Transparent Sidecar | `capp`                                         | Daily OpenCode-style chat coding                           | OpenCode drives editing; OpenCode++ quietly guards and verifies |
-| Batch Harness       | `capp oc "task"`                               | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
-| Core Harness        | `code-agent-plusplus verify/policy/impact/...` | Advanced manual verification and automation                | User or CI calls specific guard commands                        |
+| Mode                | Command                                      | Best for                                                   | Who drives the loop                                             |
+| ------------------- | -------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
+| Transparent Sidecar | `ocpp`                                       | Daily OpenCode-style chat coding                           | OpenCode drives editing; OpenCode++ quietly guards and verifies |
+| Batch Harness       | `ocpp oc "task"`                             | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
+| Core Harness        | `opencode-plusplus verify/policy/impact/...` | Advanced manual verification and automation                | User or CI calls specific guard commands                        |
 
 Transparent Sidecar mode optimizes for a natural interactive coding experience. Batch Harness mode optimizes for repeatability and stronger OpenCode++ control.
 
 ## Troubleshooting
 
 ```bash
-capp doctor
-capp status
-capp report
-capp sidecar verify .
+ocpp doctor
+ocpp status
+ocpp report
+ocpp sidecar verify .
 ```
 
 If the plugin is stale or missing, rerun:
 
 ```bash
-capp tui . --force-plugin --dry-run
-capp
+ocpp tui . --force-plugin --dry-run
+ocpp
 ```
 
 If you want to use OpenCode without OpenCode++ for a session:
 
 ```bash
-capp --pure
+ocpp --pure
 ```

@@ -16,7 +16,7 @@ Add the MCP server to the OpenCode MCP configuration supported by your OpenCode 
 {
   "mcpServers": {
     "code-agent-plusplus": {
-      "command": "code-agent-plusplus-mcp",
+      "command": "opencode-plusplus-mcp",
       "args": []
     }
   }
@@ -133,5 +133,5 @@ Call `code_agent_plusplus_finalize` only when the latest evaluation is non-block
 
 - MCP mode is advisory unless your OpenCode workflow refuses to continue on `blocking: true`.
 - OpenCode event schemas may differ by version; native event normalization should be validated per version.
-- For OpenCode++-led execution, prefer `code-agent-plusplus orchestrate ... --executor opencode`.
+- For OpenCode++-led execution, prefer `opencode-plusplus orchestrate ... --executor opencode`.
 - MCP `step` does not execute shell commands; it records evidence provided by the agent or host.

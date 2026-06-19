@@ -29,7 +29,7 @@ test("loop controller starts the agent from a clean preflight", async () => {
     assert.match(rendered, /# Loop Controller/);
     assert.match(rendered, /confidence 0\.\d+/);
     assert.match(rendered, /non-blocking/);
-    assert.match(rendered, /code-agent-plusplus run "fix login timeout bug"/);
+    assert.match(rendered, /opencode-plusplus run "fix login timeout bug"/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

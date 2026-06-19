@@ -180,10 +180,10 @@ function decisionForGate(action: GuardGateAction, checkpointMode: "none" | "git-
 }
 
 function commandForGate(action: GuardGateAction): string[] {
-  if (action === "repack" || action === "expand-context") return ['code-agent-plusplus pack "<task>" .'];
-  if (action === "run-tests") return ["code-agent-plusplus tests . --diff --base main"];
-  if (action === "run-regression-tests") return ["code-agent-plusplus regression . --base main --trace <trace-id>"];
-  if (action === "repair") return ['code-agent-plusplus loop "<task>" . --phase repair'];
+  if (action === "repack" || action === "expand-context") return ['opencode-plusplus pack "<task>" .'];
+  if (action === "run-tests") return ["opencode-plusplus tests . --diff --base main"];
+  if (action === "run-regression-tests") return ["opencode-plusplus regression . --base main --trace <trace-id>"];
+  if (action === "repair") return ['opencode-plusplus loop "<task>" . --phase repair'];
   return [];
 }
 

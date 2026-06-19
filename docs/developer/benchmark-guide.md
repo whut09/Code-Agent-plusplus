@@ -5,7 +5,7 @@ OpenCode++ benchmarks compare context and harness modes.
 ## Static Benchmark
 
 ```bash
-code-agent-plusplus benchmark benchmarks --top-k 8
+opencode-plusplus benchmark benchmarks --top-k 8
 ```
 
 Measures retrieval quality such as relevant files and required tests.
@@ -13,7 +13,7 @@ Measures retrieval quality such as relevant files and required tests.
 ## Agent Behavior Benchmark
 
 ```bash
-code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run
+opencode-plusplus benchmark-agent benchmarks --executor mock --dry-run
 ```
 
 Modes:
@@ -37,7 +37,7 @@ Metrics:
 Use the generic executor hook for real-agent comparisons:
 
 ```bash
-code-agent-plusplus benchmark-agent benchmarks \
+opencode-plusplus benchmark-agent benchmarks \
   --executor opencode \
   --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \

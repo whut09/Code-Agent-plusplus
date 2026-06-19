@@ -18,12 +18,12 @@ The difference is whether those Guards are advisory signals for the host agent o
 | Mode                                   | Controller                                         | Entry Points                                                                                                 | Executes a code agent?                      | Best For                                                                          |
 | -------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | --------------------------------------------------------------------------------- |
 | Code agent-led, OpenCode++ constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `code_agent_plusplus_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                         |
-| OpenCode++-led, code agent as executor | OpenCode++ bounded loop                            | `code-agent-plusplus orchestrate` or `code-agent-plusplus agent run`                                         | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, OpenCode++ reporting finalize/repair/repack/block |
+| OpenCode++-led, code agent as executor | OpenCode++ bounded loop                            | `opencode-plusplus orchestrate` or `opencode-plusplus agent run`                                             | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, OpenCode++ reporting finalize/repair/repack/block |
 
 The entry points are isolated:
 
-- `code-agent-plusplus run` only writes `.agent-context/runs/<task-id>/`; it does not execute an external agent.
-- `code-agent-plusplus orchestrate` and `code-agent-plusplus agent run` are the executor flows.
+- `opencode-plusplus run` only writes `.agent-context/runs/<task-id>/`; it does not execute an external agent.
+- `opencode-plusplus orchestrate` and `opencode-plusplus agent run` are the executor flows.
 - MCP tools belong to the agent-led mode by default. They give an external agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the host agent still decides whether to obey the gate.
 
 ## Mode 1: Code Agent-Led, OpenCode++ Constrained
@@ -32,7 +32,7 @@ In this mode, Codex / Claude Code / Cursor / OpenCode / MiMoCode is the main act
 
 ```txt
 User task
-  -> code agent calls code-agent-plusplus plan / pack / run or MCP code_agent_plusplus_plan / pack
+  -> code agent calls opencode-plusplus plan / pack / run or MCP code_agent_plusplus_plan / pack
   -> code agent reads code, edits code, runs commands
   -> code agent calls tests / impact / verify / policy / evaluate
   -> OpenCode++ returns constraints, evidence, and recommendations
@@ -41,13 +41,13 @@ User task
 Recommended CLI entries:
 
 ```bash
-code-agent-plusplus plan "fix login timeout bug" .
-code-agent-plusplus pack "fix login timeout bug" .
-code-agent-plusplus run "fix login timeout bug" . --type bugfix
-code-agent-plusplus tests . --diff --base main
-code-agent-plusplus impact . --base main
-code-agent-plusplus verify --diff .
-code-agent-plusplus policy . --base main --trace <trace-id> --fail-on required
+opencode-plusplus plan "fix login timeout bug" .
+opencode-plusplus pack "fix login timeout bug" .
+opencode-plusplus run "fix login timeout bug" . --type bugfix
+opencode-plusplus tests . --diff --base main
+opencode-plusplus impact . --base main
+opencode-plusplus verify --diff .
+opencode-plusplus policy . --base main --trace <trace-id> --fail-on required
 ```
 
 MCP entries:
@@ -94,9 +94,9 @@ User task
 Recommended CLI entries:
 
 ```bash
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus opencode run "fix login timeout bug" . --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
+opencode-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
+opencode-plusplus opencode run "fix login timeout bug" . --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
+opencode-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
 
 For OpenCode, OpenCode++ normalizes `opencode run --format json` stdout, optional `--opencode-transcript` files, and generic stdout/stderr fallback into the same trace event model.

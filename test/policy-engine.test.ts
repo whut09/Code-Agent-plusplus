@@ -62,7 +62,7 @@ test("policy engine accepts passed trace evidence for required checks", async ()
     });
     appendExecutionTraceStep(root, trace.id, {
       action: "validate-contracts",
-      command: "code-agent-plusplus validate-contracts . --base main",
+      command: "opencode-plusplus validate-contracts . --base main",
       result: "passed"
     });
 

@@ -13,10 +13,10 @@ This document is generated from static repository signals. Treat it as a startin
 - `outputs`: outputs contains 27 files and depends on core, harness, integrations.
 - `core`: core contains 18 files and depends on analyzers, config, llm, outputs.
 - `harness`: harness contains 9 files and depends on core, outputs, sandbox.
-- `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.
 - `integrations`: integrations contains 5 files and depends on core, harness, outputs, retrievers.
-- `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
+- `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.
 - `cli`: cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
+- `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
 - `analyzers`: analyzers contains 6 files and depends on core.
 - `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 13 files.
 

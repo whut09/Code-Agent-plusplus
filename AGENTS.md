@@ -20,8 +20,8 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 
 ## Default Workflow
 - Read `AGENTS.md` only before the task is concrete.
-- Agent-led handoff: run `code-agent-plusplus run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.
-- Harness-led executor flow: run `code-agent-plusplus orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>" --max-loops 3 --checkpoint git-worktree` when OpenCode++ should own multi-loop gates.
+- Agent-led handoff: run `opencode-plusplus run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.
+- Harness-led executor flow: run `opencode-plusplus orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>" --max-loops 3 --checkpoint git-worktree` when OpenCode++ should own multi-loop gates.
 - Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.
 - Prefer source files over generated summaries for behavior, API, and test decisions.
 
@@ -62,19 +62,19 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 ## Harness Runtime Files
 - `.agent-context/contracts/` - machine-checkable edit, command, test, and safety boundaries
 - `.agent-context/runs/` - complete task run contexts with plan, pack, tests, impact, verify, and prompts
-- `.agent-context/loops/` - loop controller decisions when written with `code-agent-plusplus loop "<task>" . --write`
+- `.agent-context/loops/` - loop controller decisions when written with `opencode-plusplus loop "<task>" . --write`
 - `.agent-context/traces/` - execution trace records for agent edits, tests, verification, final state, and manual/command/CI evidence
 - `.agent-context/hallucination/` - deterministic missing file, command, dependency, config, and symbol findings
 - `.agent-context/regression/` - known issues, fix history, fragile modules, and anti-regression test memory
 - `.agent-context/delta/` - context delta and files the agent should re-read after repository changes
 
 ## Before Closing
-- Prefer `code-agent-plusplus trace run <trace-id> . --action run-test --command "<test-command>"` over manual test claims when recording verification.
-- Run `code-agent-plusplus hallucination . --trace <trace-id> --base main` when the task has an execution trace.
-- Run `code-agent-plusplus regression . --trace <trace-id> --base main` when the task touches known fragile modules or historical bug patterns.
-- Prefer `code-agent-plusplus policy . --base main --trace <trace-id> --fail-on required` when a trace exists.
-- Run `code-agent-plusplus verify --diff .` and `code-agent-plusplus loop "<task>" . --phase after-edit` before final review.
-- Check `code-agent-plusplus freshness .` and `code-agent-plusplus drift .` if generated context may be stale.
+- Prefer `opencode-plusplus trace run <trace-id> . --action run-test --command "<test-command>"` over manual test claims when recording verification.
+- Run `opencode-plusplus hallucination . --trace <trace-id> --base main` when the task has an execution trace.
+- Run `opencode-plusplus regression . --trace <trace-id> --base main` when the task touches known fragile modules or historical bug patterns.
+- Prefer `opencode-plusplus policy . --base main --trace <trace-id> --fail-on required` when a trace exists.
+- Run `opencode-plusplus verify --diff .` and `opencode-plusplus loop "<task>" . --phase after-edit` before final review.
+- Check `opencode-plusplus freshness .` and `opencode-plusplus drift .` if generated context may be stale.
 
 ## Manual Operations Context
 

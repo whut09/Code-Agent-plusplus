@@ -262,7 +262,7 @@ function decideNextSteps(input: {
         blocking: true,
         reason: "Generated context is missing, stale, or drifted from the current repository state.",
         signals: [`freshness: ${input.freshnessStatus}`, `drift: ${input.driftStatus}`],
-        command: "code-agent-plusplus update ."
+        command: "opencode-plusplus update ."
       })
     );
   }
@@ -276,7 +276,7 @@ function decideNextSteps(input: {
         blocking: true,
         reason: "The task pack exceeds its context budget; shrink or split the task before handing it to an agent.",
         signals: [`task pack tokens: ${input.taskPackTokens}`, `task pack budget: ${input.taskPackBudget}`],
-        command: `code-agent-plusplus plan "${input.task}" .`
+        command: `opencode-plusplus plan "${input.task}" .`
       })
     );
   }
@@ -290,7 +290,7 @@ function decideNextSteps(input: {
         blocking: false,
         reason: "No edits are detected yet; create a fresh task run before agent execution.",
         signals: [`phase: ${input.phase}`, "changed files: 0"],
-        command: `code-agent-plusplus run "${input.task}" . --base ${input.base}`
+        command: `opencode-plusplus run "${input.task}" . --base ${input.base}`
       })
     );
   }
@@ -304,7 +304,7 @@ function decideNextSteps(input: {
         blocking: true,
         reason: `${input.contractViolations} contract violation${input.contractViolations === 1 ? "" : "s"} detected in the current diff.`,
         signals: [`contract violations: ${input.contractViolations}`, "contracts: failed"],
-        command: `code-agent-plusplus validate-contracts . --base ${input.base}`
+        command: `opencode-plusplus validate-contracts . --base ${input.base}`
       })
     );
   }
@@ -318,7 +318,7 @@ function decideNextSteps(input: {
         blocking: true,
         reason: "Changed source files have contract signals indicating missing related tests.",
         signals: [`missing test signals: ${input.missingTestSignals}`, `changed files: ${input.changedFiles.length}`],
-        command: `code-agent-plusplus tests . --diff --base ${input.base}`
+        command: `opencode-plusplus tests . --diff --base ${input.base}`
       })
     );
   }
@@ -332,7 +332,7 @@ function decideNextSteps(input: {
         blocking: true,
         reason: "High impact risk means the next agent turn should include dependents, related tests, and contract violations.",
         signals: [`impact risk: ${input.impactRisk}`, `impact dependents: ${input.impactDependents}`],
-        command: `code-agent-plusplus impact . --base ${input.base}`
+        command: `opencode-plusplus impact . --base ${input.base}`
       })
     );
   }
@@ -352,7 +352,7 @@ function decideNextSteps(input: {
           ...input.traceSignals
         ],
         command:
-          firstUsefulCommand([...input.minimalCommands, ...input.regressionCommands], input.task) ?? `code-agent-plusplus tests . --diff --base ${input.base}`
+          firstUsefulCommand([...input.minimalCommands, ...input.regressionCommands], input.task) ?? `opencode-plusplus tests . --diff --base ${input.base}`
       })
     );
   }

@@ -6,7 +6,7 @@
 
 OpenCode++ is not affiliated with, endorsed by, or built by the OpenCode team. OpenCode remains the coding agent runtime; OpenCode++ adds an external reliability harness, sidecar, and verification gates.
 
-The current npm package, CLI command, and config file names still use the transitional names `code-agent-plusplus` / `capp` / `code-agent-plusplus.config.yml`.
+The config file names still support the transitional `code-agent-plusplus.config.yml` / `code-agent-plusplus.local.yml` names, and the old `capp` / `code-agent-plusplus` CLI commands remain as migration aliases.
 
 ```txt
 OpenCode chats, reads code, edits files, and runs commands.
@@ -15,7 +15,7 @@ OpenCode++ provides context, boundaries, evidence, gates, impact analysis, and r
 
 ## 30-Second Start
 
-`code-agent-plusplus` has not been published to npm yet, so `npm i -g code-agent-plusplus` does not work today. Install OpenCode++ from source and link the `capp` command globally:
+`opencode-plusplus` has not been published to npm yet, so `npm i -g opencode-plusplus` does not work today. Install OpenCode++ from source and link the `ocpp` command globally:
 
 ```bash
 npm i -g opencode-ai
@@ -30,13 +30,13 @@ Then enter the target repository where you want OpenCode++ to run:
 
 ```bash
 cd your-repo
-capp
+ocpp
 ```
 
 After the package is published to npm, installation will become:
 
 ```bash
-npm i -g code-agent-plusplus opencode-ai
+npm i -g opencode-plusplus opencode-ai
 ```
 
 Then chat like you normally would in OpenCode:
@@ -64,18 +64,21 @@ It stays quiet by default and only interrupts the TUI when blockers are found.
 ## Daily Commands
 
 ```bash
-capp          # OpenCode chat mode with the OpenCode++ sidecar
-capp report   # show the latest sidecar check
-capp status   # show whether the sidecar is active
-capp doctor   # diagnose OpenCode / auth / git / context / plugin
-capp --pure   # plain OpenCode without OpenCode++
+ocpp          # OpenCode chat mode with the OpenCode++ sidecar
+ocpp report   # show the latest sidecar check
+ocpp status   # show whether the sidecar is active
+ocpp doctor   # diagnose OpenCode / auth / git / context / plugin
+ocpp --pure   # plain OpenCode without OpenCode++
+
+capp          # legacy alias
+code-agent-plusplus build .   # legacy alias
 ```
 
-`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact 3-line readiness summary, then opens the OpenCode TUI for the current repository. The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle`: it blocks dangerous or hallucinated commands before execution, records command result evidence after tool execution, and runs dirty/debounced incremental verification when OpenCode becomes idle.
+`ocpp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/opencode-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact 3-line readiness summary, then opens the OpenCode TUI for the current repository. The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle`: it blocks dangerous or hallucinated commands before execution, records command result evidence after tool execution, and runs dirty/debounced incremental verification when OpenCode becomes idle.
 
 ## Advanced Usage
 
-The README main path intentionally recommends only `capp`. Batch Harness Mode, CI-like executors, manual `verify / policy / impact`, MCP, and retrieval commands are still available for advanced users:
+The README main path intentionally recommends only `ocpp`. Batch Harness Mode, CI-like executors, manual `verify / policy / impact`, MCP, and retrieval commands are still available for advanced users:
 
 - [OpenCode Transparent Sidecar Mode](docs/integrations/opencode-sidecar.md)
 - [Executor CLI Integration](docs/integrations/executor-cli.md)
@@ -104,13 +107,13 @@ The README main path intentionally recommends only `capp`. Batch Harness Mode, C
 
 | Capability                                       | Current status   | Notes                                                                                                   |
 | ------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------- |
-| `capp` OpenCode TUI launcher                     | MVP              | Runs preflight, prints compact readiness, launches OpenCode TUI, and supports `--pure`                  |
-| OpenCode transparent sidecar plugin              | MVP              | Injects `.opencode/plugins/code-agent-plusplus.ts` and listens for session/file/tool events             |
+| `ocpp` OpenCode TUI launcher                     | MVP              | Runs preflight, prints compact readiness, launches OpenCode TUI, and supports `--pure`                  |
+| OpenCode transparent sidecar plugin              | MVP              | Injects `.opencode/plugins/opencode-plusplus.ts` and listens for session/file/tool events               |
 | sidecar command guard                            | MVP+             | Blocks dangerous commands, unknown package scripts / Makefile targets, and protected / secret paths     |
 | sidecar post-tool evidence                       | Foundation       | Uses `tool.execute.after` to record exit code, timestamps, output hashes, and working-tree hashes       |
 | sidecar verify / shared guard stack              | Foundation       | Reuses contracts, hallucination, regression, impact, tests, and policy; needs more real-repo validation |
-| `capp report/status/doctor`                      | Foundation       | Reads sidecar reports, checks active state, and diagnoses OpenCode / auth / git / context               |
-| batch OpenCode executor / `capp oc`              | Foundation       | Best for benchmarks, CI-like runs, non-interactive tasks, and repeatable demos                          |
+| `ocpp report/status/doctor`                      | Foundation       | Reads sidecar reports, checks active state, and diagnoses OpenCode / auth / git / context               |
+| batch OpenCode executor / `ocpp oc`              | Foundation       | Best for benchmarks, CI-like runs, non-interactive tasks, and repeatable demos                          |
 | bounded harness-led orchestrator / `orchestrate` | Foundation       | Supports multi-loop artifacts, checkpoints, executor commands, and decision reports                     |
 | `build` / `AGENTS.md` / `.agent-context`         | Stable           | Stable repository context compiler and generated artifacts                                              |
 | task plan / pack / run                           | Stable           | Stable task context, boundaries, prompts, and trace files                                               |

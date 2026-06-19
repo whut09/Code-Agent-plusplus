@@ -7,7 +7,11 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 import { launchOpenCodeWithSidecar, renderOpenCodeLauncherPreflight } from "../src/integrations/opencode/launcher.js";
-import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/sidecar-plugin-template.js";
+import {
+  LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH,
+  OPENCODE_SIDECAR_PLUGIN_PATH,
+  opencodeSidecarPluginTemplate
+} from "../src/integrations/opencode/sidecar-plugin-template.js";
 import {
   checkOpencodeSidecarCommand,
   ensureOpencodeSidecarPlugin,
@@ -97,6 +101,7 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /file\.watcher\.updated/);
   assert.match(source, /session\.idle/);
   assert.match(source, /sidecar", "verify"/);
+  assert.match(source, /spawnSync\("ocpp"/);
   assert.match(source, /--quiet/);
   assert.match(source, /tool\.execute\.before/);
   assert.match(source, /tool\.execute\.after/);
@@ -123,6 +128,31 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.doesNotMatch(source, /sidecar active\./);
   assert.match(source, /sidecar verification blocked/);
   assert.match(source, /console\.log\(output\)/);
+});
+
+test("OpenCode sidecar plugin uses the new path and recognizes the legacy path", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-path-"));
+  try {
+    const generated = ensureOpencodeSidecarPlugin(root);
+    assert.equal(generated.status, "pass");
+    assert.match(generated.details, /opencode-plusplus\.ts generated/);
+    assert.equal(existsSync(path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH)), true);
+
+    const legacyRoot = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-legacy-path-"));
+    try {
+      mkdirSync(path.dirname(path.join(legacyRoot, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH)), { recursive: true });
+      writeFileSync(path.join(legacyRoot, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH), opencodeSidecarPluginTemplate(), "utf8");
+
+      const legacy = ensureOpencodeSidecarPlugin(legacyRoot);
+      assert.equal(legacy.status, "pass");
+      assert.match(legacy.details, /legacy alias/);
+      assert.equal(existsSync(path.join(legacyRoot, OPENCODE_SIDECAR_PLUGIN_PATH)), false);
+    } finally {
+      rmSync(legacyRoot, { recursive: true, force: true });
+    }
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test("OpenCode sidecar records tool execution evidence into event logs and traces", () => {
@@ -202,7 +232,7 @@ test("OpenCode sidecar verify checks plugin hooks, event log readiness, and guar
     assert.equal(typeof report.guardStack.tests?.fullConfidenceCommands, "number");
     assert.equal(report.guardStack.policy?.passed, false);
     assert.match(report.blockers.join("\n"), /Policy required evidence missing/);
-    assert.equal(report.checks.find((check) => check.name === OPENCODE_SIDECAR_PLUGIN_PATH)?.status, "pass");
+    assert.equal(report.checks.find((check) => check.name.endsWith("opencode-plusplus.ts"))?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "file.edited hook")?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "session.idle hook")?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "tool.execute.after hook")?.status, "pass");

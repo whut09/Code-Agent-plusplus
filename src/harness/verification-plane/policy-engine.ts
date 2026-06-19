@@ -81,7 +81,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
     {
       kind: "contract-validation",
       currentRepoHash,
-      requiredCommands: [`code-agent-plusplus validate-contracts . --base ${base}`]
+      requiredCommands: [`opencode-plusplus validate-contracts . --base ${base}`]
     },
     trace
   );
@@ -123,7 +123,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       file: violation.file,
       message: violation.message,
       evidence: [violation.reason, `Rule: ${violation.rule}`],
-      requiredAction: violation.severity === "error" ? `Run code-agent-plusplus validate-contracts . --base ${base} and repair the violating edit.` : undefined
+      requiredAction: violation.severity === "error" ? `Run opencode-plusplus validate-contracts . --base ${base} and repair the violating edit.` : undefined
     });
   }
 
@@ -160,7 +160,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       severity: "warning",
       message: "High impact change detected.",
       evidence: impact.riskFactors,
-      requiredAction: `Run code-agent-plusplus impact . --base ${base} and include dependents in the next agent context.`
+      requiredAction: `Run opencode-plusplus impact . --base ${base} and include dependents in the next agent context.`
     });
   }
 
@@ -174,7 +174,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
           ...testEvidence.evidence,
           ...tests.fullConfidenceCommands.slice(0, 3).map((command) => `Suggested: ${command}`)
         ],
-        requiredAction: firstRunnableCommand(tests.fullConfidenceCommands) ?? `code-agent-plusplus tests . --diff --base ${base}`
+        requiredAction: firstRunnableCommand(tests.fullConfidenceCommands) ?? `opencode-plusplus tests . --diff --base ${base}`
       })
     );
 
@@ -182,7 +182,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       requiredFinding("policy.required.contract-validation", contractEvidence.satisfied, {
         message: "Changed source or config requires contract validation evidence.",
         evidence: [trace ? `Trace loaded: ${trace.id}.` : "No execution trace was provided.", ...contractEvidence.evidence],
-        requiredAction: `code-agent-plusplus validate-contracts . --base ${base}`
+        requiredAction: `opencode-plusplus validate-contracts . --base ${base}`
       })
     );
 
@@ -195,9 +195,9 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
         message: "Test evidence is manually reported instead of harness-captured.",
         evidence: [
           "Manual evidence can document agent intent, but command evidence includes exit code, output hashes, and working-tree hashes.",
-          `Preferred: code-agent-plusplus trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>"`
+          `Preferred: opencode-plusplus trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>"`
         ],
-        requiredAction: `Record command evidence with code-agent-plusplus trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>".`
+        requiredAction: `Record command evidence with opencode-plusplus trace run ${trace?.id ?? "<trace-id>"} . --action run-test --command "<test-command>".`
       });
     }
   }
@@ -210,7 +210,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       severity: "required",
       message: "Generated context is stale or drifted.",
       evidence: [...freshness.reasons, ...drift.reasons].slice(0, 8),
-      requiredAction: "code-agent-plusplus update ."
+      requiredAction: "opencode-plusplus update ."
     });
   } else {
     findings.push({
@@ -231,7 +231,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
       severity: "required",
       message: "Policy or contract generator changed without regenerated contract artifacts.",
       evidence: changed.actionable.filter(isContractGeneratorPath),
-      requiredAction: "code-agent-plusplus update ."
+      requiredAction: "opencode-plusplus update ."
     });
   }
 
@@ -244,7 +244,7 @@ export function buildPolicyReport(context: ContextPackage, options: PolicyEngine
           ...regression.matches.map((match) => `${match.id}: ${match.pattern}`),
           ...regression.evidence.evidence
         ],
-        requiredAction: regression.requiredTests[0] ?? `code-agent-plusplus regression . --base ${base}${options.traceId ? ` --trace ${options.traceId}` : ""}`
+        requiredAction: regression.requiredTests[0] ?? `opencode-plusplus regression . --base ${base}${options.traceId ? ` --trace ${options.traceId}` : ""}`
       })
     );
   }
@@ -335,7 +335,7 @@ function confidenceForPolicyFinding(finding: PolicyFinding): number {
 
 function commandFromRequiredAction(action: string | undefined): string[] {
   if (!action) return [];
-  return /^(code-agent-plusplus|npm|pnpm|yarn|bun|npx)\b/.test(action) ? [action] : [];
+  return /^(opencode-plusplus|ocpp|code-agent-plusplus|npm|pnpm|yarn|bun|npx)\b/.test(action) ? [action] : [];
 }
 
 function requiredFinding(

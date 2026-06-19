@@ -7,7 +7,7 @@ Executor adapters let OpenCode++ treat external code agents as replaceable codin
 | Executor / Adapter                | Maturity   | Notes                                                                                |
 | --------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
 | `mock`                            | Stable     | Deterministic demo and CI executor.                                                  |
-| `capp` OpenCode TUI launcher      | Foundation | Starts OpenCode TUI after context, command, agent, and sidecar plugin preflight.     |
+| `ocpp` OpenCode TUI launcher      | Foundation | Starts OpenCode TUI after context, command, agent, and sidecar plugin preflight.     |
 | OpenCode preset                   | Foundation | `opencode doctor`, `opencode run`, and `oc` with the default OpenCode command.       |
 | generic `--executor-command`      | Foundation | Calls scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.    |
 | OpenCode event normalizer         | Foundation | Supports `opencode run --format json`, transcript files, and stdout/stderr fallback. |
@@ -21,13 +21,13 @@ Executor adapters let OpenCode++ treat external code agents as replaceable codin
 OpenCode has a first-class preset:
 
 ```bash
-capp
-capp oc init .
-code-agent-plusplus opencode doctor .
-code-agent-plusplus opencode run "<task>" .
-capp oc "<task>" .
-capp oc report --last
-capp oc repair
+ocpp
+ocpp oc init .
+opencode-plusplus opencode doctor .
+opencode-plusplus opencode run "<task>" .
+ocpp oc "<task>" .
+ocpp oc report --last
+ocpp oc repair
 ```
 
 The preset expands to:
@@ -39,7 +39,7 @@ opencode run --format json --dir {repo} --file {prompt} "Follow the attached Ope
 Use the generic adapter for other executors or custom OpenCode commands:
 
 ```bash
-code-agent-plusplus orchestrate "<task>" . \
+opencode-plusplus orchestrate "<task>" . \
   --executor opencode \
   --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3

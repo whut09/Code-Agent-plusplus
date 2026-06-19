@@ -1,6 +1,6 @@
 # MCP Tools
 
-`code-agent-plusplus-mcp` exposes OpenCode++ through stdio MCP.
+`opencode-plusplus-mcp` exposes OpenCode++ through stdio MCP.
 
 ## Foundation Tools
 

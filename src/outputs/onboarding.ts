@@ -19,7 +19,7 @@ export function renderOnboarding(context: ContextPackage): string {
     heading(2, "Suggested Workflow"),
     bullet([
       "Start from `AGENTS.md`, then read this file and `repo-summary.md` for the repository shape.",
-      'For a concrete task, run `code-agent-plusplus plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.',
+      'For a concrete task, run `opencode-plusplus plan "<task>" .` or inspect `.agent-context/tasks/<task>/task.md` when a task pack exists.',
       "Open `key-files.md`, `index/`, `evidence/`, `graphs/`, or `rag/` only for targeted deep analysis.",
       "Prefer relevant source files and nearby tests over generated summaries before editing.",
       "Run the detected test/check command after edits when available."

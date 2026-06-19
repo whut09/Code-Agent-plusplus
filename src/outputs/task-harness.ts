@@ -205,7 +205,7 @@ function renderTaskPrompt(context: ContextPackage, pack: TaskPack): string {
     bullet(pack.suggestedCommands.map(code)),
     "",
     "Then run:",
-    code("code-agent-plusplus verify --diff ."),
+    code("opencode-plusplus verify --diff ."),
     "",
     "Full context fallback:",
     "",

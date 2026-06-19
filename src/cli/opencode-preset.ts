@@ -86,9 +86,7 @@ export function runOpencodeDoctor(repo: string): OpencodeDoctorReport {
     id: "agent-context",
     label: ".agent-context exists",
     status: existsSync(agentContext) ? "pass" : "warn",
-    details: existsSync(agentContext)
-      ? ".agent-context found"
-      : "Run `code-agent-plusplus build .` or `code-agent-plusplus opencode run <task>` to generate context."
+    details: existsSync(agentContext) ? ".agent-context found" : "Run `ocpp build .` or `ocpp opencode run <task>` to generate context."
   });
 
   const status = runGitCheck(root, ["status", "--porcelain", "--untracked-files=all"]);
@@ -127,7 +125,7 @@ export function renderOpencodeDoctorReport(report: OpencodeDoctorReport): string
   ].join("\n");
 }
 
-export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, commandName = "capp"): string {
+export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, commandName = "ocpp"): string {
   const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
   const warnings = report.gates.gates.filter((gate) => gate.status === "warning");
   return [
@@ -151,7 +149,7 @@ export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, comm
   ].join("\n");
 }
 
-export function renderOpencodeRepairGuidance(report: HarnessOrchestratorReport, commandName = "capp"): string {
+export function renderOpencodeRepairGuidance(report: HarnessOrchestratorReport, commandName = "ocpp"): string {
   const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
   return [
     "OpenCode++ OpenCode Repair",

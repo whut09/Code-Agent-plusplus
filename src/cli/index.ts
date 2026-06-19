@@ -83,15 +83,15 @@ import { resolveDefaultCommandArgs } from "./default-command.js";
 import { getCappStatus, readCappReport, renderCappDoctor, renderCappStatus, runCappDoctor } from "./capp-commands.js";
 
 const program = new Command();
-const executableName = path.basename(process.argv[1] ?? "code-agent-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
-const invokedName = executableName && executableName !== "index" ? executableName : "code-agent-plusplus";
+const executableName = path.basename(process.argv[1] ?? "opencode-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
+const invokedName = executableName && executableName !== "index" ? executableName : "opencode-plusplus";
 
 program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
 program
-  .command("tui", { hidden: invokedName !== "capp" })
+  .command("tui", { hidden: !["ocpp", "opencode-plusplus", "capp"].includes(invokedName) })
   .argument("[repo]", "repository path", ".")
-  .option("--force-plugin", "overwrite .opencode/plugins/code-agent-plusplus.ts")
+  .option("--force-plugin", "overwrite .opencode/plugins/opencode-plusplus.ts")
   .option("--skip-context", "do not generate .agent-context before launching OpenCode")
   .option("--pure", "launch plain OpenCode without OpenCode++ context or sidecar")
   .option("--dry-run", "run preflight and show what would launch without opening OpenCode")
@@ -310,7 +310,7 @@ rag
     console.log(`Provider: ${manifest.provider}`);
     console.log(`Mode: ${manifest.mode}`);
     console.log("");
-    console.log("Run `code-agent-plusplus build` to write `.agent-context/rag/documents.jsonl`.");
+    console.log("Run `opencode-plusplus build` to write `.agent-context/rag/documents.jsonl`.");
   });
 
 const trace = program.command("trace").description("Record and inspect structured agent execution traces.");
@@ -609,7 +609,7 @@ memory
       return;
     }
     console.log(`Wrote regression memory candidate: ${written.file}`);
-    console.log("Review it, then confirm with `code-agent-plusplus memory add-fix . --candidate <file>`.");
+    console.log("Review it, then confirm with `opencode-plusplus memory add-fix . --candidate <file>`.");
   });
 
 memory
@@ -622,7 +622,7 @@ memory
     const root = path.resolve(repo);
     const candidatePath = options.candidate ?? readLatestCandidate(root);
     if (!candidatePath) {
-      console.error("No regression memory candidate found. Run `code-agent-plusplus memory learn-from-pr .` first or pass --candidate.");
+      console.error("No regression memory candidate found. Run `opencode-plusplus memory learn-from-pr .` first or pass --candidate.");
       process.exitCode = 1;
       return;
     }
@@ -813,7 +813,7 @@ addOpencodeRunOptions(
   oc
     .command("run", { isDefault: true })
     .argument("<args...>", "task description and optional repository path")
-    .description("Alias for `code-agent-plusplus opencode run`.")
+    .description("Alias for `opencode-plusplus opencode run`.")
 ).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
 
 addOpencodeInitCommand(oc);
@@ -1264,7 +1264,7 @@ function addOpencodeReportCommand(parent: Command): void {
     .action((repo: string, options: OpencodeReportCliOptions) => {
       const result = findOpencodeReport(repo, { last: options.last ?? true, taskId: options.taskId });
       if (!result) {
-        console.error("No OpenCode orchestrator report found. Run `capp oc <task>` first.");
+        console.error("No OpenCode orchestrator report found. Run `ocpp oc <task>` first.");
         process.exitCode = 1;
         return;
       }
@@ -1288,7 +1288,7 @@ function addOpencodeRepairCommand(parent: Command): void {
     .action((repo: string, options: OpencodeRepairCliOptions) => {
       const result = findOpencodeReport(repo, { last: options.last ?? true, taskId: options.taskId });
       if (!result) {
-        console.error("No OpenCode orchestrator report found. Run `capp oc <task>` first.");
+        console.error("No OpenCode orchestrator report found. Run `ocpp oc <task>` first.");
         process.exitCode = 1;
         return;
       }

@@ -4,7 +4,7 @@ This guide gets OpenCode++ running in OpenCode chat mode in about five minutes.
 
 ## Install
 
-`code-agent-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone OpenCode++, build it, and link the `capp` command globally:
+`opencode-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone OpenCode++, build it, and link the `ocpp` command globally:
 
 ```bash
 npm i -g opencode-ai
@@ -19,13 +19,13 @@ Then enter the repository you want to work on:
 
 ```bash
 cd your-repo
-capp
+ocpp
 ```
 
 After OpenCode++ is published to npm, this will become:
 
 ```bash
-npm i -g code-agent-plusplus opencode-ai
+npm i -g opencode-plusplus opencode-ai
 ```
 
 Then chat normally:
@@ -39,14 +39,14 @@ Refactor this function while preserving behavior.
 ## Daily Commands
 
 ```bash
-capp
-capp report
-capp status
-capp doctor
-capp --pure
+ocpp
+ocpp report
+ocpp status
+ocpp doctor
+ocpp --pure
 ```
 
-`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact readiness summary, and launches `opencode .`.
+`ocpp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/opencode-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact readiness summary, and launches `opencode .`. `capp` remains available as a legacy alias.
 
 The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle` events. Before a tool runs, it blocks dangerous commands, hallucinated package scripts / Makefile targets, and protected / secret paths. After a tool runs, it records command evidence under `.agent-context/traces/`, including exit code, timestamps, stdout/stderr hashes, working-tree hashes, and touched files. On idle, it runs dirty/debounced incremental verification.
 
@@ -76,8 +76,8 @@ node dist/cli/index.js tui . --dry-run
 Use this when you only want generated context files without launching OpenCode:
 
 ```bash
-code-agent-plusplus build .
-code-agent-plusplus validate .
+opencode-plusplus build .
+opencode-plusplus validate .
 ```
 
 This writes `AGENTS.md` and `.agent-context/`.
@@ -85,7 +85,7 @@ This writes `AGENTS.md` and `.agent-context/`.
 ## Advanced: Task Run
 
 ```bash
-code-agent-plusplus run "fix login timeout bug" .
+opencode-plusplus run "fix login timeout bug" .
 ```
 
 Read the generated run directory:
@@ -104,10 +104,10 @@ Read the generated run directory:
 ## Advanced: Verify After Edits
 
 ```bash
-code-agent-plusplus tests . --diff --base main
-code-agent-plusplus impact . --base main
-code-agent-plusplus verify --diff .
-code-agent-plusplus policy . --base main --fail-on required
+opencode-plusplus tests . --diff --base main
+opencode-plusplus impact . --base main
+opencode-plusplus verify --diff .
+opencode-plusplus policy . --base main --fail-on required
 ```
 
 ## Advanced: Batch Harness Mode
@@ -115,15 +115,18 @@ code-agent-plusplus policy . --base main --fail-on required
 Use the OpenCode preset when OpenCode++ should call OpenCode in batch mode and evaluate the result:
 
 ```bash
-capp oc init .
-capp oc "fix login timeout bug" .
-capp oc report --last
-capp oc repair
+ocpp oc init .
+ocpp oc "fix login timeout bug" .
+ocpp oc report --last
+ocpp oc repair
 ```
 
-`capp oc init .` writes OpenCode-native helpers:
+`ocpp oc init .` writes OpenCode-native helpers:
 
 ```txt
+.opencode/commands/ocpp.md
+.opencode/commands/ocpp-verify.md
+.opencode/agents/opencode-plusplus.md
 .opencode/commands/capp.md
 .opencode/commands/capp-verify.md
 .opencode/agents/code-agent-plusplus.md
@@ -148,5 +151,5 @@ llm:
 Then run:
 
 ```bash
-code-agent-plusplus build . --llm
+opencode-plusplus build . --llm
 ```

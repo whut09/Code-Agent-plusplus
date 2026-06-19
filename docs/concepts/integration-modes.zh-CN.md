@@ -18,12 +18,12 @@ OpenCode++ 支持两套互不混用的流程。区别不是“能不能用 AI”
 | 模式                                      | 主控方                                             | 入口                                                                                                        | 是否执行 code agent                                       | 适合场景                                                                |
 | ----------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
 | Code Agent 主导，OpenCode++ 约束          | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`，或 MCP `code_agent_plusplus_*` 工具 | 否，由外部 code agent 自己执行                            | 日常 AI 编程、MCP demo、让已有 Agent 自己调用工具                       |
-| OpenCode++ 主导，Code Agent 作为 executor | OpenCode++ bounded loop                            | `code-agent-plusplus orchestrate` 或 `code-agent-plusplus agent run`                                        | 是，通过 `mock` 或 `--executor-command` 调用外部 executor | 需要可审计 gate、CI/自动化、希望本项目报告 finalize/repair/repack/block |
+| OpenCode++ 主导，Code Agent 作为 executor | OpenCode++ bounded loop                            | `opencode-plusplus orchestrate` 或 `opencode-plusplus agent run`                                            | 是，通过 `mock` 或 `--executor-command` 调用外部 executor | 需要可审计 gate、CI/自动化、希望本项目报告 finalize/repair/repack/block |
 
 入口已经隔离：
 
-- `code-agent-plusplus run` 只生成 `.agent-context/runs/<task-id>/`，不执行外部 Agent。
-- `code-agent-plusplus orchestrate` 和 `code-agent-plusplus agent run` 才会进入 executor 流程。
+- `opencode-plusplus run` 只生成 `.agent-context/runs/<task-id>/`，不执行外部 Agent。
+- `opencode-plusplus orchestrate` 和 `opencode-plusplus agent run` 才会进入 executor 流程。
 - MCP 工具默认属于 Agent 主导模式；它们给外部 Agent 提供 plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize 能力，但是否遵守 gate 仍取决于宿主 Agent。
 
 ## 模式一：Code Agent 主导，OpenCode++ 约束
@@ -32,7 +32,7 @@ OpenCode++ 支持两套互不混用的流程。区别不是“能不能用 AI”
 
 ```txt
 用户任务
-  -> code agent 调用 code-agent-plusplus plan / pack / run 或 MCP code_agent_plusplus_plan / pack
+  -> code agent 调用 opencode-plusplus plan / pack / run 或 MCP code_agent_plusplus_plan / pack
   -> code agent 读代码、改代码、跑命令
   -> code agent 调用 tests / impact / verify / policy / evaluate
   -> OpenCode++ 返回 Guard findings、policy、contracts、trace、verify 结果
@@ -41,13 +41,13 @@ OpenCode++ 支持两套互不混用的流程。区别不是“能不能用 AI”
 推荐 CLI 入口：
 
 ```bash
-code-agent-plusplus plan "fix login timeout bug" .
-code-agent-plusplus pack "fix login timeout bug" .
-code-agent-plusplus run "fix login timeout bug" . --type bugfix
-code-agent-plusplus tests . --diff --base main
-code-agent-plusplus impact . --base main
-code-agent-plusplus verify --diff .
-code-agent-plusplus policy . --base main --trace <trace-id> --fail-on required
+opencode-plusplus plan "fix login timeout bug" .
+opencode-plusplus pack "fix login timeout bug" .
+opencode-plusplus run "fix login timeout bug" . --type bugfix
+opencode-plusplus tests . --diff --base main
+opencode-plusplus impact . --base main
+opencode-plusplus verify --diff .
+opencode-plusplus policy . --base main --trace <trace-id> --fail-on required
 ```
 
 MCP 入口：
@@ -94,9 +94,9 @@ code_agent_plusplus_finalize
 推荐 CLI 入口：
 
 ```bash
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus opencode run "fix login timeout bug" . --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
+opencode-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
+opencode-plusplus opencode run "fix login timeout bug" . --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
+opencode-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
 
 对 OpenCode，OpenCode++ 会把 `opencode run --format json` 的 stdout、可选的 `--opencode-transcript` 文件，以及普通 stdout/stderr fallback 统一归一化为同一套 trace event model。

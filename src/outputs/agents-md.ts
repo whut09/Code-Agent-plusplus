@@ -123,8 +123,8 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
 function defaultWorkflow(): string[] {
   return [
     "Read `AGENTS.md` only before the task is concrete.",
-    'Agent-led handoff: run `code-agent-plusplus run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.',
-    'Harness-led executor flow: run `code-agent-plusplus orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>" --max-loops 3 --checkpoint git-worktree` when OpenCode++ should own multi-loop gates.',
+    'Agent-led handoff: run `opencode-plusplus run "<task>" .` or inspect `.agent-context/runs/<task-id>/`; this writes context and boundaries but does not execute an agent.',
+    'Harness-led executor flow: run `opencode-plusplus orchestrate "<task>" . --executor mock|opencode|mimocode --executor-command "<command with {prompt}>" --max-loops 3 --checkpoint git-worktree` when OpenCode++ should own multi-loop gates.',
     "Do not load the full `.agent-context/` directory unless L1/L2 context is insufficient.",
     "Prefer source files over generated summaries for behavior, API, and test decisions."
   ];
@@ -195,7 +195,7 @@ function harnessRuntimeLinks(): string[] {
   return [
     `${code(".agent-context/contracts/")} - machine-checkable edit, command, test, and safety boundaries`,
     `${code(".agent-context/runs/")} - complete task run contexts with plan, pack, tests, impact, verify, and prompts`,
-    `${code(".agent-context/loops/")} - loop controller decisions when written with ${code('code-agent-plusplus loop "<task>" . --write')}`,
+    `${code(".agent-context/loops/")} - loop controller decisions when written with ${code('opencode-plusplus loop "<task>" . --write')}`,
     `${code(".agent-context/traces/")} - execution trace records for agent edits, tests, verification, final state, and manual/command/CI evidence`,
     `${code(".agent-context/hallucination/")} - deterministic missing file, command, dependency, config, and symbol findings`,
     `${code(".agent-context/regression/")} - known issues, fix history, fragile modules, and anti-regression test memory`,
@@ -205,12 +205,12 @@ function harnessRuntimeLinks(): string[] {
 
 function beforeClosingCommands(): string[] {
   return [
-    `Prefer ${code('code-agent-plusplus trace run <trace-id> . --action run-test --command "<test-command>"')} over manual test claims when recording verification.`,
-    `Run ${code("code-agent-plusplus hallucination . --trace <trace-id> --base main")} when the task has an execution trace.`,
-    `Run ${code("code-agent-plusplus regression . --trace <trace-id> --base main")} when the task touches known fragile modules or historical bug patterns.`,
-    `Prefer ${code("code-agent-plusplus policy . --base main --trace <trace-id> --fail-on required")} when a trace exists.`,
-    `Run ${code("code-agent-plusplus verify --diff .")} and ${code('code-agent-plusplus loop "<task>" . --phase after-edit')} before final review.`,
-    `Check ${code("code-agent-plusplus freshness .")} and ${code("code-agent-plusplus drift .")} if generated context may be stale.`
+    `Prefer ${code('opencode-plusplus trace run <trace-id> . --action run-test --command "<test-command>"')} over manual test claims when recording verification.`,
+    `Run ${code("opencode-plusplus hallucination . --trace <trace-id> --base main")} when the task has an execution trace.`,
+    `Run ${code("opencode-plusplus regression . --trace <trace-id> --base main")} when the task touches known fragile modules or historical bug patterns.`,
+    `Prefer ${code("opencode-plusplus policy . --base main --trace <trace-id> --fail-on required")} when a trace exists.`,
+    `Run ${code("opencode-plusplus verify --diff .")} and ${code('opencode-plusplus loop "<task>" . --phase after-edit')} before final review.`,
+    `Check ${code("opencode-plusplus freshness .")} and ${code("opencode-plusplus drift .")} if generated context may be stale.`
   ];
 }
 

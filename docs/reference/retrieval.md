@@ -16,9 +16,9 @@ OpenCode++ retrieval is a provider protocol, not a single RAG framework.
 ## Examples
 
 ```bash
-code-agent-plusplus retrieve "fix auth timeout" . --provider hybrid
-code-agent-plusplus retrieve "fix auth timeout" . --provider codegraph
-code-agent-plusplus rag export .
+opencode-plusplus retrieve "fix auth timeout" . --provider hybrid
+opencode-plusplus retrieve "fix auth timeout" . --provider codegraph
+opencode-plusplus rag export .
 ```
 
 Internal graph remains the portable foundation. CodeGraph and RAG providers are optional deep-code-intelligence backends.

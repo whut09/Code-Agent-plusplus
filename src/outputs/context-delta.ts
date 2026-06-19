@@ -79,7 +79,7 @@ export function buildContextDelta(context: ContextPackage, options: ContextDelta
     agentMustReRead: reread,
     taskPacksToRefresh: taskPacks,
     reasons,
-    recommendedCommand: changed.length ? `code-agent-plusplus evolve . --base ${base}` : "No action needed."
+    recommendedCommand: changed.length ? `opencode-plusplus evolve . --base ${base}` : "No action needed."
   };
 }
 

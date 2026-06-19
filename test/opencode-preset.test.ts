@@ -59,12 +59,23 @@ test("OpenCode init writes commands and agent files without overwriting by defau
 
     assert.deepEqual(
       first.files.map((file) => `${file.path}:${file.status}`),
-      [".opencode/commands/capp.md:written", ".opencode/commands/capp-verify.md:written", ".opencode/agents/code-agent-plusplus.md:written"]
+      [
+        ".opencode/commands/ocpp.md:written",
+        ".opencode/commands/ocpp-verify.md:written",
+        ".opencode/agents/opencode-plusplus.md:written",
+        ".opencode/commands/capp.md:written",
+        ".opencode/commands/capp-verify.md:written",
+        ".opencode/agents/code-agent-plusplus.md:written"
+      ]
     );
+    assert.ok(existsSync(path.join(root, ".opencode", "commands", "ocpp.md")));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "ocpp.md"), "utf8").includes('ocpp oc "$ARGUMENTS" .'));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "ocpp-verify.md"), "utf8").includes("ocpp oc report --last --summary"));
+    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "opencode-plusplus.md"), "utf8").includes("OpenCode++ Executor Agent"));
     assert.ok(existsSync(path.join(root, ".opencode", "commands", "capp.md")));
-    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8").includes('capp oc "$ARGUMENTS" .'));
-    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp-verify.md"), "utf8").includes("capp oc report --last --summary"));
-    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "code-agent-plusplus.md"), "utf8").includes("OpenCode++ Executor Agent"));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8").includes("legacy alias"));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp-verify.md"), "utf8").includes("Prefer `/ocpp-verify`"));
+    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "code-agent-plusplus.md"), "utf8").includes("legacy alias"));
 
     writeFileSync(path.join(root, ".opencode", "commands", "capp.md"), "custom\n", "utf8");
     const second = initOpencodeProject(root);
@@ -90,7 +101,8 @@ test("OpenCode init dry-run reports files without writing them", () => {
     assert.ok(report.files.every((file) => file.status === "would-write"));
     assert.equal(existsSync(path.join(root, ".opencode")), false);
     assert.match(rendered, /OpenCode\+\+ OpenCode Init/);
-    assert.match(rendered, /\/capp <task>/);
+    assert.match(rendered, /\/ocpp <task>/);
+    assert.match(rendered, /Legacy aliases remain available/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -106,8 +118,8 @@ test("OpenCode run summary keeps the terminal output compact and actionable", ()
   assert.match(rendered, /Confidence: 0\.72/);
   assert.match(rendered, /- src\/auth\/session\.ts/);
   assert.match(rendered, /- Evidence Guard: no test command after last edit/);
-  assert.match(rendered, /  capp oc repair/);
-  assert.match(rendered, /  capp oc report --last/);
+  assert.match(rendered, /  ocpp oc repair/);
+  assert.match(rendered, /  ocpp oc report --last/);
 });
 
 test("OpenCode report lookup returns the latest OpenCode orchestrator report", () => {

@@ -12,19 +12,19 @@ node dist/mcp/server.js
 If installed from npm, use:
 
 ```bash
-code-agent-plusplus-mcp
+opencode-plusplus-mcp
 ```
 
 ## Client Cannot Find Tools
 
-Confirm that the client is configured for a stdio MCP server and points to `code-agent-plusplus-mcp` or `node dist/mcp/server.js`.
+Confirm that the client is configured for a stdio MCP server and points to `opencode-plusplus-mcp` or `node dist/mcp/server.js`.
 
 ## Runtime Tools Look Advisory
 
 That is expected for Agent-led MCP mode. The host agent still decides whether to obey the returned gates. For OpenCode++ to evaluate gates after executor output, use the harness-led CLI path:
 
 ```bash
-code-agent-plusplus orchestrate "<task>" . --executor mock --max-loops 3
+opencode-plusplus orchestrate "<task>" . --executor mock --max-loops 3
 ```
 
 ## Missing Evidence

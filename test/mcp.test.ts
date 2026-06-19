@@ -173,7 +173,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
       repo: root,
       traceId,
       action: "validate-contracts",
-      command: "code-agent-plusplus validate-contracts . --base main",
+      command: "opencode-plusplus validate-contracts . --base main",
       result: "passed"
     });
     await executeCodeAgentPlusplusMcpTool("code_agent_plusplus_build", {

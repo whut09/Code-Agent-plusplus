@@ -120,7 +120,7 @@ The v2 architecture is organized around five responsibilities:
 The integration model has two modes:
 
 - Agent-led mode: a code agent calls OpenCode++ tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
-- Harness-led mode: OpenCode++ runs a bounded loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision report`. Decision reports are `finalize`, `repair`, `repack`, `block`, `rollback`, or `require human review`. `code-agent-plusplus orchestrate` now runs a bounded multi-loop controller and writes each turn under `.agent-context/runs/<task-id>/iterations/<nnn>/`; `--checkpoint git-worktree` runs executors in an isolated temporary worktree and exports patches back to the host run directory. `code-agent-plusplus agent run` remains the one-pass executor wrapper. Native MiMoCode, Codex, and Claude event parsing remains adapter work.
+- Harness-led mode: OpenCode++ runs a bounded loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision report`. Decision reports are `finalize`, `repair`, `repack`, `block`, `rollback`, or `require human review`. `opencode-plusplus orchestrate` now runs a bounded multi-loop controller and writes each turn under `.agent-context/runs/<task-id>/iterations/<nnn>/`; `--checkpoint git-worktree` runs executors in an isolated temporary worktree and exports patches back to the host run directory. `opencode-plusplus agent run` remains the one-pass executor wrapper. Native MiMoCode, Codex, and Claude event parsing remains adapter work.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
@@ -180,9 +180,9 @@ Dependency resolution is invalidated when package manifests, lockfiles, workspac
 
 Command semantics are intentionally split:
 
-- `code-agent-plusplus update .`: full generated-context refresh, using scan/index/graph/token caches when available.
-- `code-agent-plusplus delta .`: analyzes changed files, stale context outputs, affected graph nodes, and agent re-read guidance without rewriting the full context.
-- `code-agent-plusplus evolve .`: currently performs a cache-aware full generated-context refresh, writes `.agent-context/delta/latest.*`, and prints cache stats such as reused indexed files, re-indexed files, graph reuse/rebuild, and rewritten outputs. Selective writing of only affected outputs is planned, not yet the default behavior.
+- `opencode-plusplus update .`: full generated-context refresh, using scan/index/graph/token caches when available.
+- `opencode-plusplus delta .`: analyzes changed files, stale context outputs, affected graph nodes, and agent re-read guidance without rewriting the full context.
+- `opencode-plusplus evolve .`: currently performs a cache-aware full generated-context refresh, writes `.agent-context/delta/latest.*`, and prints cache stats such as reused indexed files, re-indexed files, graph reuse/rebuild, and rewritten outputs. Selective writing of only affected outputs is planned, not yet the default behavior.
 
 ## Graph Builder
 
@@ -217,7 +217,7 @@ Task packs use a three-stage retrieval pipeline:
 
 Bugfix, feature, and refactor tasks use different priorities and suggested commands.
 
-`code-agent-plusplus run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, OpenCode, MiMoCode, or automation a single task execution context instead of several disconnected command outputs.
+`opencode-plusplus run "<task>" .` composes planning, task packing, edit boundaries, expected diff, tests, verification, impact, and agent prompts into one directory under `.agent-context/runs/<task-id>/`. A run does not edit code; it gives Codex, Claude Code, Cursor, OpenCode, MiMoCode, or automation a single task execution context instead of several disconnected command outputs.
 
 The planner now treats task context as one mode among four:
 
@@ -267,20 +267,20 @@ Composer output is layered:
 - Task Run: complete task execution context under `.agent-context/runs/<task-id>/`.
 - Task Pack: standalone task-specific context files under `.agent-context/tasks/`.
 - Verification Pack: changed files, missing tests, recommended commands, and risk report.
-- Contracts: machine-checkable edit boundaries under `.agent-context/contracts/`, validated by `code-agent-plusplus validate-contracts`.
+- Contracts: machine-checkable edit boundaries under `.agent-context/contracts/`, validated by `opencode-plusplus validate-contracts`.
 - RAG Documents: retrievable context chunks for static, ripgrep, LightRAG, embedding, or hybrid retrievers.
 
 ## Freshness And Drift
 
 Every build writes `.agent-context/manifest.json` with `generatedAt`, `gitCommit`, `configHash`, `sourceHash`, `indexHash`, `graphHash`, `contractsHash`, `taskPacksHash`, `generatedOutputHash`, and `toolVersion`.
 
-`code-agent-plusplus freshness .` compares that manifest against the current repository scan and reports whether the generated context is fresh, stale, or missing. It catches source/config changes, commit changes, index drift, dependency graph drift, contract drift, task-pack drift, and hand-edited generated files.
+`opencode-plusplus freshness .` compares that manifest against the current repository scan and reports whether the generated context is fresh, stale, or missing. It catches source/config changes, commit changes, index drift, dependency graph drift, contract drift, task-pack drift, and hand-edited generated files.
 
-`code-agent-plusplus drift .` focuses on generated-output, dependency-graph, task-pack, and contract drift. This gives agents a fast preflight check before trusting `AGENTS.md`, task packs, or contracts.
+`opencode-plusplus drift .` focuses on generated-output, dependency-graph, task-pack, and contract drift. This gives agents a fast preflight check before trusting `AGENTS.md`, task packs, or contracts.
 
 ## Loop Runtime Layer
 
-The project is moving from a context compiler toward an agent runtime harness. The first runtime primitive is `code-agent-plusplus loop "<task>" .`.
+The project is moving from a context compiler toward an agent runtime harness. The first runtime primitive is `opencode-plusplus loop "<task>" .`.
 
 The loop controller does not execute an agent directly. It reads the compiled context, task pack, freshness manifest, dependency graph, contract validation, test selection, and impact report, then decides the next loop step:
 
@@ -301,7 +301,7 @@ The state file records `state`, `previousState`, repository/context/diff hashes,
 
 ## Execution Trace
 
-Agent harnesses need structured history, not only generated context. `code-agent-plusplus run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `code-agent-plusplus trace start/add/run/show` can manage traces directly.
+Agent harnesses need structured history, not only generated context. `opencode-plusplus run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `code-agent-plusplus trace start/add/run/show` can manage traces directly.
 
 Each trace records:
 
@@ -373,8 +373,8 @@ The protocol is intended for MCP, VS Code, Cursor, Codex CLI, and external RAG s
 CodeGraph can also be used as an optional backend for `impact` and `tests`:
 
 ```bash
-code-agent-plusplus impact . --backend codegraph
-code-agent-plusplus tests . --backend codegraph
+opencode-plusplus impact . --backend codegraph
+opencode-plusplus tests . --backend codegraph
 ```
 
 The adapter checks for `.codegraph`, calls `codegraph affected <changed-files> --json`, then merges any returned dependents or test files with the internal graph result. If CodeGraph is not initialized, missing from PATH, or returns invalid JSON, OpenCode++ keeps the internal result and prints the fallback reason. The boundary is deliberate:
@@ -393,7 +393,7 @@ This keeps the CLI fast and portable while still supporting semantic retrieval f
 
 Recommended LightRAG flow:
 
-1. Run `code-agent-plusplus build`.
+1. Run `opencode-plusplus build`.
 2. Import `.agent-context/rag/documents.jsonl` into LightRAG.
 3. Query LightRAG for task-specific context.
 4. Feed retrieved snippets plus `AGENTS.md` into the coding agent.

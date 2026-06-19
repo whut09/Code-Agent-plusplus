@@ -16,7 +16,7 @@ Configure a stdio MCP server in the Claude Code MCP settings used by your enviro
 {
   "mcpServers": {
     "code-agent-plusplus": {
-      "command": "code-agent-plusplus-mcp",
+      "command": "opencode-plusplus-mcp",
       "args": []
     }
   }

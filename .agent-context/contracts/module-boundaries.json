@@ -198,44 +198,6 @@
         "src/harness/verification-plane/policy-engine.ts"
       ]
     },
-    "retrievers": {
-      "owns": [
-        "src/retrievers/**"
-      ],
-      "allowedImports": [
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/config/**",
-        "src/core/**",
-        "src/integrations/**",
-        "src/outputs/**",
-        "src/retrievers/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "core",
-        "integrations",
-        "outputs"
-      ],
-      "publicFiles": [
-        "src/retrievers/codegraph.ts",
-        "src/retrievers/external.ts",
-        "src/retrievers/hybrid.ts",
-        "src/retrievers/index.ts",
-        "src/retrievers/ripgrep.ts",
-        "src/retrievers/static.ts",
-        "src/retrievers/types.ts"
-      ]
-    },
     "integrations": {
       "owns": [
         "src/integrations/**"
@@ -274,20 +236,18 @@
         "src/integrations/opencode/sidecar.ts"
       ]
     },
-    "benchmarks": {
+    "retrievers": {
       "owns": [
-        "benchmarks/**",
-        "src/benchmarks/**"
+        "src/retrievers/**"
       ],
       "allowedImports": [
-        "benchmarks/**",
         "benchmarks/fixtures/monorepo/packages/config/**",
         "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/benchmarks/**",
         "src/config/**",
         "src/core/**",
-        "src/harness/**",
-        "src/outputs/**"
+        "src/integrations/**",
+        "src/outputs/**",
+        "src/retrievers/**"
       ],
       "forbiddenImports": [
         "**/*.generated.*",
@@ -301,18 +261,17 @@
       ],
       "observedImports": [
         "core",
-        "harness",
+        "integrations",
         "outputs"
       ],
       "publicFiles": [
-        "benchmarks/fixtures/fastapi-app/app/admin.py",
-        "benchmarks/fixtures/fastapi-app/app/billing.py",
-        "benchmarks/fixtures/fastapi-app/app/models.py",
-        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
-        "benchmarks/fixtures/fastapi-app/app/schemas.py",
-        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-        "src/benchmarks/agent-benchmark.ts",
-        "src/benchmarks/benchmark.ts"
+        "src/retrievers/codegraph.ts",
+        "src/retrievers/external.ts",
+        "src/retrievers/hybrid.ts",
+        "src/retrievers/index.ts",
+        "src/retrievers/ripgrep.ts",
+        "src/retrievers/static.ts",
+        "src/retrievers/types.ts"
       ]
     },
     "cli": {
@@ -357,6 +316,47 @@
         "src/cli/index.ts",
         "src/cli/opencode-preset.ts",
         "src/cli/task-args.ts"
+      ]
+    },
+    "benchmarks": {
+      "owns": [
+        "benchmarks/**",
+        "src/benchmarks/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/benchmarks/**",
+        "src/config/**",
+        "src/core/**",
+        "src/harness/**",
+        "src/outputs/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "harness",
+        "outputs"
+      ],
+      "publicFiles": [
+        "benchmarks/fixtures/fastapi-app/app/admin.py",
+        "benchmarks/fixtures/fastapi-app/app/billing.py",
+        "benchmarks/fixtures/fastapi-app/app/models.py",
+        "benchmarks/fixtures/fastapi-app/app/routes/users.py",
+        "benchmarks/fixtures/fastapi-app/app/schemas.py",
+        "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+        "src/benchmarks/agent-benchmark.ts",
+        "src/benchmarks/benchmark.ts"
       ]
     },
     "analyzers": {

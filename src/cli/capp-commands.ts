@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { runOpencodeDoctor, type OpencodeDoctorCheck, type OpencodeDoctorReport } from "./opencode-preset.js";
-import { OPENCODE_SIDECAR_PLUGIN_PATH } from "../integrations/opencode/sidecar-plugin-template.js";
+import { LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH, OPENCODE_SIDECAR_PLUGIN_PATH } from "../integrations/opencode/sidecar-plugin-template.js";
 import { verifyOpencodeSidecar } from "../integrations/opencode/sidecar.js";
 
 export interface CappStatusReport {
@@ -31,7 +31,7 @@ export function readCappReport(repo = "."): { path: string; content: string; exi
       content: [
         "OpenCode++ report is not available yet.",
         "",
-        "Run `capp` to start OpenCode with the sidecar, or run `capp sidecar verify .` once to generate the first report."
+        "Run `ocpp` to start OpenCode with the sidecar, or run `ocpp sidecar verify .` once to generate the first report."
       ].join("\n"),
       exists: false
     };
@@ -42,6 +42,8 @@ export function readCappReport(repo = "."): { path: string; content: string; exi
 export function getCappStatus(repo = "."): CappStatusReport {
   const root = path.resolve(repo);
   const pluginPath = path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH);
+  const legacyPluginPath = path.join(root, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH);
+  const pluginExists = existsSync(pluginPath) || existsSync(legacyPluginPath);
   const contextPath = path.join(root, ".agent-context");
   const eventLogPath = path.join(root, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
   const latestPath = path.join(root, ".agent-context", "sidecar", "latest.json");
@@ -52,8 +54,8 @@ export function getCappStatus(repo = "."): CappStatusReport {
 
   return {
     repo: root,
-    active: existsSync(pluginPath) && existsSync(contextPath),
-    pluginExists: existsSync(pluginPath),
+    active: pluginExists && existsSync(contextPath),
+    pluginExists,
     contextExists: existsSync(contextPath),
     eventLogExists: existsSync(eventLogPath),
     latestExists,
@@ -67,12 +69,13 @@ export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
   const root = path.resolve(repo);
   const opencode = runOpencodeDoctor(root);
   const sidecar = await verifyOpencodeSidecar(root);
+  const sidecarPluginCheck = sidecar.checks.find((check) => check.name.endsWith("opencode-plusplus.ts") || check.name.endsWith("code-agent-plusplus.ts"));
   const sidecarChecks: OpencodeDoctorCheck[] = [
     {
       id: "sidecar-plugin",
       label: "OpenCode++ sidecar plugin",
-      status: sidecar.checks.some((check) => check.name === OPENCODE_SIDECAR_PLUGIN_PATH && check.status === "pass") ? "pass" : "fail",
-      details: sidecar.checks.find((check) => check.name === OPENCODE_SIDECAR_PLUGIN_PATH)?.details ?? "sidecar plugin check unavailable"
+      status: sidecarPluginCheck?.status === "pass" ? "pass" : "fail",
+      details: sidecarPluginCheck?.details ?? "sidecar plugin check unavailable"
     },
     {
       id: "sidecar-hooks",
@@ -86,7 +89,7 @@ export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
       id: "sidecar-latest",
       label: "Sidecar latest report",
       status: existsSync(sidecar.latestJsonPath) || existsSync(sidecar.latestMarkdownPath) ? "pass" : "warn",
-      details: existsSync(sidecar.latestMarkdownPath) ? ".agent-context/sidecar/latest.md found" : "run `capp sidecar verify .` after starting a session"
+      details: existsSync(sidecar.latestMarkdownPath) ? ".agent-context/sidecar/latest.md found" : "run `ocpp sidecar verify .` after starting a session"
     }
   ];
   const checks = [...opencode.checks, ...sidecarChecks];
@@ -111,7 +114,7 @@ export function renderCappStatus(report: CappStatusReport): string {
     ...(report.blockers.length ? report.blockers.map((blocker) => `- ${blocker}`) : ["- none"]),
     "",
     "Next:",
-    report.active ? "  capp report" : "  capp"
+    report.active ? "  ocpp report" : "  ocpp"
   ].join("\n");
 }
 
@@ -127,7 +130,7 @@ export function renderCappDoctor(report: CappDoctorReport): string {
       return `- [${marker}] ${check.label}: ${check.details}${command}`;
     }),
     "",
-    report.ok ? "Result: ready for `capp`." : "Result: not ready. Fix failed checks before using `capp`."
+    report.ok ? "Result: ready for `ocpp`." : "Result: not ready. Fix failed checks before using `ocpp`."
   ].join("\n");
 }
 

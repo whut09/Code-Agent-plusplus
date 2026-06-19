@@ -6,10 +6,10 @@
 | outputs | 27 | 1320 | `core`, `harness`, `integrations` | outputs contains 27 files and depends on core, harness, integrations. |
 | core | 18 | 941 | `analyzers`, `config`, `llm`, `outputs` | core contains 18 files and depends on analyzers, config, llm, outputs. |
 | harness | 9 | 659 | `core`, `outputs`, `sandbox` | harness contains 9 files and depends on core, outputs, sandbox. |
+| integrations | 5 | 318 | `core`, `harness`, `outputs`, `retrievers` | integrations contains 5 files and depends on core, harness, outputs, retrievers. |
 | retrievers | 7 | 310 | `core`, `integrations`, `outputs` | retrievers contains 7 files and depends on core, integrations, outputs. |
-| integrations | 5 | 306 | `core`, `harness`, `outputs`, `retrievers` | integrations contains 5 files and depends on core, harness, outputs, retrievers. |
+| cli | 5 | 268 | `benchmarks`, `config`, `core`, `harness`, `integrations`, `outputs`, `retrievers` | cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers. |
 | benchmarks | 25 | 266 | `core`, `harness`, `outputs` | benchmarks contains 25 files and depends on core, harness, outputs. |
-| cli | 5 | 266 | `benchmarks`, `config`, `core`, `harness`, `integrations`, `outputs`, `retrievers` | cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers. |
 | analyzers | 6 | 229 | `core` | analyzers contains 6 files and depends on core. |
 | benchmarks/fixtures/small-ts-app | 13 | 219 | none | benchmarks/fixtures/small-ts-app contains 13 files. |
 | benchmarks/fixtures/monorepo/packages/api | 5 | 173 | `benchmarks/fixtures/monorepo/packages/config` | benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config. |

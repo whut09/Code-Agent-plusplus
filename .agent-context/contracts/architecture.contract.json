@@ -162,18 +162,6 @@
       "summary": "harness contains 9 files and depends on core, outputs, sandbox."
     },
     {
-      "name": "retrievers",
-      "owns": [
-        "src/retrievers/**"
-      ],
-      "imports": [
-        "core",
-        "integrations",
-        "outputs"
-      ],
-      "summary": "retrievers contains 7 files and depends on core, integrations, outputs."
-    },
-    {
       "name": "integrations",
       "owns": [
         "src/integrations/**"
@@ -187,17 +175,16 @@
       "summary": "integrations contains 5 files and depends on core, harness, outputs, retrievers."
     },
     {
-      "name": "benchmarks",
+      "name": "retrievers",
       "owns": [
-        "benchmarks/**",
-        "src/benchmarks/**"
+        "src/retrievers/**"
       ],
       "imports": [
         "core",
-        "harness",
+        "integrations",
         "outputs"
       ],
-      "summary": "benchmarks contains 25 files and depends on core, harness, outputs."
+      "summary": "retrievers contains 7 files and depends on core, integrations, outputs."
     },
     {
       "name": "cli",
@@ -214,6 +201,19 @@
         "retrievers"
       ],
       "summary": "cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers."
+    },
+    {
+      "name": "benchmarks",
+      "owns": [
+        "benchmarks/**",
+        "src/benchmarks/**"
+      ],
+      "imports": [
+        "core",
+        "harness",
+        "outputs"
+      ],
+      "summary": "benchmarks contains 25 files and depends on core, harness, outputs."
     },
     {
       "name": "analyzers",

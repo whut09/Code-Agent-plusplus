@@ -105,7 +105,7 @@ export function assessFreshness(context: ContextPackage): ContextFreshnessReport
       currentGitCommit: currentCommit,
       changedFilesSinceGeneration: [],
       reasons: ["No .agent-context/manifest.json found."],
-      recommended: "code-agent-plusplus build .",
+      recommended: "opencode-plusplus build .",
       checks: [
         {
           name: "manifest",
@@ -172,7 +172,7 @@ export function assessFreshness(context: ContextPackage): ContextFreshnessReport
     currentGitCommit: currentCommit,
     changedFilesSinceGeneration: sourceChanged ? changedFiles : [],
     reasons,
-    recommended: reasons.length ? "code-agent-plusplus update ." : "No action needed.",
+    recommended: reasons.length ? "opencode-plusplus update ." : "No action needed.",
     checks
   };
 }
@@ -184,7 +184,7 @@ export function assessDrift(context: ContextPackage): ContextDriftReport {
       status: "missing",
       freshness,
       reasons: freshness.reasons,
-      recommended: "code-agent-plusplus build .",
+      recommended: "opencode-plusplus build .",
       checks: freshness.checks
     };
   }
@@ -199,7 +199,7 @@ export function assessDrift(context: ContextPackage): ContextDriftReport {
     status: reasons.length ? "drift" : "clean",
     freshness,
     reasons,
-    recommended: reasons.length ? "code-agent-plusplus update ." : "No action needed.",
+    recommended: reasons.length ? "opencode-plusplus update ." : "No action needed.",
     checks: driftChecks
   };
 }

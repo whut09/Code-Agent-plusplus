@@ -27,7 +27,7 @@ test("context delta reports stale outputs and agent re-read files", async () => 
     assert.ok(report.agentMustReRead.includes("src/auth/session.ts"));
     assert.ok(report.agentMustReRead.includes("src/api/login.ts"));
     assert.match(rendered, /# Context Delta/);
-    assert.match(rendered, /code-agent-plusplus evolve \. --base main/);
+    assert.match(rendered, /opencode-plusplus evolve \. --base main/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

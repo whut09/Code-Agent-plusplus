@@ -16,7 +16,7 @@ Add the MCP server to Cursor's MCP configuration:
 {
   "mcpServers": {
     "code-agent-plusplus": {
-      "command": "code-agent-plusplus-mcp",
+      "command": "opencode-plusplus-mcp",
       "args": []
     }
   }

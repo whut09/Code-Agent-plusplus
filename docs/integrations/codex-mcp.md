@@ -16,7 +16,7 @@ Register the MCP server in the Codex MCP configuration used by your environment:
 {
   "mcpServers": {
     "code-agent-plusplus": {
-      "command": "code-agent-plusplus-mcp",
+      "command": "opencode-plusplus-mcp",
       "args": []
     }
   }
@@ -147,5 +147,5 @@ Use it only after tests, contracts, policy, and evidence are satisfied:
 
 - Codex remains the executor. MCP tools cannot force Codex to obey a gate unless your workflow treats `blocking: true` as a hard stop.
 - Client-specific MCP configuration can vary by Codex runtime version.
-- The MCP server does not replace `code-agent-plusplus orchestrate`; harness-led execution still belongs to the CLI orchestrator.
+- The MCP server does not replace `opencode-plusplus orchestrate`; harness-led execution still belongs to the CLI orchestrator.
 - Evidence is strongest when recorded from real command steps, not natural-language summaries.

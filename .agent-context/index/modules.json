@@ -153,6 +153,25 @@
     "importanceScore": 659
   },
   {
+    "name": "integrations",
+    "pathPrefix": "integrations",
+    "files": [
+      "src/integrations/codegraph.ts",
+      "src/integrations/opencode/launcher.ts",
+      "src/integrations/opencode/project-init.ts",
+      "src/integrations/opencode/sidecar-plugin-template.ts",
+      "src/integrations/opencode/sidecar.ts"
+    ],
+    "imports": [
+      "core",
+      "harness",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "integrations contains 5 files and depends on core, harness, outputs, retrievers.",
+    "importanceScore": 318
+  },
+  {
     "name": "retrievers",
     "pathPrefix": "retrievers",
     "files": [
@@ -173,23 +192,26 @@
     "importanceScore": 310
   },
   {
-    "name": "integrations",
-    "pathPrefix": "integrations",
+    "name": "cli",
+    "pathPrefix": "cli",
     "files": [
-      "src/integrations/codegraph.ts",
-      "src/integrations/opencode/launcher.ts",
-      "src/integrations/opencode/project-init.ts",
-      "src/integrations/opencode/sidecar-plugin-template.ts",
-      "src/integrations/opencode/sidecar.ts"
+      "src/cli/capp-commands.ts",
+      "src/cli/default-command.ts",
+      "src/cli/index.ts",
+      "src/cli/opencode-preset.ts",
+      "src/cli/task-args.ts"
     ],
     "imports": [
+      "benchmarks",
+      "config",
       "core",
       "harness",
+      "integrations",
       "outputs",
       "retrievers"
     ],
-    "summary": "integrations contains 5 files and depends on core, harness, outputs, retrievers.",
-    "importanceScore": 306
+    "summary": "cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
+    "importanceScore": 268
   },
   {
     "name": "benchmarks",
@@ -227,28 +249,6 @@
       "outputs"
     ],
     "summary": "benchmarks contains 25 files and depends on core, harness, outputs.",
-    "importanceScore": 266
-  },
-  {
-    "name": "cli",
-    "pathPrefix": "cli",
-    "files": [
-      "src/cli/capp-commands.ts",
-      "src/cli/default-command.ts",
-      "src/cli/index.ts",
-      "src/cli/opencode-preset.ts",
-      "src/cli/task-args.ts"
-    ],
-    "imports": [
-      "benchmarks",
-      "config",
-      "core",
-      "harness",
-      "integrations",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
     "importanceScore": 266
   },
   {

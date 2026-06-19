@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11997,
-  "remainingBudget": 3,
+  "estimatedTokens": 11994,
+  "remainingBudget": 6,
   "files": [
     {
       "path": "src/integrations/opencode/sidecar.ts",
@@ -13,7 +13,7 @@
         "shared API/refactor risk"
       ],
       "category": "direct-source",
-      "estimatedTokens": 713
+      "estimatedTokens": 731
     },
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -92,7 +92,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 102
+      "estimatedTokens": 111
     },
     {
       "path": "test/codegraph.test.ts",
@@ -476,13 +476,14 @@
     },
     {
       "path": "src/integrations/opencode/sidecar-plugin-template.ts",
-      "score": 158,
+      "score": 176,
       "reasons": [
         "lexical match: code",
-        "direct dependency of src/integrations/opencode/sidecar.ts"
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 87
+      "estimatedTokens": 121
     },
     {
       "path": "src/cli/opencode-preset.ts",
@@ -523,7 +524,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 159
+      "estimatedTokens": 172
     },
     {
       "path": "src/harness/observability/execution-trace.ts",
@@ -746,22 +747,13 @@
       "estimatedTokens": 203
     },
     {
-      "path": "src/retrievers/static.ts",
+      "path": "src/retrievers/types.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 128
-    },
-    {
-      "path": "benchmarks/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 28
+      "estimatedTokens": 79
     }
   ],
   "readFirst": [
@@ -773,7 +765,7 @@
         "shared API/refactor risk"
       ],
       "category": "direct-source",
-      "estimatedTokens": 713
+      "estimatedTokens": 731
     },
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -854,7 +846,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 102
+      "estimatedTokens": 111
     },
     {
       "path": "test/codegraph.test.ts",
@@ -1001,13 +993,13 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11997,
-    "remaining": 3,
+    "used": 11994,
+    "remaining": 6,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 896,
+        "tokens": 914,
         "files": [
           "src/integrations/opencode/sidecar.ts",
           "benchmarks/tasks/refactor-config-loader.json",
@@ -1020,7 +1012,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2973,
+        "tokens": 2982,
         "files": [
           "test/opencode-launcher.test.ts",
           "test/codegraph.test.ts",
@@ -1067,7 +1059,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 7244,
+        "tokens": 7242,
         "files": [
           "src/integrations/opencode/launcher.ts",
           "src/integrations/codegraph.ts",
@@ -1098,16 +1090,14 @@
           "src/core/freshness.ts",
           "src/harness/control-plane/loop-controller.ts",
           "src/outputs/task-run.ts",
-          "src/retrievers/static.ts"
+          "src/retrievers/types.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 28,
-        "files": [
-          "benchmarks/README.md"
-        ]
+        "tokens": 0,
+        "files": []
       },
       {
         "name": "entrypoints",
@@ -1134,6 +1124,6 @@
     "directMatches": 8,
     "dependencyNeighbors": 19,
     "tests": 40,
-    "configDocs": 1
+    "configDocs": 0
   }
 }

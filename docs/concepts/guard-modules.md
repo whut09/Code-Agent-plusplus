@@ -68,11 +68,11 @@ Wrong context, blind file search, token waste, and agents editing before reading
 
 ### CLI / MCP
 
-- `code-agent-plusplus build`
-- `code-agent-plusplus plan`
-- `code-agent-plusplus pack`
-- `code-agent-plusplus run`
-- `code-agent-plusplus retrieve`
+- `opencode-plusplus build`
+- `opencode-plusplus plan`
+- `opencode-plusplus pack`
+- `opencode-plusplus run`
+- `opencode-plusplus retrieve`
 - MCP: `code_agent_plusplus_build`, `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`
 
 ### Artifacts
@@ -126,9 +126,9 @@ Edit scope expansion, accidental protected-path changes, generated output edits,
 
 ### CLI / MCP
 
-- `code-agent-plusplus validate-contracts`
-- `code-agent-plusplus policy`
-- `code-agent-plusplus verify`
+- `opencode-plusplus validate-contracts`
+- `opencode-plusplus policy`
+- `opencode-plusplus verify`
 - MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_verify`
 
 ### Artifacts
@@ -181,8 +181,8 @@ Untrustworthy test claims, stale verification evidence, tests run before later e
 
 - `code-agent-plusplus trace run`
 - `code-agent-plusplus trace show`
-- `code-agent-plusplus policy --trace <trace-id>`
-- `code-agent-plusplus loop --trace <trace-id>`
+- `opencode-plusplus policy --trace <trace-id>`
+- `opencode-plusplus loop --trace <trace-id>`
 - MCP: `code_agent_plusplus_step`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_finalize`
 
 ### Artifacts
@@ -232,9 +232,9 @@ Invisible blast radius, missing dependent tests, review risk that is not obvious
 
 ### CLI / MCP
 
-- `code-agent-plusplus impact`
-- `code-agent-plusplus tests`
-- `code-agent-plusplus verify`
+- `opencode-plusplus impact`
+- `opencode-plusplus tests`
+- `opencode-plusplus verify`
 - MCP: `code_agent_plusplus_impact`, `code_agent_plusplus_tests`, `code_agent_plusplus_verify`
 
 ### Artifacts
@@ -286,9 +286,9 @@ Invented files, nonexistent package scripts, missing dependencies, missing confi
 
 ### CLI / MCP
 
-- `code-agent-plusplus hallucination`
-- `code-agent-plusplus policy`
-- `code-agent-plusplus orchestrate`
+- `opencode-plusplus hallucination`
+- `opencode-plusplus policy`
+- `opencode-plusplus orchestrate`
 - MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`
 
 ### Artifacts
@@ -337,10 +337,10 @@ Reintroducing historical bugs, changing fragile modules without anti-regression 
 
 ### CLI / MCP
 
-- `code-agent-plusplus regression`
-- `code-agent-plusplus memory learn-from-pr`
-- `code-agent-plusplus memory add-fix`
-- `code-agent-plusplus policy`
+- `opencode-plusplus regression`
+- `opencode-plusplus memory learn-from-pr`
+- `opencode-plusplus memory add-fix`
+- `opencode-plusplus policy`
 - MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`
 
 ### Artifacts
@@ -394,8 +394,8 @@ Premature finalization, endless repair loops, unclear next actions, and agents s
 
 ### CLI / MCP
 
-- `code-agent-plusplus loop`
-- `code-agent-plusplus orchestrate`
+- `opencode-plusplus loop`
+- `opencode-plusplus orchestrate`
 - MCP: `code_agent_plusplus_start_loop`, `code_agent_plusplus_step`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`, `code_agent_plusplus_finalize`
 
 ### Artifacts
@@ -445,8 +445,8 @@ Different coding agents produce different event formats, command logs, transcrip
 
 ### CLI / MCP
 
-- `code-agent-plusplus agent run`
-- `code-agent-plusplus orchestrate`
+- `opencode-plusplus agent run`
+- `opencode-plusplus orchestrate`
 - `--executor mock|opencode|mimocode|codex|claude-code|cursor`
 - `--executor-command "<command with {prompt}>"`
 - `--opencode-transcript <path>`

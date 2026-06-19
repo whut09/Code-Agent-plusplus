@@ -1,9 +1,12 @@
 {
-  "name": "code-agent-plusplus",
+  "name": "opencode-plusplus",
   "version": "0.1.0",
-  "description": "OpenCode++ adds an external reliability harness, sidecar, and verification gates around OpenCode.",
+  "description": "OpenCode++ adds context, boundaries, evidence, verification gates, and repair loops to OpenCode.",
   "type": "module",
   "bin": {
+    "ocpp": "./dist/cli/index.js",
+    "opencode-plusplus": "./dist/cli/index.js",
+    "opencode-plusplus-mcp": "./dist/mcp/server.js",
     "capp": "./dist/cli/index.js",
     "code-agent-plusplus": "./dist/cli/index.js",
     "code-agent-plusplus-mcp": "./dist/mcp/server.js"
@@ -42,15 +45,17 @@
     "url": "https://github.com/whut09/opencode-plusplus.git"
   },
   "keywords": [
-    "agents",
-    "ai",
-    "claude",
-    "codex",
-    "cursor",
-    "context",
-    "code-agent-plusplus",
-    "repository",
-    "opencode-plusplus"
+    "opencode",
+    "opencode-plugin",
+    "opencode-ai",
+    "opencode-plusplus",
+    "opencode-harness",
+    "coding-agent",
+    "agent-harness",
+    "mcp",
+    "verification",
+    "regression-guard",
+    "hallucination-guard"
   ],
   "license": "MIT",
   "dependencies": {
