@@ -4,7 +4,7 @@
 
 **面向 AI 编程 Agent 的外挂式增强与可靠性工程层。**
 
-Code Agent++ 不做另一个代码生成 Agent，也不替代 Codex、OpenCode、Claude Code、Cursor、MiMoCode 写代码。它让你像平常一样使用 OpenCode 聊天，同时在外层透明提供上下文、边界、命令前置阻断、增量验证、影响分析、回归防护和最终报告。
+Code Agent++ 不做另一个代码生成 Agent，也不替代 Codex、OpenCode、Claude Code、Cursor、MiMoCode 写代码。它让你像平常一样使用 OpenCode 聊天，同时在外层透明提供上下文、边界、命令前置阻断、执行后证据采集、增量验证、影响分析、回归防护和最终报告。
 
 ```txt
 Code Agent 负责读代码、改代码、跑命令。
@@ -33,7 +33,7 @@ Code Agent++ 会在外层自动完成：
 - 编辑边界检查
 - 命令幻觉 / 危险命令检查
 - protected path / secret path 前置阻断
-- 测试证据和 sidecar 事件记录
+- 测试证据、命令结果和 sidecar 事件记录
 - 当前 diff 增量验证
 - contracts / hallucination / regression / impact / tests / policy 组合门禁
 - 影响范围与回归风险提示
@@ -51,7 +51,7 @@ capp doctor   # 诊断 OpenCode / auth / git / context / plugin
 capp --pure   # 纯 OpenCode，不启用 Code Agent++
 ```
 
-`capp` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/code-agent-plusplus.ts`，准备 OpenCode commands/agent，然后进入当前仓库的 OpenCode TUI。Sidecar plugin 会监听 `tool.execute.before`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；OpenCode 空闲时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
+`capp` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/code-agent-plusplus.ts`，准备 OpenCode commands/agent，然后进入当前仓库的 OpenCode TUI。Sidecar plugin 会监听 `tool.execute.before`、`tool.execute.after`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；工具执行结束后会记录 command、exit code、stdout/stderr hash、working tree hash 和 touched files；OpenCode 空闲且有 dirty diff 时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
 
 ## 高级用法：批处理 Harness Mode
 

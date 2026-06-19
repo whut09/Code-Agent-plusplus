@@ -4,7 +4,7 @@
 
 **An external enhancement and reliability engineering layer for coding agents.**
 
-Code Agent++ is not another code-generation agent and does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode. It is a bounded harness-led control loop: it compiles repositories into task-aware context, generates edit boundaries, records execution evidence, runs policy / contracts / tests / impact / verify checks, and returns `finalize / repair / repack / block / require-human-review` decision reports.
+Code Agent++ is not another code-generation agent and does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode. It is a bounded harness-led control loop: it compiles repositories into task-aware context, generates edit boundaries, records post-tool execution evidence, runs policy / contracts / tests / impact / verify checks, and returns `finalize / repair / repack / block / require-human-review` decision reports.
 
 ```txt
 Coding agents read code, edit code, and run commands.
@@ -33,7 +33,7 @@ Code Agent++ runs quietly around the chat loop:
 - checks edit boundaries
 - blocks dangerous or hallucinated commands
 - blocks protected / secret paths before execution
-- records sidecar events and verification evidence
+- records sidecar events, command results, and verification evidence
 - incrementally verifies the current diff on idle
 - runs the shared contracts / hallucination / regression / impact / tests / policy guard stack
 - reports impact and regression risk
@@ -51,7 +51,7 @@ capp doctor   # diagnose OpenCode / auth / git / context / plugin
 capp --pure   # plain OpenCode without Code Agent++
 ```
 
-`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository.
+`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository. The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle`: it blocks dangerous or hallucinated commands before execution, records command result evidence after tool execution, and runs dirty/debounced incremental verification when OpenCode becomes idle.
 
 ## Advanced: Batch Harness Mode
 

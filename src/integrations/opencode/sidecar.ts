@@ -1,8 +1,18 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { buildContextPackage } from "../../core/context-builder.js";
 import { runGit } from "../../core/git.js";
 import { parseCommandLine } from "../../core/safe-command.js";
+import {
+  appendExecutionTraceStep,
+  currentWorkingTreeHash,
+  executionTracePath,
+  readExecutionTrace,
+  startExecutionTrace,
+  type ExecutionTrace,
+  type ExecutionTraceStep
+} from "../../harness/observability/execution-trace.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyEngineReport } from "../../harness/verification-plane/policy-engine.js";
 import { buildHallucinationReport, renderHallucinationReport, type HallucinationGuardReport } from "../../harness/verification-plane/guards/hallucination.js";
 import { buildRegressionReport, renderRegressionReport, type RegressionGuardReport } from "../../harness/verification-plane/guards/regression.js";
@@ -98,6 +108,46 @@ export interface OpenCodeSidecarCommandCheckResult {
   findings: OpenCodeSidecarCommandFinding[];
 }
 
+export interface OpenCodeSidecarToolRecordInput {
+  tool?: string;
+  command?: string;
+  exitCode?: number | null;
+  startedAt?: string;
+  finishedAt?: string;
+  stdout?: string;
+  stderr?: string;
+  stdoutHash?: string;
+  stderrHash?: string;
+  workingTreeHashBefore?: string;
+  workingTreeHashAfter?: string;
+  sessionId?: string;
+  paths?: string[];
+}
+
+export interface OpenCodeSidecarToolRecordResult {
+  repo: string;
+  eventLogPath: string;
+  traceId: string;
+  tracePath: string;
+  event: {
+    type: "tool.execute.after";
+    ts: string;
+    tool: string;
+    command: string | null;
+    exitCode: number | null;
+    startedAt: string;
+    finishedAt: string;
+    stdoutHash: string;
+    stderrHash: string;
+    workingTreeHashBefore: string;
+    workingTreeHashAfter: string;
+    filesTouched: string[];
+    sessionId: string;
+  };
+  trace: ExecutionTrace;
+  step: ExecutionTraceStep;
+}
+
 export function ensureOpencodeSidecarPlugin(repo: string, options: OpenCodeSidecarEnsureOptions = {}): OpenCodeSidecarStep {
   const filePath = path.join(path.resolve(repo), OPENCODE_SIDECAR_PLUGIN_PATH);
   if (existsSync(filePath) && !options.force) {
@@ -135,6 +185,7 @@ export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecar
     checks.push(checkSource("plugin-export", source, /CodeAgentPlusPlusSidecar/, "exports CodeAgentPlusPlusSidecar"));
     checks.push(checkSource("file.edited hook", source, /file\.edited/, "listens for file.edited events"));
     checks.push(checkSource("session.idle hook", source, /session\.idle/, "listens for session.idle events"));
+    checks.push(checkSource("tool.execute.after hook", source, /tool\.execute\.after/, "records post-tool evidence"));
   }
 
   checks.push(
@@ -215,6 +266,77 @@ export function checkOpencodeSidecarCommand(repo = ".", input: { command?: strin
   };
 }
 
+export function recordOpencodeSidecarTool(repo = ".", input: OpenCodeSidecarToolRecordInput = {}): OpenCodeSidecarToolRecordResult {
+  const root = path.resolve(repo);
+  const tracesDir = path.join(root, ".agent-context", "traces");
+  const eventLogPath = path.join(tracesDir, "opencode-sidecar-events.jsonl");
+  const finishedAt = input.finishedAt ?? new Date().toISOString();
+  const startedAt = input.startedAt ?? finishedAt;
+  const tool = input.tool?.trim() || "unknown";
+  const command = input.command?.trim() || null;
+  const sessionId = normalizeSessionId(input.sessionId);
+  const traceId = `opencode-session-${sessionId}`;
+  const stdoutHash = input.stdoutHash ?? hashText(input.stdout ?? "");
+  const stderrHash = input.stderrHash ?? hashText(input.stderr ?? "");
+  const workingTreeHashBefore = input.workingTreeHashBefore ?? currentWorkingTreeHash(root);
+  const workingTreeHashAfter = input.workingTreeHashAfter ?? currentWorkingTreeHash(root);
+  const filesTouched = [...new Set([...(input.paths ?? []).map(normalizeToolPath).filter(Boolean), ...collectCurrentChangedFiles(root)])].sort();
+  const event = {
+    type: "tool.execute.after" as const,
+    ts: finishedAt,
+    tool,
+    command,
+    exitCode: typeof input.exitCode === "number" ? input.exitCode : null,
+    startedAt,
+    finishedAt,
+    stdoutHash,
+    stderrHash,
+    workingTreeHashBefore,
+    workingTreeHashAfter,
+    filesTouched,
+    sessionId
+  };
+
+  mkdirSync(tracesDir, { recursive: true });
+  appendFileSync(eventLogPath, `${JSON.stringify(event)}\n`, "utf8");
+
+  let trace = readExecutionTrace(root, traceId);
+  if (!trace) {
+    trace = startExecutionTrace(root, `OpenCode sidecar session ${sessionId}`, { id: traceId, agent: "opencode" });
+  }
+
+  trace = appendExecutionTraceStep(root, traceId, {
+    agent: "opencode",
+    action: inferToolAction(tool, command),
+    files: filesTouched,
+    reason: "Captured from OpenCode tool.execute.after.",
+    command: command ?? undefined,
+    result: typeof input.exitCode === "number" ? (input.exitCode === 0 ? "passed" : "failed") : "unknown",
+    evidenceSource: "command",
+    capturedBy: "code-agent-plusplus",
+    exitCode: input.exitCode,
+    startedAt,
+    finishedAt,
+    stdoutHash,
+    stderrHash,
+    workingTreeHashBefore,
+    workingTreeHashAfter
+  });
+
+  const step = trace.steps.at(-1);
+  if (!step) throw new Error(`Failed to append OpenCode sidecar trace step: ${traceId}`);
+
+  return {
+    repo: root,
+    eventLogPath,
+    traceId,
+    tracePath: executionTracePath(root, traceId),
+    event,
+    trace,
+    step
+  };
+}
+
 export function renderOpencodeSidecarCommandCheck(result: OpenCodeSidecarCommandCheckResult): string {
   return [
     "Code Agent++ Sidecar Command Check",
@@ -225,6 +347,21 @@ export function renderOpencodeSidecarCommandCheck(result: OpenCodeSidecarCommand
     "",
     "Findings:",
     ...(result.findings.length ? result.findings.map((finding) => `- [${finding.severity.toUpperCase()}] ${finding.message}`) : ["- none"])
+  ].join("\n");
+}
+
+export function renderOpencodeSidecarToolRecord(result: OpenCodeSidecarToolRecordResult): string {
+  return [
+    "Code Agent++ Sidecar Tool Record",
+    "",
+    `Tool: ${result.event.tool}`,
+    `Command: ${result.event.command ?? "none"}`,
+    `Exit code: ${result.event.exitCode ?? "unknown"}`,
+    `Trace: ${path.relative(result.repo, result.tracePath).replaceAll("\\", "/")}`,
+    `Event log: ${path.relative(result.repo, result.eventLogPath).replaceAll("\\", "/")}`,
+    "",
+    "Files touched:",
+    ...(result.event.filesTouched.length ? result.event.filesTouched.map((file) => `- ${file}`) : ["- none"])
   ].join("\n");
 }
 
@@ -688,4 +825,28 @@ function dedupeFindings(findings: OpenCodeSidecarCommandFinding[]): OpenCodeSide
     seen.add(key);
     return true;
   });
+}
+
+function normalizeSessionId(value: string | undefined): string {
+  const normalized = (value ?? "default")
+    .normalize("NFKD")
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 64);
+  return normalized || "default";
+}
+
+function inferToolAction(tool: string, command: string | null): string {
+  const text = `${tool} ${command ?? ""}`.toLowerCase();
+  if (/\b(test|vitest|jest|pytest|node --test)\b/.test(text)) return "run-test";
+  if (/\b(lint|eslint|biome|prettier)\b/.test(text)) return "lint";
+  if (/\b(typecheck|tsc|mypy|pyright)\b/.test(text)) return "typecheck";
+  if (/\b(build|compile)\b/.test(text)) return "build";
+  if (/\b(write|edit|patch|apply)\b/.test(text)) return "edit";
+  return "tool-execute";
+}
+
+function hashText(text: string): string {
+  return createHash("sha256").update(text).digest("hex");
 }

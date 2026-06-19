@@ -11,9 +11,11 @@ import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../
 import {
   checkOpencodeSidecarCommand,
   ensureOpencodeSidecarPlugin,
+  recordOpencodeSidecarTool,
   verifyOpencodeSidecar,
   writeOpencodeSidecarLatest
 } from "../src/integrations/opencode/sidecar.js";
+import { readExecutionTrace } from "../src/harness/observability/execution-trace.js";
 
 test("OpenCode launcher dry-run prepares sidecar context without opening the TUI", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-launcher-"));
@@ -60,7 +62,12 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /sidecar", "verify"/);
   assert.match(source, /--quiet/);
   assert.match(source, /tool\.execute\.before/);
+  assert.match(source, /tool\.execute\.after/);
   assert.match(source, /sidecar", "check-command"/);
+  assert.match(source, /sidecar",\s*"record-tool"/);
+  assert.match(source, /rememberToolStart/);
+  assert.match(source, /recordToolAfter/);
+  assert.match(source, /currentWorkingTreeHash/);
   assert.match(source, /client\?\.app\?\.log/);
   assert.match(source, /VERIFY_DEBOUNCE_MS/);
   assert.match(source, /let dirty = false/);
@@ -79,6 +86,55 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.doesNotMatch(source, /sidecar active\./);
   assert.match(source, /sidecar verification blocked/);
   assert.match(source, /console\.log\(output\)/);
+});
+
+test("OpenCode sidecar records tool execution evidence into event logs and traces", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-record-tool-"));
+  try {
+    runGit(root, ["init"]);
+    runGit(root, ["checkout", "-b", "main"]);
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
+    runGit(root, ["add", "."]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["commit", "-m", "initial"]);
+    writeFileSync(path.join(root, "src.ts"), "export const value = 1;\n", "utf8");
+
+    const result = recordOpencodeSidecarTool(root, {
+      tool: "bash",
+      command: "npm run test",
+      exitCode: 0,
+      startedAt: "2026-06-19T10:00:00.000Z",
+      finishedAt: "2026-06-19T10:00:01.000Z",
+      stdout: "ok\n",
+      stderr: "",
+      workingTreeHashBefore: "a".repeat(64),
+      workingTreeHashAfter: "b".repeat(64),
+      sessionId: "session-123",
+      paths: ["src.ts"]
+    });
+
+    assert.equal(existsSync(result.eventLogPath), true);
+    assert.match(readFileSync(result.eventLogPath, "utf8"), /tool\.execute\.after/);
+    assert.equal(path.basename(result.tracePath), "opencode-session-session-123.json");
+    const trace = readExecutionTrace(root, result.traceId);
+    const step = trace?.steps.at(-1);
+    assert.equal(trace?.agent, "opencode");
+    assert.equal(step?.action, "run-test");
+    assert.equal(step?.command, "npm run test");
+    assert.equal(step?.evidenceSource, "command");
+    assert.equal(step?.capturedBy, "code-agent-plusplus");
+    assert.equal(step?.exitCode, 0);
+    assert.equal(step?.startedAt, "2026-06-19T10:00:00.000Z");
+    assert.equal(step?.finishedAt, "2026-06-19T10:00:01.000Z");
+    assert.match(step?.stdoutHash ?? "", /^[a-f0-9]{64}$/);
+    assert.match(step?.stderrHash ?? "", /^[a-f0-9]{64}$/);
+    assert.equal(step?.workingTreeHashBefore, "a".repeat(64));
+    assert.equal(step?.workingTreeHashAfter, "b".repeat(64));
+    assert.ok(step?.files.includes("src.ts"));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
 
 test("OpenCode sidecar verify checks plugin hooks, event log readiness, and guard stack", async () => {
@@ -112,6 +168,7 @@ test("OpenCode sidecar verify checks plugin hooks, event log readiness, and guar
     assert.equal(report.checks.find((check) => check.name === OPENCODE_SIDECAR_PLUGIN_PATH)?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "file.edited hook")?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "session.idle hook")?.status, "pass");
+    assert.equal(report.checks.find((check) => check.name === "tool.execute.after hook")?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "sidecar-event-log")?.status, "warn");
     writeOpencodeSidecarLatest(report);
     assert.equal(existsSync(path.join(root, ".agent-context", "sidecar", "latest.json")), true);

@@ -11,7 +11,7 @@
 | benchmarks | 25 | 266 | `core`, `harness`, `outputs` | benchmarks contains 25 files and depends on core, harness, outputs. |
 | cli | 5 | 266 | `benchmarks`, `config`, `core`, `harness`, `integrations`, `outputs`, `retrievers` | cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers. |
 | analyzers | 6 | 229 | `core` | analyzers contains 6 files and depends on core. |
-| benchmarks/fixtures/small-ts-app | 17 | 219 | none | benchmarks/fixtures/small-ts-app contains 17 files. |
+| benchmarks/fixtures/small-ts-app | 13 | 219 | none | benchmarks/fixtures/small-ts-app contains 13 files. |
 | benchmarks/fixtures/monorepo/packages/api | 5 | 173 | `benchmarks/fixtures/monorepo/packages/config` | benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config. |
 | benchmarks/fixtures/react-app | 8 | 154 | none | benchmarks/fixtures/react-app contains 8 files. |
 | sandbox | 3 | 109 | `core` | sandbox contains 3 files and depends on core. |

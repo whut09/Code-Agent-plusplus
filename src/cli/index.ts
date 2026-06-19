@@ -67,7 +67,9 @@ import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
 import { launchOpencodeTui, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
 import {
   checkOpencodeSidecarCommand,
+  recordOpencodeSidecarTool,
   renderOpencodeSidecarCommandCheck,
+  renderOpencodeSidecarToolRecord,
   renderOpencodeSidecarVerifyReport,
   verifyOpencodeSidecar,
   writeOpencodeSidecarLatest
@@ -133,6 +135,63 @@ sidecar
     console.log(options.json ? JSON.stringify(result, null, 2) : renderOpencodeSidecarCommandCheck(result));
     if (!result.allowed) process.exitCode = 1;
   });
+
+sidecar
+  .command("record-tool")
+  .argument("[repo]", "repository path", ".")
+  .requiredOption("--tool <tool>", "OpenCode tool name that just executed")
+  .option("--command <command>", "command executed by the tool")
+  .option("--exit-code <code>", "tool or command exit code", parseNullableInteger)
+  .option("--started-at <iso>", "tool start timestamp")
+  .option("--finished-at <iso>", "tool finish timestamp")
+  .option("--stdout <text>", "captured stdout text")
+  .option("--stderr <text>", "captured stderr text")
+  .option("--stdout-hash <sha256>", "stdout content hash")
+  .option("--stderr-hash <sha256>", "stderr content hash")
+  .option("--working-tree-hash-before <sha256>", "working tree hash before tool execution")
+  .option("--working-tree-hash-after <sha256>", "working tree hash after tool execution")
+  .option("--session-id <id>", "OpenCode session id")
+  .option("--path <path...>", "path(s) touched by the tool")
+  .option("--json", "print machine-readable tool record result")
+  .description("Record OpenCode tool.execute.after evidence into sidecar event logs and execution traces.")
+  .action(
+    (
+      repo: string,
+      options: {
+        tool: string;
+        command?: string;
+        exitCode?: number | null;
+        startedAt?: string;
+        finishedAt?: string;
+        stdout?: string;
+        stderr?: string;
+        stdoutHash?: string;
+        stderrHash?: string;
+        workingTreeHashBefore?: string;
+        workingTreeHashAfter?: string;
+        sessionId?: string;
+        path?: string[];
+        json?: boolean;
+      }
+    ) => {
+      const result = recordOpencodeSidecarTool(repo, {
+        tool: options.tool,
+        command: options.command,
+        exitCode: options.exitCode,
+        startedAt: options.startedAt,
+        finishedAt: options.finishedAt,
+        stdout: options.stdout,
+        stderr: options.stderr,
+        stdoutHash: options.stdoutHash,
+        stderrHash: options.stderrHash,
+        workingTreeHashBefore: options.workingTreeHashBefore,
+        workingTreeHashAfter: options.workingTreeHashAfter,
+        sessionId: options.sessionId,
+        paths: options.path
+      });
+      console.log(options.json ? JSON.stringify(result, null, 2) : renderOpencodeSidecarToolRecord(result));
+    }
+  );
 
 program
   .command("report")
@@ -1373,6 +1432,15 @@ function parseNonNegativeInteger(value: string): number {
     throw new Error(`Expected a non-negative integer, got: ${value}`);
   }
 
+  return parsed;
+}
+
+function parseNullableInteger(value: string): number | null {
+  if (value === "null" || value === "unknown") return null;
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed)) {
+    throw new Error(`Expected an integer, null, or unknown, got: ${value}`);
+  }
   return parsed;
 }
 

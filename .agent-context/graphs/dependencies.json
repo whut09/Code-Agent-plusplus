@@ -889,6 +889,12 @@
       "isExternal": false
     },
     {
+      "from": "test/opencode-launcher.test.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../src/harness/observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
       "from": "test/opencode-preset.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1549,6 +1555,96 @@
       "isExternal": false
     },
     {
+      "from": "src/analyzers/generic.ts",
+      "to": "src/analyzers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "typescript",
+      "specifier": "typescript",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "src/analyzers/resolve-import.ts",
+      "specifier": "./resolve-import.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "src/analyzers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/analyzers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/analyzers/resolve-import.ts",
+      "specifier": "./resolve-import.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/analyzers/tree-sitter.ts",
+      "specifier": "./tree-sitter.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/resolve-import.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/resolve-import.ts",
+      "to": "src/core/path-utils.ts",
+      "specifier": "../core/path-utils.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/tree-sitter.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/tree-sitter.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/types.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/benchmarks/agent-benchmark.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -1690,96 +1786,6 @@
       "from": "src/benchmarks/benchmark.ts",
       "to": "src/outputs/renderers/markdown.ts",
       "specifier": "../outputs/renderers/markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/generic.ts",
-      "to": "src/analyzers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "typescript",
-      "specifier": "typescript",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "src/analyzers/resolve-import.ts",
-      "specifier": "./resolve-import.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "src/analyzers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/analyzers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/analyzers/resolve-import.ts",
-      "specifier": "./resolve-import.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/analyzers/tree-sitter.ts",
-      "specifier": "./tree-sitter.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/resolve-import.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/resolve-import.ts",
-      "to": "src/core/path-utils.ts",
-      "specifier": "../core/path-utils.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/tree-sitter.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/tree-sitter.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/types.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
       "isExternal": false
     },
     {
@@ -2653,6 +2659,156 @@
       "isExternal": false
     },
     {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/integrations/codegraph.ts",
+      "specifier": "../integrations/codegraph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/hybrid.ts",
+      "specifier": "./hybrid.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/ripgrep.ts",
+      "specifier": "./ripgrep.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/external.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/hybrid.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/hybrid.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/ripgrep.ts",
+      "specifier": "./ripgrep.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/hybrid.ts",
+      "specifier": "./hybrid.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/external.ts",
+      "specifier": "./external.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/codegraph.ts",
+      "specifier": "./codegraph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/static.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/static.ts",
+      "to": "src/outputs/rag.ts",
+      "specifier": "../outputs/rag.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/static.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/outputs/agent-events.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -3169,156 +3325,6 @@
       "isExternal": false
     },
     {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/integrations/codegraph.ts",
-      "specifier": "../integrations/codegraph.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/hybrid.ts",
-      "specifier": "./hybrid.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/ripgrep.ts",
-      "specifier": "./ripgrep.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/external.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/hybrid.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/hybrid.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/ripgrep.ts",
-      "specifier": "./ripgrep.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/hybrid.ts",
-      "specifier": "./hybrid.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/external.ts",
-      "specifier": "./external.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/codegraph.ts",
-      "specifier": "./codegraph.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/outputs/renderers/markdown.ts",
-      "specifier": "../outputs/renderers/markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/static.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/static.ts",
-      "to": "src/outputs/rag.ts",
-      "specifier": "../outputs/rag.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/static.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/sandbox/git-worktree-sandbox.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -3800,6 +3806,12 @@
     },
     {
       "from": "src/integrations/opencode/sidecar.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/opencode/sidecar.ts",
       "to": "node:fs",
       "specifier": "node:fs",
       "isExternal": true
@@ -3826,6 +3838,12 @@
       "from": "src/integrations/opencode/sidecar.ts",
       "to": "src/core/safe-command.ts",
       "specifier": "../../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/opencode/sidecar.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../../harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
@@ -4039,6 +4057,12 @@
       "isExternal": true
     },
     {
+      "from": "benchmarks/fixtures/react-app/src/App.tsx",
+      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+      "specifier": "./components/LoginStatus",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/small-ts-app/src/index.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "specifier": "./api/login.js",
@@ -4048,12 +4072,6 @@
       "from": "benchmarks/fixtures/small-ts-app/src/index.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
       "specifier": "./auth/middleware.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/App.tsx",
-      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "specifier": "./components/LoginStatus",
       "isExternal": false
     },
     {
@@ -4207,6 +4225,24 @@
       "isExternal": true
     },
     {
+      "from": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+      "specifier": "./useAuthState",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+      "specifier": "./LoginStatus",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
+      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
+      "specifier": "../auth/useAuthState",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../auth/session.js",
@@ -4231,33 +4267,9 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-      "specifier": "./useAuthState",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-      "to": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "specifier": "./LoginStatus",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx",
-      "to": "benchmarks/fixtures/react-app/src/auth/useAuthState.ts",
-      "specifier": "../auth/useAuthState",
-      "isExternal": false
-    },
-    {
       "from": "test/fixtures/python-package/src/app/service.py",
       "to": "test/fixtures/python-package/src/app/models.py",
       "specifier": ".models",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
-      "specifier": "../src/config.js",
       "isExternal": false
     },
     {
@@ -4279,6 +4291,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
+      "specifier": "../src/config.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
       "to": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "specifier": "./config.js",
@@ -4291,15 +4309,15 @@
       "isExternal": false
     },
     {
-      "from": "test/fixtures/monorepo/packages/api/src/index.ts",
-      "to": "test/fixtures/monorepo/packages/api/src/config.ts",
-      "specifier": "#config",
-      "isExternal": false
-    },
-    {
       "from": "test/fixtures/monorepo/packages/web/src/index.ts",
       "to": "test/fixtures/monorepo/packages/api/src/index.ts",
       "specifier": "@fixture/api",
+      "isExternal": false
+    },
+    {
+      "from": "test/fixtures/monorepo/packages/api/src/index.ts",
+      "to": "test/fixtures/monorepo/packages/api/src/config.ts",
+      "specifier": "#config",
       "isExternal": false
     },
     {
@@ -4423,7 +4441,7 @@
     {
       "from": "integrations",
       "to": "harness",
-      "count": 3
+      "count": 4
     },
     {
       "from": "integrations",
@@ -4523,7 +4541,7 @@
     {
       "from": "test",
       "to": "harness",
-      "count": 14
+      "count": 15
     },
     {
       "from": "test",

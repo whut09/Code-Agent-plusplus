@@ -10,6 +10,7 @@ export function opencodeSidecarPluginTemplate(): string {
 
 import { appendFileSync, mkdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import path from "node:path";
 
 export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) => {
@@ -18,6 +19,7 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) 
   let dirty = false;
   let verifying = false;
   let lastVerifyAt = 0;
+  const toolStarts = new Map();
 
   function record(type, payload = {}) {
     try {
@@ -73,6 +75,59 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) 
     return values;
   }
 
+  function hashText(text) {
+    return createHash("sha256").update(String(text ?? "")).digest("hex");
+  }
+
+  function stableJson(value) {
+    try {
+      return JSON.stringify(value ?? null);
+    } catch {
+      return String(value);
+    }
+  }
+
+  function toolKey(tool, args) {
+    return String(tool ?? "unknown") + ":" + hashText(stableJson(args));
+  }
+
+  function gitOutput(args) {
+    const result = spawnSync("git", args, {
+      cwd: directory,
+      encoding: "utf8",
+      shell: process.platform === "win32"
+    });
+    return [
+      "$ git " + args.join(" "),
+      "status=" + (typeof result.status === "number" ? result.status : "unknown"),
+      typeof result.stdout === "string" ? result.stdout : "",
+      typeof result.stderr === "string" ? result.stderr : "",
+      result.error?.message ?? ""
+    ].join("\n");
+  }
+
+  function currentWorkingTreeHash() {
+    const pathspec = ["--", ".", ":(exclude).agent-context/**", ":(exclude)AGENTS.md"];
+    return hashText([gitOutput(["status", "--porcelain=v1", "--untracked-files=all", ...pathspec]), gitOutput(["diff", "--binary", ...pathspec])].join("\n"));
+  }
+
+  function outputText(output, keys) {
+    for (const key of keys) {
+      const value = output?.[key] ?? output?.properties?.[key];
+      if (typeof value === "string") return value;
+    }
+    return "";
+  }
+
+  function exitCodeFromOutput(output) {
+    for (const key of ["exitCode", "status", "code"]) {
+      const value = output?.[key] ?? output?.properties?.[key];
+      if (typeof value === "number") return value;
+      if (typeof value === "string" && /^-?\d+$/.test(value)) return Number.parseInt(value, 10);
+    }
+    return null;
+  }
+
   function runCommandGuard(tool, args) {
     const command = commandFromTool(tool, args);
     const paths = pathsFromTool(args);
@@ -95,6 +150,65 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) 
       throw new Error(output);
     }
     log("debug", "tool execution allowed", { tool, command, paths });
+  }
+
+  function rememberToolStart(tool, args) {
+    toolStarts.set(toolKey(tool, args), {
+      startedAt: new Date().toISOString(),
+      workingTreeHashBefore: currentWorkingTreeHash()
+    });
+  }
+
+  function recordToolAfter(input, output) {
+    try {
+      const tool = input?.tool ?? input?.name ?? "unknown";
+      const args = input?.args ?? input?.arguments ?? {};
+      const command = commandFromTool(tool, args);
+      const paths = pathsFromTool(args);
+      const key = toolKey(tool, args);
+      const started = toolStarts.get(key) ?? { startedAt: new Date().toISOString(), workingTreeHashBefore: currentWorkingTreeHash() };
+      toolStarts.delete(key);
+
+      const cliArgs = [
+        "sidecar",
+        "record-tool",
+        directory,
+        "--json",
+        "--tool",
+        String(tool),
+        "--exit-code",
+        String(exitCodeFromOutput(output) ?? 0),
+        "--started-at",
+        started.startedAt,
+        "--finished-at",
+        new Date().toISOString(),
+        "--working-tree-hash-before",
+        started.workingTreeHashBefore,
+        "--working-tree-hash-after",
+        currentWorkingTreeHash()
+      ];
+      if (command) cliArgs.push("--command", command);
+      const sessionId = input?.sessionID ?? input?.sessionId ?? output?.sessionID ?? output?.sessionId;
+      if (sessionId) cliArgs.push("--session-id", String(sessionId));
+      const stdout = outputText(output, ["stdout", "output", "text"]);
+      const stderr = outputText(output, ["stderr", "error"]);
+      if (stdout) cliArgs.push("--stdout", stdout);
+      if (stderr) cliArgs.push("--stderr", stderr);
+      for (const file of paths) cliArgs.push("--path", file);
+
+      const recordResult = spawnSync("capp", cliArgs, {
+        cwd: directory,
+        encoding: "utf8",
+        shell: process.platform === "win32",
+        maxBuffer: 10 * 1024 * 1024
+      });
+      record("sidecar.record-tool", { tool, command, paths, exitCode: recordResult.status ?? 1 });
+      if ((recordResult.status ?? 1) !== 0) {
+        log("debug", "tool evidence record failed", { tool, command, status: recordResult.status ?? 1 });
+      }
+    } catch (error) {
+      log("debug", "tool evidence record failed", { message: error instanceof Error ? error.message : String(error) });
+    }
   }
 
   function markDirty(type, payload = {}) {
@@ -143,7 +257,11 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) 
   return {
     name: "code-agent-plusplus-sidecar",
     "tool.execute.before": async ({ tool, args }) => {
+      rememberToolStart(tool, args);
       runCommandGuard(tool, args);
+    },
+    "tool.execute.after": async (input, output) => {
+      recordToolAfter(input, output);
     },
     event: async ({ event }) => {
       const type = event?.type;

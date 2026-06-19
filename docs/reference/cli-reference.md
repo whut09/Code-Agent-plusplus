@@ -66,6 +66,7 @@ capp doctor [repo]
 capp tui [repo] --dry-run
 capp sidecar verify [repo]
 capp sidecar check-command [repo] --command "npm run test" --path src/app.ts
+capp sidecar record-tool [repo] --tool bash --command "npm test" --exit-code 0
 code-agent-plusplus loop "<task>" [repo] --phase after-edit --write
 code-agent-plusplus agent run "<task>" [repo] --executor mock
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
@@ -81,7 +82,7 @@ When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflig
 
 `capp doctor` checks OpenCode, `opencode auth list`, git, `.agent-context`, the sidecar plugin, and latest report readiness.
 
-`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `file.edited` / `session.idle`, and can write/read its minimal event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It then runs the shared Code Agent++ guard stack: contracts, hallucination guard, regression guard, impact analysis, test selection, task verify, and policy engine. The current result is written to:
+`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `tool.execute.after`, `file.edited`, and `session.idle`, and can write/read its event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It then runs the shared Code Agent++ guard stack: contracts, hallucination guard, regression guard, impact analysis, test selection, task verify, and policy engine. The current result is written to:
 
 ```txt
 .agent-context/sidecar/latest.json
@@ -95,6 +96,8 @@ When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflig
 Use `--quiet` for sidecar automation; it only prints when blockers are found.
 
 `capp sidecar check-command` is the pre-execution command guard used by the OpenCode sidecar `tool.execute.before` hook. It checks package scripts from `package.json`, Makefile targets, dangerous shell patterns, and protected / secret paths. It exits non-zero when execution should be blocked.
+
+`capp sidecar record-tool` is an internal post-execution evidence recorder used by the OpenCode sidecar `tool.execute.after` hook. It writes `.agent-context/traces/opencode-sidecar-events.jsonl` and `.agent-context/traces/opencode-session-<id>.json` with command, exit code, timestamps, stdout/stderr hashes, working-tree hashes, and touched files. Users normally do not call it manually.
 
 ## OpenCode Preset
 
