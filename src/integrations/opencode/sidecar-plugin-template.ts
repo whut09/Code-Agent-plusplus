@@ -34,8 +34,54 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
     }
   }
 
+  function commandFromTool(tool, args) {
+    if (!args || typeof args !== "object") return null;
+    if (typeof args.command === "string") return args.command;
+    if (typeof args.cmd === "string") return args.cmd;
+    if (typeof args.shell === "string") return args.shell;
+    if (typeof args.input === "string" && /^(bash|shell|terminal|run)$/i.test(String(tool ?? ""))) return args.input;
+    return null;
+  }
+
+  function pathsFromTool(args) {
+    if (!args || typeof args !== "object") return [];
+    const values = [];
+    for (const key of ["path", "file", "filepath", "filePath", "target", "destination"]) {
+      if (typeof args[key] === "string") values.push(args[key]);
+    }
+    if (Array.isArray(args.files)) {
+      for (const file of args.files) if (typeof file === "string") values.push(file);
+    }
+    return values;
+  }
+
+  function runCommandGuard(tool, args) {
+    const command = commandFromTool(tool, args);
+    const paths = pathsFromTool(args);
+    if (!command && paths.length === 0) return;
+
+    const cliArgs = ["sidecar", "check-command", directory, "--json"];
+    if (command) cliArgs.push("--command", command);
+    else cliArgs.push("--command", "path-check");
+    for (const file of paths) cliArgs.push("--path", file);
+
+    const check = spawnSync("capp", cliArgs, {
+      cwd: directory,
+      encoding: "utf8",
+      shell: process.platform === "win32"
+    });
+    record("sidecar.check-command", { tool, command, paths, exitCode: check.status ?? 1 });
+    if ((check.status ?? 1) !== 0) {
+      const output = (check.stdout || check.stderr || "Code Agent++ blocked a command or protected path.").trim();
+      throw new Error(output);
+    }
+  }
+
   return {
     name: "code-agent-plusplus-sidecar",
+    "tool.execute.before": async ({ tool, args }) => {
+      runCommandGuard(tool, args);
+    },
     event: async ({ event }) => {
       const type = event?.type;
       if (event?.type === "session.created") {

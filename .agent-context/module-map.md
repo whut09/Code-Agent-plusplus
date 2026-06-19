@@ -7,7 +7,7 @@
 | core | 18 | 941 | `analyzers`, `config`, `llm`, `outputs` | core contains 18 files and depends on analyzers, config, llm, outputs. |
 | harness | 9 | 659 | `core`, `outputs`, `sandbox` | harness contains 9 files and depends on core, outputs, sandbox. |
 | retrievers | 7 | 310 | `core`, `integrations`, `outputs` | retrievers contains 7 files and depends on core, integrations, outputs. |
-| integrations | 5 | 284 | `core`, `outputs`, `retrievers` | integrations contains 5 files and depends on core, outputs, retrievers. |
+| integrations | 5 | 286 | `core`, `outputs`, `retrievers` | integrations contains 5 files and depends on core, outputs, retrievers. |
 | benchmarks | 25 | 266 | `core`, `harness`, `outputs` | benchmarks contains 25 files and depends on core, harness, outputs. |
 | analyzers | 6 | 229 | `core` | analyzers contains 6 files and depends on core. |
 | benchmarks/fixtures/small-ts-app | 13 | 219 | none | benchmarks/fixtures/small-ts-app contains 13 files. |

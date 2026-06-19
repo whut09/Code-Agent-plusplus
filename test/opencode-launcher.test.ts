@@ -6,7 +6,12 @@ import test from "node:test";
 import { runGit } from "../src/core/git.js";
 import { launchOpenCodeWithSidecar } from "../src/integrations/opencode/launcher.js";
 import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/sidecar-plugin-template.js";
-import { ensureOpencodeSidecarPlugin, verifyOpencodeSidecar, writeOpencodeSidecarLatest } from "../src/integrations/opencode/sidecar.js";
+import {
+  checkOpencodeSidecarCommand,
+  ensureOpencodeSidecarPlugin,
+  verifyOpencodeSidecar,
+  writeOpencodeSidecarLatest
+} from "../src/integrations/opencode/sidecar.js";
 
 test("OpenCode launcher dry-run prepares sidecar context without opening the TUI", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-launcher-"));
@@ -51,6 +56,8 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /session\.idle/);
   assert.match(source, /sidecar", "verify"/);
   assert.match(source, /--quiet/);
+  assert.match(source, /tool\.execute\.before/);
+  assert.match(source, /sidecar", "check-command"/);
   assert.match(source, /\/capp <task>/);
 });
 
@@ -73,6 +80,40 @@ test("OpenCode sidecar verify checks plugin hooks and event log readiness", () =
     assert.equal(existsSync(path.join(root, ".agent-context", "sidecar", "latest.json")), true);
     assert.equal(existsSync(path.join(root, ".agent-context", "sidecar", "latest.md")), true);
     assert.match(readFileSync(path.join(root, ".agent-context", "sidecar", "latest.md"), "utf8"), /Result: ready/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode sidecar command guard blocks unknown scripts and protected paths", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-command-guard-"));
+  try {
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
+    writeFileSync(path.join(root, "Makefile"), "build:\n\t@echo build\n", "utf8");
+
+    assert.equal(checkOpencodeSidecarCommand(root, { command: "npm run test" }).allowed, true);
+    const missingScript = checkOpencodeSidecarCommand(root, { command: "npm run hallucinated" });
+    assert.equal(missingScript.allowed, false);
+    assert.match(missingScript.findings[0]?.message ?? "", /does not exist/);
+
+    assert.equal(checkOpencodeSidecarCommand(root, { command: "make build" }).allowed, true);
+    assert.equal(checkOpencodeSidecarCommand(root, { command: "make deploy-prod" }).allowed, false);
+
+    const protectedPath = checkOpencodeSidecarCommand(root, { command: "path-check", paths: [".agent-context/repo-summary.md", ".env"] });
+    assert.equal(protectedPath.allowed, false);
+    assert.match(protectedPath.findings.map((finding) => finding.kind).join(","), /protected_path/);
+    assert.match(protectedPath.findings.map((finding) => finding.kind).join(","), /secret_path/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode sidecar command guard blocks dangerous shell commands", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-command-danger-"));
+  try {
+    const result = checkOpencodeSidecarCommand(root, { command: "git reset --hard HEAD" });
+    assert.equal(result.allowed, false);
+    assert.equal(result.findings[0]?.kind, "dangerous_command");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

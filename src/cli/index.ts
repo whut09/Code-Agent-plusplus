@@ -65,7 +65,13 @@ import {
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
 import { launchOpencodeTui, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
-import { renderOpencodeSidecarVerifyReport, verifyOpencodeSidecar, writeOpencodeSidecarLatest } from "../integrations/opencode/sidecar.js";
+import {
+  checkOpencodeSidecarCommand,
+  renderOpencodeSidecarCommandCheck,
+  renderOpencodeSidecarVerifyReport,
+  verifyOpencodeSidecar,
+  writeOpencodeSidecarLatest
+} from "../integrations/opencode/sidecar.js";
 import { resolveDefaultCommandArgs } from "./default-command.js";
 
 const program = new Command();
@@ -110,6 +116,19 @@ sidecar
       console.log(renderOpencodeSidecarVerifyReport(result));
     }
     if (!result.ok) process.exitCode = 1;
+  });
+
+sidecar
+  .command("check-command")
+  .argument("[repo]", "repository path", ".")
+  .requiredOption("--command <command>", "command the coding agent is about to execute")
+  .option("--path <path...>", "path(s) the coding agent is about to edit or touch")
+  .option("--json", "print machine-readable command guard result")
+  .description("Preflight-check a command or edit path before OpenCode executes it.")
+  .action((repo: string, options: { command: string; path?: string[]; json?: boolean }) => {
+    const result = checkOpencodeSidecarCommand(repo, { command: options.command, paths: options.path });
+    console.log(options.json ? JSON.stringify(result, null, 2) : renderOpencodeSidecarCommandCheck(result));
+    if (!result.allowed) process.exitCode = 1;
   });
 
 program

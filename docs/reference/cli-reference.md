@@ -36,6 +36,7 @@ code-agent-plusplus validate-contracts [repo] --base main
 capp
 capp tui [repo] --dry-run
 capp sidecar verify [repo]
+capp sidecar check-command [repo] --command "npm run test" --path src/app.ts
 code-agent-plusplus loop "<task>" [repo] --phase after-edit --write
 code-agent-plusplus agent run "<task>" [repo] --executor mock
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
@@ -51,6 +52,8 @@ When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflig
 ```
 
 Use `--quiet` for sidecar automation; it only prints when blockers are found.
+
+`capp sidecar check-command` is the pre-execution command guard used by the OpenCode sidecar `tool.execute.before` hook. It checks package scripts from `package.json`, Makefile targets, dangerous shell patterns, and protected / secret paths. It exits non-zero when execution should be blocked.
 
 ## OpenCode Preset
 

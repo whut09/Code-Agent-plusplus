@@ -76,7 +76,7 @@ graph TD
 | harness | core | 17 |
 | harness | outputs | 26 |
 | harness | sandbox | 3 |
-| integrations | core | 6 |
+| integrations | core | 7 |
 | integrations | outputs | 1 |
 | integrations | retrievers | 1 |
 | llm | core | 1 |
