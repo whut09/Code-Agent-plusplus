@@ -350,8 +350,8 @@
     },
     {
       "from": "test/context-delta.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -410,8 +410,8 @@
     },
     {
       "from": "test/contract-validator.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -458,8 +458,8 @@
     },
     {
       "from": "test/execution-trace.test.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../src/outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../src/harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
@@ -542,8 +542,8 @@
     },
     {
       "from": "test/freshness.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -590,26 +590,26 @@
     },
     {
       "from": "test/hallucination-guard.test.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../src/outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../src/harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
       "from": "test/hallucination-guard.test.ts",
-      "to": "src/outputs/hallucination-guard.ts",
-      "specifier": "../src/outputs/hallucination-guard.js",
+      "to": "src/harness/verification-plane/guards/hallucination.ts",
+      "specifier": "../src/harness/verification-plane/guards/hallucination.js",
       "isExternal": false
     },
     {
       "from": "test/hallucination-guard.test.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "../src/outputs/policy-engine.js",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../src/harness/verification-plane/policy-engine.js",
       "isExternal": false
     },
     {
       "from": "test/hallucination-guard.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -704,20 +704,20 @@
     },
     {
       "from": "test/loop-controller.test.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../src/outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../src/harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
       "from": "test/loop-controller.test.ts",
-      "to": "src/outputs/loop-controller.ts",
-      "specifier": "../src/outputs/loop-controller.js",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "../src/harness/control-plane/loop-controller.js",
       "isExternal": false
     },
     {
       "from": "test/loop-controller.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -800,14 +800,14 @@
     },
     {
       "from": "test/orchestrator.test.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../src/outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../src/harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
       "from": "test/orchestrator.test.ts",
-      "to": "src/outputs/orchestrator.ts",
-      "specifier": "../src/outputs/orchestrator.js",
+      "to": "src/harness/control-plane/orchestrator.ts",
+      "specifier": "../src/harness/control-plane/orchestrator.js",
       "isExternal": false
     },
     {
@@ -854,20 +854,20 @@
     },
     {
       "from": "test/policy-engine.test.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../src/outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../src/harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
       "from": "test/policy-engine.test.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "../src/outputs/policy-engine.js",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../src/harness/verification-plane/policy-engine.js",
       "isExternal": false
     },
     {
       "from": "test/policy-engine.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -938,14 +938,20 @@
     },
     {
       "from": "test/regression-guard.test.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "../src/outputs/policy-engine.js",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../src/harness/verification-plane/policy-engine.js",
       "isExternal": false
     },
     {
       "from": "test/regression-guard.test.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "../src/outputs/regression-guard.js",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../src/harness/verification-plane/guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "test/regression-guard.test.ts",
+      "to": "src/harness/verification-plane/guards/regression-memory.ts",
+      "specifier": "../src/harness/verification-plane/guards/regression-memory.js",
       "isExternal": false
     },
     {
@@ -962,8 +968,8 @@
     },
     {
       "from": "test/regression-guard.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -1322,8 +1328,8 @@
     },
     {
       "from": "test/validator.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -1364,8 +1370,8 @@
     },
     {
       "from": "test/writer.test.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../src/outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../src/outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -1502,32 +1508,32 @@
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/hallucination-guard.ts",
-      "specifier": "../outputs/hallucination-guard.js",
+      "to": "src/harness/verification-plane/guards/hallucination.ts",
+      "specifier": "../harness/verification-plane/guards/hallucination.js",
       "isExternal": false
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/loop-controller.ts",
-      "specifier": "../outputs/loop-controller.js",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "../harness/control-plane/loop-controller.js",
       "isExternal": false
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "../outputs/policy-engine.js",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../harness/verification-plane/policy-engine.js",
       "isExternal": false
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "../outputs/regression-guard.js",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../harness/verification-plane/guards/regression.js",
       "isExternal": false
     },
     {
@@ -1538,20 +1544,20 @@
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../outputs/renderers/writer.js",
       "isExternal": false
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/orchestrator.ts",
-      "specifier": "../outputs/orchestrator.js",
+      "to": "src/harness/control-plane/orchestrator.ts",
+      "specifier": "../harness/control-plane/orchestrator.js",
       "isExternal": false
     },
     {
       "from": "src/benchmarks/agent-benchmark.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "../outputs/markdown.js",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -1598,8 +1604,8 @@
     },
     {
       "from": "src/benchmarks/benchmark.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "../outputs/markdown.js",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -1640,8 +1646,8 @@
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -1712,38 +1718,44 @@
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/loop-controller.ts",
-      "specifier": "../outputs/loop-controller.js",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "../harness/control-plane/loop-controller.js",
       "isExternal": false
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/orchestrator.ts",
-      "specifier": "../outputs/orchestrator.js",
+      "to": "src/harness/control-plane/orchestrator.ts",
+      "specifier": "../harness/control-plane/orchestrator.js",
       "isExternal": false
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "../outputs/policy-engine.js",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../harness/verification-plane/policy-engine.js",
       "isExternal": false
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/hallucination-guard.ts",
-      "specifier": "../outputs/hallucination-guard.js",
+      "to": "src/harness/verification-plane/guards/hallucination.ts",
+      "specifier": "../harness/verification-plane/guards/hallucination.js",
       "isExternal": false
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "../outputs/regression-guard.js",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../harness/verification-plane/guards/regression.js",
       "isExternal": false
     },
     {
       "from": "src/cli/index.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../outputs/execution-trace.js",
+      "to": "src/harness/verification-plane/guards/regression-memory.ts",
+      "specifier": "../harness/verification-plane/guards/regression-memory.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
@@ -2006,8 +2018,8 @@
     },
     {
       "from": "src/core/freshness.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "../outputs/markdown.js",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -2312,14 +2324,14 @@
     },
     {
       "from": "src/mcp/server.ts",
-      "to": "src/outputs/loop-controller.ts",
-      "specifier": "../outputs/loop-controller.js",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "../harness/control-plane/loop-controller.js",
       "isExternal": false
     },
     {
       "from": "src/mcp/server.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "../outputs/policy-engine.js",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../harness/verification-plane/policy-engine.js",
       "isExternal": false
     },
     {
@@ -2342,8 +2354,8 @@
     },
     {
       "from": "src/mcp/server.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "../outputs/execution-trace.js",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../harness/observability/execution-trace.js",
       "isExternal": false
     },
     {
@@ -2354,8 +2366,8 @@
     },
     {
       "from": "src/mcp/server.ts",
-      "to": "src/outputs/writer.ts",
-      "specifier": "../outputs/writer.js",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../outputs/renderers/writer.js",
       "isExternal": false
     },
     {
@@ -2368,6 +2380,522 @@
       "from": "src/mcp/server.ts",
       "to": "src/retrievers/types.ts",
       "specifier": "../retrievers/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/agent-events.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/agent-events.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/agent-events.ts",
+      "to": "src/harness/control-plane/orchestrator.ts",
+      "specifier": "../harness/control-plane/orchestrator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/agents-md.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "../core/token-estimator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/agents-md.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/agents-md.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/architecture.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/architecture.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/context-delta.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/context-delta.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/context-delta.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/context-delta.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/context-delta.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/context-layers.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/context-layers.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/contract-validator.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/contract-validator.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/contract-validator.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/contract-validator.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/contract-validator.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/contract-validator.ts",
+      "to": "src/outputs/contracts.ts",
+      "specifier": "./contracts.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/contracts.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/dependency-graph.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/dependency-graph.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/evidence.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../harness/observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/harness/verification-plane/guards/hallucination.ts",
+      "specifier": "../harness/verification-plane/guards/hallucination.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../harness/verification-plane/policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../harness/verification-plane/guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-finding.ts",
+      "to": "src/harness/types.ts",
+      "specifier": "../harness/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-gates.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../harness/observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-gates.ts",
+      "to": "src/outputs/guard-finding.ts",
+      "specifier": "./guard-finding.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-gates.ts",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "../harness/control-plane/loop-controller.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/guard-gates.ts",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../harness/verification-plane/policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/impact.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/impact.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/impact.ts",
+      "to": "src/integrations/codegraph.ts",
+      "specifier": "../integrations/codegraph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/impact.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/key-files.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/key-files.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/module-map.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/module-map.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/onboarding.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/onboarding.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/rag.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/rag.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "../core/token-estimator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/rag.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/readiness.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/readiness.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/repo-summary.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/repo-summary.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/repo-summary.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "../core/token-savings.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/runtime-state.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-context.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-context.ts",
+      "to": "src/core/token-estimator.ts",
+      "specifier": "../core/token-estimator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-context.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../harness/verification-plane/guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-context.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "./task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "src/outputs/contract-validator.ts",
+      "specifier": "./contract-validator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../harness/verification-plane/guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-harness.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "./impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "./task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/task-harness.ts",
+      "specifier": "./task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "./test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../harness/observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/outputs/runtime-state.ts",
+      "specifier": "./runtime-state.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/task-run.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../harness/verification-plane/guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/test-selector.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/test-selector.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/test-selector.ts",
+      "to": "src/integrations/codegraph.ts",
+      "specifier": "../integrations/codegraph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/test-selector.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/token-savings.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/token-savings.ts",
+      "to": "src/core/token-savings.ts",
+      "specifier": "../core/token-savings.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/token-savings.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "./renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -2468,8 +2996,8 @@
     },
     {
       "from": "src/retrievers/index.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "../outputs/markdown.js",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -2521,1077 +3049,543 @@
       "isExternal": false
     },
     {
-      "from": "src/outputs/agent-events.ts",
+      "from": "src/sandbox/git-worktree-sandbox.ts",
       "to": "node:fs",
       "specifier": "node:fs",
       "isExternal": true
     },
     {
-      "from": "src/outputs/agent-events.ts",
+      "from": "src/sandbox/git-worktree-sandbox.ts",
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
     },
     {
-      "from": "src/outputs/agent-events.ts",
-      "to": "src/outputs/orchestrator.ts",
-      "specifier": "./orchestrator.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/agents-md.ts",
-      "to": "src/core/token-estimator.ts",
-      "specifier": "../core/token-estimator.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/agents-md.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/agents-md.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/architecture.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/architecture.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/context-delta.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/context-delta.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/context-delta.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/context-delta.ts",
+      "from": "src/sandbox/git-worktree-sandbox.ts",
       "to": "src/core/git.ts",
       "specifier": "../core/git.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/context-delta.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/context-layers.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "src/sandbox/sandbox-adapter.ts",
+      "specifier": "./sandbox-adapter.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/context-layers.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/contract-validator.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/contract-validator.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/contract-validator.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/contract-validator.ts",
+      "from": "src/sandbox/host-sandbox.ts",
       "to": "src/core/git.ts",
       "specifier": "../core/git.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/contract-validator.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
+      "from": "src/sandbox/host-sandbox.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/contract-validator.ts",
-      "to": "src/outputs/contracts.ts",
-      "specifier": "./contracts.js",
+      "from": "src/sandbox/host-sandbox.ts",
+      "to": "src/sandbox/sandbox-adapter.ts",
+      "specifier": "./sandbox-adapter.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/contracts.ts",
+      "from": "src/harness/control-plane/decision-engine.ts",
+      "to": "src/outputs/guard-gates.ts",
+      "specifier": "../../outputs/guard-gates.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/decision-engine.ts",
+      "to": "src/harness/types.ts",
+      "specifier": "../types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/decision-engine.ts",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "./loop-controller.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/decision-engine.ts",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../verification-plane/policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
       "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
+      "specifier": "../../core/types.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/dependency-graph.ts",
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/core/freshness.ts",
+      "specifier": "../../core/freshness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "../../outputs/impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/contract-validator.ts",
+      "specifier": "../../outputs/contract-validator.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/evidence.ts",
+      "specifier": "../../outputs/evidence.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/task-context.ts",
+      "specifier": "../../outputs/task-context.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "../../outputs/test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/loop-controller.ts",
+      "to": "src/outputs/runtime-state.ts",
+      "specifier": "../../outputs/runtime-state.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
       "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
+      "specifier": "../../core/types.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/dependency-graph.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/core/context-builder.ts",
+      "specifier": "../../core/context-builder.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/evidence.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../../core/git.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/execution-trace.ts",
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/sandbox/git-worktree-sandbox.ts",
+      "specifier": "../../sandbox/git-worktree-sandbox.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/sandbox/host-sandbox.ts",
+      "specifier": "../../sandbox/host-sandbox.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/sandbox/sandbox-adapter.ts",
+      "specifier": "../../sandbox/sandbox-adapter.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/agent-events.ts",
+      "specifier": "../../outputs/agent-events.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/renderers/writer.ts",
+      "specifier": "../../outputs/renderers/writer.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/verification-plane/guards/hallucination.ts",
+      "specifier": "../verification-plane/guards/hallucination.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/impact.ts",
+      "specifier": "../../outputs/impact.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../verification-plane/guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/verification-plane/guards/regression-memory.ts",
+      "specifier": "../verification-plane/guards/regression-memory.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/control-plane/loop-controller.ts",
+      "specifier": "./loop-controller.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/verification-plane/policy-engine.ts",
+      "specifier": "../verification-plane/policy-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/task-harness.ts",
+      "specifier": "../../outputs/task-harness.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/task-run.ts",
+      "specifier": "../../outputs/task-run.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/guard-finding.ts",
+      "specifier": "../../outputs/guard-finding.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/guard-gates.ts",
+      "specifier": "../../outputs/guard-gates.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/types.ts",
+      "specifier": "../types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/control-plane/orchestrator.ts",
+      "to": "src/harness/control-plane/decision-engine.ts",
+      "specifier": "./decision-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
       "to": "node:child_process",
       "specifier": "node:child_process",
       "isExternal": true
     },
     {
-      "from": "src/outputs/execution-trace.ts",
+      "from": "src/harness/observability/execution-trace.ts",
       "to": "node:crypto",
       "specifier": "node:crypto",
       "isExternal": true
     },
     {
-      "from": "src/outputs/execution-trace.ts",
+      "from": "src/harness/observability/execution-trace.ts",
       "to": "node:fs",
       "specifier": "node:fs",
       "isExternal": true
     },
     {
-      "from": "src/outputs/execution-trace.ts",
+      "from": "src/harness/observability/execution-trace.ts",
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
     },
     {
-      "from": "src/outputs/execution-trace.ts",
+      "from": "src/harness/observability/execution-trace.ts",
       "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
+      "specifier": "../../core/safe-command.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/execution-trace.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/guard-finding.ts",
-      "to": "src/outputs/hallucination-guard.ts",
-      "specifier": "./hallucination-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/guard-finding.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "./policy-engine.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/guard-finding.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/guard-gates.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/guard-gates.ts",
-      "to": "src/outputs/guard-finding.ts",
-      "specifier": "./guard-finding.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/guard-gates.ts",
-      "to": "src/outputs/loop-controller.ts",
-      "specifier": "./loop-controller.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/guard-gates.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "./policy-engine.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/hallucination-guard.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/hallucination-guard.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/hallucination-guard.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
+      "specifier": "../../core/types.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/hallucination-guard.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
+      "specifier": "../../core/git.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/hallucination-guard.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/hallucination-guard.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/impact.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/impact.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/impact.ts",
-      "to": "src/integrations/codegraph.ts",
-      "specifier": "../integrations/codegraph.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/impact.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/key-files.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/key-files.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/core/freshness.ts",
-      "specifier": "../core/freshness.js",
+      "specifier": "../../core/freshness.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/loop-controller.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/outputs/impact.ts",
-      "specifier": "./impact.js",
+      "specifier": "../../outputs/impact.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/loop-controller.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/outputs/contract-validator.ts",
-      "specifier": "./contract-validator.js",
+      "specifier": "../../outputs/contract-validator.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/outputs/evidence.ts",
-      "specifier": "./evidence.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/outputs/task-context.ts",
-      "specifier": "./task-context.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/loop-controller.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/outputs/test-selector.ts",
-      "specifier": "./test-selector.js",
+      "specifier": "../../outputs/test-selector.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/outputs/markdown.ts",
+      "from": "src/harness/verification-plane/policy-engine.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/policy-engine.ts",
+      "to": "src/outputs/evidence.ts",
+      "specifier": "../../outputs/evidence.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/policy-engine.ts",
+      "to": "src/harness/verification-plane/guards/hallucination.ts",
+      "specifier": "./guards/hallucination.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/policy-engine.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "./guards/regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/policy-engine.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/policy-engine.ts",
+      "to": "src/harness/types.ts",
+      "specifier": "../types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/outputs/renderers/reports.ts",
+      "to": "src/outputs/renderers/markdown.ts",
       "specifier": "./markdown.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/loop-controller.ts",
-      "to": "src/outputs/runtime-state.ts",
-      "specifier": "./runtime-state.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/module-map.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/module-map.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/onboarding.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/onboarding.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "node:crypto",
-      "specifier": "node:crypto",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/core/context-builder.ts",
-      "specifier": "../core/context-builder.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/sandbox/git-worktree-sandbox.ts",
-      "specifier": "../sandbox/git-worktree-sandbox.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/sandbox/host-sandbox.ts",
-      "specifier": "../sandbox/host-sandbox.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/sandbox/sandbox-adapter.ts",
-      "specifier": "../sandbox/sandbox-adapter.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/agent-events.ts",
-      "specifier": "./agent-events.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/reports.ts",
+      "to": "src/outputs/renderers/writer.ts",
       "specifier": "./writer.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/hallucination-guard.ts",
-      "specifier": "./hallucination-guard.js",
-      "isExternal": false
+      "from": "src/outputs/renderers/writer.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
     },
     {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/impact.ts",
-      "specifier": "./impact.js",
-      "isExternal": false
+      "from": "src/outputs/renderers/writer.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
     },
     {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/loop-controller.ts",
-      "specifier": "./loop-controller.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/policy-engine.ts",
-      "specifier": "./policy-engine.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/task-harness.ts",
-      "specifier": "./task-harness.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/task-run.ts",
-      "specifier": "./task-run.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/guard-finding.ts",
-      "specifier": "./guard-finding.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/guard-gates.ts",
-      "specifier": "./guard-gates.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/orchestrator.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
+      "specifier": "../../core/types.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/core/freshness.ts",
-      "specifier": "../core/freshness.js",
+      "specifier": "../../core/freshness.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/impact.ts",
-      "specifier": "./impact.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/contract-validator.ts",
-      "specifier": "./contract-validator.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/test-selector.ts",
-      "specifier": "./test-selector.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/evidence.ts",
-      "specifier": "./evidence.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/hallucination-guard.ts",
-      "specifier": "./hallucination-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/policy-engine.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/rag.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/rag.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/core/token-estimator.ts",
-      "specifier": "../core/token-estimator.js",
+      "specifier": "../../core/token-estimator.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/rag.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/readiness.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/readiness.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "src/outputs/evidence.ts",
-      "specifier": "./evidence.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/regression-guard.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/repo-summary.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/repo-summary.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/repo-summary.ts",
-      "to": "src/core/token-savings.ts",
-      "specifier": "../core/token-savings.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/runtime-state.ts",
-      "to": "node:crypto",
-      "specifier": "node:crypto",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/runtime-state.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/runtime-state.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/runtime-state.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/runtime-state.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-context.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-context.ts",
-      "to": "src/core/token-estimator.ts",
-      "specifier": "../core/token-estimator.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-context.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-context.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "src/outputs/task-context.ts",
-      "specifier": "./task-context.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "src/outputs/contract-validator.ts",
-      "specifier": "./contract-validator.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-harness.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/impact.ts",
-      "specifier": "./impact.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/task-context.ts",
-      "specifier": "./task-context.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/task-harness.ts",
-      "specifier": "./task-harness.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/test-selector.ts",
-      "specifier": "./test-selector.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/execution-trace.ts",
-      "specifier": "./execution-trace.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/runtime-state.ts",
-      "specifier": "./runtime-state.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/task-run.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/test-selector.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/test-selector.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/test-selector.ts",
-      "to": "src/integrations/codegraph.ts",
-      "specifier": "../integrations/codegraph.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/test-selector.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/token-savings.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/token-savings.ts",
-      "to": "src/core/token-savings.ts",
-      "specifier": "../core/token-savings.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/token-savings.ts",
-      "to": "src/outputs/markdown.ts",
-      "specifier": "./markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/writer.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/writer.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/outputs/writer.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/writer.ts",
-      "to": "src/core/freshness.ts",
-      "specifier": "../core/freshness.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/writer.ts",
-      "to": "src/core/token-estimator.ts",
-      "specifier": "../core/token-estimator.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/agents-md.ts",
-      "specifier": "./agents-md.js",
+      "specifier": "../agents-md.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/architecture.ts",
-      "specifier": "./architecture.js",
+      "specifier": "../architecture.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/contracts.ts",
-      "specifier": "./contracts.js",
+      "specifier": "../contracts.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/context-layers.ts",
-      "specifier": "./context-layers.js",
+      "specifier": "../context-layers.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/dependency-graph.ts",
-      "specifier": "./dependency-graph.js",
+      "specifier": "../dependency-graph.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/key-files.ts",
-      "specifier": "./key-files.js",
+      "specifier": "../key-files.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/module-map.ts",
-      "specifier": "./module-map.js",
+      "specifier": "../module-map.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/onboarding.ts",
-      "specifier": "./onboarding.js",
+      "specifier": "../onboarding.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/readiness.ts",
-      "specifier": "./readiness.js",
+      "specifier": "../readiness.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/repo-summary.ts",
-      "specifier": "./repo-summary.js",
+      "specifier": "../repo-summary.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/rag.ts",
-      "specifier": "./rag.js",
+      "specifier": "../rag.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
-      "to": "src/outputs/regression-guard.ts",
-      "specifier": "./regression-guard.js",
+      "from": "src/outputs/renderers/writer.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "../../harness/verification-plane/guards/regression.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/task-context.ts",
-      "specifier": "./task-context.js",
+      "specifier": "../task-context.js",
       "isExternal": false
     },
     {
-      "from": "src/outputs/writer.ts",
+      "from": "src/outputs/renderers/writer.ts",
       "to": "src/outputs/token-savings.ts",
-      "specifier": "./token-savings.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "node:os",
-      "specifier": "node:os",
-      "isExternal": true
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "src/sandbox/sandbox-adapter.ts",
-      "specifier": "./sandbox-adapter.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/host-sandbox.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/host-sandbox.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/host-sandbox.ts",
-      "to": "src/sandbox/sandbox-adapter.ts",
-      "specifier": "./sandbox-adapter.js",
+      "specifier": "../token-savings.js",
       "isExternal": false
     },
     {
@@ -3649,6 +3643,138 @@
       "isExternal": false
     },
     {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../../../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../../../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../../observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/hallucination.ts",
+      "to": "src/harness/types.ts",
+      "specifier": "../../types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../../../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../../../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "src/outputs/test-selector.ts",
+      "specifier": "../../../outputs/test-selector.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../../observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression-memory.ts",
+      "to": "src/harness/verification-plane/guards/regression.ts",
+      "specifier": "./regression.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../../../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../../../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "src/harness/observability/execution-trace.ts",
+      "specifier": "../../observability/execution-trace.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "src/outputs/evidence.ts",
+      "specifier": "../../../outputs/evidence.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/verification-plane/guards/regression.ts",
+      "to": "src/harness/types.ts",
+      "specifier": "../../types.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/fastapi-app/app/routes/users.py",
       "to": "fastapi",
       "specifier": "fastapi",
@@ -3685,18 +3811,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "specifier": "../../src/api/login.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../../src/auth/session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../auth/session.js",
@@ -3706,6 +3820,18 @@
       "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "./session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+      "specifier": "../../src/api/login.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "../../src/auth/session.js",
       "isExternal": false
     },
     {
@@ -3733,6 +3859,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "specifier": "../src/loader.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
       "to": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "specifier": "./config.js",
@@ -3742,12 +3874,6 @@
       "from": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
       "specifier": "../../config/src/loader.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "specifier": "../src/loader.js",
       "isExternal": false
     },
     {
@@ -3782,8 +3908,13 @@
     },
     {
       "from": "benchmarks",
+      "to": "harness",
+      "count": 6
+    },
+    {
+      "from": "benchmarks",
       "to": "outputs",
-      "count": 13
+      "count": 7
     },
     {
       "from": "benchmarks/fixtures/monorepo/packages/api",
@@ -3812,13 +3943,18 @@
     },
     {
       "from": "cli",
+      "to": "harness",
+      "count": 7
+    },
+    {
+      "from": "cli",
       "to": "integrations",
       "count": 1
     },
     {
       "from": "cli",
       "to": "outputs",
-      "count": 16
+      "count": 10
     },
     {
       "from": "cli",
@@ -3851,6 +3987,21 @@
       "count": 3
     },
     {
+      "from": "harness",
+      "to": "core",
+      "count": 17
+    },
+    {
+      "from": "harness",
+      "to": "outputs",
+      "count": 26
+    },
+    {
+      "from": "harness",
+      "to": "sandbox",
+      "count": 3
+    },
+    {
       "from": "integrations",
       "to": "core",
       "count": 2
@@ -3872,8 +4023,13 @@
     },
     {
       "from": "mcp",
+      "to": "harness",
+      "count": 3
+    },
+    {
+      "from": "mcp",
       "to": "outputs",
-      "count": 10
+      "count": 7
     },
     {
       "from": "mcp",
@@ -3883,17 +4039,17 @@
     {
       "from": "outputs",
       "to": "core",
-      "count": 49
+      "count": 34
+    },
+    {
+      "from": "outputs",
+      "to": "harness",
+      "count": 14
     },
     {
       "from": "outputs",
       "to": "integrations",
       "count": 2
-    },
-    {
-      "from": "outputs",
-      "to": "sandbox",
-      "count": 3
     },
     {
       "from": "retrievers",
@@ -3942,6 +4098,11 @@
     },
     {
       "from": "test",
+      "to": "harness",
+      "count": 13
+    },
+    {
+      "from": "test",
       "to": "integrations",
       "count": 1
     },
@@ -3953,7 +4114,7 @@
     {
       "from": "test",
       "to": "outputs",
-      "count": 34
+      "count": 22
     },
     {
       "from": "test",

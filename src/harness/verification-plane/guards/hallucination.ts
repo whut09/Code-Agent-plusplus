@@ -503,6 +503,23 @@ function recordValue(value: unknown): Record<string, unknown> {
 }
 
 function hallucinationFindingToResult(finding: HallucinationFinding, index: number): GuardResult {
+  if (finding.kind === "missing_command") {
+    return createGuardResult({
+      id: "hallucination.missing-command",
+      source: "hallucination",
+      kind: "required",
+      status: "missing",
+      severity: "required",
+      message: `${finding.kind}: ${finding.claim}`,
+      blocking: true,
+      confidence: 0.92,
+      reasons: [finding.claim, finding.repairSuggestion, ...finding.evidenceChecked],
+      requiredCommands: [],
+      artifacts: [],
+      evidence: finding.evidenceChecked
+    });
+  }
+
   const blocking = finding.severity === "error";
   return createGuardResult({
     id: `hallucination.${finding.kind}.${index + 1}`,

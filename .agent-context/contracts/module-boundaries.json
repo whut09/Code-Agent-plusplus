@@ -12,9 +12,9 @@
         "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
+        "src/harness/**",
         "src/integrations/**",
-        "src/outputs/**",
-        "src/sandbox/**"
+        "src/outputs/**"
       ],
       "forbiddenImports": [
         "**/*.generated.*",
@@ -28,8 +28,8 @@
       ],
       "observedImports": [
         "core",
-        "integrations",
-        "sandbox"
+        "harness",
+        "integrations"
       ],
       "publicFiles": [
         "src/outputs/agent-events.ts",
@@ -41,29 +41,24 @@
         "src/outputs/contracts.ts",
         "src/outputs/dependency-graph.ts",
         "src/outputs/evidence.ts",
-        "src/outputs/execution-trace.ts",
         "src/outputs/guard-finding.ts",
         "src/outputs/guard-gates.ts",
-        "src/outputs/hallucination-guard.ts",
         "src/outputs/impact.ts",
         "src/outputs/key-files.ts",
-        "src/outputs/loop-controller.ts",
-        "src/outputs/markdown.ts",
         "src/outputs/module-map.ts",
         "src/outputs/onboarding.ts",
-        "src/outputs/orchestrator.ts",
-        "src/outputs/policy-engine.ts",
         "src/outputs/rag.ts",
         "src/outputs/readiness.ts",
-        "src/outputs/regression-guard.ts",
+        "src/outputs/renderers/markdown.ts",
+        "src/outputs/renderers/reports.ts",
+        "src/outputs/renderers/writer.ts",
         "src/outputs/repo-summary.ts",
         "src/outputs/runtime-state.ts",
         "src/outputs/task-context.ts",
         "src/outputs/task-harness.ts",
         "src/outputs/task-run.ts",
         "src/outputs/test-selector.ts",
-        "src/outputs/token-savings.ts",
-        "src/outputs/writer.ts"
+        "src/outputs/token-savings.ts"
       ]
     },
     "test": {
@@ -79,6 +74,7 @@
         "src/cli/**",
         "src/config/**",
         "src/core/**",
+        "src/harness/**",
         "src/integrations/**",
         "src/mcp/**",
         "src/outputs/**",
@@ -101,6 +97,7 @@
         "cli",
         "config",
         "core",
+        "harness",
         "integrations",
         "mcp",
         "outputs",
@@ -161,6 +158,46 @@
         "src/core/validator.ts"
       ]
     },
+    "harness": {
+      "owns": [
+        "src/harness/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "src/harness/**",
+        "src/outputs/**",
+        "src/sandbox/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs",
+        "sandbox"
+      ],
+      "publicFiles": [
+        "src/harness/control-plane/decision-engine.ts",
+        "src/harness/control-plane/loop-controller.ts",
+        "src/harness/control-plane/orchestrator.ts",
+        "src/harness/observability/execution-trace.ts",
+        "src/harness/types.ts",
+        "src/harness/verification-plane/guards/hallucination.ts",
+        "src/harness/verification-plane/guards/regression-memory.ts",
+        "src/harness/verification-plane/guards/regression.ts",
+        "src/harness/verification-plane/policy-engine.ts"
+      ]
+    },
     "retrievers": {
       "owns": [
         "src/retrievers/**"
@@ -211,6 +248,7 @@
         "src/benchmarks/**",
         "src/config/**",
         "src/core/**",
+        "src/harness/**",
         "src/outputs/**"
       ],
       "forbiddenImports": [
@@ -225,6 +263,7 @@
       ],
       "observedImports": [
         "core",
+        "harness",
         "outputs"
       ],
       "publicFiles": [
@@ -373,6 +412,7 @@
         "src/cli/**",
         "src/config/**",
         "src/core/**",
+        "src/harness/**",
         "src/integrations/**",
         "src/outputs/**",
         "src/retrievers/**"
@@ -391,6 +431,7 @@
         "benchmarks",
         "config",
         "core",
+        "harness",
         "integrations",
         "outputs",
         "retrievers"
@@ -495,6 +536,7 @@
         "benchmarks/fixtures/monorepo/packages/shared/**",
         "src/config/**",
         "src/core/**",
+        "src/harness/**",
         "src/mcp/**",
         "src/outputs/**",
         "src/retrievers/**"
@@ -511,6 +553,7 @@
       ],
       "observedImports": [
         "core",
+        "harness",
         "outputs",
         "retrievers"
       ],

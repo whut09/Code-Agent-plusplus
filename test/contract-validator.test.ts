@@ -33,7 +33,7 @@ test("contract validator fails changed files that break edit boundaries", async 
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
 
-    writeFileSync(path.join(root, "src", "core", "indexer.ts"), "import { heading } from '../outputs/renderers/markdown.js';\nexport const indexer = heading;\n", "utf8");
+    writeFileSync(path.join(root, "src", "core", "indexer.ts"), "import { heading } from '../outputs/markdown.js';\nexport const indexer = heading;\n", "utf8");
     writeFileSync(path.join(root, "package-lock.json"), '{"lockfileVersion":3}\n', "utf8");
 
     const context = await buildContextPackage(root);

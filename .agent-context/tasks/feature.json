@@ -2,12 +2,12 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 7158,
-  "remainingBudget": 4842,
+  "estimatedTokens": 7418,
+  "remainingBudget": 4582,
   "files": [
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 270,
+      "score": 271,
       "reasons": [
         "lexical match: behavior",
         "direct importer of src/benchmarks/benchmark.ts"
@@ -17,13 +17,13 @@
     },
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 266,
+      "score": 267,
       "reasons": [
         "lexical match: behavior",
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 468
+      "estimatedTokens": 595
     },
     {
       "path": "src/cli/index.ts",
@@ -34,7 +34,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 315
+      "estimatedTokens": 350
     },
     {
       "path": "src/mcp/server.ts",
@@ -139,59 +139,59 @@
       "estimatedTokens": 106
     },
     {
-      "path": "src/outputs/markdown.ts",
+      "path": "src/outputs/renderers/markdown.ts",
       "score": 48,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/benchmarks/benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 68
+      "estimatedTokens": 73
     },
     {
-      "path": "src/outputs/loop-controller.ts",
+      "path": "src/harness/control-plane/loop-controller.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 302
+      "estimatedTokens": 309
     },
     {
-      "path": "src/outputs/policy-engine.ts",
+      "path": "src/harness/verification-plane/policy-engine.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 271
+      "estimatedTokens": 310
     },
     {
-      "path": "src/outputs/regression-guard.ts",
+      "path": "src/harness/verification-plane/guards/regression.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 297
+      "estimatedTokens": 318
     },
     {
-      "path": "src/outputs/execution-trace.ts",
+      "path": "src/harness/verification-plane/guards/hallucination.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 330
+      "estimatedTokens": 489
     },
     {
-      "path": "src/outputs/hallucination-guard.ts",
+      "path": "src/harness/observability/execution-trace.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 467
+      "estimatedTokens": 337
     },
     {
       "path": "src/outputs/task-run.ts",
@@ -203,13 +203,13 @@
       "estimatedTokens": 203
     },
     {
-      "path": "src/outputs/orchestrator.ts",
+      "path": "src/harness/control-plane/orchestrator.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 626
+      "estimatedTokens": 618
     },
     {
       "path": "src/outputs/test-selector.ts",
@@ -221,13 +221,13 @@
       "estimatedTokens": 249
     },
     {
-      "path": "src/outputs/writer.ts",
+      "path": "src/outputs/renderers/writer.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 265
+      "estimatedTokens": 270
     },
     {
       "path": "src/core/safe-command.ts",
@@ -329,6 +329,15 @@
       "estimatedTokens": 42
     },
     {
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 16,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 16,
       "reasons": [
@@ -345,15 +354,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "score": 16,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -410,15 +410,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 44
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
       "score": 14,
       "reasons": [
@@ -426,12 +417,21 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 45
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 44
     }
   ],
   "readFirst": [
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 270,
+      "score": 271,
       "reasons": [
         "lexical match: behavior",
         "direct importer of src/benchmarks/benchmark.ts"
@@ -441,13 +441,13 @@
     },
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 266,
+      "score": 267,
       "reasons": [
         "lexical match: behavior",
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 468
+      "estimatedTokens": 595
     },
     {
       "path": "src/cli/index.ts",
@@ -458,7 +458,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 315
+      "estimatedTokens": 350
     },
     {
       "path": "src/mcp/server.ts",
@@ -565,70 +565,70 @@
       "estimatedTokens": 106
     },
     {
-      "path": "src/outputs/markdown.ts",
+      "path": "src/outputs/renderers/markdown.ts",
       "score": 48,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts",
         "direct dependency of src/benchmarks/benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 68
+      "estimatedTokens": 73
     },
     {
-      "path": "src/outputs/loop-controller.ts",
+      "path": "src/harness/control-plane/loop-controller.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 302
+      "estimatedTokens": 309
     },
     {
-      "path": "src/outputs/policy-engine.ts",
+      "path": "src/harness/verification-plane/policy-engine.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 271
+      "estimatedTokens": 310
     },
     {
-      "path": "src/outputs/regression-guard.ts",
+      "path": "src/harness/verification-plane/guards/regression.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 297
+      "estimatedTokens": 318
     },
     {
-      "path": "src/outputs/execution-trace.ts",
+      "path": "src/harness/verification-plane/guards/hallucination.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 330
+      "estimatedTokens": 489
     },
     {
-      "path": "src/outputs/hallucination-guard.ts",
+      "path": "src/harness/observability/execution-trace.ts",
       "score": 24,
       "reasons": [
         "direct dependency of src/benchmarks/agent-benchmark.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 467
+      "estimatedTokens": 337
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 7158,
-    "remaining": 4842,
+    "used": 7418,
+    "remaining": 4582,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 934,
+        "tokens": 1061,
         "files": [
           "src/benchmarks/agent-benchmark.ts",
           "src/benchmarks/benchmark.ts"
@@ -653,19 +653,19 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 4273,
+        "tokens": 4371,
         "files": [
           "src/core/context-builder.ts",
-          "src/outputs/markdown.ts",
-          "src/outputs/loop-controller.ts",
-          "src/outputs/policy-engine.ts",
-          "src/outputs/regression-guard.ts",
-          "src/outputs/execution-trace.ts",
-          "src/outputs/hallucination-guard.ts",
+          "src/outputs/renderers/markdown.ts",
+          "src/harness/control-plane/loop-controller.ts",
+          "src/harness/verification-plane/policy-engine.ts",
+          "src/harness/verification-plane/guards/regression.ts",
+          "src/harness/verification-plane/guards/hallucination.ts",
+          "src/harness/observability/execution-trace.ts",
           "src/outputs/task-run.ts",
-          "src/outputs/orchestrator.ts",
+          "src/harness/control-plane/orchestrator.ts",
           "src/outputs/test-selector.ts",
-          "src/outputs/writer.ts",
+          "src/outputs/renderers/writer.ts",
           "src/core/safe-command.ts",
           "src/core/types.ts",
           "src/outputs/task-context.ts",
@@ -684,23 +684,23 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           ".env.example",
           "code-agent-plusplus.config.yml",
           "tsconfig.json",
           ".github/workflows/ci.yml",
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md",
-          "benchmarks/fixtures/monorepo/packages/config/README.md"
+          "benchmarks/fixtures/monorepo/packages/config/README.md",
+          "benchmarks/fixtures/monorepo/packages/web/README.md"
         ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 720,
+        "tokens": 755,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

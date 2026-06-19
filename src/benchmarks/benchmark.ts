@@ -468,7 +468,11 @@ function summarizeCategories(cases: BenchmarkCaseResult[]): BenchmarkCategorySum
   });
 }
 
-function metricFromCategories<K extends keyof BenchmarkCategorySummary>(summaries: BenchmarkCategorySummary[], category: BenchmarkCategory, field: K): BenchmarkCategorySummary[K] | null {
+function metricFromCategories<K extends keyof BenchmarkCategorySummary>(
+  summaries: BenchmarkCategorySummary[],
+  category: BenchmarkCategory,
+  field: K
+): BenchmarkCategorySummary[K] | null {
   return summaries.find((item) => item.category === category)?.[field] ?? null;
 }
 
@@ -480,17 +484,31 @@ function benchmarkCategoryForTask(task: BenchmarkTaskDefinition): BenchmarkCateg
 }
 
 function boundaryBlocked(item: BenchmarkCaseResult): boolean {
-  return item.agentRuns.some((run) => run.mode === "loop-enabled-harness" && (run.finalDecisionAccuracy === true || run.humanReviewNeeded === true) && (run.forbiddenFilesChanged ?? 0) === 0);
+  return item.agentRuns.some(
+    (run) =>
+      run.mode === "loop-enabled-harness" && (run.finalDecisionAccuracy === true || run.humanReviewNeeded === true) && (run.forbiddenFilesChanged ?? 0) === 0
+  );
 }
 
 function hallucinationDetected(item: BenchmarkCaseResult): boolean {
   const baselineHadHallucination = item.agentRuns.some((run) => run.mode !== "loop-enabled-harness" && (run.hallucinatedCommands ?? 0) > 0);
-  const harnessBlockedOrCleaned = item.agentRuns.some((run) => run.mode === "loop-enabled-harness" && (run.hallucinatedCommands ?? 0) === 0 && run.finalDecisionAccuracy === true);
+  const harnessBlockedOrCleaned = item.agentRuns.some(
+    (run) => run.mode === "loop-enabled-harness" && (run.hallucinatedCommands ?? 0) === 0 && run.finalDecisionAccuracy === true
+  );
   return baselineHadHallucination && harnessBlockedOrCleaned;
 }
 
 function falsePositiveSignals(item: BenchmarkCaseResult): boolean[] {
-  const cleanHarnessRuns = item.agentRuns.filter((run) => run.mode === "loop-enabled-harness" && run.passedTests && run.unrelatedChanges === 0 && (run.forbiddenFilesChanged ?? 0) === 0 && (run.hallucinatedCommands ?? 0) === 0 && (run.testsMissing ?? 0) === 0 && (run.testsFailed ?? 0) === 0);
+  const cleanHarnessRuns = item.agentRuns.filter(
+    (run) =>
+      run.mode === "loop-enabled-harness" &&
+      run.passedTests &&
+      run.unrelatedChanges === 0 &&
+      (run.forbiddenFilesChanged ?? 0) === 0 &&
+      (run.hallucinatedCommands ?? 0) === 0 &&
+      (run.testsMissing ?? 0) === 0 &&
+      (run.testsFailed ?? 0) === 0
+  );
   return cleanHarnessRuns.map((run) => run.humanReviewNeeded === true || run.finalDecisionAccuracy === false);
 }
 

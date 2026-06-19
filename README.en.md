@@ -43,7 +43,7 @@ Core loop:
 Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 ```
 
-The current implementation supports two paths. In agent-led mode, it is a Context / Policy / Trace reporting system plus an explicit runtime state machine. In Code Agent++-led mode, `orchestrate` invokes a replaceable executor, runs bounded `pack -> execute -> evaluate -> repair/repack/finalize` loops through `--max-loops`, and writes every iteration under `.agent-context/runs/<task-id>/iterations/`. It still does not replace the external coding agent, but it can own acceptance gates and the next-loop decision.
+The current implementation supports two paths. In agent-led mode, it is a Context / Policy / Trace reporting system plus an explicit runtime state machine. In Code Agent++-led mode, `orchestrate` invokes a replaceable executor, runs bounded `pack -> execute -> evaluate -> repair/repack/finalize` loops through `--max-loops`, and writes every iteration under `.agent-context/runs/<task-id>/iterations/`. It still does not replace the external coding agent and is not a fully autonomous coding agent; it provides context, constraints, evidence, gates, loop decision reports, and final reports, while real code edits are performed by the external executor.
 
 <p align="center">
   <img src="./assets/context-pack-demo.svg" width="900" alt="Code Agent++ final output animation">
@@ -110,7 +110,7 @@ This layer answers: where should the agent look, what must it avoid, what old fa
 
 ### 2. During Execution: Give Agents Boundaries
 
-Code Agent++ does not replace the coding agent. It attaches through Executor Adapters:
+Code Agent++ does not replace the coding agent. It attaches through Executor Adapters. Current adapter maturity is listed below:
 
 - OpenCode Executor
 - Codex CLI Executor
@@ -129,7 +129,7 @@ Code Agent++ plan
   -> verify and decide
 ```
 
-Key principle: **the coding agent may edit code, but it cannot self-certify completion.** Completion is judged by Code Agent++ using evidence, diffs, tests, and policy gates.
+Key principle: **the coding agent may edit code, but it cannot self-certify completion with natural language alone.** In harness-led loops, Code Agent++ produces `finalize / repair / repack / block / require-human-review` decisions from evidence, diffs, tests, and policy gates; the user or CI workflow still decides whether to merge.
 
 ### 3. After Execution: Make Changes Verifiable and Less Regression-Prone
 
@@ -179,7 +179,7 @@ Analyzes changed files, affected modules, downstream dependencies, tests to run,
 
 ### Loop Guard
 
-Controls repair/finalize decisions: finalize, rerun tests, repair code, repair tests, repack context, block, rollback, or require human review.
+Controls repair/finalize decision reports: finalize, rerun tests, repair code, repair tests, repack context, block, rollback, or require human review.
 
 See [Guard Modules](docs/guard-modules.md) for implementation details.
 
@@ -211,6 +211,7 @@ code-agent-plusplus trace run fix-login-timeout-bug . --action run-test --comman
 code-agent-plusplus policy . --base main --trace fix-login-timeout-bug --fail-on required
 code-agent-plusplus impact . --base main
 code-agent-plusplus verify --diff .
+code-agent-plusplus update .
 code-agent-plusplus freshness .
 code-agent-plusplus drift .
 ```
@@ -242,34 +243,61 @@ When `--checkpoint git-worktree` is enabled, Code Agent++ creates a Sandbox Gate
 
 ## Current Status
 
-| Capability                                           | Status                 |
-| ---------------------------------------------------- | ---------------------- |
-| `build` / `AGENTS.md` / `.agent-context`             | implemented            |
-| task plan / pack / run                               | implemented            |
-| TypeScript Compiler API analyzer                     | implemented            |
-| Python AST / optional Tree-sitter analyzer           | implemented            |
-| token savings estimated + actual output tokens       | implemented            |
-| readiness dimensions and hard caps                   | implemented            |
-| Context / Boundary / Evidence / Impact / Loop Guards | implemented foundation |
-| Hallucination Guard MVP                              | implemented foundation |
-| Regression Guard MVP                                 | implemented foundation |
-| Guard Gates / blocking actions                       | implemented            |
-| multi-loop harness orchestrator / `orchestrate`      | implemented            |
-| git-worktree executor sandbox                        | implemented            |
-| `agent run` executor wrapper                         | implemented            |
-| mock executor                                        | implemented            |
-| generic executor command adapter                     | implemented            |
-| native OpenCode event normalizer                     | implemented foundation |
-| native MiMoCode event normalizer                     | planned                |
-| runtime state machine / `state.json`                 | implemented            |
-| policy engine                                        | implemented            |
-| context delta analysis                               | implemented            |
-| tests / impact / verify                              | implemented            |
-| freshness / drift / manifest                         | implemented            |
-| MCP server scaffold                                  | implemented            |
-| Agent Native Runtime loop tools                      | experimental           |
-| benchmark harness                                    | implemented foundation |
-| direct LightRAG server sync                          | planned                |
+Maturity labels:
+
+| Status       | Meaning                                                                                   |
+| ------------ | ----------------------------------------------------------------------------------------- |
+| Stable       | Recommended by default, covered by tests and CLI docs.                                    |
+| Foundation   | Usable foundation with mostly stable interfaces; real-repo coverage is still expanding.   |
+| MVP          | Minimum viable implementation for trial and feedback; rules and data sources will expand. |
+| Experimental | Works end to end, but API, output, or integration shape may still change.                 |
+| Planned      | Roadmap target; the README does not present it as a completed capability.                 |
+
+Capability maturity:
+
+| Capability                                           | Maturity   |
+| ---------------------------------------------------- | ---------- |
+| `build` / `AGENTS.md` / `.agent-context`             | Stable     |
+| task plan / pack / run                               | Stable     |
+| TypeScript Compiler API analyzer                     | Stable     |
+| Python AST / optional Tree-sitter analyzer           | Foundation |
+| token savings estimated + actual output tokens       | Stable     |
+| readiness dimensions and hard caps                   | Stable     |
+| Context / Boundary / Evidence / Impact / Loop Guards | Foundation |
+| Hallucination Guard                                  | MVP        |
+| Regression Guard                                     | MVP        |
+| Guard Gates / blocking actions                       | Foundation |
+| bounded harness-led orchestrator / `orchestrate`     | Foundation |
+| git-worktree executor sandbox                        | Foundation |
+| `agent run` executor wrapper                         | Foundation |
+| runtime state machine / `state.json`                 | Foundation |
+| policy engine                                        | Foundation |
+| context delta analysis / `delta` / `evolve`          | Foundation |
+| `update` cache-aware full context refresh            | Stable     |
+| tests / impact / verify                              | Stable     |
+| freshness / drift / manifest                         | Stable     |
+| benchmark harness                                    | Foundation |
+
+Executor Adapter maturity:
+
+| Executor / Adapter                   | Maturity   | Notes                                                                                       |
+| ------------------------------------ | ---------- | ------------------------------------------------------------------------------------------- |
+| mock executor                        | Stable     | Default benchmark / demo executor.                                                          |
+| generic `--executor-command` adapter | Foundation | Can call scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.        |
+| OpenCode event normalizer            | Foundation | Supports `opencode run --format json` stdout, transcript files, and stdout/stderr fallback. |
+| MiMoCode native normalizer           | Planned    | Native event format support is planned.                                                     |
+| Codex JSONL normalizer               | Planned    | Currently callable through the generic command adapter.                                     |
+| Claude Code transcript normalizer    | Planned    | Currently callable through the generic command adapter.                                     |
+| Cursor native adapter                | Planned    | Current integration is through docs, MCP, and generic command hooks.                        |
+
+MCP / RAG maturity:
+
+| Capability                                | Maturity     | Notes                                                                                                                         |
+| ----------------------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| MCP stdio server + core tools             | Foundation   | Core tools such as `build/plan/pack/retrieve/tests/impact/verify/explain` are available.                                      |
+| MCP Agent Native Runtime tools            | Experimental | `start_loop/step/evaluate/repair/finalize` return structured fields, but end-to-end clients still need per-client validation. |
+| RAG export / retriever provider interface | Foundation   | RAG documents can be exported and searched through provider adapters.                                                         |
+| direct LightRAG server sync               | Planned      | Direct sync into a LightRAG server remains on the roadmap.                                                                    |
 
 ## Outputs
 
@@ -334,6 +362,7 @@ code-agent-plusplus impact [repo] --base main --backend codegraph
 code-agent-plusplus verify --diff [repo]
 code-agent-plusplus delta [repo] --base main
 code-agent-plusplus evolve [repo] --base main
+code-agent-plusplus update [repo] --since main
 code-agent-plusplus loop "<task>" [repo] --phase after-edit
 code-agent-plusplus validate [repo]
 code-agent-plusplus validate-contracts [repo]
@@ -367,20 +396,20 @@ Core output metrics include: `wrong_files_changed`, `forbidden_files_changed`, `
 
 ## Code Agent Integration
 
-Code Agent++ is an External Agent Harness Control Plane for code agents. Codex, Claude Code, Cursor, OpenCode, and MiMoCode remain responsible for reading code, editing code, and running commands; Code Agent++ provides task context, edit boundaries, execution evidence, and the verification loop.
+Code Agent++ is a bounded harness-led control loop for code agents. Codex, Claude Code, Cursor, OpenCode, and MiMoCode remain responsible for reading code, editing code, and running commands; Code Agent++ provides task context, edit boundaries, execution evidence, gates, loop decision reports, and final reports.
 
 ```txt
 Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> read code, edit code, run commands, call tools
 
 Code Agent++
-  -> context, boundaries, traces, policies, impact, tests, verify, repair/finalize decisions
+  -> context, boundaries, traces, policies, impact, tests, verify, repair/finalize decision reports
 ```
 
 The project supports two operating modes:
 
 - Code agent-led, Code Agent++ constrained: the agent calls CLI / MCP tools, but the host agent still decides whether to obey gates.
-- Code Agent++-led, code agent as executor: Code Agent++ owns plan / pack / execute / collect evidence / policy / verify / decision; the external agent is a replaceable coding executor.
+- Code Agent++-led, code agent as executor: Code Agent++ runs plan / pack / execute / collect evidence / policy / verify / decision reports; the external agent is a replaceable coding executor. This is a bounded harness-led loop, not a fully autonomous coding agent.
 
 For the detailed entry-point isolation guide, see [docs/integration-modes.md](docs/integration-modes.md).
 
@@ -402,11 +431,11 @@ Positioning:
 
 - Internal graph = portable foundation.
 - CodeGraph backend = optional deep code intelligence.
-- Harness decisions = still owned by Code Agent++.
+- Harness gate decisions = produced by Code Agent++; real edits are still performed by the external executor.
 
 ## MCP / Agent Native Runtime
 
-`code-agent-plusplus-mcp` currently provides a stdio MCP server and tool definitions. It can be wired into MCP-capable clients or custom agents; Codex CLI, Claude Code, Cursor, OpenCode, MiMoCode, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
+`code-agent-plusplus-mcp` currently provides a foundation stdio MCP server and core tools. It can be wired into MCP-capable clients or custom agents; Agent Native Runtime tools are still experimental, and Codex CLI, Claude Code, Cursor, OpenCode, MiMoCode, LibreChat, and OpenHands integrations still need per-client end-to-end validation.
 
 ```txt
 code_agent_plusplus_start_loop

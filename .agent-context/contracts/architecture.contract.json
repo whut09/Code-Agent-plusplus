@@ -112,10 +112,10 @@
       ],
       "imports": [
         "core",
-        "integrations",
-        "sandbox"
+        "harness",
+        "integrations"
       ],
-      "summary": "outputs contains 32 files and depends on core, integrations, sandbox."
+      "summary": "outputs contains 27 files and depends on core, harness, integrations."
     },
     {
       "name": "test",
@@ -128,12 +128,13 @@
         "cli",
         "config",
         "core",
+        "harness",
         "integrations",
         "mcp",
         "outputs",
         "retrievers"
       ],
-      "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, integrations, mcp, outputs, retrievers."
+      "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers."
     },
     {
       "name": "core",
@@ -147,6 +148,18 @@
         "outputs"
       ],
       "summary": "core contains 18 files and depends on analyzers, config, llm, outputs."
+    },
+    {
+      "name": "harness",
+      "owns": [
+        "src/harness/**"
+      ],
+      "imports": [
+        "core",
+        "outputs",
+        "sandbox"
+      ],
+      "summary": "harness contains 9 files and depends on core, outputs, sandbox."
     },
     {
       "name": "retrievers",
@@ -168,9 +181,10 @@
       ],
       "imports": [
         "core",
+        "harness",
         "outputs"
       ],
-      "summary": "benchmarks contains 25 files and depends on core, outputs."
+      "summary": "benchmarks contains 25 files and depends on core, harness, outputs."
     },
     {
       "name": "analyzers",
@@ -217,11 +231,12 @@
         "benchmarks",
         "config",
         "core",
+        "harness",
         "integrations",
         "outputs",
         "retrievers"
       ],
-      "summary": "cli contains 2 files and depends on benchmarks, config, core, integrations, outputs, retrievers."
+      "summary": "cli contains 2 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers."
     },
     {
       "name": "sandbox",
@@ -258,10 +273,11 @@
       ],
       "imports": [
         "core",
+        "harness",
         "outputs",
         "retrievers"
       ],
-      "summary": "mcp contains 1 file and depends on core, outputs, retrievers."
+      "summary": "mcp contains 1 file and depends on core, harness, outputs, retrievers."
     },
     {
       "name": "benchmarks/fixtures/monorepo/packages/config",

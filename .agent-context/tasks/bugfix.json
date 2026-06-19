@@ -2,23 +2,34 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 8570,
-  "remainingBudget": 3430,
+  "estimatedTokens": 7529,
+  "remainingBudget": 4471,
   "files": [
     {
-      "path": "src/outputs/regression-guard.ts",
-      "score": 216,
+      "path": "src/harness/verification-plane/guards/regression-memory.ts",
+      "score": 217,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 297
+      "estimatedTokens": 332
+    },
+    {
+      "path": "src/harness/verification-plane/guards/regression.ts",
+      "score": 213,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 318
     },
     {
       "path": "benchmarks/tasks/regression-session-ttl.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -27,7 +38,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -36,7 +47,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -45,7 +56,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -54,7 +65,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -62,25 +73,15 @@
       "estimatedTokens": 54
     },
     {
-      "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 156,
-      "reasons": [
-        "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 466
-    },
-    {
       "path": "src/cli/index.ts",
       "score": 68,
       "reasons": [
-        "direct importer of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts",
+        "direct importer of src/harness/verification-plane/guards/regression.ts",
+        "direct importer of src/harness/verification-plane/guards/regression-memory.ts",
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 315
+      "estimatedTokens": 350
     },
     {
       "path": "src/mcp/server.ts",
@@ -93,24 +94,24 @@
     },
     {
       "path": "test/regression-guard.test.ts",
-      "score": 231,
+      "score": 256,
       "reasons": [
         "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts",
+        "direct importer of src/harness/verification-plane/guards/regression.ts",
+        "direct importer of src/harness/verification-plane/guards/regression-memory.ts",
         "related test"
       ],
       "category": "test",
-      "estimatedTokens": 86
+      "estimatedTokens": 106
     },
     {
-      "path": "test/agent-benchmark.test.ts",
-      "score": 63,
+      "path": "test/task-harness.test.ts",
+      "score": 35,
       "reasons": [
-        "direct importer of src/benchmarks/agent-benchmark.ts",
         "related test"
       ],
       "category": "test",
-      "estimatedTokens": 53
+      "estimatedTokens": 84
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -176,76 +177,93 @@
       "estimatedTokens": 63
     },
     {
-      "path": "src/outputs/policy-engine.ts",
-      "score": 204,
+      "path": "src/harness/control-plane/orchestrator.ts",
+      "score": 183,
+      "reasons": [
+        "lexical match: regression",
+        "direct importer of src/harness/verification-plane/guards/regression.ts",
+        "direct importer of src/harness/verification-plane/guards/regression-memory.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 618
+    },
+    {
+      "path": "src/harness/verification-plane/policy-engine.ts",
+      "score": 179,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 271
+      "estimatedTokens": 310
     },
     {
       "path": "src/outputs/task-run.ts",
-      "score": 204,
+      "score": 179,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 203
     },
     {
-      "path": "src/outputs/orchestrator.ts",
-      "score": 180,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 626
-    },
-    {
       "path": "src/outputs/task-context.ts",
-      "score": 180,
+      "score": 179,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 260
     },
     {
-      "path": "src/outputs/writer.ts",
-      "score": 175,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 265
-    },
-    {
       "path": "src/outputs/task-harness.ts",
-      "score": 156,
+      "score": 155,
       "reasons": [
         "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 280
     },
     {
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 155,
+      "reasons": [
+        "lexical match: regression",
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 466
+    },
+    {
+      "path": "src/outputs/test-selector.ts",
+      "score": 151,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 249
+    },
+    {
+      "path": "src/outputs/renderers/writer.ts",
+      "score": 149,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of test/regression-guard.test.ts",
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 270
+    },
+    {
       "path": "src/integrations/codegraph.ts",
-      "score": 128,
+      "score": 127,
       "reasons": [
         "lexical match: regression"
       ],
@@ -253,133 +271,87 @@
       "estimatedTokens": 294
     },
     {
-      "path": "src/outputs/test-selector.ts",
-      "score": 128,
-      "reasons": [
-        "lexical match: regression"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 249
-    },
-    {
       "path": "src/outputs/guard-gates.ts",
-      "score": 128,
+      "score": 127,
       "reasons": [
         "lexical match: regression"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 194
+      "estimatedTokens": 195
     },
     {
       "path": "src/outputs/guard-finding.ts",
-      "score": 127,
+      "score": 125,
       "reasons": [
         "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 126
+      "estimatedTokens": 132
     },
     {
       "path": "src/core/git.ts",
       "score": 72,
       "reasons": [
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct dependency of src/outputs/regression-guard.ts"
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts",
+        "direct dependency of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 78
     },
     {
-      "path": "src/outputs/execution-trace.ts",
+      "path": "src/harness/observability/execution-trace.ts",
       "score": 48,
       "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct dependency of src/outputs/regression-guard.ts"
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts",
+        "direct dependency of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 330
-    },
-    {
-      "path": "src/core/context-builder.ts",
-      "score": 48,
-      "reasons": [
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 106
-    },
-    {
-      "path": "src/outputs/markdown.ts",
-      "score": 48,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct dependency of src/outputs/regression-guard.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 68
-    },
-    {
-      "path": "src/outputs/loop-controller.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 302
-    },
-    {
-      "path": "src/outputs/hallucination-guard.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 467
-    },
-    {
-      "path": "src/benchmarks/benchmark.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 468
-    },
-    {
-      "path": "src/core/safe-command.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 158
+      "estimatedTokens": 337
     },
     {
       "path": "src/core/types.ts",
-      "score": 24,
+      "score": 48,
       "reasons": [
-        "direct dependency of src/outputs/regression-guard.ts"
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts",
+        "direct dependency of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 300
     },
     {
-      "path": "src/outputs/agent-events.ts",
+      "path": "src/core/context-builder.ts",
       "score": 24,
       "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
+        "direct dependency of test/regression-guard.test.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 293
+      "estimatedTokens": 106
+    },
+    {
+      "path": "src/outputs/renderers/markdown.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/harness/verification-plane/guards/regression.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 73
+    },
+    {
+      "path": "src/harness/types.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/harness/verification-plane/guards/regression.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 153
     },
     {
       "path": "src/outputs/evidence.ts",
       "score": 24,
       "reasons": [
-        "direct dependency of src/outputs/regression-guard.ts"
+        "direct dependency of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 224
@@ -403,15 +375,6 @@
       "estimatedTokens": 28
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 44
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
       "score": 14,
       "reasons": [
@@ -419,6 +382,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 45
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+      "score": 14,
+      "reasons": [
+        "owning module documentation"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 44
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
@@ -475,6 +447,15 @@
       "estimatedTokens": 42
     },
     {
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
+    },
+    {
       "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
@@ -491,15 +472,6 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
-    },
-    {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -540,19 +512,30 @@
   ],
   "readFirst": [
     {
-      "path": "src/outputs/regression-guard.ts",
-      "score": 216,
+      "path": "src/harness/verification-plane/guards/regression-memory.ts",
+      "score": 217,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "direct-source",
-      "estimatedTokens": 297
+      "estimatedTokens": 332
+    },
+    {
+      "path": "src/harness/verification-plane/guards/regression.ts",
+      "score": 213,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of test/regression-guard.test.ts",
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts"
+      ],
+      "category": "direct-source",
+      "estimatedTokens": 318
     },
     {
       "path": "benchmarks/tasks/regression-session-ttl.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -561,7 +544,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -570,7 +553,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -579,7 +562,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -588,7 +571,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-      "score": 168,
+      "score": 165,
       "reasons": [
         "lexical match: regression"
       ],
@@ -596,48 +579,38 @@
       "estimatedTokens": 54
     },
     {
-      "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 156,
-      "reasons": [
-        "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "direct-source",
-      "estimatedTokens": 466
-    },
-    {
       "path": "src/cli/index.ts",
       "score": 68,
       "reasons": [
-        "direct importer of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts",
+        "direct importer of src/harness/verification-plane/guards/regression.ts",
+        "direct importer of src/harness/verification-plane/guards/regression-memory.ts",
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 315
+      "estimatedTokens": 350
     }
   ],
   "inspectIfNeeded": [
     {
       "path": "test/regression-guard.test.ts",
-      "score": 231,
+      "score": 256,
       "reasons": [
         "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts",
+        "direct importer of src/harness/verification-plane/guards/regression.ts",
+        "direct importer of src/harness/verification-plane/guards/regression-memory.ts",
         "related test"
       ],
       "category": "test",
-      "estimatedTokens": 86
+      "estimatedTokens": 106
     },
     {
-      "path": "test/agent-benchmark.test.ts",
-      "score": 63,
+      "path": "test/task-harness.test.ts",
+      "score": 35,
       "reasons": [
-        "direct importer of src/benchmarks/agent-benchmark.ts",
         "related test"
       ],
       "category": "test",
-      "estimatedTokens": 53
+      "estimatedTokens": 84
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -703,109 +676,106 @@
       "estimatedTokens": 63
     },
     {
-      "path": "src/outputs/policy-engine.ts",
-      "score": 204,
+      "path": "src/harness/control-plane/orchestrator.ts",
+      "score": 183,
+      "reasons": [
+        "lexical match: regression",
+        "direct importer of src/harness/verification-plane/guards/regression.ts",
+        "direct importer of src/harness/verification-plane/guards/regression-memory.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 618
+    },
+    {
+      "path": "src/harness/verification-plane/policy-engine.ts",
+      "score": 179,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 271
+      "estimatedTokens": 310
     },
     {
       "path": "src/outputs/task-run.ts",
-      "score": 204,
+      "score": 179,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 203
     },
     {
-      "path": "src/outputs/orchestrator.ts",
-      "score": 180,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 626
-    },
-    {
       "path": "src/outputs/task-context.ts",
-      "score": 180,
+      "score": 179,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 260
     },
     {
-      "path": "src/outputs/writer.ts",
-      "score": 175,
-      "reasons": [
-        "lexical match: regression",
-        "direct dependency of test/regression-guard.test.ts",
-        "direct dependency of src/benchmarks/agent-benchmark.ts",
-        "direct importer of src/outputs/regression-guard.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 265
-    },
-    {
       "path": "src/outputs/task-harness.ts",
-      "score": 156,
+      "score": 155,
       "reasons": [
         "lexical match: regression",
-        "direct importer of src/outputs/regression-guard.ts"
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 280
     },
     {
-      "path": "src/integrations/codegraph.ts",
-      "score": 128,
+      "path": "src/benchmarks/agent-benchmark.ts",
+      "score": 155,
       "reasons": [
-        "lexical match: regression"
+        "lexical match: regression",
+        "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 294
+      "estimatedTokens": 466
+    },
+    {
+      "path": "src/outputs/test-selector.ts",
+      "score": 151,
+      "reasons": [
+        "lexical match: regression",
+        "direct dependency of src/harness/verification-plane/guards/regression-memory.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 249
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 8570,
-    "remaining": 3430,
+    "used": 7529,
+    "remaining": 4471,
     "buckets": [
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 1021,
+        "tokens": 908,
         "files": [
-          "src/outputs/regression-guard.ts",
+          "src/harness/verification-plane/guards/regression-memory.ts",
+          "src/harness/verification-plane/guards/regression.ts",
           "benchmarks/tasks/regression-session-ttl.json",
           "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
           "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
           "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-          "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-          "src/benchmarks/agent-benchmark.ts"
+          "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json"
         ]
       },
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 588,
+        "tokens": 639,
         "files": [
           "test/regression-guard.test.ts",
-          "test/agent-benchmark.test.ts",
+          "test/task-harness.test.ts",
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
@@ -818,28 +788,25 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 5562,
+        "tokens": 4548,
         "files": [
-          "src/outputs/policy-engine.ts",
+          "src/harness/control-plane/orchestrator.ts",
+          "src/harness/verification-plane/policy-engine.ts",
           "src/outputs/task-run.ts",
-          "src/outputs/orchestrator.ts",
           "src/outputs/task-context.ts",
-          "src/outputs/writer.ts",
           "src/outputs/task-harness.ts",
-          "src/integrations/codegraph.ts",
+          "src/benchmarks/agent-benchmark.ts",
           "src/outputs/test-selector.ts",
+          "src/outputs/renderers/writer.ts",
+          "src/integrations/codegraph.ts",
           "src/outputs/guard-gates.ts",
           "src/outputs/guard-finding.ts",
           "src/core/git.ts",
-          "src/outputs/execution-trace.ts",
-          "src/core/context-builder.ts",
-          "src/outputs/markdown.ts",
-          "src/outputs/loop-controller.ts",
-          "src/outputs/hallucination-guard.ts",
-          "src/benchmarks/benchmark.ts",
-          "src/core/safe-command.ts",
+          "src/harness/observability/execution-trace.ts",
           "src/core/types.ts",
-          "src/outputs/agent-events.ts",
+          "src/core/context-builder.ts",
+          "src/outputs/renderers/markdown.ts",
+          "src/harness/types.ts",
           "src/outputs/evidence.ts"
         ]
       },
@@ -850,17 +817,17 @@
         "files": [
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
-          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/config/README.md",
+          "benchmarks/fixtures/monorepo/packages/web/README.md",
           "benchmarks/fixtures/monorepo/packages/api/package.json",
           "package.json",
           "benchmarks/fixtures/fastapi-app/pyproject.toml",
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           ".env.example",
           "code-agent-plusplus.config.yml",
           "tsconfig.json",
@@ -870,7 +837,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 720,
+        "tokens": 755,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"
@@ -888,7 +855,7 @@
   },
   "retrieval": {
     "directMatches": 8,
-    "dependencyNeighbors": 38,
+    "dependencyNeighbors": 33,
     "tests": 9,
     "configDocs": 17
   }

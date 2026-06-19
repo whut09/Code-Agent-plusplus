@@ -115,6 +115,7 @@ export function ensureRegressionMemory(context: ContextPackage): string[] {
   mkdirSync(dir, { recursive: true });
   const written: string[] = [];
   for (const item of MEMORY_FILES) {
+    if (item.file === "fix-history.json") continue;
     const filePath = path.join(dir, item.file);
     if (existsSync(filePath)) continue;
     writeFileSync(filePath, "[]\n", "utf8");

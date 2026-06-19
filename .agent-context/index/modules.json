@@ -12,37 +12,32 @@
       "src/outputs/contracts.ts",
       "src/outputs/dependency-graph.ts",
       "src/outputs/evidence.ts",
-      "src/outputs/execution-trace.ts",
       "src/outputs/guard-finding.ts",
       "src/outputs/guard-gates.ts",
-      "src/outputs/hallucination-guard.ts",
       "src/outputs/impact.ts",
       "src/outputs/key-files.ts",
-      "src/outputs/loop-controller.ts",
-      "src/outputs/markdown.ts",
       "src/outputs/module-map.ts",
       "src/outputs/onboarding.ts",
-      "src/outputs/orchestrator.ts",
-      "src/outputs/policy-engine.ts",
       "src/outputs/rag.ts",
       "src/outputs/readiness.ts",
-      "src/outputs/regression-guard.ts",
+      "src/outputs/renderers/markdown.ts",
+      "src/outputs/renderers/reports.ts",
+      "src/outputs/renderers/writer.ts",
       "src/outputs/repo-summary.ts",
       "src/outputs/runtime-state.ts",
       "src/outputs/task-context.ts",
       "src/outputs/task-harness.ts",
       "src/outputs/task-run.ts",
       "src/outputs/test-selector.ts",
-      "src/outputs/token-savings.ts",
-      "src/outputs/writer.ts"
+      "src/outputs/token-savings.ts"
     ],
     "imports": [
       "core",
-      "integrations",
-      "sandbox"
+      "harness",
+      "integrations"
     ],
-    "summary": "outputs contains 32 files and depends on core, integrations, sandbox.",
-    "importanceScore": 1768
+    "summary": "outputs contains 27 files and depends on core, harness, integrations.",
+    "importanceScore": 1320
   },
   {
     "name": "test",
@@ -90,12 +85,13 @@
       "cli",
       "config",
       "core",
+      "harness",
       "integrations",
       "mcp",
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, integrations, mcp, outputs, retrievers.",
+    "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
     "importanceScore": 1262
   },
   {
@@ -129,6 +125,28 @@
     ],
     "summary": "core contains 18 files and depends on analyzers, config, llm, outputs.",
     "importanceScore": 941
+  },
+  {
+    "name": "harness",
+    "pathPrefix": "harness",
+    "files": [
+      "src/harness/control-plane/decision-engine.ts",
+      "src/harness/control-plane/loop-controller.ts",
+      "src/harness/control-plane/orchestrator.ts",
+      "src/harness/observability/execution-trace.ts",
+      "src/harness/types.ts",
+      "src/harness/verification-plane/guards/hallucination.ts",
+      "src/harness/verification-plane/guards/regression-memory.ts",
+      "src/harness/verification-plane/guards/regression.ts",
+      "src/harness/verification-plane/policy-engine.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs",
+      "sandbox"
+    ],
+    "summary": "harness contains 9 files and depends on core, outputs, sandbox.",
+    "importanceScore": 654
   },
   {
     "name": "retrievers",
@@ -182,9 +200,10 @@
     ],
     "imports": [
       "core",
+      "harness",
       "outputs"
     ],
-    "summary": "benchmarks contains 25 files and depends on core, outputs.",
+    "summary": "benchmarks contains 25 files and depends on core, harness, outputs.",
     "importanceScore": 266
   },
   {
@@ -274,11 +293,12 @@
       "benchmarks",
       "config",
       "core",
+      "harness",
       "integrations",
       "outputs",
       "retrievers"
     ],
-    "summary": "cli contains 2 files and depends on benchmarks, config, core, integrations, outputs, retrievers.",
+    "summary": "cli contains 2 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
     "importanceScore": 116
   },
   {
@@ -293,7 +313,7 @@
       "core"
     ],
     "summary": "sandbox contains 3 files and depends on core.",
-    "importanceScore": 111
+    "importanceScore": 109
   },
   {
     "name": "test/fixtures/monorepo/packages/api",
@@ -329,10 +349,11 @@
     ],
     "imports": [
       "core",
+      "harness",
       "outputs",
       "retrievers"
     ],
-    "summary": "mcp contains 1 file and depends on core, outputs, retrievers.",
+    "summary": "mcp contains 1 file and depends on core, harness, outputs, retrievers.",
     "importanceScore": 91
   },
   {

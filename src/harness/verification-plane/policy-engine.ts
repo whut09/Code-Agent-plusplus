@@ -307,7 +307,8 @@ export function renderPolicyReport(report: PolicyEngineReport): string {
 }
 
 function policyFindingToResult(finding: PolicyFinding): GuardResult {
-  const blocking = finding.blocking ?? ((finding.kind === "forbidden" && finding.status === "failed") || (finding.kind === "required" && finding.status === "missing"));
+  const blocking =
+    finding.blocking ?? ((finding.kind === "forbidden" && finding.status === "failed") || (finding.kind === "required" && finding.status === "missing"));
   return createGuardResult({
     id: finding.id,
     source: "policy",

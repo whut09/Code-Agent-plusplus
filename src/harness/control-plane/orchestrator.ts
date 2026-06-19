@@ -10,7 +10,12 @@ import { HostSandboxAdapter } from "../../sandbox/host-sandbox.js";
 import type { ExecResult, SandboxAdapter, SandboxHandle } from "../../sandbox/sandbox-adapter.js";
 import { normalizeAgentEvents, type AgentEvent } from "../../outputs/agent-events.js";
 import { writeContextPackage } from "../../outputs/renderers/writer.js";
-import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport, type HallucinationGuardReport } from "../verification-plane/guards/hallucination.js";
+import {
+  buildHallucinationReport,
+  renderHallucinationReport,
+  writeHallucinationReport,
+  type HallucinationGuardReport
+} from "../verification-plane/guards/hallucination.js";
 import { renderChangeImpactReport } from "../../outputs/impact.js";
 import { buildRegressionReport, renderRegressionReport, writeRegressionReport, type RegressionGuardReport } from "../verification-plane/guards/regression.js";
 import { writeFinalizeMemoryCandidate } from "../verification-plane/guards/regression-memory.js";
@@ -411,7 +416,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     const impactMd = renderChangeImpactReport(latestContext, { base });
     const verifyMd = renderTaskVerify(latestContext, { base, diff: true });
     const loopMd = renderLoopControllerReport(latestLoop);
-    const memoryCandidate = latestDecision.action === "finalize" ? writeFinalizeMemoryCandidate(latestContext, task, base, latestChangedFiles, root) : undefined;
+    const memoryCandidate =
+      latestDecision.action === "finalize" ? writeFinalizeMemoryCandidate(latestContext, task, base, latestChangedFiles, root) : undefined;
     report.artifacts.memoryCandidateFile = memoryCandidate?.file;
     if (sandboxHandle.mode === "git-worktree") {
       await sandbox.discard();
@@ -728,7 +734,7 @@ function buildExecutorPrompt(
     basePrompt.trim(),
     "",
     "Harness control-plane requirements:",
-    "- Code Agent++ owns context, boundaries, trace evidence, policy, impact, verify, and final gate decisions.",
+    "- Code Agent++ provides context, boundaries, trace evidence, policy, impact, verify, and final gate decision reports.",
     "- The selected code agent owns reading source files, editing code, and running commands.",
     "- Inspect relevant source files before behavior-changing edits.",
     "- Keep changes inside the edit boundary unless the task cannot be completed otherwise.",
@@ -740,9 +746,8 @@ function buildExecutorPrompt(
           "",
           "Previous harness decision:",
           `- Action: ${previousDecision.action}`,
-          `- Reason: ${previousDecision.reason}`,
-          previousDecision.nextCommand ? `- Suggested command: ${previousDecision.nextCommand}` : "",
-          ...previousDecision.signals.map((signal) => `- Signal: ${signal}`)
+          ...previousDecision.reasons.map((reason) => `- Reason: ${reason}`),
+          ...previousDecision.requiredCommands.map((command) => `- Suggested command: ${command}`)
         ].filter(Boolean)
       : [])
   ].join("\n");

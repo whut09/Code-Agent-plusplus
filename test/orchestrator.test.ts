@@ -48,7 +48,12 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
 
     const decisionArtifact = JSON.parse(
       readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "decision.json"), "utf8")
-    ) as { schemaVersion: string; kind: string; decision: { action: string; reasons: string[]; requiredCommands: string[] }; priorityOrder: Record<string, number> };
+    ) as {
+      schemaVersion: string;
+      kind: string;
+      decision: { action: string; reasons: string[]; requiredCommands: string[] };
+      priorityOrder: Record<string, number>;
+    };
     assert.equal(decisionArtifact.schemaVersion, "code-agent-plusplus.decision.v1");
     assert.equal(decisionArtifact.kind, "decision");
     assert.equal(decisionArtifact.decision.action, "finalize");

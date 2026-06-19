@@ -1,6 +1,6 @@
 # Cursor MCP Integration
 
-This guide connects Cursor to Code Agent++ through the stdio MCP server. Cursor remains the editor and coding agent; Code Agent++ provides task-aware context, edit boundaries, evidence gates, and loop decisions.
+This guide connects Cursor to Code Agent++ through the stdio MCP server. Cursor remains the editor and coding agent; Code Agent++ provides task-aware context, edit boundaries, evidence gates, and loop decision reports.
 
 ## Configuration
 

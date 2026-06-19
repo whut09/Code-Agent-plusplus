@@ -1,6 +1,6 @@
 # Integration Modes and Entry Isolation
 
-Code Agent++ supports two separate flows. The difference is not whether AI is used; the difference is who owns control.
+Code Agent++ supports two separate flows. The difference is not whether AI is used; the difference is where the control boundary sits.
 
 In both flows, Guard modules provide the reliability layer:
 
@@ -11,14 +11,14 @@ In both flows, Guard modules provide the reliability layer:
 - Impact Guard explains blast radius and review risk.
 - Loop Guard decides whether to finalize, repair, repack, block, or require human review.
 
-The difference is whether those Guards are advisory signals for the host agent or acceptance gates owned by Code Agent++.
+The difference is whether those Guards are advisory signals for the host agent or bounded gates evaluated by Code Agent++ after executor output.
 
 ## Summary
 
-| Mode                                     | Controller                                         | Entry Points                                                                                                 | Executes a code agent?                      | Best For                                                                           |
-| ---------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Code agent-led, Code Agent++ constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `code_agent_plusplus_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                          |
-| Code Agent++-led, code agent as executor | Code Agent++                                       | `code-agent-plusplus orchestrate` or `code-agent-plusplus agent run`                                         | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, Code Agent++ deciding finalize/repair/repack/block |
+| Mode                                     | Controller                                         | Entry Points                                                                                                 | Executes a code agent?                      | Best For                                                                            |
+| ---------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Code agent-led, Code Agent++ constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `code_agent_plusplus_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                           |
+| Code Agent++-led, code agent as executor | Code Agent++ bounded loop                          | `code-agent-plusplus orchestrate` or `code-agent-plusplus agent run`                                         | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, Code Agent++ reporting finalize/repair/repack/block |
 
 The entry points are isolated:
 
@@ -75,11 +75,11 @@ Guarantee boundary:
 
 - This mode guarantees that context, boundaries, test recommendations, impact reports, and policy reports are available.
 - Guard findings are advisory unless the host agent chooses to obey them.
-- It cannot guarantee that the external code agent follows the report, because the external agent owns control.
+- It cannot guarantee that the external code agent follows the report, because the external agent remains the active controller in this mode.
 
 ## Mode 2: Code Agent++-Led, Code Agent As Executor
 
-In this mode, Code Agent++ owns orchestration and acceptance. The code agent is a replaceable executor.
+In this mode, Code Agent++ runs a bounded harness-led loop around a replaceable executor. It is not a fully autonomous coding agent: the external executor still performs real code edits, while Code Agent++ prepares context, invokes the executor, collects evidence, evaluates gates, and writes the final decision report.
 
 ```txt
 User task
@@ -138,12 +138,12 @@ Guarantee boundary:
 
 - This mode guarantees that each run collects diff, trace, and executor events.
 - It guarantees one gate over Guard findings, policy / contracts / tests / impact / verify.
-- It produces an explicit decision: `finalize`, `repair`, `repack`, `block`, `rollback`, or `human-review`.
+- It produces an explicit decision report: `finalize`, `repair`, `repack`, `block`, `rollback`, or `require-human-review`.
 - `--checkpoint git-worktree` creates a Sandbox Gateway git worktree under `.agent-context/worktrees/<run-id>/`, runs the executor in that isolated checkout, exports the gateway patch to `.agent-context/worktrees/<run-id>/diff.patch` and mirrors each iteration patch into `.agent-context/runs/<task-id>/iterations/<nnn>/`, then discards the worktree. Code Agent++ records rollback decisions and checkpoint evidence, but it intentionally avoids destructive rollback commands in the user's working tree.
-- It cannot guarantee that the external executor edits code correctly; it guarantees auditable acceptance and next-step decisions after execution.
+- It cannot guarantee that the external executor edits code correctly; it guarantees auditable gates and next-step decision reports after execution.
 
 ## Which Mode Should I Use?
 
 - Use mode 1 when you want Codex / Claude Code / Cursor / OpenCode / MiMoCode to naturally call the tools.
-- Use mode 2 when Code Agent++ should own acceptance and treat the code agent as a coding tool.
+- Use mode 2 when Code Agent++ should own the bounded gate/report loop and treat the code agent as a coding tool.
 - For CI or automation demos, start with mode 2 and `--executor mock`, then wire OpenCode or MiMoCode through `--executor-command`.

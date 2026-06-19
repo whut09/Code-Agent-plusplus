@@ -236,7 +236,7 @@ Goals:
 
 ## Loop Guard
 
-Loop Guard controls repair/finalize decisions. It does not accept “done” from the agent by default; it uses state, evidence, policy, and impact analysis to choose the next action.
+Loop Guard produces repair/finalize decision reports. It does not accept “done” from the agent by default; it uses state, evidence, policy, and impact analysis to report the next action.
 
 Decisions:
 

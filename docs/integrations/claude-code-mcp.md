@@ -1,6 +1,6 @@
 # Claude Code MCP Integration
 
-This guide connects Claude Code to Code Agent++ as an MCP reliability backend. Claude Code performs code edits; Code Agent++ returns repository context, boundaries, evidence requirements, and loop decisions.
+This guide connects Claude Code to Code Agent++ as an MCP reliability backend. Claude Code performs code edits; Code Agent++ returns repository context, boundaries, evidence requirements, and loop decision reports.
 
 ## Configuration
 

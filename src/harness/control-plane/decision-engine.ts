@@ -47,7 +47,11 @@ export function decideHarnessAction(input: DecisionEngineInput): HarnessDecision
       action: input.checkpointMode === "git-worktree" ? "rollback" : "block",
       blocking: true,
       confidence: 0.96,
-      reasons: ["Forbidden policy findings were detected in the diff.", `forbidden findings: ${input.policy.summary.forbidden}`, `policy fail-on: ${input.policy.failOn}`],
+      reasons: [
+        "Forbidden policy findings were detected in the diff.",
+        `forbidden findings: ${input.policy.summary.forbidden}`,
+        `policy fail-on: ${input.policy.failOn}`
+      ],
       artifacts: input.artifacts ?? []
     });
   }
@@ -58,7 +62,12 @@ export function decideHarnessAction(input: DecisionEngineInput): HarnessDecision
       action: decisionForGate(blockingGate.action, input.checkpointMode),
       blocking: true,
       confidence: 0.93,
-      reasons: [`${blockingGate.guard} guard blocked: ${blockingGate.condition}.`, `guard: ${blockingGate.guard}`, `condition: ${blockingGate.condition}`, ...blockingGate.evidence.slice(0, 5)],
+      reasons: [
+        `${blockingGate.guard} guard blocked: ${blockingGate.condition}.`,
+        `guard: ${blockingGate.guard}`,
+        `condition: ${blockingGate.condition}`,
+        ...blockingGate.evidence.slice(0, 5)
+      ],
       requiredCommands: commandForGate(blockingGate.action),
       artifacts: input.artifacts ?? []
     });
@@ -76,9 +85,7 @@ export function decideHarnessAction(input: DecisionEngineInput): HarnessDecision
     });
   }
 
-  const needsRepair = input.loop.decisions.find(
-    (item) => item.action === "repair-contracts" || item.action === "add-or-update-tests"
-  );
+  const needsRepair = input.loop.decisions.find((item) => item.action === "repair-contracts" || item.action === "add-or-update-tests");
   const needsTests = input.loop.decisions.find((item) => item.action === "run-tests");
   if (needsTests) {
     return decision({
@@ -96,7 +103,10 @@ export function decideHarnessAction(input: DecisionEngineInput): HarnessDecision
       action: "repair",
       blocking: true,
       confidence: needsRepair?.confidence ?? 0.88,
-      reasons: [needsRepair?.reason ?? "Required policy evidence is missing.", ...(needsRepair?.signals ?? [`required missing: ${input.policy.summary.requiredMissing}`])],
+      reasons: [
+        needsRepair?.reason ?? "Required policy evidence is missing.",
+        ...(needsRepair?.signals ?? [`required missing: ${input.policy.summary.requiredMissing}`])
+      ],
       requiredCommands: needsRepair?.command ? [needsRepair.command] : requiredCommandsFromPolicy(input.policy),
       artifacts: input.artifacts ?? []
     });
@@ -107,7 +117,11 @@ export function decideHarnessAction(input: DecisionEngineInput): HarnessDecision
       action: "human-review",
       blocking: true,
       confidence: 0.82,
-      reasons: ["The diff has high-impact or risk policy signals even though hard gates passed.", `impact risk: ${input.loop.risk}`, `policy risks: ${input.policy.summary.risks}`],
+      reasons: [
+        "The diff has high-impact or risk policy signals even though hard gates passed.",
+        `impact risk: ${input.loop.risk}`,
+        `policy risks: ${input.policy.summary.risks}`
+      ],
       requiredCommands: [],
       artifacts: input.artifacts ?? []
     });
@@ -117,7 +131,12 @@ export function decideHarnessAction(input: DecisionEngineInput): HarnessDecision
     action: "finalize",
     blocking: false,
     confidence: input.changedFiles.length ? 0.8 : 0.72,
-    reasons: ["No blocking policy, context, impact, or verification signals remain.", `changed files: ${input.changedFiles.length}`, `loop status: ${input.loop.status}`, "policy: passed"],
+    reasons: [
+      "No blocking policy, context, impact, or verification signals remain.",
+      `changed files: ${input.changedFiles.length}`,
+      `loop status: ${input.loop.status}`,
+      "policy: passed"
+    ],
     artifacts: input.artifacts ?? []
   });
 }
@@ -127,13 +146,20 @@ export function maxLoopHarnessDecision(maxLoops: number, lastDecision: HarnessDe
     action: "human-review",
     blocking: true,
     confidence: 0.9,
-    reasons: [`Maximum orchestrator loop count (${maxLoops}) reached before the harness could finalize.`, `max loops: ${maxLoops}`, `last action: ${lastDecision.action}`, ...lastDecision.reasons],
+    reasons: [
+      `Maximum orchestrator loop count (${maxLoops}) reached before the harness could finalize.`,
+      `max loops: ${maxLoops}`,
+      `last action: ${lastDecision.action}`,
+      ...lastDecision.reasons
+    ],
     requiredCommands: lastDecision.requiredCommands,
     artifacts: lastDecision.artifacts
   });
 }
 
-function decision(input: Omit<HarnessDecision, "requiredCommands" | "artifacts"> & { requiredCommands?: string[]; artifacts?: ArtifactRef[] }): HarnessDecision {
+function decision(
+  input: Omit<HarnessDecision, "requiredCommands" | "artifacts"> & { requiredCommands?: string[]; artifacts?: ArtifactRef[] }
+): HarnessDecision {
   return createHarnessDecision({
     action: input.action,
     blocking: input.blocking,

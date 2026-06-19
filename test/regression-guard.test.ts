@@ -7,7 +7,12 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { buildPolicyReport } from "../src/harness/verification-plane/policy-engine.js";
 import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../src/harness/verification-plane/guards/regression.js";
-import { addRegressionMemoryFromCandidate, buildRegressionMemoryCandidate, writeFinalizeMemoryCandidate, writeRegressionMemoryCandidate } from "../src/harness/verification-plane/guards/regression-memory.js";
+import {
+  addRegressionMemoryFromCandidate,
+  buildRegressionMemoryCandidate,
+  writeFinalizeMemoryCandidate,
+  writeRegressionMemoryCandidate
+} from "../src/harness/verification-plane/guards/regression-memory.js";
 import { buildTaskPack } from "../src/outputs/task-context.js";
 import { writeTaskRun } from "../src/outputs/task-run.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";

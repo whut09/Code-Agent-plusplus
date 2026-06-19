@@ -1,6 +1,6 @@
 # Roadmap
 
-Code Agent++ is evolving from “generate files that help an agent read a repo” into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. Code Agent++ owns the external reliability layer around them: context, boundaries, evidence, impact, regression protection, hallucination checks, and repair/finalize decisions.
+Code Agent++ is evolving from “generate files that help an agent read a repo” into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. Code Agent++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
 
 The roadmap is organized around the harness lifecycle:
 
@@ -21,7 +21,7 @@ User task
   -> code agent edits code
   -> Code Agent++ collects diff / trace / test evidence
   -> Guard modules evaluate the run
-  -> Loop Guard decides finalize / repair / repack / block / human review
+  -> Loop Guard reports finalize / repair / repack / block / human review
 ```
 
 ## v0.2: Context Guard Foundation
@@ -70,7 +70,7 @@ Goal: stop trusting the agent’s “done” claim and make the next action expl
 - Repair planner that can request missing tests, contract repair, context refresh, or wider impact analysis.
 - Finalize gate through policy and loop reports.
 
-Status: implemented foundation; `orchestrate` now runs multiple bounded iterations, while richer autonomous repair planning remains ongoing.
+Status: implemented foundation; `orchestrate` now runs multiple bounded iterations, while richer evidence-driven repair planning remains ongoing.
 
 ## v0.5: Executor Adapter Layer
 
@@ -166,21 +166,21 @@ Goal: let coding agents call Code Agent++ as a native reliability backend.
 - Client usage guides for Codex, OpenCode, Claude Code, and Cursor under `docs/integrations/`.
 - OpenCode / MiMoCode / MiMoCodex MCP usage guide and native event validation.
 - Agent-led mode documentation: code agent calls Code Agent++ tools, with documented limitations that gates are advisory unless the host agent follows them.
-- Harness-led mode documentation: Code Agent++ invokes the executor and owns verification.
+- Harness-led mode documentation: Code Agent++ invokes the executor, evaluates bounded gates, and writes decision reports.
 - Codex and Claude Code adapters.
 - Cursor integration guide.
 - Unified retriever adapters for static, ripgrep, LightRAG, embedding, and hybrid retrieval.
 
-Status: MCP scaffold, core tools, structured runtime gate fields, and Codex/OpenCode/Claude Code/Cursor integration guides implemented; per-client end-to-end validation and native event normalization remain planned.
+Status: MCP stdio server, core tools, structured runtime gate fields, and Codex/OpenCode/Claude Code/Cursor integration guides are implemented as a foundation; Agent Native Runtime tools remain experimental, and per-client end-to-end validation plus native event normalization remain planned.
 
 ## v0.9: Orchestrator Loop
 
-Goal: make Code Agent++ the runtime controller and the code agent a replaceable executor.
+Goal: make Code Agent++ a bounded runtime controller while the code agent remains a replaceable executor.
 
 - `code-agent-plusplus orchestrate "<task>" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
 - `code-agent-plusplus orchestrate "<task>" . --executor mimocode --executor-command "mimocode run {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
-- Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guards -> decision`.
-- Decisions: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.
+- Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guard gates -> decision report`.
+- Decision reports: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.
 - Multi-iteration loop runner with per-iteration artifacts under `.agent-context/runs/<task-id>/iterations/<nnn>/`.
 - Native OpenCode event parsing for `opencode run --format json`, transcript files, and stdout/stderr fallback.
 - Native MiMoCode / Codex / Claude event parsing.

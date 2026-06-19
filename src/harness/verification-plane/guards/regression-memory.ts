@@ -61,11 +61,19 @@ export function buildRegressionMemoryCandidate(context: ContextPackage, options:
     task: options.task,
     base,
     createdAt: new Date().toISOString(),
-    evidence: [`changed files: ${changedFiles.length}`, `module: ${module}`, requiredTests.length ? `required tests: ${requiredTests.join(" | ")}` : "required tests: none inferred"]
+    evidence: [
+      `changed files: ${changedFiles.length}`,
+      `module: ${module}`,
+      requiredTests.length ? `required tests: ${requiredTests.join(" | ")}` : "required tests: none inferred"
+    ]
   };
 }
 
-export function writeRegressionMemoryCandidate(context: ContextPackage, candidate: RegressionMemoryCandidate, outputRoot = context.scan.root): RegressionMemoryCandidateWriteResult {
+export function writeRegressionMemoryCandidate(
+  context: ContextPackage,
+  candidate: RegressionMemoryCandidate,
+  outputRoot = context.scan.root
+): RegressionMemoryCandidateWriteResult {
   const dir = path.join(outputRoot, ".agent-context", "memory", "candidates");
   mkdirSync(dir, { recursive: true });
   const filePath = path.join(dir, `${candidate.id}.json`);
@@ -73,7 +81,13 @@ export function writeRegressionMemoryCandidate(context: ContextPackage, candidat
   return { candidate, file: path.relative(outputRoot, filePath).replaceAll("\\", "/") };
 }
 
-export function writeFinalizeMemoryCandidate(context: ContextPackage, task: string, base: string, changedFiles: string[], outputRoot = context.scan.root): RegressionMemoryCandidateWriteResult | undefined {
+export function writeFinalizeMemoryCandidate(
+  context: ContextPackage,
+  task: string,
+  base: string,
+  changedFiles: string[],
+  outputRoot = context.scan.root
+): RegressionMemoryCandidateWriteResult | undefined {
   const actionable = changedFiles.filter((file) => !file.startsWith(".agent-context/") && file !== "AGENTS.md");
   if (!actionable.length) return undefined;
   const candidate = buildRegressionMemoryCandidate(context, { task, base, changedFiles: actionable, source: "finalize" });

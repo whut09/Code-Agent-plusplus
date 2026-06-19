@@ -18,7 +18,12 @@ import { parseAgentBenchmarkModes, renderAgentBehaviorBenchmark, runAgentBehavio
 import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../outputs/task-harness.js";
 import { writeTaskRun } from "../outputs/task-run.js";
 import { buildLoopControllerReport, renderLoopControllerReport, writeLoopControllerReport, type LoopPhase } from "../harness/control-plane/loop-controller.js";
-import { renderOrchestratorReport, runHarnessOrchestrator, type AgentExecutorName, type OrchestratorCheckpointMode } from "../harness/control-plane/orchestrator.js";
+import {
+  renderOrchestratorReport,
+  runHarnessOrchestrator,
+  type AgentExecutorName,
+  type OrchestratorCheckpointMode
+} from "../harness/control-plane/orchestrator.js";
 import { buildPolicyReport, renderPolicyReport, type PolicyFailOn } from "../harness/verification-plane/policy-engine.js";
 import { buildHallucinationReport, renderHallucinationReport, writeHallucinationReport } from "../harness/verification-plane/guards/hallucination.js";
 import { buildRegressionReport, renderRegressionReport, writeRegressionReport } from "../harness/verification-plane/guards/regression.js";

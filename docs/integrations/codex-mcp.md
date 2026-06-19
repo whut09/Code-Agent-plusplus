@@ -1,6 +1,6 @@
 # Codex MCP Integration
 
-This guide wires Code Agent++ into Codex through the stdio MCP server. The MCP flow is agent-led: Codex edits code, while Code Agent++ returns context, edit boundaries, evidence requirements, and loop decisions.
+This guide wires Code Agent++ into Codex through the stdio MCP server. The MCP flow is agent-led: Codex edits code, while Code Agent++ returns context, edit boundaries, evidence requirements, and loop decision reports.
 
 ## Configuration
 

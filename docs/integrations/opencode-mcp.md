@@ -1,6 +1,6 @@
 # OpenCode MCP Integration
 
-This guide connects OpenCode to Code Agent++ through the stdio MCP server. OpenCode remains the coding runtime; Code Agent++ supplies task context, edit boundaries, evidence checks, and repair/finalize decisions.
+This guide connects OpenCode to Code Agent++ through the stdio MCP server. OpenCode remains the coding runtime; Code Agent++ supplies task context, edit boundaries, evidence checks, and repair/finalize decision reports.
 
 ## Configuration
 

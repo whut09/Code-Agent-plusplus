@@ -10,7 +10,7 @@ Context -> Agent -> Execution -> Trace -> Evaluation -> Context Update -> Loop
 
 当前实现不会直接调用 Codex、Claude Code、Cursor、OpenCode 或 MiMoCode 去改代码。它提供的是控制面：让 Agent 知道先读什么、不要改什么、改完影响谁、该跑什么、是否能结束，以及下一轮应该补上下文、补测试、修 contract 还是进入 review。
 
-当前边界也要说清楚：它现在更像 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 半自动 loop 建议器，还不是完全自主的 agent executor。它不会自己调用 Codex / Claude Code / Cursor / OpenCode / MiMoCode 改代码；它生成可验证、可排序、带证据的状态迁移和下一步动作，由外部 Agent 或用户执行。目标方向是更自主、证据驱动的 Agent Harness Runtime。
+当前边界也要说清楚：它现在是 Context / Policy / Trace 报告系统 + 显式 runtime 状态机 + 有边界的 harness-led loop，不是完整自主 coding agent。Harness-led 模式可以调用 Codex / Claude Code / Cursor / OpenCode / MiMoCode 作为外部 executor，但真实代码修改仍发生在那个 executor 里；Code Agent++ 生成可验证、可排序、带证据的状态迁移、gate 结果和 decision report，由外部 Agent、用户或 CI 工作流执行后续动作。
 
 从 Guard 模块视角看，这个 loop 由几类可靠性检查组成：
 
