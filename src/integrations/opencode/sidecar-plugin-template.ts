@@ -14,6 +14,10 @@ import path from "node:path";
 
 export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) => {
   const eventLog = path.join(directory, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
+  const VERIFY_DEBOUNCE_MS = 2000;
+  let dirty = false;
+  let verifying = false;
+  let lastVerifyAt = 0;
 
   function record(type, payload = {}) {
     try {
@@ -93,6 +97,49 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) 
     log("debug", "tool execution allowed", { tool, command, paths });
   }
 
+  function markDirty(type, payload = {}) {
+    dirty = true;
+    record(type, payload);
+    log("debug", "repository marked dirty", { type, ...payload });
+  }
+
+  function maybeVerifyOnIdle() {
+    const now = Date.now();
+    if (!dirty) {
+      log("debug", "idle verification skipped", { reason: "clean" });
+      return;
+    }
+    if (verifying) {
+      log("debug", "idle verification skipped", { reason: "already verifying" });
+      return;
+    }
+    if (now - lastVerifyAt < VERIFY_DEBOUNCE_MS) {
+      log("debug", "idle verification skipped", { reason: "debounced", elapsedMs: now - lastVerifyAt });
+      return;
+    }
+
+    verifying = true;
+    dirty = false;
+    try {
+      const verify = spawnSync("capp", ["sidecar", "verify", directory, "--quiet"], {
+        cwd: directory,
+        encoding: "utf8",
+        shell: process.platform === "win32"
+      });
+      record("sidecar.verify", { exitCode: verify.status ?? 1 });
+      if ((verify.status ?? 1) !== 0) {
+        const output = (verify.stdout || verify.stderr || "Code Agent++ sidecar found blockers. Run capp report.").trim();
+        log("error", "sidecar verification blocked", { exitCode: verify.status ?? 1 });
+        console.log(output);
+      } else {
+        log("debug", "sidecar verification passed");
+      }
+    } finally {
+      verifying = false;
+      lastVerifyAt = Date.now();
+    }
+  }
+
   return {
     name: "code-agent-plusplus-sidecar",
     "tool.execute.before": async ({ tool, args }) => {
@@ -107,25 +154,17 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) 
 
       if (type === "file.edited") {
         const file = event?.properties?.file ?? event?.properties?.path ?? event?.file ?? event?.path ?? "unknown";
-        record("file.edited", { file });
-        log("debug", "file edited", { file });
+        markDirty("file.edited", { file });
+      }
+
+      if (type === "file.watcher.updated") {
+        const file = event?.properties?.file ?? event?.properties?.path ?? event?.file ?? event?.path ?? "unknown";
+        markDirty("file.watcher.updated", { file });
       }
 
       if (type === "session.idle") {
         record("session.idle");
-        const verify = spawnSync("capp", ["sidecar", "verify", directory, "--quiet"], {
-          cwd: directory,
-          encoding: "utf8",
-          shell: process.platform === "win32"
-        });
-        record("sidecar.verify", { exitCode: verify.status ?? 1 });
-        if ((verify.status ?? 1) !== 0) {
-          const output = (verify.stdout || verify.stderr || "Code Agent++ sidecar found blockers. Run capp sidecar verify .").trim();
-          log("error", "sidecar verification blocked", { exitCode: verify.status ?? 1 });
-          console.log(output);
-        } else {
-          log("debug", "sidecar verification passed");
-        }
+        maybeVerifyOnIdle();
       }
     }
   };

@@ -18,7 +18,7 @@ This document is generated from static repository signals. Treat it as a startin
 - `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
 - `cli`: cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
 - `analyzers`: analyzers contains 6 files and depends on core.
-- `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 13 files.
+- `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 17 files.
 
 ## Agent Guidance
 - Start with `AGENTS.md`, then read `key-files.md` for the highest-signal files.
