@@ -74,13 +74,13 @@
   {
     "path": "README.en.md",
     "moduleName": "root",
-    "tokenEstimate": 2697,
+    "tokenEstimate": 2443,
     "summary": "README.en.md is a docs file written as Markdown."
   },
   {
     "path": "README.md",
     "moduleName": "root",
-    "tokenEstimate": 2544,
+    "tokenEstimate": 2333,
     "summary": "README.md is a docs file written as Markdown."
   },
   {
@@ -762,18 +762,6 @@
     "summary": "src/cli/task-args.ts contains 16 detected symbols, 2 imports, 3 exports."
   },
   {
-    "path": "src/harness/types.ts",
-    "moduleName": "harness",
-    "tokenEstimate": 624,
-    "summary": "src/harness/types.ts contains 16 detected symbols, 0 imports, 11 exports."
-  },
-  {
-    "path": "src/integrations/codegraph.ts",
-    "moduleName": "integrations",
-    "tokenEstimate": 2570,
-    "summary": "src/integrations/codegraph.ts contains 59 detected symbols, 5 imports, 11 exports."
-  },
-  {
     "path": "src/core/cache.ts",
     "moduleName": "core",
     "tokenEstimate": 2473,
@@ -882,10 +870,16 @@
     "summary": "src/core/validator.ts contains 11 detected symbols, 3 imports, 3 exports."
   },
   {
-    "path": "src/llm/provider.ts",
-    "moduleName": "llm",
-    "tokenEstimate": 479,
-    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports."
+    "path": "src/harness/types.ts",
+    "moduleName": "harness",
+    "tokenEstimate": 624,
+    "summary": "src/harness/types.ts contains 16 detected symbols, 0 imports, 11 exports."
+  },
+  {
+    "path": "src/integrations/codegraph.ts",
+    "moduleName": "integrations",
+    "tokenEstimate": 2570,
+    "summary": "src/integrations/codegraph.ts contains 59 detected symbols, 5 imports, 11 exports."
   },
   {
     "path": "src/mcp/server.ts",
@@ -1098,6 +1092,12 @@
     "summary": "src/sandbox/sandbox-adapter.ts contains 3 detected symbols, 0 imports, 3 exports."
   },
   {
+    "path": "src/llm/provider.ts",
+    "moduleName": "llm",
+    "tokenEstimate": 479,
+    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports."
+  },
+  {
     "path": "benchmarks/fixtures/fastapi-app/pyproject.toml",
     "moduleName": "benchmarks",
     "tokenEstimate": 26,
@@ -1122,12 +1122,6 @@
     "summary": "benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON."
   },
   {
-    "path": "src/harness/observability/execution-trace.ts",
-    "moduleName": "harness",
-    "tokenEstimate": 2489,
-    "summary": "src/harness/observability/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports."
-  },
-  {
     "path": "src/harness/control-plane/decision-engine.ts",
     "moduleName": "harness",
     "tokenEstimate": 1762,
@@ -1144,6 +1138,12 @@
     "moduleName": "harness",
     "tokenEstimate": 10639,
     "summary": "src/harness/control-plane/orchestrator.ts contains 132 detected symbols, 26 imports, 12 exports."
+  },
+  {
+    "path": "src/harness/observability/execution-trace.ts",
+    "moduleName": "harness",
+    "tokenEstimate": 2489,
+    "summary": "src/harness/observability/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports."
   },
   {
     "path": "src/harness/verification-plane/policy-engine.ts",
@@ -1230,12 +1230,6 @@
     "summary": "test/fixtures/python-package/pyproject.toml is a test file written as TOML."
   },
   {
-    "path": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-    "moduleName": "benchmarks",
-    "tokenEstimate": 37,
-    "summary": "benchmarks/fixtures/fastapi-app/tests/test_users.py contains 1 detected Python symbol and 1 import."
-  },
-  {
     "path": "benchmarks/fixtures/fastapi-app/app/admin.py",
     "moduleName": "benchmarks",
     "tokenEstimate": 43,
@@ -1264,6 +1258,12 @@
     "moduleName": "benchmarks",
     "tokenEstimate": 27,
     "summary": "benchmarks/fixtures/fastapi-app/app/schemas.py contains 1 detected Python symbol and 1 import."
+  },
+  {
+    "path": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+    "moduleName": "benchmarks",
+    "tokenEstimate": 37,
+    "summary": "benchmarks/fixtures/fastapi-app/tests/test_users.py contains 1 detected Python symbol and 1 import."
   },
   {
     "path": "benchmarks/fixtures/react-app/src/App.tsx",
@@ -1326,12 +1326,6 @@
     "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown."
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
-    "tokenEstimate": 6,
-    "summary": "benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON."
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
     "moduleName": "benchmarks/fixtures/monorepo/packages/web",
     "tokenEstimate": 7,
@@ -1342,6 +1336,12 @@
     "moduleName": "benchmarks/fixtures/monorepo/packages/web",
     "tokenEstimate": 197,
     "summary": "benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
+    "tokenEstimate": 6,
+    "summary": "benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON."
   },
   {
     "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
@@ -1380,36 +1380,6 @@
     "summary": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx contains 2 detected symbols, 1 import, 1 export."
   },
   {
-    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 47,
-    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 43,
-    "summary": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts contains 1 detected symbol, 1 import, 1 export."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 79,
-    "summary": "benchmarks/fixtures/small-ts-app/src/auth/session.ts contains 3 detected symbols, 0 imports, 3 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 111,
-    "summary": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts contains 3 detected symbols, 0 imports, 3 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 57,
-    "summary": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports."
-  },
-  {
     "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
     "moduleName": "benchmarks/fixtures/small-ts-app",
     "tokenEstimate": 1,
@@ -1444,6 +1414,36 @@
     "moduleName": "benchmarks/fixtures/small-ts-app",
     "tokenEstimate": 83,
     "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 47,
+    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 43,
+    "summary": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts contains 1 detected symbol, 1 import, 1 export."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 79,
+    "summary": "benchmarks/fixtures/small-ts-app/src/auth/session.ts contains 3 detected symbols, 0 imports, 3 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 111,
+    "summary": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts contains 3 detected symbols, 0 imports, 3 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 57,
+    "summary": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports."
   },
   {
     "path": "test/fixtures/monorepo/packages/api/package.json",
@@ -1506,12 +1506,6 @@
     "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports."
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
-    "tokenEstimate": 55,
-    "summary": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts contains 2 detected symbols, 0 imports, 2 exports."
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
     "moduleName": "benchmarks/fixtures/monorepo/packages/web",
     "tokenEstimate": 32,
@@ -1522,6 +1516,12 @@
     "moduleName": "benchmarks/fixtures/monorepo/packages/web",
     "tokenEstimate": 28,
     "summary": "benchmarks/fixtures/monorepo/packages/web/src/config.ts contains 1 detected symbol, 1 import, 1 export."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
+    "tokenEstimate": 55,
+    "summary": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts contains 2 detected symbols, 0 imports, 2 exports."
   },
   {
     "path": "test/fixtures/monorepo/packages/api/src/config.ts",

@@ -2137,36 +2137,6 @@
       "isExternal": true
     },
     {
-      "from": "src/integrations/codegraph.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "../retrievers/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/core/cache.ts",
       "to": "node:crypto",
       "specifier": "node:crypto",
@@ -2539,9 +2509,33 @@
       "isExternal": false
     },
     {
-      "from": "src/llm/provider.ts",
+      "from": "src/integrations/codegraph.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "../retrievers/types.js",
       "isExternal": false
     },
     {
@@ -3373,39 +3367,9 @@
       "isExternal": false
     },
     {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:crypto",
-      "specifier": "node:crypto",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "src/outputs/renderers/markdown.ts",
-      "specifier": "../../outputs/renderers/markdown.js",
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
       "isExternal": false
     },
     {
@@ -3664,6 +3628,42 @@
       "from": "src/harness/control-plane/orchestrator.ts",
       "to": "src/harness/control-plane/decision-engine.ts",
       "specifier": "./decision-engine.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -4021,12 +4021,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "to": "app.routes.users",
-      "specifier": "app.routes.users",
-      "isExternal": true
-    },
-    {
       "from": "benchmarks/fixtures/fastapi-app/app/billing.py",
       "to": "dataclasses",
       "specifier": "dataclasses",
@@ -4054,6 +4048,12 @@
       "from": "benchmarks/fixtures/fastapi-app/app/schemas.py",
       "to": "pydantic",
       "specifier": "pydantic",
+      "isExternal": true
+    },
+    {
+      "from": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "to": "app.routes.users",
+      "specifier": "app.routes.users",
       "isExternal": true
     },
     {
@@ -4243,18 +4243,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../auth/session.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "./session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "specifier": "../../src/api/login.js",
@@ -4264,6 +4252,18 @@
       "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../../src/auth/session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "../auth/session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "./session.js",
       "isExternal": false
     },
     {

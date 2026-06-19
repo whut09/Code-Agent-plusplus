@@ -80,23 +80,6 @@ The README main path intentionally recommends only `capp`. Batch Harness Mode, C
 - [CLI Reference](docs/reference/cli-reference.md)
 - [MCP Tools](docs/reference/mcp-tools.md)
 
-Outputs are written to:
-
-```txt
-AGENTS.md
-.agent-context/
-  repo-summary.md
-  key-files.md
-  contracts/
-  runs/<task-id>/
-  traces/
-  sidecar/
-  hallucination/
-  regression/
-  graphs/
-  index/
-```
-
 ## Relationship To Related Projects
 
 | Project                       | Main role                                    | Relationship to Code Agent++                                                     |
@@ -114,20 +97,6 @@ AGENTS.md
 - Agents claim tests passed without reliable exit-code, timestamp, or working-tree-hash evidence.
 - Agents make changes whose downstream impact is invisible during review.
 - Agents reintroduce historical bugs or keep repairing without a clear stop condition.
-
-## Use It Through An AI Agent
-
-You can tell Codex / Claude Code / Cursor / OpenCode / MiMoCode:
-
-```txt
-Use https://github.com/whut09/Code-Agent-plusplus to generate a Code Agent++ context and reliability package for xxx project.
-Inspect the target repository first, then install or clone the tool if needed.
-Force LLM summaries: create or update code-agent-plusplus.local.yml in the target repo, do not commit that file.
-Prefer model API configuration available in the current AI tool environment, or the key/baseUrl/model I provide; ask me first if configuration is missing.
-For batch context generation or CI-like verification, follow the advanced commands in docs.
-```
-
-Real credentials belong only in `code-agent-plusplus.local.yml`.
 
 ## Current Maturity
 
@@ -168,15 +137,6 @@ See the [documentation home](docs/README.md) for full maturity notes.
 - [Executor Adapters](docs/reference/executor-adapters.md)
 - [Benchmark Guide](docs/developer/benchmark-guide.md)
 - [Roadmap](docs/roadmap.md)
-
-## Development
-
-```bash
-npm install
-npm run build
-npm run check
-npm test
-```
 
 ## Acknowledgements
 
