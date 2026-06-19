@@ -672,6 +672,30 @@
         "test/fixtures/next-app/src/auth/session.ts"
       ]
     },
+    "docs": {
+      "owns": [
+        "docs/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "docs/**",
+        "src/config/**",
+        "src/core/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [],
+      "publicFiles": []
+    },
     "llm": {
       "owns": [
         "src/llm/**"
@@ -762,30 +786,6 @@
         "benchmarks/fixtures/monorepo/**",
         "benchmarks/fixtures/monorepo/packages/config/**",
         "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/config/**",
-        "src/core/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [],
-      "publicFiles": []
-    },
-    "docs": {
-      "owns": [
-        "docs/**"
-      ],
-      "allowedImports": [
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "docs/**",
         "src/config/**",
         "src/core/**"
       ],

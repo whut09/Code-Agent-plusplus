@@ -30,7 +30,7 @@ For local development:
   "mcpServers": {
     "code-agent-plusplus": {
       "command": "node",
-      "args": ["F:/codex/code/Repo-to-Agent-Context/dist/mcp/server.js"]
+      "args": ["path/to/Code-Agent-plusplus/dist/mcp/server.js"]
     }
   }
 }
