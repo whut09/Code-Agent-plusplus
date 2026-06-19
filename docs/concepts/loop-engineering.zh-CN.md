@@ -92,6 +92,7 @@ direct lexical hits
   tests.md
   verify.md
   impact.md
+  prompt.opencode.md
   prompt.codex.md
   prompt.claude.md
   prompt.cursor.md

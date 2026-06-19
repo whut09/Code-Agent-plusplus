@@ -438,7 +438,7 @@ async function promptForMode(repo: string, task: BenchmarkTaskDefinition, mode: 
     `Task: ${task.task}`,
     "",
     `Use the task context pack at ${path.relative(repo, run.dir).replaceAll("\\", "/")}.`,
-    "Read plan.md, edit-boundary.md, pack.md, tests.md, impact.md, and prompt.codex.md before editing.",
+    "Read plan.md, edit-boundary.md, pack.md, tests.md, impact.md, and prompt.opencode.md before editing.",
     "Keep changes inside the boundary and run required verification."
   ].join("\n");
 }

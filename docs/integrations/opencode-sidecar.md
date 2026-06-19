@@ -75,8 +75,6 @@ The generated OpenCode plugin listens for:
 .opencode/commands/opencode-plusplus.md
 .opencode/commands/opencode-plusplus-verify.md
 .opencode/agents/opencode-plusplus.md
-.opencode/commands/opencode-plusplus.md
-.opencode/commands/opencode-plusplus-verify.md
 .agent-context/sidecar/latest.json
 .agent-context/sidecar/latest.md
 .agent-context/sidecar/policy.md

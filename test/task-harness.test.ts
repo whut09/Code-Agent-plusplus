@@ -98,6 +98,7 @@ test("task run writes a complete agent execution context", async () => {
       "prompt.claude.md",
       "prompt.codex.md",
       "prompt.cursor.md",
+      "prompt.opencode.md",
       "regression.md",
       "run.json",
       "state.json",

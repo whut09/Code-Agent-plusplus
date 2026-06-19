@@ -2,7 +2,7 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import fg from "fast-glob";
 import ignore from "ignore";
-import type { CodeAgentPlusplusConfig, RepoFile, RepoScan } from "./types.js";
+import type { OpenCodePlusplusConfig, RepoFile, RepoScan } from "./types.js";
 import { classifyFile, isGeneratedPath, isTestPath } from "./file-classifier.js";
 import { languageForExtension } from "./language.js";
 import { estimateTokens } from "./token-estimator.js";
@@ -27,7 +27,7 @@ const BINARY_EXTENSIONS = new Set([
   ".dll"
 ]);
 
-export async function scanRepository(root: string, config: CodeAgentPlusplusConfig): Promise<RepoScan> {
+export async function scanRepository(root: string, config: OpenCodePlusplusConfig): Promise<RepoScan> {
   const absoluteRoot = path.resolve(root);
   const gitignore = loadGitignore(absoluteRoot);
   const entries = await fg(config.include, {

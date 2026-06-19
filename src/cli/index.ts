@@ -252,7 +252,7 @@ program
 program
   .command("build")
   .argument("[repo]", "repository path", ".")
-  .option("-t, --target <target>", "agent target: codex, claude, cursor, all", parseTarget)
+  .option("-t, --target <target>", "agent target: opencode, codex, claude, cursor, all", parseTarget)
   .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
   .option("--tokenizer <tokenizer>", "tokenizer: chars-approx, cl100k_base, o200k_base", parseTokenizerMode)
   .option("--model <model>", "model name used to infer tokenizer, for example gpt-4.1")
@@ -1392,7 +1392,7 @@ function parseCodeBackend(value: string): CodeIntelligenceBackend {
 }
 
 function parseTarget(value: string): AgentTarget {
-  if (value === "codex" || value === "claude" || value === "cursor" || value === "all") {
+  if (value === "opencode" || value === "codex" || value === "claude" || value === "cursor" || value === "all") {
     return value;
   }
 

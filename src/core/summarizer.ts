@@ -1,7 +1,7 @@
-import type { CodeAgentPlusplusConfig, RepoIndex, RepoScan, SummaryBundle } from "./types.js";
+import type { OpenCodePlusplusConfig, RepoIndex, RepoScan, SummaryBundle } from "./types.js";
 import { createLlmClient } from "../llm/provider.js";
 
-export async function summarizeRepository(scan: RepoScan, index: RepoIndex, config: CodeAgentPlusplusConfig): Promise<SummaryBundle> {
+export async function summarizeRepository(scan: RepoScan, index: RepoIndex, config: OpenCodePlusplusConfig): Promise<SummaryBundle> {
   const offline = buildOfflineSummary(scan, index);
   const client = createLlmClient(config.llm);
   if (!client) {

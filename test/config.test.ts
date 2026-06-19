@@ -42,7 +42,7 @@ test("starter config is valid and contains all output switches", () => {
     const content = starterConfig();
     writeFileSync(path.join(root, "opencode-plusplus.config.yml"), content, "utf8");
     const config = loadConfig(root);
-    assert.equal(config.target, "codex");
+    assert.equal(config.target, "opencode");
     assert.deepEqual(config.agents, {
       mode: "minimal",
       maxTokens: 1200,

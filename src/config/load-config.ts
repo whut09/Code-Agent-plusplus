@@ -2,19 +2,19 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { DEFAULT_CONFIG } from "./defaults.js";
-import type { AgentTarget, AgentsMode, AgentsSection, CodeAgentPlusplusConfig, TokenizerMode } from "../core/types.js";
+import type { AgentTarget, AgentsMode, AgentsSection, OpenCodePlusplusConfig, TokenizerMode } from "../core/types.js";
 
 const CONFIG_FILES = ["opencode-plusplus.config.yml", "opencode-plusplus.config.yaml", "opencode-plusplus.config.json"];
 
 const LOCAL_CONFIG_FILES = ["opencode-plusplus.local.yml", "opencode-plusplus.local.yaml", "opencode-plusplus.local.json"];
 
-export function loadConfig(repoRoot: string, overrides: Partial<CodeAgentPlusplusConfig> = {}): CodeAgentPlusplusConfig {
+export function loadConfig(repoRoot: string, overrides: Partial<OpenCodePlusplusConfig> = {}): OpenCodePlusplusConfig {
   const configPath = CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
   const localConfigPath = LOCAL_CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);
   const fileConfig = configPath ? readConfigFile(configPath) : {};
   const localConfig = localConfigPath ? readConfigFile(localConfigPath) : {};
 
-  const config: CodeAgentPlusplusConfig = {
+  const config: OpenCodePlusplusConfig = {
     ...DEFAULT_CONFIG,
     ...fileConfig,
     ...localConfig,
@@ -60,7 +60,7 @@ export function loadConfig(repoRoot: string, overrides: Partial<CodeAgentPlusplu
   return config;
 }
 
-function readConfigFile(configPath: string): Partial<CodeAgentPlusplusConfig> {
+function readConfigFile(configPath: string): Partial<OpenCodePlusplusConfig> {
   const raw = readFileSync(configPath, "utf8");
   try {
     const parsed = configPath.endsWith(".json") ? (JSON.parse(raw) as Record<string, unknown>) : (yaml.load(raw) as Record<string, unknown>);
@@ -71,7 +71,7 @@ function readConfigFile(configPath: string): Partial<CodeAgentPlusplusConfig> {
   }
 }
 
-function normalizeConfig(input: Record<string, unknown> | null | undefined): Partial<CodeAgentPlusplusConfig> {
+function normalizeConfig(input: Record<string, unknown> | null | undefined): Partial<OpenCodePlusplusConfig> {
   if (!input) {
     return {};
   }
@@ -82,17 +82,17 @@ function normalizeConfig(input: Record<string, unknown> | null | undefined): Par
     tokenBudget: typeof input.tokenBudget === "number" ? input.tokenBudget : undefined,
     include: toStringArray(input.include),
     exclude: toStringArray(input.exclude),
-    llm: typeof input.llm === "object" && input.llm ? (input.llm as CodeAgentPlusplusConfig["llm"]) : undefined,
-    rag: typeof input.rag === "object" && input.rag ? (input.rag as CodeAgentPlusplusConfig["rag"]) : undefined,
+    llm: typeof input.llm === "object" && input.llm ? (input.llm as OpenCodePlusplusConfig["llm"]) : undefined,
+    rag: typeof input.rag === "object" && input.rag ? (input.rag as OpenCodePlusplusConfig["rag"]) : undefined,
     tokenizer: typeof input.tokenizer === "object" && input.tokenizer ? normalizeTokenizerConfig(input.tokenizer as Record<string, unknown>) : undefined,
     agents: typeof input.agents === "object" && input.agents ? normalizeAgentsConfig(input.agents as Record<string, unknown>) : undefined,
-    outputs: typeof input.outputs === "object" && input.outputs ? (input.outputs as CodeAgentPlusplusConfig["outputs"]) : undefined
-  }) as Partial<CodeAgentPlusplusConfig>;
+    outputs: typeof input.outputs === "object" && input.outputs ? (input.outputs as OpenCodePlusplusConfig["outputs"]) : undefined
+  }) as Partial<OpenCodePlusplusConfig>;
 }
 
-export function validateConfig(config: CodeAgentPlusplusConfig): void {
-  if (!["codex", "claude", "cursor", "all"].includes(config.target)) {
-    throw new Error(`Invalid target "${config.target}". Expected one of: codex, claude, cursor, all.`);
+export function validateConfig(config: OpenCodePlusplusConfig): void {
+  if (!["opencode", "codex", "claude", "cursor", "all"].includes(config.target)) {
+    throw new Error(`Invalid target "${config.target}". Expected one of: opencode, codex, claude, cursor, all.`);
   }
   if (!Number.isFinite(config.tokenBudget) || config.tokenBudget <= 0) {
     throw new Error("tokenBudget must be a positive number.");
@@ -143,8 +143,8 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
   if (!input || typeof input !== "object" || Array.isArray(input)) {
     throw new Error("config root must be an object.");
   }
-  if (input.target !== undefined && (typeof input.target !== "string" || !["codex", "claude", "cursor", "all"].includes(input.target))) {
-    throw new Error(`Invalid target "${String(input.target)}". Expected one of: codex, claude, cursor, all.`);
+  if (input.target !== undefined && (typeof input.target !== "string" || !["opencode", "codex", "claude", "cursor", "all"].includes(input.target))) {
+    throw new Error(`Invalid target "${String(input.target)}". Expected one of: opencode, codex, claude, cursor, all.`);
   }
   if (input.tokenBudget !== undefined && (typeof input.tokenBudget !== "number" || input.tokenBudget <= 0)) {
     throw new Error("tokenBudget must be a positive number.");
@@ -208,14 +208,14 @@ function validateRawConfig(input: Record<string, unknown> | null | undefined, so
   void source;
 }
 
-function normalizeTokenizerConfig(input: Record<string, unknown>): Partial<CodeAgentPlusplusConfig["tokenizer"]> {
+function normalizeTokenizerConfig(input: Record<string, unknown>): Partial<OpenCodePlusplusConfig["tokenizer"]> {
   return stripUndefined({
     mode: typeof input.mode === "string" ? (input.mode as TokenizerMode) : undefined,
     model: typeof input.model === "string" ? input.model : undefined
   });
 }
 
-function normalizeAgentsConfig(input: Record<string, unknown>): Partial<CodeAgentPlusplusConfig["agents"]> {
+function normalizeAgentsConfig(input: Record<string, unknown>): Partial<OpenCodePlusplusConfig["agents"]> {
   return stripUndefined({
     mode: typeof input.mode === "string" ? (input.mode as AgentsMode) : undefined,
     maxTokens: typeof input.maxTokens === "number" ? input.maxTokens : undefined,

@@ -1,4 +1,4 @@
-import type { CodeAgentPlusplusConfig } from "../core/types.js";
+import type { OpenCodePlusplusConfig } from "../core/types.js";
 
 export const DEFAULT_EXCLUDES = [
   ".git/**",
@@ -21,8 +21,8 @@ export const DEFAULT_EXCLUDES = [
   "*.map"
 ];
 
-export const DEFAULT_CONFIG: CodeAgentPlusplusConfig = {
-  target: "codex",
+export const DEFAULT_CONFIG: OpenCodePlusplusConfig = {
+  target: "opencode",
   tokenBudget: 60000,
   include: ["**/*"],
   exclude: DEFAULT_EXCLUDES,

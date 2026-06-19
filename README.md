@@ -90,12 +90,12 @@ opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 
 ## 解决什么问题
 
-- Agent 不知道该读哪些文件，靠猜入口和模块。
-- Agent 修改范围失控，误改 generated、lockfile、CI、migration 或无关模块。
-- Agent 生成不存在的 API、命令、配置、环境变量或项目约定。
-- Agent 声称测试通过，但没有可信的 exit code / timestamp / working tree hash 证据。
-- Agent 改完影响范围不可见，review 风险难判断。
-- Agent 重复引入历史 bug，repair loop 不知道何时停止。
+- OpenCode 不知道该读哪些文件，靠猜入口和模块。
+- OpenCode 修改范围失控，误改 generated、lockfile、CI、migration 或无关模块。
+- OpenCode 生成不存在的 API、命令、配置、环境变量或项目约定。
+- OpenCode 声称测试通过，但没有可信的 exit code / timestamp / working tree hash 证据。
+- OpenCode 改完影响范围不可见，review 风险难判断。
+- OpenCode 重复引入历史 bug，repair loop 不知道何时停止。
 
 ## 当前能力成熟度
 

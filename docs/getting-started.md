@@ -98,7 +98,7 @@ Read the generated run directory:
   tests.md
   impact.md
   verify.md
-  prompt.codex.md
+  prompt.opencode.md
 ```
 
 ## Advanced: Verify After Edits
@@ -127,8 +127,6 @@ opencode-plusplus oc repair
 .opencode/commands/opencode-plusplus.md
 .opencode/commands/opencode-plusplus-verify.md
 .opencode/agents/opencode-plusplus.md
-.opencode/commands/opencode-plusplus.md
-.opencode/commands/opencode-plusplus-verify.md
 ```
 
 Use `orchestrate --executor-command` when you need a custom executor command.

@@ -91,12 +91,12 @@ The README main path intentionally recommends only `opencode-plusplus`. Batch Ha
 
 ## What It Solves
 
-- Agents guess entry files and modules because repository context is incomplete.
-- Agents over-edit generated files, lockfiles, CI, migrations, or unrelated modules.
-- Agents hallucinate APIs, commands, config keys, environment variables, or project conventions.
-- Agents claim tests passed without reliable exit-code, timestamp, or working-tree-hash evidence.
-- Agents make changes whose downstream impact is invisible during review.
-- Agents reintroduce historical bugs or keep repairing without a clear stop condition.
+- OpenCode guesses entry files and modules because repository context is incomplete.
+- OpenCode over-edits generated files, lockfiles, CI, migrations, or unrelated modules.
+- OpenCode hallucinates APIs, commands, config keys, environment variables, or project conventions.
+- OpenCode claims tests passed without reliable exit-code, timestamp, or working-tree-hash evidence.
+- OpenCode makes changes whose downstream impact is invisible during review.
+- OpenCode reintroduces historical bugs or keeps repairing without a clear stop condition.
 
 ## Current Maturity
 

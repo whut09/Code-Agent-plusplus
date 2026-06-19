@@ -17,7 +17,7 @@ Do not commit `opencode-plusplus.local.yml`.
 ## Example
 
 ```yaml
-target: codex
+target: opencode
 tokenBudget: 100000
 
 include:
@@ -42,8 +42,8 @@ llm:
   model: "xx"
 
 rag:
-  enabled: true
-  chunkTokenLimit: 1200
+  provider: lightrag
+  chunkTokenLimit: 900
 ```
 
 ## LLM Credentials

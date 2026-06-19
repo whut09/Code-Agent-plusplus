@@ -92,6 +92,7 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
     ["verify.md", renderTaskVerify(context, { base, diff: true })],
     ["regression.md", renderRegressionReport(regression)],
     ["impact.md", renderChangeImpactReport(context, { base })],
+    ["prompt.opencode.md", renderAgentPrompt("OpenCode", manifest)],
     ["prompt.codex.md", renderAgentPrompt("Codex", manifest)],
     ["prompt.claude.md", renderAgentPrompt("Claude Code", manifest)],
     ["prompt.cursor.md", renderAgentPrompt("Cursor", manifest)],
@@ -203,13 +204,15 @@ function renderExpectedDiff(context: ContextPackage, pack: TaskPack, manifest: T
   ].join("\n");
 }
 
-function renderAgentPrompt(agent: "Codex" | "Claude Code" | "Cursor", manifest: TaskRunManifest): string {
+function renderAgentPrompt(agent: "OpenCode" | "Codex" | "Claude Code" | "Cursor", manifest: TaskRunManifest): string {
   const agentNote =
     agent === "Claude Code"
       ? "If this repository uses `CLAUDE.md`, treat it as the tool-specific wrapper and keep this run directory as the source of task evidence."
       : agent === "Cursor"
         ? "Use this run directory as the task rule source before opening broad repository context."
-        : "Use this run directory as the primary task context before loading broader `.agent-context` files.";
+        : agent === "OpenCode"
+          ? "Use this run directory as the primary OpenCode++ task context before opening broad repository context."
+          : "Use this run directory as the primary task context before loading broader `.agent-context` files.";
 
   return [
     heading(1, `${agent} Task Prompt`),

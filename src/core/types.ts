@@ -1,11 +1,11 @@
-export type AgentTarget = "codex" | "claude" | "cursor" | "all";
+export type AgentTarget = "opencode" | "codex" | "claude" | "cursor" | "all";
 export type AgentsMode = "minimal" | "balanced" | "full";
 export type AgentsSection = "commands" | "safety" | "entrypoints" | "contextLinks";
 export type TokenizerMode = "chars_approx" | "cl100k_base" | "o200k_base";
 export type AnalysisConfidence = "high" | "medium" | "low";
 export type TaskType = "bugfix" | "feature" | "refactor" | "auto";
 
-export interface CodeAgentPlusplusConfig {
+export interface OpenCodePlusplusConfig {
   target: AgentTarget;
   tokenBudget: number;
   include: string[];
@@ -158,7 +158,7 @@ export interface DependencyGraph {
 }
 
 export interface ContextPackage {
-  config: CodeAgentPlusplusConfig;
+  config: OpenCodePlusplusConfig;
   scan: RepoScan;
   index: RepoIndex;
   graph: DependencyGraph;

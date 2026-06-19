@@ -1,5 +1,5 @@
 import { loadConfig } from "../config/load-config.js";
-import type { AgentTarget, ContextPackage, CodeAgentPlusplusConfig } from "./types.js";
+import type { AgentTarget, ContextPackage, OpenCodePlusplusConfig } from "./types.js";
 import { scanRepository } from "./scanner.js";
 import { indexRepository } from "./indexer.js";
 import { ContextCache, createCacheStats } from "./cache.js";
@@ -14,13 +14,13 @@ export interface BuildOptions {
   target?: AgentTarget;
   tokenBudget?: number;
   llm?: boolean;
-  tokenizer?: CodeAgentPlusplusConfig["tokenizer"]["mode"];
+  tokenizer?: OpenCodePlusplusConfig["tokenizer"]["mode"];
   model?: string;
   cache?: boolean;
 }
 
 export async function buildContextPackage(repoRoot: string, options: BuildOptions = {}): Promise<ContextPackage> {
-  const overrides: Partial<CodeAgentPlusplusConfig> = {};
+  const overrides: Partial<OpenCodePlusplusConfig> = {};
   if (options.target) overrides.target = options.target;
   if (options.tokenBudget) overrides.tokenBudget = options.tokenBudget;
   if (options.model) {

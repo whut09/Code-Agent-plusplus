@@ -1,5 +1,5 @@
 export function starterConfig(): string {
-  return `target: codex
+  return `target: opencode
 tokenBudget: 60000
 
 include:

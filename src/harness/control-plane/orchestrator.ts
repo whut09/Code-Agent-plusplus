@@ -754,7 +754,14 @@ function buildExecutorPrompt(
 }
 
 function promptFileFor(root: string, runId: string, executorName: AgentExecutorName): string {
-  const promptName = executorName === "claude-code" ? "prompt.claude.md" : executorName === "cursor" ? "prompt.cursor.md" : "prompt.codex.md";
+  const promptName =
+    executorName === "claude-code"
+      ? "prompt.claude.md"
+      : executorName === "cursor"
+        ? "prompt.cursor.md"
+        : executorName === "codex"
+          ? "prompt.codex.md"
+          : "prompt.opencode.md";
   return path.join(root, ".agent-context", "runs", runId, promptName);
 }
 
