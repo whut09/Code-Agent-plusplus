@@ -1,286 +1,472 @@
 # Guard Modules
 
-Code Agent++ Guard modules are external enhancement components designed around coding-agent failure modes. Each Guard maps to one engineering problem and turns prompt-only requirements into generated, checkable, recorded, and auditable harness behavior.
+Code Agent++ Guard modules are external reliability components for coding agents. Each Guard maps one common failure mode to checkable inputs, generated artifacts, gate behavior, and decision reports.
 
-## Overview
+Every Guard follows the same contract:
 
-| Guard                               | Problem                                       | Status                 |
-| ----------------------------------- | --------------------------------------------- | ---------------------- |
-| Context Guard                       | Wrong context, irrelevant search, token waste | gate foundation        |
-| Hallucination Guard                 | Invented APIs, commands, config, conventions  | gate foundation        |
-| Boundary Guard                      | Edit scope expansion and protected path edits | gate foundation        |
-| Regression Guard                    | Reintroducing historical bugs                 | gate foundation        |
-| Evidence Guard                      | Untrustworthy or stale test evidence          | gate foundation        |
-| Impact Guard                        | Invisible blast radius and review risk        | implemented foundation |
-| Loop Guard                          | Repair loops that cannot converge             | implemented foundation |
-| Executor Adapter + Trace Normalizer | Inconsistent agent event formats              | partial                |
+```txt
+failure mode
+  -> evidence collection
+  -> finding
+  -> gate behavior
+  -> orchestrator decision report
+```
 
-## Guard Gates
+## Maturity Summary
 
-Each Guard now emits explicit gate decisions through `.agent-context/runs/<task-id>/iterations/<nnn>/guard.gates.json`. `guard.findings.json` records normalized evidence; `guard.gates.json` decides whether the evidence blocks the loop and which action the orchestrator should take.
+| Guard                               | Solves                                          | Maturity             |
+| ----------------------------------- | ----------------------------------------------- | -------------------- |
+| Context Guard                       | Wrong context, irrelevant search, token waste   | Stable / Foundation  |
+| Boundary Guard                      | Scope expansion and protected-path edits        | Foundation           |
+| Evidence Guard                      | Untrustworthy or stale test evidence            | Foundation           |
+| Impact Guard                        | Invisible blast radius and review risk          | Stable / Foundation  |
+| Hallucination Guard                 | Invented APIs, commands, config, files, symbols | MVP                  |
+| Regression Guard                    | Reintroducing historical bugs                   | MVP / Foundation     |
+| Loop Guard                          | Repair loops that do not converge               | Foundation           |
+| Executor Adapter + Trace Normalizer | Inconsistent agent event formats                | Foundation / Planned |
 
-| Guard               | Blocking Conditions                                                                                      | Gate Action                               |
-| ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| Context Guard       | context stale; task pack over budget; task pack requires a replan or expanded context                    | `repack` / `expand-context`               |
-| Boundary Guard      | forbidden path changed; generated source/build output changed; protected lockfile/CI/migration violation | `rollback` in git-worktree mode, or block |
-| Boundary Guard      | generated `.agent-context` changes or large diff                                                         | `human-review`                            |
-| Evidence Guard      | no test command after last edit; non-zero test exit code; failure output; stale working tree hash        | `run-tests` / `repair`                    |
-| Hallucination Guard | nonexistent script, file, symbol, dependency, config key, or env reference                               | `repair` / `block`                        |
-| Regression Guard    | fragile module or historical bug pattern matched without required regression test evidence               | `run-regression-tests` / `human-review`   |
+## Gate Artifacts
 
-The orchestrator consumes these gates before finalizing a run. A blocking gate turns the next action into `repack`, `repair`, `rollback`, `block`, or `human-review`; a passed gate can proceed toward finalize.
+In harness-led runs, Guard output is written per iteration:
+
+```txt
+.agent-context/runs/<run-id>/iterations/<n>/
+  guard.findings.json
+  guard.gates.json
+  decision.json
+```
+
+`guard.findings.json` records normalized evidence. `guard.gates.json` turns findings into blocking or advisory gates. `decision.json` records the orchestrator decision report, such as `finalize`, `repair`, `repack`, `block`, `rollback`, or `require-human-review`.
 
 ## Context Guard
 
-Context Guard builds task-level context. It does not stuff the whole repository into the prompt; it scans, indexes, graphs, ranks, and packs the minimum useful context for the task.
+### Solves
 
-Inputs:
+Wrong context, blind file search, token waste, and agents editing before reading the right files.
 
-- repository files
-- config
-- package scripts
+### Inputs
+
+- repository scan
+- file index
+- symbol index
 - dependency graph
+- key-file ranking
 - task text
 - git diff
+- token budget
 
-Outputs:
+### Outputs
+
+- minimal `AGENTS.md`
+- repository summary
+- key files
+- module map
+- task plan
+- task pack
+- context layers
+- RAG-ready chunks
+
+### CLI / MCP
+
+- `code-agent-plusplus build`
+- `code-agent-plusplus plan`
+- `code-agent-plusplus pack`
+- `code-agent-plusplus run`
+- `code-agent-plusplus retrieve`
+- MCP: `code_agent_plusplus_build`, `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`
+
+### Artifacts
 
 - `AGENTS.md`
 - `.agent-context/repo-summary.md`
 - `.agent-context/key-files.md`
 - `.agent-context/module-map.md`
+- `.agent-context/context-layers.md`
 - `.agent-context/tasks/`
-- `.agent-context/runs/<task-id>/pack.md`
-- future: `CLAUDE.md`, Cursor rules, OpenCode instructions
+- `.agent-context/runs/<run-id>/pack.md`
+- `.agent-context/index/`
+- `.agent-context/rag/documents.jsonl`
 
-Goals:
+### Gate Behavior
 
-- Reduce blind file search.
-- Reduce token waste.
-- Make agents inspect the right entrypoints, modules, tests, and constraints first.
+| Finding                                       | Severity | Action                       |
+| --------------------------------------------- | -------- | ---------------------------- |
+| generated context is stale                    | required | `repack` / `rebuild-context` |
+| task pack exceeds token budget                | required | `repack`                     |
+| task pack missing must-inspect files          | risk     | `expand-context`             |
+| low-confidence analysis drives selected files | risk     | `human-review`               |
 
-## Hallucination Guard
+### Maturity
 
-Hallucination Guard reduces engineering hallucination by checking whether the agent referenced objects that are not backed by repository evidence.
-
-MVP checks:
-
-- missing files
-- missing functions, classes, types, or exports
-- missing CLI commands, npm scripts, or test commands
-- missing config keys or environment variables
-- missing dependencies
-
-Inputs:
-
-- execution trace / normalized executor events
-- git diff and changed files
-- package scripts and dependency declarations
-- env examples and config files
-- symbol/export index
-
-Outputs:
-
-- `.agent-context/hallucination/<task-id>.json`
-- `.agent-context/runs/<task-id>/hallucination.md`
-- evidence references
-- repair suggestions
-- items that require existence verification
-
-Policy mapping:
-
-- missing command -> required failure
-- missing symbol in modified code -> forbidden failure
-- missing local import file in modified code -> forbidden failure
-- missing dependency -> risk warning
-- missing config key -> risk warning
-- missing file mentioned by transcript or diff explanation -> warning
-
-Goal:
-
-- Turn “the model thinks this should exist” into “repository evidence proves this exists.”
+Stable for build/task-pack artifacts. Foundation for gate behavior and task-aware retrieval expansion.
 
 ## Boundary Guard
 
-Boundary Guard constrains the edit surface so a local task does not become a broad refactor.
+### Solves
 
-Inputs:
+Edit scope expansion, accidental protected-path changes, generated output edits, and local tasks turning into broad refactors.
+
+### Inputs
 
 - task pack
 - file classification
 - contracts
 - protected path rules
 - changed files
+- module boundaries
+- package and lockfile signals
 
-Outputs:
+### Outputs
 
 - allowed edit paths
 - denied edit paths
 - protected path findings
+- module-boundary findings
 - generated / lockfile / migration / CI / deploy risk findings
 
-Current implementation:
+### CLI / MCP
+
+- `code-agent-plusplus validate-contracts`
+- `code-agent-plusplus policy`
+- `code-agent-plusplus verify`
+- MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_verify`
+
+### Artifacts
 
 - `.agent-context/contracts/safety.contract.json`
 - `.agent-context/contracts/module-boundaries.json`
-- `code-agent-plusplus validate-contracts`
-- `code-agent-plusplus policy`
-- `.agent-context/runs/<task-id>/edit-boundary.md`
+- `.agent-context/contracts/architecture.contract.json`
+- `.agent-context/runs/<run-id>/edit-boundary.md`
+- `.agent-context/runs/<run-id>/iterations/<n>/guard.gates.json`
 
-Goals:
+### Gate Behavior
 
-- Prevent accidental edits to generated files, lockfiles, migrations, CI, deploy, infra, and env files.
-- Make scope expansion visible during review.
+| Finding                                             | Severity  | Action                    |
+| --------------------------------------------------- | --------- | ------------------------- |
+| protected path changed                              | forbidden | `rollback` / `block`      |
+| generated source changed                            | forbidden | `rollback` / `block`      |
+| lockfile changed without manifest pairing           | required  | `repair` / `human-review` |
+| CI / migration / deploy config changed unexpectedly | risk      | `human-review`            |
+| large unexpected diff                               | risk      | `human-review`            |
 
-## Regression Guard
+### Maturity
 
-Regression Guard prevents old problems from returning. The MVP uses maintainable structured memory instead of trying to infer every historical bug automatically.
-
-Memory files:
-
-- `.agent-context/regression/known-issues.json`
-- `.agent-context/regression/fix-history.json`
-- `.agent-context/regression/fragile-modules.json`
-- `.agent-context/regression/anti-regression-tests.json`
-
-Entry shape:
-
-```json
-{
-  "id": "auth-timeout-regression-001",
-  "module": "auth",
-  "files": ["src/auth/session.ts"],
-  "pattern": "session timeout must use server time, not client Date.now",
-  "requiredTests": ["npm test -- auth"],
-  "riskTriggers": ["timeout", "session", "ttl", "expire"],
-  "lastFixedIn": "PR #123"
-}
-```
-
-Outputs:
-
-- anti-regression notes
-- required regression tests
-- historical-risk findings
-- repair suggestions
-
-Current implementation:
-
-- `code-agent-plusplus regression`
-- task pack anti-regression notes and required tests
-- `.agent-context/runs/<task-id>/regression.md`
-- `.agent-context/regression/<task-id>.json`
-- policy required failure when matched regression memory lacks required test evidence
-
-Goal:
-
-- Make agents remember already-fixed problems and require stronger checks on risky modules.
+Implemented foundation.
 
 ## Evidence Guard
 
-Evidence Guard validates test and command evidence. It does not trust natural-language summaries alone; it reads structured traces.
+### Solves
 
-Checks:
+Untrustworthy test claims, stale verification evidence, tests run before later edits, and natural-language "tests passed" summaries without command proof.
 
-- which commands actually ran
-- whether exit code was 0
-- whether stdout/stderr records or hashes exist
-- whether startedAt / finishedAt happened after the last edit
-- whether workingTreeHashBefore / workingTreeHashAfter match the current diff
-- whether code changed again after tests passed
+### Inputs
 
-Current implementation:
+- execution trace
+- command evidence
+- test recommendations
+- current working-tree hash
+- last edit timestamp
+- stdout/stderr hashes
+- policy requirements
 
-- `.agent-context/traces/<trace-id>.json`
+### Outputs
+
+- command evidence records
+- stale evidence findings
+- missing evidence findings
+- test evidence satisfaction result
+- contract evidence satisfaction result
+
+### CLI / MCP
+
 - `code-agent-plusplus trace run`
+- `code-agent-plusplus trace show`
 - `code-agent-plusplus policy --trace <trace-id>`
 - `code-agent-plusplus loop --trace <trace-id>`
+- MCP: `code_agent_plusplus_step`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_finalize`
 
-Goals:
+### Artifacts
 
-- Turn “tests passed” into auditable evidence.
-- Prevent stale evidence from finalizing a task.
+- `.agent-context/traces/<trace-id>.json`
+- `.agent-context/runs/<run-id>/verify.md`
+- `.agent-context/runs/<run-id>/iterations/<n>/trace.json`
+- `.agent-context/runs/<run-id>/iterations/<n>/policy.json`
+
+### Gate Behavior
+
+| Finding                              | Severity  | Action                 |
+| ------------------------------------ | --------- | ---------------------- |
+| no test command after last edit      | required  | `run-tests`            |
+| test exit code is non-zero           | forbidden | `repair`               |
+| evidence working-tree hash is stale  | required  | `run-tests`            |
+| only manual test evidence exists     | risk      | `human-review`         |
+| contract validation evidence missing | required  | `repair` / `run-tests` |
+
+### Maturity
+
+Implemented foundation.
 
 ## Impact Guard
 
-Impact Guard analyzes the engineering blast radius of a diff.
+### Solves
 
-Inputs:
+Invisible blast radius, missing dependent tests, review risk that is not obvious from changed files alone.
+
+### Inputs
 
 - changed files
 - dependency graph
 - module map
 - related tests
-- key file ranking
+- key-file ranking
+- CodeGraph backend output when configured
 
-Outputs:
+### Outputs
 
-- directly affected files
+- direct dependents
 - transitive dependents
 - affected modules
 - related tests
-- risk level
-- required verification
+- risk score
+- required verification commands
 
-Current implementation:
+### CLI / MCP
 
 - `code-agent-plusplus impact`
 - `code-agent-plusplus tests`
 - `code-agent-plusplus verify`
-- `.agent-context/runs/<task-id>/impact.md`
+- MCP: `code_agent_plusplus_impact`, `code_agent_plusplus_tests`, `code_agent_plusplus_verify`
 
-Goals:
+### Artifacts
 
-- Show agents and reviewers what the change affects.
-- Move test selection from nearby files to dependency-impact-aware tests.
+- `.agent-context/runs/<run-id>/impact.md`
+- `.agent-context/runs/<run-id>/tests.md`
+- `.agent-context/runs/<run-id>/verify.md`
+- `.agent-context/graphs/dependencies.json`
+
+### Gate Behavior
+
+| Finding                                           | Severity | Action                            |
+| ------------------------------------------------- | -------- | --------------------------------- |
+| high-impact dependency blast radius               | risk     | `expand-context` / `human-review` |
+| changed source lacks related tests                | required | `run-tests`                       |
+| transitive dependents exist but are not inspected | risk     | `expand-context`                  |
+| sensitive module changed                          | risk     | `human-review`                    |
+
+### Maturity
+
+Stable for CLI reports. Foundation for guard-gate integration.
+
+## Hallucination Guard
+
+### Solves
+
+Invented files, nonexistent package scripts, missing dependencies, missing config/env keys, and imported symbols that repository evidence cannot prove.
+
+### Inputs
+
+- execution trace
+- normalized executor events
+- git diff
+- changed files
+- package scripts
+- dependency declarations
+- env examples
+- config files
+- symbol/export index
+
+### Outputs
+
+- missing file findings
+- missing command findings
+- missing dependency findings
+- missing config/env findings
+- missing symbol/export findings
+- repair suggestions
+
+### CLI / MCP
+
+- `code-agent-plusplus hallucination`
+- `code-agent-plusplus policy`
+- `code-agent-plusplus orchestrate`
+- MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`
+
+### Artifacts
+
+- `.agent-context/hallucination/<task-id>.json`
+- `.agent-context/runs/<run-id>/hallucination.md`
+- `.agent-context/runs/<run-id>/iterations/<n>/guard.findings.json`
+- `.agent-context/runs/<run-id>/iterations/<n>/guard.gates.json`
+
+### Gate Behavior
+
+| Finding                       | Severity  | Action                    |
+| ----------------------------- | --------- | ------------------------- |
+| nonexistent package script    | required  | `repair`                  |
+| nonexistent local import file | forbidden | `repair` / `block`        |
+| nonexistent imported symbol   | forbidden | `repair` / `block`        |
+| undeclared dependency         | risk      | `repair` / `human-review` |
+| missing env/config key        | risk      | `human-review`            |
+
+### Maturity
+
+MVP. Deterministic checks are implemented; semantic convention checks are planned.
+
+## Regression Guard
+
+### Solves
+
+Reintroducing historical bugs, changing fragile modules without anti-regression tests, and losing project memory across agent sessions.
+
+### Inputs
+
+- structured regression memory
+- task text
+- changed files
+- affected modules
+- trace evidence
+- test recommendations
+
+### Outputs
+
+- anti-regression notes
+- required regression tests
+- historical-risk findings
+- regression memory candidates
+- repair suggestions
+
+### CLI / MCP
+
+- `code-agent-plusplus regression`
+- `code-agent-plusplus memory learn-from-pr`
+- `code-agent-plusplus memory add-fix`
+- `code-agent-plusplus policy`
+- MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`
+
+### Artifacts
+
+- `.agent-context/regression/known-issues.json`
+- `.agent-context/regression/fix-history.json`
+- `.agent-context/regression/fragile-modules.json`
+- `.agent-context/regression/anti-regression-tests.json`
+- `.agent-context/memory/candidates/*.json`
+- `.agent-context/runs/<run-id>/regression.md`
+
+### Gate Behavior
+
+| Finding                                    | Severity | Action                            |
+| ------------------------------------------ | -------- | --------------------------------- |
+| historical bug pattern matched             | required | `run-regression-tests`            |
+| fragile module changed                     | risk     | `human-review`                    |
+| required regression test evidence missing  | required | `run-regression-tests` / `repair` |
+| memory candidate created but not confirmed | info     | `human-review`                    |
+
+### Maturity
+
+MVP for regression matching. Foundation for memory candidates and explicit confirmation.
 
 ## Loop Guard
 
-Loop Guard produces repair/finalize decision reports. It does not accept “done” from the agent by default; it uses state, evidence, policy, and impact analysis to report the next action.
+### Solves
 
-Decisions:
+Premature finalization, endless repair loops, unclear next actions, and agents self-certifying completion.
 
-- finalize
-- rerun tests
-- repair code
-- repair tests
-- repack context
-- block
-- rollback
-- require human review
+### Inputs
 
-Current implementation:
+- runtime state
+- task pack
+- freshness / drift
+- policy report
+- impact report
+- trace evidence
+- guard gates
+- test recommendations
+
+### Outputs
+
+- next action
+- blocking flag
+- confidence score
+- reasons
+- required commands
+- state transitions
+- final decision report
+
+### CLI / MCP
 
 - `code-agent-plusplus loop`
 - `code-agent-plusplus orchestrate`
-- `.agent-context/loops/`
-- `.agent-context/runs/<task-id>/state.json`
+- MCP: `code_agent_plusplus_start_loop`, `code_agent_plusplus_step`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`, `code_agent_plusplus_finalize`
 
-Goals:
+### Artifacts
 
-- Prevent infinite repair loops.
-- Prevent premature finalization.
-- Make each next action explainable, auditable, and repeatable.
+- `.agent-context/loops/<task-id>/loop.md`
+- `.agent-context/loops/<task-id>/loop.json`
+- `.agent-context/runs/<run-id>/state.json`
+- `.agent-context/runs/<run-id>/iterations/<n>/decision.json`
+
+### Gate Behavior
+
+| Finding                    | Severity             | Action                          |
+| -------------------------- | -------------------- | ------------------------------- |
+| stale context              | required             | `repack` / `rebuild-context`    |
+| blocking guard gate exists | forbidden / required | `repair` / `block` / `rollback` |
+| tests missing after edit   | required             | `run-tests`                     |
+| max loops reached          | required             | `require-human-review`          |
+| all gates satisfied        | info                 | `finalize`                      |
+
+### Maturity
+
+Implemented foundation.
 
 ## Executor Adapter + Trace Normalizer
 
-Executor Adapter lets Code Agent++ treat OpenCode, Codex CLI, Claude Code, Cursor, MiMoCode, and other tools as replaceable executors.
+### Solves
 
-Current capabilities:
+Different coding agents produce different event formats, command logs, transcripts, and final outputs.
 
-- `mock` executor
-- generic `--executor-command`
-- changed file collection
-- trace and verification artifacts
+### Inputs
 
-Planned capabilities:
+- executor command template
+- stdout / stderr
+- OpenCode JSON stdout
+- OpenCode transcript
+- changed files
+- diff patch
+- command events
 
-- OpenCode JSON stdout / transcript / fallback normalizer (implemented foundation)
-- MiMoCode event normalizer
-- Codex JSONL normalizer
-- Claude Code transcript normalizer
-- unified execution trace schema
+### Outputs
 
-Goal:
+- normalized agent events
+- execution trace steps
+- executor result summary
+- changed file list
+- diff patch
 
-- Coding agents can differ, but Code Agent++ consumes a unified diff, trace, command evidence, and final state.
+### CLI / MCP
+
+- `code-agent-plusplus agent run`
+- `code-agent-plusplus orchestrate`
+- `--executor mock|opencode|mimocode|codex|claude-code|cursor`
+- `--executor-command "<command with {prompt}>"`
+- `--opencode-transcript <path>`
+
+### Artifacts
+
+- `.agent-context/runs/<run-id>/iterations/<n>/executor.result.json`
+- `.agent-context/runs/<run-id>/iterations/<n>/executor.events.jsonl`
+- `.agent-context/runs/<run-id>/iterations/<n>/trace.json`
+- `.agent-context/runs/<run-id>/iterations/<n>/diff.patch`
+
+### Gate Behavior
+
+| Finding                             | Severity | Action                    |
+| ----------------------------------- | -------- | ------------------------- |
+| executor command missing            | required | `block`                   |
+| executor exits non-zero             | required | `repair` / `human-review` |
+| no changed files when edit expected | risk     | `repair`                  |
+| transcript cannot be parsed         | risk     | `human-review`            |
+
+### Maturity
+
+Foundation for mock, generic command adapter, and OpenCode normalizer. MiMoCode, Codex JSONL, Claude Code transcript, and Cursor native adapters are planned.

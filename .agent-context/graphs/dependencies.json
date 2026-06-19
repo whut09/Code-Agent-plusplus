@@ -1375,6 +1375,96 @@
       "isExternal": false
     },
     {
+      "from": "src/analyzers/generic.ts",
+      "to": "src/analyzers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "typescript",
+      "specifier": "typescript",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "src/analyzers/resolve-import.ts",
+      "specifier": "./resolve-import.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/javascript.ts",
+      "to": "src/analyzers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/analyzers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/analyzers/resolve-import.ts",
+      "specifier": "./resolve-import.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/python.ts",
+      "to": "src/analyzers/tree-sitter.ts",
+      "specifier": "./tree-sitter.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/resolve-import.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/resolve-import.ts",
+      "to": "src/core/path-utils.ts",
+      "specifier": "../core/path-utils.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/tree-sitter.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/analyzers/tree-sitter.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/analyzers/types.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/benchmarks/agent-benchmark.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -1516,96 +1606,6 @@
       "from": "src/benchmarks/benchmark.ts",
       "to": "src/outputs/renderers/markdown.ts",
       "specifier": "../outputs/renderers/markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/generic.ts",
-      "to": "src/analyzers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "typescript",
-      "specifier": "typescript",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "src/analyzers/resolve-import.ts",
-      "specifier": "./resolve-import.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/javascript.ts",
-      "to": "src/analyzers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/analyzers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/analyzers/resolve-import.ts",
-      "specifier": "./resolve-import.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/python.ts",
-      "to": "src/analyzers/tree-sitter.ts",
-      "specifier": "./tree-sitter.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/resolve-import.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/resolve-import.ts",
-      "to": "src/core/path-utils.ts",
-      "specifier": "../core/path-utils.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/tree-sitter.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/analyzers/tree-sitter.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/analyzers/types.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
       "isExternal": false
     },
     {
@@ -1823,72 +1823,6 @@
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
-    },
-    {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/integrations/codegraph.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "../retrievers/types.js",
-      "isExternal": false
     },
     {
       "from": "src/core/cache.ts",
@@ -2260,6 +2194,72 @@
       "from": "src/core/validator.ts",
       "to": "src/core/types.ts",
       "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/codegraph.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "../retrievers/types.js",
       "isExternal": false
     },
     {
@@ -3859,6 +3859,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
+      "specifier": "../src/loader.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
       "to": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "specifier": "./config.js",
@@ -3868,12 +3874,6 @@
       "from": "benchmarks/fixtures/monorepo/packages/web/src/config.ts",
       "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
       "specifier": "../../config/src/loader.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
-      "specifier": "../src/loader.js",
       "isExternal": false
     },
     {
