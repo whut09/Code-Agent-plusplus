@@ -12,7 +12,7 @@ import { appendFileSync, mkdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 
-export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
+export const CodeAgentPlusPlusSidecar = async ({ directory, worktree, client }) => {
   const eventLog = path.join(directory, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
 
   function record(type, payload = {}) {
@@ -31,6 +31,20 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
       );
     } catch {
       // The sidecar must never break OpenCode. Verification can still run manually.
+    }
+  }
+
+  function log(level, message, extra = {}) {
+    record("sidecar.log", { level, message, ...extra });
+    try {
+      client?.app?.log?.({
+        service: "code-agent-plusplus",
+        level,
+        message,
+        extra
+      });
+    } catch {
+      // Structured logging is best-effort and must never interrupt OpenCode.
     }
   }
 
@@ -73,8 +87,10 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
     record("sidecar.check-command", { tool, command, paths, exitCode: check.status ?? 1 });
     if ((check.status ?? 1) !== 0) {
       const output = (check.stdout || check.stderr || "Code Agent++ blocked a command or protected path.").trim();
+      log("error", "blocked tool execution", { tool, command, paths });
       throw new Error(output);
     }
+    log("debug", "tool execution allowed", { tool, command, paths });
   }
 
   return {
@@ -86,20 +102,13 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
       const type = event?.type;
       if (event?.type === "session.created") {
         record("session.created");
-        console.log([
-          "Code Agent++ sidecar active.",
-          "Project: " + directory,
-          "Worktree: " + worktree,
-          "Use /capp <task> for harness-led execution.",
-          "Use /capp-verify before finalizing a task.",
-          "Use capp oc report --last for the latest gate report."
-        ].join("\n"));
+        log("debug", "sidecar active", { directory, worktree });
       }
 
       if (type === "file.edited") {
         const file = event?.properties?.file ?? event?.properties?.path ?? event?.file ?? event?.path ?? "unknown";
         record("file.edited", { file });
-        console.log("Code Agent++ sidecar noticed an edit: " + file + ". Run capp sidecar verify before finalizing.");
+        log("debug", "file edited", { file });
       }
 
       if (type === "session.idle") {
@@ -112,7 +121,10 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
         record("sidecar.verify", { exitCode: verify.status ?? 1 });
         if ((verify.status ?? 1) !== 0) {
           const output = (verify.stdout || verify.stderr || "Code Agent++ sidecar found blockers. Run capp sidecar verify .").trim();
+          log("error", "sidecar verification blocked", { exitCode: verify.status ?? 1 });
           console.log(output);
+        } else {
+          log("debug", "sidecar verification passed");
         }
       }
     }

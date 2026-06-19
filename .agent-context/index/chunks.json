@@ -326,7 +326,7 @@
   {
     "path": "test/opencode-launcher.test.ts",
     "moduleName": "test",
-    "tokenEstimate": 2303,
+    "tokenEstimate": 2359,
     "summary": "test/opencode-launcher.test.ts contains 16 detected symbols, 11 imports, 0 exports."
   },
   {
@@ -708,6 +708,24 @@
     "summary": "src/benchmarks/benchmark.ts contains 118 detected symbols, 7 imports, 13 exports."
   },
   {
+    "path": "src/config/defaults.ts",
+    "moduleName": "config",
+    "tokenEstimate": 281,
+    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports."
+  },
+  {
+    "path": "src/config/load-config.ts",
+    "moduleName": "config",
+    "tokenEstimate": 2935,
+    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports."
+  },
+  {
+    "path": "src/config/starter-config.ts",
+    "moduleName": "config",
+    "tokenEstimate": 135,
+    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export."
+  },
+  {
     "path": "src/cli/capp-commands.ts",
     "moduleName": "cli",
     "tokenEstimate": 1338,
@@ -738,22 +756,10 @@
     "summary": "src/cli/task-args.ts contains 16 detected symbols, 2 imports, 3 exports."
   },
   {
-    "path": "src/config/defaults.ts",
-    "moduleName": "config",
-    "tokenEstimate": 281,
-    "summary": "src/config/defaults.ts contains 2 detected symbols, 1 import, 2 exports."
-  },
-  {
-    "path": "src/config/load-config.ts",
-    "moduleName": "config",
-    "tokenEstimate": 2935,
-    "summary": "src/config/load-config.ts contains 30 detected symbols, 5 imports, 2 exports."
-  },
-  {
-    "path": "src/config/starter-config.ts",
-    "moduleName": "config",
-    "tokenEstimate": 135,
-    "summary": "src/config/starter-config.ts contains 1 detected symbol, 0 imports, 1 export."
+    "path": "src/harness/types.ts",
+    "moduleName": "harness",
+    "tokenEstimate": 624,
+    "summary": "src/harness/types.ts contains 16 detected symbols, 0 imports, 11 exports."
   },
   {
     "path": "src/core/cache.ts",
@@ -864,28 +870,22 @@
     "summary": "src/core/validator.ts contains 11 detected symbols, 3 imports, 3 exports."
   },
   {
-    "path": "src/harness/types.ts",
-    "moduleName": "harness",
-    "tokenEstimate": 624,
-    "summary": "src/harness/types.ts contains 16 detected symbols, 0 imports, 11 exports."
-  },
-  {
     "path": "src/integrations/codegraph.ts",
     "moduleName": "integrations",
     "tokenEstimate": 2570,
     "summary": "src/integrations/codegraph.ts contains 59 detected symbols, 5 imports, 11 exports."
   },
   {
-    "path": "src/llm/provider.ts",
-    "moduleName": "llm",
-    "tokenEstimate": 479,
-    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports."
-  },
-  {
     "path": "src/mcp/server.ts",
     "moduleName": "mcp",
     "tokenEstimate": 7412,
     "summary": "src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports."
+  },
+  {
+    "path": "src/llm/provider.ts",
+    "moduleName": "llm",
+    "tokenEstimate": 479,
+    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports."
   },
   {
     "path": "src/outputs/agent-events.ts",
@@ -1098,12 +1098,6 @@
     "summary": "benchmarks/fixtures/fastapi-app/pyproject.toml is a config file written as TOML."
   },
   {
-    "path": "benchmarks/fixtures/react-app/package.json",
-    "moduleName": "benchmarks/fixtures/react-app",
-    "tokenEstimate": 71,
-    "summary": "benchmarks/fixtures/react-app/package.json is a config file written as JSON."
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/package.json",
     "moduleName": "benchmarks/fixtures/monorepo",
     "tokenEstimate": 51,
@@ -1116,10 +1110,10 @@
     "summary": "benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON."
   },
   {
-    "path": "src/harness/observability/execution-trace.ts",
-    "moduleName": "harness",
-    "tokenEstimate": 2489,
-    "summary": "src/harness/observability/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports."
+    "path": "benchmarks/fixtures/react-app/package.json",
+    "moduleName": "benchmarks/fixtures/react-app",
+    "tokenEstimate": 71,
+    "summary": "benchmarks/fixtures/react-app/package.json is a config file written as JSON."
   },
   {
     "path": "src/harness/control-plane/decision-engine.ts",
@@ -1138,6 +1132,12 @@
     "moduleName": "harness",
     "tokenEstimate": 10639,
     "summary": "src/harness/control-plane/orchestrator.ts contains 132 detected symbols, 26 imports, 12 exports."
+  },
+  {
+    "path": "src/harness/observability/execution-trace.ts",
+    "moduleName": "harness",
+    "tokenEstimate": 2489,
+    "summary": "src/harness/observability/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports."
   },
   {
     "path": "src/harness/verification-plane/policy-engine.ts",
@@ -1160,7 +1160,7 @@
   {
     "path": "src/integrations/opencode/sidecar-plugin-template.ts",
     "moduleName": "integrations",
-    "tokenEstimate": 1086,
+    "tokenEstimate": 1162,
     "summary": "src/integrations/opencode/sidecar-plugin-template.ts contains 2 detected symbols, 0 imports, 2 exports."
   },
   {
@@ -1224,6 +1224,12 @@
     "summary": "test/fixtures/python-package/pyproject.toml is a test file written as TOML."
   },
   {
+    "path": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+    "moduleName": "benchmarks",
+    "tokenEstimate": 37,
+    "summary": "benchmarks/fixtures/fastapi-app/tests/test_users.py contains 1 detected Python symbol and 1 import."
+  },
+  {
     "path": "benchmarks/fixtures/fastapi-app/app/admin.py",
     "moduleName": "benchmarks",
     "tokenEstimate": 43,
@@ -1254,22 +1260,16 @@
     "summary": "benchmarks/fixtures/fastapi-app/app/schemas.py contains 1 detected Python symbol and 1 import."
   },
   {
-    "path": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-    "moduleName": "benchmarks",
-    "tokenEstimate": 37,
-    "summary": "benchmarks/fixtures/fastapi-app/tests/test_users.py contains 1 detected Python symbol and 1 import."
+    "path": "benchmarks/fixtures/small-ts-app/src/index.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 26,
+    "summary": "benchmarks/fixtures/small-ts-app/src/index.ts contains 0 detected symbols, 2 imports, 2 exports."
   },
   {
     "path": "benchmarks/fixtures/react-app/src/App.tsx",
     "moduleName": "benchmarks/fixtures/react-app",
     "tokenEstimate": 34,
     "summary": "benchmarks/fixtures/react-app/src/App.tsx contains 1 detected symbol, 1 import, 1 export."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/index.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 26,
-    "summary": "benchmarks/fixtures/small-ts-app/src/index.ts contains 0 detected symbols, 2 imports, 2 exports."
   },
   {
     "path": "src/harness/verification-plane/guards/hallucination.ts",
@@ -1294,6 +1294,114 @@
     "moduleName": "benchmarks",
     "tokenEstimate": 88,
     "summary": "benchmarks/fixtures/fastapi-app/app/routes/users.py contains 2 detected Python symbols and 3 imports."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/api",
+    "tokenEstimate": 7,
+    "summary": "benchmarks/fixtures/monorepo/packages/api/package.json is a config file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/api/README.md",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/api",
+    "tokenEstimate": 197,
+    "summary": "benchmarks/fixtures/monorepo/packages/api/README.md is a docs file written as Markdown."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "tokenEstimate": 19,
+    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
+    "tokenEstimate": 197,
+    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/web",
+    "tokenEstimate": 7,
+    "summary": "benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/web",
+    "tokenEstimate": 197,
+    "summary": "benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
+    "tokenEstimate": 6,
+    "summary": "benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 1,
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json is a unknown file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 1,
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json is a unknown file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 1,
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json is a unknown file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 103,
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json is a unknown file written as JSON."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 43,
+    "summary": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts contains 1 detected symbol, 1 import, 1 export."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 79,
+    "summary": "benchmarks/fixtures/small-ts-app/src/auth/session.ts contains 3 detected symbols, 0 imports, 3 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 47,
+    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 111,
+    "summary": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts contains 3 detected symbols, 0 imports, 3 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 57,
+    "summary": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 34,
+    "summary": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports."
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "tokenEstimate": 83,
+    "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports."
   },
   {
     "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
@@ -1330,114 +1438,6 @@
     "moduleName": "benchmarks/fixtures/react-app",
     "tokenEstimate": 64,
     "summary": "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx contains 2 detected symbols, 1 import, 1 export."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/api/package.json",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/api",
-    "tokenEstimate": 7,
-    "summary": "benchmarks/fixtures/monorepo/packages/api/package.json is a config file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/api/README.md",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/api",
-    "tokenEstimate": 197,
-    "summary": "benchmarks/fixtures/monorepo/packages/api/README.md is a docs file written as Markdown."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "tokenEstimate": 19,
-    "summary": "benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/config/README.md",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/config",
-    "tokenEstimate": 197,
-    "summary": "benchmarks/fixtures/monorepo/packages/config/README.md is a docs file written as Markdown."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
-    "tokenEstimate": 6,
-    "summary": "benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/web",
-    "tokenEstimate": 7,
-    "summary": "benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/monorepo/packages/web/README.md",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/web",
-    "tokenEstimate": 197,
-    "summary": "benchmarks/fixtures/monorepo/packages/web/README.md is a docs file written as Markdown."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 1,
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json is a unknown file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 1,
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json is a unknown file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 1,
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json is a unknown file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 103,
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json is a unknown file written as JSON."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 47,
-    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 43,
-    "summary": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts contains 1 detected symbol, 1 import, 1 export."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 79,
-    "summary": "benchmarks/fixtures/small-ts-app/src/auth/session.ts contains 3 detected symbols, 0 imports, 3 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 111,
-    "summary": "benchmarks/fixtures/small-ts-app/src/billing/audit.ts contains 3 detected symbols, 0 imports, 3 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 57,
-    "summary": "benchmarks/fixtures/small-ts-app/src/billing/invoice.ts contains 2 detected symbols, 0 imports, 2 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 34,
-    "summary": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports."
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "tokenEstimate": 83,
-    "summary": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts contains 0 detected symbols, 1 import, 0 exports."
   },
   {
     "path": "test/fixtures/monorepo/packages/api/package.json",
@@ -1500,12 +1500,6 @@
     "summary": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts contains 0 detected symbols, 1 import, 0 exports."
   },
   {
-    "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
-    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
-    "tokenEstimate": 55,
-    "summary": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts contains 2 detected symbols, 0 imports, 2 exports."
-  },
-  {
     "path": "benchmarks/fixtures/monorepo/packages/web/src/app.ts",
     "moduleName": "benchmarks/fixtures/monorepo/packages/web",
     "tokenEstimate": 32,
@@ -1516,6 +1510,12 @@
     "moduleName": "benchmarks/fixtures/monorepo/packages/web",
     "tokenEstimate": 28,
     "summary": "benchmarks/fixtures/monorepo/packages/web/src/config.ts contains 1 detected symbol, 1 import, 1 export."
+  },
+  {
+    "path": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts",
+    "moduleName": "benchmarks/fixtures/monorepo/packages/shared",
+    "tokenEstimate": 55,
+    "summary": "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts contains 2 detected symbols, 0 imports, 2 exports."
   },
   {
     "path": "test/fixtures/monorepo/packages/api/src/config.ts",

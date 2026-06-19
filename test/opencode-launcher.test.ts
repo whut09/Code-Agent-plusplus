@@ -60,7 +60,11 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /--quiet/);
   assert.match(source, /tool\.execute\.before/);
   assert.match(source, /sidecar", "check-command"/);
-  assert.match(source, /\/capp <task>/);
+  assert.match(source, /client\?\.app\?\.log/);
+  assert.doesNotMatch(source, /sidecar noticed an edit/);
+  assert.doesNotMatch(source, /sidecar active\./);
+  assert.match(source, /sidecar verification blocked/);
+  assert.match(source, /console\.log\(output\)/);
 });
 
 test("OpenCode sidecar verify checks plugin hooks, event log readiness, and guard stack", async () => {
