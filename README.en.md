@@ -13,8 +13,15 @@ Code Agent++ provides context, boundaries, evidence, gates, impact analysis, and
 
 ## 30-Second Start
 
+Run the global install from any local terminal; you do not need to be inside the target project yet:
+
 ```bash
 npm i -g code-agent-plusplus opencode-ai
+```
+
+Then enter the repository where you want Code Agent++ to run:
+
+```bash
 cd your-repo
 capp
 ```
