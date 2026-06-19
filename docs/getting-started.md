@@ -18,7 +18,13 @@ cd your-repo
 capp
 ```
 
-`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode .`.
+`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode .`. The sidecar listens for `file.edited` and `session.idle` events, then records a minimal event log under `.agent-context/traces/`.
+
+Before finalizing a task from the chat flow, verify the sidecar:
+
+```bash
+capp sidecar verify .
+```
 
 For local development inside this repository:
 

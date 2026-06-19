@@ -1,7 +1,7 @@
 # Task Context: refactor code safely
 
 Type: refactor
-Budget: 11,994 / 12,000 estimated tokens
+Budget: 12,000 / 12,000 estimated tokens
 
 ## Read First
 1. `benchmarks/tasks/refactor-config-loader.json` - lexical match: refactor
@@ -13,8 +13,8 @@ Budget: 11,994 / 12,000 estimated tokens
 7. `src/cli/index.ts` - lexical match: code, entrypoint; defines program
 
 ## Then Inspect If Needed
-- `test/codegraph.test.ts` - lexical match: code, related test
 - `test/opencode-launcher.test.ts` - lexical match: code, related test
+- `test/codegraph.test.ts` - lexical match: code, related test
 - `test/opencode-preset.test.ts` - lexical match: code, shared API/refactor risk
 - `test/test-selector.test.ts` - lexical match: code, shared API/refactor risk
 - `test/impact.test.ts` - lexical match: code, shared API/refactor risk
@@ -39,9 +39,9 @@ Budget: 11,994 / 12,000 estimated tokens
 | `code-agent-plusplus.local.example.yml` | direct-source | 34 | lexical match: code | code-agent-plusplus.local.example.yml is a unknown file written as YAML. |
 | `assets/agent-context-code-layers.png` | direct-source | 38 | lexical match: code | assets/agent-context-code-layers.png is a asset file. |
 | `src/mcp/server.ts` | entrypoint | 405 | lexical match: code, entrypoint, shared API/refactor risk | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
-| `src/cli/index.ts` | entrypoint | 429 | lexical match: code, entrypoint, shared API/refactor risk | src/cli/index.ts contains 133 detected symbols, 37 imports, 0 exports. |
+| `src/cli/index.ts` | entrypoint | 434 | lexical match: code, entrypoint, shared API/refactor risk | src/cli/index.ts contains 135 detected symbols, 38 imports, 0 exports. |
+| `test/opencode-launcher.test.ts` | test | 68 | lexical match: code, related test, shared API/refactor risk | test/opencode-launcher.test.ts contains 9 detected symbols, 9 imports, 0 exports. |
 | `test/codegraph.test.ts` | test | 62 | lexical match: code, related test, shared API/refactor risk | test/codegraph.test.ts contains 8 detected symbols, 7 imports, 0 exports. |
-| `test/opencode-launcher.test.ts` | test | 65 | lexical match: code, related test, shared API/refactor risk | test/opencode-launcher.test.ts contains 7 detected symbols, 8 imports, 0 exports. |
 | `test/opencode-preset.test.ts` | test | 93 | lexical match: code, shared API/refactor risk | test/opencode-preset.test.ts contains 20 detected symbols, 8 imports, 0 exports. |
 | `test/test-selector.test.ts` | test | 89 | lexical match: code, shared API/refactor risk | test/test-selector.test.ts contains 16 detected symbols, 8 imports, 0 exports. |
 | `test/impact.test.ts` | test | 62 | lexical match: code, shared API/refactor risk | test/impact.test.ts contains 7 detected symbols, 8 imports, 0 exports. |
@@ -80,7 +80,8 @@ Budget: 11,994 / 12,000 estimated tokens
 | `test/agent-benchmark.test.ts` | test | 53 | shared API/refactor risk | test/agent-benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
 | `test/benchmark.test.ts` | test | 50 | shared API/refactor risk | test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
 | `src/integrations/codegraph.ts` | dependency-neighbor | 294 | lexical match: code, direct dependency of test/codegraph.test.ts, shared API/refactor risk | src/integrations/codegraph.ts contains 59 detected symbols, 5 imports, 11 exports. |
-| `src/integrations/opencode/launcher.ts` | dependency-neighbor | 186 | lexical match: code, direct dependency of test/opencode-launcher.test.ts, shared API/refactor risk | src/integrations/opencode/launcher.ts contains 28 detected symbols, 9 imports, 5 exports. |
+| `src/integrations/opencode/launcher.ts` | dependency-neighbor | 188 | lexical match: code, direct dependency of test/opencode-launcher.test.ts, shared API/refactor risk | src/integrations/opencode/launcher.ts contains 27 detected symbols, 9 imports, 6 exports. |
+| `src/integrations/opencode/sidecar.ts` | dependency-neighbor | 179 | lexical match: code, direct dependency of test/opencode-launcher.test.ts, shared API/refactor risk | src/integrations/opencode/sidecar.ts contains 17 detected symbols, 4 imports, 7 exports. |
 | `src/integrations/opencode/sidecar-plugin-template.ts` | dependency-neighbor | 87 | lexical match: code, direct dependency of test/opencode-launcher.test.ts | src/integrations/opencode/sidecar-plugin-template.ts contains 2 detected symbols, 0 imports, 2 exports. |
 | `src/cli/opencode-preset.ts` | dependency-neighbor | 317 | lexical match: code, shared API/refactor risk | src/cli/opencode-preset.ts contains 44 detected symbols, 6 imports, 16 exports. |
 | `src/integrations/opencode/project-init.ts` | dependency-neighbor | 135 | lexical match: code, shared API/refactor risk | src/integrations/opencode/project-init.ts contains 13 detected symbols, 2 imports, 5 exports. |
@@ -109,19 +110,18 @@ Budget: 11,994 / 12,000 estimated tokens
 | `src/benchmarks/benchmark.ts` | dependency-neighbor | 595 | shared API/refactor risk | src/benchmarks/benchmark.ts contains 118 detected symbols, 7 imports, 13 exports. |
 | `src/harness/verification-plane/guards/regression-memory.ts` | dependency-neighbor | 332 | shared API/refactor risk | src/harness/verification-plane/guards/regression-memory.ts contains 56 detected symbols, 7 imports, 9 exports. |
 | `src/core/safe-command.ts` | dependency-neighbor | 158 | shared API/refactor risk | src/core/safe-command.ts contains 26 detected symbols, 1 import, 5 exports. |
-| `src/retrievers/static.ts` | dependency-neighbor | 128 | shared API/refactor risk | src/retrievers/static.ts contains 23 detected symbols, 3 imports, 6 exports. |
-| `src/harness/types.ts` | dependency-neighbor | 153 | shared API/refactor risk | src/harness/types.ts contains 16 detected symbols, 0 imports, 11 exports. |
+| `src/core/path-utils.ts` | dependency-neighbor | 98 | shared API/refactor risk | src/core/path-utils.ts contains 9 detected symbols, 1 import, 5 exports. |
 
 ## Budget Packing
 | Bucket | Tokens | Files |
 | --- | --- | --- |
 | Directly relevant source files | 183 | `benchmarks/tasks/refactor-config-loader.json`, `benchmarks/tasks/refactor-session-expiry.json`, `code-agent-plusplus.config.example.yml`, `code-agent-plusplus.local.example.yml`, `assets/agent-context-code-layers.png` |
-| Tests | 2,877 | `test/codegraph.test.ts`, `test/opencode-launcher.test.ts`, `test/opencode-preset.test.ts`, `test/test-selector.test.ts`, `test/impact.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/context-delta.test.ts`, `test/contract-validator.test.ts`, `test/execution-trace.test.ts`, `test/freshness.test.ts`, `test/hallucination-guard.test.ts`, `test/loop-controller.test.ts`, `test/orchestrator.test.ts`, `test/policy-engine.test.ts`, `test/regression-guard.test.ts`, `test/task-harness.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/mcp.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/analyzers.test.ts`, `test/cache.test.ts`, `test/agent-events.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/agent-benchmark.test.ts`, `test/benchmark.test.ts` |
-| Dependency neighbors | 8,100 | `src/integrations/codegraph.ts`, `src/integrations/opencode/launcher.ts`, `src/integrations/opencode/sidecar-plugin-template.ts`, `src/cli/opencode-preset.ts`, `src/integrations/opencode/project-init.ts`, `src/retrievers/codegraph.ts`, `src/core/types.ts`, `src/outputs/renderers/markdown.ts`, `src/outputs/agent-events.ts`, `src/harness/control-plane/orchestrator.ts`, `src/harness/observability/execution-trace.ts`, `src/core/token-estimator.ts`, `src/outputs/impact.ts`, `src/outputs/test-selector.ts`, `src/outputs/renderers/writer.ts`, `src/outputs/context-delta.ts`, `src/retrievers/index.ts`, `src/core/context-builder.ts`, `src/core/git.ts`, `src/core/freshness.ts`, `src/outputs/task-harness.ts`, `src/harness/control-plane/loop-controller.ts`, `src/harness/verification-plane/policy-engine.ts`, `src/harness/verification-plane/guards/regression.ts`, `src/harness/verification-plane/guards/hallucination.ts`, `src/outputs/contract-validator.ts`, `src/outputs/task-run.ts`, `src/benchmarks/benchmark.ts`, `src/harness/verification-plane/guards/regression-memory.ts`, `src/core/safe-command.ts`, `src/retrievers/static.ts`, `src/harness/types.ts` |
+| Tests | 2,880 | `test/opencode-launcher.test.ts`, `test/codegraph.test.ts`, `test/opencode-preset.test.ts`, `test/test-selector.test.ts`, `test/impact.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts`, `test/context-delta.test.ts`, `test/contract-validator.test.ts`, `test/execution-trace.test.ts`, `test/freshness.test.ts`, `test/hallucination-guard.test.ts`, `test/loop-controller.test.ts`, `test/orchestrator.test.ts`, `test/policy-engine.test.ts`, `test/regression-guard.test.ts`, `test/task-harness.test.ts`, `test/agents-md.test.ts`, `test/config.test.ts`, `test/mcp.test.ts`, `test/retrievers.test.ts`, `test/writer.test.ts`, `test/analyzers.test.ts`, `test/cache.test.ts`, `test/agent-events.test.ts`, `test/task-context.test.ts`, `test/fixtures.test.ts`, `test/token-savings.test.ts`, `test/readiness.test.ts`, `test/validator.test.ts`, `test/scanner.test.ts`, `test/snapshot.test.ts`, `test/agent-benchmark.test.ts`, `test/benchmark.test.ts` |
+| Dependency neighbors | 8,098 | `src/integrations/codegraph.ts`, `src/integrations/opencode/launcher.ts`, `src/integrations/opencode/sidecar.ts`, `src/integrations/opencode/sidecar-plugin-template.ts`, `src/cli/opencode-preset.ts`, `src/integrations/opencode/project-init.ts`, `src/retrievers/codegraph.ts`, `src/core/types.ts`, `src/outputs/renderers/markdown.ts`, `src/outputs/agent-events.ts`, `src/harness/control-plane/orchestrator.ts`, `src/harness/observability/execution-trace.ts`, `src/core/token-estimator.ts`, `src/outputs/impact.ts`, `src/outputs/test-selector.ts`, `src/outputs/renderers/writer.ts`, `src/outputs/context-delta.ts`, `src/retrievers/index.ts`, `src/core/context-builder.ts`, `src/core/git.ts`, `src/core/freshness.ts`, `src/outputs/task-harness.ts`, `src/harness/control-plane/loop-controller.ts`, `src/harness/verification-plane/policy-engine.ts`, `src/harness/verification-plane/guards/regression.ts`, `src/harness/verification-plane/guards/hallucination.ts`, `src/outputs/contract-validator.ts`, `src/outputs/task-run.ts`, `src/benchmarks/benchmark.ts`, `src/harness/verification-plane/guards/regression-memory.ts`, `src/core/safe-command.ts`, `src/core/path-utils.ts` |
 | Config/docs | 0 | none |
-| Entrypoints | 834 | `src/mcp/server.ts`, `src/cli/index.ts` |
+| Entrypoints | 839 | `src/mcp/server.ts`, `src/cli/index.ts` |
 
-Remaining budget: 6 estimated tokens
+Remaining budget: 0 estimated tokens
 
 ## Suggested Commands
 - npm run test -- refactor

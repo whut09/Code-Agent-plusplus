@@ -55,7 +55,7 @@
       "retrievers"
     ],
     "summary": "test contains 38 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
-    "importanceScore": 1366
+    "importanceScore": 1367
   },
   {
     "name": "outputs",
@@ -172,6 +172,24 @@
     "importanceScore": 310
   },
   {
+    "name": "integrations",
+    "pathPrefix": "integrations",
+    "files": [
+      "src/integrations/codegraph.ts",
+      "src/integrations/opencode/launcher.ts",
+      "src/integrations/opencode/project-init.ts",
+      "src/integrations/opencode/sidecar-plugin-template.ts",
+      "src/integrations/opencode/sidecar.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "integrations contains 5 files and depends on core, outputs, retrievers.",
+    "importanceScore": 284
+  },
+  {
     "name": "benchmarks",
     "pathPrefix": "benchmarks",
     "files": [
@@ -225,23 +243,6 @@
     ],
     "summary": "analyzers contains 6 files and depends on core.",
     "importanceScore": 229
-  },
-  {
-    "name": "integrations",
-    "pathPrefix": "integrations",
-    "files": [
-      "src/integrations/codegraph.ts",
-      "src/integrations/opencode/launcher.ts",
-      "src/integrations/opencode/project-init.ts",
-      "src/integrations/opencode/sidecar-plugin-template.ts"
-    ],
-    "imports": [
-      "core",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "integrations contains 4 files and depends on core, outputs, retrievers.",
-    "importanceScore": 221
   },
   {
     "name": "benchmarks/fixtures/small-ts-app",

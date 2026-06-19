@@ -174,6 +174,18 @@
       "summary": "retrievers contains 7 files and depends on core, integrations, outputs."
     },
     {
+      "name": "integrations",
+      "owns": [
+        "src/integrations/**"
+      ],
+      "imports": [
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "summary": "integrations contains 5 files and depends on core, outputs, retrievers."
+    },
+    {
       "name": "benchmarks",
       "owns": [
         "benchmarks/**",
@@ -195,18 +207,6 @@
         "core"
       ],
       "summary": "analyzers contains 6 files and depends on core."
-    },
-    {
-      "name": "integrations",
-      "owns": [
-        "src/integrations/**"
-      ],
-      "imports": [
-        "core",
-        "outputs",
-        "retrievers"
-      ],
-      "summary": "integrations contains 4 files and depends on core, outputs, retrievers."
     },
     {
       "name": "benchmarks/fixtures/small-ts-app",

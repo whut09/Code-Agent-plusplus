@@ -37,7 +37,11 @@ cd your-repo
 capp
 ```
 
-`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository.
+`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository. The sidecar plugin listens for `file.edited` and `session.idle`, writes minimal events to `.agent-context/traces/opencode-sidecar-events.jsonl`, and can be checked before finalizing:
+
+```bash
+capp sidecar verify .
+```
 
 Batch / CI harness-led executor flow:
 
@@ -102,6 +106,7 @@ Real credentials belong only in `code-agent-plusplus.local.yml`.
 | bounded harness-led orchestrator / `orchestrate`     | Foundation          |
 | mock executor / generic `--executor-command`         | Stable / Foundation |
 | `capp` OpenCode TUI launcher + sidecar plugin        | Foundation          |
+| `capp sidecar verify`                                | Foundation          |
 | OpenCode preset / `opencode run` / `oc`              | Foundation          |
 | OpenCode project init / `.opencode` commands         | Foundation          |
 | OpenCode doctor                                      | Foundation          |

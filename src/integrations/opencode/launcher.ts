@@ -1,12 +1,12 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { buildContextPackage } from "../../core/context-builder.js";
 import { runGit } from "../../core/git.js";
 import { runSafeCommand } from "../../core/safe-command.js";
 import { writeContextPackage } from "../../outputs/renderers/writer.js";
 import { initOpencodeProject } from "./project-init.js";
-import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "./sidecar-plugin-template.js";
+import { ensureOpencodeSidecarPlugin } from "./sidecar.js";
 
 export interface OpenCodeLauncherOptions {
   repo?: string;
@@ -27,6 +27,10 @@ export interface OpenCodeLauncherResult {
   command: string[];
   launched: boolean;
   exitCode: number | null;
+}
+
+export async function launchOpencodeTui(options: OpenCodeLauncherOptions = {}): Promise<OpenCodeLauncherResult> {
+  return launchOpenCodeWithSidecar(options);
 }
 
 export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions = {}): Promise<OpenCodeLauncherResult> {
@@ -74,7 +78,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
         : "OpenCode commands/agent generated"
   });
 
-  const plugin = ensureSidecarPlugin(repo, { force: options.forcePlugin, dryRun: options.dryRun });
+  const plugin = ensureOpencodeSidecarPlugin(repo, { force: options.forcePlugin, dryRun: options.dryRun });
   steps.push(plugin);
 
   const command = ["opencode", repo];
@@ -98,25 +102,6 @@ export function renderOpenCodeLauncherResult(result: OpenCodeLauncherResult): st
     `Command: ${result.command.join(" ")}`,
     result.launched ? `Exit code: ${result.exitCode ?? "unknown"}` : "Launch: skipped"
   ].join("\n");
-}
-
-function ensureSidecarPlugin(repo: string, options: { force?: boolean; dryRun?: boolean }): OpenCodeLauncherStep {
-  const filePath = path.join(repo, OPENCODE_SIDECAR_PLUGIN_PATH);
-  if (existsSync(filePath) && !options.force) {
-    return { name: "sidecar-plugin", status: "pass", details: `${OPENCODE_SIDECAR_PLUGIN_PATH} already exists` };
-  }
-
-  if (options.dryRun) {
-    return {
-      name: "sidecar-plugin",
-      status: existsSync(filePath) ? "warn" : "pass",
-      details: existsSync(filePath) ? `${OPENCODE_SIDECAR_PLUGIN_PATH} would be overwritten with --force` : `${OPENCODE_SIDECAR_PLUGIN_PATH} would be generated`
-    };
-  }
-
-  mkdirSync(path.dirname(filePath), { recursive: true });
-  writeFileSync(filePath, opencodeSidecarPluginTemplate(), "utf8");
-  return { name: "sidecar-plugin", status: "pass", details: `${OPENCODE_SIDECAR_PLUGIN_PATH} generated` };
 }
 
 function checkCommand(command: string, cwd: string): { ok: boolean; details: string } {

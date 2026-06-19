@@ -6,18 +6,18 @@ Generated for target: `codex`.
 - Languages: JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML
 - Frameworks: none detected
 - Package managers: npm
-- Files scanned: 254
-- Symbols detected: 3146
-- Dependency edges detected: 688
+- Files scanned: 255
+- Symbols detected: 3166
+- Dependency edges detected: 694
 
 ## Token Compression Estimate
-Original repo (estimated, chars_approx): 1,693,440 tokens
-Estimated context pack (chars_approx): 20,969 tokens
+Original repo (estimated, chars_approx): 1,695,434 tokens
+Estimated context pack (chars_approx): 21,047 tokens
 Compression: 81x
 Token budget: 120,000 (within budget)
 
 ## Repository Summary
-This repository contains 254 scanned files with 3146 detected symbols across 28 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: test (test/agent-benchmark.test.ts, test/agent-events.test.ts); outputs (src/outputs/agent-events.ts, src/outputs/agents-md.ts); core (src/core/cache.ts, src/core/context-builder.ts); harness (src/harness/control-plane/decision-engine.ts, src/harness/control-plane/loop-controller.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/harness/control-plane/loop-controller.ts: src/harness/control-plane/loop-controller.ts contains 60 detected symbols, 13 imports, 10 exports.; src/harness/control-plane/orchestrator.ts: src/harness/control-plane/orchestrator.ts contains 132 detected symbols, 26 imports, 12 exports.; src/harness/verification-plane/guards/regression.ts: src/harness/verification-plane/guards/regression.ts contains 64 detected symbols, 8 imports, 8 exports..
+This repository contains 255 scanned files with 3166 detected symbols across 28 modules. Detected stack: languages JSON, JavaScript, Markdown, Python, TOML, TypeScript, YAML, frameworks none, package managers npm. Primary entrypoints: src/cli/index.ts, src/mcp/server.ts. Common commands: npm run dev, npm run build, npm run lint, npm run test. Highest-signal modules: test (test/agent-benchmark.test.ts, test/agent-events.test.ts); outputs (src/outputs/agent-events.ts, src/outputs/agents-md.ts); core (src/core/cache.ts, src/core/context-builder.ts); harness (src/harness/control-plane/decision-engine.ts, src/harness/control-plane/loop-controller.ts). Highest-signal files: src/mcp/server.ts: src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports.; src/core/freshness.ts: src/core/freshness.ts contains 57 detected symbols, 8 imports, 9 exports.; src/harness/control-plane/loop-controller.ts: src/harness/control-plane/loop-controller.ts contains 60 detected symbols, 13 imports, 10 exports.; src/harness/control-plane/orchestrator.ts: src/harness/control-plane/orchestrator.ts contains 132 detected symbols, 26 imports, 12 exports.; src/harness/verification-plane/guards/regression.ts: src/harness/verification-plane/guards/regression.ts contains 64 detected symbols, 8 imports, 8 exports..
 
 ## Summary Mode
 - Mode: offline
@@ -44,7 +44,7 @@ This repository contains 254 scanned files with 3146 detected symbols across 28 
 - `core` - core contains 18 files and depends on analyzers, config, llm, outputs.
 - `harness` - harness contains 9 files and depends on core, outputs, sandbox.
 - `retrievers` - retrievers contains 7 files and depends on core, integrations, outputs.
-- `benchmarks` - benchmarks contains 25 files and depends on core, harness, outputs.
+- `integrations` - integrations contains 5 files and depends on core, outputs, retrievers.
 
 ## Key Entry Files
 - `src/mcp/server.ts` - entrypoint, 4 exports

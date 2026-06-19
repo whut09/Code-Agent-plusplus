@@ -64,7 +64,8 @@ import {
 } from "./opencode-preset.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
-import { launchOpenCodeWithSidecar, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
+import { launchOpencodeTui, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
+import { renderOpencodeSidecarVerifyReport, verifyOpencodeSidecar } from "../integrations/opencode/sidecar.js";
 import { resolveDefaultCommandArgs } from "./default-command.js";
 
 const program = new Command();
@@ -82,7 +83,7 @@ program
   .option("--json", "print machine-readable launcher report")
   .description("Launch OpenCode TUI with the Code Agent++ sidecar plugin.")
   .action(async (repo: string, options: { forcePlugin?: boolean; skipContext?: boolean; dryRun?: boolean; json?: boolean }) => {
-    const result = await launchOpenCodeWithSidecar({
+    const result = await launchOpencodeTui({
       repo,
       forcePlugin: options.forcePlugin,
       skipContext: options.skipContext,
@@ -90,6 +91,19 @@ program
     });
     console.log(options.json ? JSON.stringify(result, null, 2) : renderOpenCodeLauncherResult(result));
     if (typeof result.exitCode === "number" && result.exitCode !== 0) process.exitCode = result.exitCode;
+  });
+
+const sidecar = program.command("sidecar").description("Inspect and verify Code Agent++ sidecar integrations.");
+
+sidecar
+  .command("verify")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable sidecar verification report")
+  .description("Verify the OpenCode sidecar plugin and event log readiness.")
+  .action((repo: string, options: { json?: boolean }) => {
+    const result = verifyOpencodeSidecar(repo);
+    console.log(options.json ? JSON.stringify(result, null, 2) : renderOpencodeSidecarVerifyReport(result));
+    if (!result.ok) process.exitCode = 1;
   });
 
 program

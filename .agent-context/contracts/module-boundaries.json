@@ -236,6 +236,42 @@
         "src/retrievers/types.ts"
       ]
     },
+    "integrations": {
+      "owns": [
+        "src/integrations/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "src/integrations/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "src/integrations/codegraph.ts",
+        "src/integrations/opencode/launcher.ts",
+        "src/integrations/opencode/project-init.ts",
+        "src/integrations/opencode/sidecar-plugin-template.ts",
+        "src/integrations/opencode/sidecar.ts"
+      ]
+    },
     "benchmarks": {
       "owns": [
         "benchmarks/**",
@@ -308,41 +344,6 @@
         "src/analyzers/resolve-import.ts",
         "src/analyzers/tree-sitter.ts",
         "src/analyzers/types.ts"
-      ]
-    },
-    "integrations": {
-      "owns": [
-        "src/integrations/**"
-      ],
-      "allowedImports": [
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/config/**",
-        "src/core/**",
-        "src/integrations/**",
-        "src/outputs/**",
-        "src/retrievers/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "core",
-        "outputs",
-        "retrievers"
-      ],
-      "publicFiles": [
-        "src/integrations/codegraph.ts",
-        "src/integrations/opencode/launcher.ts",
-        "src/integrations/opencode/project-init.ts",
-        "src/integrations/opencode/sidecar-plugin-template.ts"
       ]
     },
     "benchmarks/fixtures/small-ts-app": {

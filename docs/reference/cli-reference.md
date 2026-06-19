@@ -35,12 +35,15 @@ code-agent-plusplus validate-contracts [repo] --base main
 ```bash
 capp
 capp tui [repo] --dry-run
+capp sidecar verify [repo]
 code-agent-plusplus loop "<task>" [repo] --phase after-edit --write
 code-agent-plusplus agent run "<task>" [repo] --executor mock
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 ```
 
 When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode <repo>`.
+
+`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `file.edited` / `session.idle`, and can write/read its minimal event log at `.agent-context/traces/opencode-sidecar-events.jsonl`.
 
 ## OpenCode Preset
 

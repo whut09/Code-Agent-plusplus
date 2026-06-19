@@ -8,11 +8,37 @@ export function opencodeSidecarPluginTemplate(): string {
  * presents the Code Agent++ harness inside this repository.
  */
 
+import { appendFileSync, mkdirSync } from "node:fs";
+import path from "node:path";
+
 export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
+  const eventLog = path.join(directory, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
+
+  function record(type, payload = {}) {
+    try {
+      mkdirSync(path.dirname(eventLog), { recursive: true });
+      appendFileSync(
+        eventLog,
+        JSON.stringify({
+          type,
+          ts: new Date().toISOString(),
+          directory,
+          worktree,
+          ...payload
+        }) + "\n",
+        "utf8"
+      );
+    } catch {
+      // The sidecar must never break OpenCode. Verification can still run manually.
+    }
+  }
+
   return {
     name: "code-agent-plusplus-sidecar",
     event: async ({ event }) => {
+      const type = event?.type;
       if (event?.type === "session.created") {
+        record("session.created");
         console.log([
           "Code Agent++ sidecar active.",
           "Project: " + directory,
@@ -21,6 +47,17 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
           "Use /capp-verify before finalizing a task.",
           "Use capp oc report --last for the latest gate report."
         ].join("\n"));
+      }
+
+      if (type === "file.edited") {
+        const file = event?.properties?.file ?? event?.properties?.path ?? event?.file ?? event?.path ?? "unknown";
+        record("file.edited", { file });
+        console.log("Code Agent++ sidecar noticed an edit: " + file + ". Run capp sidecar verify before finalizing.");
+      }
+
+      if (type === "session.idle") {
+        record("session.idle");
+        console.log("Code Agent++ sidecar idle check: run capp sidecar verify . before claiming completion.");
       }
     }
   };

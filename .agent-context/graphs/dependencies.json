@@ -829,6 +829,12 @@
       "isExternal": false
     },
     {
+      "from": "test/opencode-launcher.test.ts",
+      "to": "src/integrations/opencode/sidecar.ts",
+      "specifier": "../src/integrations/opencode/sidecar.js",
+      "isExternal": false
+    },
+    {
       "from": "test/opencode-preset.test.ts",
       "to": "node:assert/strict",
       "specifier": "node:assert/strict",
@@ -1940,6 +1946,12 @@
     },
     {
       "from": "src/cli/index.ts",
+      "to": "src/integrations/opencode/sidecar.ts",
+      "specifier": "../integrations/opencode/sidecar.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/cli/index.ts",
       "to": "src/cli/default-command.ts",
       "specifier": "./default-command.js",
       "isExternal": false
@@ -1991,42 +2003,6 @@
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
-    },
-    {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
     },
     {
       "from": "src/core/cache.ts",
@@ -2401,6 +2377,42 @@
       "isExternal": false
     },
     {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/integrations/codegraph.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -2428,6 +2440,12 @@
       "from": "src/integrations/codegraph.ts",
       "to": "src/retrievers/types.ts",
       "specifier": "../retrievers/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
       "isExternal": false
     },
     {
@@ -2545,9 +2563,201 @@
       "isExternal": false
     },
     {
-      "from": "src/llm/provider.ts",
+      "from": "src/retrievers/codegraph.ts",
       "to": "src/core/types.ts",
       "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/integrations/codegraph.ts",
+      "specifier": "../integrations/codegraph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/hybrid.ts",
+      "specifier": "./hybrid.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/ripgrep.ts",
+      "specifier": "./ripgrep.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/codegraph.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/external.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/hybrid.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/hybrid.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/ripgrep.ts",
+      "specifier": "./ripgrep.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/hybrid.ts",
+      "specifier": "./hybrid.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/external.ts",
+      "specifier": "./external.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/codegraph.ts",
+      "specifier": "./codegraph.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/index.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../outputs/renderers/markdown.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/ripgrep.ts",
+      "to": "src/retrievers/static.ts",
+      "specifier": "./static.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/static.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/static.ts",
+      "to": "src/outputs/rag.ts",
+      "specifier": "../outputs/rag.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/retrievers/static.ts",
+      "to": "src/retrievers/types.ts",
+      "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/sandbox/git-worktree-sandbox.ts",
+      "to": "src/sandbox/sandbox-adapter.ts",
+      "specifier": "./sandbox-adapter.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/sandbox/host-sandbox.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/sandbox/host-sandbox.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/sandbox/host-sandbox.ts",
+      "to": "src/sandbox/sandbox-adapter.ts",
+      "specifier": "./sandbox-adapter.js",
       "isExternal": false
     },
     {
@@ -3067,204 +3277,6 @@
       "isExternal": false
     },
     {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/integrations/codegraph.ts",
-      "specifier": "../integrations/codegraph.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/hybrid.ts",
-      "specifier": "./hybrid.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/ripgrep.ts",
-      "specifier": "./ripgrep.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/codegraph.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/external.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/hybrid.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/hybrid.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/ripgrep.ts",
-      "specifier": "./ripgrep.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/hybrid.ts",
-      "specifier": "./hybrid.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/external.ts",
-      "specifier": "./external.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/codegraph.ts",
-      "specifier": "./codegraph.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/index.ts",
-      "to": "src/outputs/renderers/markdown.ts",
-      "specifier": "../outputs/renderers/markdown.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/ripgrep.ts",
-      "to": "src/retrievers/static.ts",
-      "specifier": "./static.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/static.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/static.ts",
-      "to": "src/outputs/rag.ts",
-      "specifier": "../outputs/rag.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/retrievers/static.ts",
-      "to": "src/retrievers/types.ts",
-      "specifier": "./types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/git-worktree-sandbox.ts",
-      "to": "src/sandbox/sandbox-adapter.ts",
-      "specifier": "./sandbox-adapter.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/host-sandbox.ts",
-      "to": "src/core/git.ts",
-      "specifier": "../core/git.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/host-sandbox.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/sandbox/host-sandbox.ts",
-      "to": "src/sandbox/sandbox-adapter.ts",
-      "specifier": "./sandbox-adapter.js",
-      "isExternal": false
-    },
-    {
       "from": "src/harness/control-plane/decision-engine.ts",
       "to": "src/outputs/guard-gates.ts",
       "specifier": "../../outputs/guard-gates.js",
@@ -3680,8 +3692,8 @@
     },
     {
       "from": "src/integrations/opencode/launcher.ts",
-      "to": "src/integrations/opencode/sidecar-plugin-template.ts",
-      "specifier": "./sidecar-plugin-template.js",
+      "to": "src/integrations/opencode/sidecar.ts",
+      "specifier": "./sidecar.js",
       "isExternal": false
     },
     {
@@ -3695,6 +3707,30 @@
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
+    },
+    {
+      "from": "src/integrations/opencode/sidecar.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/opencode/sidecar.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/integrations/opencode/sidecar.ts",
+      "to": "src/core/git.ts",
+      "specifier": "../../core/git.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/integrations/opencode/sidecar.ts",
+      "to": "src/integrations/opencode/sidecar-plugin-template.ts",
+      "specifier": "./sidecar-plugin-template.js",
+      "isExternal": false
     },
     {
       "from": "src/outputs/renderers/reports.ts",
@@ -4045,15 +4081,9 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "./session.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../auth/session.js",
+      "specifier": "../../src/auth/session.js",
       "isExternal": false
     },
     {
@@ -4063,9 +4093,15 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../../src/auth/session.js",
+      "specifier": "../auth/session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "./session.js",
       "isExternal": false
     },
     {
@@ -4183,7 +4219,7 @@
     {
       "from": "cli",
       "to": "integrations",
-      "count": 3
+      "count": 4
     },
     {
       "from": "cli",
@@ -4238,7 +4274,7 @@
     {
       "from": "integrations",
       "to": "core",
-      "count": 5
+      "count": 6
     },
     {
       "from": "integrations",
@@ -4343,7 +4379,7 @@
     {
       "from": "test",
       "to": "integrations",
-      "count": 3
+      "count": 4
     },
     {
       "from": "test",
