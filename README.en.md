@@ -135,30 +135,27 @@ Real credentials belong only in `code-agent-plusplus.local.yml`.
 
 ## Current Maturity
 
-| Capability                                           | Maturity            |
-| ---------------------------------------------------- | ------------------- |
-| `build` / `AGENTS.md` / `.agent-context`             | Stable              |
-| task plan / pack / run                               | Stable              |
-| TypeScript Compiler API analyzer                     | Stable              |
-| Python AST / optional Tree-sitter analyzer           | Foundation          |
-| token savings estimated + actual output tokens       | Stable              |
-| Context / Boundary / Evidence / Impact / Loop Guards | Foundation          |
-| Hallucination Guard                                  | MVP                 |
-| Regression Guard / memory candidates                 | MVP / Foundation    |
-| bounded harness-led orchestrator / `orchestrate`     | Foundation          |
-| mock executor / generic `--executor-command`         | Stable / Foundation |
-| `capp` OpenCode TUI launcher + sidecar plugin        | Foundation          |
-| `capp sidecar verify`                                | Foundation          |
-| OpenCode preset / `opencode run` / `oc`              | Foundation          |
-| OpenCode project init / `.opencode` commands         | Foundation          |
-| OpenCode doctor                                      | Foundation          |
-| compact OpenCode run summary / `oc report` / repair  | Foundation          |
-| OpenCode event normalizer                            | Foundation          |
-| MiMoCode / Codex / Claude native normalizers         | Planned             |
-| MCP stdio server + core tools                        | Foundation          |
-| MCP Agent Native Runtime tools                       | Experimental        |
-| RAG export / retriever provider interface            | Foundation          |
-| direct LightRAG server sync                          | Planned             |
+| Capability                                       | Current status   | Notes                                                                                                   |
+| ------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------- |
+| `capp` OpenCode TUI launcher                     | MVP              | Runs preflight, prints compact readiness, launches OpenCode TUI, and supports `--pure`                  |
+| OpenCode transparent sidecar plugin              | MVP              | Injects `.opencode/plugins/code-agent-plusplus.ts` and listens for session/file/tool events             |
+| sidecar command guard                            | MVP+             | Blocks dangerous commands, unknown package scripts / Makefile targets, and protected / secret paths     |
+| sidecar post-tool evidence                       | Foundation       | Uses `tool.execute.after` to record exit code, timestamps, output hashes, and working-tree hashes       |
+| sidecar verify / shared guard stack              | Foundation       | Reuses contracts, hallucination, regression, impact, tests, and policy; needs more real-repo validation |
+| `capp report/status/doctor`                      | Foundation       | Reads sidecar reports, checks active state, and diagnoses OpenCode / auth / git / context               |
+| batch OpenCode executor / `capp oc`              | Foundation       | Best for benchmarks, CI-like runs, non-interactive tasks, and repeatable demos                          |
+| bounded harness-led orchestrator / `orchestrate` | Foundation       | Supports multi-loop artifacts, checkpoints, executor commands, and decision reports                     |
+| `build` / `AGENTS.md` / `.agent-context`         | Stable           | Stable repository context compiler and generated artifacts                                              |
+| task plan / pack / run                           | Stable           | Stable task context, boundaries, prompts, and trace files                                               |
+| TypeScript Compiler API analyzer                 | Stable           | Main TypeScript / JavaScript analyzer path is stable                                                    |
+| Python AST / optional Tree-sitter analyzer       | Foundation       | Python analyzer is usable; Tree-sitter remains optional                                                 |
+| Hallucination Guard                              | MVP              | Deterministic checks for missing files, commands, dependencies, config, and symbols                     |
+| Regression Guard / memory candidates             | MVP / Foundation | Structured regression memory and candidate flow are implemented                                         |
+| MCP stdio server + core tools                    | Foundation       | Core MCP tools work; end-to-end client integrations still need per-client validation                    |
+| MCP Agent Native Runtime tools                   | Experimental     | start/step/evaluate/repair/finalize remain experimental                                                 |
+| MiMoCode / Codex / Claude native normalizers     | Planned          | More real agent transcript / JSONL normalizers are planned                                              |
+| RAG export / retriever provider interface        | Foundation       | Export and provider interfaces are implemented                                                          |
+| direct LightRAG server sync                      | Planned          | Planned                                                                                                 |
 
 See the [documentation home](docs/README.md) for full maturity notes.
 
