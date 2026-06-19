@@ -38,6 +38,20 @@ code-agent-plusplus agent run "<task>" [repo] --executor mock
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 ```
 
+## OpenCode Preset
+
+```bash
+code-agent-plusplus opencode doctor [repo]
+code-agent-plusplus opencode run "<task>" [repo]
+code-agent-plusplus oc "<task>" [repo]
+```
+
+`opencode run` and `oc` default to:
+
+```bash
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+```
+
 ## Guard Commands
 
 ```bash

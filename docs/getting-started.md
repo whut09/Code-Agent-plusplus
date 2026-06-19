@@ -57,17 +57,21 @@ code-agent-plusplus policy . --base main --fail-on required
 
 ## Harness-Led Executor Flow
 
-Use this when Code Agent++ should call an external coding agent and evaluate the result:
+Use the OpenCode preset when Code Agent++ should call OpenCode and evaluate the result:
 
 ```bash
-code-agent-plusplus orchestrate "fix login timeout bug" . \
-  --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
-  --max-loops 3 \
-  --checkpoint git-worktree \
-  --fail-on required
+code-agent-plusplus opencode doctor .
+code-agent-plusplus opencode run "fix login timeout bug" .
+code-agent-plusplus oc "fix login timeout bug" .
 ```
 
+The preset internally runs:
+
+```bash
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+```
+
+Use `orchestrate --executor-command` when you need a custom executor command.
 Start with `--executor mock` when testing CI or demos.
 
 ## LLM Summaries

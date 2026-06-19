@@ -134,7 +134,7 @@
         "outputs",
         "retrievers"
       ],
-      "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers."
+      "summary": "test contains 36 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers."
     },
     {
       "name": "core",
@@ -202,7 +202,23 @@
         "benchmarks/fixtures/small-ts-app/**"
       ],
       "imports": [],
-      "summary": "benchmarks/fixtures/small-ts-app contains 13 files."
+      "summary": "benchmarks/fixtures/small-ts-app contains 17 files."
+    },
+    {
+      "name": "cli",
+      "owns": [
+        "src/cli/**"
+      ],
+      "imports": [
+        "benchmarks",
+        "config",
+        "core",
+        "harness",
+        "integrations",
+        "outputs",
+        "retrievers"
+      ],
+      "summary": "cli contains 3 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers."
     },
     {
       "name": "benchmarks/fixtures/monorepo/packages/api",
@@ -221,22 +237,6 @@
       ],
       "imports": [],
       "summary": "benchmarks/fixtures/react-app contains 8 files."
-    },
-    {
-      "name": "cli",
-      "owns": [
-        "src/cli/**"
-      ],
-      "imports": [
-        "benchmarks",
-        "config",
-        "core",
-        "harness",
-        "integrations",
-        "outputs",
-        "retrievers"
-      ],
-      "summary": "cli contains 2 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers."
     },
     {
       "name": "sandbox",

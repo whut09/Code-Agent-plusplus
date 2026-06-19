@@ -177,7 +177,9 @@ Status: MCP stdio server, core tools, structured runtime gate fields, and Codex/
 
 Goal: make Code Agent++ a bounded runtime controller while the code agent remains a replaceable executor.
 
-- `code-agent-plusplus orchestrate "<task>" . --executor opencode --executor-command "opencode run --format json {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
+- `code-agent-plusplus opencode doctor .`
+- `code-agent-plusplus opencode run "<task>" . --max-loops 3 --checkpoint git-worktree --fail-on required`
+- `code-agent-plusplus oc "<task>" .`
 - `code-agent-plusplus orchestrate "<task>" . --executor mimocode --executor-command "mimocode run {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
 - Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guard gates -> decision report`.
 - Decision reports: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.
@@ -235,7 +237,7 @@ OpenCode example:
 ```bash
 code-agent-plusplus benchmark-agent benchmarks \
   --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
   --max-loops 3 \
   --fail-on required
 ```

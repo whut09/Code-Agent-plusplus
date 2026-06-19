@@ -10,15 +10,15 @@ This document is generated from static repository signals. Treat it as a startin
 
 ## Important Modules
 - `outputs`: outputs contains 27 files and depends on core, harness, integrations.
-- `test`: test contains 35 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.
+- `test`: test contains 36 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.
 - `core`: core contains 18 files and depends on analyzers, config, llm, outputs.
 - `harness`: harness contains 9 files and depends on core, outputs, sandbox.
 - `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.
 - `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
 - `analyzers`: analyzers contains 6 files and depends on core.
-- `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 13 files.
+- `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 17 files.
+- `cli`: cli contains 3 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
 - `benchmarks/fixtures/monorepo/packages/api`: benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config.
-- `benchmarks/fixtures/react-app`: benchmarks/fixtures/react-app contains 8 files.
 
 ## Agent Guidance
 - Start with `AGENTS.md`, then read `key-files.md` for the highest-signal files.

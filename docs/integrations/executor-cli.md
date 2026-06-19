@@ -2,12 +2,28 @@
 
 Use this path when Code Agent++ should drive a bounded harness-led loop while an external coding agent performs edits.
 
+## OpenCode Preset
+
+```bash
+code-agent-plusplus opencode doctor .
+code-agent-plusplus opencode run "fix login timeout bug" .
+code-agent-plusplus oc "fix login timeout bug" .
+```
+
+The preset uses the built-in command template:
+
+```bash
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+```
+
+`opencode doctor` checks OpenCode installation, `opencode run`, `opencode auth list`, git repository status, `.agent-context`, and working-tree cleanliness.
+
 ## Generic Command Adapter
 
 ```bash
 code-agent-plusplus orchestrate "fix login timeout bug" . \
   --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
   --max-loops 3 \
   --checkpoint git-worktree \
   --fail-on required
@@ -27,7 +43,7 @@ task
 
 ## Placeholders
 
-- `{prompt}`: path or content supplied by Code Agent++.
+- `{prompt}`: path to the per-iteration prompt file supplied by Code Agent++.
 - `{task}`: original task text.
 - `{repo}`: repository path.
 - `{runDir}`: `.agent-context/runs/<task-id>/`.

@@ -40,12 +40,16 @@ npx code-agent-plusplus verify --diff .
 Harness-led executor flow：
 
 ```bash
-npx code-agent-plusplus orchestrate "fix login timeout bug" . \
-  --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
-  --max-loops 3 \
-  --checkpoint git-worktree \
-  --fail-on required
+npx code-agent-plusplus opencode doctor .
+npx code-agent-plusplus opencode run "fix login timeout bug" .
+# 短别名：
+npx code-agent-plusplus oc "fix login timeout bug" .
+```
+
+OpenCode preset 内部默认使用：
+
+```bash
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
 ```
 
 输出会写入：
@@ -93,6 +97,8 @@ AGENTS.md
 | Regression Guard / memory candidates                 | MVP / Foundation    |
 | bounded harness-led orchestrator / `orchestrate`     | Foundation          |
 | mock executor / generic `--executor-command`         | Stable / Foundation |
+| OpenCode preset / `opencode run` / `oc`              | Foundation          |
+| OpenCode doctor                                      | Foundation          |
 | OpenCode event normalizer                            | Foundation          |
 | MiMoCode / Codex / Claude native normalizers         | Planned             |
 | MCP stdio server + core tools                        | Foundation          |

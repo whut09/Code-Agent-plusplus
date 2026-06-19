@@ -63,6 +63,7 @@
       "test/impact.test.ts",
       "test/loop-controller.test.ts",
       "test/mcp.test.ts",
+      "test/opencode-preset.test.ts",
       "test/orchestrator.test.ts",
       "test/policy-engine.test.ts",
       "test/readiness.test.ts",
@@ -91,8 +92,8 @@
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 35 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
-    "importanceScore": 1262
+    "summary": "test contains 36 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
+    "importanceScore": 1301
   },
   {
     "name": "core",
@@ -227,6 +228,10 @@
     "name": "benchmarks/fixtures/small-ts-app",
     "pathPrefix": "benchmarks/fixtures/small-ts-app",
     "files": [
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/file-hashes.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/graph-cache.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/index-cache.json",
+      "benchmarks/fixtures/small-ts-app/.agent-context/cache/tokenizer-cache.json",
       "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
       "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
       "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
@@ -242,8 +247,28 @@
       "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts"
     ],
     "imports": [],
-    "summary": "benchmarks/fixtures/small-ts-app contains 13 files.",
+    "summary": "benchmarks/fixtures/small-ts-app contains 17 files.",
     "importanceScore": 219
+  },
+  {
+    "name": "cli",
+    "pathPrefix": "cli",
+    "files": [
+      "src/cli/index.ts",
+      "src/cli/opencode-preset.ts",
+      "src/cli/task-args.ts"
+    ],
+    "imports": [
+      "benchmarks",
+      "config",
+      "core",
+      "harness",
+      "integrations",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "cli contains 3 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
+    "importanceScore": 174
   },
   {
     "name": "benchmarks/fixtures/monorepo/packages/api",
@@ -277,25 +302,6 @@
     "imports": [],
     "summary": "benchmarks/fixtures/react-app contains 8 files.",
     "importanceScore": 154
-  },
-  {
-    "name": "cli",
-    "pathPrefix": "cli",
-    "files": [
-      "src/cli/index.ts",
-      "src/cli/task-args.ts"
-    ],
-    "imports": [
-      "benchmarks",
-      "config",
-      "core",
-      "harness",
-      "integrations",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "cli contains 2 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
-    "importanceScore": 116
   },
   {
     "name": "sandbox",

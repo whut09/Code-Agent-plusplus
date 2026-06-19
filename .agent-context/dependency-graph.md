@@ -62,7 +62,7 @@ graph TD
 | benchmarks/fixtures/monorepo/packages/web | benchmarks/fixtures/monorepo/packages/config | 1 |
 | cli | benchmarks | 2 |
 | cli | config | 1 |
-| cli | core | 8 |
+| cli | core | 10 |
 | cli | harness | 7 |
 | cli | integrations | 1 |
 | cli | outputs | 10 |
@@ -91,9 +91,9 @@ graph TD
 | sandbox | core | 4 |
 | test | analyzers | 3 |
 | test | benchmarks | 2 |
-| test | cli | 1 |
+| test | cli | 2 |
 | test | config | 3 |
-| test | core | 43 |
+| test | core | 44 |
 | test | harness | 13 |
 | test | integrations | 1 |
 | test | mcp | 1 |

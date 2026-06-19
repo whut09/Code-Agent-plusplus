@@ -7,6 +7,7 @@ Executor adapters let Code Agent++ treat external code agents as replaceable cod
 | Executor / Adapter                | Maturity   | Notes                                                                                |
 | --------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
 | `mock`                            | Stable     | Deterministic demo and CI executor.                                                  |
+| OpenCode preset                   | Foundation | `opencode doctor`, `opencode run`, and `oc` with the default OpenCode command.       |
 | generic `--executor-command`      | Foundation | Calls scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.    |
 | OpenCode event normalizer         | Foundation | Supports `opencode run --format json`, transcript files, and stdout/stderr fallback. |
 | MiMoCode native normalizer        | Planned    | Native event format support is planned.                                              |
@@ -16,16 +17,32 @@ Executor adapters let Code Agent++ treat external code agents as replaceable cod
 
 ## Generic Command
 
+OpenCode has a first-class preset:
+
+```bash
+code-agent-plusplus opencode doctor .
+code-agent-plusplus opencode run "<task>" .
+code-agent-plusplus oc "<task>" .
+```
+
+The preset expands to:
+
+```bash
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+```
+
+Use the generic adapter for other executors or custom OpenCode commands:
+
 ```bash
 code-agent-plusplus orchestrate "<task>" . \
   --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
   --max-loops 3
 ```
 
 Placeholders:
 
-- `{prompt}`
+- `{prompt}`: per-iteration prompt file path
 - `{task}`
 - `{repo}`
 - `{runDir}`

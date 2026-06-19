@@ -172,7 +172,7 @@ export function renderAgentBehaviorBenchmark(result: AgentBehaviorBenchmarkResul
     "- D harness-led: Code Agent++ owns the loop and the code agent is only the executor.",
     "- `mock` and `--dry-run` validate the benchmark harness without editing fixtures.",
     "- Core Phase 6 metrics: wrong files changed, forbidden files changed, tests missing, tests failed, hallucinated commands, iterations to finish, final decision accuracy, and human review needed.",
-    '- Real OpenCode runs can be recorded with `--executor opencode --executor-command "opencode run --format json {prompt}"`.'
+    '- Real OpenCode runs can be recorded with `--executor opencode --executor-command "opencode run --format json --dir {repo} --file {prompt} \\"Follow the attached Code Agent++ task prompt.\\""`.'
   ].join("\n");
 }
 

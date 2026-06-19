@@ -95,7 +95,7 @@ Recommended CLI entries:
 
 ```bash
 code-agent-plusplus orchestrate "fix login timeout bug" . --executor mock --max-loops 3 --checkpoint git-worktree --fail-on required
-code-agent-plusplus orchestrate "fix login timeout bug" . --executor opencode --executor-command "opencode run --format json {prompt}" --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
+code-agent-plusplus opencode run "fix login timeout bug" . --opencode-transcript .opencode/session.jsonl --max-loops 3 --checkpoint git-worktree --fail-on required
 code-agent-plusplus agent run "fix login timeout bug" . --executor mimocode --executor-command "mimocode run {prompt}" --fail-on required
 ```
 

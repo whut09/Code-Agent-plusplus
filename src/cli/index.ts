@@ -52,6 +52,7 @@ import { buildContextDelta, renderContextDelta, writeContextDelta } from "../out
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
+import { OPENCODE_DEFAULT_EXECUTOR_COMMAND, renderOpencodeDoctorReport, runOpencodeDoctor } from "./opencode-preset.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
 
@@ -611,6 +612,30 @@ program
     }
   );
 
+const opencode = program.command("opencode").description("OpenCode preset commands.");
+
+addOpencodeRunOptions(
+  opencode
+    .command("run")
+    .argument("<args...>", "task description and optional repository path")
+    .description("Run the harness-led OpenCode preset: plan/pack -> opencode run -> trace/policy/verify -> decision.")
+).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
+
+opencode
+  .command("doctor")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable doctor report")
+  .description("Check whether OpenCode and the current repository are ready for the OpenCode preset.")
+  .action((repo: string, options: { json?: boolean }) => {
+    const report = runOpencodeDoctor(repo);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeDoctorReport(report));
+    if (!report.ok) process.exitCode = 1;
+  });
+
+addOpencodeRunOptions(
+  program.command("oc").argument("<args...>", "task description and optional repository path").description("Alias for `code-agent-plusplus opencode run`.")
+).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
+
 program
   .command("orchestrate")
   .argument("<args...>", "task description and optional repository path")
@@ -957,6 +982,60 @@ program.parseAsync().catch((error: unknown) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
+
+interface OpencodeRunCliOptions {
+  repo?: string | string[];
+  executorCommand?: string;
+  opencodeTranscript?: string;
+  agent?: string;
+  maxLoops: number;
+  type: TaskType;
+  tokenBudget?: number;
+  base: string;
+  failOn: PolicyFailOn;
+  checkpoint: OrchestratorCheckpointMode;
+  dryRun?: boolean;
+  json?: boolean;
+}
+
+function addOpencodeRunOptions(command: Command): Command {
+  return command
+    .option("--repo <repo...>", "repository path; accepts multiple words when the path contains spaces or non-ASCII characters")
+    .option(
+      "--executor-command <command>",
+      "OpenCode command template; supports {prompt}, {task}, {repo}, {runDir}, {agent}",
+      OPENCODE_DEFAULT_EXECUTOR_COMMAND
+    )
+    .option("--opencode-transcript <path>", "optional OpenCode session transcript file to normalize into the execution trace")
+    .option("--agent <agent>", "OpenCode agent/profile name")
+    .option("--max-loops <count>", "maximum orchestrator iterations before requiring human review", parseInteger, 3)
+    .option("--type <type>", "task type: auto, bugfix, feature, refactor", parseTaskType, "auto")
+    .option("-b, --token-budget <tokens>", "task context token budget", parseInteger)
+    .option("--base <ref>", "base git ref for diff, policy, tests, impact, and verify", "main")
+    .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
+    .option("--checkpoint <mode>", "checkpoint mode: none, git-worktree", parseOrchestratorCheckpoint, "git-worktree")
+    .option("--dry-run", "exercise the harness using the mock executor without editing files")
+    .option("--json", "print machine-readable orchestrator report");
+}
+
+async function runOpencodePreset(args: string[], options: OpencodeRunCliOptions): Promise<void> {
+  const { task, repo } = resolveTaskArguments(args, options.repo);
+  const result = await runHarnessOrchestrator(repo, task, {
+    executor: "opencode",
+    executorCommand: options.executorCommand ?? OPENCODE_DEFAULT_EXECUTOR_COMMAND,
+    opencodeTranscript: options.opencodeTranscript,
+    agent: options.agent,
+    maxLoops: options.maxLoops,
+    type: options.type,
+    tokenBudget: options.tokenBudget,
+    base: options.base,
+    failOn: options.failOn,
+    checkpoint: options.checkpoint,
+    dryRun: options.dryRun
+  });
+  console.log(options.json ? JSON.stringify(result.report, null, 2) : renderOrchestratorReport(result.report));
+  if (result.report.decision.blocking) process.exitCode = 1;
+}
 
 interface MemoryCandidateCliOptions {
   base: string;

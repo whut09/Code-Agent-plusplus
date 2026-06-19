@@ -341,6 +341,48 @@
         "benchmarks/fixtures/small-ts-app/src/index.ts"
       ]
     },
+    "cli": {
+      "owns": [
+        "src/cli/**"
+      ],
+      "allowedImports": [
+        "benchmarks/**",
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/benchmarks/**",
+        "src/cli/**",
+        "src/config/**",
+        "src/core/**",
+        "src/harness/**",
+        "src/integrations/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "benchmarks",
+        "config",
+        "core",
+        "harness",
+        "integrations",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "src/cli/index.ts",
+        "src/cli/opencode-preset.ts",
+        "src/cli/task-args.ts"
+      ]
+    },
     "benchmarks/fixtures/monorepo/packages/api": {
       "owns": [
         "benchmarks/fixtures/monorepo/packages/api/**"
@@ -398,47 +440,6 @@
         "benchmarks/fixtures/react-app/src/billing/audit.ts",
         "benchmarks/fixtures/react-app/src/billing/invoice.ts",
         "benchmarks/fixtures/react-app/src/components/LoginStatus.tsx"
-      ]
-    },
-    "cli": {
-      "owns": [
-        "src/cli/**"
-      ],
-      "allowedImports": [
-        "benchmarks/**",
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/benchmarks/**",
-        "src/cli/**",
-        "src/config/**",
-        "src/core/**",
-        "src/harness/**",
-        "src/integrations/**",
-        "src/outputs/**",
-        "src/retrievers/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "benchmarks",
-        "config",
-        "core",
-        "harness",
-        "integrations",
-        "outputs",
-        "retrievers"
-      ],
-      "publicFiles": [
-        "src/cli/index.ts",
-        "src/cli/task-args.ts"
       ]
     },
     "sandbox": {
