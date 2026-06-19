@@ -14,6 +14,7 @@ export interface OpenCodeLauncherOptions {
   skipContext?: boolean;
   dryRun?: boolean;
   pure?: boolean;
+  onPreflight?: (result: OpenCodeLauncherPreflightResult) => void;
 }
 
 export interface OpenCodeLauncherStep {
@@ -28,6 +29,12 @@ export interface OpenCodeLauncherResult {
   command: string[];
   launched: boolean;
   exitCode: number | null;
+}
+
+export interface OpenCodeLauncherPreflightResult {
+  repo: string;
+  steps: OpenCodeLauncherStep[];
+  command: string[];
 }
 
 export async function launchOpencodeTui(options: OpenCodeLauncherOptions = {}): Promise<OpenCodeLauncherResult> {
@@ -49,6 +56,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
     const command = ["opencode", repo];
     if (!opencode.ok) return { repo, steps, command, launched: false, exitCode: 1 };
     if (options.dryRun) return { repo, steps, command, launched: false, exitCode: 0 };
+    options.onPreflight?.({ repo, steps, command });
     const result = spawnOpenCodeTui(repo);
     return { repo, steps, command, launched: true, exitCode: typeof result.status === "number" ? result.status : result.error ? 1 : null };
   }
@@ -96,6 +104,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
     return { repo, steps, command, launched: false, exitCode: 0 };
   }
 
+  options.onPreflight?.({ repo, steps, command });
   const result = spawnOpenCodeTui(repo);
   return { repo, steps, command, launched: true, exitCode: typeof result.status === "number" ? result.status : result.error ? 1 : null };
 }
@@ -112,6 +121,31 @@ export function renderOpenCodeLauncherResult(result: OpenCodeLauncherResult): st
     `Command: ${result.command.join(" ")}`,
     result.launched ? `Exit code: ${result.exitCode ?? "unknown"}` : "Launch: skipped"
   ].join("\n");
+}
+
+export function renderOpenCodeLauncherPreflight(result: OpenCodeLauncherPreflightResult): string {
+  const context = result.steps.find((step) => step.name === "context");
+  const plugin = result.steps.find((step) => step.name === "sidecar-plugin");
+  const mode = result.steps.find((step) => step.name === "mode");
+  const title = mode?.status === "skipped" ? "Code Agent++ launching pure OpenCode" : "Code Agent++ sidecar ready";
+  return [
+    title,
+    `- Context: ${statusWord(context)}${context ? ` (${context.details})` : ""}`,
+    `- Plugin: ${mode?.status === "skipped" ? "disabled" : statusWord(plugin)}${plugin ? ` (${plugin.details})` : ""}`,
+    `- Report: ${mode?.status === "skipped" ? "disabled" : ".agent-context/sidecar/latest.md"}`,
+    "",
+    "Launching OpenCode..."
+  ].join("\n");
+}
+
+export function renderOpenCodeLauncherExit(result: OpenCodeLauncherResult): string {
+  return `OpenCode exited with code ${result.exitCode ?? "unknown"}.`;
+}
+
+function statusWord(step: OpenCodeLauncherStep | undefined): string {
+  if (!step) return "unknown";
+  if (step.status === "pass") return "ready";
+  return step.status;
 }
 
 function checkCommand(command: string, cwd: string): { ok: boolean; details: string } {

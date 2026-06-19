@@ -6,7 +6,7 @@ import test from "node:test";
 import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
-import { launchOpenCodeWithSidecar } from "../src/integrations/opencode/launcher.js";
+import { launchOpenCodeWithSidecar, renderOpenCodeLauncherPreflight } from "../src/integrations/opencode/launcher.js";
 import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/sidecar-plugin-template.js";
 import {
   checkOpencodeSidecarCommand,
@@ -44,6 +44,43 @@ test("OpenCode launcher dry-run prepares sidecar context without opening the TUI
     assert.equal(result.steps.find((step) => step.name === "sidecar-plugin")?.status, "pass");
     assert.equal(existsSync(path.join(root, ".opencode")), false);
     assert.equal(existsSync(path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH)), false);
+  } finally {
+    process.env.PATH = oldPath;
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode launcher emits a compact preflight before opening the TUI", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-preflight-"));
+  const bin = path.join(root, "bin");
+  const oldPath = process.env.PATH;
+  const preflights: string[] = [];
+  try {
+    mkdirSync(bin, { recursive: true });
+    writeFakeOpenCode(bin);
+    process.env.PATH = `${bin}${path.delimiter}${oldPath ?? ""}`;
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
+    runGit(root, ["init"]);
+    runGit(root, ["checkout", "-b", "main"]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["add", "."]);
+    runGit(root, ["commit", "-m", "initial"]);
+
+    const result = await launchOpenCodeWithSidecar({
+      repo: root,
+      skipContext: true,
+      onPreflight: (preflight) => preflights.push(renderOpenCodeLauncherPreflight(preflight))
+    });
+
+    assert.equal(result.launched, true);
+    assert.equal(result.exitCode, 0);
+    assert.equal(preflights.length, 1);
+    assert.match(preflights[0] ?? "", /Code Agent\+\+ sidecar ready/);
+    assert.match(preflights[0] ?? "", /Context: skipped/);
+    assert.match(preflights[0] ?? "", /Plugin: ready/);
+    assert.match(preflights[0] ?? "", /Report: \.agent-context\/sidecar\/latest\.md/);
+    assert.match(preflights[0] ?? "", /Launching OpenCode/);
   } finally {
     process.env.PATH = oldPath;
     rmSync(root, { recursive: true, force: true });
@@ -241,15 +278,11 @@ test("OpenCode sidecar verify detects generated context blockers from current di
 
 function writeFakeOpenCode(bin: string): void {
   if (process.platform === "win32") {
-    writeFileSync(path.join(bin, "opencode.cmd"), '@echo off\r\nif "%1"=="--version" echo opencode 0.0.0-test& exit /b 0\r\necho tui& exit /b 0\r\n', "utf8");
+    writeFileSync(path.join(bin, "opencode.cmd"), '@echo off\r\nif "%1"=="--version" echo opencode 0.0.0-test& exit /b 0\r\nexit /b 0\r\n', "utf8");
     return;
   }
 
   const script = path.join(bin, "opencode");
-  writeFileSync(
-    script,
-    ["#!/usr/bin/env sh", 'if [ "$1" = "--version" ]; then echo "opencode 0.0.0-test"; exit 0; fi', "echo tui", "exit 0"].join("\n"),
-    "utf8"
-  );
+  writeFileSync(script, ["#!/usr/bin/env sh", 'if [ "$1" = "--version" ]; then echo "opencode 0.0.0-test"; exit 0; fi', "exit 0"].join("\n"), "utf8");
   chmodSync(script, 0o755);
 }

@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11999,
-  "remainingBudget": 1,
+  "estimatedTokens": 11997,
+  "remainingBudget": 3,
   "files": [
     {
       "path": "src/integrations/opencode/sidecar.ts",
@@ -92,7 +92,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 92
+      "estimatedTokens": 102
     },
     {
       "path": "test/codegraph.test.ts",
@@ -461,7 +461,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 192
+      "estimatedTokens": 250
     },
     {
       "path": "src/integrations/codegraph.ts",
@@ -755,13 +755,13 @@
       "estimatedTokens": 128
     },
     {
-      "path": "src/core/path-utils.ts",
-      "score": 18,
+      "path": "benchmarks/README.md",
+      "score": 14,
       "reasons": [
-        "shared API/refactor risk"
+        "owning module documentation"
       ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 98
+      "category": "config-doc",
+      "estimatedTokens": 28
     }
   ],
   "readFirst": [
@@ -854,7 +854,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 92
+      "estimatedTokens": 102
     },
     {
       "path": "test/codegraph.test.ts",
@@ -1001,8 +1001,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11999,
-    "remaining": 1,
+    "used": 11997,
+    "remaining": 3,
     "buckets": [
       {
         "name": "direct-source",
@@ -1020,7 +1020,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2963,
+        "tokens": 2973,
         "files": [
           "test/opencode-launcher.test.ts",
           "test/codegraph.test.ts",
@@ -1067,7 +1067,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 7284,
+        "tokens": 7244,
         "files": [
           "src/integrations/opencode/launcher.ts",
           "src/integrations/codegraph.ts",
@@ -1098,15 +1098,16 @@
           "src/core/freshness.ts",
           "src/harness/control-plane/loop-controller.ts",
           "src/outputs/task-run.ts",
-          "src/retrievers/static.ts",
-          "src/core/path-utils.ts"
+          "src/retrievers/static.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 0,
-        "files": []
+        "tokens": 28,
+        "files": [
+          "benchmarks/README.md"
+        ]
       },
       {
         "name": "entrypoints",
@@ -1133,6 +1134,6 @@
     "directMatches": 8,
     "dependencyNeighbors": 19,
     "tests": 40,
-    "configDocs": 0
+    "configDocs": 1
   }
 }

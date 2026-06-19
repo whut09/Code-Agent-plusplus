@@ -64,7 +64,12 @@ import {
 } from "./opencode-preset.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
-import { launchOpencodeTui, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
+import {
+  launchOpencodeTui,
+  renderOpenCodeLauncherExit,
+  renderOpenCodeLauncherPreflight,
+  renderOpenCodeLauncherResult
+} from "../integrations/opencode/launcher.js";
 import {
   checkOpencodeSidecarCommand,
   recordOpencodeSidecarTool,
@@ -98,9 +103,21 @@ program
       forcePlugin: options.forcePlugin,
       skipContext: options.skipContext,
       pure: options.pure,
-      dryRun: options.dryRun
+      dryRun: options.dryRun,
+      onPreflight:
+        options.json || options.dryRun
+          ? undefined
+          : (preflight) => {
+              console.log(renderOpenCodeLauncherPreflight(preflight));
+            }
     });
-    console.log(options.json ? JSON.stringify(result, null, 2) : renderOpenCodeLauncherResult(result));
+    if (options.json) {
+      console.log(JSON.stringify(result, null, 2));
+    } else if (options.dryRun || !result.launched) {
+      console.log(renderOpenCodeLauncherResult(result));
+    } else {
+      console.log(renderOpenCodeLauncherExit(result));
+    }
     if (typeof result.exitCode === "number" && result.exitCode !== 0) process.exitCode = result.exitCode;
   });
 
