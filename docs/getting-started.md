@@ -62,7 +62,9 @@ Use the OpenCode preset when Code Agent++ should call OpenCode and evaluate the 
 ```bash
 code-agent-plusplus opencode doctor .
 code-agent-plusplus opencode run "fix login timeout bug" .
-code-agent-plusplus oc "fix login timeout bug" .
+capp oc "fix login timeout bug" .
+capp oc report --last
+capp oc repair
 ```
 
 The preset internally runs:
@@ -70,6 +72,8 @@ The preset internally runs:
 ```bash
 opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
 ```
+
+The default terminal output is a compact decision summary with task, decision, confidence, changed files, blocking gates, and next commands. Use `capp oc report --last` for the full orchestrator report.
 
 Use `orchestrate --executor-command` when you need a custom executor command.
 Start with `--executor mock` when testing CI or demos.

@@ -30,7 +30,7 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 - Entrypoint: `src/mcp/server.ts`
 - Anchor: `src/core/freshness.ts` - 9 exports, 57 symbols
 - Anchor: `src/harness/control-plane/loop-controller.ts` - 10 exports, 60 symbols
-- Anchor: `src/harness/verification-plane/guards/regression.ts` - 8 exports, 64 symbols
+- Anchor: `src/harness/control-plane/orchestrator.ts` - 12 exports, 132 symbols
 
 ## Commands
 - Run: `npm run dev`

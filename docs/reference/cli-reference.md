@@ -43,7 +43,9 @@ code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 ```bash
 code-agent-plusplus opencode doctor [repo]
 code-agent-plusplus opencode run "<task>" [repo]
-code-agent-plusplus oc "<task>" [repo]
+capp oc "<task>" [repo]
+capp oc report --last
+capp oc repair
 ```
 
 `opencode run` and `oc` default to:
@@ -51,6 +53,8 @@ code-agent-plusplus oc "<task>" [repo]
 ```bash
 opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
 ```
+
+`opencode run` and `oc` print a compact summary by default. Use `--full-report` for the full report, `--json` for machine-readable output, or `oc report --last` after a run.
 
 ## Guard Commands
 

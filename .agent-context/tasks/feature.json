@@ -2,12 +2,12 @@
   "task": "add a feature or new behavior",
   "type": "feature",
   "tokenBudget": 12000,
-  "estimatedTokens": 7441,
-  "remainingBudget": 4559,
+  "estimatedTokens": 7472,
+  "remainingBudget": 4528,
   "files": [
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 276,
+      "score": 275,
       "reasons": [
         "lexical match: behavior",
         "direct importer of src/benchmarks/benchmark.ts"
@@ -17,7 +17,7 @@
     },
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 272,
+      "score": 271,
       "reasons": [
         "lexical match: behavior",
         "direct dependency of src/benchmarks/agent-benchmark.ts"
@@ -34,7 +34,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 373
+      "estimatedTokens": 404
     },
     {
       "path": "src/mcp/server.ts",
@@ -176,6 +176,15 @@
       "estimatedTokens": 318
     },
     {
+      "path": "src/harness/control-plane/orchestrator.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 618
+    },
+    {
       "path": "src/harness/verification-plane/guards/hallucination.ts",
       "score": 24,
       "reasons": [
@@ -201,15 +210,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 203
-    },
-    {
-      "path": "src/harness/control-plane/orchestrator.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 618
     },
     {
       "path": "src/outputs/test-selector.ts",
@@ -431,7 +431,7 @@
   "readFirst": [
     {
       "path": "src/benchmarks/agent-benchmark.ts",
-      "score": 276,
+      "score": 275,
       "reasons": [
         "lexical match: behavior",
         "direct importer of src/benchmarks/benchmark.ts"
@@ -441,7 +441,7 @@
     },
     {
       "path": "src/benchmarks/benchmark.ts",
-      "score": 272,
+      "score": 271,
       "reasons": [
         "lexical match: behavior",
         "direct dependency of src/benchmarks/agent-benchmark.ts"
@@ -458,7 +458,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 373
+      "estimatedTokens": 404
     },
     {
       "path": "src/mcp/server.ts",
@@ -602,6 +602,15 @@
       "estimatedTokens": 318
     },
     {
+      "path": "src/harness/control-plane/orchestrator.ts",
+      "score": 24,
+      "reasons": [
+        "direct dependency of src/benchmarks/agent-benchmark.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 618
+    },
+    {
       "path": "src/harness/verification-plane/guards/hallucination.ts",
       "score": 24,
       "reasons": [
@@ -609,21 +618,12 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 489
-    },
-    {
-      "path": "src/harness/observability/execution-trace.ts",
-      "score": 24,
-      "reasons": [
-        "direct dependency of src/benchmarks/agent-benchmark.ts"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 337
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 7441,
-    "remaining": 4559,
+    "used": 7472,
+    "remaining": 4528,
     "buckets": [
       {
         "name": "direct-source",
@@ -660,10 +660,10 @@
           "src/harness/control-plane/loop-controller.ts",
           "src/harness/verification-plane/policy-engine.ts",
           "src/harness/verification-plane/guards/regression.ts",
+          "src/harness/control-plane/orchestrator.ts",
           "src/harness/verification-plane/guards/hallucination.ts",
           "src/harness/observability/execution-trace.ts",
           "src/outputs/task-run.ts",
-          "src/harness/control-plane/orchestrator.ts",
           "src/outputs/test-selector.ts",
           "src/outputs/renderers/writer.ts",
           "src/core/safe-command.ts",
@@ -700,7 +700,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 778,
+        "tokens": 809,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

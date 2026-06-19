@@ -1,7 +1,8 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { runGit } from "../core/git.js";
 import { runSafeCommand, type SafeCommandRunResult } from "../core/safe-command.js";
+import type { HarnessOrchestratorReport } from "../harness/control-plane/orchestrator.js";
 
 export const OPENCODE_DEFAULT_EXECUTOR_COMMAND = 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."';
 
@@ -19,6 +20,16 @@ export interface OpencodeDoctorReport {
   repo: string;
   ok: boolean;
   checks: OpencodeDoctorCheck[];
+}
+
+export interface OpencodeReportLookupOptions {
+  last?: boolean;
+  taskId?: string;
+}
+
+export interface OpencodeReportLookupResult {
+  report: HarnessOrchestratorReport;
+  path: string;
 }
 
 export function runOpencodeDoctor(repo: string): OpencodeDoctorReport {
@@ -107,6 +118,111 @@ export function renderOpencodeDoctorReport(report: OpencodeDoctorReport): string
     "",
     report.ok ? "Result: OpenCode preset is usable." : "Result: OpenCode preset is not ready. Fix failed checks before running the executor."
   ].join("\n");
+}
+
+export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, commandName = "capp"): string {
+  const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
+  const warnings = report.gates.gates.filter((gate) => gate.status === "warning");
+  return [
+    "Code Agent++ OpenCode Run",
+    "",
+    `Task: ${report.task}`,
+    `Decision: ${report.decision.action}`,
+    `Confidence: ${report.decision.confidence.toFixed(2)}`,
+    "",
+    "Changed files:",
+    ...formatList(report.changedFiles),
+    "",
+    "Blocking gates:",
+    ...formatList(blockingGates.map((gate) => `${formatGuardName(gate.guard)}: ${gate.condition}`)),
+    ...(warnings.length ? ["", "Warnings:", ...formatList(warnings.map((gate) => `${formatGuardName(gate.guard)}: ${gate.condition}`))] : []),
+    "",
+    "Next:",
+    ...nextCommandsFor(report, commandName).map((command) => `  ${command}`),
+    "",
+    `Report: ${report.artifacts.orchestratorFiles.find((file) => file.endsWith("orchestrator.md")) ?? report.runDir}`
+  ].join("\n");
+}
+
+export function renderOpencodeRepairGuidance(report: HarnessOrchestratorReport, commandName = "capp"): string {
+  const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
+  return [
+    "Code Agent++ OpenCode Repair",
+    "",
+    `Task: ${report.task}`,
+    `Decision: ${report.decision.action}`,
+    `Confidence: ${report.decision.confidence.toFixed(2)}`,
+    "",
+    "Why repair is needed:",
+    ...formatList(report.decision.reasons),
+    "",
+    "Blocking gates:",
+    ...formatList(blockingGates.map((gate) => `${formatGuardName(gate.guard)}: ${gate.condition}`)),
+    "",
+    "Required commands:",
+    ...formatList(report.decision.requiredCommands.map((command) => `\`${command}\``)),
+    "",
+    "Next:",
+    `  ${commandName} oc "${escapeDoubleQuoted(report.task)}" --max-loops ${report.maxLoops}`,
+    `  ${commandName} oc report --last`
+  ].join("\n");
+}
+
+export function findOpencodeReport(repo: string, options: OpencodeReportLookupOptions = { last: true }): OpencodeReportLookupResult | undefined {
+  const root = path.resolve(repo);
+  const orchestratorDir = path.join(root, ".agent-context", "orchestrator");
+  if (!existsSync(orchestratorDir)) return undefined;
+
+  if (options.taskId) {
+    return readReportIfExists(path.join(orchestratorDir, options.taskId, "orchestrator.json"));
+  }
+
+  if (!options.last) return undefined;
+  const candidates = readdirSync(orchestratorDir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => path.join(orchestratorDir, entry.name, "orchestrator.json"))
+    .map((filePath) => {
+      const result = readReportIfExists(filePath);
+      if (!result) return undefined;
+      return { ...result, mtimeMs: statSync(filePath).mtimeMs };
+    })
+    .filter((item): item is OpencodeReportLookupResult & { mtimeMs: number } => Boolean(item))
+    .filter((item) => item.report.executor === "opencode")
+    .sort((a, b) => b.mtimeMs - a.mtimeMs);
+
+  return candidates[0];
+}
+
+function readReportIfExists(filePath: string): OpencodeReportLookupResult | undefined {
+  if (!existsSync(filePath)) return undefined;
+  try {
+    const report = JSON.parse(readFileSync(filePath, "utf8")) as HarnessOrchestratorReport;
+    return { report, path: filePath };
+  } catch {
+    return undefined;
+  }
+}
+
+function formatList(items: string[]): string[] {
+  return items.length ? items.map((item) => `- ${item}`) : ["- none"];
+}
+
+function formatGuardName(value: string): string {
+  return `${value.charAt(0).toUpperCase()}${value.slice(1)} Guard`;
+}
+
+function nextCommandsFor(report: HarnessOrchestratorReport, commandName: string): string[] {
+  if (report.decision.action === "finalize") return [`${commandName} oc report --last`];
+  if (report.decision.action === "run-tests") {
+    return [...report.decision.requiredCommands.map((command) => command), `${commandName} oc repair`, `${commandName} oc report --last`];
+  }
+  if (report.decision.action === "repack")
+    return [`${commandName} oc "${escapeDoubleQuoted(report.task)}" --max-loops ${report.maxLoops}`, `${commandName} oc report --last`];
+  return [`${commandName} oc repair`, `${commandName} oc report --last`];
+}
+
+function escapeDoubleQuoted(value: string): string {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
 function runTool(command: string, cwd: string): SafeCommandRunResult {

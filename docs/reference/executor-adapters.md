@@ -22,7 +22,9 @@ OpenCode has a first-class preset:
 ```bash
 code-agent-plusplus opencode doctor .
 code-agent-plusplus opencode run "<task>" .
-code-agent-plusplus oc "<task>" .
+capp oc "<task>" .
+capp oc report --last
+capp oc repair
 ```
 
 The preset expands to:

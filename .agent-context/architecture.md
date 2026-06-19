@@ -16,7 +16,7 @@ This document is generated from static repository signals. Treat it as a startin
 - `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.
 - `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
 - `analyzers`: analyzers contains 6 files and depends on core.
-- `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 17 files.
+- `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 13 files.
 - `cli`: cli contains 3 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
 - `benchmarks/fixtures/monorepo/packages/api`: benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config.
 

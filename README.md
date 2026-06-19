@@ -43,7 +43,9 @@ Harness-led executor flow：
 npx code-agent-plusplus opencode doctor .
 npx code-agent-plusplus opencode run "fix login timeout bug" .
 # 短别名：
-npx code-agent-plusplus oc "fix login timeout bug" .
+npx capp oc "fix login timeout bug" .
+npx capp oc report --last
+npx capp oc repair
 ```
 
 OpenCode preset 内部默认使用：
@@ -99,6 +101,7 @@ AGENTS.md
 | mock executor / generic `--executor-command`         | Stable / Foundation |
 | OpenCode preset / `opencode run` / `oc`              | Foundation          |
 | OpenCode doctor                                      | Foundation          |
+| compact OpenCode run summary / `oc report` / repair  | Foundation          |
 | OpenCode event normalizer                            | Foundation          |
 | MiMoCode / Codex / Claude native normalizers         | Planned             |
 | MCP stdio server + core tools                        | Foundation          |

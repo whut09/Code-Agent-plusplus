@@ -52,7 +52,14 @@ import { buildContextDelta, renderContextDelta, writeContextDelta } from "../out
 import { starterConfig } from "../config/starter-config.js";
 import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
-import { OPENCODE_DEFAULT_EXECUTOR_COMMAND, renderOpencodeDoctorReport, runOpencodeDoctor } from "./opencode-preset.js";
+import {
+  findOpencodeReport,
+  OPENCODE_DEFAULT_EXECUTOR_COMMAND,
+  renderOpencodeDoctorReport,
+  renderOpencodeRepairGuidance,
+  renderOpencodeRunSummary,
+  runOpencodeDoctor
+} from "./opencode-preset.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
 
@@ -632,9 +639,20 @@ opencode
     if (!report.ok) process.exitCode = 1;
   });
 
+addOpencodeReportCommand(opencode);
+addOpencodeRepairCommand(opencode);
+
+const oc = program.command("oc").description("Shortcut for OpenCode preset commands.");
+
 addOpencodeRunOptions(
-  program.command("oc").argument("<args...>", "task description and optional repository path").description("Alias for `code-agent-plusplus opencode run`.")
+  oc
+    .command("run", { isDefault: true })
+    .argument("<args...>", "task description and optional repository path")
+    .description("Alias for `code-agent-plusplus opencode run`.")
 ).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
+
+addOpencodeReportCommand(oc);
+addOpencodeRepairCommand(oc);
 
 program
   .command("orchestrate")
@@ -996,6 +1014,19 @@ interface OpencodeRunCliOptions {
   checkpoint: OrchestratorCheckpointMode;
   dryRun?: boolean;
   json?: boolean;
+  fullReport?: boolean;
+}
+
+interface OpencodeReportCliOptions {
+  last?: boolean;
+  taskId?: string;
+  json?: boolean;
+  summary?: boolean;
+}
+
+interface OpencodeRepairCliOptions {
+  last?: boolean;
+  taskId?: string;
 }
 
 function addOpencodeRunOptions(command: Command): Command {
@@ -1015,7 +1046,53 @@ function addOpencodeRunOptions(command: Command): Command {
     .option("--fail-on <level>", "policy failure threshold: forbidden, required, risk", parsePolicyFailOn, "required")
     .option("--checkpoint <mode>", "checkpoint mode: none, git-worktree", parseOrchestratorCheckpoint, "git-worktree")
     .option("--dry-run", "exercise the harness using the mock executor without editing files")
+    .option("--full-report", "print the full orchestrator report instead of the compact OpenCode summary")
     .option("--json", "print machine-readable orchestrator report");
+}
+
+function addOpencodeReportCommand(parent: Command): void {
+  parent
+    .command("report")
+    .argument("[repo]", "repository path", ".")
+    .option("--last", "show the most recent OpenCode orchestrator report", true)
+    .option("--task-id <id>", "show a specific task id")
+    .option("--summary", "print the compact OpenCode summary instead of the full report")
+    .option("--json", "print machine-readable orchestrator report")
+    .description("Show the latest OpenCode orchestrator report without opening .agent-context manually.")
+    .action((repo: string, options: OpencodeReportCliOptions) => {
+      const result = findOpencodeReport(repo, { last: options.last ?? true, taskId: options.taskId });
+      if (!result) {
+        console.error("No OpenCode orchestrator report found. Run `capp oc <task>` first.");
+        process.exitCode = 1;
+        return;
+      }
+      if (options.json) {
+        console.log(JSON.stringify(result.report, null, 2));
+      } else if (options.summary) {
+        console.log(renderOpencodeRunSummary(result.report));
+      } else {
+        console.log(renderOrchestratorReport(result.report));
+      }
+    });
+}
+
+function addOpencodeRepairCommand(parent: Command): void {
+  parent
+    .command("repair")
+    .argument("[repo]", "repository path", ".")
+    .option("--last", "use the most recent OpenCode orchestrator report", true)
+    .option("--task-id <id>", "use a specific task id")
+    .description("Print repair guidance from the latest OpenCode decision.")
+    .action((repo: string, options: OpencodeRepairCliOptions) => {
+      const result = findOpencodeReport(repo, { last: options.last ?? true, taskId: options.taskId });
+      if (!result) {
+        console.error("No OpenCode orchestrator report found. Run `capp oc <task>` first.");
+        process.exitCode = 1;
+        return;
+      }
+      console.log(renderOpencodeRepairGuidance(result.report));
+      if (result.report.decision.blocking) process.exitCode = 1;
+    });
 }
 
 async function runOpencodePreset(args: string[], options: OpencodeRunCliOptions): Promise<void> {
@@ -1033,7 +1110,13 @@ async function runOpencodePreset(args: string[], options: OpencodeRunCliOptions)
     checkpoint: options.checkpoint,
     dryRun: options.dryRun
   });
-  console.log(options.json ? JSON.stringify(result.report, null, 2) : renderOrchestratorReport(result.report));
+  console.log(
+    options.json
+      ? JSON.stringify(result.report, null, 2)
+      : options.fullReport
+        ? renderOrchestratorReport(result.report)
+        : renderOpencodeRunSummary(result.report)
+  );
   if (result.report.decision.blocking) process.exitCode = 1;
 }
 

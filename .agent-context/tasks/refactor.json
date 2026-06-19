@@ -2,12 +2,12 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11990,
-  "remainingBudget": 10,
+  "estimatedTokens": 11998,
+  "remainingBudget": 2,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 302,
+      "score": 300,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "benchmarks/tasks/refactor-session-expiry.json",
-      "score": 302,
+      "score": 300,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -25,7 +25,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 150,
+      "score": 149,
       "reasons": [
         "lexical match: code"
       ],
@@ -34,7 +34,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 150,
+      "score": 149,
       "reasons": [
         "lexical match: code"
       ],
@@ -43,7 +43,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 150,
+      "score": 149,
       "reasons": [
         "lexical match: code"
       ],
@@ -52,7 +52,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 153,
+      "score": 152,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -70,22 +70,22 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 373
+      "estimatedTokens": 404
     },
     {
-      "path": "test/codegraph.test.ts",
-      "score": 188,
+      "path": "test/opencode-preset.test.ts",
+      "score": 187,
       "reasons": [
         "lexical match: code",
         "related test",
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 62
+      "estimatedTokens": 80
     },
     {
-      "path": "test/opencode-preset.test.ts",
-      "score": 188,
+      "path": "test/codegraph.test.ts",
+      "score": 187,
       "reasons": [
         "lexical match: code",
         "related test",
@@ -422,7 +422,7 @@
     },
     {
       "path": "src/integrations/codegraph.ts",
-      "score": 192,
+      "score": 191,
       "reasons": [
         "lexical match: code",
         "direct dependency of test/codegraph.test.ts",
@@ -433,18 +433,18 @@
     },
     {
       "path": "src/cli/opencode-preset.ts",
-      "score": 192,
+      "score": 191,
       "reasons": [
         "lexical match: code",
         "direct dependency of test/opencode-preset.test.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 179
+      "estimatedTokens": 291
     },
     {
       "path": "src/retrievers/codegraph.ts",
-      "score": 168,
+      "score": 167,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -453,8 +453,19 @@
       "estimatedTokens": 69
     },
     {
+      "path": "src/harness/control-plane/orchestrator.ts",
+      "score": 156,
+      "reasons": [
+        "lexical match: code",
+        "direct dependency of test/opencode-preset.test.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 618
+    },
+    {
       "path": "src/core/types.ts",
-      "score": 141,
+      "score": 140,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -464,7 +475,7 @@
     },
     {
       "path": "src/outputs/renderers/markdown.ts",
-      "score": 141,
+      "score": 140,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -474,7 +485,7 @@
     },
     {
       "path": "src/outputs/agent-events.ts",
-      "score": 141,
+      "score": 140,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -491,16 +502,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 337
-    },
-    {
-      "path": "src/harness/control-plane/orchestrator.ts",
-      "score": 132,
-      "reasons": [
-        "lexical match: code",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 618
     },
     {
       "path": "src/core/token-estimator.ts",
@@ -554,7 +555,7 @@
     },
     {
       "path": "src/retrievers/index.ts",
-      "score": 106,
+      "score": 105,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -708,19 +709,29 @@
       "estimatedTokens": 153
     },
     {
-      "path": "src/outputs/runtime-state.ts",
-      "score": 18,
+      "path": "code-agent-plusplus.config.yml",
+      "score": 157,
       "reasons": [
-        "shared API/refactor risk"
+        "lexical match: code",
+        "configuration"
       ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 228
+      "category": "config-doc",
+      "estimatedTokens": 38
+    },
+    {
+      "path": "docs/integrations/codex-mcp.md",
+      "score": 149,
+      "reasons": [
+        "lexical match: code"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 37
     }
   ],
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 302,
+      "score": 300,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -729,7 +740,7 @@
     },
     {
       "path": "benchmarks/tasks/refactor-session-expiry.json",
-      "score": 302,
+      "score": 300,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -738,7 +749,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 150,
+      "score": 149,
       "reasons": [
         "lexical match: code"
       ],
@@ -747,7 +758,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 150,
+      "score": 149,
       "reasons": [
         "lexical match: code"
       ],
@@ -756,7 +767,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 150,
+      "score": 149,
       "reasons": [
         "lexical match: code"
       ],
@@ -765,7 +776,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 153,
+      "score": 152,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -783,24 +794,24 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 373
+      "estimatedTokens": 404
     }
   ],
   "inspectIfNeeded": [
     {
-      "path": "test/codegraph.test.ts",
-      "score": 188,
+      "path": "test/opencode-preset.test.ts",
+      "score": 187,
       "reasons": [
         "lexical match: code",
         "related test",
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 62
+      "estimatedTokens": 80
     },
     {
-      "path": "test/opencode-preset.test.ts",
-      "score": 188,
+      "path": "test/codegraph.test.ts",
+      "score": 187,
       "reasons": [
         "lexical match: code",
         "related test",
@@ -940,8 +951,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11990,
-    "remaining": 10,
+    "used": 11998,
+    "remaining": 2,
     "buckets": [
       {
         "name": "direct-source",
@@ -958,10 +969,10 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2781,
+        "tokens": 2799,
         "files": [
-          "test/codegraph.test.ts",
           "test/opencode-preset.test.ts",
+          "test/codegraph.test.ts",
           "test/test-selector.test.ts",
           "test/impact.test.ts",
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -1003,16 +1014,16 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8248,
+        "tokens": 8132,
         "files": [
           "src/integrations/codegraph.ts",
           "src/cli/opencode-preset.ts",
           "src/retrievers/codegraph.ts",
+          "src/harness/control-plane/orchestrator.ts",
           "src/core/types.ts",
           "src/outputs/renderers/markdown.ts",
           "src/outputs/agent-events.ts",
           "src/harness/observability/execution-trace.ts",
-          "src/harness/control-plane/orchestrator.ts",
           "src/core/token-estimator.ts",
           "src/outputs/impact.ts",
           "src/outputs/test-selector.ts",
@@ -1034,20 +1045,22 @@
           "src/core/safe-command.ts",
           "src/retrievers/static.ts",
           "src/benchmarks/agent-benchmark.ts",
-          "src/harness/types.ts",
-          "src/outputs/runtime-state.ts"
+          "src/harness/types.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 0,
-        "files": []
+        "tokens": 75,
+        "files": [
+          "code-agent-plusplus.config.yml",
+          "docs/integrations/codex-mcp.md"
+        ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 778,
+        "tokens": 809,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"
@@ -1067,8 +1080,8 @@
   },
   "retrieval": {
     "directMatches": 8,
-    "dependencyNeighbors": 4,
+    "dependencyNeighbors": 5,
     "tests": 38,
-    "configDocs": 0
+    "configDocs": 2
   }
 }

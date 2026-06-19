@@ -4,7 +4,8 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { runGit } from "../src/core/git.js";
-import { OPENCODE_DEFAULT_EXECUTOR_COMMAND, runOpencodeDoctor } from "../src/cli/opencode-preset.js";
+import type { HarnessOrchestratorReport } from "../src/harness/control-plane/orchestrator.js";
+import { findOpencodeReport, OPENCODE_DEFAULT_EXECUTOR_COMMAND, renderOpencodeRunSummary, runOpencodeDoctor } from "../src/cli/opencode-preset.js";
 
 test("OpenCode preset uses the requested default executor command", () => {
   assert.equal(OPENCODE_DEFAULT_EXECUTOR_COMMAND, 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."');
@@ -44,6 +45,38 @@ test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, an
   }
 });
 
+test("OpenCode run summary keeps the terminal output compact and actionable", () => {
+  const report = createReportFixture();
+  const rendered = renderOpencodeRunSummary(report);
+
+  assert.match(rendered, /Code Agent\+\+ OpenCode Run/);
+  assert.match(rendered, /Task: fix login timeout bug/);
+  assert.match(rendered, /Decision: repair/);
+  assert.match(rendered, /Confidence: 0\.72/);
+  assert.match(rendered, /- src\/auth\/session\.ts/);
+  assert.match(rendered, /- Evidence Guard: no test command after last edit/);
+  assert.match(rendered, /  capp oc repair/);
+  assert.match(rendered, /  capp oc report --last/);
+});
+
+test("OpenCode report lookup returns the latest OpenCode orchestrator report", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-report-"));
+  try {
+    const oldDir = path.join(root, ".agent-context", "orchestrator", "old-task");
+    const newDir = path.join(root, ".agent-context", "orchestrator", "new-task");
+    mkdirSync(oldDir, { recursive: true });
+    mkdirSync(newDir, { recursive: true });
+    writeFileSync(path.join(oldDir, "orchestrator.json"), JSON.stringify({ ...createReportFixture(), taskId: "old-task", task: "old" }), "utf8");
+    writeFileSync(path.join(newDir, "orchestrator.json"), JSON.stringify({ ...createReportFixture(), taskId: "new-task", task: "new" }), "utf8");
+
+    const result = findOpencodeReport(root, { last: true });
+
+    assert.equal(result?.report.taskId, "new-task");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 function writeFakeOpenCode(bin: string): void {
   if (process.platform === "win32") {
     writeFileSync(
@@ -74,4 +107,97 @@ function writeFakeOpenCode(bin: string): void {
     "utf8"
   );
   chmodSync(script, 0o755);
+}
+
+function createReportFixture(): HarnessOrchestratorReport {
+  return {
+    task: "fix login timeout bug",
+    taskId: "fix-login-timeout-bug",
+    repo: "/repo",
+    base: "main",
+    executor: "opencode",
+    runDir: ".agent-context/runs/fix-login-timeout-bug",
+    traceId: "fix-login-timeout-bug",
+    maxLoops: 3,
+    dryRun: false,
+    phases: ["plan", "pack", "execute", "collect", "evaluate", "decision"],
+    executorResult: {
+      executor: "opencode",
+      exitCode: 0,
+      stdout: "",
+      stderr: "",
+      changedFiles: ["src/auth/session.ts", "test/auth/session.test.ts"]
+    },
+    changedFiles: ["src/auth/session.ts", "test/auth/session.test.ts"],
+    iterations: [],
+    policy: {
+      passed: false,
+      failOn: "required",
+      summary: { forbidden: 0, requiredMissing: 1, risks: 0, requiredSatisfied: 0 }
+    },
+    loop: {
+      status: "needs-repair",
+      risk: "Medium",
+      trace: {
+        loaded: true,
+        passedTestEvidence: "none",
+        signals: []
+      },
+      checks: {
+        contracts: "failed",
+        contractViolations: 1,
+        minimalTests: 1,
+        regressionTests: 0,
+        impactDependents: 0
+      },
+      decisions: []
+    },
+    gates: {
+      summary: {
+        total: 1,
+        blocking: 1,
+        warnings: 0,
+        passed: 0,
+        byGuard: {
+          context: { blocking: 0, warnings: 0, passed: 0 },
+          boundary: { blocking: 0, warnings: 0, passed: 0 },
+          evidence: { blocking: 1, warnings: 0, passed: 0 },
+          hallucination: { blocking: 0, warnings: 0, passed: 0 },
+          regression: { blocking: 0, warnings: 0, passed: 0 }
+        }
+      },
+      gates: [
+        {
+          id: "evidence.no-test-after-edit",
+          guard: "evidence",
+          condition: "no test command after last edit",
+          status: "blocked",
+          severity: "blocker",
+          action: "run-tests",
+          evidence: [],
+          findingIds: []
+        }
+      ]
+    },
+    decision: {
+      action: "repair",
+      blocking: true,
+      confidence: 0.72,
+      reasons: ["tests were run before final edit"],
+      requiredCommands: ["npm test -- auth"],
+      artifacts: []
+    },
+    artifacts: {
+      contextFiles: [],
+      runFiles: [],
+      orchestratorFiles: [".agent-context/orchestrator/fix-login-timeout-bug/orchestrator.md"],
+      iterationFiles: []
+    },
+    sandbox: {
+      mode: "host",
+      root: "/repo",
+      discarded: false,
+      initialPatch: false
+    }
+  };
 }
