@@ -1,11 +1,18 @@
 import assert from "node:assert/strict";
-import { chmodSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { runGit } from "../src/core/git.js";
 import type { HarnessOrchestratorReport } from "../src/harness/control-plane/orchestrator.js";
-import { findOpencodeReport, OPENCODE_DEFAULT_EXECUTOR_COMMAND, renderOpencodeRunSummary, runOpencodeDoctor } from "../src/cli/opencode-preset.js";
+import {
+  findOpencodeReport,
+  initOpencodeProject,
+  OPENCODE_DEFAULT_EXECUTOR_COMMAND,
+  renderOpencodeInitReport,
+  renderOpencodeRunSummary,
+  runOpencodeDoctor
+} from "../src/cli/opencode-preset.js";
 
 test("OpenCode preset uses the requested default executor command", () => {
   assert.equal(OPENCODE_DEFAULT_EXECUTOR_COMMAND, 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."');
@@ -41,6 +48,50 @@ test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, an
     assert.equal(report.checks.find((check) => check.id === "working-tree-clean")?.status, "pass");
   } finally {
     process.env.PATH = oldPath;
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode init writes commands and agent files without overwriting by default", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-init-"));
+  try {
+    const first = initOpencodeProject(root);
+
+    assert.deepEqual(
+      first.files.map((file) => `${file.path}:${file.status}`),
+      [".opencode/commands/capp.md:written", ".opencode/commands/capp-verify.md:written", ".opencode/agents/code-agent-plusplus.md:written"]
+    );
+    assert.ok(existsSync(path.join(root, ".opencode", "commands", "capp.md")));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8").includes('capp oc "$ARGUMENTS" .'));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp-verify.md"), "utf8").includes("capp oc report --last --summary"));
+    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "code-agent-plusplus.md"), "utf8").includes("Code Agent++ Executor Agent"));
+
+    writeFileSync(path.join(root, ".opencode", "commands", "capp.md"), "custom\n", "utf8");
+    const second = initOpencodeProject(root);
+
+    assert.equal(second.files.find((file) => file.path === ".opencode/commands/capp.md")?.status, "skipped");
+    assert.equal(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8"), "custom\n");
+
+    const forced = initOpencodeProject(root, { force: true });
+
+    assert.equal(forced.files.find((file) => file.path === ".opencode/commands/capp.md")?.status, "written");
+    assert.notEqual(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8"), "custom\n");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode init dry-run reports files without writing them", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-init-dry-"));
+  try {
+    const report = initOpencodeProject(root, { dryRun: true });
+    const rendered = renderOpencodeInitReport(report);
+
+    assert.ok(report.files.every((file) => file.status === "would-write"));
+    assert.equal(existsSync(path.join(root, ".opencode")), false);
+    assert.match(rendered, /Code Agent\+\+ OpenCode Init/);
+    assert.match(rendered, /\/capp <task>/);
+  } finally {
     rmSync(root, { recursive: true, force: true });
   }
 });

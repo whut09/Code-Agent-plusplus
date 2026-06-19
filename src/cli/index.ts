@@ -54,8 +54,10 @@ import { parseTokenizerMode } from "../core/token-estimator.js";
 import { resolveTaskArguments } from "./task-args.js";
 import {
   findOpencodeReport,
+  initOpencodeProject,
   OPENCODE_DEFAULT_EXECUTOR_COMMAND,
   renderOpencodeDoctorReport,
+  renderOpencodeInitReport,
   renderOpencodeRepairGuidance,
   renderOpencodeRunSummary,
   runOpencodeDoctor
@@ -628,6 +630,8 @@ addOpencodeRunOptions(
     .description("Run the harness-led OpenCode preset: plan/pack -> opencode run -> trace/policy/verify -> decision.")
 ).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
 
+addOpencodeInitCommand(opencode);
+
 opencode
   .command("doctor")
   .argument("[repo]", "repository path", ".")
@@ -651,6 +655,7 @@ addOpencodeRunOptions(
     .description("Alias for `code-agent-plusplus opencode run`.")
 ).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
 
+addOpencodeInitCommand(oc);
 addOpencodeReportCommand(oc);
 addOpencodeRepairCommand(oc);
 
@@ -1024,6 +1029,12 @@ interface OpencodeReportCliOptions {
   summary?: boolean;
 }
 
+interface OpencodeInitCliOptions {
+  force?: boolean;
+  dryRun?: boolean;
+  json?: boolean;
+}
+
 interface OpencodeRepairCliOptions {
   last?: boolean;
   taskId?: string;
@@ -1048,6 +1059,20 @@ function addOpencodeRunOptions(command: Command): Command {
     .option("--dry-run", "exercise the harness using the mock executor without editing files")
     .option("--full-report", "print the full orchestrator report instead of the compact OpenCode summary")
     .option("--json", "print machine-readable orchestrator report");
+}
+
+function addOpencodeInitCommand(parent: Command): void {
+  parent
+    .command("init")
+    .argument("[repo]", "repository path", ".")
+    .option("--force", "overwrite existing OpenCode command and agent files")
+    .option("--dry-run", "show which OpenCode files would be written without changing files")
+    .option("--json", "print machine-readable init report")
+    .description("Initialize OpenCode commands and agent files for Code Agent++.")
+    .action((repo: string, options: OpencodeInitCliOptions) => {
+      const report = initOpencodeProject(repo, { force: options.force, dryRun: options.dryRun });
+      console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeInitReport(report));
+    });
 }
 
 function addOpencodeReportCommand(parent: Command): void {

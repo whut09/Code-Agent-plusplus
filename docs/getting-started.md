@@ -60,11 +60,20 @@ code-agent-plusplus policy . --base main --fail-on required
 Use the OpenCode preset when Code Agent++ should call OpenCode and evaluate the result:
 
 ```bash
+capp oc init .
 code-agent-plusplus opencode doctor .
 code-agent-plusplus opencode run "fix login timeout bug" .
 capp oc "fix login timeout bug" .
 capp oc report --last
 capp oc repair
+```
+
+`capp oc init .` writes OpenCode-native helpers:
+
+```txt
+.opencode/commands/capp.md
+.opencode/commands/capp-verify.md
+.opencode/agents/code-agent-plusplus.md
 ```
 
 The preset internally runs:

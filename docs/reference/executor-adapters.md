@@ -20,6 +20,7 @@ Executor adapters let Code Agent++ treat external code agents as replaceable cod
 OpenCode has a first-class preset:
 
 ```bash
+capp oc init .
 code-agent-plusplus opencode doctor .
 code-agent-plusplus opencode run "<task>" .
 capp oc "<task>" .

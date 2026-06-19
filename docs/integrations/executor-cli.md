@@ -5,6 +5,7 @@ Use this path when Code Agent++ should drive a bounded harness-led loop while an
 ## OpenCode Preset
 
 ```bash
+capp oc init .
 code-agent-plusplus opencode doctor .
 code-agent-plusplus opencode run "fix login timeout bug" .
 capp oc "fix login timeout bug" .
@@ -19,6 +20,16 @@ opencode run --format json --dir {repo} --file {prompt} "Follow the attached Cod
 ```
 
 `opencode doctor` checks OpenCode installation, `opencode run`, `opencode auth list`, git repository status, `.agent-context`, and working-tree cleanliness.
+
+`oc init` creates OpenCode-native commands and an agent profile:
+
+```txt
+.opencode/commands/capp.md
+.opencode/commands/capp-verify.md
+.opencode/agents/code-agent-plusplus.md
+```
+
+Inside OpenCode, use `/capp <task>` to start a Code Agent++ harness-led run and `/capp-verify` before finalizing.
 
 OpenCode preset runs print a compact terminal summary by default:
 

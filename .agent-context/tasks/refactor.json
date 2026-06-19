@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 11998,
-  "remainingBudget": 2,
+  "estimatedTokens": 12000,
+  "remainingBudget": 0,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -70,7 +70,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 404
+      "estimatedTokens": 418
     },
     {
       "path": "test/opencode-preset.test.ts",
@@ -81,7 +81,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 80
+      "estimatedTokens": 93
     },
     {
       "path": "test/codegraph.test.ts",
@@ -440,7 +440,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 291
+      "estimatedTokens": 368
     },
     {
       "path": "src/retrievers/codegraph.ts",
@@ -700,32 +700,22 @@
       "estimatedTokens": 466
     },
     {
-      "path": "src/harness/types.ts",
+      "path": "src/core/path-utils.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 153
+      "estimatedTokens": 98
     },
     {
-      "path": "code-agent-plusplus.config.yml",
-      "score": 157,
+      "path": "benchmarks/README.md",
+      "score": 14,
       "reasons": [
-        "lexical match: code",
-        "configuration"
+        "owning module documentation"
       ],
       "category": "config-doc",
-      "estimatedTokens": 38
-    },
-    {
-      "path": "docs/integrations/codex-mcp.md",
-      "score": 149,
-      "reasons": [
-        "lexical match: code"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 37
+      "estimatedTokens": 28
     }
   ],
   "readFirst": [
@@ -794,7 +784,7 @@
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 404
+      "estimatedTokens": 418
     }
   ],
   "inspectIfNeeded": [
@@ -807,7 +797,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 80
+      "estimatedTokens": 93
     },
     {
       "path": "test/codegraph.test.ts",
@@ -951,8 +941,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 11998,
-    "remaining": 2,
+    "used": 12000,
+    "remaining": 0,
     "buckets": [
       {
         "name": "direct-source",
@@ -969,7 +959,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2799,
+        "tokens": 2812,
         "files": [
           "test/opencode-preset.test.ts",
           "test/codegraph.test.ts",
@@ -1014,7 +1004,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8132,
+        "tokens": 8154,
         "files": [
           "src/integrations/codegraph.ts",
           "src/cli/opencode-preset.ts",
@@ -1045,22 +1035,21 @@
           "src/core/safe-command.ts",
           "src/retrievers/static.ts",
           "src/benchmarks/agent-benchmark.ts",
-          "src/harness/types.ts"
+          "src/core/path-utils.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 75,
+        "tokens": 28,
         "files": [
-          "code-agent-plusplus.config.yml",
-          "docs/integrations/codex-mcp.md"
+          "benchmarks/README.md"
         ]
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 809,
+        "tokens": 823,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"
@@ -1082,6 +1071,6 @@
     "directMatches": 8,
     "dependencyNeighbors": 5,
     "tests": 38,
-    "configDocs": 2
+    "configDocs": 1
   }
 }

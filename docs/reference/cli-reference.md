@@ -41,11 +41,21 @@ code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 ## OpenCode Preset
 
 ```bash
+code-agent-plusplus opencode init [repo]
 code-agent-plusplus opencode doctor [repo]
 code-agent-plusplus opencode run "<task>" [repo]
+capp oc init [repo]
 capp oc "<task>" [repo]
 capp oc report --last
 capp oc repair
+```
+
+`opencode init` / `oc init` writes:
+
+```txt
+.opencode/commands/capp.md
+.opencode/commands/capp-verify.md
+.opencode/agents/code-agent-plusplus.md
 ```
 
 `opencode run` and `oc` default to:

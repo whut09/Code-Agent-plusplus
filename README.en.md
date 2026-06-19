@@ -40,6 +40,7 @@ npx code-agent-plusplus verify --diff .
 Harness-led executor flow:
 
 ```bash
+npx capp oc init .
 npx code-agent-plusplus opencode doctor .
 npx code-agent-plusplus opencode run "fix login timeout bug" .
 # short alias:
@@ -99,6 +100,7 @@ Real credentials belong only in `code-agent-plusplus.local.yml`.
 | bounded harness-led orchestrator / `orchestrate`     | Foundation          |
 | mock executor / generic `--executor-command`         | Stable / Foundation |
 | OpenCode preset / `opencode run` / `oc`              | Foundation          |
+| OpenCode project init / `.opencode` commands         | Foundation          |
 | OpenCode doctor                                      | Foundation          |
 | compact OpenCode run summary / `oc report` / repair  | Foundation          |
 | OpenCode event normalizer                            | Foundation          |
