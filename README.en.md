@@ -44,6 +44,16 @@ capp sidecar verify .
 capp sidecar check-command . --command "npm run test"
 ```
 
+Most users only need:
+
+```bash
+capp          # OpenCode chat mode with the Code Agent++ sidecar
+capp report   # show the latest sidecar check
+capp status   # show whether the sidecar is active
+capp doctor   # diagnose OpenCode / auth / git / context / plugin
+capp --pure   # plain OpenCode without Code Agent++
+```
+
 Batch / CI harness-led executor flow:
 
 ```bash

@@ -73,6 +73,7 @@ import {
   writeOpencodeSidecarLatest
 } from "../integrations/opencode/sidecar.js";
 import { resolveDefaultCommandArgs } from "./default-command.js";
+import { getCappStatus, readCappReport, renderCappDoctor, renderCappStatus, runCappDoctor } from "./capp-commands.js";
 
 const program = new Command();
 const executableName = path.basename(process.argv[1] ?? "code-agent-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
@@ -85,14 +86,16 @@ program
   .argument("[repo]", "repository path", ".")
   .option("--force-plugin", "overwrite .opencode/plugins/code-agent-plusplus.ts")
   .option("--skip-context", "do not generate .agent-context before launching OpenCode")
+  .option("--pure", "launch plain OpenCode without Code Agent++ context or sidecar")
   .option("--dry-run", "run preflight and show what would launch without opening OpenCode")
   .option("--json", "print machine-readable launcher report")
   .description("Launch OpenCode TUI with the Code Agent++ sidecar plugin.")
-  .action(async (repo: string, options: { forcePlugin?: boolean; skipContext?: boolean; dryRun?: boolean; json?: boolean }) => {
+  .action(async (repo: string, options: { forcePlugin?: boolean; skipContext?: boolean; pure?: boolean; dryRun?: boolean; json?: boolean }) => {
     const result = await launchOpencodeTui({
       repo,
       forcePlugin: options.forcePlugin,
       skipContext: options.skipContext,
+      pure: options.pure,
       dryRun: options.dryRun
     });
     console.log(options.json ? JSON.stringify(result, null, 2) : renderOpenCodeLauncherResult(result));
@@ -129,6 +132,39 @@ sidecar
     const result = checkOpencodeSidecarCommand(repo, { command: options.command, paths: options.path });
     console.log(options.json ? JSON.stringify(result, null, 2) : renderOpencodeSidecarCommandCheck(result));
     if (!result.allowed) process.exitCode = 1;
+  });
+
+program
+  .command("report")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print report metadata and markdown content as JSON")
+  .description("Show the latest Code Agent++ sidecar report.")
+  .action((repo: string, options: { json?: boolean }) => {
+    const report = readCappReport(repo);
+    console.log(options.json ? JSON.stringify(report, null, 2) : report.content);
+    if (!report.exists) process.exitCode = 1;
+  });
+
+program
+  .command("status")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable status")
+  .description("Show whether the Code Agent++ OpenCode sidecar is active.")
+  .action((repo: string, options: { json?: boolean }) => {
+    const report = getCappStatus(repo);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderCappStatus(report));
+    if (!report.active) process.exitCode = 1;
+  });
+
+program
+  .command("doctor")
+  .argument("[repo]", "repository path", ".")
+  .option("--json", "print machine-readable doctor report")
+  .description("Check OpenCode, auth, git, context, and Code Agent++ sidecar readiness.")
+  .action((repo: string, options: { json?: boolean }) => {
+    const report = runCappDoctor(repo);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderCappDoctor(report));
+    if (!report.ok) process.exitCode = 1;
   });
 
 program

@@ -9,16 +9,16 @@ This document is generated from static repository signals. Treat it as a startin
 - Internal modules: 28
 
 ## Important Modules
-- `test`: test contains 38 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.
+- `test`: test contains 39 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.
 - `outputs`: outputs contains 27 files and depends on core, harness, integrations.
 - `core`: core contains 18 files and depends on analyzers, config, llm, outputs.
 - `harness`: harness contains 9 files and depends on core, outputs, sandbox.
 - `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.
 - `integrations`: integrations contains 5 files and depends on core, outputs, retrievers.
 - `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
+- `cli`: cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
 - `analyzers`: analyzers contains 6 files and depends on core.
 - `benchmarks/fixtures/small-ts-app`: benchmarks/fixtures/small-ts-app contains 13 files.
-- `cli`: cli contains 4 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
 
 ## Agent Guidance
 - Start with `AGENTS.md`, then read `key-files.md` for the highest-signal files.

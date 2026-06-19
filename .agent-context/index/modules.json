@@ -9,6 +9,7 @@
       "test/analyzers.test.ts",
       "test/benchmark.test.ts",
       "test/cache.test.ts",
+      "test/capp-commands.test.ts",
       "test/codegraph.test.ts",
       "test/config.test.ts",
       "test/context-delta.test.ts",
@@ -54,8 +55,8 @@
       "outputs",
       "retrievers"
     ],
-    "summary": "test contains 38 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
-    "importanceScore": 1367
+    "summary": "test contains 39 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
+    "importanceScore": 1406
   },
   {
     "name": "outputs",
@@ -187,7 +188,7 @@
       "retrievers"
     ],
     "summary": "integrations contains 5 files and depends on core, outputs, retrievers.",
-    "importanceScore": 286
+    "importanceScore": 301
   },
   {
     "name": "benchmarks",
@@ -228,6 +229,28 @@
     "importanceScore": 266
   },
   {
+    "name": "cli",
+    "pathPrefix": "cli",
+    "files": [
+      "src/cli/capp-commands.ts",
+      "src/cli/default-command.ts",
+      "src/cli/index.ts",
+      "src/cli/opencode-preset.ts",
+      "src/cli/task-args.ts"
+    ],
+    "imports": [
+      "benchmarks",
+      "config",
+      "core",
+      "harness",
+      "integrations",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
+    "importanceScore": 266
+  },
+  {
     "name": "analyzers",
     "pathPrefix": "analyzers",
     "files": [
@@ -265,27 +288,6 @@
     "imports": [],
     "summary": "benchmarks/fixtures/small-ts-app contains 13 files.",
     "importanceScore": 219
-  },
-  {
-    "name": "cli",
-    "pathPrefix": "cli",
-    "files": [
-      "src/cli/default-command.ts",
-      "src/cli/index.ts",
-      "src/cli/opencode-preset.ts",
-      "src/cli/task-args.ts"
-    ],
-    "imports": [
-      "benchmarks",
-      "config",
-      "core",
-      "harness",
-      "integrations",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "cli contains 4 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
-    "importanceScore": 199
   },
   {
     "name": "benchmarks/fixtures/monorepo/packages/api",

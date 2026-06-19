@@ -2,12 +2,12 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 7615,
-  "remainingBudget": 4385,
+  "estimatedTokens": 7621,
+  "remainingBudget": 4379,
   "files": [
     {
       "path": "src/harness/verification-plane/guards/regression-memory.ts",
-      "score": 225,
+      "score": 226,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -18,7 +18,7 @@
     },
     {
       "path": "src/harness/verification-plane/guards/regression.ts",
-      "score": 221,
+      "score": 222,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -29,7 +29,7 @@
     },
     {
       "path": "benchmarks/tasks/regression-session-ttl.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -38,7 +38,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -47,7 +47,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -56,7 +56,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -65,7 +65,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -81,7 +81,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 436
+      "estimatedTokens": 442
     },
     {
       "path": "src/mcp/server.ts",
@@ -94,7 +94,7 @@
     },
     {
       "path": "test/regression-guard.test.ts",
-      "score": 264,
+      "score": 265,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/harness/verification-plane/guards/regression.ts",
@@ -456,15 +456,6 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
-      "score": 8,
-      "reasons": [
-        "configuration"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 48
-    },
-    {
       "path": "benchmarks/fixtures/monorepo/packages/web/package.json",
       "score": 8,
       "reasons": [
@@ -472,6 +463,15 @@
       ],
       "category": "config-doc",
       "estimatedTokens": 46
+    },
+    {
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "score": 8,
+      "reasons": [
+        "configuration"
+      ],
+      "category": "config-doc",
+      "estimatedTokens": 48
     },
     {
       "path": ".env.example",
@@ -513,7 +513,7 @@
   "readFirst": [
     {
       "path": "src/harness/verification-plane/guards/regression-memory.ts",
-      "score": 225,
+      "score": 226,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -524,7 +524,7 @@
     },
     {
       "path": "src/harness/verification-plane/guards/regression.ts",
-      "score": 221,
+      "score": 222,
       "reasons": [
         "lexical match: regression",
         "direct dependency of test/regression-guard.test.ts",
@@ -535,7 +535,7 @@
     },
     {
       "path": "benchmarks/tasks/regression-session-ttl.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -544,7 +544,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -553,7 +553,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -562,7 +562,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -571,7 +571,7 @@
     },
     {
       "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-      "score": 173,
+      "score": 174,
       "reasons": [
         "lexical match: regression"
       ],
@@ -587,13 +587,13 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 436
+      "estimatedTokens": 442
     }
   ],
   "inspectIfNeeded": [
     {
       "path": "test/regression-guard.test.ts",
-      "score": 264,
+      "score": 265,
       "reasons": [
         "lexical match: regression",
         "direct importer of src/harness/verification-plane/guards/regression.ts",
@@ -752,8 +752,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 7615,
-    "remaining": 4385,
+    "used": 7621,
+    "remaining": 4379,
     "buckets": [
       {
         "name": "direct-source",
@@ -826,8 +826,8 @@
           "benchmarks/fixtures/small-ts-app/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/monorepo/packages/config/package.json",
-          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
+          "benchmarks/fixtures/monorepo/packages/shared/package.json",
           ".env.example",
           "code-agent-plusplus.config.yml",
           "tsconfig.json",
@@ -837,7 +837,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 841,
+        "tokens": 847,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

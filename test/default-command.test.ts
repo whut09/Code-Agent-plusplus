@@ -10,3 +10,7 @@ test("code-agent-plusplus and explicit capp commands preserve argv", () => {
   assert.deepEqual(resolveDefaultCommandArgs({ invokedName: "code-agent-plusplus", argv: ["node", "code-agent-plusplus"] }), ["node", "code-agent-plusplus"]);
   assert.deepEqual(resolveDefaultCommandArgs({ invokedName: "capp", argv: ["node", "capp", "oc", "task"] }), ["node", "capp", "oc", "task"]);
 });
+
+test("capp --pure defaults to pure OpenCode TUI mode", () => {
+  assert.deepEqual(resolveDefaultCommandArgs({ invokedName: "capp", argv: ["node", "capp", "--pure"] }), ["node", "capp", "tui", "--pure"]);
+});

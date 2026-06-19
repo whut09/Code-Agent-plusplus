@@ -11,6 +11,7 @@
     "test/analyzers.test.ts",
     "test/benchmark.test.ts",
     "test/cache.test.ts",
+    "test/capp-commands.test.ts",
     "test/codegraph.test.ts",
     "test/config.test.ts",
     "test/context-delta.test.ts",
@@ -107,6 +108,9 @@
       "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
+    ],
+    "src/cli/capp-commands.ts": [
+      "test/capp-commands.test.ts"
     ],
     "src/cli/default-command.ts": [
       "test/default-command.test.ts"
@@ -220,39 +224,15 @@
       "test/contract-validator.test.ts",
       "test/validator.test.ts"
     ],
-    "src/harness/types.ts": [
-      "test/task-harness.test.ts"
-    ],
     "src/integrations/codegraph.ts": [
       "test/codegraph.test.ts"
+    ],
+    "src/harness/types.ts": [
+      "test/task-harness.test.ts"
     ],
     "src/llm/provider.ts": [],
     "src/mcp/server.ts": [
       "test/mcp.test.ts"
-    ],
-    "src/retrievers/codegraph.ts": [
-      "test/codegraph.test.ts",
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/external.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/hybrid.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/index.ts": [
-      "test/retrievers.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts"
-    ],
-    "src/retrievers/ripgrep.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/static.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/types.ts": [
-      "test/retrievers.test.ts"
     ],
     "src/outputs/agent-events.ts": [
       "test/agent-events.test.ts"
@@ -304,9 +284,50 @@
     "src/outputs/token-savings.ts": [
       "test/token-savings.test.ts"
     ],
+    "src/retrievers/codegraph.ts": [
+      "test/codegraph.test.ts",
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/external.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/hybrid.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/index.ts": [
+      "test/retrievers.test.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/src/index.ts"
+    ],
+    "src/retrievers/ripgrep.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/static.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/types.ts": [
+      "test/retrievers.test.ts"
+    ],
     "src/sandbox/git-worktree-sandbox.ts": [],
     "src/sandbox/host-sandbox.ts": [],
     "src/sandbox/sandbox-adapter.ts": [],
+    "src/integrations/opencode/launcher.ts": [
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
+    ],
+    "src/integrations/opencode/project-init.ts": [
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
+    ],
+    "src/integrations/opencode/sidecar-plugin-template.ts": [
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
+    ],
+    "src/integrations/opencode/sidecar.ts": [
+      "test/capp-commands.test.ts",
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
+    ],
     "src/harness/control-plane/decision-engine.ts": [
       "test/task-harness.test.ts"
     ],
@@ -332,22 +353,6 @@
       "test/policy-engine.test.ts",
       "test/regression-guard.test.ts",
       "test/task-harness.test.ts"
-    ],
-    "src/integrations/opencode/launcher.ts": [
-      "test/opencode-launcher.test.ts",
-      "test/opencode-preset.test.ts"
-    ],
-    "src/integrations/opencode/project-init.ts": [
-      "test/opencode-launcher.test.ts",
-      "test/opencode-preset.test.ts"
-    ],
-    "src/integrations/opencode/sidecar-plugin-template.ts": [
-      "test/opencode-launcher.test.ts",
-      "test/opencode-preset.test.ts"
-    ],
-    "src/integrations/opencode/sidecar.ts": [
-      "test/opencode-launcher.test.ts",
-      "test/opencode-preset.test.ts"
     ],
     "src/outputs/renderers/markdown.ts": [],
     "src/outputs/renderers/reports.ts": [],
@@ -513,6 +518,7 @@
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/react-app/src/App.tsx": [
+      "test/capp-commands.test.ts",
       "test/fixtures.test.ts",
       "test/fixtures/monorepo/package.json",
       "test/fixtures/monorepo/pnpm-workspace.yaml",
@@ -876,32 +882,8 @@
       "test/fixtures/monorepo/packages/web/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
-    "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts": [
-      "test/fixtures.test.ts",
-      "test/fixtures/monorepo/package.json",
-      "test/fixtures/monorepo/pnpm-workspace.yaml",
-      "test/fixtures/monorepo/turbo.json",
-      "test/fixtures/next-app/package.json",
-      "test/fixtures/next-app/tsconfig.json",
-      "test/fixtures/python-package/pyproject.toml",
-      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-      "test/fixtures/monorepo/packages/api/package.json",
-      "test/fixtures/monorepo/packages/web/package.json",
-      "test/fixtures/next-app/src/auth/session.ts",
-      "test/fixtures/python-package/src/app/models.py",
-      "test/fixtures/python-package/src/app/service.py",
-      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/config.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts",
-      "test/fixtures/next-app/src/app/api/login/route.ts"
-    ],
     "benchmarks/fixtures/monorepo/packages/web/src/app.ts": [
+      "test/capp-commands.test.ts",
       "test/fixtures.test.ts",
       "test/fixtures/monorepo/package.json",
       "test/fixtures/monorepo/pnpm-workspace.yaml",
@@ -928,6 +910,31 @@
     ],
     "benchmarks/fixtures/monorepo/packages/web/src/config.ts": [
       "test/config.test.ts",
+      "test/fixtures.test.ts",
+      "test/fixtures/monorepo/package.json",
+      "test/fixtures/monorepo/pnpm-workspace.yaml",
+      "test/fixtures/monorepo/turbo.json",
+      "test/fixtures/next-app/package.json",
+      "test/fixtures/next-app/tsconfig.json",
+      "test/fixtures/python-package/pyproject.toml",
+      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "test/fixtures/monorepo/packages/api/package.json",
+      "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/next-app/src/auth/session.ts",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "test/fixtures/monorepo/packages/api/src/config.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/next-app/src/app/api/login/route.ts"
+    ],
+    "benchmarks/fixtures/monorepo/packages/shared/src/metrics.ts": [
       "test/fixtures.test.ts",
       "test/fixtures/monorepo/package.json",
       "test/fixtures/monorepo/pnpm-workspace.yaml",

@@ -46,6 +46,16 @@ capp sidecar verify .
 capp sidecar check-command . --command "npm run test"
 ```
 
+普通用户只需要记住：
+
+```bash
+capp          # 进入 OpenCode 聊天模式，自动启用 Code Agent++ sidecar
+capp report   # 查看最近一次 sidecar 检查结果
+capp status   # 查看 sidecar 是否 active
+capp doctor   # 诊断 OpenCode / auth / git / context / plugin
+capp --pure   # 纯 OpenCode，不启用 Code Agent++
+```
+
 批处理 / CI harness-led executor flow：
 
 ```bash

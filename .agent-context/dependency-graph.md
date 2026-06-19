@@ -65,7 +65,7 @@ graph TD
 | cli | config | 1 |
 | cli | core | 10 |
 | cli | harness | 8 |
-| cli | integrations | 4 |
+| cli | integrations | 6 |
 | cli | outputs | 10 |
 | cli | retrievers | 1 |
 | config | core | 2 |
@@ -93,11 +93,11 @@ graph TD
 | sandbox | core | 4 |
 | test | analyzers | 3 |
 | test | benchmarks | 2 |
-| test | cli | 3 |
+| test | cli | 4 |
 | test | config | 3 |
 | test | core | 45 |
 | test | harness | 14 |
-| test | integrations | 4 |
+| test | integrations | 5 |
 | test | mcp | 1 |
 | test | outputs | 22 |
 | test | retrievers | 1 |

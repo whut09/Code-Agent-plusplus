@@ -13,6 +13,7 @@ export interface OpenCodeLauncherOptions {
   forcePlugin?: boolean;
   skipContext?: boolean;
   dryRun?: boolean;
+  pure?: boolean;
 }
 
 export interface OpenCodeLauncherStep {
@@ -42,6 +43,15 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
     status: opencode.ok ? "pass" : "fail",
     details: opencode.ok ? opencode.details : `OpenCode is not available: ${opencode.details}`
   });
+
+  if (options.pure) {
+    steps.push({ name: "mode", status: "skipped", details: "pure OpenCode mode; Code Agent++ sidecar disabled" });
+    const command = ["opencode", repo];
+    if (!opencode.ok) return { repo, steps, command, launched: false, exitCode: 1 };
+    if (options.dryRun) return { repo, steps, command, launched: false, exitCode: 0 };
+    const result = spawnOpenCodeTui(repo);
+    return { repo, steps, command, launched: true, exitCode: typeof result.status === "number" ? result.status : result.error ? 1 : null };
+  }
 
   const git = checkGitRepo(repo);
   steps.push({

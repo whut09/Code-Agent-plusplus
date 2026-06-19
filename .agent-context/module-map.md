@@ -2,16 +2,16 @@
 
 | Module | Files | Score | Depends On | Summary |
 | --- | --- | --- | --- | --- |
-| test | 38 | 1367 | `analyzers`, `benchmarks`, `cli`, `config`, `core`, `harness`, `integrations`, `mcp`, `outputs`, `retrievers` | test contains 38 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers. |
+| test | 39 | 1406 | `analyzers`, `benchmarks`, `cli`, `config`, `core`, `harness`, `integrations`, `mcp`, `outputs`, `retrievers` | test contains 39 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers. |
 | outputs | 27 | 1320 | `core`, `harness`, `integrations` | outputs contains 27 files and depends on core, harness, integrations. |
 | core | 18 | 941 | `analyzers`, `config`, `llm`, `outputs` | core contains 18 files and depends on analyzers, config, llm, outputs. |
 | harness | 9 | 659 | `core`, `outputs`, `sandbox` | harness contains 9 files and depends on core, outputs, sandbox. |
 | retrievers | 7 | 310 | `core`, `integrations`, `outputs` | retrievers contains 7 files and depends on core, integrations, outputs. |
-| integrations | 5 | 286 | `core`, `outputs`, `retrievers` | integrations contains 5 files and depends on core, outputs, retrievers. |
+| integrations | 5 | 301 | `core`, `outputs`, `retrievers` | integrations contains 5 files and depends on core, outputs, retrievers. |
 | benchmarks | 25 | 266 | `core`, `harness`, `outputs` | benchmarks contains 25 files and depends on core, harness, outputs. |
+| cli | 5 | 266 | `benchmarks`, `config`, `core`, `harness`, `integrations`, `outputs`, `retrievers` | cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers. |
 | analyzers | 6 | 229 | `core` | analyzers contains 6 files and depends on core. |
 | benchmarks/fixtures/small-ts-app | 13 | 219 | none | benchmarks/fixtures/small-ts-app contains 13 files. |
-| cli | 4 | 199 | `benchmarks`, `config`, `core`, `harness`, `integrations`, `outputs`, `retrievers` | cli contains 4 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers. |
 | benchmarks/fixtures/monorepo/packages/api | 5 | 173 | `benchmarks/fixtures/monorepo/packages/config` | benchmarks/fixtures/monorepo/packages/api contains 5 files and depends on benchmarks/fixtures/monorepo/packages/config. |
 | benchmarks/fixtures/react-app | 8 | 154 | none | benchmarks/fixtures/react-app contains 8 files. |
 | sandbox | 3 | 109 | `core` | sandbox contains 3 files and depends on core. |

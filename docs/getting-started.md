@@ -18,6 +18,16 @@ cd your-repo
 capp
 ```
 
+Daily commands:
+
+```bash
+capp
+capp report
+capp status
+capp doctor
+capp --pure
+```
+
 `capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode .`. The sidecar listens for `tool.execute.before`, `file.edited`, and `session.idle` events. Before a tool runs, it blocks dangerous commands, hallucinated package scripts / Makefile targets, and protected / secret paths. On idle, it records a minimal event log under `.agent-context/traces/` and runs incremental verification. The latest sidecar result is written to:
 
 ```txt
