@@ -63,10 +63,10 @@ export function getCappStatus(repo = "."): CappStatusReport {
   };
 }
 
-export function runCappDoctor(repo = "."): CappDoctorReport {
+export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
   const root = path.resolve(repo);
   const opencode = runOpencodeDoctor(root);
-  const sidecar = verifyOpencodeSidecar(root);
+  const sidecar = await verifyOpencodeSidecar(root);
   const sidecarChecks: OpencodeDoctorCheck[] = [
     {
       id: "sidecar-plugin",

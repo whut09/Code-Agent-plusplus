@@ -110,8 +110,8 @@ sidecar
   .option("--json", "print machine-readable sidecar verification report")
   .option("--quiet", "write latest artifacts and only print when blocked")
   .description("Verify the OpenCode sidecar plugin and event log readiness.")
-  .action((repo: string, options: { json?: boolean; quiet?: boolean }) => {
-    const result = verifyOpencodeSidecar(repo);
+  .action(async (repo: string, options: { json?: boolean; quiet?: boolean }) => {
+    const result = await verifyOpencodeSidecar(repo);
     writeOpencodeSidecarLatest(result);
     if (options.json) {
       console.log(JSON.stringify(result, null, 2));
@@ -161,8 +161,8 @@ program
   .argument("[repo]", "repository path", ".")
   .option("--json", "print machine-readable doctor report")
   .description("Check OpenCode, auth, git, context, and Code Agent++ sidecar readiness.")
-  .action((repo: string, options: { json?: boolean }) => {
-    const report = runCappDoctor(repo);
+  .action(async (repo: string, options: { json?: boolean }) => {
+    const report = await runCappDoctor(repo);
     console.log(options.json ? JSON.stringify(report, null, 2) : renderCappDoctor(report));
     if (!report.ok) process.exitCode = 1;
   });

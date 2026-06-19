@@ -35,6 +35,7 @@ Code Agent++ runs quietly around the chat loop:
 - blocks protected / secret paths before execution
 - records sidecar events and verification evidence
 - incrementally verifies the current diff on idle
+- runs the shared contracts / hallucination / regression / impact / tests / policy guard stack
 - reports impact and regression risk
 - writes the latest verification report
 

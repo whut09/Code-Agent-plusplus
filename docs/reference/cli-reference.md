@@ -81,11 +81,15 @@ When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflig
 
 `capp doctor` checks OpenCode, `opencode auth list`, git, `.agent-context`, the sidecar plugin, and latest report readiness.
 
-`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `file.edited` / `session.idle`, and can write/read its minimal event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It also checks the current diff for minimal blockers and writes:
+`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `file.edited` / `session.idle`, and can write/read its minimal event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It then runs the shared Code Agent++ guard stack: contracts, hallucination guard, regression guard, impact analysis, test selection, task verify, and policy engine. The current result is written to:
 
 ```txt
 .agent-context/sidecar/latest.json
 .agent-context/sidecar/latest.md
+.agent-context/sidecar/policy.md
+.agent-context/sidecar/task-verify.md
+.agent-context/sidecar/hallucination.md
+.agent-context/sidecar/regression.md
 ```
 
 Use `--quiet` for sidecar automation; it only prints when blockers are found.

@@ -13,7 +13,7 @@
         "shared API/refactor risk"
       ],
       "category": "direct-source",
-      "estimatedTokens": 496
+      "estimatedTokens": 587
     },
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -526,6 +526,28 @@
       "estimatedTokens": 159
     },
     {
+      "path": "src/outputs/impact.ts",
+      "score": 146,
+      "reasons": [
+        "lexical match: code",
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 260
+    },
+    {
+      "path": "src/outputs/test-selector.ts",
+      "score": 146,
+      "reasons": [
+        "lexical match: code",
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 249
+    },
+    {
       "path": "src/core/types.ts",
       "score": 130,
       "reasons": [
@@ -586,26 +608,6 @@
       "estimatedTokens": 132
     },
     {
-      "path": "src/outputs/impact.ts",
-      "score": 122,
-      "reasons": [
-        "lexical match: code",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 260
-    },
-    {
-      "path": "src/outputs/test-selector.ts",
-      "score": 122,
-      "reasons": [
-        "lexical match: code",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 249
-    },
-    {
       "path": "src/outputs/renderers/writer.ts",
       "score": 122,
       "reasons": [
@@ -637,13 +639,64 @@
     },
     {
       "path": "src/core/context-builder.ts",
-      "score": 42,
+      "score": 66,
       "reasons": [
         "direct dependency of test/codegraph.test.ts",
+        "direct dependency of src/integrations/opencode/sidecar.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 106
+    },
+    {
+      "path": "src/harness/verification-plane/policy-engine.ts",
+      "score": 42,
+      "reasons": [
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 310
+    },
+    {
+      "path": "src/harness/verification-plane/guards/regression.ts",
+      "score": 42,
+      "reasons": [
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 318
+    },
+    {
+      "path": "src/outputs/task-harness.ts",
+      "score": 42,
+      "reasons": [
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 280
+    },
+    {
+      "path": "src/harness/verification-plane/guards/hallucination.ts",
+      "score": 42,
+      "reasons": [
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 489
+    },
+    {
+      "path": "src/outputs/contract-validator.ts",
+      "score": 42,
+      "reasons": [
+        "direct dependency of src/integrations/opencode/sidecar.ts",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 327
     },
     {
       "path": "src/core/safe-command.ts",
@@ -674,15 +727,6 @@
       "estimatedTokens": 290
     },
     {
-      "path": "src/outputs/task-harness.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 280
-    },
-    {
       "path": "src/harness/control-plane/loop-controller.ts",
       "score": 18,
       "reasons": [
@@ -690,42 +734,6 @@
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 309
-    },
-    {
-      "path": "src/harness/verification-plane/policy-engine.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 310
-    },
-    {
-      "path": "src/harness/verification-plane/guards/regression.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 318
-    },
-    {
-      "path": "src/harness/verification-plane/guards/hallucination.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 489
-    },
-    {
-      "path": "src/outputs/contract-validator.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 327
     },
     {
       "path": "src/outputs/task-run.ts",
@@ -746,13 +754,14 @@
       "estimatedTokens": 332
     },
     {
-      "path": "src/retrievers/static.ts",
-      "score": 18,
+      "path": "docs/integrations/codex-mcp.md",
+      "score": 150,
       "reasons": [
-        "shared API/refactor risk"
+        "lexical match: code",
+        "owning module documentation"
       ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 128
+      "category": "config-doc",
+      "estimatedTokens": 37
     }
   ],
   "readFirst": [
@@ -764,7 +773,7 @@
         "shared API/refactor risk"
       ],
       "category": "direct-source",
-      "estimatedTokens": 496
+      "estimatedTokens": 587
     },
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -998,7 +1007,7 @@
       {
         "name": "direct-source",
         "label": "Directly relevant source files",
-        "tokens": 679,
+        "tokens": 770,
         "files": [
           "src/integrations/opencode/sidecar.ts",
           "benchmarks/tasks/refactor-config-loader.json",
@@ -1058,7 +1067,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 7518,
+        "tokens": 7390,
         "files": [
           "src/integrations/opencode/launcher.ts",
           "src/integrations/codegraph.ts",
@@ -1067,37 +1076,38 @@
           "src/integrations/opencode/project-init.ts",
           "src/retrievers/codegraph.ts",
           "src/cli/capp-commands.ts",
+          "src/outputs/impact.ts",
+          "src/outputs/test-selector.ts",
           "src/core/types.ts",
           "src/outputs/renderers/markdown.ts",
           "src/outputs/agent-events.ts",
           "src/harness/control-plane/orchestrator.ts",
           "src/harness/observability/execution-trace.ts",
           "src/core/token-estimator.ts",
-          "src/outputs/impact.ts",
-          "src/outputs/test-selector.ts",
           "src/outputs/renderers/writer.ts",
           "src/outputs/context-delta.ts",
           "src/retrievers/index.ts",
           "src/core/context-builder.ts",
+          "src/harness/verification-plane/policy-engine.ts",
+          "src/harness/verification-plane/guards/regression.ts",
+          "src/outputs/task-harness.ts",
+          "src/harness/verification-plane/guards/hallucination.ts",
+          "src/outputs/contract-validator.ts",
           "src/core/safe-command.ts",
           "src/core/git.ts",
           "src/core/freshness.ts",
-          "src/outputs/task-harness.ts",
           "src/harness/control-plane/loop-controller.ts",
-          "src/harness/verification-plane/policy-engine.ts",
-          "src/harness/verification-plane/guards/regression.ts",
-          "src/harness/verification-plane/guards/hallucination.ts",
-          "src/outputs/contract-validator.ts",
           "src/outputs/task-run.ts",
-          "src/harness/verification-plane/guards/regression-memory.ts",
-          "src/retrievers/static.ts"
+          "src/harness/verification-plane/guards/regression-memory.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 0,
-        "files": []
+        "tokens": 37,
+        "files": [
+          "docs/integrations/codex-mcp.md"
+        ]
       },
       {
         "name": "entrypoints",
@@ -1122,8 +1132,8 @@
   },
   "retrieval": {
     "directMatches": 8,
-    "dependencyNeighbors": 10,
+    "dependencyNeighbors": 18,
     "tests": 40,
-    "configDocs": 0
+    "configDocs": 1
   }
 }

@@ -25,6 +25,7 @@ graph TD
   harness["harness"] --> outputs["outputs"]
   harness["harness"] --> sandbox["sandbox"]
   integrations["integrations"] --> core["core"]
+  integrations["integrations"] --> harness["harness"]
   integrations["integrations"] --> outputs["outputs"]
   integrations["integrations"] --> retrievers["retrievers"]
   llm["llm"] --> core["core"]
@@ -76,8 +77,9 @@ graph TD
 | harness | core | 17 |
 | harness | outputs | 26 |
 | harness | sandbox | 3 |
-| integrations | core | 7 |
-| integrations | outputs | 1 |
+| integrations | core | 8 |
+| integrations | harness | 3 |
+| integrations | outputs | 5 |
 | integrations | retrievers | 1 |
 | llm | core | 1 |
 | mcp | core | 1 |
@@ -95,10 +97,10 @@ graph TD
 | test | benchmarks | 2 |
 | test | cli | 4 |
 | test | config | 3 |
-| test | core | 45 |
+| test | core | 46 |
 | test | harness | 14 |
 | test | integrations | 5 |
 | test | mcp | 1 |
-| test | outputs | 22 |
+| test | outputs | 23 |
 | test | retrievers | 1 |
 | test/fixtures/monorepo/packages/web | test/fixtures/monorepo/packages/api | 1 |

@@ -35,6 +35,7 @@ Code Agent++ 会在外层自动完成：
 - protected path / secret path 前置阻断
 - 测试证据和 sidecar 事件记录
 - 当前 diff 增量验证
+- contracts / hallucination / regression / impact / tests / policy 组合门禁
 - 影响范围与回归风险提示
 - 最终检查报告
 

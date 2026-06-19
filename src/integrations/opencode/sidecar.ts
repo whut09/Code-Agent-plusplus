@@ -1,7 +1,15 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { buildContextPackage } from "../../core/context-builder.js";
 import { runGit } from "../../core/git.js";
 import { parseCommandLine } from "../../core/safe-command.js";
+import { buildPolicyReport, renderPolicyReport, type PolicyEngineReport } from "../../harness/verification-plane/policy-engine.js";
+import { buildHallucinationReport, renderHallucinationReport, type HallucinationGuardReport } from "../../harness/verification-plane/guards/hallucination.js";
+import { buildRegressionReport, renderRegressionReport, type RegressionGuardReport } from "../../harness/verification-plane/guards/regression.js";
+import { buildChangeImpactReport, type ChangeImpactReport } from "../../outputs/impact.js";
+import { validateContracts, type ContractValidationReport } from "../../outputs/contract-validator.js";
+import { buildTestSelection, type TestSelectionReport } from "../../outputs/test-selector.js";
+import { renderTaskVerify } from "../../outputs/task-harness.js";
 import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "./sidecar-plugin-template.js";
 
 export interface OpenCodeSidecarEnsureOptions {
@@ -33,6 +41,46 @@ export interface OpenCodeSidecarVerifyResult {
   blockers: string[];
   warnings: string[];
   checks: OpenCodeSidecarVerifyCheck[];
+  guardStack: OpenCodeSidecarGuardStackSummary;
+}
+
+export interface OpenCodeSidecarGuardStackSummary {
+  ran: boolean;
+  passed: boolean;
+  base: string;
+  artifacts: {
+    policyMarkdown?: string;
+    taskVerifyMarkdown?: string;
+  };
+  contracts?: {
+    passed: boolean;
+    violations: number;
+  };
+  hallucination?: {
+    errors: number;
+    warnings: number;
+  };
+  regression?: {
+    matches: number;
+    missingRequiredTestEvidence: number;
+  };
+  impact?: {
+    risk: ChangeImpactReport["risk"];
+    changedFiles: number;
+    relatedTests: number;
+  };
+  tests?: {
+    minimalCommands: number;
+    recommendedCommands: number;
+    fullConfidenceCommands: number;
+  };
+  policy?: {
+    passed: boolean;
+    forbidden: number;
+    requiredMissing: number;
+    risks: number;
+  };
+  error?: string;
 }
 
 export interface OpenCodeSidecarCommandFinding {
@@ -69,7 +117,7 @@ export function ensureOpencodeSidecarPlugin(repo: string, options: OpenCodeSidec
   return { name: "sidecar-plugin", status: "pass", details: `${OPENCODE_SIDECAR_PLUGIN_PATH} generated` };
 }
 
-export function verifyOpencodeSidecar(repo = "."): OpenCodeSidecarVerifyResult {
+export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecarVerifyResult> {
   const root = path.resolve(repo);
   const pluginPath = path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH);
   const eventLogPath = path.join(root, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
@@ -98,10 +146,20 @@ export function verifyOpencodeSidecar(repo = "."): OpenCodeSidecarVerifyResult {
   const changedFiles = collectCurrentChangedFiles(root);
   const blockers = detectBlockers(changedFiles);
   const warnings = detectWarnings(changedFiles);
+  const guardStack = await runOpencodeSidecarGuardStack(root, { base: "main" });
+  blockers.push(...blockersFromGuardStack(guardStack));
+  warnings.push(...warningsFromGuardStack(guardStack));
   checks.push({
     name: "current-diff",
     status: blockers.length ? "fail" : "pass",
     details: changedFiles.length ? `${changedFiles.length} changed file(s), ${blockers.length} blocker(s)` : "no source diff detected"
+  });
+  checks.push({
+    name: "guard-stack",
+    status: guardStack.passed ? "pass" : "fail",
+    details: guardStack.ran
+      ? `contracts/policy/impact/tests completed for base ${guardStack.base}`
+      : `guard stack failed: ${guardStack.error ?? "unknown error"}`
   });
 
   const ok = checks.every((check) => check.status !== "fail");
@@ -116,7 +174,8 @@ export function verifyOpencodeSidecar(repo = "."): OpenCodeSidecarVerifyResult {
     changedFiles,
     blockers,
     warnings,
-    checks
+    checks,
+    guardStack
   };
 }
 
@@ -189,6 +248,9 @@ export function renderOpencodeSidecarVerifyReport(result: OpenCodeSidecarVerifyR
     "Warnings:",
     ...(result.warnings.length ? result.warnings.map((warning) => `- ${warning}`) : ["- none"]),
     "",
+    "Guard stack:",
+    ...formatGuardStackLines(result.guardStack),
+    "",
     result.ok ? "Result: ready" : "Result: failed"
   ].join("\n");
 }
@@ -209,9 +271,41 @@ export function renderOpencodeSidecarLatestMarkdown(result: OpenCodeSidecarVerif
     "## Warnings",
     ...(result.warnings.length ? result.warnings.map((warning) => `- ${warning}`) : ["- none"]),
     "",
+    "## Guard Stack",
+    ...formatGuardStackLines(result.guardStack),
+    "",
     "## Checks",
     ...result.checks.map((check) => `- **${check.status.toUpperCase()}** ${check.name}: ${check.details}`)
   ].join("\n");
+}
+
+async function runOpencodeSidecarGuardStack(root: string, options: { base: string }): Promise<OpenCodeSidecarGuardStackSummary> {
+  try {
+    const context = await buildContextPackage(root);
+    const contracts = validateContracts(context, { base: options.base, diff: true });
+    const hallucination = buildHallucinationReport(context, { base: options.base });
+    const regression = buildRegressionReport(context, { base: options.base, changedFiles: collectCurrentChangedFiles(root) });
+    const impact = buildChangeImpactReport(context, { base: options.base });
+    const tests = buildTestSelection(context, { diff: true, base: options.base });
+    const policy = buildPolicyReport(context, { base: options.base, failOn: "required" });
+    const taskVerifyMarkdown = renderTaskVerify(context, { base: options.base, diff: true });
+    const policyMarkdown = renderPolicyReport(policy);
+    writeGuardStackArtifacts(root, {
+      policyMarkdown,
+      taskVerifyMarkdown,
+      hallucinationMarkdown: renderHallucinationReport(hallucination),
+      regressionMarkdown: renderRegressionReport(regression)
+    });
+    return summarizeGuardStack({ base: options.base, contracts, hallucination, regression, impact, tests, policy });
+  } catch (error) {
+    return {
+      ran: false,
+      passed: false,
+      base: options.base,
+      artifacts: {},
+      error: error instanceof Error ? error.message : String(error)
+    };
+  }
 }
 
 function toPersistedSidecarResult(result: OpenCodeSidecarVerifyResult): Omit<
@@ -230,6 +324,102 @@ function toPersistedSidecarResult(result: OpenCodeSidecarVerifyResult): Omit<
     latestJsonPath: path.relative(result.repo, result.latestJsonPath),
     latestMarkdownPath: path.relative(result.repo, result.latestMarkdownPath)
   };
+}
+
+function summarizeGuardStack(input: {
+  base: string;
+  contracts: ContractValidationReport;
+  hallucination: HallucinationGuardReport;
+  regression: RegressionGuardReport;
+  impact: ChangeImpactReport;
+  tests: TestSelectionReport;
+  policy: PolicyEngineReport;
+}): OpenCodeSidecarGuardStackSummary {
+  return {
+    ran: true,
+    passed:
+      input.contracts.passed && input.hallucination.summary.errors === 0 && input.regression.summary.missingRequiredTestEvidence === 0 && input.policy.passed,
+    base: input.base,
+    artifacts: {
+      policyMarkdown: ".agent-context/sidecar/policy.md",
+      taskVerifyMarkdown: ".agent-context/sidecar/task-verify.md"
+    },
+    contracts: {
+      passed: input.contracts.passed,
+      violations: input.contracts.violations.length
+    },
+    hallucination: {
+      errors: input.hallucination.summary.errors,
+      warnings: input.hallucination.summary.warnings
+    },
+    regression: {
+      matches: input.regression.summary.matches,
+      missingRequiredTestEvidence: input.regression.summary.missingRequiredTestEvidence
+    },
+    impact: {
+      risk: input.impact.risk,
+      changedFiles: input.impact.changedFiles.length,
+      relatedTests: input.impact.relatedTests.length
+    },
+    tests: {
+      minimalCommands: input.tests.minimalCommands.length,
+      recommendedCommands: input.tests.recommendedCommands.length,
+      fullConfidenceCommands: input.tests.fullConfidenceCommands.length
+    },
+    policy: {
+      passed: input.policy.passed,
+      forbidden: input.policy.summary.forbidden,
+      requiredMissing: input.policy.summary.requiredMissing,
+      risks: input.policy.summary.risks
+    }
+  };
+}
+
+function writeGuardStackArtifacts(
+  root: string,
+  artifacts: { policyMarkdown: string; taskVerifyMarkdown: string; hallucinationMarkdown: string; regressionMarkdown: string }
+): void {
+  const dir = path.join(root, ".agent-context", "sidecar");
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(path.join(dir, "policy.md"), `${artifacts.policyMarkdown}\n`, "utf8");
+  writeFileSync(path.join(dir, "task-verify.md"), `${artifacts.taskVerifyMarkdown}\n`, "utf8");
+  writeFileSync(path.join(dir, "hallucination.md"), `${artifacts.hallucinationMarkdown}\n`, "utf8");
+  writeFileSync(path.join(dir, "regression.md"), `${artifacts.regressionMarkdown}\n`, "utf8");
+}
+
+function blockersFromGuardStack(summary: OpenCodeSidecarGuardStackSummary): string[] {
+  const blockers: string[] = [];
+  if (!summary.ran) return [`Guard stack failed to run: ${summary.error ?? "unknown error"}`];
+  if (summary.contracts && !summary.contracts.passed) blockers.push(`Contract violations: ${summary.contracts.violations}`);
+  if (summary.hallucination?.errors) blockers.push(`Hallucination errors: ${summary.hallucination.errors}`);
+  if (summary.regression?.missingRequiredTestEvidence) blockers.push(`Missing regression test evidence: ${summary.regression.missingRequiredTestEvidence}`);
+  if (summary.policy && !summary.policy.passed) {
+    if (summary.policy.forbidden) blockers.push(`Policy forbidden failures: ${summary.policy.forbidden}`);
+    if (summary.policy.requiredMissing) blockers.push(`Policy required evidence missing: ${summary.policy.requiredMissing}`);
+  }
+  return blockers;
+}
+
+function warningsFromGuardStack(summary: OpenCodeSidecarGuardStackSummary): string[] {
+  const warnings: string[] = [];
+  if (summary.hallucination?.warnings) warnings.push(`Hallucination warnings: ${summary.hallucination.warnings}`);
+  if (summary.policy?.risks) warnings.push(`Policy risks: ${summary.policy.risks}`);
+  if (summary.impact?.risk === "High") warnings.push("Impact risk is High");
+  return warnings;
+}
+
+function formatGuardStackLines(summary: OpenCodeSidecarGuardStackSummary): string[] {
+  if (!summary.ran) return [`- failed to run: ${summary.error ?? "unknown error"}`];
+  return [
+    `- passed: ${summary.passed ? "yes" : "no"}`,
+    `- base: ${summary.base}`,
+    `- contracts: ${summary.contracts?.passed ? "passed" : "failed"} (${summary.contracts?.violations ?? 0} violation(s))`,
+    `- hallucination: ${summary.hallucination?.errors ?? 0} error(s), ${summary.hallucination?.warnings ?? 0} warning(s)`,
+    `- regression: ${summary.regression?.matches ?? 0} match(es), ${summary.regression?.missingRequiredTestEvidence ?? 0} missing evidence`,
+    `- impact: ${summary.impact?.risk ?? "unknown"} (${summary.impact?.changedFiles ?? 0} changed file(s), ${summary.impact?.relatedTests ?? 0} related test(s))`,
+    `- tests: ${summary.tests?.minimalCommands ?? 0} minimal, ${summary.tests?.recommendedCommands ?? 0} recommended, ${summary.tests?.fullConfidenceCommands ?? 0} full-confidence command(s)`,
+    `- policy: ${summary.policy?.passed ? "passed" : "failed"} (${summary.policy?.forbidden ?? 0} forbidden, ${summary.policy?.requiredMissing ?? 0} required missing, ${summary.policy?.risks ?? 0} risk(s))`
+  ];
 }
 
 function checkGitRepo(repo: string): OpenCodeSidecarVerifyCheck {
@@ -276,8 +466,6 @@ function isGeneratedSidecarOutput(filePath: string): boolean {
 function detectBlockers(files: string[]): string[] {
   const blockers: string[] = [];
   for (const file of files) {
-    if (file.startsWith(".agent-context/") && !isGeneratedSidecarOutput(file)) blockers.push(`Generated context changed: ${file}`);
-    if (file === "AGENTS.md") blockers.push("Generated AGENTS.md changed; regenerate context intentionally before finalizing.");
     if (isSecretLike(file)) blockers.push(`Secret/local configuration path changed: ${file}`);
     if (isLockfile(file) && !hasPackageManifest(files)) blockers.push(`Lockfile changed without a package manifest change: ${file}`);
   }

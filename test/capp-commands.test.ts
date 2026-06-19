@@ -22,12 +22,12 @@ test("capp report reads the latest sidecar markdown report", () => {
   }
 });
 
-test("capp status reports active sidecar signals", () => {
+test("capp status reports active sidecar signals", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-capp-status-"));
   try {
     mkdirSync(path.join(root, ".agent-context", "traces"), { recursive: true });
     ensureOpencodeSidecarPlugin(root);
-    const verify = verifyOpencodeSidecar(root);
+    const verify = await verifyOpencodeSidecar(root);
     writeOpencodeSidecarLatest(verify);
 
     const status = getCappStatus(root);

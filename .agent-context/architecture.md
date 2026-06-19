@@ -14,7 +14,7 @@ This document is generated from static repository signals. Treat it as a startin
 - `core`: core contains 18 files and depends on analyzers, config, llm, outputs.
 - `harness`: harness contains 9 files and depends on core, outputs, sandbox.
 - `retrievers`: retrievers contains 7 files and depends on core, integrations, outputs.
-- `integrations`: integrations contains 5 files and depends on core, outputs, retrievers.
+- `integrations`: integrations contains 5 files and depends on core, harness, outputs, retrievers.
 - `benchmarks`: benchmarks contains 25 files and depends on core, harness, outputs.
 - `cli`: cli contains 5 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.
 - `analyzers`: analyzers contains 6 files and depends on core.
