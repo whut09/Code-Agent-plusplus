@@ -109,22 +109,6 @@
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
     ],
-    "src/cli/capp-commands.ts": [
-      "test/capp-commands.test.ts"
-    ],
-    "src/cli/default-command.ts": [
-      "test/default-command.test.ts"
-    ],
-    "src/cli/index.ts": [
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts"
-    ],
-    "src/cli/opencode-preset.ts": [
-      "test/opencode-preset.test.ts"
-    ],
-    "src/cli/task-args.ts": [
-      "test/task-args.test.ts"
-    ],
     "src/config/defaults.ts": [
       "test/config.test.ts",
       "test/scanner.test.ts",
@@ -147,8 +131,21 @@
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
       "test/fixtures/monorepo/packages/api/src/config.ts"
     ],
-    "src/harness/types.ts": [
-      "test/task-harness.test.ts"
+    "src/cli/capp-commands.ts": [
+      "test/capp-commands.test.ts"
+    ],
+    "src/cli/default-command.ts": [
+      "test/default-command.test.ts"
+    ],
+    "src/cli/index.ts": [
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/src/index.ts"
+    ],
+    "src/cli/opencode-preset.ts": [
+      "test/opencode-preset.test.ts"
+    ],
+    "src/cli/task-args.ts": [
+      "test/task-args.test.ts"
     ],
     "src/core/cache.ts": [
       "test/cache.test.ts"
@@ -228,37 +225,16 @@
       "test/contract-validator.test.ts",
       "test/validator.test.ts"
     ],
+    "src/harness/types.ts": [
+      "test/task-harness.test.ts"
+    ],
     "src/integrations/codegraph.ts": [
       "test/codegraph.test.ts"
     ],
-    "src/llm/provider.ts": [],
     "src/mcp/server.ts": [
       "test/mcp.test.ts"
     ],
-    "src/retrievers/codegraph.ts": [
-      "test/codegraph.test.ts",
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/external.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/hybrid.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/index.ts": [
-      "test/retrievers.test.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts"
-    ],
-    "src/retrievers/ripgrep.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/static.ts": [
-      "test/retrievers.test.ts"
-    ],
-    "src/retrievers/types.ts": [
-      "test/retrievers.test.ts"
-    ],
+    "src/llm/provider.ts": [],
     "src/outputs/agent-events.ts": [
       "test/agent-events.test.ts"
     ],
@@ -309,9 +285,42 @@
     "src/outputs/token-savings.ts": [
       "test/token-savings.test.ts"
     ],
+    "src/retrievers/codegraph.ts": [
+      "test/codegraph.test.ts",
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/external.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/hybrid.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/index.ts": [
+      "test/retrievers.test.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/src/index.ts"
+    ],
+    "src/retrievers/ripgrep.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/static.ts": [
+      "test/retrievers.test.ts"
+    ],
+    "src/retrievers/types.ts": [
+      "test/retrievers.test.ts"
+    ],
     "src/sandbox/git-worktree-sandbox.ts": [],
     "src/sandbox/host-sandbox.ts": [],
     "src/sandbox/sandbox-adapter.ts": [],
+    "src/harness/observability/execution-trace.ts": [
+      "test/execution-trace.test.ts",
+      "test/hallucination-guard.test.ts",
+      "test/loop-controller.test.ts",
+      "test/opencode-launcher.test.ts",
+      "test/orchestrator.test.ts",
+      "test/policy-engine.test.ts",
+      "test/task-harness.test.ts"
+    ],
     "src/harness/control-plane/decision-engine.ts": [
       "test/task-harness.test.ts"
     ],
@@ -322,15 +331,6 @@
     "src/harness/control-plane/orchestrator.ts": [
       "test/opencode-preset.test.ts",
       "test/orchestrator.test.ts",
-      "test/task-harness.test.ts"
-    ],
-    "src/harness/observability/execution-trace.ts": [
-      "test/execution-trace.test.ts",
-      "test/hallucination-guard.test.ts",
-      "test/loop-controller.test.ts",
-      "test/opencode-launcher.test.ts",
-      "test/orchestrator.test.ts",
-      "test/policy-engine.test.ts",
       "test/task-harness.test.ts"
     ],
     "src/harness/verification-plane/policy-engine.ts": [

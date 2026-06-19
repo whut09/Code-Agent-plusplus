@@ -53,36 +53,14 @@ capp --pure   # 纯 OpenCode，不启用 Code Agent++
 
 `capp` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/code-agent-plusplus.ts`，准备 OpenCode commands/agent，先打印 3 行短状态，然后进入当前仓库的 OpenCode TUI。Sidecar plugin 会监听 `tool.execute.before`、`tool.execute.after`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；工具执行结束后会记录 command、exit code、stdout/stderr hash、working tree hash 和 touched files；OpenCode 空闲且有 dirty diff 时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
 
-## 高级用法：批处理 Harness Mode
+## 高级用法
 
-当你想让 Code Agent++ 主导一次非交互式执行、收集 diff / trace / policy / verify / decision 时，可以使用批处理模式：
+首页主路径只推荐 `capp`。批处理 Harness Mode、CI-like executor、手动 `verify / policy / impact`、MCP 和 retrieval 等内核能力都保留给高级用户：
 
-```bash
-capp oc init .
-capp oc "fix login timeout bug" .
-capp oc report --last
-capp oc repair
-```
-
-需要自定义 executor 时使用完整 orchestrator：
-
-```bash
-npx code-agent-plusplus orchestrate "fix login timeout bug" . \
-  --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
-  --max-loops 3 \
-  --checkpoint git-worktree \
-  --fail-on required
-```
-
-手动验证命令仍然保留给高级用户：
-
-```bash
-npx code-agent-plusplus build .
-npx code-agent-plusplus verify --diff .
-npx code-agent-plusplus policy . --base main --fail-on required
-npx code-agent-plusplus impact . --base main
-```
+- [OpenCode Transparent Sidecar Mode](docs/integrations/opencode-sidecar.md)
+- [Executor CLI Integration](docs/integrations/executor-cli.md)
+- [CLI Reference](docs/reference/cli-reference.md)
+- [MCP Tools](docs/reference/mcp-tools.md)
 
 ## 输出
 
@@ -126,7 +104,7 @@ AGENTS.md
 ```txt
 使用 https://github.com/whut09/Code-Agent-plusplus 对 xxx 项目启用 Code Agent++。
 优先使用 capp 聊天模式：安装 code-agent-plusplus 和 opencode-ai，进入目标仓库后运行 capp。
-如果需要批处理上下文包，再运行 code-agent-plusplus build <目标仓库> --target codex --llm，并运行 code-agent-plusplus validate <目标仓库>。
+如果需要批处理上下文包或 CI-like 验证，再参考 docs 里的高级命令。
 LLM key/baseUrl/model 只写入 code-agent-plusplus.local.yml，不要提交该文件。
 最后说明 sidecar 是否 active、生成了哪些文件、是否存在 blocker。
 ```

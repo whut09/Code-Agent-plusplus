@@ -53,36 +53,14 @@ capp --pure   # plain OpenCode without Code Agent++
 
 `capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact 3-line readiness summary, then opens the OpenCode TUI for the current repository. The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle`: it blocks dangerous or hallucinated commands before execution, records command result evidence after tool execution, and runs dirty/debounced incremental verification when OpenCode becomes idle.
 
-## Advanced: Batch Harness Mode
+## Advanced Usage
 
-Use batch mode when Code Agent++ should run an external executor, collect diff / trace / policy / verify artifacts, and emit a decision report:
+The README main path intentionally recommends only `capp`. Batch Harness Mode, CI-like executors, manual `verify / policy / impact`, MCP, and retrieval commands are still available for advanced users:
 
-```bash
-capp oc init .
-capp oc "fix login timeout bug" .
-capp oc report --last
-capp oc repair
-```
-
-Use the full orchestrator when you need a custom executor command:
-
-```bash
-npx code-agent-plusplus orchestrate "fix login timeout bug" . \
-  --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
-  --max-loops 3 \
-  --checkpoint git-worktree \
-  --fail-on required
-```
-
-Manual verification commands remain available for advanced users:
-
-```bash
-npx code-agent-plusplus build .
-npx code-agent-plusplus verify --diff .
-npx code-agent-plusplus policy . --base main --fail-on required
-npx code-agent-plusplus impact . --base main
-```
+- [OpenCode Transparent Sidecar Mode](docs/integrations/opencode-sidecar.md)
+- [Executor CLI Integration](docs/integrations/executor-cli.md)
+- [CLI Reference](docs/reference/cli-reference.md)
+- [MCP Tools](docs/reference/mcp-tools.md)
 
 Outputs are written to:
 
@@ -128,7 +106,7 @@ Use https://github.com/whut09/Code-Agent-plusplus to generate a Code Agent++ con
 Inspect the target repository first, then install or clone the tool if needed.
 Force LLM summaries: create or update code-agent-plusplus.local.yml in the target repo, do not commit that file.
 Prefer model API configuration available in the current AI tool environment, or the key/baseUrl/model I provide; ask me first if configuration is missing.
-Then run code-agent-plusplus build <target-repo> --target codex --llm, run code-agent-plusplus validate <target-repo>, and summarize generated files, available Guard capabilities, and whether LLM summary mode succeeded.
+For batch context generation or CI-like verification, follow the advanced commands in docs.
 ```
 
 Real credentials belong only in `code-agent-plusplus.local.yml`.
