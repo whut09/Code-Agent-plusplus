@@ -2,8 +2,8 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 12000,
-  "remainingBudget": 0,
+  "estimatedTokens": 11993,
+  "remainingBudget": 7,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
@@ -81,7 +81,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 68
+      "estimatedTokens": 72
     },
     {
       "path": "test/codegraph.test.ts",
@@ -152,6 +152,15 @@
       "estimatedTokens": 72
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -168,15 +177,6 @@
       ],
       "category": "test",
       "estimatedTokens": 64
-    },
-    {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -461,7 +461,7 @@
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 179
+      "estimatedTokens": 296
     },
     {
       "path": "src/integrations/opencode/sidecar-plugin-template.ts",
@@ -723,22 +723,13 @@
       "estimatedTokens": 332
     },
     {
-      "path": "src/core/safe-command.ts",
+      "path": "src/retrievers/static.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 158
-    },
-    {
-      "path": "src/core/path-utils.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 98
+      "estimatedTokens": 128
     }
   ],
   "readFirst": [
@@ -820,7 +811,7 @@
         "shared API/refactor risk"
       ],
       "category": "test",
-      "estimatedTokens": 68
+      "estimatedTokens": 72
     },
     {
       "path": "test/codegraph.test.ts",
@@ -891,6 +882,15 @@
       "estimatedTokens": 72
     },
     {
+      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "score": 20,
+      "reasons": [
+        "related test"
+      ],
+      "category": "test",
+      "estimatedTokens": 60
+    },
+    {
       "path": "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
       "score": 20,
       "reasons": [
@@ -907,15 +907,6 @@
       ],
       "category": "test",
       "estimatedTokens": 64
-    },
-    {
-      "path": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "score": 20,
-      "reasons": [
-        "related test"
-      ],
-      "category": "test",
-      "estimatedTokens": 60
     },
     {
       "path": "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
@@ -965,8 +956,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 12000,
-    "remaining": 0,
+    "used": 11993,
+    "remaining": 7,
     "buckets": [
       {
         "name": "direct-source",
@@ -983,7 +974,7 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2880,
+        "tokens": 2884,
         "files": [
           "test/opencode-launcher.test.ts",
           "test/codegraph.test.ts",
@@ -993,9 +984,9 @@
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
           "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
           "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
           "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-          "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
           "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
           "test/context-delta.test.ts",
           "test/contract-validator.test.ts",
@@ -1029,7 +1020,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8098,
+        "tokens": 8087,
         "files": [
           "src/integrations/codegraph.ts",
           "src/integrations/opencode/launcher.ts",
@@ -1061,8 +1052,7 @@
           "src/outputs/task-run.ts",
           "src/benchmarks/benchmark.ts",
           "src/harness/verification-plane/guards/regression-memory.ts",
-          "src/core/safe-command.ts",
-          "src/core/path-utils.ts"
+          "src/retrievers/static.ts"
         ]
       },
       {

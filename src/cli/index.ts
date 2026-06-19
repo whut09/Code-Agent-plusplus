@@ -65,7 +65,7 @@ import {
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
 import { launchOpencodeTui, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
-import { renderOpencodeSidecarVerifyReport, verifyOpencodeSidecar } from "../integrations/opencode/sidecar.js";
+import { renderOpencodeSidecarVerifyReport, verifyOpencodeSidecar, writeOpencodeSidecarLatest } from "../integrations/opencode/sidecar.js";
 import { resolveDefaultCommandArgs } from "./default-command.js";
 
 const program = new Command();
@@ -99,10 +99,16 @@ sidecar
   .command("verify")
   .argument("[repo]", "repository path", ".")
   .option("--json", "print machine-readable sidecar verification report")
+  .option("--quiet", "write latest artifacts and only print when blocked")
   .description("Verify the OpenCode sidecar plugin and event log readiness.")
-  .action((repo: string, options: { json?: boolean }) => {
+  .action((repo: string, options: { json?: boolean; quiet?: boolean }) => {
     const result = verifyOpencodeSidecar(repo);
-    console.log(options.json ? JSON.stringify(result, null, 2) : renderOpencodeSidecarVerifyReport(result));
+    writeOpencodeSidecarLatest(result);
+    if (options.json) {
+      console.log(JSON.stringify(result, null, 2));
+    } else if (!options.quiet || !result.ok) {
+      console.log(renderOpencodeSidecarVerifyReport(result));
+    }
     if (!result.ok) process.exitCode = 1;
   });
 

@@ -9,6 +9,7 @@ export function opencodeSidecarPluginTemplate(): string {
  */
 
 import { appendFileSync, mkdirSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import path from "node:path";
 
 export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
@@ -57,7 +58,16 @@ export const CodeAgentPlusPlusSidecar = async ({ directory, worktree }) => {
 
       if (type === "session.idle") {
         record("session.idle");
-        console.log("Code Agent++ sidecar idle check: run capp sidecar verify . before claiming completion.");
+        const verify = spawnSync("capp", ["sidecar", "verify", directory, "--quiet"], {
+          cwd: directory,
+          encoding: "utf8",
+          shell: process.platform === "win32"
+        });
+        record("sidecar.verify", { exitCode: verify.status ?? 1 });
+        if ((verify.status ?? 1) !== 0) {
+          const output = (verify.stdout || verify.stderr || "Code Agent++ sidecar found blockers. Run capp sidecar verify .").trim();
+          console.log(output);
+        }
       }
     }
   };

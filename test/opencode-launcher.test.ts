@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { runGit } from "../src/core/git.js";
 import { launchOpenCodeWithSidecar } from "../src/integrations/opencode/launcher.js";
 import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/sidecar-plugin-template.js";
-import { ensureOpencodeSidecarPlugin, verifyOpencodeSidecar } from "../src/integrations/opencode/sidecar.js";
+import { ensureOpencodeSidecarPlugin, verifyOpencodeSidecar, writeOpencodeSidecarLatest } from "../src/integrations/opencode/sidecar.js";
 
 test("OpenCode launcher dry-run prepares sidecar context without opening the TUI", async () => {
   const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-launcher-"));
@@ -49,6 +49,8 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /session\.created/);
   assert.match(source, /file\.edited/);
   assert.match(source, /session\.idle/);
+  assert.match(source, /sidecar", "verify"/);
+  assert.match(source, /--quiet/);
   assert.match(source, /\/capp <task>/);
 });
 
@@ -67,6 +69,34 @@ test("OpenCode sidecar verify checks plugin hooks and event log readiness", () =
     assert.equal(report.checks.find((check) => check.name === "file.edited hook")?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "session.idle hook")?.status, "pass");
     assert.equal(report.checks.find((check) => check.name === "sidecar-event-log")?.status, "warn");
+    writeOpencodeSidecarLatest(report);
+    assert.equal(existsSync(path.join(root, ".agent-context", "sidecar", "latest.json")), true);
+    assert.equal(existsSync(path.join(root, ".agent-context", "sidecar", "latest.md")), true);
+    assert.match(readFileSync(path.join(root, ".agent-context", "sidecar", "latest.md"), "utf8"), /Result: ready/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode sidecar verify detects generated context blockers from current diff", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-blocker-"));
+  try {
+    runGit(root, ["init"]);
+    runGit(root, ["checkout", "-b", "main"]);
+    mkdirSync(path.join(root, ".agent-context", "traces"), { recursive: true });
+    ensureOpencodeSidecarPlugin(root);
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
+    runGit(root, ["add", "."]);
+    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["commit", "-m", "initial"]);
+
+    writeFileSync(path.join(root, ".agent-context", "repo-summary.md"), "stale generated change\n", "utf8");
+    const report = verifyOpencodeSidecar(root);
+
+    assert.equal(report.ok, false);
+    assert.deepEqual(report.changedFiles, [".agent-context/repo-summary.md"]);
+    assert.match(report.blockers.join("\n"), /Generated context changed/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

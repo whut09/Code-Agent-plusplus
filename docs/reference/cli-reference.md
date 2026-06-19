@@ -43,7 +43,14 @@ code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 
 When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode <repo>`.
 
-`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `file.edited` / `session.idle`, and can write/read its minimal event log at `.agent-context/traces/opencode-sidecar-events.jsonl`.
+`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `file.edited` / `session.idle`, and can write/read its minimal event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It also checks the current diff for minimal blockers and writes:
+
+```txt
+.agent-context/sidecar/latest.json
+.agent-context/sidecar/latest.md
+```
+
+Use `--quiet` for sidecar automation; it only prints when blockers are found.
 
 ## OpenCode Preset
 

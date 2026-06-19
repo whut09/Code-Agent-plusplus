@@ -39,7 +39,7 @@ cd your-repo
 capp
 ```
 
-`capp` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/code-agent-plusplus.ts`，准备 OpenCode commands/agent，然后进入当前仓库的 OpenCode TUI。Sidecar plugin 会监听 `file.edited` 和 `session.idle`，把最小事件记录写入 `.agent-context/traces/opencode-sidecar-events.jsonl`，收尾前可运行：
+`capp` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/code-agent-plusplus.ts`，准备 OpenCode commands/agent，然后进入当前仓库的 OpenCode TUI。Sidecar plugin 会监听 `file.edited` 和 `session.idle`，把最小事件记录写入 `.agent-context/traces/opencode-sidecar-events.jsonl`。OpenCode 空闲时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`；只有发现 blocker 时才在 TUI 里提示。收尾前也可以手动运行：
 
 ```bash
 capp sidecar verify .
