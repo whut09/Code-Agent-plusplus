@@ -33,10 +33,14 @@ code-agent-plusplus validate-contracts [repo] --base main
 ## Loop And Runtime
 
 ```bash
+capp
+capp tui [repo] --dry-run
 code-agent-plusplus loop "<task>" [repo] --phase after-edit --write
 code-agent-plusplus agent run "<task>" [repo] --executor mock
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 ```
+
+When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode <repo>`.
 
 ## OpenCode Preset
 
@@ -45,6 +49,7 @@ code-agent-plusplus opencode init [repo]
 code-agent-plusplus opencode doctor [repo]
 code-agent-plusplus opencode run "<task>" [repo]
 capp oc init [repo]
+capp oc doctor [repo]
 capp oc "<task>" [repo]
 capp oc report --last
 capp oc repair

@@ -10,6 +10,16 @@ Use `npx` for one-off runs:
 npx code-agent-plusplus build .
 ```
 
+For the OpenCode TUI sidecar flow:
+
+```bash
+npm i -g code-agent-plusplus opencode-ai
+cd your-repo
+capp
+```
+
+`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode .`.
+
 For local development inside this repository:
 
 ```bash
@@ -57,7 +67,7 @@ code-agent-plusplus policy . --base main --fail-on required
 
 ## Harness-Led Executor Flow
 
-Use the OpenCode preset when Code Agent++ should call OpenCode and evaluate the result:
+Use the OpenCode preset when Code Agent++ should call OpenCode in batch mode and evaluate the result:
 
 ```bash
 capp oc init .

@@ -1,5 +1,63 @@
 [
   {
+    "name": "test",
+    "pathPrefix": "test",
+    "files": [
+      "test/agent-benchmark.test.ts",
+      "test/agent-events.test.ts",
+      "test/agents-md.test.ts",
+      "test/analyzers.test.ts",
+      "test/benchmark.test.ts",
+      "test/cache.test.ts",
+      "test/codegraph.test.ts",
+      "test/config.test.ts",
+      "test/context-delta.test.ts",
+      "test/contract-validator.test.ts",
+      "test/default-command.test.ts",
+      "test/execution-trace.test.ts",
+      "test/fixtures.test.ts",
+      "test/fixtures/python-package/pyproject.toml",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "test/freshness.test.ts",
+      "test/hallucination-guard.test.ts",
+      "test/impact.test.ts",
+      "test/loop-controller.test.ts",
+      "test/mcp.test.ts",
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts",
+      "test/orchestrator.test.ts",
+      "test/policy-engine.test.ts",
+      "test/readiness.test.ts",
+      "test/regression-guard.test.ts",
+      "test/retrievers.test.ts",
+      "test/safe-command.test.ts",
+      "test/scanner.test.ts",
+      "test/snapshot.test.ts",
+      "test/task-args.test.ts",
+      "test/task-context.test.ts",
+      "test/task-harness.test.ts",
+      "test/test-selector.test.ts",
+      "test/token-savings.test.ts",
+      "test/validator.test.ts",
+      "test/writer.test.ts"
+    ],
+    "imports": [
+      "analyzers",
+      "benchmarks",
+      "cli",
+      "config",
+      "core",
+      "harness",
+      "integrations",
+      "mcp",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "test contains 38 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
+    "importanceScore": 1366
+  },
+  {
     "name": "outputs",
     "pathPrefix": "outputs",
     "files": [
@@ -38,62 +96,6 @@
     ],
     "summary": "outputs contains 27 files and depends on core, harness, integrations.",
     "importanceScore": 1320
-  },
-  {
-    "name": "test",
-    "pathPrefix": "test",
-    "files": [
-      "test/agent-benchmark.test.ts",
-      "test/agent-events.test.ts",
-      "test/agents-md.test.ts",
-      "test/analyzers.test.ts",
-      "test/benchmark.test.ts",
-      "test/cache.test.ts",
-      "test/codegraph.test.ts",
-      "test/config.test.ts",
-      "test/context-delta.test.ts",
-      "test/contract-validator.test.ts",
-      "test/execution-trace.test.ts",
-      "test/fixtures.test.ts",
-      "test/fixtures/python-package/pyproject.toml",
-      "test/fixtures/python-package/src/app/models.py",
-      "test/fixtures/python-package/src/app/service.py",
-      "test/freshness.test.ts",
-      "test/hallucination-guard.test.ts",
-      "test/impact.test.ts",
-      "test/loop-controller.test.ts",
-      "test/mcp.test.ts",
-      "test/opencode-preset.test.ts",
-      "test/orchestrator.test.ts",
-      "test/policy-engine.test.ts",
-      "test/readiness.test.ts",
-      "test/regression-guard.test.ts",
-      "test/retrievers.test.ts",
-      "test/safe-command.test.ts",
-      "test/scanner.test.ts",
-      "test/snapshot.test.ts",
-      "test/task-args.test.ts",
-      "test/task-context.test.ts",
-      "test/task-harness.test.ts",
-      "test/test-selector.test.ts",
-      "test/token-savings.test.ts",
-      "test/validator.test.ts",
-      "test/writer.test.ts"
-    ],
-    "imports": [
-      "analyzers",
-      "benchmarks",
-      "cli",
-      "config",
-      "core",
-      "harness",
-      "integrations",
-      "mcp",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "test contains 36 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers.",
-    "importanceScore": 1305
   },
   {
     "name": "core",
@@ -225,6 +227,23 @@
     "importanceScore": 229
   },
   {
+    "name": "integrations",
+    "pathPrefix": "integrations",
+    "files": [
+      "src/integrations/codegraph.ts",
+      "src/integrations/opencode/launcher.ts",
+      "src/integrations/opencode/project-init.ts",
+      "src/integrations/opencode/sidecar-plugin-template.ts"
+    ],
+    "imports": [
+      "core",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "integrations contains 4 files and depends on core, outputs, retrievers.",
+    "importanceScore": 221
+  },
+  {
     "name": "benchmarks/fixtures/small-ts-app",
     "pathPrefix": "benchmarks/fixtures/small-ts-app",
     "files": [
@@ -250,6 +269,7 @@
     "name": "cli",
     "pathPrefix": "cli",
     "files": [
+      "src/cli/default-command.ts",
       "src/cli/index.ts",
       "src/cli/opencode-preset.ts",
       "src/cli/task-args.ts"
@@ -263,8 +283,8 @@
       "outputs",
       "retrievers"
     ],
-    "summary": "cli contains 3 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
-    "importanceScore": 176
+    "summary": "cli contains 4 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers.",
+    "importanceScore": 199
   },
   {
     "name": "benchmarks/fixtures/monorepo/packages/api",
@@ -366,19 +386,6 @@
     "imports": [],
     "summary": "benchmarks/fixtures/monorepo/packages/config contains 4 files.",
     "importanceScore": 79
-  },
-  {
-    "name": "integrations",
-    "pathPrefix": "integrations",
-    "files": [
-      "src/integrations/codegraph.ts"
-    ],
-    "imports": [
-      "core",
-      "retrievers"
-    ],
-    "summary": "integrations contains 1 file and depends on core, retrievers.",
-    "importanceScore": 75
   },
   {
     "name": "root",

@@ -32,21 +32,23 @@ Code Agent++ provides context, boundaries, evidence, gates, impact analysis, and
 ## 30-Second Start
 
 ```bash
-npx code-agent-plusplus build .
-npx code-agent-plusplus run "fix login timeout bug" .
-npx code-agent-plusplus verify --diff .
+npm i -g code-agent-plusplus opencode-ai
+cd your-repo
+capp
 ```
 
-Harness-led executor flow:
+`capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, then opens the OpenCode TUI for the current repository.
+
+Batch / CI harness-led executor flow:
 
 ```bash
-npx capp oc init .
+capp oc init .
 npx code-agent-plusplus opencode doctor .
 npx code-agent-plusplus opencode run "fix login timeout bug" .
 # short alias:
-npx capp oc "fix login timeout bug" .
-npx capp oc report --last
-npx capp oc repair
+capp oc "fix login timeout bug" .
+capp oc report --last
+capp oc repair
 ```
 
 The OpenCode preset internally uses:
@@ -99,6 +101,7 @@ Real credentials belong only in `code-agent-plusplus.local.yml`.
 | Regression Guard / memory candidates                 | MVP / Foundation    |
 | bounded harness-led orchestrator / `orchestrate`     | Foundation          |
 | mock executor / generic `--executor-command`         | Stable / Foundation |
+| `capp` OpenCode TUI launcher + sidecar plugin        | Foundation          |
 | OpenCode preset / `opencode run` / `oc`              | Foundation          |
 | OpenCode project init / `.opencode` commands         | Foundation          |
 | OpenCode doctor                                      | Foundation          |

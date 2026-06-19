@@ -2,6 +2,16 @@
 
 Use this path when Code Agent++ should drive a bounded harness-led loop while an external coding agent performs edits.
 
+## OpenCode TUI Sidecar
+
+```bash
+npm i -g code-agent-plusplus opencode-ai
+cd your-repo
+capp
+```
+
+`capp` starts OpenCode TUI for the current repository after preflight. It ensures `.agent-context`, `.opencode/plugins/code-agent-plusplus.ts`, `.opencode/commands/capp.md`, `.opencode/commands/capp-verify.md`, and `.opencode/agents/code-agent-plusplus.md`.
+
 ## OpenCode Preset
 
 ```bash

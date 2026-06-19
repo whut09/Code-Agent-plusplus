@@ -15,6 +15,7 @@
     "test/config.test.ts",
     "test/context-delta.test.ts",
     "test/contract-validator.test.ts",
+    "test/default-command.test.ts",
     "test/execution-trace.test.ts",
     "test/fixtures.test.ts",
     "test/freshness.test.ts",
@@ -22,6 +23,7 @@
     "test/impact.test.ts",
     "test/loop-controller.test.ts",
     "test/mcp.test.ts",
+    "test/opencode-launcher.test.ts",
     "test/opencode-preset.test.ts",
     "test/orchestrator.test.ts",
     "test/policy-engine.test.ts",
@@ -106,6 +108,9 @@
       "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
       "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts"
     ],
+    "src/cli/default-command.ts": [
+      "test/default-command.test.ts"
+    ],
     "src/cli/index.ts": [
       "test/fixtures/monorepo/packages/api/src/index.ts",
       "test/fixtures/monorepo/packages/web/src/index.ts"
@@ -177,6 +182,7 @@
       "test/impact.test.ts",
       "test/loop-controller.test.ts",
       "test/mcp.test.ts",
+      "test/opencode-launcher.test.ts",
       "test/opencode-preset.test.ts",
       "test/orchestrator.test.ts",
       "test/policy-engine.test.ts",
@@ -220,10 +226,10 @@
     "src/integrations/codegraph.ts": [
       "test/codegraph.test.ts"
     ],
-    "src/llm/provider.ts": [],
     "src/mcp/server.ts": [
       "test/mcp.test.ts"
     ],
+    "src/llm/provider.ts": [],
     "src/outputs/agent-events.ts": [
       "test/agent-events.test.ts"
     ],
@@ -301,14 +307,6 @@
     "src/sandbox/git-worktree-sandbox.ts": [],
     "src/sandbox/host-sandbox.ts": [],
     "src/sandbox/sandbox-adapter.ts": [],
-    "src/harness/observability/execution-trace.ts": [
-      "test/execution-trace.test.ts",
-      "test/hallucination-guard.test.ts",
-      "test/loop-controller.test.ts",
-      "test/orchestrator.test.ts",
-      "test/policy-engine.test.ts",
-      "test/task-harness.test.ts"
-    ],
     "src/harness/control-plane/decision-engine.ts": [
       "test/task-harness.test.ts"
     ],
@@ -321,11 +319,31 @@
       "test/orchestrator.test.ts",
       "test/task-harness.test.ts"
     ],
+    "src/harness/observability/execution-trace.ts": [
+      "test/execution-trace.test.ts",
+      "test/hallucination-guard.test.ts",
+      "test/loop-controller.test.ts",
+      "test/orchestrator.test.ts",
+      "test/policy-engine.test.ts",
+      "test/task-harness.test.ts"
+    ],
     "src/harness/verification-plane/policy-engine.ts": [
       "test/hallucination-guard.test.ts",
       "test/policy-engine.test.ts",
       "test/regression-guard.test.ts",
       "test/task-harness.test.ts"
+    ],
+    "src/integrations/opencode/launcher.ts": [
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
+    ],
+    "src/integrations/opencode/project-init.ts": [
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
+    ],
+    "src/integrations/opencode/sidecar-plugin-template.ts": [
+      "test/opencode-launcher.test.ts",
+      "test/opencode-preset.test.ts"
     ],
     "src/outputs/renderers/markdown.ts": [],
     "src/outputs/renderers/reports.ts": [],
@@ -652,31 +670,6 @@
       "test/fixtures/monorepo/packages/web/src/index.ts",
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
-    "benchmarks/fixtures/small-ts-app/src/api/login.ts": [
-      "test/fixtures.test.ts",
-      "test/fixtures/monorepo/package.json",
-      "test/fixtures/monorepo/pnpm-workspace.yaml",
-      "test/fixtures/monorepo/turbo.json",
-      "test/fixtures/next-app/package.json",
-      "test/fixtures/next-app/tsconfig.json",
-      "test/fixtures/python-package/pyproject.toml",
-      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
-      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
-      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "test/fixtures/monorepo/packages/api/package.json",
-      "test/fixtures/monorepo/packages/web/package.json",
-      "test/fixtures/next-app/src/auth/session.ts",
-      "test/fixtures/python-package/src/app/models.py",
-      "test/fixtures/python-package/src/app/service.py",
-      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
-      "test/fixtures/monorepo/packages/api/src/config.ts",
-      "test/fixtures/monorepo/packages/api/src/index.ts",
-      "test/fixtures/monorepo/packages/web/src/index.ts",
-      "test/fixtures/next-app/src/app/api/login/route.ts"
-    ],
     "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts": [
       "test/fixtures.test.ts",
       "test/fixtures/monorepo/package.json",
@@ -703,6 +696,31 @@
       "test/fixtures/next-app/src/app/api/login/route.ts"
     ],
     "benchmarks/fixtures/small-ts-app/src/auth/session.ts": [
+      "test/fixtures.test.ts",
+      "test/fixtures/monorepo/package.json",
+      "test/fixtures/monorepo/pnpm-workspace.yaml",
+      "test/fixtures/monorepo/turbo.json",
+      "test/fixtures/next-app/package.json",
+      "test/fixtures/next-app/tsconfig.json",
+      "test/fixtures/python-package/pyproject.toml",
+      "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts",
+      "benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx",
+      "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "test/fixtures/monorepo/packages/api/package.json",
+      "test/fixtures/monorepo/packages/web/package.json",
+      "test/fixtures/next-app/src/auth/session.ts",
+      "test/fixtures/python-package/src/app/models.py",
+      "test/fixtures/python-package/src/app/service.py",
+      "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts",
+      "test/fixtures/monorepo/packages/api/src/config.ts",
+      "test/fixtures/monorepo/packages/api/src/index.ts",
+      "test/fixtures/monorepo/packages/web/src/index.ts",
+      "test/fixtures/next-app/src/app/api/login/route.ts"
+    ],
+    "benchmarks/fixtures/small-ts-app/src/api/login.ts": [
       "test/fixtures.test.ts",
       "test/fixtures/monorepo/package.json",
       "test/fixtures/monorepo/pnpm-workspace.yaml",

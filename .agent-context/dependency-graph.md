@@ -25,6 +25,7 @@ graph TD
   harness["harness"] --> outputs["outputs"]
   harness["harness"] --> sandbox["sandbox"]
   integrations["integrations"] --> core["core"]
+  integrations["integrations"] --> outputs["outputs"]
   integrations["integrations"] --> retrievers["retrievers"]
   llm["llm"] --> core["core"]
   mcp["mcp"] --> core["core"]
@@ -64,7 +65,7 @@ graph TD
 | cli | config | 1 |
 | cli | core | 10 |
 | cli | harness | 8 |
-| cli | integrations | 1 |
+| cli | integrations | 3 |
 | cli | outputs | 10 |
 | cli | retrievers | 1 |
 | config | core | 2 |
@@ -75,7 +76,8 @@ graph TD
 | harness | core | 17 |
 | harness | outputs | 26 |
 | harness | sandbox | 3 |
-| integrations | core | 2 |
+| integrations | core | 5 |
+| integrations | outputs | 1 |
 | integrations | retrievers | 1 |
 | llm | core | 1 |
 | mcp | core | 1 |
@@ -91,11 +93,11 @@ graph TD
 | sandbox | core | 4 |
 | test | analyzers | 3 |
 | test | benchmarks | 2 |
-| test | cli | 2 |
+| test | cli | 3 |
 | test | config | 3 |
-| test | core | 44 |
+| test | core | 45 |
 | test | harness | 14 |
-| test | integrations | 1 |
+| test | integrations | 3 |
 | test | mcp | 1 |
 | test | outputs | 22 |
 | test | retrievers | 1 |

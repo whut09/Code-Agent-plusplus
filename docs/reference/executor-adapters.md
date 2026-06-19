@@ -7,6 +7,7 @@ Executor adapters let Code Agent++ treat external code agents as replaceable cod
 | Executor / Adapter                | Maturity   | Notes                                                                                |
 | --------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
 | `mock`                            | Stable     | Deterministic demo and CI executor.                                                  |
+| `capp` OpenCode TUI launcher      | Foundation | Starts OpenCode TUI after context, command, agent, and sidecar plugin preflight.     |
 | OpenCode preset                   | Foundation | `opencode doctor`, `opencode run`, and `oc` with the default OpenCode command.       |
 | generic `--executor-command`      | Foundation | Calls scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.    |
 | OpenCode event normalizer         | Foundation | Supports `opencode run --format json`, transcript files, and stdout/stderr fallback. |
@@ -20,6 +21,7 @@ Executor adapters let Code Agent++ treat external code agents as replaceable cod
 OpenCode has a first-class preset:
 
 ```bash
+capp
 capp oc init .
 code-agent-plusplus opencode doctor .
 code-agent-plusplus opencode run "<task>" .

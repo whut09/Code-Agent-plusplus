@@ -64,12 +64,33 @@ import {
 } from "./opencode-preset.js";
 import { createContextRetriever, renderContextHits, type RetrieverProvider } from "../retrievers/index.js";
 import type { CodeIntelligenceBackend } from "../integrations/codegraph.js";
+import { launchOpenCodeWithSidecar, renderOpenCodeLauncherResult } from "../integrations/opencode/launcher.js";
+import { resolveDefaultCommandArgs } from "./default-command.js";
 
 const program = new Command();
 const executableName = path.basename(process.argv[1] ?? "code-agent-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
 const invokedName = executableName && executableName !== "index" ? executableName : "code-agent-plusplus";
 
 program.name(invokedName).description("Code Agent++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
+
+program
+  .command("tui", { hidden: invokedName !== "capp" })
+  .argument("[repo]", "repository path", ".")
+  .option("--force-plugin", "overwrite .opencode/plugins/code-agent-plusplus.ts")
+  .option("--skip-context", "do not generate .agent-context before launching OpenCode")
+  .option("--dry-run", "run preflight and show what would launch without opening OpenCode")
+  .option("--json", "print machine-readable launcher report")
+  .description("Launch OpenCode TUI with the Code Agent++ sidecar plugin.")
+  .action(async (repo: string, options: { forcePlugin?: boolean; skipContext?: boolean; dryRun?: boolean; json?: boolean }) => {
+    const result = await launchOpenCodeWithSidecar({
+      repo,
+      forcePlugin: options.forcePlugin,
+      skipContext: options.skipContext,
+      dryRun: options.dryRun
+    });
+    console.log(options.json ? JSON.stringify(result, null, 2) : renderOpenCodeLauncherResult(result));
+    if (typeof result.exitCode === "number" && result.exitCode !== 0) process.exitCode = result.exitCode;
+  });
 
 program
   .command("build")
@@ -631,18 +652,7 @@ addOpencodeRunOptions(
 ).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
 
 addOpencodeInitCommand(opencode);
-
-opencode
-  .command("doctor")
-  .argument("[repo]", "repository path", ".")
-  .option("--json", "print machine-readable doctor report")
-  .description("Check whether OpenCode and the current repository are ready for the OpenCode preset.")
-  .action((repo: string, options: { json?: boolean }) => {
-    const report = runOpencodeDoctor(repo);
-    console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeDoctorReport(report));
-    if (!report.ok) process.exitCode = 1;
-  });
-
+addOpencodeDoctorCommand(opencode);
 addOpencodeReportCommand(opencode);
 addOpencodeRepairCommand(opencode);
 
@@ -656,6 +666,7 @@ addOpencodeRunOptions(
 ).action(async (args: string[], options: OpencodeRunCliOptions) => runOpencodePreset(args, options));
 
 addOpencodeInitCommand(oc);
+addOpencodeDoctorCommand(oc);
 addOpencodeReportCommand(oc);
 addOpencodeRepairCommand(oc);
 
@@ -1001,7 +1012,9 @@ program
     process.exitCode = 1;
   });
 
-program.parseAsync().catch((error: unknown) => {
+const parseArgs = resolveDefaultCommandArgs({ invokedName, argv: process.argv });
+
+program.parseAsync(parseArgs).catch((error: unknown) => {
   console.error(error instanceof Error ? error.message : String(error));
   process.exitCode = 1;
 });
@@ -1072,6 +1085,19 @@ function addOpencodeInitCommand(parent: Command): void {
     .action((repo: string, options: OpencodeInitCliOptions) => {
       const report = initOpencodeProject(repo, { force: options.force, dryRun: options.dryRun });
       console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeInitReport(report));
+    });
+}
+
+function addOpencodeDoctorCommand(parent: Command): void {
+  parent
+    .command("doctor")
+    .argument("[repo]", "repository path", ".")
+    .option("--json", "print machine-readable doctor report")
+    .description("Check whether OpenCode and the current repository are ready for the OpenCode preset.")
+    .action((repo: string, options: { json?: boolean }) => {
+      const report = runOpencodeDoctor(repo);
+      console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeDoctorReport(report));
+      if (!report.ok) process.exitCode = 1;
     });
 }
 

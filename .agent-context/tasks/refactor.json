@@ -2,12 +2,12 @@
   "task": "refactor code safely",
   "type": "refactor",
   "tokenBudget": 12000,
-  "estimatedTokens": 12000,
-  "remainingBudget": 0,
+  "estimatedTokens": 11994,
+  "remainingBudget": 6,
   "files": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 300,
+      "score": 302,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -16,7 +16,7 @@
     },
     {
       "path": "benchmarks/tasks/refactor-session-expiry.json",
-      "score": 300,
+      "score": 302,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -25,7 +25,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 149,
+      "score": 141,
       "reasons": [
         "lexical match: code"
       ],
@@ -34,7 +34,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 149,
+      "score": 141,
       "reasons": [
         "lexical match: code"
       ],
@@ -43,7 +43,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 149,
+      "score": 141,
       "reasons": [
         "lexical match: code"
       ],
@@ -52,7 +52,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 152,
+      "score": 146,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -63,29 +63,18 @@
     },
     {
       "path": "src/cli/index.ts",
-      "score": 144,
+      "score": 138,
       "reasons": [
         "lexical match: code",
         "entrypoint",
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 418
-    },
-    {
-      "path": "test/opencode-preset.test.ts",
-      "score": 187,
-      "reasons": [
-        "lexical match: code",
-        "related test",
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 93
+      "estimatedTokens": 429
     },
     {
       "path": "test/codegraph.test.ts",
-      "score": 187,
+      "score": 179,
       "reasons": [
         "lexical match: code",
         "related test",
@@ -95,8 +84,29 @@
       "estimatedTokens": 62
     },
     {
+      "path": "test/opencode-launcher.test.ts",
+      "score": 179,
+      "reasons": [
+        "lexical match: code",
+        "related test",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 65
+    },
+    {
+      "path": "test/opencode-preset.test.ts",
+      "score": 159,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 93
+    },
+    {
       "path": "test/test-selector.test.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -106,7 +116,7 @@
     },
     {
       "path": "test/impact.test.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -422,7 +432,7 @@
     },
     {
       "path": "src/integrations/codegraph.ts",
-      "score": 191,
+      "score": 183,
       "reasons": [
         "lexical match: code",
         "direct dependency of test/codegraph.test.ts",
@@ -432,19 +442,49 @@
       "estimatedTokens": 294
     },
     {
-      "path": "src/cli/opencode-preset.ts",
-      "score": 191,
+      "path": "src/integrations/opencode/launcher.ts",
+      "score": 183,
       "reasons": [
         "lexical match: code",
-        "direct dependency of test/opencode-preset.test.ts",
+        "direct dependency of test/opencode-launcher.test.ts",
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 368
+      "estimatedTokens": 186
+    },
+    {
+      "path": "src/integrations/opencode/sidecar-plugin-template.ts",
+      "score": 165,
+      "reasons": [
+        "lexical match: code",
+        "direct dependency of test/opencode-launcher.test.ts"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 87
+    },
+    {
+      "path": "src/cli/opencode-preset.ts",
+      "score": 159,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 317
+    },
+    {
+      "path": "src/integrations/opencode/project-init.ts",
+      "score": 159,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 135
     },
     {
       "path": "src/retrievers/codegraph.ts",
-      "score": 167,
+      "score": 159,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -453,19 +493,8 @@
       "estimatedTokens": 69
     },
     {
-      "path": "src/harness/control-plane/orchestrator.ts",
-      "score": 156,
-      "reasons": [
-        "lexical match: code",
-        "direct dependency of test/opencode-preset.test.ts",
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 618
-    },
-    {
       "path": "src/core/types.ts",
-      "score": 140,
+      "score": 134,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -475,7 +504,7 @@
     },
     {
       "path": "src/outputs/renderers/markdown.ts",
-      "score": 140,
+      "score": 134,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -485,7 +514,7 @@
     },
     {
       "path": "src/outputs/agent-events.ts",
-      "score": 140,
+      "score": 134,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -494,8 +523,18 @@
       "estimatedTokens": 293
     },
     {
+      "path": "src/harness/control-plane/orchestrator.ts",
+      "score": 126,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ],
+      "category": "dependency-neighbor",
+      "estimatedTokens": 618
+    },
+    {
       "path": "src/harness/observability/execution-trace.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -505,7 +544,7 @@
     },
     {
       "path": "src/core/token-estimator.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -515,7 +554,7 @@
     },
     {
       "path": "src/outputs/impact.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -525,7 +564,7 @@
     },
     {
       "path": "src/outputs/test-selector.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -535,7 +574,7 @@
     },
     {
       "path": "src/outputs/renderers/writer.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -545,7 +584,7 @@
     },
     {
       "path": "src/outputs/context-delta.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -555,7 +594,7 @@
     },
     {
       "path": "src/retrievers/index.ts",
-      "score": 105,
+      "score": 101,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -577,7 +616,7 @@
       "path": "src/core/git.ts",
       "score": 24,
       "reasons": [
-        "direct dependency of test/opencode-preset.test.ts"
+        "direct dependency of test/opencode-launcher.test.ts"
       ],
       "category": "dependency-neighbor",
       "estimatedTokens": 78
@@ -691,37 +730,19 @@
       "estimatedTokens": 128
     },
     {
-      "path": "src/benchmarks/agent-benchmark.ts",
+      "path": "src/harness/types.ts",
       "score": 18,
       "reasons": [
         "shared API/refactor risk"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 466
-    },
-    {
-      "path": "src/core/path-utils.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "dependency-neighbor",
-      "estimatedTokens": 98
-    },
-    {
-      "path": "benchmarks/README.md",
-      "score": 14,
-      "reasons": [
-        "owning module documentation"
-      ],
-      "category": "config-doc",
-      "estimatedTokens": 28
+      "estimatedTokens": 153
     }
   ],
   "readFirst": [
     {
       "path": "benchmarks/tasks/refactor-config-loader.json",
-      "score": 300,
+      "score": 302,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -730,7 +751,7 @@
     },
     {
       "path": "benchmarks/tasks/refactor-session-expiry.json",
-      "score": 300,
+      "score": 302,
       "reasons": [
         "lexical match: refactor"
       ],
@@ -739,7 +760,7 @@
     },
     {
       "path": "code-agent-plusplus.config.example.yml",
-      "score": 149,
+      "score": 141,
       "reasons": [
         "lexical match: code"
       ],
@@ -748,7 +769,7 @@
     },
     {
       "path": "code-agent-plusplus.local.example.yml",
-      "score": 149,
+      "score": 141,
       "reasons": [
         "lexical match: code"
       ],
@@ -757,7 +778,7 @@
     },
     {
       "path": "assets/agent-context-code-layers.png",
-      "score": 149,
+      "score": 141,
       "reasons": [
         "lexical match: code"
       ],
@@ -766,7 +787,7 @@
     },
     {
       "path": "src/mcp/server.ts",
-      "score": 152,
+      "score": 146,
       "reasons": [
         "lexical match: code",
         "entrypoint",
@@ -777,31 +798,20 @@
     },
     {
       "path": "src/cli/index.ts",
-      "score": 144,
+      "score": 138,
       "reasons": [
         "lexical match: code",
         "entrypoint",
         "shared API/refactor risk"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 418
+      "estimatedTokens": 429
     }
   ],
   "inspectIfNeeded": [
     {
-      "path": "test/opencode-preset.test.ts",
-      "score": 187,
-      "reasons": [
-        "lexical match: code",
-        "related test",
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 93
-    },
-    {
       "path": "test/codegraph.test.ts",
-      "score": 187,
+      "score": 179,
       "reasons": [
         "lexical match: code",
         "related test",
@@ -811,8 +821,29 @@
       "estimatedTokens": 62
     },
     {
+      "path": "test/opencode-launcher.test.ts",
+      "score": 179,
+      "reasons": [
+        "lexical match: code",
+        "related test",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 65
+    },
+    {
+      "path": "test/opencode-preset.test.ts",
+      "score": 159,
+      "reasons": [
+        "lexical match: code",
+        "shared API/refactor risk"
+      ],
+      "category": "test",
+      "estimatedTokens": 93
+    },
+    {
       "path": "test/test-selector.test.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -822,7 +853,7 @@
     },
     {
       "path": "test/impact.test.ts",
-      "score": 132,
+      "score": 126,
       "reasons": [
         "lexical match: code",
         "shared API/refactor risk"
@@ -928,21 +959,12 @@
       ],
       "category": "test",
       "estimatedTokens": 77
-    },
-    {
-      "path": "test/hallucination-guard.test.ts",
-      "score": 18,
-      "reasons": [
-        "shared API/refactor risk"
-      ],
-      "category": "test",
-      "estimatedTokens": 89
     }
   ],
   "budget": {
     "total": 12000,
-    "used": 12000,
-    "remaining": 0,
+    "used": 11994,
+    "remaining": 6,
     "buckets": [
       {
         "name": "direct-source",
@@ -959,10 +981,11 @@
       {
         "name": "tests",
         "label": "Tests",
-        "tokens": 2812,
+        "tokens": 2877,
         "files": [
-          "test/opencode-preset.test.ts",
           "test/codegraph.test.ts",
+          "test/opencode-launcher.test.ts",
+          "test/opencode-preset.test.ts",
           "test/test-selector.test.ts",
           "test/impact.test.ts",
           "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
@@ -1004,15 +1027,18 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 8154,
+        "tokens": 8100,
         "files": [
           "src/integrations/codegraph.ts",
+          "src/integrations/opencode/launcher.ts",
+          "src/integrations/opencode/sidecar-plugin-template.ts",
           "src/cli/opencode-preset.ts",
+          "src/integrations/opencode/project-init.ts",
           "src/retrievers/codegraph.ts",
-          "src/harness/control-plane/orchestrator.ts",
           "src/core/types.ts",
           "src/outputs/renderers/markdown.ts",
           "src/outputs/agent-events.ts",
+          "src/harness/control-plane/orchestrator.ts",
           "src/harness/observability/execution-trace.ts",
           "src/core/token-estimator.ts",
           "src/outputs/impact.ts",
@@ -1034,22 +1060,19 @@
           "src/harness/verification-plane/guards/regression-memory.ts",
           "src/core/safe-command.ts",
           "src/retrievers/static.ts",
-          "src/benchmarks/agent-benchmark.ts",
-          "src/core/path-utils.ts"
+          "src/harness/types.ts"
         ]
       },
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 28,
-        "files": [
-          "benchmarks/README.md"
-        ]
+        "tokens": 0,
+        "files": []
       },
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 823,
+        "tokens": 834,
         "files": [
           "src/mcp/server.ts",
           "src/cli/index.ts"
@@ -1070,7 +1093,7 @@
   "retrieval": {
     "directMatches": 8,
     "dependencyNeighbors": 5,
-    "tests": 38,
-    "configDocs": 1
+    "tests": 39,
+    "configDocs": 0
   }
 }

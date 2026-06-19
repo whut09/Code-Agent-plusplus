@@ -403,10 +403,10 @@
   {
     "path": "README.en.md",
     "extension": ".md",
-    "sizeBytes": 6837,
+    "sizeBytes": 7041,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 1710,
+    "tokenEstimate": 1761,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -434,10 +434,10 @@
   {
     "path": "README.md",
     "extension": ".md",
-    "sizeBytes": 6699,
+    "sizeBytes": 6951,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 1675,
+    "tokenEstimate": 1738,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -807,10 +807,10 @@
   {
     "path": "docs/getting-started.md",
     "extension": ".md",
-    "sizeBytes": 2136,
+    "sizeBytes": 2426,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 534,
+    "tokenEstimate": 607,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -3129,6 +3129,70 @@
     ]
   },
   {
+    "path": "test/default-command.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 724,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 181,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "node:assert/strict",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:test",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../src/cli/default-command.js",
+        "resolvedPath": "src/cli/default-command.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [],
+    "summary": "test/default-command.test.ts contains 0 detected symbols, 3 imports, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 2,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:assert/strict."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:test."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports ../src/cli/default-command.js."
+      }
+    ],
+    "moduleName": "test",
+    "importanceScore": 19,
+    "importanceReasons": [
+      "3 outbound dependencies",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "test/execution-trace.test.ts",
     "extension": ".ts",
     "sizeBytes": 5499,
@@ -5180,6 +5244,206 @@
     "importanceReasons": [
       "15 symbols",
       "7 outbound dependencies",
+      "test coverage signal",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "test/opencode-launcher.test.ts",
+    "extension": ".ts",
+    "sizeBytes": 3040,
+    "kind": "test",
+    "language": "TypeScript",
+    "tokenEstimate": 760,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": true,
+    "imports": [
+      {
+        "specifier": "node:assert/strict",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:os",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:test",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../src/core/git.js",
+        "resolvedPath": "src/core/git.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../src/integrations/opencode/launcher.js",
+        "resolvedPath": "src/integrations/opencode/launcher.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../src/integrations/opencode/sidecar-plugin-template.js",
+        "resolvedPath": "src/integrations/opencode/sidecar-plugin-template.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [],
+    "symbols": [
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 11
+      },
+      {
+        "name": "bin",
+        "kind": "const",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 12
+      },
+      {
+        "name": "oldPath",
+        "kind": "const",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 13
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 26
+      },
+      {
+        "name": "source",
+        "kind": "const",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 44
+      },
+      {
+        "name": "writeFakeOpenCode",
+        "kind": "function",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 52
+      },
+      {
+        "name": "script",
+        "kind": "const",
+        "filePath": "test/opencode-launcher.test.ts",
+        "line": 58
+      }
+    ],
+    "summary": "test/opencode-launcher.test.ts contains 7 detected symbols, 8 imports, 0 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 3,
+      "importsUnresolved": 5,
+      "symbolsDetected": 7,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:assert/strict."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports node:os."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports node:test."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../src/core/git.js."
+      },
+      {
+        "line": 7,
+        "kind": "import",
+        "detail": "Imports ../src/integrations/opencode/launcher.js."
+      },
+      {
+        "line": 8,
+        "kind": "import",
+        "detail": "Imports ../src/integrations/opencode/sidecar-plugin-template.js."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 12,
+        "kind": "symbol",
+        "symbol": "bin",
+        "detail": "Declares const bin."
+      },
+      {
+        "line": 13,
+        "kind": "symbol",
+        "symbol": "oldPath",
+        "detail": "Declares const oldPath."
+      },
+      {
+        "line": 26,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 44,
+        "kind": "symbol",
+        "symbol": "source",
+        "detail": "Declares const source."
+      },
+      {
+        "line": 52,
+        "kind": "symbol",
+        "symbol": "writeFakeOpenCode",
+        "detail": "Declares function writeFakeOpenCode."
+      },
+      {
+        "line": 58,
+        "kind": "symbol",
+        "symbol": "script",
+        "detail": "Declares const script."
+      }
+    ],
+    "moduleName": "test",
+    "importanceScore": 42,
+    "importanceReasons": [
+      "7 symbols",
+      "8 outbound dependencies",
       "test coverage signal",
       "high-confidence analysis"
     ]
@@ -10420,10 +10684,10 @@
   {
     "path": "docs/integrations/executor-cli.md",
     "extension": ".md",
-    "sizeBytes": 2330,
+    "sizeBytes": 2686,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 583,
+    "tokenEstimate": 672,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -10544,10 +10808,10 @@
   {
     "path": "docs/reference/cli-reference.md",
     "extension": ".md",
-    "sizeBytes": 2706,
+    "sizeBytes": 2993,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 677,
+    "tokenEstimate": 749,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -10606,10 +10870,10 @@
   {
     "path": "docs/reference/executor-adapters.md",
     "extension": ".md",
-    "sizeBytes": 2346,
+    "sizeBytes": 2489,
     "kind": "docs",
     "language": "Markdown",
-    "tokenEstimate": 587,
+    "tokenEstimate": 623,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -15688,12 +15952,67 @@
     ]
   },
   {
-    "path": "src/cli/index.ts",
+    "path": "src/cli/default-command.ts",
     "extension": ".ts",
-    "sizeBytes": 61592,
+    "sizeBytes": 250,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 15398,
+    "tokenEstimate": 63,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "resolveDefaultCommandArgs"
+    ],
+    "symbols": [
+      {
+        "name": "resolveDefaultCommandArgs",
+        "kind": "function",
+        "filePath": "src/cli/default-command.ts",
+        "line": 1
+      }
+    ],
+    "summary": "src/cli/default-command.ts contains 1 detected symbol, 0 imports, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "resolveDefaultCommandArgs",
+        "detail": "Declares function resolveDefaultCommandArgs."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "resolveDefaultCommandArgs",
+        "detail": "Exports resolveDefaultCommandArgs."
+      }
+    ],
+    "moduleName": "cli",
+    "importanceScore": 21,
+    "importanceReasons": [
+      "1 export",
+      "1 symbol",
+      "2 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/cli/index.ts",
+    "extension": ".ts",
+    "sizeBytes": 63042,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 15761,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -15872,6 +16191,16 @@
         "specifier": "../integrations/codegraph.js",
         "resolvedPath": "src/integrations/codegraph.ts",
         "isExternal": false
+      },
+      {
+        "specifier": "../integrations/opencode/launcher.js",
+        "resolvedPath": "src/integrations/opencode/launcher.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./default-command.js",
+        "resolvedPath": "src/cli/default-command.ts",
+        "isExternal": false
       }
     ],
     "exports": [],
@@ -15880,223 +16209,205 @@
         "name": "program",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 68
+        "line": 70
       },
       {
         "name": "executableName",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 69
+        "line": 71
       },
       {
         "name": "invokedName",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 70
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 89
+        "line": 72
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 90
+        "line": 85
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 117
+        "line": 110
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 111
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 138
       },
       {
         "name": "rag",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 124
+        "line": 145
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 132
+        "line": 153
       },
       {
         "name": "documents",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 133
+        "line": 154
       },
       {
         "name": "manifest",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 134
+        "line": 155
       },
       {
         "name": "trace",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 144
+        "line": 165
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 156
+        "line": 177
       },
       {
         "name": "item",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 157
+        "line": 178
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 210
+        "line": 231
       },
       {
         "name": "item",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 211
+        "line": 232
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 262
+        "line": 283
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 263
+        "line": 284
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 288
+        "line": 309
       },
       {
         "name": "item",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 289
+        "line": 310
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 310
+        "line": 331
       },
       {
         "name": "retriever",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 311
+        "line": 332
       },
       {
         "name": "hits",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 312
+        "line": 333
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 321
+        "line": 342
       },
       {
         "name": "configPath",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 322
+        "line": 343
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 338
+        "line": 359
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 347
+        "line": 368
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 356
+        "line": 377
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 357
+        "line": 378
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 375
+        "line": 396
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 376
+        "line": 397
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 391
+        "line": 412
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 392
+        "line": 413
       },
       {
         "name": "written",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 393
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 408
-      },
-      {
-        "name": "report",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 409
-      },
-      {
-        "name": "written",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 410
-      },
-      {
-        "name": "memory",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 415
+        "line": 414
       },
       {
         "name": "context",
@@ -16105,7 +16416,7 @@
         "line": 429
       },
       {
-        "name": "candidate",
+        "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
         "line": 430
@@ -16114,217 +16425,229 @@
         "name": "written",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 434
+        "line": 431
       },
       {
-        "name": "root",
+        "name": "memory",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 436
+      },
+      {
+        "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
         "line": 450
       },
       {
-        "name": "candidatePath",
+        "name": "candidate",
         "kind": "const",
         "filePath": "src/cli/index.ts",
         "line": 451
       },
       {
+        "name": "written",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 455
+      },
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 471
+      },
+      {
+        "name": "candidatePath",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 472
+      },
+      {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 457
+        "line": 478
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 473
+        "line": 494
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 474
+        "line": 495
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 485
+        "line": 506
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 486
+        "line": 507
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 497
+        "line": 518
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 498
+        "line": 519
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 510
+        "line": 531
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 511
+        "line": 532
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 522
+        "line": 543
       },
       {
         "name": "delta",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 523
+        "line": 544
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 524
+        "line": 545
       },
       {
         "name": "deltaResult",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 525
+        "line": 546
       },
       {
         "name": "rewrittenOutputs",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 526
+        "line": 547
       },
       {
         "name": "evolveReport",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 527
+        "line": 548
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 563
+        "line": 584
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 564
+        "line": 585
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 600
+        "line": 621
       },
       {
         "name": "loopOptions",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 601
+        "line": 622
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 608
+        "line": 629
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 615
+        "line": 636
       },
       {
         "name": "opencode",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 624
-      },
-      {
-        "name": "report",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 641
+        "line": 645
       },
       {
         "name": "oc",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 649
+        "line": 659
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 699
+        "line": 710
       },
       {
         "name": "agent",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 717
+        "line": 728
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 754
+        "line": 765
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 781
+        "line": 792
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 794
+        "line": 805
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 795
+        "line": 806
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 810
+        "line": 821
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 823
-      },
-      {
-        "name": "context",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 836
+        "line": 834
       },
       {
         "name": "context",
@@ -16333,7 +16656,7 @@
         "line": 847
       },
       {
-        "name": "result",
+        "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
         "line": 858
@@ -16342,142 +16665,154 @@
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 894
+        "line": 869
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 905
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 923
+        "line": 934
       },
       {
         "name": "retriever",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 924
+        "line": 935
       },
       {
         "name": "hits",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 925
+        "line": 936
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 935
+        "line": 946
       },
       {
         "name": "changed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 936
+        "line": 947
       },
       {
         "name": "files",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 937
+        "line": 948
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 951
+        "line": 962
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 952
+        "line": 963
       },
       {
         "name": "changed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 953
+        "line": 964
       },
       {
         "name": "context",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 968
+        "line": 979
       },
       {
         "name": "normalized",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 969
+        "line": 980
       },
       {
         "name": "file",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 970
+        "line": 981
       },
       {
         "name": "module",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 987
+        "line": 998
+      },
+      {
+        "name": "parseArgs",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 1015
       },
       {
         "name": "OpencodeRunCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1009
+        "line": 1022
       },
       {
         "name": "OpencodeReportCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1025
+        "line": 1038
       },
       {
         "name": "OpencodeInitCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1032
+        "line": 1045
       },
       {
         "name": "OpencodeRepairCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1038
+        "line": 1051
       },
       {
         "name": "addOpencodeRunOptions",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1043
+        "line": 1056
       },
       {
         "name": "addOpencodeInitCommand",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1064
+        "line": 1077
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1073
+        "line": 1086
+      },
+      {
+        "name": "addOpencodeDoctorCommand",
+        "kind": "function",
+        "filePath": "src/cli/index.ts",
+        "line": 1091
+      },
+      {
+        "name": "report",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 1098
       },
       {
         "name": "addOpencodeReportCommand",
-        "kind": "function",
-        "filePath": "src/cli/index.ts",
-        "line": 1078
-      },
-      {
-        "name": "result",
-        "kind": "const",
-        "filePath": "src/cli/index.ts",
-        "line": 1088
-      },
-      {
-        "name": "addOpencodeRepairCommand",
         "kind": "function",
         "filePath": "src/cli/index.ts",
         "line": 1104
@@ -16486,185 +16821,197 @@
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1112
+        "line": 1114
       },
       {
-        "name": "runOpencodePreset",
+        "name": "addOpencodeRepairCommand",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1123
+        "line": 1130
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1125
+        "line": 1138
+      },
+      {
+        "name": "runOpencodePreset",
+        "kind": "function",
+        "filePath": "src/cli/index.ts",
+        "line": 1149
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/cli/index.ts",
+        "line": 1151
       },
       {
         "name": "MemoryCandidateCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1148
+        "line": 1174
       },
       {
         "name": "MemoryAddFixCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1158
+        "line": 1184
       },
       {
         "name": "memoryCandidateOptions",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1163
+        "line": 1189
       },
       {
         "name": "RetrieveCliOptions",
         "kind": "interface",
         "filePath": "src/cli/index.ts",
-        "line": 1174
+        "line": 1200
       },
       {
         "name": "retrieveOptions",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1183
+        "line": 1209
       },
       {
         "name": "splitCsv",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1192
+        "line": 1218
       },
       {
         "name": "items",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1193
+        "line": 1219
       },
       {
         "name": "parseRetrieverProvider",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1201
+        "line": 1227
       },
       {
         "name": "parseCodeBackend",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1206
+        "line": 1232
       },
       {
         "name": "parseTarget",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1211
+        "line": 1237
       },
       {
         "name": "parseInteger",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1219
+        "line": 1245
       },
       {
         "name": "parsed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1220
+        "line": 1246
       },
       {
         "name": "parseTaskType",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1228
+        "line": 1254
       },
       {
         "name": "parseLoopPhase",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1233
+        "line": 1259
       },
       {
         "name": "parseAgentExecutor",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1238
+        "line": 1264
       },
       {
         "name": "parseOrchestratorCheckpoint",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1243
+        "line": 1269
       },
       {
         "name": "parseTraceResult",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1248
+        "line": 1274
       },
       {
         "name": "parseTraceFinalState",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1253
+        "line": 1279
       },
       {
         "name": "parsePolicyFailOn",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1259
+        "line": 1285
       },
       {
         "name": "parseEvidenceSource",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1264
+        "line": 1290
       },
       {
         "name": "parseNonNegativeInteger",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1269
+        "line": 1295
       },
       {
         "name": "parsed",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1270
+        "line": 1296
       },
       {
         "name": "summarizeCacheStats",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1278
+        "line": 1304
       },
       {
         "name": "formatCacheStats",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1294
+        "line": 1320
       },
       {
         "name": "summary",
         "kind": "const",
         "filePath": "src/cli/index.ts",
-        "line": 1296
+        "line": 1322
       },
       {
         "name": "printFileList",
         "kind": "function",
         "filePath": "src/cli/index.ts",
-        "line": 1306
+        "line": 1332
       }
     ],
-    "summary": "src/cli/index.ts contains 130 detected symbols, 35 imports, 0 exports.",
+    "summary": "src/cli/index.ts contains 133 detected symbols, 37 imports, 0 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "analysisStats": {
       "parser": "typescript-compiler-api",
-      "importsResolved": 32,
+      "importsResolved": 34,
       "importsUnresolved": 3,
-      "symbolsDetected": 130,
+      "symbolsDetected": 133,
       "routesDetected": 0
     },
     "evidence": [
@@ -16844,226 +17191,218 @@
         "detail": "Imports ../integrations/codegraph.js."
       },
       {
+        "line": 67,
+        "kind": "import",
+        "detail": "Imports ../integrations/opencode/launcher.js."
+      },
+      {
         "line": 68,
+        "kind": "import",
+        "detail": "Imports ./default-command.js."
+      },
+      {
+        "line": 70,
         "kind": "symbol",
         "symbol": "program",
         "detail": "Declares const program."
       },
       {
-        "line": 69,
+        "line": 71,
         "kind": "symbol",
         "symbol": "executableName",
         "detail": "Declares const executableName."
       },
       {
-        "line": 70,
+        "line": 72,
         "kind": "symbol",
         "symbol": "invokedName",
         "detail": "Declares const invokedName."
       },
       {
-        "line": 89,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 90,
+        "line": 85,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 117,
+        "line": 110,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 124,
+        "line": 111,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 138,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 145,
         "kind": "symbol",
         "symbol": "rag",
         "detail": "Declares const rag."
       },
       {
-        "line": 132,
+        "line": 153,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 133,
+        "line": 154,
         "kind": "symbol",
         "symbol": "documents",
         "detail": "Declares const documents."
       },
       {
-        "line": 134,
+        "line": 155,
         "kind": "symbol",
         "symbol": "manifest",
         "detail": "Declares const manifest."
       },
       {
-        "line": 144,
+        "line": 165,
         "kind": "symbol",
         "symbol": "trace",
         "detail": "Declares const trace."
       },
       {
-        "line": 156,
+        "line": 177,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 157,
+        "line": 178,
         "kind": "symbol",
         "symbol": "item",
         "detail": "Declares const item."
       },
       {
-        "line": 210,
+        "line": 231,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 211,
+        "line": 232,
         "kind": "symbol",
         "symbol": "item",
         "detail": "Declares const item."
       },
       {
-        "line": 262,
+        "line": 283,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 263,
+        "line": 284,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 288,
+        "line": 309,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 289,
+        "line": 310,
         "kind": "symbol",
         "symbol": "item",
         "detail": "Declares const item."
       },
       {
-        "line": 310,
+        "line": 331,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 311,
+        "line": 332,
         "kind": "symbol",
         "symbol": "retriever",
         "detail": "Declares const retriever."
       },
       {
-        "line": 312,
+        "line": 333,
         "kind": "symbol",
         "symbol": "hits",
         "detail": "Declares const hits."
       },
       {
-        "line": 321,
+        "line": 342,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 322,
+        "line": 343,
         "kind": "symbol",
         "symbol": "configPath",
         "detail": "Declares const configPath."
       },
       {
-        "line": 338,
+        "line": 359,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 347,
+        "line": 368,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 356,
+        "line": 377,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 357,
+        "line": 378,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 375,
+        "line": 396,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 376,
+        "line": 397,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 391,
+        "line": 412,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 392,
+        "line": 413,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 393,
+        "line": 414,
         "kind": "symbol",
         "symbol": "written",
         "detail": "Declares const written."
-      },
-      {
-        "line": 408,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 409,
-        "kind": "symbol",
-        "symbol": "report",
-        "detail": "Declares const report."
-      },
-      {
-        "line": 410,
-        "kind": "symbol",
-        "symbol": "written",
-        "detail": "Declares const written."
-      },
-      {
-        "line": 415,
-        "kind": "symbol",
-        "symbol": "memory",
-        "detail": "Declares const memory."
       },
       {
         "line": 429,
@@ -17074,221 +17413,233 @@
       {
         "line": 430,
         "kind": "symbol",
-        "symbol": "candidate",
-        "detail": "Declares const candidate."
+        "symbol": "report",
+        "detail": "Declares const report."
       },
       {
-        "line": 434,
+        "line": 431,
         "kind": "symbol",
         "symbol": "written",
         "detail": "Declares const written."
       },
       {
+        "line": 436,
+        "kind": "symbol",
+        "symbol": "memory",
+        "detail": "Declares const memory."
+      },
+      {
         "line": 450,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 451,
+        "kind": "symbol",
+        "symbol": "candidate",
+        "detail": "Declares const candidate."
+      },
+      {
+        "line": 455,
+        "kind": "symbol",
+        "symbol": "written",
+        "detail": "Declares const written."
+      },
+      {
+        "line": 471,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 451,
+        "line": 472,
         "kind": "symbol",
         "symbol": "candidatePath",
         "detail": "Declares const candidatePath."
       },
       {
-        "line": 457,
+        "line": 478,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 473,
+        "line": 494,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 474,
+        "line": 495,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 485,
+        "line": 506,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 486,
+        "line": 507,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 497,
+        "line": 518,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 498,
+        "line": 519,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 510,
+        "line": 531,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 511,
+        "line": 532,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 522,
+        "line": 543,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 523,
+        "line": 544,
         "kind": "symbol",
         "symbol": "delta",
         "detail": "Declares const delta."
       },
       {
-        "line": 524,
+        "line": 545,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 525,
+        "line": 546,
         "kind": "symbol",
         "symbol": "deltaResult",
         "detail": "Declares const deltaResult."
       },
       {
-        "line": 526,
+        "line": 547,
         "kind": "symbol",
         "symbol": "rewrittenOutputs",
         "detail": "Declares const rewrittenOutputs."
       },
       {
-        "line": 527,
+        "line": 548,
         "kind": "symbol",
         "symbol": "evolveReport",
         "detail": "Declares const evolveReport."
       },
       {
-        "line": 563,
+        "line": 584,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 564,
+        "line": 585,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 600,
+        "line": 621,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 601,
+        "line": 622,
         "kind": "symbol",
         "symbol": "loopOptions",
         "detail": "Declares const loopOptions."
       },
       {
-        "line": 608,
+        "line": 629,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 615,
+        "line": 636,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 624,
+        "line": 645,
         "kind": "symbol",
         "symbol": "opencode",
         "detail": "Declares const opencode."
       },
       {
-        "line": 641,
-        "kind": "symbol",
-        "symbol": "report",
-        "detail": "Declares const report."
-      },
-      {
-        "line": 649,
+        "line": 659,
         "kind": "symbol",
         "symbol": "oc",
         "detail": "Declares const oc."
       },
       {
-        "line": 699,
+        "line": 710,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 717,
+        "line": 728,
         "kind": "symbol",
         "symbol": "agent",
         "detail": "Declares const agent."
       },
       {
-        "line": 754,
+        "line": 765,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 781,
+        "line": 792,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 794,
+        "line": 805,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 795,
+        "line": 806,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 810,
+        "line": 821,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 823,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
-      },
-      {
-        "line": 836,
+        "line": 834,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
@@ -17302,74 +17653,68 @@
       {
         "line": 858,
         "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
+        "symbol": "context",
+        "detail": "Declares const context."
       },
       {
-        "line": 894,
+        "line": 869,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 923,
+        "line": 905,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 934,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 924,
+        "line": 935,
         "kind": "symbol",
         "symbol": "retriever",
         "detail": "Declares const retriever."
       },
       {
-        "line": 925,
+        "line": 936,
         "kind": "symbol",
         "symbol": "hits",
         "detail": "Declares const hits."
       },
       {
-        "line": 935,
+        "line": 946,
         "kind": "symbol",
         "symbol": "context",
         "detail": "Declares const context."
       },
       {
-        "line": 936,
+        "line": 947,
         "kind": "symbol",
         "symbol": "changed",
         "detail": "Declares const changed."
-      },
-      {
-        "line": 937,
-        "kind": "symbol",
-        "symbol": "files",
-        "detail": "Declares const files."
-      },
-      {
-        "line": 951,
-        "kind": "symbol",
-        "symbol": "context",
-        "detail": "Declares const context."
       }
     ],
     "moduleName": "cli",
     "importanceScore": 70,
     "importanceReasons": [
       "entrypoint",
-      "130 symbols",
-      "35 outbound dependencies",
+      "133 symbols",
+      "37 outbound dependencies",
       "high-confidence analysis"
     ]
   },
   {
     "path": "src/cli/opencode-preset.ts",
     "extension": ".ts",
-    "sizeBytes": 14815,
+    "sizeBytes": 10370,
     "kind": "source",
     "language": "TypeScript",
-    "tokenEstimate": 3704,
+    "tokenEstimate": 2593,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
@@ -17398,6 +17743,11 @@
         "specifier": "../harness/control-plane/orchestrator.js",
         "resolvedPath": "src/harness/control-plane/orchestrator.ts",
         "isExternal": false
+      },
+      {
+        "specifier": "../integrations/opencode/project-init.js",
+        "resolvedPath": "src/integrations/opencode/project-init.ts",
+        "isExternal": false
       }
     ],
     "exports": [
@@ -17423,353 +17773,275 @@
         "name": "OPENCODE_DEFAULT_EXECUTOR_COMMAND",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 7
+        "line": 14
       },
       {
         "name": "OpencodeDoctorStatus",
         "kind": "type",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 9
+        "line": 16
       },
       {
         "name": "OpencodeDoctorCheck",
         "kind": "interface",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 11
+        "line": 18
       },
       {
         "name": "OpencodeDoctorReport",
         "kind": "interface",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 19
-      },
-      {
-        "name": "OpencodeInitOptions",
-        "kind": "interface",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 25
-      },
-      {
-        "name": "OpencodeInitFile",
-        "kind": "interface",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 30
-      },
-      {
-        "name": "OpencodeInitReport",
-        "kind": "interface",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 36
+        "line": 26
       },
       {
         "name": "OpencodeReportLookupOptions",
         "kind": "interface",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 41
+        "line": 32
       },
       {
         "name": "OpencodeReportLookupResult",
         "kind": "interface",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 46
+        "line": 37
       },
       {
         "name": "runOpencodeDoctor",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 51
+        "line": 42
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 52
+        "line": 43
       },
       {
         "name": "checks",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 53
+        "line": 44
       },
       {
         "name": "version",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 55
+        "line": 46
       },
       {
         "name": "runHelp",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 64
+        "line": 55
       },
       {
         "name": "auth",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 73
+        "line": 64
       },
       {
         "name": "authOutput",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 74
+        "line": 65
       },
       {
         "name": "hasProvider",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 75
+        "line": 66
       },
       {
         "name": "gitRepo",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 84
+        "line": 75
       },
       {
         "name": "agentContext",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 93
+        "line": 84
       },
       {
         "name": "status",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 103
+        "line": 94
       },
       {
         "name": "dirtyLines",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 104
-      },
-      {
-        "name": "initOpencodeProject",
-        "kind": "function",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 123
-      },
-      {
-        "name": "root",
-        "kind": "const",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 124
-      },
-      {
-        "name": "files",
-        "kind": "const",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 125
-      },
-      {
-        "name": "absolutePath",
-        "kind": "const",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 126
-      },
-      {
-        "name": "renderOpencodeInitReport",
-        "kind": "function",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 143
-      },
-      {
-        "name": "written",
-        "kind": "const",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 144
-      },
-      {
-        "name": "skipped",
-        "kind": "const",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 145
-      },
-      {
-        "name": "wouldWrite",
-        "kind": "const",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 146
+        "line": 95
       },
       {
         "name": "renderOpencodeDoctorReport",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 164
+        "line": 114
       },
       {
         "name": "marker",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 171
+        "line": 121
       },
       {
         "name": "command",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 172
-      },
-      {
-        "name": "opencodeInitTemplates",
-        "kind": "function",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 180
+        "line": 122
       },
       {
         "name": "renderOpencodeRunSummary",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 243
+        "line": 130
       },
       {
         "name": "blockingGates",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 244
+        "line": 131
       },
       {
         "name": "warnings",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 245
+        "line": 132
       },
       {
         "name": "renderOpencodeRepairGuidance",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 267
+        "line": 154
       },
       {
         "name": "blockingGates",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 268
+        "line": 155
       },
       {
         "name": "findOpencodeReport",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 291
+        "line": 178
       },
       {
         "name": "root",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 292
+        "line": 179
       },
       {
         "name": "orchestratorDir",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 293
+        "line": 180
       },
       {
         "name": "candidates",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 301
+        "line": 188
       },
       {
         "name": "result",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 305
+        "line": 192
       },
       {
         "name": "readReportIfExists",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 316
+        "line": 203
       },
       {
         "name": "report",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 319
+        "line": 206
       },
       {
         "name": "formatList",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 326
-      },
-      {
-        "name": "formatInitFiles",
-        "kind": "function",
-        "filePath": "src/cli/opencode-preset.ts",
-        "line": 330
+        "line": 213
       },
       {
         "name": "formatGuardName",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 335
+        "line": 217
       },
       {
         "name": "nextCommandsFor",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 339
+        "line": 221
       },
       {
         "name": "escapeDoubleQuoted",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 349
+        "line": 231
       },
       {
         "name": "runTool",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 353
+        "line": 235
       },
       {
         "name": "commandPassed",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 369
+        "line": 251
       },
       {
         "name": "formatCommandFailure",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 373
+        "line": 255
       },
       {
         "name": "hasAuthProvider",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 377
+        "line": 259
       },
       {
         "name": "normalized",
         "kind": "const",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 378
+        "line": 260
       },
       {
         "name": "firstLine",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 383
+        "line": 265
       },
       {
         "name": "runGitCheck",
         "kind": "function",
         "filePath": "src/cli/opencode-preset.ts",
-        "line": 392
+        "line": 274
       }
     ],
-    "summary": "src/cli/opencode-preset.ts contains 57 detected symbols, 5 imports, 16 exports.",
+    "summary": "src/cli/opencode-preset.ts contains 44 detected symbols, 6 imports, 16 exports.",
     "analyzer": "typescript-compiler-api",
     "confidence": "high",
     "analysisStats": {
       "parser": "typescript-compiler-api",
-      "importsResolved": 3,
+      "importsResolved": 4,
       "importsUnresolved": 2,
-      "symbolsDetected": 57,
+      "symbolsDetected": 44,
       "routesDetected": 0
     },
     "evidence": [
@@ -17799,451 +18071,378 @@
         "detail": "Imports ../harness/control-plane/orchestrator.js."
       },
       {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "OPENCODE_DEFAULT_EXECUTOR_COMMAND",
-        "detail": "Declares const OPENCODE_DEFAULT_EXECUTOR_COMMAND."
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../integrations/opencode/project-init.js."
       },
       {
         "line": 7,
-        "kind": "export",
-        "symbol": "OPENCODE_DEFAULT_EXECUTOR_COMMAND",
-        "detail": "Exports OPENCODE_DEFAULT_EXECUTOR_COMMAND."
-      },
-      {
-        "line": 9,
-        "kind": "symbol",
-        "symbol": "OpencodeDoctorStatus",
-        "detail": "Declares type OpencodeDoctorStatus."
-      },
-      {
-        "line": 9,
-        "kind": "export",
-        "symbol": "OpencodeDoctorStatus",
-        "detail": "Exports OpencodeDoctorStatus."
-      },
-      {
-        "line": 11,
-        "kind": "symbol",
-        "symbol": "OpencodeDoctorCheck",
-        "detail": "Declares interface OpencodeDoctorCheck."
-      },
-      {
-        "line": 11,
-        "kind": "export",
-        "symbol": "OpencodeDoctorCheck",
-        "detail": "Exports OpencodeDoctorCheck."
-      },
-      {
-        "line": 19,
-        "kind": "symbol",
-        "symbol": "OpencodeDoctorReport",
-        "detail": "Declares interface OpencodeDoctorReport."
-      },
-      {
-        "line": 19,
-        "kind": "export",
-        "symbol": "OpencodeDoctorReport",
-        "detail": "Exports OpencodeDoctorReport."
-      },
-      {
-        "line": 25,
-        "kind": "symbol",
-        "symbol": "OpencodeInitOptions",
-        "detail": "Declares interface OpencodeInitOptions."
-      },
-      {
-        "line": 25,
-        "kind": "export",
-        "symbol": "OpencodeInitOptions",
-        "detail": "Exports OpencodeInitOptions."
-      },
-      {
-        "line": 30,
-        "kind": "symbol",
-        "symbol": "OpencodeInitFile",
-        "detail": "Declares interface OpencodeInitFile."
-      },
-      {
-        "line": 30,
-        "kind": "export",
-        "symbol": "OpencodeInitFile",
-        "detail": "Exports OpencodeInitFile."
-      },
-      {
-        "line": 36,
-        "kind": "symbol",
-        "symbol": "OpencodeInitReport",
-        "detail": "Declares interface OpencodeInitReport."
-      },
-      {
-        "line": 36,
-        "kind": "export",
-        "symbol": "OpencodeInitReport",
-        "detail": "Exports OpencodeInitReport."
-      },
-      {
-        "line": 41,
-        "kind": "symbol",
-        "symbol": "OpencodeReportLookupOptions",
-        "detail": "Declares interface OpencodeReportLookupOptions."
-      },
-      {
-        "line": 41,
-        "kind": "export",
-        "symbol": "OpencodeReportLookupOptions",
-        "detail": "Exports OpencodeReportLookupOptions."
-      },
-      {
-        "line": 46,
-        "kind": "symbol",
-        "symbol": "OpencodeReportLookupResult",
-        "detail": "Declares interface OpencodeReportLookupResult."
-      },
-      {
-        "line": 46,
-        "kind": "export",
-        "symbol": "OpencodeReportLookupResult",
-        "detail": "Exports OpencodeReportLookupResult."
-      },
-      {
-        "line": 51,
-        "kind": "symbol",
-        "symbol": "runOpencodeDoctor",
-        "detail": "Declares function runOpencodeDoctor."
-      },
-      {
-        "line": 51,
-        "kind": "export",
-        "symbol": "runOpencodeDoctor",
-        "detail": "Exports runOpencodeDoctor."
-      },
-      {
-        "line": 52,
-        "kind": "symbol",
-        "symbol": "root",
-        "detail": "Declares const root."
-      },
-      {
-        "line": 53,
-        "kind": "symbol",
-        "symbol": "checks",
-        "detail": "Declares const checks."
-      },
-      {
-        "line": 55,
-        "kind": "symbol",
-        "symbol": "version",
-        "detail": "Declares const version."
-      },
-      {
-        "line": 64,
-        "kind": "symbol",
-        "symbol": "runHelp",
-        "detail": "Declares const runHelp."
-      },
-      {
-        "line": 73,
-        "kind": "symbol",
-        "symbol": "auth",
-        "detail": "Declares const auth."
-      },
-      {
-        "line": 74,
-        "kind": "symbol",
-        "symbol": "authOutput",
-        "detail": "Declares const authOutput."
-      },
-      {
-        "line": 75,
-        "kind": "symbol",
-        "symbol": "hasProvider",
-        "detail": "Declares const hasProvider."
-      },
-      {
-        "line": 84,
-        "kind": "symbol",
-        "symbol": "gitRepo",
-        "detail": "Declares const gitRepo."
-      },
-      {
-        "line": 93,
-        "kind": "symbol",
-        "symbol": "agentContext",
-        "detail": "Declares const agentContext."
-      },
-      {
-        "line": 103,
-        "kind": "symbol",
-        "symbol": "status",
-        "detail": "Declares const status."
-      },
-      {
-        "line": 104,
-        "kind": "symbol",
-        "symbol": "dirtyLines",
-        "detail": "Declares const dirtyLines."
-      },
-      {
-        "line": 123,
-        "kind": "symbol",
-        "symbol": "initOpencodeProject",
-        "detail": "Declares function initOpencodeProject."
-      },
-      {
-        "line": 123,
         "kind": "export",
         "symbol": "initOpencodeProject",
         "detail": "Exports initOpencodeProject."
       },
       {
-        "line": 124,
-        "kind": "symbol",
-        "symbol": "root",
-        "detail": "Declares const root."
-      },
-      {
-        "line": 125,
-        "kind": "symbol",
-        "symbol": "files",
-        "detail": "Declares const files."
-      },
-      {
-        "line": 126,
-        "kind": "symbol",
-        "symbol": "absolutePath",
-        "detail": "Declares const absolutePath."
-      },
-      {
-        "line": 143,
-        "kind": "symbol",
-        "symbol": "renderOpencodeInitReport",
-        "detail": "Declares function renderOpencodeInitReport."
-      },
-      {
-        "line": 143,
+        "line": 8,
         "kind": "export",
         "symbol": "renderOpencodeInitReport",
         "detail": "Exports renderOpencodeInitReport."
       },
       {
-        "line": 144,
-        "kind": "symbol",
-        "symbol": "written",
-        "detail": "Declares const written."
-      },
-      {
-        "line": 145,
-        "kind": "symbol",
-        "symbol": "skipped",
-        "detail": "Declares const skipped."
-      },
-      {
-        "line": 146,
-        "kind": "symbol",
-        "symbol": "wouldWrite",
-        "detail": "Declares const wouldWrite."
-      },
-      {
-        "line": 164,
-        "kind": "symbol",
-        "symbol": "renderOpencodeDoctorReport",
-        "detail": "Declares function renderOpencodeDoctorReport."
-      },
-      {
-        "line": 164,
+        "line": 9,
         "kind": "export",
-        "symbol": "renderOpencodeDoctorReport",
-        "detail": "Exports renderOpencodeDoctorReport."
+        "symbol": "OpencodeInitFile",
+        "detail": "Exports OpencodeInitFile."
       },
       {
-        "line": 171,
-        "kind": "symbol",
-        "symbol": "marker",
-        "detail": "Declares const marker."
-      },
-      {
-        "line": 172,
-        "kind": "symbol",
-        "symbol": "command",
-        "detail": "Declares const command."
-      },
-      {
-        "line": 180,
-        "kind": "symbol",
-        "symbol": "opencodeInitTemplates",
-        "detail": "Declares function opencodeInitTemplates."
-      },
-      {
-        "line": 243,
-        "kind": "symbol",
-        "symbol": "renderOpencodeRunSummary",
-        "detail": "Declares function renderOpencodeRunSummary."
-      },
-      {
-        "line": 243,
+        "line": 10,
         "kind": "export",
-        "symbol": "renderOpencodeRunSummary",
-        "detail": "Exports renderOpencodeRunSummary."
+        "symbol": "OpencodeInitOptions",
+        "detail": "Exports OpencodeInitOptions."
       },
       {
-        "line": 244,
-        "kind": "symbol",
-        "symbol": "blockingGates",
-        "detail": "Declares const blockingGates."
-      },
-      {
-        "line": 245,
-        "kind": "symbol",
-        "symbol": "warnings",
-        "detail": "Declares const warnings."
-      },
-      {
-        "line": 267,
-        "kind": "symbol",
-        "symbol": "renderOpencodeRepairGuidance",
-        "detail": "Declares function renderOpencodeRepairGuidance."
-      },
-      {
-        "line": 267,
+        "line": 11,
         "kind": "export",
-        "symbol": "renderOpencodeRepairGuidance",
-        "detail": "Exports renderOpencodeRepairGuidance."
+        "symbol": "OpencodeInitReport",
+        "detail": "Exports OpencodeInitReport."
       },
       {
-        "line": 268,
+        "line": 14,
         "kind": "symbol",
-        "symbol": "blockingGates",
-        "detail": "Declares const blockingGates."
+        "symbol": "OPENCODE_DEFAULT_EXECUTOR_COMMAND",
+        "detail": "Declares const OPENCODE_DEFAULT_EXECUTOR_COMMAND."
       },
       {
-        "line": 291,
-        "kind": "symbol",
-        "symbol": "findOpencodeReport",
-        "detail": "Declares function findOpencodeReport."
-      },
-      {
-        "line": 291,
+        "line": 14,
         "kind": "export",
-        "symbol": "findOpencodeReport",
-        "detail": "Exports findOpencodeReport."
+        "symbol": "OPENCODE_DEFAULT_EXECUTOR_COMMAND",
+        "detail": "Exports OPENCODE_DEFAULT_EXECUTOR_COMMAND."
       },
       {
-        "line": 292,
+        "line": 16,
+        "kind": "symbol",
+        "symbol": "OpencodeDoctorStatus",
+        "detail": "Declares type OpencodeDoctorStatus."
+      },
+      {
+        "line": 16,
+        "kind": "export",
+        "symbol": "OpencodeDoctorStatus",
+        "detail": "Exports OpencodeDoctorStatus."
+      },
+      {
+        "line": 18,
+        "kind": "symbol",
+        "symbol": "OpencodeDoctorCheck",
+        "detail": "Declares interface OpencodeDoctorCheck."
+      },
+      {
+        "line": 18,
+        "kind": "export",
+        "symbol": "OpencodeDoctorCheck",
+        "detail": "Exports OpencodeDoctorCheck."
+      },
+      {
+        "line": 26,
+        "kind": "symbol",
+        "symbol": "OpencodeDoctorReport",
+        "detail": "Declares interface OpencodeDoctorReport."
+      },
+      {
+        "line": 26,
+        "kind": "export",
+        "symbol": "OpencodeDoctorReport",
+        "detail": "Exports OpencodeDoctorReport."
+      },
+      {
+        "line": 32,
+        "kind": "symbol",
+        "symbol": "OpencodeReportLookupOptions",
+        "detail": "Declares interface OpencodeReportLookupOptions."
+      },
+      {
+        "line": 32,
+        "kind": "export",
+        "symbol": "OpencodeReportLookupOptions",
+        "detail": "Exports OpencodeReportLookupOptions."
+      },
+      {
+        "line": 37,
+        "kind": "symbol",
+        "symbol": "OpencodeReportLookupResult",
+        "detail": "Declares interface OpencodeReportLookupResult."
+      },
+      {
+        "line": 37,
+        "kind": "export",
+        "symbol": "OpencodeReportLookupResult",
+        "detail": "Exports OpencodeReportLookupResult."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
+        "symbol": "runOpencodeDoctor",
+        "detail": "Declares function runOpencodeDoctor."
+      },
+      {
+        "line": 42,
+        "kind": "export",
+        "symbol": "runOpencodeDoctor",
+        "detail": "Exports runOpencodeDoctor."
+      },
+      {
+        "line": 43,
         "kind": "symbol",
         "symbol": "root",
         "detail": "Declares const root."
       },
       {
-        "line": 293,
+        "line": 44,
+        "kind": "symbol",
+        "symbol": "checks",
+        "detail": "Declares const checks."
+      },
+      {
+        "line": 46,
+        "kind": "symbol",
+        "symbol": "version",
+        "detail": "Declares const version."
+      },
+      {
+        "line": 55,
+        "kind": "symbol",
+        "symbol": "runHelp",
+        "detail": "Declares const runHelp."
+      },
+      {
+        "line": 64,
+        "kind": "symbol",
+        "symbol": "auth",
+        "detail": "Declares const auth."
+      },
+      {
+        "line": 65,
+        "kind": "symbol",
+        "symbol": "authOutput",
+        "detail": "Declares const authOutput."
+      },
+      {
+        "line": 66,
+        "kind": "symbol",
+        "symbol": "hasProvider",
+        "detail": "Declares const hasProvider."
+      },
+      {
+        "line": 75,
+        "kind": "symbol",
+        "symbol": "gitRepo",
+        "detail": "Declares const gitRepo."
+      },
+      {
+        "line": 84,
+        "kind": "symbol",
+        "symbol": "agentContext",
+        "detail": "Declares const agentContext."
+      },
+      {
+        "line": 94,
+        "kind": "symbol",
+        "symbol": "status",
+        "detail": "Declares const status."
+      },
+      {
+        "line": 95,
+        "kind": "symbol",
+        "symbol": "dirtyLines",
+        "detail": "Declares const dirtyLines."
+      },
+      {
+        "line": 114,
+        "kind": "symbol",
+        "symbol": "renderOpencodeDoctorReport",
+        "detail": "Declares function renderOpencodeDoctorReport."
+      },
+      {
+        "line": 114,
+        "kind": "export",
+        "symbol": "renderOpencodeDoctorReport",
+        "detail": "Exports renderOpencodeDoctorReport."
+      },
+      {
+        "line": 121,
+        "kind": "symbol",
+        "symbol": "marker",
+        "detail": "Declares const marker."
+      },
+      {
+        "line": 122,
+        "kind": "symbol",
+        "symbol": "command",
+        "detail": "Declares const command."
+      },
+      {
+        "line": 130,
+        "kind": "symbol",
+        "symbol": "renderOpencodeRunSummary",
+        "detail": "Declares function renderOpencodeRunSummary."
+      },
+      {
+        "line": 130,
+        "kind": "export",
+        "symbol": "renderOpencodeRunSummary",
+        "detail": "Exports renderOpencodeRunSummary."
+      },
+      {
+        "line": 131,
+        "kind": "symbol",
+        "symbol": "blockingGates",
+        "detail": "Declares const blockingGates."
+      },
+      {
+        "line": 132,
+        "kind": "symbol",
+        "symbol": "warnings",
+        "detail": "Declares const warnings."
+      },
+      {
+        "line": 154,
+        "kind": "symbol",
+        "symbol": "renderOpencodeRepairGuidance",
+        "detail": "Declares function renderOpencodeRepairGuidance."
+      },
+      {
+        "line": 154,
+        "kind": "export",
+        "symbol": "renderOpencodeRepairGuidance",
+        "detail": "Exports renderOpencodeRepairGuidance."
+      },
+      {
+        "line": 155,
+        "kind": "symbol",
+        "symbol": "blockingGates",
+        "detail": "Declares const blockingGates."
+      },
+      {
+        "line": 178,
+        "kind": "symbol",
+        "symbol": "findOpencodeReport",
+        "detail": "Declares function findOpencodeReport."
+      },
+      {
+        "line": 178,
+        "kind": "export",
+        "symbol": "findOpencodeReport",
+        "detail": "Exports findOpencodeReport."
+      },
+      {
+        "line": 179,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 180,
         "kind": "symbol",
         "symbol": "orchestratorDir",
         "detail": "Declares const orchestratorDir."
       },
       {
-        "line": 301,
+        "line": 188,
         "kind": "symbol",
         "symbol": "candidates",
         "detail": "Declares const candidates."
       },
       {
-        "line": 305,
+        "line": 192,
         "kind": "symbol",
         "symbol": "result",
         "detail": "Declares const result."
       },
       {
-        "line": 316,
+        "line": 203,
         "kind": "symbol",
         "symbol": "readReportIfExists",
         "detail": "Declares function readReportIfExists."
       },
       {
-        "line": 319,
+        "line": 206,
         "kind": "symbol",
         "symbol": "report",
         "detail": "Declares const report."
       },
       {
-        "line": 326,
+        "line": 213,
         "kind": "symbol",
         "symbol": "formatList",
         "detail": "Declares function formatList."
       },
       {
-        "line": 330,
-        "kind": "symbol",
-        "symbol": "formatInitFiles",
-        "detail": "Declares function formatInitFiles."
-      },
-      {
-        "line": 335,
+        "line": 217,
         "kind": "symbol",
         "symbol": "formatGuardName",
         "detail": "Declares function formatGuardName."
       },
       {
-        "line": 339,
+        "line": 221,
         "kind": "symbol",
         "symbol": "nextCommandsFor",
         "detail": "Declares function nextCommandsFor."
       },
       {
-        "line": 349,
+        "line": 231,
         "kind": "symbol",
         "symbol": "escapeDoubleQuoted",
         "detail": "Declares function escapeDoubleQuoted."
       },
       {
-        "line": 353,
+        "line": 235,
         "kind": "symbol",
         "symbol": "runTool",
         "detail": "Declares function runTool."
       },
       {
-        "line": 369,
+        "line": 251,
         "kind": "symbol",
         "symbol": "commandPassed",
         "detail": "Declares function commandPassed."
       },
       {
-        "line": 373,
+        "line": 255,
         "kind": "symbol",
         "symbol": "formatCommandFailure",
         "detail": "Declares function formatCommandFailure."
       },
       {
-        "line": 377,
+        "line": 259,
         "kind": "symbol",
         "symbol": "hasAuthProvider",
         "detail": "Declares function hasAuthProvider."
       },
       {
-        "line": 378,
+        "line": 260,
         "kind": "symbol",
         "symbol": "normalized",
         "detail": "Declares const normalized."
       },
       {
-        "line": 383,
+        "line": 265,
         "kind": "symbol",
         "symbol": "firstLine",
         "detail": "Declares function firstLine."
       },
       {
-        "line": 392,
+        "line": 274,
         "kind": "symbol",
         "symbol": "runGitCheck",
         "detail": "Declares function runGitCheck."
       }
     ],
     "moduleName": "cli",
-    "importanceScore": 60,
+    "importanceScore": 62,
     "importanceReasons": [
       "16 exports",
-      "57 symbols",
+      "44 symbols",
       "2 inbound dependencies",
-      "5 outbound dependencies",
+      "6 outbound dependencies",
       "high-confidence analysis"
     ]
   },
@@ -19982,7 +20181,7 @@
     "importanceReasons": [
       "2 exports",
       "15 symbols",
-      "25 inbound dependencies",
+      "26 inbound dependencies",
       "11 outbound dependencies",
       "high-confidence analysis"
     ]
@@ -21190,7 +21389,7 @@
     "importanceReasons": [
       "2 exports",
       "8 symbols",
-      "32 inbound dependencies",
+      "34 inbound dependencies",
       "1 outbound dependency",
       "high-confidence analysis"
     ]
@@ -24029,7 +24228,7 @@
     "importanceReasons": [
       "5 exports",
       "26 symbols",
-      "8 inbound dependencies",
+      "9 inbound dependencies",
       "1 outbound dependency",
       "high-confidence analysis"
     ]
@@ -27851,176 +28050,6 @@
     ]
   },
   {
-    "path": "src/llm/provider.ts",
-    "extension": ".ts",
-    "sizeBytes": 1914,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 479,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "../core/types.js",
-        "resolvedPath": "src/core/types.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "LlmClient",
-      "createLlmClient"
-    ],
-    "symbols": [
-      {
-        "name": "LlmClient",
-        "kind": "interface",
-        "filePath": "src/llm/provider.ts",
-        "line": 3
-      },
-      {
-        "name": "createLlmClient",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 7
-      },
-      {
-        "name": "OpenAiCompatibleClient",
-        "kind": "class",
-        "filePath": "src/llm/provider.ts",
-        "line": 15
-      },
-      {
-        "name": "url",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 19
-      },
-      {
-        "name": "response",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 20
-      },
-      {
-        "name": "payload",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 47
-      },
-      {
-        "name": "content",
-        "kind": "const",
-        "filePath": "src/llm/provider.ts",
-        "line": 50
-      },
-      {
-        "name": "isPlaceholder",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 59
-      },
-      {
-        "name": "ensureTrailingSlash",
-        "kind": "function",
-        "filePath": "src/llm/provider.ts",
-        "line": 63
-      }
-    ],
-    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
-      "importsUnresolved": 0,
-      "symbolsDetected": 9,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../core/types.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "LlmClient",
-        "detail": "Declares interface LlmClient."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "LlmClient",
-        "detail": "Exports LlmClient."
-      },
-      {
-        "line": 7,
-        "kind": "symbol",
-        "symbol": "createLlmClient",
-        "detail": "Declares function createLlmClient."
-      },
-      {
-        "line": 7,
-        "kind": "export",
-        "symbol": "createLlmClient",
-        "detail": "Exports createLlmClient."
-      },
-      {
-        "line": 15,
-        "kind": "symbol",
-        "symbol": "OpenAiCompatibleClient",
-        "detail": "Declares class OpenAiCompatibleClient."
-      },
-      {
-        "line": 19,
-        "kind": "symbol",
-        "symbol": "url",
-        "detail": "Declares const url."
-      },
-      {
-        "line": 20,
-        "kind": "symbol",
-        "symbol": "response",
-        "detail": "Declares const response."
-      },
-      {
-        "line": 47,
-        "kind": "symbol",
-        "symbol": "payload",
-        "detail": "Declares const payload."
-      },
-      {
-        "line": 50,
-        "kind": "symbol",
-        "symbol": "content",
-        "detail": "Declares const content."
-      },
-      {
-        "line": 59,
-        "kind": "symbol",
-        "symbol": "isPlaceholder",
-        "detail": "Declares function isPlaceholder."
-      },
-      {
-        "line": 63,
-        "kind": "symbol",
-        "symbol": "ensureTrailingSlash",
-        "detail": "Declares function ensureTrailingSlash."
-      }
-    ],
-    "moduleName": "llm",
-    "importanceScore": 35,
-    "importanceReasons": [
-      "2 exports",
-      "9 symbols",
-      "1 inbound dependency",
-      "1 outbound dependency",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "src/mcp/server.ts",
     "extension": ".ts",
     "sizeBytes": 29645,
@@ -29468,6 +29497,176 @@
       "102 symbols",
       "1 inbound dependency",
       "19 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/llm/provider.ts",
+    "extension": ".ts",
+    "sizeBytes": 1914,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 479,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../core/types.js",
+        "resolvedPath": "src/core/types.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "LlmClient",
+      "createLlmClient"
+    ],
+    "symbols": [
+      {
+        "name": "LlmClient",
+        "kind": "interface",
+        "filePath": "src/llm/provider.ts",
+        "line": 3
+      },
+      {
+        "name": "createLlmClient",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 7
+      },
+      {
+        "name": "OpenAiCompatibleClient",
+        "kind": "class",
+        "filePath": "src/llm/provider.ts",
+        "line": 15
+      },
+      {
+        "name": "url",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 19
+      },
+      {
+        "name": "response",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 20
+      },
+      {
+        "name": "payload",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 47
+      },
+      {
+        "name": "content",
+        "kind": "const",
+        "filePath": "src/llm/provider.ts",
+        "line": 50
+      },
+      {
+        "name": "isPlaceholder",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 59
+      },
+      {
+        "name": "ensureTrailingSlash",
+        "kind": "function",
+        "filePath": "src/llm/provider.ts",
+        "line": 63
+      }
+    ],
+    "summary": "src/llm/provider.ts contains 9 detected symbols, 1 import, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 9,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../core/types.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "LlmClient",
+        "detail": "Declares interface LlmClient."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "LlmClient",
+        "detail": "Exports LlmClient."
+      },
+      {
+        "line": 7,
+        "kind": "symbol",
+        "symbol": "createLlmClient",
+        "detail": "Declares function createLlmClient."
+      },
+      {
+        "line": 7,
+        "kind": "export",
+        "symbol": "createLlmClient",
+        "detail": "Exports createLlmClient."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "OpenAiCompatibleClient",
+        "detail": "Declares class OpenAiCompatibleClient."
+      },
+      {
+        "line": 19,
+        "kind": "symbol",
+        "symbol": "url",
+        "detail": "Declares const url."
+      },
+      {
+        "line": 20,
+        "kind": "symbol",
+        "symbol": "response",
+        "detail": "Declares const response."
+      },
+      {
+        "line": 47,
+        "kind": "symbol",
+        "symbol": "payload",
+        "detail": "Declares const payload."
+      },
+      {
+        "line": 50,
+        "kind": "symbol",
+        "symbol": "content",
+        "detail": "Declares const content."
+      },
+      {
+        "line": 59,
+        "kind": "symbol",
+        "symbol": "isPlaceholder",
+        "detail": "Declares function isPlaceholder."
+      },
+      {
+        "line": 63,
+        "kind": "symbol",
+        "symbol": "ensureTrailingSlash",
+        "detail": "Declares function ensureTrailingSlash."
+      }
+    ],
+    "moduleName": "llm",
+    "importanceScore": 35,
+    "importanceReasons": [
+      "2 exports",
+      "9 symbols",
+      "1 inbound dependency",
+      "1 outbound dependency",
       "high-confidence analysis"
     ]
   },
@@ -42543,825 +42742,6 @@
     ]
   },
   {
-    "path": "src/harness/observability/execution-trace.ts",
-    "extension": ".ts",
-    "sizeBytes": 9955,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 2489,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [
-      {
-        "specifier": "node:child_process",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:crypto",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:fs",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "node:path",
-        "resolvedPath": null,
-        "isExternal": true
-      },
-      {
-        "specifier": "../../core/safe-command.js",
-        "resolvedPath": "src/core/safe-command.ts",
-        "isExternal": false
-      },
-      {
-        "specifier": "../../outputs/renderers/markdown.js",
-        "resolvedPath": "src/outputs/renderers/markdown.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "ExecutionCapturedBy",
-      "ExecutionEvidenceSource",
-      "ExecutionFinalState",
-      "ExecutionStepResult",
-      "ExecutionTrace",
-      "ExecutionTraceStep",
-      "TraceCommandRunInput",
-      "TraceCommandRunResult",
-      "TraceStartOptions",
-      "TraceStepInput",
-      "appendExecutionTraceStep",
-      "currentWorkingTreeHash",
-      "executionTracePath",
-      "readExecutionTrace",
-      "renderExecutionTrace",
-      "runTraceCommand",
-      "startExecutionTrace",
-      "traceIdForTask",
-      "writeExecutionTrace"
-    ],
-    "symbols": [
-      {
-        "name": "ExecutionFinalState",
-        "kind": "type",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 8
-      },
-      {
-        "name": "ExecutionStepResult",
-        "kind": "type",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 9
-      },
-      {
-        "name": "ExecutionEvidenceSource",
-        "kind": "type",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 10
-      },
-      {
-        "name": "ExecutionCapturedBy",
-        "kind": "type",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 11
-      },
-      {
-        "name": "ExecutionTraceStep",
-        "kind": "interface",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 13
-      },
-      {
-        "name": "ExecutionTrace",
-        "kind": "interface",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 35
-      },
-      {
-        "name": "TraceStartOptions",
-        "kind": "interface",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 46
-      },
-      {
-        "name": "TraceStepInput",
-        "kind": "interface",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 51
-      },
-      {
-        "name": "TraceCommandRunInput",
-        "kind": "interface",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 73
-      },
-      {
-        "name": "TraceCommandRunResult",
-        "kind": "interface",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 83
-      },
-      {
-        "name": "startExecutionTrace",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 90
-      },
-      {
-        "name": "now",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 91
-      },
-      {
-        "name": "trace",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 92
-      },
-      {
-        "name": "appendExecutionTraceStep",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 116
-      },
-      {
-        "name": "trace",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 117
-      },
-      {
-        "name": "now",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 122
-      },
-      {
-        "name": "runTraceCommand",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 151
-      },
-      {
-        "name": "startedAt",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 152
-      },
-      {
-        "name": "workingTreeHashBefore",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 153
-      },
-      {
-        "name": "result",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 154
-      },
-      {
-        "name": "finishedAt",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 172
-      },
-      {
-        "name": "stdout",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 173
-      },
-      {
-        "name": "stderr",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 174
-      },
-      {
-        "name": "exitCode",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 175
-      },
-      {
-        "name": "workingTreeHashAfter",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 176
-      },
-      {
-        "name": "trace",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 177
-      },
-      {
-        "name": "readExecutionTrace",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 201
-      },
-      {
-        "name": "filePath",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 202
-      },
-      {
-        "name": "writeExecutionTrace",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 211
-      },
-      {
-        "name": "filePath",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 212
-      },
-      {
-        "name": "executionTracePath",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 218
-      },
-      {
-        "name": "renderExecutionTrace",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 222
-      },
-      {
-        "name": "traceIdForTask",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 252
-      },
-      {
-        "name": "normalized",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 253
-      },
-      {
-        "name": "hashTask",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 262
-      },
-      {
-        "name": "hash",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 263
-      },
-      {
-        "name": "formatEvidenceSource",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 268
-      },
-      {
-        "name": "source",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 269
-      },
-      {
-        "name": "formatCommandStep",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 275
-      },
-      {
-        "name": "details",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 276
-      },
-      {
-        "name": "summarizeCommandOutput",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 287
-      },
-      {
-        "name": "combined",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 288
-      },
-      {
-        "name": "currentWorkingTreeHash",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 293
-      },
-      {
-        "name": "pathspec",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 294
-      },
-      {
-        "name": "status",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 295
-      },
-      {
-        "name": "diff",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 296
-      },
-      {
-        "name": "safeGit",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 300
-      },
-      {
-        "name": "result",
-        "kind": "const",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 301
-      },
-      {
-        "name": "hashText",
-        "kind": "function",
-        "filePath": "src/harness/observability/execution-trace.ts",
-        "line": 315
-      }
-    ],
-    "summary": "src/harness/observability/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
-    "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 2,
-      "importsUnresolved": 4,
-      "symbolsDetected": 49,
-      "routesDetected": 0
-    },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports node:child_process."
-      },
-      {
-        "line": 2,
-        "kind": "import",
-        "detail": "Imports node:crypto."
-      },
-      {
-        "line": 3,
-        "kind": "import",
-        "detail": "Imports node:fs."
-      },
-      {
-        "line": 4,
-        "kind": "import",
-        "detail": "Imports node:path."
-      },
-      {
-        "line": 5,
-        "kind": "import",
-        "detail": "Imports ../../core/safe-command.js."
-      },
-      {
-        "line": 6,
-        "kind": "import",
-        "detail": "Imports ../../outputs/renderers/markdown.js."
-      },
-      {
-        "line": 8,
-        "kind": "symbol",
-        "symbol": "ExecutionFinalState",
-        "detail": "Declares type ExecutionFinalState."
-      },
-      {
-        "line": 8,
-        "kind": "export",
-        "symbol": "ExecutionFinalState",
-        "detail": "Exports ExecutionFinalState."
-      },
-      {
-        "line": 9,
-        "kind": "symbol",
-        "symbol": "ExecutionStepResult",
-        "detail": "Declares type ExecutionStepResult."
-      },
-      {
-        "line": 9,
-        "kind": "export",
-        "symbol": "ExecutionStepResult",
-        "detail": "Exports ExecutionStepResult."
-      },
-      {
-        "line": 10,
-        "kind": "symbol",
-        "symbol": "ExecutionEvidenceSource",
-        "detail": "Declares type ExecutionEvidenceSource."
-      },
-      {
-        "line": 10,
-        "kind": "export",
-        "symbol": "ExecutionEvidenceSource",
-        "detail": "Exports ExecutionEvidenceSource."
-      },
-      {
-        "line": 11,
-        "kind": "symbol",
-        "symbol": "ExecutionCapturedBy",
-        "detail": "Declares type ExecutionCapturedBy."
-      },
-      {
-        "line": 11,
-        "kind": "export",
-        "symbol": "ExecutionCapturedBy",
-        "detail": "Exports ExecutionCapturedBy."
-      },
-      {
-        "line": 13,
-        "kind": "symbol",
-        "symbol": "ExecutionTraceStep",
-        "detail": "Declares interface ExecutionTraceStep."
-      },
-      {
-        "line": 13,
-        "kind": "export",
-        "symbol": "ExecutionTraceStep",
-        "detail": "Exports ExecutionTraceStep."
-      },
-      {
-        "line": 35,
-        "kind": "symbol",
-        "symbol": "ExecutionTrace",
-        "detail": "Declares interface ExecutionTrace."
-      },
-      {
-        "line": 35,
-        "kind": "export",
-        "symbol": "ExecutionTrace",
-        "detail": "Exports ExecutionTrace."
-      },
-      {
-        "line": 46,
-        "kind": "symbol",
-        "symbol": "TraceStartOptions",
-        "detail": "Declares interface TraceStartOptions."
-      },
-      {
-        "line": 46,
-        "kind": "export",
-        "symbol": "TraceStartOptions",
-        "detail": "Exports TraceStartOptions."
-      },
-      {
-        "line": 51,
-        "kind": "symbol",
-        "symbol": "TraceStepInput",
-        "detail": "Declares interface TraceStepInput."
-      },
-      {
-        "line": 51,
-        "kind": "export",
-        "symbol": "TraceStepInput",
-        "detail": "Exports TraceStepInput."
-      },
-      {
-        "line": 73,
-        "kind": "symbol",
-        "symbol": "TraceCommandRunInput",
-        "detail": "Declares interface TraceCommandRunInput."
-      },
-      {
-        "line": 73,
-        "kind": "export",
-        "symbol": "TraceCommandRunInput",
-        "detail": "Exports TraceCommandRunInput."
-      },
-      {
-        "line": 83,
-        "kind": "symbol",
-        "symbol": "TraceCommandRunResult",
-        "detail": "Declares interface TraceCommandRunResult."
-      },
-      {
-        "line": 83,
-        "kind": "export",
-        "symbol": "TraceCommandRunResult",
-        "detail": "Exports TraceCommandRunResult."
-      },
-      {
-        "line": 90,
-        "kind": "symbol",
-        "symbol": "startExecutionTrace",
-        "detail": "Declares function startExecutionTrace."
-      },
-      {
-        "line": 90,
-        "kind": "export",
-        "symbol": "startExecutionTrace",
-        "detail": "Exports startExecutionTrace."
-      },
-      {
-        "line": 91,
-        "kind": "symbol",
-        "symbol": "now",
-        "detail": "Declares const now."
-      },
-      {
-        "line": 92,
-        "kind": "symbol",
-        "symbol": "trace",
-        "detail": "Declares const trace."
-      },
-      {
-        "line": 116,
-        "kind": "symbol",
-        "symbol": "appendExecutionTraceStep",
-        "detail": "Declares function appendExecutionTraceStep."
-      },
-      {
-        "line": 116,
-        "kind": "export",
-        "symbol": "appendExecutionTraceStep",
-        "detail": "Exports appendExecutionTraceStep."
-      },
-      {
-        "line": 117,
-        "kind": "symbol",
-        "symbol": "trace",
-        "detail": "Declares const trace."
-      },
-      {
-        "line": 122,
-        "kind": "symbol",
-        "symbol": "now",
-        "detail": "Declares const now."
-      },
-      {
-        "line": 151,
-        "kind": "symbol",
-        "symbol": "runTraceCommand",
-        "detail": "Declares function runTraceCommand."
-      },
-      {
-        "line": 151,
-        "kind": "export",
-        "symbol": "runTraceCommand",
-        "detail": "Exports runTraceCommand."
-      },
-      {
-        "line": 152,
-        "kind": "symbol",
-        "symbol": "startedAt",
-        "detail": "Declares const startedAt."
-      },
-      {
-        "line": 153,
-        "kind": "symbol",
-        "symbol": "workingTreeHashBefore",
-        "detail": "Declares const workingTreeHashBefore."
-      },
-      {
-        "line": 154,
-        "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
-      },
-      {
-        "line": 172,
-        "kind": "symbol",
-        "symbol": "finishedAt",
-        "detail": "Declares const finishedAt."
-      },
-      {
-        "line": 173,
-        "kind": "symbol",
-        "symbol": "stdout",
-        "detail": "Declares const stdout."
-      },
-      {
-        "line": 174,
-        "kind": "symbol",
-        "symbol": "stderr",
-        "detail": "Declares const stderr."
-      },
-      {
-        "line": 175,
-        "kind": "symbol",
-        "symbol": "exitCode",
-        "detail": "Declares const exitCode."
-      },
-      {
-        "line": 176,
-        "kind": "symbol",
-        "symbol": "workingTreeHashAfter",
-        "detail": "Declares const workingTreeHashAfter."
-      },
-      {
-        "line": 177,
-        "kind": "symbol",
-        "symbol": "trace",
-        "detail": "Declares const trace."
-      },
-      {
-        "line": 201,
-        "kind": "symbol",
-        "symbol": "readExecutionTrace",
-        "detail": "Declares function readExecutionTrace."
-      },
-      {
-        "line": 201,
-        "kind": "export",
-        "symbol": "readExecutionTrace",
-        "detail": "Exports readExecutionTrace."
-      },
-      {
-        "line": 202,
-        "kind": "symbol",
-        "symbol": "filePath",
-        "detail": "Declares const filePath."
-      },
-      {
-        "line": 211,
-        "kind": "symbol",
-        "symbol": "writeExecutionTrace",
-        "detail": "Declares function writeExecutionTrace."
-      },
-      {
-        "line": 211,
-        "kind": "export",
-        "symbol": "writeExecutionTrace",
-        "detail": "Exports writeExecutionTrace."
-      },
-      {
-        "line": 212,
-        "kind": "symbol",
-        "symbol": "filePath",
-        "detail": "Declares const filePath."
-      },
-      {
-        "line": 218,
-        "kind": "symbol",
-        "symbol": "executionTracePath",
-        "detail": "Declares function executionTracePath."
-      },
-      {
-        "line": 218,
-        "kind": "export",
-        "symbol": "executionTracePath",
-        "detail": "Exports executionTracePath."
-      },
-      {
-        "line": 222,
-        "kind": "symbol",
-        "symbol": "renderExecutionTrace",
-        "detail": "Declares function renderExecutionTrace."
-      },
-      {
-        "line": 222,
-        "kind": "export",
-        "symbol": "renderExecutionTrace",
-        "detail": "Exports renderExecutionTrace."
-      },
-      {
-        "line": 252,
-        "kind": "symbol",
-        "symbol": "traceIdForTask",
-        "detail": "Declares function traceIdForTask."
-      },
-      {
-        "line": 252,
-        "kind": "export",
-        "symbol": "traceIdForTask",
-        "detail": "Exports traceIdForTask."
-      },
-      {
-        "line": 253,
-        "kind": "symbol",
-        "symbol": "normalized",
-        "detail": "Declares const normalized."
-      },
-      {
-        "line": 262,
-        "kind": "symbol",
-        "symbol": "hashTask",
-        "detail": "Declares function hashTask."
-      },
-      {
-        "line": 263,
-        "kind": "symbol",
-        "symbol": "hash",
-        "detail": "Declares const hash."
-      },
-      {
-        "line": 268,
-        "kind": "symbol",
-        "symbol": "formatEvidenceSource",
-        "detail": "Declares function formatEvidenceSource."
-      },
-      {
-        "line": 269,
-        "kind": "symbol",
-        "symbol": "source",
-        "detail": "Declares const source."
-      },
-      {
-        "line": 275,
-        "kind": "symbol",
-        "symbol": "formatCommandStep",
-        "detail": "Declares function formatCommandStep."
-      },
-      {
-        "line": 276,
-        "kind": "symbol",
-        "symbol": "details",
-        "detail": "Declares const details."
-      },
-      {
-        "line": 287,
-        "kind": "symbol",
-        "symbol": "summarizeCommandOutput",
-        "detail": "Declares function summarizeCommandOutput."
-      },
-      {
-        "line": 288,
-        "kind": "symbol",
-        "symbol": "combined",
-        "detail": "Declares const combined."
-      },
-      {
-        "line": 293,
-        "kind": "symbol",
-        "symbol": "currentWorkingTreeHash",
-        "detail": "Declares function currentWorkingTreeHash."
-      },
-      {
-        "line": 293,
-        "kind": "export",
-        "symbol": "currentWorkingTreeHash",
-        "detail": "Exports currentWorkingTreeHash."
-      },
-      {
-        "line": 294,
-        "kind": "symbol",
-        "symbol": "pathspec",
-        "detail": "Declares const pathspec."
-      },
-      {
-        "line": 295,
-        "kind": "symbol",
-        "symbol": "status",
-        "detail": "Declares const status."
-      },
-      {
-        "line": 296,
-        "kind": "symbol",
-        "symbol": "diff",
-        "detail": "Declares const diff."
-      },
-      {
-        "line": 300,
-        "kind": "symbol",
-        "symbol": "safeGit",
-        "detail": "Declares function safeGit."
-      },
-      {
-        "line": 301,
-        "kind": "symbol",
-        "symbol": "result",
-        "detail": "Declares const result."
-      },
-      {
-        "line": 315,
-        "kind": "symbol",
-        "symbol": "hashText",
-        "detail": "Declares function hashText."
-      }
-    ],
-    "moduleName": "harness",
-    "importanceScore": 77,
-    "importanceReasons": [
-      "19 exports",
-      "49 symbols",
-      "17 inbound dependencies",
-      "6 outbound dependencies",
-      "high-confidence analysis"
-    ]
-  },
-  {
     "path": "src/harness/control-plane/decision-engine.ts",
     "extension": ".ts",
     "sizeBytes": 7048,
@@ -46241,6 +45621,825 @@
     ]
   },
   {
+    "path": "src/harness/observability/execution-trace.ts",
+    "extension": ".ts",
+    "sizeBytes": 9955,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 2489,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:child_process",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:crypto",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../../core/safe-command.js",
+        "resolvedPath": "src/core/safe-command.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../../outputs/renderers/markdown.js",
+        "resolvedPath": "src/outputs/renderers/markdown.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "ExecutionCapturedBy",
+      "ExecutionEvidenceSource",
+      "ExecutionFinalState",
+      "ExecutionStepResult",
+      "ExecutionTrace",
+      "ExecutionTraceStep",
+      "TraceCommandRunInput",
+      "TraceCommandRunResult",
+      "TraceStartOptions",
+      "TraceStepInput",
+      "appendExecutionTraceStep",
+      "currentWorkingTreeHash",
+      "executionTracePath",
+      "readExecutionTrace",
+      "renderExecutionTrace",
+      "runTraceCommand",
+      "startExecutionTrace",
+      "traceIdForTask",
+      "writeExecutionTrace"
+    ],
+    "symbols": [
+      {
+        "name": "ExecutionFinalState",
+        "kind": "type",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 8
+      },
+      {
+        "name": "ExecutionStepResult",
+        "kind": "type",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 9
+      },
+      {
+        "name": "ExecutionEvidenceSource",
+        "kind": "type",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 10
+      },
+      {
+        "name": "ExecutionCapturedBy",
+        "kind": "type",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 11
+      },
+      {
+        "name": "ExecutionTraceStep",
+        "kind": "interface",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 13
+      },
+      {
+        "name": "ExecutionTrace",
+        "kind": "interface",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 35
+      },
+      {
+        "name": "TraceStartOptions",
+        "kind": "interface",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 46
+      },
+      {
+        "name": "TraceStepInput",
+        "kind": "interface",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 51
+      },
+      {
+        "name": "TraceCommandRunInput",
+        "kind": "interface",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 73
+      },
+      {
+        "name": "TraceCommandRunResult",
+        "kind": "interface",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 83
+      },
+      {
+        "name": "startExecutionTrace",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 90
+      },
+      {
+        "name": "now",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 91
+      },
+      {
+        "name": "trace",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 92
+      },
+      {
+        "name": "appendExecutionTraceStep",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 116
+      },
+      {
+        "name": "trace",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 117
+      },
+      {
+        "name": "now",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 122
+      },
+      {
+        "name": "runTraceCommand",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 151
+      },
+      {
+        "name": "startedAt",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 152
+      },
+      {
+        "name": "workingTreeHashBefore",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 153
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 154
+      },
+      {
+        "name": "finishedAt",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 172
+      },
+      {
+        "name": "stdout",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 173
+      },
+      {
+        "name": "stderr",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 174
+      },
+      {
+        "name": "exitCode",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 175
+      },
+      {
+        "name": "workingTreeHashAfter",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 176
+      },
+      {
+        "name": "trace",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 177
+      },
+      {
+        "name": "readExecutionTrace",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 201
+      },
+      {
+        "name": "filePath",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 202
+      },
+      {
+        "name": "writeExecutionTrace",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 211
+      },
+      {
+        "name": "filePath",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 212
+      },
+      {
+        "name": "executionTracePath",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 218
+      },
+      {
+        "name": "renderExecutionTrace",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 222
+      },
+      {
+        "name": "traceIdForTask",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 252
+      },
+      {
+        "name": "normalized",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 253
+      },
+      {
+        "name": "hashTask",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 262
+      },
+      {
+        "name": "hash",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 263
+      },
+      {
+        "name": "formatEvidenceSource",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 268
+      },
+      {
+        "name": "source",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 269
+      },
+      {
+        "name": "formatCommandStep",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 275
+      },
+      {
+        "name": "details",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 276
+      },
+      {
+        "name": "summarizeCommandOutput",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 287
+      },
+      {
+        "name": "combined",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 288
+      },
+      {
+        "name": "currentWorkingTreeHash",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 293
+      },
+      {
+        "name": "pathspec",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 294
+      },
+      {
+        "name": "status",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 295
+      },
+      {
+        "name": "diff",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 296
+      },
+      {
+        "name": "safeGit",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 300
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 301
+      },
+      {
+        "name": "hashText",
+        "kind": "function",
+        "filePath": "src/harness/observability/execution-trace.ts",
+        "line": 315
+      }
+    ],
+    "summary": "src/harness/observability/execution-trace.ts contains 49 detected symbols, 6 imports, 19 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 2,
+      "importsUnresolved": 4,
+      "symbolsDetected": 49,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:child_process."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:crypto."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports ../../core/safe-command.js."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../../outputs/renderers/markdown.js."
+      },
+      {
+        "line": 8,
+        "kind": "symbol",
+        "symbol": "ExecutionFinalState",
+        "detail": "Declares type ExecutionFinalState."
+      },
+      {
+        "line": 8,
+        "kind": "export",
+        "symbol": "ExecutionFinalState",
+        "detail": "Exports ExecutionFinalState."
+      },
+      {
+        "line": 9,
+        "kind": "symbol",
+        "symbol": "ExecutionStepResult",
+        "detail": "Declares type ExecutionStepResult."
+      },
+      {
+        "line": 9,
+        "kind": "export",
+        "symbol": "ExecutionStepResult",
+        "detail": "Exports ExecutionStepResult."
+      },
+      {
+        "line": 10,
+        "kind": "symbol",
+        "symbol": "ExecutionEvidenceSource",
+        "detail": "Declares type ExecutionEvidenceSource."
+      },
+      {
+        "line": 10,
+        "kind": "export",
+        "symbol": "ExecutionEvidenceSource",
+        "detail": "Exports ExecutionEvidenceSource."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "ExecutionCapturedBy",
+        "detail": "Declares type ExecutionCapturedBy."
+      },
+      {
+        "line": 11,
+        "kind": "export",
+        "symbol": "ExecutionCapturedBy",
+        "detail": "Exports ExecutionCapturedBy."
+      },
+      {
+        "line": 13,
+        "kind": "symbol",
+        "symbol": "ExecutionTraceStep",
+        "detail": "Declares interface ExecutionTraceStep."
+      },
+      {
+        "line": 13,
+        "kind": "export",
+        "symbol": "ExecutionTraceStep",
+        "detail": "Exports ExecutionTraceStep."
+      },
+      {
+        "line": 35,
+        "kind": "symbol",
+        "symbol": "ExecutionTrace",
+        "detail": "Declares interface ExecutionTrace."
+      },
+      {
+        "line": 35,
+        "kind": "export",
+        "symbol": "ExecutionTrace",
+        "detail": "Exports ExecutionTrace."
+      },
+      {
+        "line": 46,
+        "kind": "symbol",
+        "symbol": "TraceStartOptions",
+        "detail": "Declares interface TraceStartOptions."
+      },
+      {
+        "line": 46,
+        "kind": "export",
+        "symbol": "TraceStartOptions",
+        "detail": "Exports TraceStartOptions."
+      },
+      {
+        "line": 51,
+        "kind": "symbol",
+        "symbol": "TraceStepInput",
+        "detail": "Declares interface TraceStepInput."
+      },
+      {
+        "line": 51,
+        "kind": "export",
+        "symbol": "TraceStepInput",
+        "detail": "Exports TraceStepInput."
+      },
+      {
+        "line": 73,
+        "kind": "symbol",
+        "symbol": "TraceCommandRunInput",
+        "detail": "Declares interface TraceCommandRunInput."
+      },
+      {
+        "line": 73,
+        "kind": "export",
+        "symbol": "TraceCommandRunInput",
+        "detail": "Exports TraceCommandRunInput."
+      },
+      {
+        "line": 83,
+        "kind": "symbol",
+        "symbol": "TraceCommandRunResult",
+        "detail": "Declares interface TraceCommandRunResult."
+      },
+      {
+        "line": 83,
+        "kind": "export",
+        "symbol": "TraceCommandRunResult",
+        "detail": "Exports TraceCommandRunResult."
+      },
+      {
+        "line": 90,
+        "kind": "symbol",
+        "symbol": "startExecutionTrace",
+        "detail": "Declares function startExecutionTrace."
+      },
+      {
+        "line": 90,
+        "kind": "export",
+        "symbol": "startExecutionTrace",
+        "detail": "Exports startExecutionTrace."
+      },
+      {
+        "line": 91,
+        "kind": "symbol",
+        "symbol": "now",
+        "detail": "Declares const now."
+      },
+      {
+        "line": 92,
+        "kind": "symbol",
+        "symbol": "trace",
+        "detail": "Declares const trace."
+      },
+      {
+        "line": 116,
+        "kind": "symbol",
+        "symbol": "appendExecutionTraceStep",
+        "detail": "Declares function appendExecutionTraceStep."
+      },
+      {
+        "line": 116,
+        "kind": "export",
+        "symbol": "appendExecutionTraceStep",
+        "detail": "Exports appendExecutionTraceStep."
+      },
+      {
+        "line": 117,
+        "kind": "symbol",
+        "symbol": "trace",
+        "detail": "Declares const trace."
+      },
+      {
+        "line": 122,
+        "kind": "symbol",
+        "symbol": "now",
+        "detail": "Declares const now."
+      },
+      {
+        "line": 151,
+        "kind": "symbol",
+        "symbol": "runTraceCommand",
+        "detail": "Declares function runTraceCommand."
+      },
+      {
+        "line": 151,
+        "kind": "export",
+        "symbol": "runTraceCommand",
+        "detail": "Exports runTraceCommand."
+      },
+      {
+        "line": 152,
+        "kind": "symbol",
+        "symbol": "startedAt",
+        "detail": "Declares const startedAt."
+      },
+      {
+        "line": 153,
+        "kind": "symbol",
+        "symbol": "workingTreeHashBefore",
+        "detail": "Declares const workingTreeHashBefore."
+      },
+      {
+        "line": 154,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 172,
+        "kind": "symbol",
+        "symbol": "finishedAt",
+        "detail": "Declares const finishedAt."
+      },
+      {
+        "line": 173,
+        "kind": "symbol",
+        "symbol": "stdout",
+        "detail": "Declares const stdout."
+      },
+      {
+        "line": 174,
+        "kind": "symbol",
+        "symbol": "stderr",
+        "detail": "Declares const stderr."
+      },
+      {
+        "line": 175,
+        "kind": "symbol",
+        "symbol": "exitCode",
+        "detail": "Declares const exitCode."
+      },
+      {
+        "line": 176,
+        "kind": "symbol",
+        "symbol": "workingTreeHashAfter",
+        "detail": "Declares const workingTreeHashAfter."
+      },
+      {
+        "line": 177,
+        "kind": "symbol",
+        "symbol": "trace",
+        "detail": "Declares const trace."
+      },
+      {
+        "line": 201,
+        "kind": "symbol",
+        "symbol": "readExecutionTrace",
+        "detail": "Declares function readExecutionTrace."
+      },
+      {
+        "line": 201,
+        "kind": "export",
+        "symbol": "readExecutionTrace",
+        "detail": "Exports readExecutionTrace."
+      },
+      {
+        "line": 202,
+        "kind": "symbol",
+        "symbol": "filePath",
+        "detail": "Declares const filePath."
+      },
+      {
+        "line": 211,
+        "kind": "symbol",
+        "symbol": "writeExecutionTrace",
+        "detail": "Declares function writeExecutionTrace."
+      },
+      {
+        "line": 211,
+        "kind": "export",
+        "symbol": "writeExecutionTrace",
+        "detail": "Exports writeExecutionTrace."
+      },
+      {
+        "line": 212,
+        "kind": "symbol",
+        "symbol": "filePath",
+        "detail": "Declares const filePath."
+      },
+      {
+        "line": 218,
+        "kind": "symbol",
+        "symbol": "executionTracePath",
+        "detail": "Declares function executionTracePath."
+      },
+      {
+        "line": 218,
+        "kind": "export",
+        "symbol": "executionTracePath",
+        "detail": "Exports executionTracePath."
+      },
+      {
+        "line": 222,
+        "kind": "symbol",
+        "symbol": "renderExecutionTrace",
+        "detail": "Declares function renderExecutionTrace."
+      },
+      {
+        "line": 222,
+        "kind": "export",
+        "symbol": "renderExecutionTrace",
+        "detail": "Exports renderExecutionTrace."
+      },
+      {
+        "line": 252,
+        "kind": "symbol",
+        "symbol": "traceIdForTask",
+        "detail": "Declares function traceIdForTask."
+      },
+      {
+        "line": 252,
+        "kind": "export",
+        "symbol": "traceIdForTask",
+        "detail": "Exports traceIdForTask."
+      },
+      {
+        "line": 253,
+        "kind": "symbol",
+        "symbol": "normalized",
+        "detail": "Declares const normalized."
+      },
+      {
+        "line": 262,
+        "kind": "symbol",
+        "symbol": "hashTask",
+        "detail": "Declares function hashTask."
+      },
+      {
+        "line": 263,
+        "kind": "symbol",
+        "symbol": "hash",
+        "detail": "Declares const hash."
+      },
+      {
+        "line": 268,
+        "kind": "symbol",
+        "symbol": "formatEvidenceSource",
+        "detail": "Declares function formatEvidenceSource."
+      },
+      {
+        "line": 269,
+        "kind": "symbol",
+        "symbol": "source",
+        "detail": "Declares const source."
+      },
+      {
+        "line": 275,
+        "kind": "symbol",
+        "symbol": "formatCommandStep",
+        "detail": "Declares function formatCommandStep."
+      },
+      {
+        "line": 276,
+        "kind": "symbol",
+        "symbol": "details",
+        "detail": "Declares const details."
+      },
+      {
+        "line": 287,
+        "kind": "symbol",
+        "symbol": "summarizeCommandOutput",
+        "detail": "Declares function summarizeCommandOutput."
+      },
+      {
+        "line": 288,
+        "kind": "symbol",
+        "symbol": "combined",
+        "detail": "Declares const combined."
+      },
+      {
+        "line": 293,
+        "kind": "symbol",
+        "symbol": "currentWorkingTreeHash",
+        "detail": "Declares function currentWorkingTreeHash."
+      },
+      {
+        "line": 293,
+        "kind": "export",
+        "symbol": "currentWorkingTreeHash",
+        "detail": "Exports currentWorkingTreeHash."
+      },
+      {
+        "line": 294,
+        "kind": "symbol",
+        "symbol": "pathspec",
+        "detail": "Declares const pathspec."
+      },
+      {
+        "line": 295,
+        "kind": "symbol",
+        "symbol": "status",
+        "detail": "Declares const status."
+      },
+      {
+        "line": 296,
+        "kind": "symbol",
+        "symbol": "diff",
+        "detail": "Declares const diff."
+      },
+      {
+        "line": 300,
+        "kind": "symbol",
+        "symbol": "safeGit",
+        "detail": "Declares function safeGit."
+      },
+      {
+        "line": 301,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 315,
+        "kind": "symbol",
+        "symbol": "hashText",
+        "detail": "Declares function hashText."
+      }
+    ],
+    "moduleName": "harness",
+    "importanceScore": 77,
+    "importanceReasons": [
+      "19 exports",
+      "49 symbols",
+      "17 inbound dependencies",
+      "6 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
     "path": "src/harness/verification-plane/policy-engine.ts",
     "extension": ".ts",
     "sizeBytes": 18015,
@@ -47111,6 +47310,828 @@
       "54 symbols",
       "10 inbound dependencies",
       "12 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/integrations/opencode/launcher.ts",
+    "extension": ".ts",
+    "sizeBytes": 6110,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 1528,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:child_process",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "../../core/context-builder.js",
+        "resolvedPath": "src/core/context-builder.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../../core/git.js",
+        "resolvedPath": "src/core/git.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../../core/safe-command.js",
+        "resolvedPath": "src/core/safe-command.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "../../outputs/renderers/writer.js",
+        "resolvedPath": "src/outputs/renderers/writer.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./project-init.js",
+        "resolvedPath": "src/integrations/opencode/project-init.ts",
+        "isExternal": false
+      },
+      {
+        "specifier": "./sidecar-plugin-template.js",
+        "resolvedPath": "src/integrations/opencode/sidecar-plugin-template.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "OpenCodeLauncherOptions",
+      "OpenCodeLauncherResult",
+      "OpenCodeLauncherStep",
+      "launchOpenCodeWithSidecar",
+      "renderOpenCodeLauncherResult"
+    ],
+    "symbols": [
+      {
+        "name": "OpenCodeLauncherOptions",
+        "kind": "interface",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 11
+      },
+      {
+        "name": "OpenCodeLauncherStep",
+        "kind": "interface",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 18
+      },
+      {
+        "name": "OpenCodeLauncherResult",
+        "kind": "interface",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 24
+      },
+      {
+        "name": "launchOpenCodeWithSidecar",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 32
+      },
+      {
+        "name": "repo",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 33
+      },
+      {
+        "name": "steps",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 34
+      },
+      {
+        "name": "opencode",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 35
+      },
+      {
+        "name": "git",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 42
+      },
+      {
+        "name": "contextDir",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 53
+      },
+      {
+        "name": "context",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 59
+      },
+      {
+        "name": "written",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 60
+      },
+      {
+        "name": "opencodeInit",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 64
+      },
+      {
+        "name": "skipped",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 65
+      },
+      {
+        "name": "wouldWrite",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 66
+      },
+      {
+        "name": "plugin",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 77
+      },
+      {
+        "name": "command",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 80
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 85
+      },
+      {
+        "name": "renderOpenCodeLauncherResult",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 89
+      },
+      {
+        "name": "ensureSidecarPlugin",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 103
+      },
+      {
+        "name": "filePath",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 104
+      },
+      {
+        "name": "checkCommand",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 122
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 123
+      },
+      {
+        "name": "output",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 124
+      },
+      {
+        "name": "checkGitRepo",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 128
+      },
+      {
+        "name": "spawnOpenCodeTui",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 136
+      },
+      {
+        "name": "result",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 137
+      },
+      {
+        "name": "shouldTryWindowsCmdFallback",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 142
+      },
+      {
+        "name": "windowsCmdQuote",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/launcher.ts",
+        "line": 146
+      }
+    ],
+    "summary": "src/integrations/opencode/launcher.ts contains 28 detected symbols, 9 imports, 5 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 6,
+      "importsUnresolved": 3,
+      "symbolsDetected": 28,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:child_process."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 3,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 4,
+        "kind": "import",
+        "detail": "Imports ../../core/context-builder.js."
+      },
+      {
+        "line": 5,
+        "kind": "import",
+        "detail": "Imports ../../core/git.js."
+      },
+      {
+        "line": 6,
+        "kind": "import",
+        "detail": "Imports ../../core/safe-command.js."
+      },
+      {
+        "line": 7,
+        "kind": "import",
+        "detail": "Imports ../../outputs/renderers/writer.js."
+      },
+      {
+        "line": 8,
+        "kind": "import",
+        "detail": "Imports ./project-init.js."
+      },
+      {
+        "line": 9,
+        "kind": "import",
+        "detail": "Imports ./sidecar-plugin-template.js."
+      },
+      {
+        "line": 11,
+        "kind": "symbol",
+        "symbol": "OpenCodeLauncherOptions",
+        "detail": "Declares interface OpenCodeLauncherOptions."
+      },
+      {
+        "line": 11,
+        "kind": "export",
+        "symbol": "OpenCodeLauncherOptions",
+        "detail": "Exports OpenCodeLauncherOptions."
+      },
+      {
+        "line": 18,
+        "kind": "symbol",
+        "symbol": "OpenCodeLauncherStep",
+        "detail": "Declares interface OpenCodeLauncherStep."
+      },
+      {
+        "line": 18,
+        "kind": "export",
+        "symbol": "OpenCodeLauncherStep",
+        "detail": "Exports OpenCodeLauncherStep."
+      },
+      {
+        "line": 24,
+        "kind": "symbol",
+        "symbol": "OpenCodeLauncherResult",
+        "detail": "Declares interface OpenCodeLauncherResult."
+      },
+      {
+        "line": 24,
+        "kind": "export",
+        "symbol": "OpenCodeLauncherResult",
+        "detail": "Exports OpenCodeLauncherResult."
+      },
+      {
+        "line": 32,
+        "kind": "symbol",
+        "symbol": "launchOpenCodeWithSidecar",
+        "detail": "Declares function launchOpenCodeWithSidecar."
+      },
+      {
+        "line": 32,
+        "kind": "export",
+        "symbol": "launchOpenCodeWithSidecar",
+        "detail": "Exports launchOpenCodeWithSidecar."
+      },
+      {
+        "line": 33,
+        "kind": "symbol",
+        "symbol": "repo",
+        "detail": "Declares const repo."
+      },
+      {
+        "line": 34,
+        "kind": "symbol",
+        "symbol": "steps",
+        "detail": "Declares const steps."
+      },
+      {
+        "line": 35,
+        "kind": "symbol",
+        "symbol": "opencode",
+        "detail": "Declares const opencode."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
+        "symbol": "git",
+        "detail": "Declares const git."
+      },
+      {
+        "line": 53,
+        "kind": "symbol",
+        "symbol": "contextDir",
+        "detail": "Declares const contextDir."
+      },
+      {
+        "line": 59,
+        "kind": "symbol",
+        "symbol": "context",
+        "detail": "Declares const context."
+      },
+      {
+        "line": 60,
+        "kind": "symbol",
+        "symbol": "written",
+        "detail": "Declares const written."
+      },
+      {
+        "line": 64,
+        "kind": "symbol",
+        "symbol": "opencodeInit",
+        "detail": "Declares const opencodeInit."
+      },
+      {
+        "line": 65,
+        "kind": "symbol",
+        "symbol": "skipped",
+        "detail": "Declares const skipped."
+      },
+      {
+        "line": 66,
+        "kind": "symbol",
+        "symbol": "wouldWrite",
+        "detail": "Declares const wouldWrite."
+      },
+      {
+        "line": 77,
+        "kind": "symbol",
+        "symbol": "plugin",
+        "detail": "Declares const plugin."
+      },
+      {
+        "line": 80,
+        "kind": "symbol",
+        "symbol": "command",
+        "detail": "Declares const command."
+      },
+      {
+        "line": 85,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 89,
+        "kind": "symbol",
+        "symbol": "renderOpenCodeLauncherResult",
+        "detail": "Declares function renderOpenCodeLauncherResult."
+      },
+      {
+        "line": 89,
+        "kind": "export",
+        "symbol": "renderOpenCodeLauncherResult",
+        "detail": "Exports renderOpenCodeLauncherResult."
+      },
+      {
+        "line": 103,
+        "kind": "symbol",
+        "symbol": "ensureSidecarPlugin",
+        "detail": "Declares function ensureSidecarPlugin."
+      },
+      {
+        "line": 104,
+        "kind": "symbol",
+        "symbol": "filePath",
+        "detail": "Declares const filePath."
+      },
+      {
+        "line": 122,
+        "kind": "symbol",
+        "symbol": "checkCommand",
+        "detail": "Declares function checkCommand."
+      },
+      {
+        "line": 123,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 124,
+        "kind": "symbol",
+        "symbol": "output",
+        "detail": "Declares const output."
+      },
+      {
+        "line": 128,
+        "kind": "symbol",
+        "symbol": "checkGitRepo",
+        "detail": "Declares function checkGitRepo."
+      },
+      {
+        "line": 136,
+        "kind": "symbol",
+        "symbol": "spawnOpenCodeTui",
+        "detail": "Declares function spawnOpenCodeTui."
+      },
+      {
+        "line": 137,
+        "kind": "symbol",
+        "symbol": "result",
+        "detail": "Declares const result."
+      },
+      {
+        "line": 142,
+        "kind": "symbol",
+        "symbol": "shouldTryWindowsCmdFallback",
+        "detail": "Declares function shouldTryWindowsCmdFallback."
+      },
+      {
+        "line": 146,
+        "kind": "symbol",
+        "symbol": "windowsCmdQuote",
+        "detail": "Declares function windowsCmdQuote."
+      }
+    ],
+    "moduleName": "integrations",
+    "importanceScore": 65,
+    "importanceReasons": [
+      "5 exports",
+      "28 symbols",
+      "2 inbound dependencies",
+      "9 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/integrations/opencode/project-init.ts",
+    "extension": ".ts",
+    "sizeBytes": 4703,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 1176,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "node:fs",
+        "resolvedPath": null,
+        "isExternal": true
+      },
+      {
+        "specifier": "node:path",
+        "resolvedPath": null,
+        "isExternal": true
+      }
+    ],
+    "exports": [
+      "OpencodeInitFile",
+      "OpencodeInitOptions",
+      "OpencodeInitReport",
+      "initOpencodeProject",
+      "renderOpencodeInitReport"
+    ],
+    "symbols": [
+      {
+        "name": "OpencodeInitOptions",
+        "kind": "interface",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 4
+      },
+      {
+        "name": "OpencodeInitFile",
+        "kind": "interface",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 9
+      },
+      {
+        "name": "OpencodeInitReport",
+        "kind": "interface",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 15
+      },
+      {
+        "name": "initOpencodeProject",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 20
+      },
+      {
+        "name": "root",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 21
+      },
+      {
+        "name": "files",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 22
+      },
+      {
+        "name": "absolutePath",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 23
+      },
+      {
+        "name": "renderOpencodeInitReport",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 40
+      },
+      {
+        "name": "written",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 41
+      },
+      {
+        "name": "skipped",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 42
+      },
+      {
+        "name": "wouldWrite",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 43
+      },
+      {
+        "name": "opencodeInitTemplates",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 61
+      },
+      {
+        "name": "formatInitFiles",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/project-init.ts",
+        "line": 124
+      }
+    ],
+    "summary": "src/integrations/opencode/project-init.ts contains 13 detected symbols, 2 imports, 5 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 2,
+      "symbolsDetected": 13,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports node:fs."
+      },
+      {
+        "line": 2,
+        "kind": "import",
+        "detail": "Imports node:path."
+      },
+      {
+        "line": 4,
+        "kind": "symbol",
+        "symbol": "OpencodeInitOptions",
+        "detail": "Declares interface OpencodeInitOptions."
+      },
+      {
+        "line": 4,
+        "kind": "export",
+        "symbol": "OpencodeInitOptions",
+        "detail": "Exports OpencodeInitOptions."
+      },
+      {
+        "line": 9,
+        "kind": "symbol",
+        "symbol": "OpencodeInitFile",
+        "detail": "Declares interface OpencodeInitFile."
+      },
+      {
+        "line": 9,
+        "kind": "export",
+        "symbol": "OpencodeInitFile",
+        "detail": "Exports OpencodeInitFile."
+      },
+      {
+        "line": 15,
+        "kind": "symbol",
+        "symbol": "OpencodeInitReport",
+        "detail": "Declares interface OpencodeInitReport."
+      },
+      {
+        "line": 15,
+        "kind": "export",
+        "symbol": "OpencodeInitReport",
+        "detail": "Exports OpencodeInitReport."
+      },
+      {
+        "line": 20,
+        "kind": "symbol",
+        "symbol": "initOpencodeProject",
+        "detail": "Declares function initOpencodeProject."
+      },
+      {
+        "line": 20,
+        "kind": "export",
+        "symbol": "initOpencodeProject",
+        "detail": "Exports initOpencodeProject."
+      },
+      {
+        "line": 21,
+        "kind": "symbol",
+        "symbol": "root",
+        "detail": "Declares const root."
+      },
+      {
+        "line": 22,
+        "kind": "symbol",
+        "symbol": "files",
+        "detail": "Declares const files."
+      },
+      {
+        "line": 23,
+        "kind": "symbol",
+        "symbol": "absolutePath",
+        "detail": "Declares const absolutePath."
+      },
+      {
+        "line": 40,
+        "kind": "symbol",
+        "symbol": "renderOpencodeInitReport",
+        "detail": "Declares function renderOpencodeInitReport."
+      },
+      {
+        "line": 40,
+        "kind": "export",
+        "symbol": "renderOpencodeInitReport",
+        "detail": "Exports renderOpencodeInitReport."
+      },
+      {
+        "line": 41,
+        "kind": "symbol",
+        "symbol": "written",
+        "detail": "Declares const written."
+      },
+      {
+        "line": 42,
+        "kind": "symbol",
+        "symbol": "skipped",
+        "detail": "Declares const skipped."
+      },
+      {
+        "line": 43,
+        "kind": "symbol",
+        "symbol": "wouldWrite",
+        "detail": "Declares const wouldWrite."
+      },
+      {
+        "line": 61,
+        "kind": "symbol",
+        "symbol": "opencodeInitTemplates",
+        "detail": "Declares function opencodeInitTemplates."
+      },
+      {
+        "line": 124,
+        "kind": "symbol",
+        "symbol": "formatInitFiles",
+        "detail": "Declares function formatInitFiles."
+      }
+    ],
+    "moduleName": "integrations",
+    "importanceScore": 54,
+    "importanceReasons": [
+      "5 exports",
+      "13 symbols",
+      "2 inbound dependencies",
+      "2 outbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "src/integrations/opencode/sidecar-plugin-template.ts",
+    "extension": ".ts",
+    "sizeBytes": 929,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 233,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [
+      "OPENCODE_SIDECAR_PLUGIN_PATH",
+      "opencodeSidecarPluginTemplate"
+    ],
+    "symbols": [
+      {
+        "name": "OPENCODE_SIDECAR_PLUGIN_PATH",
+        "kind": "const",
+        "filePath": "src/integrations/opencode/sidecar-plugin-template.ts",
+        "line": 1
+      },
+      {
+        "name": "opencodeSidecarPluginTemplate",
+        "kind": "function",
+        "filePath": "src/integrations/opencode/sidecar-plugin-template.ts",
+        "line": 3
+      }
+    ],
+    "summary": "src/integrations/opencode/sidecar-plugin-template.ts contains 2 detected symbols, 0 imports, 2 exports.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 2,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "symbol",
+        "symbol": "OPENCODE_SIDECAR_PLUGIN_PATH",
+        "detail": "Declares const OPENCODE_SIDECAR_PLUGIN_PATH."
+      },
+      {
+        "line": 1,
+        "kind": "export",
+        "symbol": "OPENCODE_SIDECAR_PLUGIN_PATH",
+        "detail": "Exports OPENCODE_SIDECAR_PLUGIN_PATH."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "opencodeSidecarPluginTemplate",
+        "detail": "Declares function opencodeSidecarPluginTemplate."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "opencodeSidecarPluginTemplate",
+        "detail": "Exports opencodeSidecarPluginTemplate."
+      }
+    ],
+    "moduleName": "integrations",
+    "importanceScore": 27,
+    "importanceReasons": [
+      "2 exports",
+      "2 symbols",
+      "2 inbound dependencies",
       "high-confidence analysis"
     ]
   },
@@ -48318,7 +49339,7 @@
     "importanceReasons": [
       "2 exports",
       "61 symbols",
-      "14 inbound dependencies",
+      "15 inbound dependencies",
       "19 outbound dependencies",
       "high-confidence analysis"
     ]
@@ -52989,71 +54010,123 @@
     ]
   },
   {
-    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-    "extension": ".ts",
-    "sizeBytes": 186,
-    "kind": "source",
-    "language": "TypeScript",
-    "tokenEstimate": 47,
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
+    "extension": ".json",
+    "sizeBytes": 3,
+    "kind": "unknown",
+    "language": "JSON",
+    "tokenEstimate": 1,
     "isBinary": false,
     "isGenerated": false,
     "isTest": false,
-    "imports": [
-      {
-        "specifier": "../auth/session.js",
-        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-        "isExternal": false
-      }
-    ],
-    "exports": [
-      "login"
-    ],
-    "symbols": [
-      {
-        "name": "login",
-        "kind": "function",
-        "filePath": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-        "line": 3
-      }
-    ],
-    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export.",
-    "analyzer": "typescript-compiler-api",
-    "confidence": "high",
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json is a unknown file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
     "analysisStats": {
-      "parser": "typescript-compiler-api",
-      "importsResolved": 1,
+      "parser": "generic",
+      "importsResolved": 0,
       "importsUnresolved": 0,
-      "symbolsDetected": 1,
+      "symbolsDetected": 0,
       "routesDetected": 0
     },
-    "evidence": [
-      {
-        "line": 1,
-        "kind": "import",
-        "detail": "Imports ../auth/session.js."
-      },
-      {
-        "line": 3,
-        "kind": "symbol",
-        "symbol": "login",
-        "detail": "Declares function login."
-      },
-      {
-        "line": 3,
-        "kind": "export",
-        "symbol": "login",
-        "detail": "Exports login."
-      }
-    ],
+    "evidence": [],
     "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 41,
+    "importanceScore": 0,
     "importanceReasons": [
-      "route/api surface",
-      "1 export",
-      "1 symbol",
-      "2 inbound dependencies",
-      "1 outbound dependency",
-      "high-confidence analysis"
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
+    "extension": ".json",
+    "sizeBytes": 3,
+    "kind": "unknown",
+    "language": "JSON",
+    "tokenEstimate": 1,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json is a unknown file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 0,
+    "importanceReasons": [
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
+    "extension": ".json",
+    "sizeBytes": 3,
+    "kind": "unknown",
+    "language": "JSON",
+    "tokenEstimate": 1,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json is a unknown file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 0,
+    "importanceReasons": [
+      "low-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
+    "extension": ".json",
+    "sizeBytes": 411,
+    "kind": "unknown",
+    "language": "JSON",
+    "tokenEstimate": 103,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [],
+    "exports": [],
+    "symbols": [],
+    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json is a unknown file written as JSON.",
+    "analyzer": "generic",
+    "confidence": "low",
+    "analysisStats": {
+      "parser": "generic",
+      "importsResolved": 0,
+      "importsUnresolved": 0,
+      "symbolsDetected": 0,
+      "routesDetected": 0
+    },
+    "evidence": [],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 0,
+    "importanceReasons": [
+      "low-confidence analysis"
     ]
   },
   {
@@ -53213,6 +54286,74 @@
       "3 exports",
       "3 symbols",
       "3 inbound dependencies",
+      "high-confidence analysis"
+    ]
+  },
+  {
+    "path": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+    "extension": ".ts",
+    "sizeBytes": 186,
+    "kind": "source",
+    "language": "TypeScript",
+    "tokenEstimate": 47,
+    "isBinary": false,
+    "isGenerated": false,
+    "isTest": false,
+    "imports": [
+      {
+        "specifier": "../auth/session.js",
+        "resolvedPath": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+        "isExternal": false
+      }
+    ],
+    "exports": [
+      "login"
+    ],
+    "symbols": [
+      {
+        "name": "login",
+        "kind": "function",
+        "filePath": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+        "line": 3
+      }
+    ],
+    "summary": "benchmarks/fixtures/small-ts-app/src/api/login.ts contains 1 detected symbol, 1 import, 1 export.",
+    "analyzer": "typescript-compiler-api",
+    "confidence": "high",
+    "analysisStats": {
+      "parser": "typescript-compiler-api",
+      "importsResolved": 1,
+      "importsUnresolved": 0,
+      "symbolsDetected": 1,
+      "routesDetected": 0
+    },
+    "evidence": [
+      {
+        "line": 1,
+        "kind": "import",
+        "detail": "Imports ../auth/session.js."
+      },
+      {
+        "line": 3,
+        "kind": "symbol",
+        "symbol": "login",
+        "detail": "Declares function login."
+      },
+      {
+        "line": 3,
+        "kind": "export",
+        "symbol": "login",
+        "detail": "Exports login."
+      }
+    ],
+    "moduleName": "benchmarks/fixtures/small-ts-app",
+    "importanceScore": 41,
+    "importanceReasons": [
+      "route/api surface",
+      "1 export",
+      "1 symbol",
+      "2 inbound dependencies",
+      "1 outbound dependency",
       "high-confidence analysis"
     ]
   },
@@ -53424,126 +54565,6 @@
       "1 outbound dependency",
       "test coverage signal",
       "high-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json",
-    "extension": ".json",
-    "sizeBytes": 3,
-    "kind": "unknown",
-    "language": "JSON",
-    "tokenEstimate": 1,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json is a unknown file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 0,
-    "importanceReasons": [
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json",
-    "extension": ".json",
-    "sizeBytes": 3,
-    "kind": "unknown",
-    "language": "JSON",
-    "tokenEstimate": 1,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json is a unknown file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 0,
-    "importanceReasons": [
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json",
-    "extension": ".json",
-    "sizeBytes": 3,
-    "kind": "unknown",
-    "language": "JSON",
-    "tokenEstimate": 1,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json is a unknown file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 0,
-    "importanceReasons": [
-      "low-confidence analysis"
-    ]
-  },
-  {
-    "path": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json",
-    "extension": ".json",
-    "sizeBytes": 411,
-    "kind": "unknown",
-    "language": "JSON",
-    "tokenEstimate": 103,
-    "isBinary": false,
-    "isGenerated": false,
-    "isTest": false,
-    "imports": [],
-    "exports": [],
-    "symbols": [],
-    "summary": "benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json is a unknown file written as JSON.",
-    "analyzer": "generic",
-    "confidence": "low",
-    "analysisStats": {
-      "parser": "generic",
-      "importsResolved": 0,
-      "importsUnresolved": 0,
-      "symbolsDetected": 0,
-      "routesDetected": 0
-    },
-    "evidence": [],
-    "moduleName": "benchmarks/fixtures/small-ts-app",
-    "importanceScore": 0,
-    "importanceReasons": [
-      "low-confidence analysis"
     ]
   },
   {

@@ -106,18 +106,6 @@
   ],
   "modules": [
     {
-      "name": "outputs",
-      "owns": [
-        "src/outputs/**"
-      ],
-      "imports": [
-        "core",
-        "harness",
-        "integrations"
-      ],
-      "summary": "outputs contains 27 files and depends on core, harness, integrations."
-    },
-    {
       "name": "test",
       "owns": [
         "test/**"
@@ -134,7 +122,19 @@
         "outputs",
         "retrievers"
       ],
-      "summary": "test contains 36 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers."
+      "summary": "test contains 38 files and depends on analyzers, benchmarks, cli, config, core, harness, integrations, mcp, outputs, retrievers."
+    },
+    {
+      "name": "outputs",
+      "owns": [
+        "src/outputs/**"
+      ],
+      "imports": [
+        "core",
+        "harness",
+        "integrations"
+      ],
+      "summary": "outputs contains 27 files and depends on core, harness, integrations."
     },
     {
       "name": "core",
@@ -197,6 +197,18 @@
       "summary": "analyzers contains 6 files and depends on core."
     },
     {
+      "name": "integrations",
+      "owns": [
+        "src/integrations/**"
+      ],
+      "imports": [
+        "core",
+        "outputs",
+        "retrievers"
+      ],
+      "summary": "integrations contains 4 files and depends on core, outputs, retrievers."
+    },
+    {
       "name": "benchmarks/fixtures/small-ts-app",
       "owns": [
         "benchmarks/fixtures/small-ts-app/**"
@@ -218,7 +230,7 @@
         "outputs",
         "retrievers"
       ],
-      "summary": "cli contains 3 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers."
+      "summary": "cli contains 4 files and depends on benchmarks, config, core, harness, integrations, outputs, retrievers."
     },
     {
       "name": "benchmarks/fixtures/monorepo/packages/api",
@@ -286,17 +298,6 @@
       ],
       "imports": [],
       "summary": "benchmarks/fixtures/monorepo/packages/config contains 4 files."
-    },
-    {
-      "name": "integrations",
-      "owns": [
-        "src/integrations/**"
-      ],
-      "imports": [
-        "core",
-        "retrievers"
-      ],
-      "summary": "integrations contains 1 file and depends on core, retrievers."
     },
     {
       "name": "root",
