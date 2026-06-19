@@ -8,8 +8,8 @@ This guide gets OpenCode++ running in OpenCode chat mode in about five minutes.
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/OpenCode-plusplus.git
-cd OpenCode-plusplus
+git clone https://github.com/whut09/opencode-plusplus.git
+cd opencode-plusplus
 npm install
 npm run build
 npm link

@@ -30,7 +30,7 @@ Local development can use the built server directly:
   "mcpServers": {
     "code-agent-plusplus": {
       "command": "node",
-      "args": ["path/to/OpenCode-plusplus/dist/mcp/server.js"]
+      "args": ["path/to/opencode-plusplus/dist/mcp/server.js"]
     }
   }
 }

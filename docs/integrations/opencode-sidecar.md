@@ -10,8 +10,8 @@ OpenCode++ does not replace OpenCode. OpenCode reads, edits, and runs tools; Ope
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/OpenCode-plusplus.git
-cd OpenCode-plusplus
+git clone https://github.com/whut09/opencode-plusplus.git
+cd opencode-plusplus
 npm install
 npm run build
 npm link

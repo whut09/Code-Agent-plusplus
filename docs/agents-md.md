@@ -57,10 +57,10 @@ If those headings are not found, the tool falls back to moving the whole legacy 
 
 ## Generate It With an AI Agent
 
-You do not have to run the CLI by hand. You can ask a coding agent to use [whut09/OpenCode-plusplus](https://github.com/whut09/OpenCode-plusplus) against another repository:
+You do not have to run the CLI by hand. You can ask a coding agent to use [whut09/OpenCode-plusplus](https://github.com/whut09/opencode-plusplus) against another repository:
 
 ```txt
-Use https://github.com/whut09/OpenCode-plusplus to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, then install or clone the tool if needed. Force LLM summaries: create or update code-agent-plusplus.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first. Then run code-agent-plusplus build <target-repo> --target codex --llm, run code-agent-plusplus validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
+Use https://github.com/whut09/opencode-plusplus to generate AGENTS.md and a .agent-context package for the xxx project. Inspect the target repository first, then install or clone the tool if needed. Force LLM summaries: create or update code-agent-plusplus.local.yml in the target repo, do not commit that file, and prefer the model API configuration available in the current AI tool environment or the key/baseUrl/model I provide; if configuration is missing, ask me first. Then run code-agent-plusplus build <target-repo> --target codex --llm, run code-agent-plusplus validate <target-repo>, and summarize the generated files plus whether LLM summary mode succeeded.
 ```
 
 Replace `xxx project` with a local path, GitHub repository, or workspace name. This works especially well in Codex because Codex can run commands in the workspace and then read the generated `AGENTS.md` before making later edits.

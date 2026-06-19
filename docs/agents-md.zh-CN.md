@@ -60,10 +60,10 @@ Generated context is split into L0-L3 so agents do not load the full `.agent-con
 
 ## 让 AI Agent 帮你生成
 
-你不一定要手动运行 CLI，也可以直接让编程 Agent 使用 [whut09/OpenCode-plusplus](https://github.com/whut09/OpenCode-plusplus) 去处理另一个仓库：
+你不一定要手动运行 CLI，也可以直接让编程 Agent 使用 [whut09/OpenCode-plusplus](https://github.com/whut09/opencode-plusplus) 去处理另一个仓库：
 
 ```txt
-使用 https://github.com/whut09/OpenCode-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具。请强制启用 LLM 摘要：在目标仓库创建或更新 code-agent-plusplus.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置或我提供的 key/baseUrl/model；如果缺少配置，请先问我。然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件和 LLM 摘要模式是否成功。
+使用 https://github.com/whut09/opencode-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具。请强制启用 LLM 摘要：在目标仓库创建或更新 code-agent-plusplus.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置或我提供的 key/baseUrl/model；如果缺少配置，请先问我。然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件和 LLM 摘要模式是否成功。
 ```
 
 把 `xxx 项目` 替换成本地路径、GitHub 仓库或当前工作区名称即可。这种方式在 Codex 里尤其自然，因为 Codex 可以在工作区运行命令，并在后续修改代码前读取生成的 `AGENTS.md`。
