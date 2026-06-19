@@ -1,6 +1,31 @@
 # CLI Reference
 
-The recommended command is `code-agent-plusplus`.
+## Recommended Commands
+
+`capp` is the user-facing product entrypoint. Use it for daily OpenCode-style interactive coding:
+
+```bash
+capp
+capp report
+capp status
+capp doctor
+capp --pure
+```
+
+`code-agent-plusplus` is the advanced / kernel entrypoint. Use it for scriptable context, verification, and harness workflows:
+
+```bash
+code-agent-plusplus build .
+code-agent-plusplus verify --diff .
+code-agent-plusplus orchestrate "task" .
+```
+
+In short:
+
+```txt
+capp = user entrypoint / product entrypoint
+code-agent-plusplus = advanced command / kernel entrypoint
+```
 
 ## Core
 
