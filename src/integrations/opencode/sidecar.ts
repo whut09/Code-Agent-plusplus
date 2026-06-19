@@ -20,12 +20,7 @@ import { buildChangeImpactReport, type ChangeImpactReport } from "../../outputs/
 import { validateContracts, type ContractValidationReport } from "../../outputs/contract-validator.js";
 import { buildTestSelection, type TestSelectionReport } from "../../outputs/test-selector.js";
 import { renderTaskVerify } from "../../outputs/task-harness.js";
-import {
-  LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH,
-  OPENCODE_PLUSPLUS_PLUGIN_PATH,
-  OPENCODE_SIDECAR_PLUGIN_PATH,
-  opencodeSidecarPluginTemplate
-} from "./sidecar-plugin-template.js";
+import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "./sidecar-plugin-template.js";
 
 export interface OpenCodeSidecarEnsureOptions {
   force?: boolean;
@@ -155,22 +150,16 @@ export interface OpenCodeSidecarToolRecordResult {
 
 export function ensureOpencodeSidecarPlugin(repo: string, options: OpenCodeSidecarEnsureOptions = {}): OpenCodeSidecarStep {
   const root = path.resolve(repo);
-  const filePath = path.join(root, OPENCODE_PLUSPLUS_PLUGIN_PATH);
-  const legacyPath = path.join(root, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH);
+  const filePath = path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH);
   if (existsSync(filePath) && !options.force) {
-    return { name: "sidecar-plugin", status: "pass", details: `${OPENCODE_PLUSPLUS_PLUGIN_PATH} already exists` };
-  }
-  if (existsSync(legacyPath) && !options.force) {
-    return { name: "sidecar-plugin", status: "pass", details: `${LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH} already exists (legacy alias)` };
+    return { name: "sidecar-plugin", status: "pass", details: `${OPENCODE_SIDECAR_PLUGIN_PATH} already exists` };
   }
 
   if (options.dryRun) {
     return {
       name: "sidecar-plugin",
       status: existsSync(filePath) ? "warn" : "pass",
-      details: existsSync(filePath)
-        ? `${OPENCODE_PLUSPLUS_PLUGIN_PATH} would be overwritten with --force`
-        : `${OPENCODE_PLUSPLUS_PLUGIN_PATH} would be generated`
+      details: existsSync(filePath) ? `${OPENCODE_SIDECAR_PLUGIN_PATH} would be overwritten with --force` : `${OPENCODE_SIDECAR_PLUGIN_PATH} would be generated`
     };
   }
 
@@ -179,17 +168,9 @@ export function ensureOpencodeSidecarPlugin(repo: string, options: OpenCodeSidec
   return { name: "sidecar-plugin", status: "pass", details: `${OPENCODE_SIDECAR_PLUGIN_PATH} generated` };
 }
 
-function resolveExistingSidecarPluginPath(root: string): string {
-  const current = path.join(root, OPENCODE_PLUSPLUS_PLUGIN_PATH);
-  if (existsSync(current)) return current;
-  const legacy = path.join(root, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH);
-  if (existsSync(legacy)) return legacy;
-  return current;
-}
-
 export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecarVerifyResult> {
   const root = path.resolve(repo);
-  const pluginPath = resolveExistingSidecarPluginPath(root);
+  const pluginPath = path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH);
   const eventLogPath = path.join(root, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
   const latestJsonPath = path.join(root, ".agent-context", "sidecar", "latest.json");
   const latestMarkdownPath = path.join(root, ".agent-context", "sidecar", "latest.md");
@@ -211,7 +192,11 @@ export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecar
   checks.push(
     existsSync(eventLogPath)
       ? { name: "sidecar-event-log", status: "pass", details: `${path.relative(root, eventLogPath)} exists` }
-      : { name: "sidecar-event-log", status: "warn", details: "no sidecar event log yet; start OpenCode with ocpp and trigger a session/edit first" }
+      : {
+          name: "sidecar-event-log",
+          status: "warn",
+          details: "no sidecar event log yet; start OpenCode with opencode-plusplus and trigger a session/edit first"
+        }
   );
 
   const changedFiles = collectCurrentChangedFiles(root);
@@ -333,7 +318,7 @@ export function recordOpencodeSidecarTool(repo = ".", input: OpenCodeSidecarTool
     command: command ?? undefined,
     result: typeof input.exitCode === "number" ? (input.exitCode === 0 ? "passed" : "failed") : "unknown",
     evidenceSource: "command",
-    capturedBy: "code-agent-plusplus",
+    capturedBy: "opencode-plusplus",
     exitCode: input.exitCode,
     startedAt,
     finishedAt,
@@ -639,7 +624,7 @@ function detectWarnings(files: string[]): string[] {
 }
 
 function isSecretLike(file: string): boolean {
-  return /(^|\/)(\.env|.*\.local\.(yml|yaml|json)|code-agent-plusplus\.local\.yml)$/i.test(file);
+  return /(^|\/)(\.env|.*\.local\.(yml|yaml|json)|opencode-plusplus\.local\.yml)$/i.test(file);
 }
 
 function isLockfile(file: string): boolean {

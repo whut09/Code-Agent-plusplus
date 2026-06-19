@@ -3,16 +3,16 @@
 Default config file:
 
 ```txt
-code-agent-plusplus.config.yml
+opencode-plusplus.config.yml
 ```
 
 Local private config file:
 
 ```txt
-code-agent-plusplus.local.yml
+opencode-plusplus.local.yml
 ```
 
-Do not commit `code-agent-plusplus.local.yml`.
+Do not commit `opencode-plusplus.local.yml`.
 
 ## Example
 
@@ -48,4 +48,4 @@ rag:
 
 ## LLM Credentials
 
-Committed examples should keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `code-agent-plusplus.local.yml`.
+Committed examples should keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `opencode-plusplus.local.yml`.

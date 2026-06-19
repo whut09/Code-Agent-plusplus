@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("writer honors optional output switches", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-"));
 
   try {
     writeFileSync(
@@ -29,7 +29,7 @@ test("writer honors optional output switches", async () => {
     assert.equal(existsSync(path.join(root, ".agent-context", "rag")), true);
 
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 outputs:
   agents: false
@@ -78,7 +78,7 @@ outputs:
 });
 
 test("writer emits repo contract files for agent constraints", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-contracts-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-contracts-"));
 
   try {
     mkdirSync(path.join(root, "src", "auth"), { recursive: true });
@@ -134,7 +134,7 @@ test("writer emits repo contract files for agent constraints", async () => {
 });
 
 test("writer migrates legacy AGENTS.md into AGENTS.manual.md and composes final AGENTS.md", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-agents-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-agents-"));
 
   try {
     writeFileSync(
@@ -199,11 +199,11 @@ pnpm dev
 });
 
 test("RAG export respects chunkTokenLimit", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-rag-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-rag-"));
 
   try {
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 rag:
   provider: lightrag

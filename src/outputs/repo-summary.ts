@@ -30,7 +30,7 @@ export function renderRepoSummary(context: ContextPackage): string {
       `Mode: ${context.summaries.mode}`,
       `LLM attempted: ${context.summaries.llmAttempted ? "yes" : "no"}`,
       `Fallback reason: ${context.summaries.fallbackReason ?? "none"}`,
-      "LLM summaries use local private configuration when `code-agent-plusplus.local.yml` is present."
+      "LLM summaries use local private configuration when `opencode-plusplus.local.yml` is present."
     ]),
     "",
     heading(2, "Agent Readiness"),

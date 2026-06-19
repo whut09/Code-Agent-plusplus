@@ -12,7 +12,7 @@ export function renderAgentsMd(context: ContextPackage): string {
 function renderMinimalAgentsMd(context: ContextPackage): string[] {
   const include = new Set<AgentsSection>(context.config.agents.include);
   const sections = [
-    "<!-- generated-by: code-agent-plusplus -->",
+    "<!-- generated-by: opencode-plusplus -->",
     "<!-- generated-file: .agent-context/AGENTS.generated.md -->",
     "",
     heading(1, "Generated Agent Guide"),
@@ -27,7 +27,7 @@ function renderMinimalAgentsMd(context: ContextPackage): string[] {
       bullet([
         "Inspect relevant source files before behavior-changing edits; generated summaries are not a source-of-truth replacement.",
         ...requiredCheckRules(context),
-        "Do not commit secrets, local config, dependency folders, or generated build output such as `code-agent-plusplus.local.yml`, API keys, `node_modules/`, `dist/`, or coverage artifacts.",
+        "Do not commit secrets, local config, dependency folders, or generated build output such as `opencode-plusplus.local.yml`, API keys, `node_modules/`, `dist/`, or coverage artifacts.",
         "Preserve existing project conventions and command patterns unless the source code clearly requires a change."
       ]),
       "",
@@ -71,7 +71,7 @@ function renderExpandedAgentsMd(context: ContextPackage, full: boolean): string[
     .map((module) => `${code(module.name)} - ${module.summary}`);
 
   return [
-    "<!-- generated-by: code-agent-plusplus -->",
+    "<!-- generated-by: opencode-plusplus -->",
     "<!-- generated-file: .agent-context/AGENTS.generated.md -->",
     "",
     heading(1, "Generated Agent Guide"),

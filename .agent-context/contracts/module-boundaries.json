@@ -198,44 +198,6 @@
         "src/harness/verification-plane/policy-engine.ts"
       ]
     },
-    "integrations": {
-      "owns": [
-        "src/integrations/**"
-      ],
-      "allowedImports": [
-        "benchmarks/fixtures/monorepo/packages/config/**",
-        "benchmarks/fixtures/monorepo/packages/shared/**",
-        "src/config/**",
-        "src/core/**",
-        "src/harness/**",
-        "src/integrations/**",
-        "src/outputs/**",
-        "src/retrievers/**"
-      ],
-      "forbiddenImports": [
-        "**/*.generated.*",
-        "**/generated/**",
-        "build/**",
-        "dist/**",
-        "src/admin/**",
-        "src/billing/**",
-        "src/payment/**",
-        "src/payments/**"
-      ],
-      "observedImports": [
-        "core",
-        "harness",
-        "outputs",
-        "retrievers"
-      ],
-      "publicFiles": [
-        "src/integrations/codegraph.ts",
-        "src/integrations/opencode/launcher.ts",
-        "src/integrations/opencode/project-init.ts",
-        "src/integrations/opencode/sidecar-plugin-template.ts",
-        "src/integrations/opencode/sidecar.ts"
-      ]
-    },
     "retrievers": {
       "owns": [
         "src/retrievers/**"
@@ -272,6 +234,44 @@
         "src/retrievers/ripgrep.ts",
         "src/retrievers/static.ts",
         "src/retrievers/types.ts"
+      ]
+    },
+    "integrations": {
+      "owns": [
+        "src/integrations/**"
+      ],
+      "allowedImports": [
+        "benchmarks/fixtures/monorepo/packages/config/**",
+        "benchmarks/fixtures/monorepo/packages/shared/**",
+        "src/config/**",
+        "src/core/**",
+        "src/harness/**",
+        "src/integrations/**",
+        "src/outputs/**",
+        "src/retrievers/**"
+      ],
+      "forbiddenImports": [
+        "**/*.generated.*",
+        "**/generated/**",
+        "build/**",
+        "dist/**",
+        "src/admin/**",
+        "src/billing/**",
+        "src/payment/**",
+        "src/payments/**"
+      ],
+      "observedImports": [
+        "core",
+        "harness",
+        "outputs",
+        "retrievers"
+      ],
+      "publicFiles": [
+        "src/integrations/codegraph.ts",
+        "src/integrations/opencode/launcher.ts",
+        "src/integrations/opencode/project-init.ts",
+        "src/integrations/opencode/sidecar-plugin-template.ts",
+        "src/integrations/opencode/sidecar.ts"
       ]
     },
     "cli": {
@@ -311,9 +311,9 @@
         "retrievers"
       ],
       "publicFiles": [
-        "src/cli/capp-commands.ts",
         "src/cli/default-command.ts",
         "src/cli/index.ts",
+        "src/cli/opencode-plusplus-commands.ts",
         "src/cli/opencode-preset.ts",
         "src/cli/task-args.ts"
       ]

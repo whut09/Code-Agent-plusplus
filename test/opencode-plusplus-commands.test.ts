@@ -3,17 +3,17 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
-import { getCappStatus, readCappReport, renderCappStatus } from "../src/cli/capp-commands.js";
+import { getOpenCodePlusplusStatus, readOpenCodePlusplusReport, renderOpenCodePlusplusStatus } from "../src/cli/opencode-plusplus-commands.js";
 import { ensureOpencodeSidecarPlugin, verifyOpencodeSidecar, writeOpencodeSidecarLatest } from "../src/integrations/opencode/sidecar.js";
 
-test("capp report reads the latest sidecar markdown report", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-capp-report-"));
+test("opencode-plusplus report reads the latest sidecar markdown report", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-plusplus-report-"));
   try {
     const reportDir = path.join(root, ".agent-context", "sidecar");
     mkdirSync(reportDir, { recursive: true });
     writeFileSync(path.join(reportDir, "latest.md"), "# Latest\n\nready\n", "utf8");
 
-    const report = readCappReport(root);
+    const report = readOpenCodePlusplusReport(root);
 
     assert.equal(report.exists, true);
     assert.match(report.content, /# Latest/);
@@ -22,21 +22,21 @@ test("capp report reads the latest sidecar markdown report", () => {
   }
 });
 
-test("capp status reports active sidecar signals", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-capp-status-"));
+test("opencode-plusplus status reports active sidecar signals", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-plusplus-status-"));
   try {
     mkdirSync(path.join(root, ".agent-context", "traces"), { recursive: true });
     ensureOpencodeSidecarPlugin(root);
     const verify = await verifyOpencodeSidecar(root);
     writeOpencodeSidecarLatest(verify);
 
-    const status = getCappStatus(root);
+    const status = getOpenCodePlusplusStatus(root);
 
     assert.equal(status.active, true);
     assert.equal(status.pluginExists, true);
     assert.equal(status.contextExists, true);
     assert.equal(status.latestExists, true);
-    assert.match(renderCappStatus(status), /Sidecar: active/);
+    assert.match(renderOpenCodePlusplusStatus(status), /Sidecar: active/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

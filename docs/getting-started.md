@@ -4,7 +4,7 @@ This guide gets OpenCode++ running in OpenCode chat mode in about five minutes.
 
 ## Install
 
-`opencode-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone OpenCode++, build it, and link the `ocpp` command globally:
+`opencode-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone OpenCode++, build it, and link the `opencode-plusplus` command globally:
 
 ```bash
 npm i -g opencode-ai
@@ -19,7 +19,7 @@ Then enter the repository you want to work on:
 
 ```bash
 cd your-repo
-ocpp
+opencode-plusplus
 ```
 
 After OpenCode++ is published to npm, this will become:
@@ -39,14 +39,14 @@ Refactor this function while preserving behavior.
 ## Daily Commands
 
 ```bash
-ocpp
-ocpp report
-ocpp status
-ocpp doctor
-ocpp --pure
+opencode-plusplus
+opencode-plusplus report
+opencode-plusplus status
+opencode-plusplus doctor
+opencode-plusplus --pure
 ```
 
-`ocpp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/opencode-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact readiness summary, and launches `opencode .`. `capp` remains available as a legacy alias.
+`opencode-plusplus` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/opencode-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact readiness summary, and launches `opencode .`.
 
 The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle` events. Before a tool runs, it blocks dangerous commands, hallucinated package scripts / Makefile targets, and protected / secret paths. After a tool runs, it records command evidence under `.agent-context/traces/`, including exit code, timestamps, stdout/stderr hashes, working-tree hashes, and touched files. On idle, it runs dirty/debounced incremental verification.
 
@@ -115,21 +115,20 @@ opencode-plusplus policy . --base main --fail-on required
 Use the OpenCode preset when OpenCode++ should call OpenCode in batch mode and evaluate the result:
 
 ```bash
-ocpp oc init .
-ocpp oc "fix login timeout bug" .
-ocpp oc report --last
-ocpp oc repair
+opencode-plusplus oc init .
+opencode-plusplus oc "fix login timeout bug" .
+opencode-plusplus oc report --last
+opencode-plusplus oc repair
 ```
 
-`ocpp oc init .` writes OpenCode-native helpers:
+`opencode-plusplus oc init .` writes OpenCode-native helpers:
 
 ```txt
-.opencode/commands/ocpp.md
-.opencode/commands/ocpp-verify.md
+.opencode/commands/opencode-plusplus.md
+.opencode/commands/opencode-plusplus-verify.md
 .opencode/agents/opencode-plusplus.md
-.opencode/commands/capp.md
-.opencode/commands/capp-verify.md
-.opencode/agents/code-agent-plusplus.md
+.opencode/commands/opencode-plusplus.md
+.opencode/commands/opencode-plusplus-verify.md
 ```
 
 Use `orchestrate --executor-command` when you need a custom executor command.
@@ -140,7 +139,7 @@ Start with `--executor mock` when testing CI or demos.
 LLM summaries use a local file that must not be committed:
 
 ```yaml
-# code-agent-plusplus.local.yml
+# opencode-plusplus.local.yml
 llm:
   enabled: true
   baseUrl: "xx"

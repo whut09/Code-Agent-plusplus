@@ -15,7 +15,7 @@ Configure a stdio MCP server in the Claude Code MCP settings used by your enviro
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "opencode-plusplus-mcp",
       "args": []
     }
@@ -28,7 +28,7 @@ For repository-local development:
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "node",
       "args": ["path/to/opencode-plusplus/dist/mcp/server.js"]
     }
@@ -41,7 +41,7 @@ For repository-local development:
 Call:
 
 ```txt
-code_agent_plusplus_start_loop
+opencode_plusplus_start_loop
 ```
 
 Example:
@@ -91,7 +91,7 @@ Record test evidence:
 Call:
 
 ```txt
-code_agent_plusplus_evaluate
+opencode_plusplus_evaluate
 ```
 
 Example:
@@ -111,14 +111,14 @@ The important fields are `blocking`, `nextAction`, `requiredCommands`, `missingE
 
 ## Repair
 
-Call `code_agent_plusplus_repair` after a blocked evaluation. Use the returned `requiredActions` as the repair prompt. If the issue is missing context or high impact, ask OpenCode++ to repack or expand context before editing more files.
+Call `opencode_plusplus_repair` after a blocked evaluation. Use the returned `requiredActions` as the repair prompt. If the issue is missing context or high impact, ask OpenCode++ to repack or expand context before editing more files.
 
 ## Finalize
 
 Call:
 
 ```txt
-code_agent_plusplus_finalize
+opencode_plusplus_finalize
 ```
 
 Example:

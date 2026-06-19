@@ -78,7 +78,7 @@ export function writeTaskRun(context: ContextPackage, task: string, options: Tas
   });
   const traceFile = executionTracePath(context.scan.root, runId);
   if (!options.preserveTrace || !existsSync(traceFile)) {
-    startExecutionTrace(context.scan.root, task, { id: runId, agent: "code-agent-plusplus" });
+    startExecutionTrace(context.scan.root, task, { id: runId, agent: "opencode-plusplus" });
   }
   manifest.traceFile = path.relative(context.scan.root, traceFile).replaceAll("\\", "/");
   const stateFile = writeRunState(context.scan.root, initialRunState(context, runId, task));

@@ -4,9 +4,9 @@ import yaml from "js-yaml";
 import { DEFAULT_CONFIG } from "./defaults.js";
 import type { AgentTarget, AgentsMode, AgentsSection, CodeAgentPlusplusConfig, TokenizerMode } from "../core/types.js";
 
-const CONFIG_FILES = ["code-agent-plusplus.config.yml", "code-agent-plusplus.config.yaml", "code-agent-plusplus.config.json"];
+const CONFIG_FILES = ["opencode-plusplus.config.yml", "opencode-plusplus.config.yaml", "opencode-plusplus.config.json"];
 
-const LOCAL_CONFIG_FILES = ["code-agent-plusplus.local.yml", "code-agent-plusplus.local.yaml", "code-agent-plusplus.local.json"];
+const LOCAL_CONFIG_FILES = ["opencode-plusplus.local.yml", "opencode-plusplus.local.yaml", "opencode-plusplus.local.json"];
 
 export function loadConfig(repoRoot: string, overrides: Partial<CodeAgentPlusplusConfig> = {}): CodeAgentPlusplusConfig {
   const configPath = CONFIG_FILES.map((file) => path.join(repoRoot, file)).find(existsSync);

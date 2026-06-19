@@ -10,7 +10,7 @@ import { renderTaskVerify } from "../src/outputs/task-harness.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 function createContractRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-contract-validate-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-contract-validate-"));
   mkdirSync(path.join(root, "src", "core"), { recursive: true });
   mkdirSync(path.join(root, "src", "outputs"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
@@ -28,7 +28,7 @@ test("contract validator fails changed files that break edit boundaries", async 
 
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
@@ -61,7 +61,7 @@ test("contract validator ignores regenerated repo context outputs", async () => 
 
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);

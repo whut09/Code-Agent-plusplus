@@ -7,7 +7,7 @@ import { traceIdForTask } from "../../observability/execution-trace.js";
 import type { RegressionMemoryEntry } from "./regression.js";
 
 export interface RegressionMemoryCandidate {
-  schemaVersion: "code-agent-plusplus.regression-memory-candidate.v1";
+  schemaVersion: "opencode-plusplus.regression-memory-candidate.v1";
   id: string;
   module: string;
   changedFiles: string[];
@@ -50,7 +50,7 @@ export function buildRegressionMemoryCandidate(context: ContextPackage, options:
   const bugPattern = options.bugPattern ?? inferBugPattern(options.task, module, riskTriggers);
   const id = `candidate-${traceIdForTask([module, bugPattern, changedFiles.join("-")].filter(Boolean).join(" "))}`;
   return {
-    schemaVersion: "code-agent-plusplus.regression-memory-candidate.v1",
+    schemaVersion: "opencode-plusplus.regression-memory-candidate.v1",
     id,
     module,
     changedFiles,
@@ -202,7 +202,7 @@ function readCandidate(filePath: string): RegressionMemoryCandidate {
   const parsed = JSON.parse(readFileSync(filePath, "utf8")) as unknown;
   if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error(`Invalid memory candidate: ${filePath}`);
   const record = parsed as RegressionMemoryCandidate;
-  if (record.schemaVersion !== "code-agent-plusplus.regression-memory-candidate.v1") throw new Error(`Unsupported memory candidate schema: ${filePath}`);
+  if (record.schemaVersion !== "opencode-plusplus.regression-memory-candidate.v1") throw new Error(`Unsupported memory candidate schema: ${filePath}`);
   return record;
 }
 

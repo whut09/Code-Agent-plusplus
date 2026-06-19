@@ -14,7 +14,7 @@ function readJson<T>(filePath: string): T {
 }
 
 test("build context writes and refreshes incremental cache", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-cache-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-cache-"));
 
   try {
     mkdirSync(path.join(root, ".git"));

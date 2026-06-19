@@ -187,7 +187,7 @@ async function runAgentModeBenchmark(
     return mockDryRunAgentModeBenchmark(benchmarkDir, task, mode, executor);
   }
 
-  const workspace = mkdtempSync(path.join(tmpdir(), `code-agent-plusplus-agent-benchmark-${task.id}-${mode}-`));
+  const workspace = mkdtempSync(path.join(tmpdir(), `opencode-plusplus-agent-benchmark-${task.id}-${mode}-`));
   const repo = path.join(workspace, task.fixture);
   cpSync(path.join(benchmarkDir, "fixtures", task.fixture), repo, { recursive: true });
   mkdirSync(path.join(repo, ".agent-context", "agent-benchmark"), { recursive: true });
@@ -351,7 +351,7 @@ async function runDirectMode(
     result: execution.exitCode === 0 ? "passed" : "failed",
     finalState: execution.exitCode === 0 ? "partial_success" : "blocked",
     evidenceSource: execution.command ? "command" : "manual",
-    capturedBy: execution.command ? "code-agent-plusplus" : "external",
+    capturedBy: execution.command ? "opencode-plusplus" : "external",
     exitCode: execution.exitCode,
     startedAt,
     finishedAt,
@@ -499,7 +499,7 @@ export function parseAgentBenchmarkModes(value: string | undefined): AgentRunMod
 function initBaseline(repo: string, base: string): void {
   runGit(repo, ["init"]);
   runGit(repo, ["checkout", "-b", base]);
-  runGit(repo, ["config", "user.email", "code-agent-plusplus@example.com"]);
+  runGit(repo, ["config", "user.email", "opencode-plusplus@example.com"]);
   runGit(repo, ["config", "user.name", "OpenCode++ Benchmark"]);
   runGit(repo, ["add", "."]);
   runGit(repo, ["commit", "-m", "benchmark baseline"]);

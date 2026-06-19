@@ -23,7 +23,7 @@ test("OpenCode JSON stdout normalizer extracts messages, file events, commands, 
 });
 
 test("OpenCode transcript normalizer reads JSON transcript files", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-transcript-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-transcript-"));
   try {
     const transcript = path.join(root, "session.jsonl");
     writeFileSync(

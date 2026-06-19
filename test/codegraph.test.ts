@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { normalizeCodeGraphHits, normalizeCodeGraphImpact, normalizeCodeGraphTests } from "../src/integrations/codegraph.js";
 
 function createCodeGraphRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-codegraph-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-codegraph-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test" } }), "utf8");

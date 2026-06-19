@@ -15,7 +15,7 @@ Register the MCP server in the Codex MCP configuration used by your environment:
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "opencode-plusplus-mcp",
       "args": []
     }
@@ -28,7 +28,7 @@ For local development without a global install, point Codex at the built server:
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "node",
       "args": ["path/to/opencode-plusplus/dist/mcp/server.js"]
     }
@@ -41,7 +41,7 @@ For local development without a global install, point Codex at the built server:
 Ask Codex to call:
 
 ```txt
-code_agent_plusplus_start_loop
+opencode_plusplus_start_loop
 ```
 
 Example arguments:
@@ -93,7 +93,7 @@ Prefer command evidence over manual claims. Command evidence lets the policy lay
 After edits, call:
 
 ```txt
-code_agent_plusplus_evaluate
+opencode_plusplus_evaluate
 ```
 
 Use:
@@ -116,7 +116,7 @@ Read `blocking`, `nextAction`, `requiredCommands`, and `missingEvidence` first. 
 When evaluation blocks, call:
 
 ```txt
-code_agent_plusplus_repair
+opencode_plusplus_repair
 ```
 
 The response returns `requiredActions`, `requiredCommands`, `mustInspect`, and the loop report. Codex should repair only the blocked findings and then call `step` plus `evaluate` again.
@@ -126,7 +126,7 @@ The response returns `requiredActions`, `requiredCommands`, `mustInspect`, and t
 Call:
 
 ```txt
-code_agent_plusplus_finalize
+opencode_plusplus_finalize
 ```
 
 Use it only after tests, contracts, policy, and evidence are satisfied:

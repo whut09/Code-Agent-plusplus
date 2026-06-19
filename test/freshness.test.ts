@@ -9,7 +9,7 @@ import { runGit } from "../src/core/git.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 
 test("freshness is fresh after build and stale after source changes", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-freshness-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-freshness-"));
   try {
     initRepo(root);
     mkdirSync(path.join(root, "src"), { recursive: true });
@@ -38,7 +38,7 @@ test("freshness is fresh after build and stale after source changes", async () =
 });
 
 test("drift detects modified generated outputs", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-drift-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-drift-"));
   try {
     initRepo(root);
     mkdirSync(path.join(root, "src"), { recursive: true });
@@ -63,7 +63,7 @@ test("drift detects modified generated outputs", async () => {
 
 function initRepo(root: string): void {
   runGit(root, ["init"]);
-  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+  runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
 }
 

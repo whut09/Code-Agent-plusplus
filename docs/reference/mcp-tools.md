@@ -4,22 +4,22 @@
 
 ## Foundation Tools
 
-- `code_agent_plusplus_build`
-- `code_agent_plusplus_plan`
-- `code_agent_plusplus_pack`
-- `code_agent_plusplus_retrieve`
-- `code_agent_plusplus_tests`
-- `code_agent_plusplus_impact`
-- `code_agent_plusplus_verify`
-- `code_agent_plusplus_explain`
+- `opencode_plusplus_build`
+- `opencode_plusplus_plan`
+- `opencode_plusplus_pack`
+- `opencode_plusplus_retrieve`
+- `opencode_plusplus_tests`
+- `opencode_plusplus_impact`
+- `opencode_plusplus_verify`
+- `opencode_plusplus_explain`
 
 ## Experimental Runtime Tools
 
-- `code_agent_plusplus_start_loop`
-- `code_agent_plusplus_step`
-- `code_agent_plusplus_evaluate`
-- `code_agent_plusplus_repair`
-- `code_agent_plusplus_finalize`
+- `opencode_plusplus_start_loop`
+- `opencode_plusplus_step`
+- `opencode_plusplus_evaluate`
+- `opencode_plusplus_repair`
+- `opencode_plusplus_finalize`
 
 Runtime tools return structured gate fields such as `nextAction`, `blocking`, `requiredCommands`, `mustInspect`, `allowedEditGlobs`, `avoidEditGlobs`, and `missingEvidence`.
 

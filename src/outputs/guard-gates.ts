@@ -19,7 +19,7 @@ export interface GuardGate {
 }
 
 export interface GuardGateReport {
-  schemaVersion: "code-agent-plusplus.guard-gates.v1";
+  schemaVersion: "opencode-plusplus.guard-gates.v1";
   kind: "guard-gates";
   generatedAt: string;
   runId: string;
@@ -56,7 +56,7 @@ export function buildGuardGateReport(input: {
     : [passedGate("context.passed", "context", "No guard gate blockers detected.", "repack", ["Policy and loop checks produced no guard blockers."])];
 
   return {
-    schemaVersion: "code-agent-plusplus.guard-gates.v1",
+    schemaVersion: "opencode-plusplus.guard-gates.v1",
     kind: "guard-gates",
     generatedAt: new Date().toISOString(),
     runId: input.runId,

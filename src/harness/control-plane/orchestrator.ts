@@ -775,7 +775,7 @@ function appendExecutorTrace(
     result: executorResult.exitCode === 0 ? "passed" : "failed",
     finalState: executorResult.exitCode === 0 ? "partial_success" : "blocked",
     evidenceSource: executorResult.command ? "command" : "manual",
-    capturedBy: executorResult.command ? "code-agent-plusplus" : "external",
+    capturedBy: executorResult.command ? "opencode-plusplus" : "external",
     exitCode: executorResult.exitCode,
     output: summarizeOutput(executorResult.stdout, executorResult.stderr, warnings),
     startedAt: executorResult.startedAt,
@@ -853,7 +853,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
   const generatedAt = new Date().toISOString();
   const trace = readExecutionTrace(root, input.runId);
   const executorArtifact = {
-    schemaVersion: "code-agent-plusplus.executor-result.v1",
+    schemaVersion: "opencode-plusplus.executor-result.v1",
     kind: "executor-result",
     generatedAt,
     runId: input.runId,
@@ -870,7 +870,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
     executorResult: input.executorResult
   };
   const traceArtifact = {
-    schemaVersion: "code-agent-plusplus.trace-artifact.v1",
+    schemaVersion: "opencode-plusplus.trace-artifact.v1",
     kind: "trace",
     generatedAt,
     runId: input.runId,
@@ -884,7 +884,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
     trace
   };
   const decisionArtifact = {
-    schemaVersion: "code-agent-plusplus.decision.v1",
+    schemaVersion: "opencode-plusplus.decision.v1",
     kind: "decision",
     generatedAt,
     runId: input.runId,
@@ -902,7 +902,7 @@ function writeIterationArtifacts(root: string, iterationDir: string, input: Iter
     decision: input.decision
   };
   const iterationArtifact = {
-    schemaVersion: "code-agent-plusplus.iteration.v1",
+    schemaVersion: "opencode-plusplus.iteration.v1",
     kind: "iteration",
     generatedAt,
     runId: input.runId,

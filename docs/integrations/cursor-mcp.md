@@ -15,7 +15,7 @@ Add the MCP server to Cursor's MCP configuration:
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "opencode-plusplus-mcp",
       "args": []
     }
@@ -28,7 +28,7 @@ For local development:
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "node",
       "args": ["path/to/opencode-plusplus/dist/mcp/server.js"]
     }
@@ -41,7 +41,7 @@ For local development:
 Call:
 
 ```txt
-code_agent_plusplus_start_loop
+opencode_plusplus_start_loop
 ```
 
 Example:
@@ -91,7 +91,7 @@ Record verification:
 Call:
 
 ```txt
-code_agent_plusplus_evaluate
+opencode_plusplus_evaluate
 ```
 
 Example:
@@ -111,14 +111,14 @@ Cursor should surface `blocking`, `nextAction`, `requiredCommands`, `missingEvid
 
 ## Repair
 
-Call `code_agent_plusplus_repair` when evaluation blocks. Use `requiredActions` as the repair checklist and avoid expanding edits outside `allowedEditGlobs` unless the next action is repack or expand-context.
+Call `opencode_plusplus_repair` when evaluation blocks. Use `requiredActions` as the repair checklist and avoid expanding edits outside `allowedEditGlobs` unless the next action is repack or expand-context.
 
 ## Finalize
 
 Call:
 
 ```txt
-code_agent_plusplus_finalize
+opencode_plusplus_finalize
 ```
 
 Example:

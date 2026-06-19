@@ -134,7 +134,7 @@ The state model is explicit: `EMPTY`, `CONTEXT_READY`, `TASK_PACK_READY`, `EDIT_
 
 ## Trace And Policy
 
-`opencode-plusplus run "<task>" .` creates a task run and trace. `code-agent-plusplus trace start/add/run/show` can also manage traces directly. A trace records agent identity, ordered steps, touched files, reasons, commands, test results, output summaries, and final state.
+`opencode-plusplus run "<task>" .` creates a task run and trace. `opencode-plusplus trace start/add/run/show` can also manage traces directly. A trace records agent identity, ordered steps, touched files, reasons, commands, test results, output summaries, and final state.
 
 Trace evidence is split into three levels:
 

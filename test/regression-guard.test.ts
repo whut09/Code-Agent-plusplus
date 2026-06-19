@@ -112,7 +112,7 @@ test("regression memory candidates require explicit confirmation before fix hist
 });
 
 function createRegressionRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-regression-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-regression-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"" } }), "utf8");
@@ -145,7 +145,7 @@ async function prepareRegressionContext(root: string): Promise<void> {
   );
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+  runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

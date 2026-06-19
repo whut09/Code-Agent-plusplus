@@ -8,7 +8,7 @@ import { bullet, code, heading, table } from "../../outputs/renderers/markdown.j
 export type ExecutionFinalState = "planned" | "in_progress" | "partial_success" | "success" | "failed" | "blocked";
 export type ExecutionStepResult = "passed" | "failed" | "skipped" | "unknown";
 export type ExecutionEvidenceSource = "manual" | "command" | "ci";
-export type ExecutionCapturedBy = "code-agent-plusplus" | "external";
+export type ExecutionCapturedBy = "opencode-plusplus" | "external";
 
 export interface ExecutionTraceStep {
   id: string;
@@ -101,7 +101,7 @@ export function startExecutionTrace(root: string, task: string, options: TraceSt
       {
         id: "step-001",
         at: now,
-        agent: options.agent ?? "code-agent-plusplus",
+        agent: options.agent ?? "opencode-plusplus",
         action: "context-run-created",
         files: [],
         evidenceSource: "manual",
@@ -185,7 +185,7 @@ export function runTraceCommand(root: string, traceId: string, input: TraceComma
     output: summarizeCommandOutput(stdout, stderr),
     finalState: input.finalState,
     evidenceSource: "command",
-    capturedBy: "code-agent-plusplus",
+    capturedBy: "opencode-plusplus",
     exitCode,
     startedAt,
     finishedAt,
@@ -267,7 +267,7 @@ function hashTask(task: string): string {
 
 function formatEvidenceSource(step: ExecutionTraceStep): string {
   const source = step.evidenceSource ?? "manual";
-  if (source === "command" && step.capturedBy === "code-agent-plusplus") return "command";
+  if (source === "command" && step.capturedBy === "opencode-plusplus") return "command";
   if (source === "ci") return "ci";
   return "manual";
 }

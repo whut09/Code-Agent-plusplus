@@ -15,10 +15,10 @@ The difference is whether those Guards are advisory signals for the host agent o
 
 ## Summary
 
-| Mode                                   | Controller                                         | Entry Points                                                                                                 | Executes a code agent?                      | Best For                                                                          |
-| -------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | --------------------------------------------------------------------------------- |
-| Code agent-led, OpenCode++ constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `code_agent_plusplus_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                         |
-| OpenCode++-led, code agent as executor | OpenCode++ bounded loop                            | `opencode-plusplus orchestrate` or `opencode-plusplus agent run`                                             | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, OpenCode++ reporting finalize/repair/repack/block |
+| Mode                                   | Controller                                         | Entry Points                                                                                               | Executes a code agent?                      | Best For                                                                          |
+| -------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------- | --------------------------------------------------------------------------------- |
+| Code agent-led, OpenCode++ constrained | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`, or MCP `opencode_plusplus_*` tools | No, the external code agent executes itself | Daily AI coding, MCP demos, existing agents calling tools                         |
+| OpenCode++-led, code agent as executor | OpenCode++ bounded loop                            | `opencode-plusplus orchestrate` or `opencode-plusplus agent run`                                           | Yes, through `mock` or `--executor-command` | Auditable gates, CI/automation, OpenCode++ reporting finalize/repair/repack/block |
 
 The entry points are isolated:
 
@@ -32,7 +32,7 @@ In this mode, Codex / Claude Code / Cursor / OpenCode / MiMoCode is the main act
 
 ```txt
 User task
-  -> code agent calls opencode-plusplus plan / pack / run or MCP code_agent_plusplus_plan / pack
+  -> code agent calls opencode-plusplus plan / pack / run or MCP opencode_plusplus_plan / pack
   -> code agent reads code, edits code, runs commands
   -> code agent calls tests / impact / verify / policy / evaluate
   -> OpenCode++ returns constraints, evidence, and recommendations
@@ -53,15 +53,15 @@ opencode-plusplus policy . --base main --trace <trace-id> --fail-on required
 MCP entries:
 
 ```txt
-code_agent_plusplus_plan
-code_agent_plusplus_pack
-code_agent_plusplus_retrieve
-code_agent_plusplus_tests
-code_agent_plusplus_impact
-code_agent_plusplus_verify
-code_agent_plusplus_evaluate
-code_agent_plusplus_repair
-code_agent_plusplus_finalize
+opencode_plusplus_plan
+opencode_plusplus_pack
+opencode_plusplus_retrieve
+opencode_plusplus_tests
+opencode_plusplus_impact
+opencode_plusplus_verify
+opencode_plusplus_evaluate
+opencode_plusplus_repair
+opencode_plusplus_finalize
 ```
 
 Artifacts:

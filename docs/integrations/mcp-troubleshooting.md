@@ -32,7 +32,7 @@ opencode-plusplus orchestrate "<task>" . --executor mock --max-loops 3
 Use command-captured trace evidence:
 
 ```bash
-code-agent-plusplus trace run <trace-id> . --action run-test --command "npm test"
+opencode-plusplus trace run <trace-id> . --action run-test --command "npm test"
 ```
 
 Manual evidence is useful for notes, but command evidence includes exit code, timestamps, output hashes, and working-tree hashes.

@@ -77,7 +77,7 @@ test("policy engine treats hallucinated commands as required failures", async ()
 });
 
 function createHallucinationRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-hallucination-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-hallucination-"));
   mkdirSync(path.join(root, "src"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"" }, dependencies: {} }), "utf8");
   writeFileSync(path.join(root, ".env.example"), "PUBLIC_URL=http://localhost\n", "utf8");
@@ -91,7 +91,7 @@ async function prepareGeneratedContext(root: string): Promise<void> {
   writeContextPackage(initialContext);
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+  runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

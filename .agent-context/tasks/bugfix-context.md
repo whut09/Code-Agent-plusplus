@@ -1,7 +1,7 @@
 # Task Context: fix a bug or regression
 
 Type: bugfix
-Budget: 8,361 / 12,000 estimated tokens
+Budget: 8,342 / 12,000 estimated tokens
 
 ## Read First
 1. `src/harness/verification-plane/guards/regression-memory.ts` - lexical match: regression, direct dependency of test/regression-guard.test.ts; defines RegressionMemoryCandidate
@@ -42,7 +42,7 @@ Budget: 8,361 / 12,000 estimated tokens
 | `benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json` | direct-source | 55 | lexical match: regression | benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json is a unknown file written as JSON. |
 | `benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json` | direct-source | 54 | lexical match: regression | benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json is a unknown file written as JSON. |
 | `src/cli/index.ts` | entrypoint | 451 | direct importer of src/harness/verification-plane/guards/regression.ts, direct importer of src/harness/verification-plane/guards/regression-memory.ts, entrypoint | src/cli/index.ts contains 142 detected symbols, 39 imports, 0 exports. |
-| `src/mcp/server.ts` | entrypoint | 405 | entrypoint | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
+| `src/mcp/server.ts` | entrypoint | 403 | entrypoint | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
 | `test/regression-guard.test.ts` | test | 106 | lexical match: regression, direct importer of src/harness/verification-plane/guards/regression.ts, direct importer of src/harness/verification-plane/guards/regression-memory.ts, related test | test/regression-guard.test.ts contains 23 detected symbols, 13 imports, 0 exports. |
 | `test/task-harness.test.ts` | test | 84 | related test | test/task-harness.test.ts contains 18 detected symbols, 9 imports, 0 exports. |
 | `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` | test | 63 | related test | benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports. |
@@ -57,7 +57,7 @@ Budget: 8,361 / 12,000 estimated tokens
 | `src/outputs/task-run.ts` | dependency-neighbor | 203 | lexical match: regression, direct dependency of test/regression-guard.test.ts, direct importer of src/harness/verification-plane/guards/regression.ts | src/outputs/task-run.ts contains 43 detected symbols, 11 imports, 4 exports. |
 | `src/outputs/task-context.ts` | dependency-neighbor | 260 | lexical match: regression, direct dependency of test/regression-guard.test.ts, direct importer of src/harness/verification-plane/guards/regression.ts | src/outputs/task-context.ts contains 67 detected symbols, 4 imports, 3 exports. |
 | `src/outputs/task-harness.ts` | dependency-neighbor | 280 | lexical match: regression, direct importer of src/harness/verification-plane/guards/regression.ts | src/outputs/task-harness.ts contains 68 detected symbols, 8 imports, 5 exports. |
-| `src/integrations/opencode/sidecar.ts` | dependency-neighbor | 731 | lexical match: regression, direct importer of src/harness/verification-plane/guards/regression.ts | src/integrations/opencode/sidecar.ts contains 141 detected symbols, 15 imports, 18 exports. |
+| `src/integrations/opencode/sidecar.ts` | dependency-neighbor | 715 | lexical match: regression, direct importer of src/harness/verification-plane/guards/regression.ts | src/integrations/opencode/sidecar.ts contains 137 detected symbols, 15 imports, 18 exports. |
 | `src/benchmarks/agent-benchmark.ts` | dependency-neighbor | 466 | lexical match: regression, direct importer of src/harness/verification-plane/guards/regression.ts | src/benchmarks/agent-benchmark.ts contains 98 detected symbols, 17 imports, 9 exports. |
 | `src/outputs/test-selector.ts` | dependency-neighbor | 249 | lexical match: regression, direct dependency of src/harness/verification-plane/guards/regression-memory.ts | src/outputs/test-selector.ts contains 50 detected symbols, 4 imports, 4 exports. |
 | `src/outputs/renderers/writer.ts` | dependency-neighbor | 270 | lexical match: regression, direct dependency of test/regression-guard.test.ts, direct importer of src/harness/verification-plane/guards/regression.ts | src/outputs/renderers/writer.ts contains 61 detected symbols, 19 imports, 2 exports. |
@@ -81,11 +81,11 @@ Budget: 8,361 / 12,000 estimated tokens
 | `benchmarks/fixtures/monorepo/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/monorepo/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/react-app/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/react-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
-| `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
+| `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
 | `.env.example` | config-doc | 25 | configuration | .env.example is a config file. |
-| `code-agent-plusplus.config.yml` | config-doc | 38 | configuration | code-agent-plusplus.config.yml is a config file written as YAML. |
+| `opencode-plusplus.config.yml` | config-doc | 37 | configuration | opencode-plusplus.config.yml is a config file written as YAML. |
 | `tsconfig.json` | config-doc | 34 | configuration | tsconfig.json is a config file written as JSON. |
 | `.github/workflows/ci.yml` | config-doc | 35 | configuration | .github/workflows/ci.yml is a config file written as YAML. |
 
@@ -94,11 +94,11 @@ Budget: 8,361 / 12,000 estimated tokens
 | --- | --- | --- |
 | Directly relevant source files | 908 | `src/harness/verification-plane/guards/regression-memory.ts`, `src/harness/verification-plane/guards/regression.ts`, `benchmarks/tasks/regression-session-ttl.json`, `benchmarks/fixtures/small-ts-app/.agent-context/regression/anti-regression-tests.json`, `benchmarks/fixtures/small-ts-app/.agent-context/regression/fix-history.json`, `benchmarks/fixtures/small-ts-app/.agent-context/regression/fragile-modules.json`, `benchmarks/fixtures/small-ts-app/.agent-context/regression/known-issues.json` |
 | Tests | 639 | `test/regression-guard.test.ts`, `test/task-harness.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` |
-| Dependency neighbors | 5,279 | `src/harness/control-plane/orchestrator.ts`, `src/harness/verification-plane/policy-engine.ts`, `src/outputs/task-run.ts`, `src/outputs/task-context.ts`, `src/outputs/task-harness.ts`, `src/integrations/opencode/sidecar.ts`, `src/benchmarks/agent-benchmark.ts`, `src/outputs/test-selector.ts`, `src/outputs/renderers/writer.ts`, `src/integrations/codegraph.ts`, `src/outputs/guard-gates.ts`, `src/outputs/guard-finding.ts`, `src/core/git.ts`, `src/harness/observability/execution-trace.ts`, `src/core/types.ts`, `src/core/context-builder.ts`, `src/outputs/renderers/markdown.ts`, `src/harness/types.ts`, `src/outputs/evidence.ts` |
-| Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
-| Entrypoints | 856 | `src/cli/index.ts`, `src/mcp/server.ts` |
+| Dependency neighbors | 5,263 | `src/harness/control-plane/orchestrator.ts`, `src/harness/verification-plane/policy-engine.ts`, `src/outputs/task-run.ts`, `src/outputs/task-context.ts`, `src/outputs/task-harness.ts`, `src/integrations/opencode/sidecar.ts`, `src/benchmarks/agent-benchmark.ts`, `src/outputs/test-selector.ts`, `src/outputs/renderers/writer.ts`, `src/integrations/codegraph.ts`, `src/outputs/guard-gates.ts`, `src/outputs/guard-finding.ts`, `src/core/git.ts`, `src/harness/observability/execution-trace.ts`, `src/core/types.ts`, `src/core/context-builder.ts`, `src/outputs/renderers/markdown.ts`, `src/harness/types.ts`, `src/outputs/evidence.ts` |
+| Config/docs | 678 | `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md`, `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `opencode-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml` |
+| Entrypoints | 854 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 3,639 estimated tokens
+Remaining budget: 3,658 estimated tokens
 
 ## Suggested Commands
 - npm run test -- regression

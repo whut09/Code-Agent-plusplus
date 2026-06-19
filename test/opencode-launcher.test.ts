@@ -7,11 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 import { launchOpenCodeWithSidecar, renderOpenCodeLauncherPreflight } from "../src/integrations/opencode/launcher.js";
-import {
-  LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH,
-  OPENCODE_SIDECAR_PLUGIN_PATH,
-  opencodeSidecarPluginTemplate
-} from "../src/integrations/opencode/sidecar-plugin-template.js";
+import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/sidecar-plugin-template.js";
 import {
   checkOpencodeSidecarCommand,
   ensureOpencodeSidecarPlugin,
@@ -22,7 +18,7 @@ import {
 import { readExecutionTrace } from "../src/harness/observability/execution-trace.js";
 
 test("OpenCode launcher dry-run prepares sidecar context without opening the TUI", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-launcher-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-launcher-"));
   const bin = path.join(root, "bin");
   const oldPath = process.env.PATH;
   try {
@@ -32,8 +28,8 @@ test("OpenCode launcher dry-run prepares sidecar context without opening the TUI
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"" } }), "utf8");
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
-    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
 
@@ -55,7 +51,7 @@ test("OpenCode launcher dry-run prepares sidecar context without opening the TUI
 });
 
 test("OpenCode launcher emits a compact preflight before opening the TUI", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-preflight-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-preflight-"));
   const bin = path.join(root, "bin");
   const oldPath = process.env.PATH;
   const preflights: string[] = [];
@@ -66,8 +62,8 @@ test("OpenCode launcher emits a compact preflight before opening the TUI", async
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
-    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
 
@@ -101,7 +97,7 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /file\.watcher\.updated/);
   assert.match(source, /session\.idle/);
   assert.match(source, /sidecar", "verify"/);
-  assert.match(source, /spawnSync\("ocpp"/);
+  assert.match(source, /spawnSync\("opencode-plusplus"/);
   assert.match(source, /--quiet/);
   assert.match(source, /tool\.execute\.before/);
   assert.match(source, /tool\.execute\.after/);
@@ -130,40 +126,27 @@ test("OpenCode sidecar plugin template uses the project plugin export shape", ()
   assert.match(source, /console\.log\(output\)/);
 });
 
-test("OpenCode sidecar plugin uses the new path and recognizes the legacy path", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-path-"));
+test("OpenCode sidecar plugin uses the OpenCode++ path", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-sidecar-path-"));
   try {
     const generated = ensureOpencodeSidecarPlugin(root);
     assert.equal(generated.status, "pass");
     assert.match(generated.details, /opencode-plusplus\.ts generated/);
     assert.equal(existsSync(path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH)), true);
-
-    const legacyRoot = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-legacy-path-"));
-    try {
-      mkdirSync(path.dirname(path.join(legacyRoot, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH)), { recursive: true });
-      writeFileSync(path.join(legacyRoot, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH), opencodeSidecarPluginTemplate(), "utf8");
-
-      const legacy = ensureOpencodeSidecarPlugin(legacyRoot);
-      assert.equal(legacy.status, "pass");
-      assert.match(legacy.details, /legacy alias/);
-      assert.equal(existsSync(path.join(legacyRoot, OPENCODE_SIDECAR_PLUGIN_PATH)), false);
-    } finally {
-      rmSync(legacyRoot, { recursive: true, force: true });
-    }
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
 });
 
 test("OpenCode sidecar records tool execution evidence into event logs and traces", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-record-tool-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-sidecar-record-tool-"));
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
     runGit(root, ["add", "."]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
-    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
     runGit(root, ["commit", "-m", "initial"]);
     writeFileSync(path.join(root, "src.ts"), "export const value = 1;\n", "utf8");
 
@@ -190,7 +173,7 @@ test("OpenCode sidecar records tool execution evidence into event logs and trace
     assert.equal(step?.action, "run-test");
     assert.equal(step?.command, "npm run test");
     assert.equal(step?.evidenceSource, "command");
-    assert.equal(step?.capturedBy, "code-agent-plusplus");
+    assert.equal(step?.capturedBy, "opencode-plusplus");
     assert.equal(step?.exitCode, 0);
     assert.equal(step?.startedAt, "2026-06-19T10:00:00.000Z");
     assert.equal(step?.finishedAt, "2026-06-19T10:00:01.000Z");
@@ -205,14 +188,14 @@ test("OpenCode sidecar records tool execution evidence into event logs and trace
 });
 
 test("OpenCode sidecar verify checks plugin hooks, event log readiness, and guard stack", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-verify-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-sidecar-verify-"));
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
     runGit(root, ["add", "."]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
-    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
     runGit(root, ["commit", "-m", "initial"]);
     writeContextPackage(await buildContextPackage(root));
     ensureOpencodeSidecarPlugin(root);
@@ -249,7 +232,7 @@ test("OpenCode sidecar verify checks plugin hooks, event log readiness, and guar
 });
 
 test("OpenCode sidecar command guard blocks unknown scripts and protected paths", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-command-guard-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-command-guard-"));
   try {
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
     writeFileSync(path.join(root, "Makefile"), "build:\n\t@echo build\n", "utf8");
@@ -272,7 +255,7 @@ test("OpenCode sidecar command guard blocks unknown scripts and protected paths"
 });
 
 test("OpenCode sidecar command guard blocks dangerous shell commands", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-command-danger-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-command-danger-"));
   try {
     const result = checkOpencodeSidecarCommand(root, { command: "git reset --hard HEAD" });
     assert.equal(result.allowed, false);
@@ -283,7 +266,7 @@ test("OpenCode sidecar command guard blocks dangerous shell commands", () => {
 });
 
 test("OpenCode sidecar verify detects generated context blockers from current diff", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-sidecar-blocker-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-sidecar-blocker-"));
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
@@ -291,8 +274,8 @@ test("OpenCode sidecar verify detects generated context blockers from current di
     ensureOpencodeSidecarPlugin(root);
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
     runGit(root, ["add", "."]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
-    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
     runGit(root, ["commit", "-m", "initial"]);
 
     writeFileSync(path.join(root, ".agent-context", "repo-summary.md"), "stale generated change\n", "utf8");

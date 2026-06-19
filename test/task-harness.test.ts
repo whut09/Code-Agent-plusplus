@@ -9,7 +9,7 @@ import { renderTaskPlan, renderTaskVerify, writeTaskContextPack } from "../src/o
 import { writeTaskRun } from "../src/outputs/task-run.js";
 
 function createTaskRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-harness-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-harness-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test", check: "tsc --noEmit" } }), "utf8");
@@ -78,7 +78,7 @@ test("task run writes a complete agent execution context", async () => {
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
@@ -129,7 +129,7 @@ test("task verify reports missing tests and risk for changed source files", asyn
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);

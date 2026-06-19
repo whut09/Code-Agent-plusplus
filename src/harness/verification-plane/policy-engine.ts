@@ -335,7 +335,7 @@ function confidenceForPolicyFinding(finding: PolicyFinding): number {
 
 function commandFromRequiredAction(action: string | undefined): string[] {
   if (!action) return [];
-  return /^(opencode-plusplus|ocpp|code-agent-plusplus|npm|pnpm|yarn|bun|npx)\b/.test(action) ? [action] : [];
+  return /^(opencode-plusplus|opencode-plusplus|opencode-plusplus|npm|pnpm|yarn|bun|npx)\b/.test(action) ? [action] : [];
 }
 
 function requiredFinding(

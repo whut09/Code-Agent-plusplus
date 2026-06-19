@@ -12,22 +12,22 @@ npm install
 npm run build
 npm link
 cd your-repo
-ocpp
+opencode-plusplus
 ```
 
-`ocpp` starts the OpenCode TUI for the current repository after preflight and injects the OpenCode++ sidecar plugin. It is the default transparent chat mode for daily coding. `capp` remains available as a legacy alias.
+`opencode-plusplus` starts the OpenCode TUI for the current repository after preflight and injects the OpenCode++ sidecar plugin. It is the default transparent chat mode for daily coding.
 
 Read the full sidecar flow in [OpenCode Transparent Sidecar Mode](opencode-sidecar.md).
 
 ## OpenCode Preset
 
 ```bash
-ocpp oc init .
+opencode-plusplus oc init .
 opencode-plusplus opencode doctor .
 opencode-plusplus opencode run "fix login timeout bug" .
-ocpp oc "fix login timeout bug" .
-ocpp oc report --last
-ocpp oc repair
+opencode-plusplus oc "fix login timeout bug" .
+opencode-plusplus oc report --last
+opencode-plusplus oc repair
 ```
 
 The preset uses the built-in command template:
@@ -41,15 +41,14 @@ opencode run --format json --dir {repo} --file {prompt} "Follow the attached Ope
 `oc init` creates OpenCode-native commands and an agent profile:
 
 ```txt
-.opencode/commands/ocpp.md
-.opencode/commands/ocpp-verify.md
+.opencode/commands/opencode-plusplus.md
+.opencode/commands/opencode-plusplus-verify.md
 .opencode/agents/opencode-plusplus.md
-.opencode/commands/capp.md
-.opencode/commands/capp-verify.md
-.opencode/agents/code-agent-plusplus.md
+.opencode/commands/opencode-plusplus.md
+.opencode/commands/opencode-plusplus-verify.md
 ```
 
-Inside OpenCode, use `/ocpp <task>` to start an OpenCode++ harness-led run and `/ocpp-verify` before finalizing. `/capp` and `/capp-verify` remain as legacy aliases.
+Inside OpenCode, use `/opencode-plusplus <task>` to start an OpenCode++ harness-led run and `/opencode-plusplus-verify` before finalizing.
 
 OpenCode preset runs print a compact terminal summary by default:
 
@@ -68,8 +67,8 @@ Blocking gates:
 - Evidence Guard: no test command after last edit
 
 Next:
-  ocpp oc repair
-  ocpp oc report --last
+  opencode-plusplus oc repair
+  opencode-plusplus oc report --last
 ```
 
 ## Generic Command Adapter

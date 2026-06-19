@@ -9,7 +9,6 @@
       "test/analyzers.test.ts",
       "test/benchmark.test.ts",
       "test/cache.test.ts",
-      "test/capp-commands.test.ts",
       "test/codegraph.test.ts",
       "test/config.test.ts",
       "test/context-delta.test.ts",
@@ -26,6 +25,7 @@
       "test/loop-controller.test.ts",
       "test/mcp.test.ts",
       "test/opencode-launcher.test.ts",
+      "test/opencode-plusplus-commands.test.ts",
       "test/opencode-preset.test.ts",
       "test/orchestrator.test.ts",
       "test/policy-engine.test.ts",
@@ -153,25 +153,6 @@
     "importanceScore": 659
   },
   {
-    "name": "integrations",
-    "pathPrefix": "integrations",
-    "files": [
-      "src/integrations/codegraph.ts",
-      "src/integrations/opencode/launcher.ts",
-      "src/integrations/opencode/project-init.ts",
-      "src/integrations/opencode/sidecar-plugin-template.ts",
-      "src/integrations/opencode/sidecar.ts"
-    ],
-    "imports": [
-      "core",
-      "harness",
-      "outputs",
-      "retrievers"
-    ],
-    "summary": "integrations contains 5 files and depends on core, harness, outputs, retrievers.",
-    "importanceScore": 318
-  },
-  {
     "name": "retrievers",
     "pathPrefix": "retrievers",
     "files": [
@@ -192,12 +173,31 @@
     "importanceScore": 310
   },
   {
+    "name": "integrations",
+    "pathPrefix": "integrations",
+    "files": [
+      "src/integrations/codegraph.ts",
+      "src/integrations/opencode/launcher.ts",
+      "src/integrations/opencode/project-init.ts",
+      "src/integrations/opencode/sidecar-plugin-template.ts",
+      "src/integrations/opencode/sidecar.ts"
+    ],
+    "imports": [
+      "core",
+      "harness",
+      "outputs",
+      "retrievers"
+    ],
+    "summary": "integrations contains 5 files and depends on core, harness, outputs, retrievers.",
+    "importanceScore": 306
+  },
+  {
     "name": "cli",
     "pathPrefix": "cli",
     "files": [
-      "src/cli/capp-commands.ts",
       "src/cli/default-command.ts",
       "src/cli/index.ts",
+      "src/cli/opencode-plusplus-commands.ts",
       "src/cli/opencode-preset.ts",
       "src/cli/task-args.ts"
     ],
@@ -403,10 +403,10 @@
       "README.en.md",
       "README.md",
       "README.zh-CN.md",
-      "code-agent-plusplus.config.example.yml",
-      "code-agent-plusplus.config.yml",
-      "code-agent-plusplus.local.example.yml",
       "eslint.config.js",
+      "opencode-plusplus.config.example.yml",
+      "opencode-plusplus.config.yml",
+      "opencode-plusplus.local.example.yml",
       "package-lock.json",
       "package.json",
       "prettier.config.cjs",

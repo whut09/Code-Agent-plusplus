@@ -431,7 +431,7 @@ function hashFile(filePath: string): string | null {
 function isGeneratedFile(filePath: string): boolean {
   if (!existsSync(filePath)) return false;
   const content = readFileSync(filePath, "utf8");
-  return content.includes("generated-by: code-agent-plusplus");
+  return content.includes("generated-by: opencode-plusplus");
 }
 
 function hashValue(value: unknown): string {

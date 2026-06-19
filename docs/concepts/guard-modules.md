@@ -73,7 +73,7 @@ Wrong context, blind file search, token waste, and agents editing before reading
 - `opencode-plusplus pack`
 - `opencode-plusplus run`
 - `opencode-plusplus retrieve`
-- MCP: `code_agent_plusplus_build`, `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`
+- MCP: `opencode_plusplus_build`, `opencode_plusplus_plan`, `opencode_plusplus_pack`, `opencode_plusplus_retrieve`
 
 ### Artifacts
 
@@ -129,7 +129,7 @@ Edit scope expansion, accidental protected-path changes, generated output edits,
 - `opencode-plusplus validate-contracts`
 - `opencode-plusplus policy`
 - `opencode-plusplus verify`
-- MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_verify`
+- MCP: `opencode_plusplus_evaluate`, `opencode_plusplus_verify`
 
 ### Artifacts
 
@@ -179,11 +179,11 @@ Untrustworthy test claims, stale verification evidence, tests run before later e
 
 ### CLI / MCP
 
-- `code-agent-plusplus trace run`
-- `code-agent-plusplus trace show`
+- `opencode-plusplus trace run`
+- `opencode-plusplus trace show`
 - `opencode-plusplus policy --trace <trace-id>`
 - `opencode-plusplus loop --trace <trace-id>`
-- MCP: `code_agent_plusplus_step`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_finalize`
+- MCP: `opencode_plusplus_step`, `opencode_plusplus_evaluate`, `opencode_plusplus_finalize`
 
 ### Artifacts
 
@@ -235,7 +235,7 @@ Invisible blast radius, missing dependent tests, review risk that is not obvious
 - `opencode-plusplus impact`
 - `opencode-plusplus tests`
 - `opencode-plusplus verify`
-- MCP: `code_agent_plusplus_impact`, `code_agent_plusplus_tests`, `code_agent_plusplus_verify`
+- MCP: `opencode_plusplus_impact`, `opencode_plusplus_tests`, `opencode_plusplus_verify`
 
 ### Artifacts
 
@@ -289,7 +289,7 @@ Invented files, nonexistent package scripts, missing dependencies, missing confi
 - `opencode-plusplus hallucination`
 - `opencode-plusplus policy`
 - `opencode-plusplus orchestrate`
-- MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`
+- MCP: `opencode_plusplus_evaluate`, `opencode_plusplus_repair`
 
 ### Artifacts
 
@@ -341,7 +341,7 @@ Reintroducing historical bugs, changing fragile modules without anti-regression 
 - `opencode-plusplus memory learn-from-pr`
 - `opencode-plusplus memory add-fix`
 - `opencode-plusplus policy`
-- MCP: `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`
+- MCP: `opencode_plusplus_evaluate`, `opencode_plusplus_repair`
 
 ### Artifacts
 
@@ -396,7 +396,7 @@ Premature finalization, endless repair loops, unclear next actions, and agents s
 
 - `opencode-plusplus loop`
 - `opencode-plusplus orchestrate`
-- MCP: `code_agent_plusplus_start_loop`, `code_agent_plusplus_step`, `code_agent_plusplus_evaluate`, `code_agent_plusplus_repair`, `code_agent_plusplus_finalize`
+- MCP: `opencode_plusplus_start_loop`, `opencode_plusplus_step`, `opencode_plusplus_evaluate`, `opencode_plusplus_repair`, `opencode_plusplus_finalize`
 
 ### Artifacts
 

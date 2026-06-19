@@ -1,11 +1,11 @@
-<!-- generated-by: code-agent-plusplus -->
+<!-- generated-by: opencode-plusplus -->
 <!-- do-not-edit: edit AGENTS.manual.md or configured manual sources instead -->
 <!-- manual-sources: AGENTS.manual.md -->
 <!-- generated-source: .agent-context/AGENTS.generated.md -->
 
 # Agent Guide
 
-<!-- generated-by: code-agent-plusplus -->
+<!-- generated-by: opencode-plusplus -->
 <!-- generated-file: .agent-context/AGENTS.generated.md -->
 
 # Generated Agent Guide
@@ -15,7 +15,7 @@ L0 operating rules. Keep this file loaded by default; load deeper context only w
 ## Must-Read Rules
 - Inspect relevant source files before behavior-changing edits; generated summaries are not a source-of-truth replacement.
 - Before finishing, run the relevant detected checks: `npm run build`, `npm run check`, `npm run lint`, `npm run format`, `npm run format:check`, `npm run prepublishOnly`, `npm run test`.
-- Do not commit secrets, local config, dependency folders, or generated build output such as `code-agent-plusplus.local.yml`, API keys, `node_modules/`, `dist/`, or coverage artifacts.
+- Do not commit secrets, local config, dependency folders, or generated build output such as `opencode-plusplus.local.yml`, API keys, `node_modules/`, `dist/`, or coverage artifacts.
 - Preserve existing project conventions and command patterns unless the source code clearly requires a change.
 
 ## Default Workflow

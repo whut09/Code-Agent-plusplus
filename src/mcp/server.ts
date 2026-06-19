@@ -24,30 +24,30 @@ import { writeContextPackage } from "../outputs/renderers/writer.js";
 import { createContextRetriever } from "../retrievers/index.js";
 import type { RetrieverProvider } from "../retrievers/types.js";
 
-export const codeAgentPlusplusMcpToolNames = [
-  "code_agent_plusplus_build",
-  "code_agent_plusplus_plan",
-  "code_agent_plusplus_pack",
-  "code_agent_plusplus_retrieve",
-  "code_agent_plusplus_tests",
-  "code_agent_plusplus_impact",
-  "code_agent_plusplus_verify",
-  "code_agent_plusplus_explain",
-  "code_agent_plusplus_start_loop",
-  "code_agent_plusplus_step",
-  "code_agent_plusplus_evaluate",
-  "code_agent_plusplus_repair",
-  "code_agent_plusplus_finalize"
+export const opencodePlusplusMcpToolNames = [
+  "opencode_plusplus_build",
+  "opencode_plusplus_plan",
+  "opencode_plusplus_pack",
+  "opencode_plusplus_retrieve",
+  "opencode_plusplus_tests",
+  "opencode_plusplus_impact",
+  "opencode_plusplus_verify",
+  "opencode_plusplus_explain",
+  "opencode_plusplus_start_loop",
+  "opencode_plusplus_step",
+  "opencode_plusplus_evaluate",
+  "opencode_plusplus_repair",
+  "opencode_plusplus_finalize"
 ] as const;
 
-type CodeAgentPlusplusMcpToolName = (typeof codeAgentPlusplusMcpToolNames)[number];
+type OpenCodePlusplusMcpToolName = (typeof opencodePlusplusMcpToolNames)[number];
 
-interface CodeAgentPlusplusMcpResult {
+interface OpenCodePlusplusMcpResult {
   [key: string]: unknown;
 }
 
 interface RuntimeGuidance {
-  nextAction: CodeAgentPlusplusMcpResult;
+  nextAction: OpenCodePlusplusMcpResult;
   blocking: boolean;
   requiredCommands: string[];
   mustInspect: string[];
@@ -66,17 +66,17 @@ interface RetrieveArguments {
   includeTests?: boolean;
 }
 
-export function createCodeAgentPlusplusMcpServer(): McpServer {
+export function createOpenCodePlusplusMcpServer(): McpServer {
   const server = new McpServer(
     {
-      name: "code-agent-plusplus",
+      name: "opencode-plusplus",
       version: "0.1.0"
     },
     { capabilities: { tools: {} } }
   );
 
   server.registerTool(
-    "code_agent_plusplus_build",
+    "opencode_plusplus_build",
     {
       description: "Scan a repository and write AGENTS.md plus .agent-context outputs.",
       inputSchema: z.object({
@@ -92,7 +92,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_plan",
+    "opencode_plusplus_plan",
     {
       description: "Generate a task plan with suspected modules, must-inspect files, and validation commands.",
       inputSchema: z.object({
@@ -106,7 +106,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_pack",
+    "opencode_plusplus_pack",
     {
       description: "Write a task context pack under .agent-context/tasks/<task-id>.",
       inputSchema: z.object({
@@ -120,7 +120,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_retrieve",
+    "opencode_plusplus_retrieve",
     {
       description: "Search repository context through the unified retrieval protocol.",
       inputSchema: z.object({
@@ -137,7 +137,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_tests",
+    "opencode_plusplus_tests",
     {
       description: "Select minimal, regression, and full-confidence tests for a file, diff, or task.",
       inputSchema: z.object({
@@ -151,7 +151,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_impact",
+    "opencode_plusplus_impact",
     {
       description: "Analyze changed files, dependents, related tests, and required verification.",
       inputSchema: z.object({
@@ -163,7 +163,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_verify",
+    "opencode_plusplus_verify",
     {
       description: "Verify changed files against affected modules, tests, contracts, and risk signals.",
       inputSchema: z.object({
@@ -176,7 +176,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_explain",
+    "opencode_plusplus_explain",
     {
       description: "Explain a file or module from the generated repository index.",
       inputSchema: z.object({
@@ -188,7 +188,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_start_loop",
+    "opencode_plusplus_start_loop",
     {
       description: "Start an agent-native runtime loop: build context, write task run, create execution trace, and return first decisions.",
       inputSchema: z.object({
@@ -204,7 +204,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_step",
+    "opencode_plusplus_step",
     {
       description: "Append a structured agent runtime step to an execution trace.",
       inputSchema: z.object({
@@ -225,7 +225,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_evaluate",
+    "opencode_plusplus_evaluate",
     {
       description: "Evaluate the current agent loop from context delta, loop controller, policy engine, and verify signals.",
       inputSchema: z.object({
@@ -244,7 +244,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_repair",
+    "opencode_plusplus_repair",
     {
       description: "Produce repair-loop decisions and write .agent-context/loops/<task>/loop.* for a failing or risky agent run.",
       inputSchema: z.object({
@@ -260,7 +260,7 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   );
 
   server.registerTool(
-    "code_agent_plusplus_finalize",
+    "opencode_plusplus_finalize",
     {
       description: "Finalize an agent runtime loop with strict policy evaluation and trace final-state update.",
       inputSchema: z.object({
@@ -277,39 +277,39 @@ export function createCodeAgentPlusplusMcpServer(): McpServer {
   return server;
 }
 
-export async function runCodeAgentPlusplusMcpServer(): Promise<void> {
-  const server = createCodeAgentPlusplusMcpServer();
+export async function runOpenCodePlusplusMcpServer(): Promise<void> {
+  const server = createOpenCodePlusplusMcpServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
 }
 
-export async function executeCodeAgentPlusplusMcpTool(name: CodeAgentPlusplusMcpToolName, args: unknown): Promise<CodeAgentPlusplusMcpResult> {
+export async function executeOpenCodePlusplusMcpTool(name: OpenCodePlusplusMcpToolName, args: unknown): Promise<OpenCodePlusplusMcpResult> {
   switch (name) {
-    case "code_agent_plusplus_build":
+    case "opencode_plusplus_build":
       return runBuild(args as BuildInput);
-    case "code_agent_plusplus_plan":
+    case "opencode_plusplus_plan":
       return runTaskPlan(args as PlanInput);
-    case "code_agent_plusplus_pack":
+    case "opencode_plusplus_pack":
       return runTaskPack(args as PackInput);
-    case "code_agent_plusplus_retrieve":
+    case "opencode_plusplus_retrieve":
       return runRetrieve(args as RetrieveArguments);
-    case "code_agent_plusplus_tests":
+    case "opencode_plusplus_tests":
       return runTests(args as TestsInput);
-    case "code_agent_plusplus_impact":
+    case "opencode_plusplus_impact":
       return runImpact(args as ImpactInput);
-    case "code_agent_plusplus_verify":
+    case "opencode_plusplus_verify":
       return runVerify(args as VerifyInput);
-    case "code_agent_plusplus_explain":
+    case "opencode_plusplus_explain":
       return runExplain(args as ExplainInput);
-    case "code_agent_plusplus_start_loop":
+    case "opencode_plusplus_start_loop":
       return runStartLoop(args as RuntimeStartInput);
-    case "code_agent_plusplus_step":
+    case "opencode_plusplus_step":
       return runRuntimeStep(args as RuntimeStepInput);
-    case "code_agent_plusplus_evaluate":
+    case "opencode_plusplus_evaluate":
       return runRuntimeEvaluate(args as RuntimeEvaluateInput);
-    case "code_agent_plusplus_repair":
+    case "opencode_plusplus_repair":
       return runRuntimeRepair(args as RuntimeRepairInput);
-    case "code_agent_plusplus_finalize":
+    case "opencode_plusplus_finalize":
       return runRuntimeFinalize(args as RuntimeFinalizeInput);
   }
 }
@@ -390,7 +390,7 @@ interface RuntimeFinalizeInput {
   finalState?: Extract<ExecutionFinalState, "success" | "partial_success" | "failed" | "blocked">;
 }
 
-async function runBuild(args: BuildInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runBuild(args: BuildInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".", {
     target: args.target,
     tokenBudget: args.tokenBudget,
@@ -417,7 +417,7 @@ async function runBuild(args: BuildInput): Promise<CodeAgentPlusplusMcpResult> {
   };
 }
 
-async function runTaskPlan(args: PlanInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runTaskPlan(args: PlanInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const markdown = renderTaskPlan(context, args.task, { type: args.type ?? "auto", tokenBudget: args.tokenBudget });
   return {
@@ -427,7 +427,7 @@ async function runTaskPlan(args: PlanInput): Promise<CodeAgentPlusplusMcpResult>
   };
 }
 
-async function runTaskPack(args: PackInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runTaskPack(args: PackInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const result = writeTaskContextPack(context, args.task, { type: args.type ?? "auto", tokenBudget: args.tokenBudget });
   return {
@@ -439,7 +439,7 @@ async function runTaskPack(args: PackInput): Promise<CodeAgentPlusplusMcpResult>
   };
 }
 
-async function runRetrieve(args: RetrieveArguments): Promise<CodeAgentPlusplusMcpResult> {
+async function runRetrieve(args: RetrieveArguments): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const retriever = createContextRetriever(context, args.provider ?? "hybrid");
   const hits = await retriever.search(args.task, {
@@ -474,7 +474,7 @@ async function runRetrieve(args: RetrieveArguments): Promise<CodeAgentPlusplusMc
   };
 }
 
-async function runTests(args: TestsInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runTests(args: TestsInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const report = buildTestSelection(context, {
     forPaths: args.forPaths,
@@ -487,7 +487,7 @@ async function runTests(args: TestsInput): Promise<CodeAgentPlusplusMcpResult> {
   };
 }
 
-async function runImpact(args: ImpactInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runImpact(args: ImpactInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const report = buildChangeImpactReport(context, { base: args.base ?? "main" });
   return {
@@ -496,14 +496,14 @@ async function runImpact(args: ImpactInput): Promise<CodeAgentPlusplusMcpResult>
   };
 }
 
-async function runVerify(args: VerifyInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runVerify(args: VerifyInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   return {
     markdown: renderTaskVerify(context, { base: args.base ?? "main", diff: args.diff ?? true })
   };
 }
 
-async function runExplain(args: ExplainInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runExplain(args: ExplainInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const targetPath = args.targetPath.replace(/\\/g, "/");
   const file = context.index.files.find((candidate) => candidate.path === targetPath);
@@ -539,7 +539,7 @@ async function runExplain(args: ExplainInput): Promise<CodeAgentPlusplusMcpResul
   };
 }
 
-async function runStartLoop(args: RuntimeStartInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runStartLoop(args: RuntimeStartInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const writeResult = writeContextPackage(context);
   const run = writeTaskRun(context, args.task, {
@@ -581,7 +581,7 @@ async function runStartLoop(args: RuntimeStartInput): Promise<CodeAgentPlusplusM
   };
 }
 
-async function runRuntimeStep(args: RuntimeStepInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runRuntimeStep(args: RuntimeStepInput): Promise<OpenCodePlusplusMcpResult> {
   const root = path.resolve(args.repo ?? ".");
   const trace = appendExecutionTraceStep(root, args.traceId, {
     agent: args.agent,
@@ -603,7 +603,7 @@ async function runRuntimeStep(args: RuntimeStepInput): Promise<CodeAgentPlusplus
   };
 }
 
-async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const loop = buildLoopControllerReport(context, args.task, {
     phase: args.phase ?? "after-edit",
@@ -637,7 +637,7 @@ async function runRuntimeEvaluate(args: RuntimeEvaluateInput): Promise<CodeAgent
   };
 }
 
-async function runRuntimeRepair(args: RuntimeRepairInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runRuntimeRepair(args: RuntimeRepairInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const loopResult = writeLoopControllerReport(context, args.task, {
     phase: "repair",
@@ -674,7 +674,7 @@ async function runRuntimeRepair(args: RuntimeRepairInput): Promise<CodeAgentPlus
   };
 }
 
-async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<CodeAgentPlusplusMcpResult> {
+async function runRuntimeFinalize(args: RuntimeFinalizeInput): Promise<OpenCodePlusplusMcpResult> {
   const context = await buildContextPackage(args.repo ?? ".");
   const policy = buildPolicyReport(context, { base: args.base ?? "main", traceId: args.traceId, strict: false });
   const traceBefore = readExecutionTrace(context.scan.root, args.traceId);
@@ -778,7 +778,7 @@ function readTaskRunManifest(root: string, runId: string | undefined): TaskRunMa
   }
 }
 
-function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): CodeAgentPlusplusMcpResult {
+function firstDecision(loop: ReturnType<typeof buildLoopControllerReport>): OpenCodePlusplusMcpResult {
   const decision = loop.decisions[0];
   return decision
     ? {
@@ -809,7 +809,7 @@ function confidenceForScore(score: number): "high" | "medium" | "low" {
   return "low";
 }
 
-function jsonToolResult(result: CodeAgentPlusplusMcpResult) {
+function jsonToolResult(result: OpenCodePlusplusMcpResult) {
   return {
     structuredContent: result,
     content: [
@@ -830,7 +830,7 @@ function unique(items: string[]): string[] {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  runCodeAgentPlusplusMcpServer().catch((error: unknown) => {
+  runOpenCodePlusplusMcpServer().catch((error: unknown) => {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
   });

@@ -1,12 +1,12 @@
 # OpenCode Transparent Sidecar Mode
 
-OpenCode Transparent Sidecar Mode is the default `ocpp` experience. Users keep working in the normal OpenCode TUI while OpenCode++ runs as a quiet reliability layer around the session.
+OpenCode Transparent Sidecar Mode is the default `opencode-plusplus` experience. Users keep working in the normal OpenCode TUI while OpenCode++ runs as a quiet reliability layer around the session.
 
 OpenCode++ does not replace OpenCode. OpenCode reads, edits, and runs tools; OpenCode++ prepares repository context, installs the sidecar plugin, records execution evidence, blocks unsafe commands or paths, and writes verification reports.
 
 ## User Experience
 
-`opencode-plusplus` has not been published to npm yet. Install OpenCode from npm, then install OpenCode++ from source and link `ocpp` globally:
+`opencode-plusplus` has not been published to npm yet. Install OpenCode from npm, then install OpenCode++ from source and link `opencode-plusplus` globally:
 
 ```bash
 npm i -g opencode-ai
@@ -21,12 +21,12 @@ Then enter the repository where you want the sidecar:
 
 ```bash
 cd your-repo
-ocpp
+opencode-plusplus
 ```
 
 After the package is published to npm, the install step will become `npm i -g opencode-plusplus opencode-ai`.
 
-`ocpp` runs preflight, prints a compact readiness summary, and then launches OpenCode:
+`opencode-plusplus` runs preflight, prints a compact readiness summary, and then launches OpenCode:
 
 ```txt
 OpenCode++ sidecar ready
@@ -50,7 +50,7 @@ The sidecar stays quiet by default. It only surfaces a TUI message when a blocke
 ## Workflow
 
 ```txt
-ocpp
+opencode-plusplus
   -> preflight
   -> ensure .agent-context
   -> ensure .opencode plugin / commands / agent profile
@@ -72,12 +72,11 @@ The generated OpenCode plugin listens for:
 
 ```txt
 .opencode/plugins/opencode-plusplus.ts
-.opencode/commands/ocpp.md
-.opencode/commands/ocpp-verify.md
+.opencode/commands/opencode-plusplus.md
+.opencode/commands/opencode-plusplus-verify.md
 .opencode/agents/opencode-plusplus.md
-.opencode/commands/capp.md
-.opencode/commands/capp-verify.md
-.opencode/agents/code-agent-plusplus.md
+.opencode/commands/opencode-plusplus.md
+.opencode/commands/opencode-plusplus-verify.md
 .agent-context/sidecar/latest.json
 .agent-context/sidecar/latest.md
 .agent-context/sidecar/policy.md
@@ -93,30 +92,30 @@ The generated OpenCode plugin listens for:
 ## Common Commands
 
 ```bash
-ocpp
-ocpp --pure
-ocpp status
-ocpp report
-ocpp doctor
-ocpp sidecar verify
+opencode-plusplus
+opencode-plusplus --pure
+opencode-plusplus status
+opencode-plusplus report
+opencode-plusplus doctor
+opencode-plusplus sidecar verify
 ```
 
-`ocpp --pure` launches plain OpenCode without generating context or injecting the sidecar.
+`opencode-plusplus --pure` launches plain OpenCode without generating context or injecting the sidecar.
 
-`ocpp status` checks whether the sidecar plugin, event log, and latest report exist.
+`opencode-plusplus status` checks whether the sidecar plugin, event log, and latest report exist.
 
-`ocpp report` opens `.agent-context/sidecar/latest.md`.
+`opencode-plusplus report` opens `.agent-context/sidecar/latest.md`.
 
-`ocpp doctor` checks OpenCode, auth, git, context, plugin, and sidecar readiness.
+`opencode-plusplus doctor` checks OpenCode, auth, git, context, plugin, and sidecar readiness.
 
-`ocpp sidecar verify` runs the shared guard stack and writes the latest sidecar report. It is also what the plugin runs automatically on idle when the repository is dirty.
+`opencode-plusplus sidecar verify` runs the shared guard stack and writes the latest sidecar report. It is also what the plugin runs automatically on idle when the repository is dirty.
 
 ## Difference From Batch Mode
 
 | Mode                | Command                                      | Best for                                                   | Who drives the loop                                             |
 | ------------------- | -------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
-| Transparent Sidecar | `ocpp`                                       | Daily OpenCode-style chat coding                           | OpenCode drives editing; OpenCode++ quietly guards and verifies |
-| Batch Harness       | `ocpp oc "task"`                             | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
+| Transparent Sidecar | `opencode-plusplus`                          | Daily OpenCode-style chat coding                           | OpenCode drives editing; OpenCode++ quietly guards and verifies |
+| Batch Harness       | `opencode-plusplus oc "task"`                | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
 | Core Harness        | `opencode-plusplus verify/policy/impact/...` | Advanced manual verification and automation                | User or CI calls specific guard commands                        |
 
 Transparent Sidecar mode optimizes for a natural interactive coding experience. Batch Harness mode optimizes for repeatability and stronger OpenCode++ control.
@@ -124,21 +123,21 @@ Transparent Sidecar mode optimizes for a natural interactive coding experience. 
 ## Troubleshooting
 
 ```bash
-ocpp doctor
-ocpp status
-ocpp report
-ocpp sidecar verify .
+opencode-plusplus doctor
+opencode-plusplus status
+opencode-plusplus report
+opencode-plusplus sidecar verify .
 ```
 
 If the plugin is stale or missing, rerun:
 
 ```bash
-ocpp tui . --force-plugin --dry-run
-ocpp
+opencode-plusplus tui . --force-plugin --dry-run
+opencode-plusplus
 ```
 
 If you want to use OpenCode without OpenCode++ for a session:
 
 ```bash
-ocpp --pure
+opencode-plusplus --pure
 ```

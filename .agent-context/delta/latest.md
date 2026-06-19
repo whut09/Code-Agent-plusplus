@@ -2,7 +2,7 @@
 
 Base: main
 Impact: high
-Recommended: code-agent-plusplus evolve . --base main
+Recommended: opencode-plusplus evolve . --base main
 
 ## What Changed In Repo
 | File | Status | Kind | Module |

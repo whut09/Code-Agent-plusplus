@@ -15,7 +15,7 @@ Add the MCP server to the OpenCode MCP configuration supported by your OpenCode 
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "opencode-plusplus-mcp",
       "args": []
     }
@@ -28,7 +28,7 @@ Local development can use the built server directly:
 ```json
 {
   "mcpServers": {
-    "code-agent-plusplus": {
+    "opencode-plusplus": {
       "command": "node",
       "args": ["path/to/opencode-plusplus/dist/mcp/server.js"]
     }
@@ -41,7 +41,7 @@ Local development can use the built server directly:
 Ask OpenCode to call:
 
 ```txt
-code_agent_plusplus_start_loop
+opencode_plusplus_start_loop
 ```
 
 Example:
@@ -93,7 +93,7 @@ If OpenCode emits JSON events, prefer passing those events through the CLI orche
 Call:
 
 ```txt
-code_agent_plusplus_evaluate
+opencode_plusplus_evaluate
 ```
 
 Example:
@@ -113,11 +113,11 @@ OpenCode should treat `blocking: true` as a stop condition and follow `nextActio
 
 ## Repair
 
-Call `code_agent_plusplus_repair` when evaluation returns missing evidence, policy failures, contract failures, hallucination findings, or regression findings. Repair should focus on the returned `requiredActions` and must not widen the edit surface unless `allowedEditGlobs` changes after a repack.
+Call `opencode_plusplus_repair` when evaluation returns missing evidence, policy failures, contract failures, hallucination findings, or regression findings. Repair should focus on the returned `requiredActions` and must not widen the edit surface unless `allowedEditGlobs` changes after a repack.
 
 ## Finalize
 
-Call `code_agent_plusplus_finalize` only when the latest evaluation is non-blocking:
+Call `opencode_plusplus_finalize` only when the latest evaluation is non-blocking:
 
 ```json
 {

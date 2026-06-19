@@ -10,5 +10,5 @@ export function resolveDefaultCommandArgs(input: { invokedName: string; argv: st
 }
 
 function isTuiAlias(invokedName: string): boolean {
-  return invokedName === "ocpp" || invokedName === "opencode-plusplus" || invokedName === "capp";
+  return invokedName === "opencode-plusplus";
 }

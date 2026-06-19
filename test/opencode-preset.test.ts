@@ -19,7 +19,7 @@ test("OpenCode preset uses the requested default executor command", () => {
 });
 
 test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, and clean tree checks pass", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-doctor-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-doctor-"));
   const bin = path.join(root, "bin");
   const oldPath = process.env.PATH;
   try {
@@ -32,8 +32,8 @@ test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, an
     writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"" } }), "utf8");
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
-    runGit(root, ["config", "user.name", "Code Agent Plus Plus"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
 
@@ -53,47 +53,41 @@ test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, an
 });
 
 test("OpenCode init writes commands and agent files without overwriting by default", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-init-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-init-"));
   try {
     const first = initOpencodeProject(root);
 
     assert.deepEqual(
       first.files.map((file) => `${file.path}:${file.status}`),
       [
-        ".opencode/commands/ocpp.md:written",
-        ".opencode/commands/ocpp-verify.md:written",
-        ".opencode/agents/opencode-plusplus.md:written",
-        ".opencode/commands/capp.md:written",
-        ".opencode/commands/capp-verify.md:written",
-        ".opencode/agents/code-agent-plusplus.md:written"
+        ".opencode/commands/opencode-plusplus.md:written",
+        ".opencode/commands/opencode-plusplus-verify.md:written",
+        ".opencode/agents/opencode-plusplus.md:written"
       ]
     );
-    assert.ok(existsSync(path.join(root, ".opencode", "commands", "ocpp.md")));
-    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "ocpp.md"), "utf8").includes('ocpp oc "$ARGUMENTS" .'));
-    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "ocpp-verify.md"), "utf8").includes("ocpp oc report --last --summary"));
+    assert.ok(existsSync(path.join(root, ".opencode", "commands", "opencode-plusplus.md")));
+    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "opencode-plusplus.md"), "utf8").includes('opencode-plusplus oc "$ARGUMENTS" .'));
+    assert.ok(
+      readFileSync(path.join(root, ".opencode", "commands", "opencode-plusplus-verify.md"), "utf8").includes("opencode-plusplus oc report --last --summary")
+    );
     assert.ok(readFileSync(path.join(root, ".opencode", "agents", "opencode-plusplus.md"), "utf8").includes("OpenCode++ Executor Agent"));
-    assert.ok(existsSync(path.join(root, ".opencode", "commands", "capp.md")));
-    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8").includes("legacy alias"));
-    assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp-verify.md"), "utf8").includes("Prefer `/ocpp-verify`"));
-    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "code-agent-plusplus.md"), "utf8").includes("legacy alias"));
-
-    writeFileSync(path.join(root, ".opencode", "commands", "capp.md"), "custom\n", "utf8");
+    writeFileSync(path.join(root, ".opencode", "commands", "opencode-plusplus.md"), "custom\n", "utf8");
     const second = initOpencodeProject(root);
 
-    assert.equal(second.files.find((file) => file.path === ".opencode/commands/capp.md")?.status, "skipped");
-    assert.equal(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8"), "custom\n");
+    assert.equal(second.files.find((file) => file.path === ".opencode/commands/opencode-plusplus.md")?.status, "skipped");
+    assert.equal(readFileSync(path.join(root, ".opencode", "commands", "opencode-plusplus.md"), "utf8"), "custom\n");
 
     const forced = initOpencodeProject(root, { force: true });
 
-    assert.equal(forced.files.find((file) => file.path === ".opencode/commands/capp.md")?.status, "written");
-    assert.notEqual(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8"), "custom\n");
+    assert.equal(forced.files.find((file) => file.path === ".opencode/commands/opencode-plusplus.md")?.status, "written");
+    assert.notEqual(readFileSync(path.join(root, ".opencode", "commands", "opencode-plusplus.md"), "utf8"), "custom\n");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
 });
 
 test("OpenCode init dry-run reports files without writing them", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-init-dry-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-init-dry-"));
   try {
     const report = initOpencodeProject(root, { dryRun: true });
     const rendered = renderOpencodeInitReport(report);
@@ -101,8 +95,8 @@ test("OpenCode init dry-run reports files without writing them", () => {
     assert.ok(report.files.every((file) => file.status === "would-write"));
     assert.equal(existsSync(path.join(root, ".opencode")), false);
     assert.match(rendered, /OpenCode\+\+ OpenCode Init/);
-    assert.match(rendered, /\/ocpp <task>/);
-    assert.match(rendered, /Legacy aliases remain available/);
+    assert.match(rendered, /\/opencode-plusplus <task>/);
+    assert.doesNotMatch(rendered, /Legacy aliases/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -118,12 +112,12 @@ test("OpenCode run summary keeps the terminal output compact and actionable", ()
   assert.match(rendered, /Confidence: 0\.72/);
   assert.match(rendered, /- src\/auth\/session\.ts/);
   assert.match(rendered, /- Evidence Guard: no test command after last edit/);
-  assert.match(rendered, /  ocpp oc repair/);
-  assert.match(rendered, /  ocpp oc report --last/);
+  assert.match(rendered, /  opencode-plusplus oc repair/);
+  assert.match(rendered, /  opencode-plusplus oc report --last/);
 });
 
 test("OpenCode report lookup returns the latest OpenCode orchestrator report", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-opencode-report-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-report-"));
   try {
     const oldDir = path.join(root, ".agent-context", "orchestrator", "old-task");
     const newDir = path.join(root, ".agent-context", "orchestrator", "new-task");

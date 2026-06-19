@@ -1,13 +1,13 @@
 # Task Context: add a feature or new behavior
 
 Type: feature
-Budget: 7,520 / 12,000 estimated tokens
+Budget: 7,517 / 12,000 estimated tokens
 
 ## Read First
 1. `src/benchmarks/agent-benchmark.ts` - lexical match: behavior, direct importer of src/benchmarks/benchmark.ts; defines AgentBenchmarkFinalDecision
 2. `src/benchmarks/benchmark.ts` - lexical match: behavior, direct dependency of src/benchmarks/agent-benchmark.ts; defines BenchmarkTaskDefinition
 3. `src/cli/index.ts` - direct importer of src/benchmarks/benchmark.ts, direct importer of src/benchmarks/agent-benchmark.ts; defines program
-4. `src/mcp/server.ts` - entrypoint; defines codeAgentPlusplusMcpToolNames
+4. `src/mcp/server.ts` - entrypoint; defines opencodePlusplusMcpToolNames
 
 ## Then Inspect If Needed
 - `test/agent-benchmark.test.ts` - direct importer of src/benchmarks/agent-benchmark.ts, related test
@@ -33,7 +33,7 @@ Budget: 7,520 / 12,000 estimated tokens
 | `src/benchmarks/agent-benchmark.ts` | direct-source | 466 | lexical match: behavior, direct importer of src/benchmarks/benchmark.ts | src/benchmarks/agent-benchmark.ts contains 98 detected symbols, 17 imports, 9 exports. |
 | `src/benchmarks/benchmark.ts` | direct-source | 595 | lexical match: behavior, direct dependency of src/benchmarks/agent-benchmark.ts | src/benchmarks/benchmark.ts contains 118 detected symbols, 7 imports, 13 exports. |
 | `src/cli/index.ts` | entrypoint | 451 | direct importer of src/benchmarks/benchmark.ts, direct importer of src/benchmarks/agent-benchmark.ts, entrypoint | src/cli/index.ts contains 142 detected symbols, 39 imports, 0 exports. |
-| `src/mcp/server.ts` | entrypoint | 405 | entrypoint | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
+| `src/mcp/server.ts` | entrypoint | 403 | entrypoint | src/mcp/server.ts contains 102 detected symbols, 19 imports, 4 exports. |
 | `test/agent-benchmark.test.ts` | test | 53 | direct importer of src/benchmarks/agent-benchmark.ts, related test | test/agent-benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
 | `test/benchmark.test.ts` | test | 50 | direct importer of src/benchmarks/benchmark.ts, related test | test/benchmark.test.ts contains 2 detected symbols, 4 imports, 0 exports. |
 | `benchmarks/fixtures/small-ts-app/test/api/login.test.ts` | test | 63 | related test | benchmarks/fixtures/small-ts-app/test/api/login.test.ts contains 0 detected symbols, 1 import, 0 exports. |
@@ -65,11 +65,11 @@ Budget: 7,520 / 12,000 estimated tokens
 | `benchmarks/fixtures/monorepo/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/monorepo/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/react-app/package.json` | config-doc | 40 | configuration | benchmarks/fixtures/react-app/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/small-ts-app/package.json` | config-doc | 42 | configuration | benchmarks/fixtures/small-ts-app/package.json is a config file written as JSON. |
-| `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/shared/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/shared/package.json is a config file written as JSON. |
+| `benchmarks/fixtures/monorepo/packages/config/package.json` | config-doc | 48 | configuration | benchmarks/fixtures/monorepo/packages/config/package.json is a config file written as JSON. |
 | `benchmarks/fixtures/monorepo/packages/web/package.json` | config-doc | 46 | configuration | benchmarks/fixtures/monorepo/packages/web/package.json is a config file written as JSON. |
 | `.env.example` | config-doc | 25 | configuration | .env.example is a config file. |
-| `code-agent-plusplus.config.yml` | config-doc | 38 | configuration | code-agent-plusplus.config.yml is a config file written as YAML. |
+| `opencode-plusplus.config.yml` | config-doc | 37 | configuration | opencode-plusplus.config.yml is a config file written as YAML. |
 | `tsconfig.json` | config-doc | 34 | configuration | tsconfig.json is a config file written as JSON. |
 | `.github/workflows/ci.yml` | config-doc | 35 | configuration | .github/workflows/ci.yml is a config file written as YAML. |
 | `benchmarks/fixtures/monorepo/packages/api/README.md` | config-doc | 48 | owning module documentation | benchmarks/fixtures/monorepo/packages/api/README.md is a docs file written as Markdown. |
@@ -83,10 +83,10 @@ Budget: 7,520 / 12,000 estimated tokens
 | Directly relevant source files | 1,061 | `src/benchmarks/agent-benchmark.ts`, `src/benchmarks/benchmark.ts` |
 | Tests | 552 | `test/agent-benchmark.test.ts`, `test/benchmark.test.ts`, `benchmarks/fixtures/small-ts-app/test/api/login.test.ts`, `benchmarks/fixtures/monorepo/packages/api/test/config.test.ts`, `benchmarks/fixtures/fastapi-app/tests/test_users.py`, `benchmarks/fixtures/react-app/src/auth/useAuthState.test.ts`, `benchmarks/fixtures/react-app/src/components/LoginStatus.test.tsx`, `benchmarks/fixtures/small-ts-app/test/auth/session.test.ts`, `benchmarks/fixtures/monorepo/packages/config/test/loader.test.ts` |
 | Dependency neighbors | 4,372 | `src/core/context-builder.ts`, `src/outputs/renderers/markdown.ts`, `src/harness/control-plane/loop-controller.ts`, `src/harness/verification-plane/policy-engine.ts`, `src/harness/verification-plane/guards/regression.ts`, `src/harness/control-plane/orchestrator.ts`, `src/harness/verification-plane/guards/hallucination.ts`, `src/harness/observability/execution-trace.ts`, `src/outputs/task-run.ts`, `src/outputs/test-selector.ts`, `src/outputs/renderers/writer.ts`, `src/core/safe-command.ts`, `src/core/types.ts`, `src/outputs/task-context.ts`, `src/outputs/agent-events.ts`, `src/core/git.ts` |
-| Config/docs | 679 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `code-agent-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md` |
-| Entrypoints | 856 | `src/cli/index.ts`, `src/mcp/server.ts` |
+| Config/docs | 678 | `benchmarks/fixtures/monorepo/packages/api/package.json`, `package.json`, `benchmarks/fixtures/fastapi-app/pyproject.toml`, `benchmarks/fixtures/monorepo/package.json`, `benchmarks/fixtures/react-app/package.json`, `benchmarks/fixtures/small-ts-app/package.json`, `benchmarks/fixtures/monorepo/packages/shared/package.json`, `benchmarks/fixtures/monorepo/packages/config/package.json`, `benchmarks/fixtures/monorepo/packages/web/package.json`, `.env.example`, `opencode-plusplus.config.yml`, `tsconfig.json`, `.github/workflows/ci.yml`, `benchmarks/fixtures/monorepo/packages/api/README.md`, `benchmarks/README.md`, `benchmarks/fixtures/monorepo/packages/config/README.md`, `benchmarks/fixtures/monorepo/packages/web/README.md` |
+| Entrypoints | 854 | `src/cli/index.ts`, `src/mcp/server.ts` |
 
-Remaining budget: 4,480 estimated tokens
+Remaining budget: 4,483 estimated tokens
 
 ## Suggested Commands
 - npm run test -- feature

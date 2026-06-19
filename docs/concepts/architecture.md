@@ -113,7 +113,7 @@ The v2 architecture is organized around five responsibilities:
 - Context Planner: converts repository indexes into global, task, diff, and impact contexts.
 - Context Pack Composer: renders agent-consumable artifacts such as `AGENTS.md`, task packs, complete task runs, verification packs, editable contracts, and RAG documents.
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, regression guards, and the harness-led `orchestrate` command.
-- Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP stdio server and core tools exist today as a foundation; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `code_agent_plusplus_build`, `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`, `code_agent_plusplus_tests`, `code_agent_plusplus_impact`, `code_agent_plusplus_verify`, `code_agent_plusplus_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
+- Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP stdio server and core tools exist today as a foundation; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `opencode_plusplus_build`, `opencode_plusplus_plan`, `opencode_plusplus_pack`, `opencode_plusplus_retrieve`, `opencode_plusplus_tests`, `opencode_plusplus_impact`, `opencode_plusplus_verify`, `opencode_plusplus_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
 
 - External Agent Executor Layer: generic command adapters for Codex, Claude Code, Cursor, OpenCode, MiMoCode / MiMoCodex, and other scriptable code agents. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs can be wired through argv-style `--executor-command` templates with placeholders such as `{prompt}`, `{task}`, `{repo}`, and `{runDir}`. Executor commands and trace commands run without a shell, preserve quoted paths, and reject shell control operators. The first native event normalizer supports OpenCode `run --format json` stdout, optional OpenCode transcript files through `--opencode-transcript`, and generic stdout/stderr fallback. MiMoCode, Codex JSONL, and Claude Code transcript normalizers remain adapter work. These code agents own file reading, code edits, command execution, and their own tools. OpenCode++ orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decision reports around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
 
@@ -301,14 +301,14 @@ The state file records `state`, `previousState`, repository/context/diff hashes,
 
 ## Execution Trace
 
-Agent harnesses need structured history, not only generated context. `opencode-plusplus run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `code-agent-plusplus trace start/add/run/show` can manage traces directly.
+Agent harnesses need structured history, not only generated context. `opencode-plusplus run "<task>" .` now creates `.agent-context/traces/<task-id>.json` alongside the task run, and `opencode-plusplus trace start/add/run/show` can manage traces directly.
 
 Each trace records:
 
 - task and agent identity
 - ordered steps with timestamp, action, files, reason, command, test, result, and output summary
 - evidence source: `manual`, `command`, or `ci`
-- command evidence captured by `code-agent-plusplus trace run`, including exit code, timestamps, stdout/stderr hashes, and working-tree hashes before and after execution
+- command evidence captured by `opencode-plusplus trace run`, including exit code, timestamps, stdout/stderr hashes, and working-tree hashes before and after execution
 - final state such as `planned`, `in_progress`, `partial_success`, `success`, `failed`, or `blocked`
 
 Trace steps are not trusted as raw logs. `evidenceSatisfies()` evaluates whether a trace step can satisfy a harness requirement by checking the requirement type, required command match, exit code, working-tree hash, and whether the evidence was recorded after the last edit step. Command/CI evidence must match the current actionable working-tree hash, excluding generated context and trace files, so a test run does not stay valid after later source edits.
@@ -330,7 +330,7 @@ Example:
       "command": "npm test -- auth",
       "result": "passed",
       "evidenceSource": "command",
-      "capturedBy": "code-agent-plusplus",
+      "capturedBy": "opencode-plusplus",
       "exitCode": 0,
       "startedAt": "2026-06-13T10:00:00.000Z",
       "finishedAt": "2026-06-13T10:00:04.000Z",
@@ -351,9 +351,9 @@ This gives the feedback loop durable evidence about what the agent actually did,
 The summary engine has two modes:
 
 - Offline mode: uses static repository signals and never calls an external model.
-- LLM mode: uses a local private `code-agent-plusplus.local.yml` with an OpenAI-compatible `baseUrl`, `apiKey`, and `model`.
+- LLM mode: uses a local private `opencode-plusplus.local.yml` with an OpenAI-compatible `baseUrl`, `apiKey`, and `model`.
 
-Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `code-agent-plusplus.local.yml`, which is ignored by git.
+Committed examples must keep `baseUrl`, `apiKey`, and `model` as `xx`. Real credentials belong only in `opencode-plusplus.local.yml`, which is ignored by git.
 
 ## Retrieval Protocol
 

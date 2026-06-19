@@ -16,7 +16,7 @@ import {
 import { writeTaskRun } from "../src/outputs/task-run.js";
 
 test("execution trace records agent steps and final state", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-trace-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-trace-"));
   try {
     const trace = startExecutionTrace(root, "fix login timeout bug", { agent: "codex" });
     const updated = appendExecutionTraceStep(root, trace.id, {
@@ -50,7 +50,7 @@ test("execution trace records agent steps and final state", () => {
 });
 
 test("execution trace run captures command evidence", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-trace-command-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-trace-command-"));
   try {
     const trace = startExecutionTrace(root, "run focused tests", { agent: "codex" });
     const result = runTraceCommand(root, trace.id, {
@@ -61,7 +61,7 @@ test("execution trace run captures command evidence", () => {
     const step = result.trace.steps.at(-1);
     assert.equal(result.exitCode, 0);
     assert.equal(step?.evidenceSource, "command");
-    assert.equal(step?.capturedBy, "code-agent-plusplus");
+    assert.equal(step?.capturedBy, "opencode-plusplus");
     assert.equal(step?.exitCode, 0);
     assert.match(step?.startedAt ?? "", /^\d{4}-\d{2}-\d{2}T/);
     assert.match(step?.finishedAt ?? "", /^\d{4}-\d{2}-\d{2}T/);
@@ -76,7 +76,7 @@ test("execution trace run captures command evidence", () => {
 });
 
 test("execution trace run rejects shell control operators", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-trace-command-safe-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-trace-command-safe-"));
   try {
     const trace = startExecutionTrace(root, "run focused tests", { agent: "codex" });
 
@@ -112,7 +112,7 @@ test("task run creates a matching execution trace", async () => {
 });
 
 function createTraceRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-trace-run-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-trace-run-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node --test" } }), "utf8");
@@ -120,7 +120,7 @@ function createTraceRepo(): string {
   writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import '../../src/auth/session.js';\n", "utf8");
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+  runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

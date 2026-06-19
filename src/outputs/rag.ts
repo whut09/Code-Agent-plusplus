@@ -91,7 +91,7 @@ export function buildRagManifest(context: ContextPackage, documentCount: number)
     provider: "lightrag",
     mode: "export",
     documentCount,
-    generatedFrom: "code-agent-plusplus",
+    generatedFrom: "opencode-plusplus",
     target: context.target,
     languages: context.scan.languages,
     frameworks: context.scan.frameworks,

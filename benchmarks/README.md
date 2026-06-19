@@ -13,9 +13,9 @@ Run:
 npm run benchmark
 npm run benchmark:agent
 # or
-code-agent-plusplus benchmark benchmarks --top-k 8
-code-agent-plusplus benchmark benchmarks --json
-code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run
+opencode-plusplus benchmark benchmarks --top-k 8
+opencode-plusplus benchmark benchmarks --json
+opencode-plusplus benchmark-agent benchmarks --executor mock --dry-run
 ```
 
 Fixtures:
@@ -105,18 +105,18 @@ Legacy records using `task-pack` and `task-pack-contracts-verify` are still acce
 - A. `no-context`: task only.
 - B. `agents-md`: task plus root `AGENTS.md`.
 - C. `context-pack`: task plus task-aware pack and edit boundary.
-- D. `loop-enabled-harness`: Code Agent++ owns the loop and the code agent is only the executor.
+- D. `loop-enabled-harness`: OpenCode++ owns the loop and the code agent is only the executor.
 
 Minimal dry run:
 
 ```bash
-code-agent-plusplus benchmark-agent benchmarks --executor mock --dry-run
+opencode-plusplus benchmark-agent benchmarks --executor mock --dry-run
 ```
 
 OpenCode example:
 
 ```bash
-code-agent-plusplus benchmark-agent benchmarks \
+opencode-plusplus benchmark-agent benchmarks \
   --executor opencode \
   --executor-command "opencode run --format json {prompt}" \
   --max-loops 3 \
@@ -126,7 +126,7 @@ code-agent-plusplus benchmark-agent benchmarks \
 Focused task example:
 
 ```bash
-code-agent-plusplus benchmark-agent benchmarks \
+opencode-plusplus benchmark-agent benchmarks \
   --task fix-login-timeout \
   --modes no-context,agents-md,context-pack,loop-enabled-harness \
   --executor opencode \

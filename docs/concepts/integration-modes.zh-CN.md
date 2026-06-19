@@ -15,10 +15,10 @@ OpenCode++ 支持两套互不混用的流程。区别不是“能不能用 AI”
 
 ## 总览
 
-| 模式                                      | 主控方                                             | 入口                                                                                                        | 是否执行 code agent                                       | 适合场景                                                                |
-| ----------------------------------------- | -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Code Agent 主导，OpenCode++ 约束          | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`，或 MCP `code_agent_plusplus_*` 工具 | 否，由外部 code agent 自己执行                            | 日常 AI 编程、MCP demo、让已有 Agent 自己调用工具                       |
-| OpenCode++ 主导，Code Agent 作为 executor | OpenCode++ bounded loop                            | `opencode-plusplus orchestrate` 或 `opencode-plusplus agent run`                                            | 是，通过 `mock` 或 `--executor-command` 调用外部 executor | 需要可审计 gate、CI/自动化、希望本项目报告 finalize/repair/repack/block |
+| 模式                                      | 主控方                                             | 入口                                                                                                      | 是否执行 code agent                                       | 适合场景                                                                |
+| ----------------------------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Code Agent 主导，OpenCode++ 约束          | Codex / Claude Code / Cursor / OpenCode / MiMoCode | CLI `plan` / `pack` / `run` / `tests` / `impact` / `verify` / `policy`，或 MCP `opencode_plusplus_*` 工具 | 否，由外部 code agent 自己执行                            | 日常 AI 编程、MCP demo、让已有 Agent 自己调用工具                       |
+| OpenCode++ 主导，Code Agent 作为 executor | OpenCode++ bounded loop                            | `opencode-plusplus orchestrate` 或 `opencode-plusplus agent run`                                          | 是，通过 `mock` 或 `--executor-command` 调用外部 executor | 需要可审计 gate、CI/自动化、希望本项目报告 finalize/repair/repack/block |
 
 入口已经隔离：
 
@@ -32,7 +32,7 @@ OpenCode++ 支持两套互不混用的流程。区别不是“能不能用 AI”
 
 ```txt
 用户任务
-  -> code agent 调用 opencode-plusplus plan / pack / run 或 MCP code_agent_plusplus_plan / pack
+  -> code agent 调用 opencode-plusplus plan / pack / run 或 MCP opencode_plusplus_plan / pack
   -> code agent 读代码、改代码、跑命令
   -> code agent 调用 tests / impact / verify / policy / evaluate
   -> OpenCode++ 返回 Guard findings、policy、contracts、trace、verify 结果
@@ -53,15 +53,15 @@ opencode-plusplus policy . --base main --trace <trace-id> --fail-on required
 MCP 入口：
 
 ```txt
-code_agent_plusplus_plan
-code_agent_plusplus_pack
-code_agent_plusplus_retrieve
-code_agent_plusplus_tests
-code_agent_plusplus_impact
-code_agent_plusplus_verify
-code_agent_plusplus_evaluate
-code_agent_plusplus_repair
-code_agent_plusplus_finalize
+opencode_plusplus_plan
+opencode_plusplus_pack
+opencode_plusplus_retrieve
+opencode_plusplus_tests
+opencode_plusplus_impact
+opencode_plusplus_verify
+opencode_plusplus_evaluate
+opencode_plusplus_repair
+opencode_plusplus_finalize
 ```
 
 产物位置：

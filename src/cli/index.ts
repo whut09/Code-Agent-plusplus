@@ -80,7 +80,13 @@ import {
   writeOpencodeSidecarLatest
 } from "../integrations/opencode/sidecar.js";
 import { resolveDefaultCommandArgs } from "./default-command.js";
-import { getCappStatus, readCappReport, renderCappDoctor, renderCappStatus, runCappDoctor } from "./capp-commands.js";
+import {
+  getOpenCodePlusplusStatus,
+  readOpenCodePlusplusReport,
+  renderOpenCodePlusplusDoctor,
+  renderOpenCodePlusplusStatus,
+  runOpenCodePlusplusDoctor
+} from "./opencode-plusplus-commands.js";
 
 const program = new Command();
 const executableName = path.basename(process.argv[1] ?? "opencode-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
@@ -89,7 +95,7 @@ const invokedName = executableName && executableName !== "index" ? executableNam
 program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
 program
-  .command("tui", { hidden: !["ocpp", "opencode-plusplus", "capp"].includes(invokedName) })
+  .command("tui", { hidden: invokedName !== "opencode-plusplus" })
   .argument("[repo]", "repository path", ".")
   .option("--force-plugin", "overwrite .opencode/plugins/opencode-plusplus.ts")
   .option("--skip-context", "do not generate .agent-context before launching OpenCode")
@@ -216,7 +222,7 @@ program
   .option("--json", "print report metadata and markdown content as JSON")
   .description("Show the latest OpenCode++ sidecar report.")
   .action((repo: string, options: { json?: boolean }) => {
-    const report = readCappReport(repo);
+    const report = readOpenCodePlusplusReport(repo);
     console.log(options.json ? JSON.stringify(report, null, 2) : report.content);
     if (!report.exists) process.exitCode = 1;
   });
@@ -227,8 +233,8 @@ program
   .option("--json", "print machine-readable status")
   .description("Show whether the OpenCode++ OpenCode sidecar is active.")
   .action((repo: string, options: { json?: boolean }) => {
-    const report = getCappStatus(repo);
-    console.log(options.json ? JSON.stringify(report, null, 2) : renderCappStatus(report));
+    const report = getOpenCodePlusplusStatus(repo);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderOpenCodePlusplusStatus(report));
     if (!report.active) process.exitCode = 1;
   });
 
@@ -238,8 +244,8 @@ program
   .option("--json", "print machine-readable doctor report")
   .description("Check OpenCode, auth, git, context, and OpenCode++ sidecar readiness.")
   .action(async (repo: string, options: { json?: boolean }) => {
-    const report = await runCappDoctor(repo);
-    console.log(options.json ? JSON.stringify(report, null, 2) : renderCappDoctor(report));
+    const report = await runOpenCodePlusplusDoctor(repo);
+    console.log(options.json ? JSON.stringify(report, null, 2) : renderOpenCodePlusplusDoctor(report));
     if (!report.ok) process.exitCode = 1;
   });
 
@@ -250,7 +256,7 @@ program
   .option("-b, --token-budget <tokens>", "target token budget", parseInteger)
   .option("--tokenizer <tokenizer>", "tokenizer: chars-approx, cl100k_base, o200k_base", parseTokenizerMode)
   .option("--model <model>", "model name used to infer tokenizer, for example gpt-4.1")
-  .option("--llm", "enable LLM summaries using code-agent-plusplus.local.yml")
+  .option("--llm", "enable LLM summaries using opencode-plusplus.local.yml")
   .option("--no-llm", "disable LLM summaries")
   .description("Generate AGENTS.md and .agent-context outputs.")
   .action(
@@ -488,10 +494,10 @@ rag
 program
   .command("init")
   .argument("[repo]", "repository path", ".")
-  .description("Create a starter code-agent-plusplus.config.yml.")
+  .description("Create a starter opencode-plusplus.config.yml.")
   .action((repo: string) => {
     const root = path.resolve(repo);
-    const configPath = path.join(root, "code-agent-plusplus.config.yml");
+    const configPath = path.join(root, "opencode-plusplus.config.yml");
 
     if (existsSync(configPath)) {
       console.log(`Config already exists: ${configPath}`);
@@ -1264,7 +1270,7 @@ function addOpencodeReportCommand(parent: Command): void {
     .action((repo: string, options: OpencodeReportCliOptions) => {
       const result = findOpencodeReport(repo, { last: options.last ?? true, taskId: options.taskId });
       if (!result) {
-        console.error("No OpenCode orchestrator report found. Run `ocpp oc <task>` first.");
+        console.error("No OpenCode orchestrator report found. Run `opencode-plusplus oc <task>` first.");
         process.exitCode = 1;
         return;
       }
@@ -1288,7 +1294,7 @@ function addOpencodeRepairCommand(parent: Command): void {
     .action((repo: string, options: OpencodeRepairCliOptions) => {
       const result = findOpencodeReport(repo, { last: options.last ?? true, taskId: options.taskId });
       if (!result) {
-        console.error("No OpenCode orchestrator report found. Run `ocpp oc <task>` first.");
+        console.error("No OpenCode orchestrator report found. Run `opencode-plusplus oc <task>` first.");
         process.exitCode = 1;
         return;
       }

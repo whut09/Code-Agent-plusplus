@@ -50,7 +50,7 @@ Goal: make edits bounded, reviewable, and verifiable.
 - `opencode-plusplus validate-contracts`.
 - `opencode-plusplus policy --fail-on forbidden|required|risk`.
 - Execution trace with manual / command / CI evidence.
-- `code-agent-plusplus trace run` for command-captured evidence.
+- `opencode-plusplus trace run` for command-captured evidence.
 - Exit code and command evidence recording.
 - Test selection for files and diffs.
 - Change impact report with direct and transitive dependents.

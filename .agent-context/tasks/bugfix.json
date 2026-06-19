@@ -2,8 +2,8 @@
   "task": "fix a bug or regression",
   "type": "bugfix",
   "tokenBudget": 12000,
-  "estimatedTokens": 8361,
-  "remainingBudget": 3639,
+  "estimatedTokens": 8342,
+  "remainingBudget": 3658,
   "files": [
     {
       "path": "src/harness/verification-plane/guards/regression-memory.ts",
@@ -90,7 +90,7 @@
         "entrypoint"
       ],
       "category": "entrypoint",
-      "estimatedTokens": 405
+      "estimatedTokens": 403
     },
     {
       "path": "test/regression-guard.test.ts",
@@ -238,7 +238,7 @@
         "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 731
+      "estimatedTokens": 715
     },
     {
       "path": "src/benchmarks/agent-benchmark.ts",
@@ -457,7 +457,7 @@
       "estimatedTokens": 42
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
       "score": 8,
       "reasons": [
         "configuration"
@@ -466,7 +466,7 @@
       "estimatedTokens": 48
     },
     {
-      "path": "benchmarks/fixtures/monorepo/packages/shared/package.json",
+      "path": "benchmarks/fixtures/monorepo/packages/config/package.json",
       "score": 8,
       "reasons": [
         "configuration"
@@ -493,13 +493,13 @@
       "estimatedTokens": 25
     },
     {
-      "path": "code-agent-plusplus.config.yml",
+      "path": "opencode-plusplus.config.yml",
       "score": 8,
       "reasons": [
         "configuration"
       ],
       "category": "config-doc",
-      "estimatedTokens": 38
+      "estimatedTokens": 37
     },
     {
       "path": "tsconfig.json",
@@ -747,7 +747,7 @@
         "direct importer of src/harness/verification-plane/guards/regression.ts"
       ],
       "category": "dependency-neighbor",
-      "estimatedTokens": 731
+      "estimatedTokens": 715
     },
     {
       "path": "src/benchmarks/agent-benchmark.ts",
@@ -762,8 +762,8 @@
   ],
   "budget": {
     "total": 12000,
-    "used": 8361,
-    "remaining": 3639,
+    "used": 8342,
+    "remaining": 3658,
     "buckets": [
       {
         "name": "direct-source",
@@ -798,7 +798,7 @@
       {
         "name": "dependency-neighbors",
         "label": "Dependency neighbors",
-        "tokens": 5279,
+        "tokens": 5263,
         "files": [
           "src/harness/control-plane/orchestrator.ts",
           "src/harness/verification-plane/policy-engine.ts",
@@ -824,7 +824,7 @@
       {
         "name": "config-docs",
         "label": "Config/docs",
-        "tokens": 679,
+        "tokens": 678,
         "files": [
           "benchmarks/fixtures/monorepo/packages/api/README.md",
           "benchmarks/README.md",
@@ -836,11 +836,11 @@
           "benchmarks/fixtures/monorepo/package.json",
           "benchmarks/fixtures/react-app/package.json",
           "benchmarks/fixtures/small-ts-app/package.json",
-          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/shared/package.json",
+          "benchmarks/fixtures/monorepo/packages/config/package.json",
           "benchmarks/fixtures/monorepo/packages/web/package.json",
           ".env.example",
-          "code-agent-plusplus.config.yml",
+          "opencode-plusplus.config.yml",
           "tsconfig.json",
           ".github/workflows/ci.yml"
         ]
@@ -848,7 +848,7 @@
       {
         "name": "entrypoints",
         "label": "Entrypoints",
-        "tokens": 856,
+        "tokens": 854,
         "files": [
           "src/cli/index.ts",
           "src/mcp/server.ts"

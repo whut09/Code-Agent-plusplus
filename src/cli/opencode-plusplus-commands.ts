@@ -1,10 +1,10 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { runOpencodeDoctor, type OpencodeDoctorCheck, type OpencodeDoctorReport } from "./opencode-preset.js";
-import { LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH, OPENCODE_SIDECAR_PLUGIN_PATH } from "../integrations/opencode/sidecar-plugin-template.js";
+import { OPENCODE_SIDECAR_PLUGIN_PATH } from "../integrations/opencode/sidecar-plugin-template.js";
 import { verifyOpencodeSidecar } from "../integrations/opencode/sidecar.js";
 
-export interface CappStatusReport {
+export interface OpenCodePlusplusStatusReport {
   repo: string;
   active: boolean;
   pluginExists: boolean;
@@ -16,13 +16,13 @@ export interface CappStatusReport {
   blockers: string[];
 }
 
-export interface CappDoctorReport {
+export interface OpenCodePlusplusDoctorReport {
   repo: string;
   ok: boolean;
   checks: OpencodeDoctorCheck[];
 }
 
-export function readCappReport(repo = "."): { path: string; content: string; exists: boolean } {
+export function readOpenCodePlusplusReport(repo = "."): { path: string; content: string; exists: boolean } {
   const root = path.resolve(repo);
   const reportPath = path.join(root, ".agent-context", "sidecar", "latest.md");
   if (!existsSync(reportPath)) {
@@ -31,7 +31,7 @@ export function readCappReport(repo = "."): { path: string; content: string; exi
       content: [
         "OpenCode++ report is not available yet.",
         "",
-        "Run `ocpp` to start OpenCode with the sidecar, or run `ocpp sidecar verify .` once to generate the first report."
+        "Run `opencode-plusplus` to start OpenCode with the sidecar, or run `opencode-plusplus sidecar verify .` once to generate the first report."
       ].join("\n"),
       exists: false
     };
@@ -39,11 +39,10 @@ export function readCappReport(repo = "."): { path: string; content: string; exi
   return { path: reportPath, content: readFileSync(reportPath, "utf8"), exists: true };
 }
 
-export function getCappStatus(repo = "."): CappStatusReport {
+export function getOpenCodePlusplusStatus(repo = "."): OpenCodePlusplusStatusReport {
   const root = path.resolve(repo);
   const pluginPath = path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH);
-  const legacyPluginPath = path.join(root, LEGACY_OPENCODE_SIDECAR_PLUGIN_PATH);
-  const pluginExists = existsSync(pluginPath) || existsSync(legacyPluginPath);
+  const pluginExists = existsSync(pluginPath);
   const contextPath = path.join(root, ".agent-context");
   const eventLogPath = path.join(root, ".agent-context", "traces", "opencode-sidecar-events.jsonl");
   const latestPath = path.join(root, ".agent-context", "sidecar", "latest.json");
@@ -65,11 +64,11 @@ export function getCappStatus(repo = "."): CappStatusReport {
   };
 }
 
-export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
+export async function runOpenCodePlusplusDoctor(repo = "."): Promise<OpenCodePlusplusDoctorReport> {
   const root = path.resolve(repo);
   const opencode = runOpencodeDoctor(root);
   const sidecar = await verifyOpencodeSidecar(root);
-  const sidecarPluginCheck = sidecar.checks.find((check) => check.name.endsWith("opencode-plusplus.ts") || check.name.endsWith("code-agent-plusplus.ts"));
+  const sidecarPluginCheck = sidecar.checks.find((check) => check.name.endsWith("opencode-plusplus.ts"));
   const sidecarChecks: OpencodeDoctorCheck[] = [
     {
       id: "sidecar-plugin",
@@ -89,14 +88,16 @@ export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
       id: "sidecar-latest",
       label: "Sidecar latest report",
       status: existsSync(sidecar.latestJsonPath) || existsSync(sidecar.latestMarkdownPath) ? "pass" : "warn",
-      details: existsSync(sidecar.latestMarkdownPath) ? ".agent-context/sidecar/latest.md found" : "run `ocpp sidecar verify .` after starting a session"
+      details: existsSync(sidecar.latestMarkdownPath)
+        ? ".agent-context/sidecar/latest.md found"
+        : "run `opencode-plusplus sidecar verify .` after starting a session"
     }
   ];
   const checks = [...opencode.checks, ...sidecarChecks];
   return { repo: root, ok: checks.every((check) => check.status !== "fail"), checks };
 }
 
-export function renderCappStatus(report: CappStatusReport): string {
+export function renderOpenCodePlusplusStatus(report: OpenCodePlusplusStatusReport): string {
   return [
     "OpenCode++ Status",
     "",
@@ -114,11 +115,11 @@ export function renderCappStatus(report: CappStatusReport): string {
     ...(report.blockers.length ? report.blockers.map((blocker) => `- ${blocker}`) : ["- none"]),
     "",
     "Next:",
-    report.active ? "  ocpp report" : "  ocpp"
+    report.active ? "  opencode-plusplus report" : "  opencode-plusplus"
   ].join("\n");
 }
 
-export function renderCappDoctor(report: CappDoctorReport): string {
+export function renderOpenCodePlusplusDoctor(report: OpenCodePlusplusDoctorReport): string {
   return [
     "OpenCode++ Doctor",
     "",
@@ -130,7 +131,7 @@ export function renderCappDoctor(report: CappDoctorReport): string {
       return `- [${marker}] ${check.label}: ${check.details}${command}`;
     }),
     "",
-    report.ok ? "Result: ready for `ocpp`." : "Result: not ready. Fix failed checks before using `ocpp`."
+    report.ok ? "Result: ready for `opencode-plusplus`." : "Result: not ready. Fix failed checks before using `opencode-plusplus`."
   ].join("\n");
 }
 

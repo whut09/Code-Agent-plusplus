@@ -53,19 +53,15 @@ export function renderOpencodeInitReport(report: OpencodeInitReport): string {
     "",
     "Next:",
     "  opencode",
-    "  /ocpp <task>",
-    "  /ocpp-verify",
-    "",
-    "Legacy aliases remain available:",
-    "  /capp <task>",
-    "  /capp-verify"
+    "  /opencode-plusplus <task>",
+    "  /opencode-plusplus-verify"
   ].join("\n");
 }
 
 function opencodeInitTemplates(): Array<{ path: string; content: string }> {
   return [
     {
-      path: ".opencode/commands/ocpp.md",
+      path: ".opencode/commands/opencode-plusplus.md",
       content: `---
 description: Run a coding task through OpenCode++ with OpenCode as the executor
 ---
@@ -76,16 +72,16 @@ Task: $ARGUMENTS
 
 Use OpenCode++ as the external harness control plane for this coding task.
 
-1. Run \`ocpp oc doctor .\` if this repository has not been checked yet.
-2. Run \`ocpp oc "$ARGUMENTS" .\`.
+1. Run \`opencode-plusplus oc doctor .\` if this repository has not been checked yet.
+2. Run \`opencode-plusplus oc "$ARGUMENTS" .\`.
 3. Read the compact terminal decision summary.
 4. If the decision is blocking, follow the listed \`Next\` commands before claiming completion.
-5. Prefer \`ocpp oc report --last\` for the full report and \`ocpp oc repair\` for repair guidance.
+5. Prefer \`opencode-plusplus oc report --last\` for the full report and \`opencode-plusplus oc repair\` for repair guidance.
 
 Do not manually declare the task complete when OpenCode++ reports \`repair\`, \`repack\`, \`block\`, \`rollback\`, or \`human-review\`.`
     },
     {
-      path: ".opencode/commands/ocpp-verify.md",
+      path: ".opencode/commands/opencode-plusplus-verify.md",
       content: `---
 description: Verify the latest OpenCode++ OpenCode run
 ---
@@ -94,10 +90,10 @@ description: Verify the latest OpenCode++ OpenCode run
 
 Verify the latest OpenCode++ run before finalizing.
 
-1. Run \`ocpp oc report --last --summary\`.
-2. Run \`ocpp verify --diff .\`.
-3. Run \`ocpp policy . --base main --fail-on required\`.
-4. If the latest decision is blocking, run \`ocpp oc repair\` and follow the required commands.
+1. Run \`opencode-plusplus oc report --last --summary\`.
+2. Run \`opencode-plusplus verify --diff .\`.
+3. Run \`opencode-plusplus policy . --base main --fail-on required\`.
+4. If the latest decision is blocking, run \`opencode-plusplus oc repair\` and follow the required commands.
 5. Summarize the final decision, changed files, blocking gates, and evidence collected.`
     },
     {
@@ -114,51 +110,13 @@ OpenCode++ owns context packaging, edit boundaries, trace evidence, policy check
 
 Operating rules:
 
-- Start concrete coding tasks with \`ocpp oc "$TASK" .\` or the \`/ocpp\` command.
+- Start concrete coding tasks with \`opencode-plusplus oc "$TASK" .\` or the \`/opencode-plusplus\` command.
 - Read source files before behavior-changing edits; generated summaries are guidance, not source of truth.
 - Keep edits inside the OpenCode++ edit boundary unless the report explicitly requires expansion.
 - Treat \`finalize\` as ready for review, not automatic merge.
 - Treat \`repair\`, \`repack\`, \`run-tests\`, \`block\`, \`rollback\`, and \`human-review\` as active gates.
-- Use \`ocpp oc report --last\` for details and \`ocpp oc repair\` for the next repair checklist.
+- Use \`opencode-plusplus oc report --last\` for details and \`opencode-plusplus oc repair\` for the next repair checklist.
 - Do not claim tests passed without command evidence after the final edit.`
-    },
-    {
-      path: ".opencode/commands/capp.md",
-      content: `---
-description: Legacy alias for /ocpp
----
-
-# OpenCode++ Task Harness Legacy Alias
-
-This command is a legacy alias. Prefer \`/ocpp\` for new projects.
-
-Task: $ARGUMENTS
-
-Run \`ocpp oc "$ARGUMENTS" .\`, then follow the compact terminal decision summary and any blocking gates.`
-    },
-    {
-      path: ".opencode/commands/capp-verify.md",
-      content: `---
-description: Legacy alias for /ocpp-verify
----
-
-# OpenCode++ Verification Legacy Alias
-
-This command is a legacy alias. Prefer \`/ocpp-verify\` for new projects.
-
-Run \`ocpp oc report --last --summary\`, \`ocpp verify --diff .\`, and \`ocpp policy . --base main --fail-on required\` before finalizing.`
-    },
-    {
-      path: ".opencode/agents/code-agent-plusplus.md",
-      content: `---
-description: Legacy alias for the OpenCode++ executor agent
----
-
-# OpenCode++ Legacy Executor Agent Alias
-
-This agent file is a legacy alias. Prefer \`.opencode/agents/opencode-plusplus.md\` for new projects.
-
-Use \`ocpp oc "$TASK" .\` or the \`/ocpp\` command for new OpenCode++ harness-led tasks.`
     }
   ];
 }

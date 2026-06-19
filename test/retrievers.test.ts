@@ -7,7 +7,7 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { createContextRetriever, renderContextHits } from "../src/retrievers/index.js";
 
 function createRetrieverRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-retriever-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-retriever-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "src", "billing"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });

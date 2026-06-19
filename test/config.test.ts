@@ -7,9 +7,9 @@ import { loadConfig } from "../src/config/load-config.js";
 import { starterConfig } from "../src/config/starter-config.js";
 
 test("invalid target fails instead of silently falling back", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-config-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-config-"));
   try {
-    writeFileSync(path.join(root, "code-agent-plusplus.config.yml"), "target: curser\n", "utf8");
+    writeFileSync(path.join(root, "opencode-plusplus.config.yml"), "target: curser\n", "utf8");
     assert.throws(() => loadConfig(root), /Invalid target "curser"/);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -17,10 +17,10 @@ test("invalid target fails instead of silently falling back", () => {
 });
 
 test("enabled LLM requires non-placeholder credentials", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-config-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-config-"));
   try {
     writeFileSync(
-      path.join(root, "code-agent-plusplus.local.yml"),
+      path.join(root, "opencode-plusplus.local.yml"),
       `
 llm:
   enabled: true
@@ -37,10 +37,10 @@ llm:
 });
 
 test("starter config is valid and contains all output switches", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-config-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-config-"));
   try {
     const content = starterConfig();
-    writeFileSync(path.join(root, "code-agent-plusplus.config.yml"), content, "utf8");
+    writeFileSync(path.join(root, "opencode-plusplus.config.yml"), content, "utf8");
     const config = loadConfig(root);
     assert.equal(config.target, "codex");
     assert.deepEqual(config.agents, {
@@ -63,10 +63,10 @@ test("starter config is valid and contains all output switches", () => {
 });
 
 test("agents config validates mode and sections", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-config-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-config-"));
   try {
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 agents:
   mode: maximal
@@ -76,7 +76,7 @@ agents:
     assert.throws(() => loadConfig(root), /Invalid agents\.mode "maximal"/);
 
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 agents:
   include:
@@ -88,7 +88,7 @@ agents:
     assert.throws(() => loadConfig(root), /agents\.include must be an array/);
 
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 agents:
   manualSources:
@@ -103,10 +103,10 @@ agents:
 });
 
 test("tokenizer config supports real tokenizer modes", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-config-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-config-"));
   try {
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 tokenizer:
   mode: cl100k_base
@@ -119,7 +119,7 @@ tokenizer:
     assert.equal(config.tokenizer.model, "gpt-4.1");
 
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 tokenizer:
   mode: made_up
@@ -133,10 +133,10 @@ tokenizer:
 });
 
 test("unknown output switches fail fast", () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-config-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-config-"));
   try {
     writeFileSync(
-      path.join(root, "code-agent-plusplus.config.yml"),
+      path.join(root, "opencode-plusplus.config.yml"),
       `
 outputs:
   grahp: true

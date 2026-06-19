@@ -140,7 +140,7 @@ function writeManifest(handle: SandboxHandle, status: "prepared" | "patch-export
   mkdirSync(gatewayDir, { recursive: true });
   const patchRelative = handle.patchPath ? path.relative(handle.hostRepo, handle.patchPath).replaceAll("\\", "/") : undefined;
   const manifest = {
-    schemaVersion: "code-agent-plusplus.sandbox-gateway.v1",
+    schemaVersion: "opencode-plusplus.sandbox-gateway.v1",
     kind: "sandbox-gateway",
     status,
     runId: handle.runId,

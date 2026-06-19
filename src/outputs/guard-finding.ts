@@ -9,7 +9,7 @@ export type GuardFindingStatus = "failed" | "missing" | "warning" | "satisfied" 
 export type GuardFindingSeverity = "error" | "warning" | "required" | "info";
 
 export interface GuardFinding {
-  schemaVersion: "code-agent-plusplus.guard-finding.v1";
+  schemaVersion: "opencode-plusplus.guard-finding.v1";
   id: string;
   source: GuardFindingSource;
   kind: GuardFindingKind;
@@ -22,7 +22,7 @@ export interface GuardFinding {
 }
 
 export interface GuardFindingsArtifact {
-  schemaVersion: "code-agent-plusplus.guard-findings.v1";
+  schemaVersion: "opencode-plusplus.guard-findings.v1";
   kind: "guard-findings";
   generatedAt: string;
   runId: string;
@@ -40,7 +40,7 @@ export interface GuardFindingsArtifact {
 
 function guardFindingFromResult(result: GuardResult): GuardFinding {
   return {
-    schemaVersion: "code-agent-plusplus.guard-finding.v1",
+    schemaVersion: "opencode-plusplus.guard-finding.v1",
     id: result.id,
     source: result.source === "policy" || result.source === "hallucination" || result.source === "regression" ? result.source : "policy",
     kind: result.kind,
@@ -64,7 +64,7 @@ export function buildGuardFindingsArtifact(input: {
   const findings = [...input.policy.results, ...input.hallucination.results, ...input.regression.results].map(guardFindingFromResult);
 
   return {
-    schemaVersion: "code-agent-plusplus.guard-findings.v1",
+    schemaVersion: "opencode-plusplus.guard-findings.v1",
     kind: "guard-findings",
     generatedAt: input.generatedAt ?? new Date().toISOString(),
     runId: input.runId,

@@ -304,7 +304,7 @@ function isGeneratedContextState(file: string): boolean {
 }
 
 function isConfigPath(file: string): boolean {
-  return /(^|\/)(package\.json|tsconfig\.json|jsconfig\.json|pyproject\.toml|Cargo\.toml|go\.mod|code-agent-plusplus\.config\.ya?ml)$/.test(file);
+  return /(^|\/)(package\.json|tsconfig\.json|jsconfig\.json|pyproject\.toml|Cargo\.toml|go\.mod|opencode-plusplus\.config\.ya?ml)$/.test(file);
 }
 
 function inferKind(file: string): string {

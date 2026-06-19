@@ -39,7 +39,7 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
     const executorArtifact = JSON.parse(
       readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "executor.result.json"), "utf8")
     ) as { schemaVersion: string; kind: string; runId: string; iteration: number; summary: { executor: string; exitCode: number } };
-    assert.equal(executorArtifact.schemaVersion, "code-agent-plusplus.executor-result.v1");
+    assert.equal(executorArtifact.schemaVersion, "opencode-plusplus.executor-result.v1");
     assert.equal(executorArtifact.kind, "executor-result");
     assert.equal(executorArtifact.runId, "fix-login-timeout-bug");
     assert.equal(executorArtifact.iteration, 1);
@@ -54,7 +54,7 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
       decision: { action: string; reasons: string[]; requiredCommands: string[] };
       priorityOrder: Record<string, number>;
     };
-    assert.equal(decisionArtifact.schemaVersion, "code-agent-plusplus.decision.v1");
+    assert.equal(decisionArtifact.schemaVersion, "opencode-plusplus.decision.v1");
     assert.equal(decisionArtifact.kind, "decision");
     assert.equal(decisionArtifact.decision.action, "finalize");
     assert.ok(decisionArtifact.decision.reasons.length > 0);
@@ -66,7 +66,7 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
       kind: string;
       summary: { traceLoaded: boolean; steps: number };
     };
-    assert.equal(traceArtifact.schemaVersion, "code-agent-plusplus.trace-artifact.v1");
+    assert.equal(traceArtifact.schemaVersion, "opencode-plusplus.trace-artifact.v1");
     assert.equal(traceArtifact.kind, "trace");
     assert.equal(traceArtifact.summary.traceLoaded, true);
     assert.ok(traceArtifact.summary.steps > 0);
@@ -74,15 +74,15 @@ test("harness orchestrator runs plan-pack-execute-evaluate-decision with mock ex
     const guardArtifact = JSON.parse(
       readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.findings.json"), "utf8")
     ) as { schemaVersion: string; kind: string; summary: { total: number }; findings: Array<{ schemaVersion: string; source: string }> };
-    assert.equal(guardArtifact.schemaVersion, "code-agent-plusplus.guard-findings.v1");
+    assert.equal(guardArtifact.schemaVersion, "opencode-plusplus.guard-findings.v1");
     assert.equal(guardArtifact.kind, "guard-findings");
     assert.equal(guardArtifact.summary.total, guardArtifact.findings.length);
-    assert.ok(guardArtifact.findings.every((finding) => finding.schemaVersion === "code-agent-plusplus.guard-finding.v1"));
+    assert.ok(guardArtifact.findings.every((finding) => finding.schemaVersion === "opencode-plusplus.guard-finding.v1"));
 
     const gateArtifact = JSON.parse(
       readFileSync(path.join(root, ".agent-context", "runs", "fix-login-timeout-bug", "iterations", "001", "guard.gates.json"), "utf8")
     ) as { schemaVersion: string; kind: string; summary: { total: number }; gates: Array<{ guard: string; action: string; condition: string }> };
-    assert.equal(gateArtifact.schemaVersion, "code-agent-plusplus.guard-gates.v1");
+    assert.equal(gateArtifact.schemaVersion, "opencode-plusplus.guard-gates.v1");
     assert.equal(gateArtifact.kind, "guard-gates");
     assert.equal(gateArtifact.summary.total, gateArtifact.gates.length);
     assert.ok(gateArtifact.gates.every((gate) => gate.guard && gate.action && gate.condition));
@@ -210,7 +210,7 @@ test("harness orchestrator normalizes OpenCode JSON stdout into execution trace"
 });
 
 function createOrchestratorRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-orchestrator-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-orchestrator-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
   writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e \"console.log('ok')\"", check: "tsc --noEmit" } }), "utf8");
@@ -218,7 +218,7 @@ function createOrchestratorRepo(): string {
   writeFileSync(path.join(root, "test", "auth", "session.test.ts"), "import { loginSession } from '../../src/auth/session.js';\nloginSession();\n", "utf8");
   runGit(root, ["init"]);
   runGit(root, ["checkout", "-b", "main"]);
-  runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+  runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
   runGit(root, ["config", "user.name", "Repo Context"]);
   runGit(root, ["add", "."]);
   runGit(root, ["commit", "-m", "initial"]);

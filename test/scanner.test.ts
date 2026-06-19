@@ -7,7 +7,7 @@ import { DEFAULT_CONFIG } from "../src/config/defaults.js";
 import { scanRepository } from "../src/core/scanner.js";
 
 test("scanner reports commands using the repository package manager", async () => {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-scan-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-scan-"));
 
   try {
     writeFileSync(

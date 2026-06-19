@@ -4,30 +4,30 @@ Executor adapters let OpenCode++ treat external code agents as replaceable codin
 
 ## Maturity
 
-| Executor / Adapter                | Maturity   | Notes                                                                                |
-| --------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
-| `mock`                            | Stable     | Deterministic demo and CI executor.                                                  |
-| `ocpp` OpenCode TUI launcher      | Foundation | Starts OpenCode TUI after context, command, agent, and sidecar plugin preflight.     |
-| OpenCode preset                   | Foundation | `opencode doctor`, `opencode run`, and `oc` with the default OpenCode command.       |
-| generic `--executor-command`      | Foundation | Calls scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.    |
-| OpenCode event normalizer         | Foundation | Supports `opencode run --format json`, transcript files, and stdout/stderr fallback. |
-| MiMoCode native normalizer        | Planned    | Native event format support is planned.                                              |
-| Codex JSONL normalizer            | Planned    | Current path is the generic command adapter.                                         |
-| Claude Code transcript normalizer | Planned    | Current path is the generic command adapter.                                         |
-| Cursor native adapter             | Planned    | Current path is docs, MCP, and generic command hooks.                                |
+| Executor / Adapter                        | Maturity   | Notes                                                                                |
+| ----------------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
+| `mock`                                    | Stable     | Deterministic demo and CI executor.                                                  |
+| `opencode-plusplus` OpenCode TUI launcher | Foundation | Starts OpenCode TUI after context, command, agent, and sidecar plugin preflight.     |
+| OpenCode preset                           | Foundation | `opencode doctor`, `opencode run`, and `oc` with the default OpenCode command.       |
+| generic `--executor-command`              | Foundation | Calls scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.    |
+| OpenCode event normalizer                 | Foundation | Supports `opencode run --format json`, transcript files, and stdout/stderr fallback. |
+| MiMoCode native normalizer                | Planned    | Native event format support is planned.                                              |
+| Codex JSONL normalizer                    | Planned    | Current path is the generic command adapter.                                         |
+| Claude Code transcript normalizer         | Planned    | Current path is the generic command adapter.                                         |
+| Cursor native adapter                     | Planned    | Current path is docs, MCP, and generic command hooks.                                |
 
 ## Generic Command
 
 OpenCode has a first-class preset:
 
 ```bash
-ocpp
-ocpp oc init .
+opencode-plusplus
+opencode-plusplus oc init .
 opencode-plusplus opencode doctor .
 opencode-plusplus opencode run "<task>" .
-ocpp oc "<task>" .
-ocpp oc report --last
-ocpp oc repair
+opencode-plusplus oc "<task>" .
+opencode-plusplus oc report --last
+opencode-plusplus oc repair
 ```
 
 The preset expands to:

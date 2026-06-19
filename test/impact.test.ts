@@ -8,7 +8,7 @@ import { runGit } from "../src/core/git.js";
 import { buildChangeImpactReport, renderChangeImpactReport } from "../src/outputs/impact.js";
 
 function createImpactRepo(): string {
-  const root = mkdtempSync(path.join(tmpdir(), "code-agent-plusplus-impact-"));
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-impact-"));
   mkdirSync(path.join(root, "src", "auth"), { recursive: true });
   mkdirSync(path.join(root, "src", "api"), { recursive: true });
   mkdirSync(path.join(root, "test", "auth"), { recursive: true });
@@ -37,7 +37,7 @@ test("impact report traces dependents, related tests, risk, and verification", a
   try {
     runGit(root, ["init"]);
     runGit(root, ["checkout", "-b", "main"]);
-    runGit(root, ["config", "user.email", "code-agent-plusplus@example.com"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
     runGit(root, ["config", "user.name", "Repo Context"]);
     runGit(root, ["add", "."]);
     runGit(root, ["commit", "-m", "initial"]);
