@@ -10,7 +10,9 @@ cd your-repo
 capp
 ```
 
-`capp` starts OpenCode TUI for the current repository after preflight. It ensures `.agent-context`, `.opencode/plugins/code-agent-plusplus.ts`, `.opencode/commands/capp.md`, `.opencode/commands/capp-verify.md`, and `.opencode/agents/code-agent-plusplus.md`.
+`capp` starts the OpenCode TUI for the current repository after preflight and injects the Code Agent++ sidecar plugin. It is the default transparent chat mode for daily coding.
+
+Read the full sidecar flow in [OpenCode Transparent Sidecar Mode](opencode-sidecar.md).
 
 ## OpenCode Preset
 

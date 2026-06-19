@@ -22,7 +22,7 @@
 | root | 17 | 65 | none | root contains 17 files. |
 | benchmarks/fixtures/monorepo/packages/web | 4 | 63 | `benchmarks/fixtures/monorepo/packages/config` | benchmarks/fixtures/monorepo/packages/web contains 4 files and depends on benchmarks/fixtures/monorepo/packages/config. |
 | test/fixtures/next-app | 4 | 63 | none | test/fixtures/next-app contains 4 files. |
-| docs | 37 | 41 | none | docs contains 37 files. |
+| docs | 38 | 41 | none | docs contains 38 files. |
 | llm | 1 | 35 | `core` | llm contains 1 file and depends on core. |
 | benchmarks/fixtures/monorepo/packages/shared | 2 | 34 | none | benchmarks/fixtures/monorepo/packages/shared contains 2 files. |
 | test/fixtures/monorepo/packages/web | 2 | 30 | `test/fixtures/monorepo/packages/api` | test/fixtures/monorepo/packages/web contains 2 files and depends on test/fixtures/monorepo/packages/api. |

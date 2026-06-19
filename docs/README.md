@@ -10,6 +10,7 @@ This is the documentation map for Code Agent++. Start with the path that matches
 | Understand the product positioning    | [Positioning](concepts/positioning.md)                                                             |
 | Understand the runtime architecture   | [Architecture](concepts/architecture.md)                                                           |
 | Choose Agent-led or Harness-led usage | [Integration Modes](concepts/integration-modes.md)                                                 |
+| Use OpenCode chat with sidecar guards | [OpenCode Transparent Sidecar](integrations/opencode-sidecar.md)                                   |
 | Integrate an executor CLI             | [Executor CLI Integration](integrations/executor-cli.md)                                           |
 | Use MCP tools                         | [MCP Tools](reference/mcp-tools.md) and [MCP Troubleshooting](integrations/mcp-troubleshooting.md) |
 | Understand generated files            | [Artifacts Reference](reference/artifacts.md)                                                      |
@@ -43,6 +44,7 @@ Chinese concept pages:
 - [Codex MCP](integrations/codex-mcp.md)
 - [Claude Code MCP](integrations/claude-code-mcp.md)
 - [Cursor MCP](integrations/cursor-mcp.md)
+- [OpenCode Transparent Sidecar](integrations/opencode-sidecar.md)
 - [OpenCode MCP](integrations/opencode-mcp.md)
 - [Executor CLI](integrations/executor-cli.md)
 - [MCP Troubleshooting](integrations/mcp-troubleshooting.md)

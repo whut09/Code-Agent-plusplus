@@ -1789,6 +1789,42 @@
       "isExternal": false
     },
     {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
       "from": "src/cli/capp-commands.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -2099,42 +2135,6 @@
       "to": "node:path",
       "specifier": "node:path",
       "isExternal": true
-    },
-    {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
     },
     {
       "from": "src/core/cache.ts",
@@ -3631,42 +3631,6 @@
       "isExternal": false
     },
     {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:child_process",
-      "specifier": "node:child_process",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:crypto",
-      "specifier": "node:crypto",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "src/core/safe-command.ts",
-      "specifier": "../../core/safe-command.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/harness/observability/execution-trace.ts",
-      "to": "src/outputs/renderers/markdown.ts",
-      "specifier": "../../outputs/renderers/markdown.js",
-      "isExternal": false
-    },
-    {
       "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/core/types.ts",
       "specifier": "../../core/types.js",
@@ -3736,6 +3700,42 @@
       "from": "src/harness/verification-plane/policy-engine.ts",
       "to": "src/harness/types.ts",
       "specifier": "../types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:child_process",
+      "specifier": "node:child_process",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:crypto",
+      "specifier": "node:crypto",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "src/core/safe-command.ts",
+      "specifier": "../../core/safe-command.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/harness/observability/execution-trace.ts",
+      "to": "src/outputs/renderers/markdown.ts",
+      "specifier": "../../outputs/renderers/markdown.js",
       "isExternal": false
     },
     {
@@ -4273,6 +4273,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
+      "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
+      "specifier": "../src/config.js",
+      "isExternal": false
+    },
+    {
       "from": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
       "to": "benchmarks/fixtures/monorepo/packages/config/src/loader.ts",
       "specifier": "../../config/src/loader.js",
@@ -4282,12 +4288,6 @@
       "from": "benchmarks/fixtures/monorepo/packages/api/src/server.ts",
       "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
       "specifier": "./config.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/monorepo/packages/api/test/config.test.ts",
-      "to": "benchmarks/fixtures/monorepo/packages/api/src/config.ts",
-      "specifier": "../src/config.js",
       "isExternal": false
     },
     {
