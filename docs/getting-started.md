@@ -4,10 +4,15 @@ This guide gets Code Agent++ running in OpenCode chat mode in about five minutes
 
 ## Install
 
-Run the global install from any local terminal. This step installs the `capp` command and OpenCode globally, so it does not need to run inside your target repository:
+`code-agent-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone Code Agent++, build it, and link the `capp` command globally:
 
 ```bash
-npm i -g code-agent-plusplus opencode-ai
+npm i -g opencode-ai
+git clone https://github.com/whut09/Code-Agent-plusplus.git
+cd Code-Agent-plusplus
+npm install
+npm run build
+npm link
 ```
 
 Then enter the repository you want to work on:
@@ -15,6 +20,12 @@ Then enter the repository you want to work on:
 ```bash
 cd your-repo
 capp
+```
+
+After Code Agent++ is published to npm, this will become:
+
+```bash
+npm i -g code-agent-plusplus opencode-ai
 ```
 
 Then chat normally:

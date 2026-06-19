@@ -6,10 +6,15 @@ Code Agent++ does not replace OpenCode. OpenCode reads, edits, and runs tools; C
 
 ## User Experience
 
-Install from any local terminal first; the install command is global and does not need to run inside the repository:
+`code-agent-plusplus` has not been published to npm yet. Install OpenCode from npm, then install Code Agent++ from source and link `capp` globally:
 
 ```bash
-npm i -g code-agent-plusplus opencode-ai
+npm i -g opencode-ai
+git clone https://github.com/whut09/Code-Agent-plusplus.git
+cd Code-Agent-plusplus
+npm install
+npm run build
+npm link
 ```
 
 Then enter the repository where you want the sidecar:
@@ -18,6 +23,8 @@ Then enter the repository where you want the sidecar:
 cd your-repo
 capp
 ```
+
+After the package is published to npm, the install step will become `npm i -g code-agent-plusplus opencode-ai`.
 
 `capp` runs preflight, prints a compact readiness summary, and then launches OpenCode:
 

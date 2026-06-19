@@ -5,7 +5,12 @@ Use this path when Code Agent++ should drive a bounded harness-led loop while an
 ## OpenCode TUI Sidecar
 
 ```bash
-npm i -g code-agent-plusplus opencode-ai
+npm i -g opencode-ai
+git clone https://github.com/whut09/Code-Agent-plusplus.git
+cd Code-Agent-plusplus
+npm install
+npm run build
+npm link
 cd your-repo
 capp
 ```

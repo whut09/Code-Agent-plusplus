@@ -13,17 +13,28 @@ Code Agent++ provides context, boundaries, evidence, gates, impact analysis, and
 
 ## 30-Second Start
 
-Run the global install from any local terminal; you do not need to be inside the target project yet:
+`code-agent-plusplus` has not been published to npm yet, so `npm i -g code-agent-plusplus` does not work today. Install the tool from source and link the `capp` command globally:
 
 ```bash
-npm i -g code-agent-plusplus opencode-ai
+npm i -g opencode-ai
+git clone https://github.com/whut09/Code-Agent-plusplus.git
+cd Code-Agent-plusplus
+npm install
+npm run build
+npm link
 ```
 
-Then enter the repository where you want Code Agent++ to run:
+Then enter the target repository where you want Code Agent++ to run:
 
 ```bash
 cd your-repo
 capp
+```
+
+After the package is published to npm, installation will become:
+
+```bash
+npm i -g code-agent-plusplus opencode-ai
 ```
 
 Then chat like you normally would in OpenCode:
