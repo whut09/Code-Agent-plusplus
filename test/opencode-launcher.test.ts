@@ -76,7 +76,7 @@ test("OpenCode launcher emits a compact preflight before opening the TUI", async
     assert.equal(result.launched, true);
     assert.equal(result.exitCode, 0);
     assert.equal(preflights.length, 1);
-    assert.match(preflights[0] ?? "", /Code Agent\+\+ sidecar ready/);
+    assert.match(preflights[0] ?? "", /OpenCode\+\+ sidecar ready/);
     assert.match(preflights[0] ?? "", /Context: skipped/);
     assert.match(preflights[0] ?? "", /Plugin: ready/);
     assert.match(preflights[0] ?? "", /Report: \.agent-context\/sidecar\/latest\.md/);

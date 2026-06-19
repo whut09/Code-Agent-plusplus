@@ -1789,42 +1789,6 @@
       "isExternal": false
     },
     {
-      "from": "src/config/defaults.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:fs",
-      "specifier": "node:fs",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "node:path",
-      "specifier": "node:path",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "js-yaml",
-      "specifier": "js-yaml",
-      "isExternal": true
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/config/defaults.ts",
-      "specifier": "./defaults.js",
-      "isExternal": false
-    },
-    {
-      "from": "src/config/load-config.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/cli/capp-commands.ts",
       "to": "node:fs",
       "specifier": "node:fs",
@@ -2506,6 +2470,48 @@
       "from": "src/core/validator.ts",
       "to": "src/core/types.ts",
       "specifier": "./types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/defaults.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:fs",
+      "specifier": "node:fs",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "node:path",
+      "specifier": "node:path",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "js-yaml",
+      "specifier": "js-yaml",
+      "isExternal": true
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/config/defaults.ts",
+      "specifier": "./defaults.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/config/load-config.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
+      "isExternal": false
+    },
+    {
+      "from": "src/llm/provider.ts",
+      "to": "src/core/types.ts",
+      "specifier": "../core/types.js",
       "isExternal": false
     },
     {
@@ -3367,12 +3373,6 @@
       "isExternal": false
     },
     {
-      "from": "src/llm/provider.ts",
-      "to": "src/core/types.ts",
-      "specifier": "../core/types.js",
-      "isExternal": false
-    },
-    {
       "from": "src/harness/control-plane/decision-engine.ts",
       "to": "src/outputs/guard-gates.ts",
       "specifier": "../../outputs/guard-gates.js",
@@ -4021,6 +4021,12 @@
       "isExternal": false
     },
     {
+      "from": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
+      "to": "app.routes.users",
+      "specifier": "app.routes.users",
+      "isExternal": true
+    },
+    {
       "from": "benchmarks/fixtures/fastapi-app/app/billing.py",
       "to": "dataclasses",
       "specifier": "dataclasses",
@@ -4048,12 +4054,6 @@
       "from": "benchmarks/fixtures/fastapi-app/app/schemas.py",
       "to": "pydantic",
       "specifier": "pydantic",
-      "isExternal": true
-    },
-    {
-      "from": "benchmarks/fixtures/fastapi-app/tests/test_users.py",
-      "to": "app.routes.users",
-      "specifier": "app.routes.users",
       "isExternal": true
     },
     {
@@ -4243,18 +4243,6 @@
       "isExternal": false
     },
     {
-      "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
-      "specifier": "../../src/api/login.js",
-      "isExternal": false
-    },
-    {
-      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
-      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
-      "specifier": "../../src/auth/session.js",
-      "isExternal": false
-    },
-    {
       "from": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "../auth/session.js",
@@ -4264,6 +4252,18 @@
       "from": "benchmarks/fixtures/small-ts-app/src/auth/middleware.ts",
       "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
       "specifier": "./session.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/test/api/login.test.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/api/login.ts",
+      "specifier": "../../src/api/login.js",
+      "isExternal": false
+    },
+    {
+      "from": "benchmarks/fixtures/small-ts-app/test/auth/session.test.ts",
+      "to": "benchmarks/fixtures/small-ts-app/src/auth/session.ts",
+      "specifier": "../../src/auth/session.js",
       "isExternal": false
     },
     {

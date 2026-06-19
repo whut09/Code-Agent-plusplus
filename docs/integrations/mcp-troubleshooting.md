@@ -21,7 +21,7 @@ Confirm that the client is configured for a stdio MCP server and points to `code
 
 ## Runtime Tools Look Advisory
 
-That is expected for Agent-led MCP mode. The host agent still decides whether to obey the returned gates. For Code Agent++ to evaluate gates after executor output, use the harness-led CLI path:
+That is expected for Agent-led MCP mode. The host agent still decides whether to obey the returned gates. For OpenCode++ to evaluate gates after executor output, use the harness-led CLI path:
 
 ```bash
 code-agent-plusplus orchestrate "<task>" . --executor mock --max-loops 3

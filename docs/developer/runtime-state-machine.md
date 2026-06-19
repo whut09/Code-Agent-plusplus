@@ -30,4 +30,4 @@ The state file records:
 - satisfied evidence
 - missing evidence
 
-The state machine is intentionally explicit. Code Agent++ reports the next allowed action; the external code agent, user, or CI workflow executes it.
+The state machine is intentionally explicit. OpenCode++ reports the next allowed action; the external code agent, user, or CI workflow executes it.

@@ -1,6 +1,6 @@
 # Executor Adapters
 
-Executor adapters let Code Agent++ treat external code agents as replaceable coding tools.
+Executor adapters let OpenCode++ treat external code agents as replaceable coding tools.
 
 ## Maturity
 
@@ -33,7 +33,7 @@ capp oc repair
 The preset expands to:
 
 ```bash
-opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."
 ```
 
 Use the generic adapter for other executors or custom OpenCode commands:
@@ -41,7 +41,7 @@ Use the generic adapter for other executors or custom OpenCode commands:
 ```bash
 code-agent-plusplus orchestrate "<task>" . \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3
 ```
 

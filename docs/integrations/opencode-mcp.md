@@ -1,6 +1,6 @@
 # OpenCode MCP Integration
 
-This guide connects OpenCode to Code Agent++ through the stdio MCP server. OpenCode remains the coding runtime; Code Agent++ supplies task context, edit boundaries, evidence checks, and repair/finalize decision reports.
+This guide connects OpenCode to OpenCode++ through the stdio MCP server. OpenCode remains the coding runtime; OpenCode++ supplies task context, edit boundaries, evidence checks, and repair/finalize decision reports.
 
 ## Configuration
 
@@ -30,7 +30,7 @@ Local development can use the built server directly:
   "mcpServers": {
     "code-agent-plusplus": {
       "command": "node",
-      "args": ["path/to/Code-Agent-plusplus/dist/mcp/server.js"]
+      "args": ["path/to/OpenCode-plusplus/dist/mcp/server.js"]
     }
   }
 }
@@ -133,5 +133,5 @@ Call `code_agent_plusplus_finalize` only when the latest evaluation is non-block
 
 - MCP mode is advisory unless your OpenCode workflow refuses to continue on `blocking: true`.
 - OpenCode event schemas may differ by version; native event normalization should be validated per version.
-- For Code Agent++-led execution, prefer `code-agent-plusplus orchestrate ... --executor opencode`.
+- For OpenCode++-led execution, prefer `code-agent-plusplus orchestrate ... --executor opencode`.
 - MCP `step` does not execute shell commands; it records evidence provided by the agent or host.

@@ -1,6 +1,6 @@
 # Guard Modules
 
-Code Agent++ Guard modules are external reliability components for coding agents. Each Guard maps one common failure mode to checkable inputs, generated artifacts, gate behavior, and decision reports.
+OpenCode++ Guard modules are external reliability components for coding agents. Each Guard maps one common failure mode to checkable inputs, generated artifacts, gate behavior, and decision reports.
 
 Every Guard follows the same contract:
 

@@ -470,7 +470,7 @@ export function renderOrchestratorReport(report: HarnessOrchestratorReport): str
     heading(2, "Architecture Flow"),
     bullet(
       [
-        "Code Agent++ plan / pack",
+        "OpenCode++ plan / pack",
         `Executor: ${report.executor}`,
         "Agent execution",
         "Diff / trace / test evidence collection",
@@ -734,7 +734,7 @@ function buildExecutorPrompt(
     basePrompt.trim(),
     "",
     "Harness control-plane requirements:",
-    "- Code Agent++ provides context, boundaries, trace evidence, policy, impact, verify, and final gate decision reports.",
+    "- OpenCode++ provides context, boundaries, trace evidence, policy, impact, verify, and final gate decision reports.",
     "- The selected code agent owns reading source files, editing code, and running commands.",
     "- Inspect relevant source files before behavior-changing edits.",
     "- Keep changes inside the edit boundary unless the task cannot be completed otherwise.",
@@ -996,7 +996,7 @@ function createCheckpoint(root: string, runId: string, runDir: string, mode: Orc
     [
       `# checkpoint for ${runId}`,
       "# mode: git-worktree",
-      "# This file captures the source diff before executor loops. Code Agent++ does not run destructive rollback commands automatically.",
+      "# This file captures the source diff before executor loops. OpenCode++ does not run destructive rollback commands automatically.",
       "",
       patch
     ].join("\n"),

@@ -1,8 +1,10 @@
 # Positioning
 
-Code Agent++ is a **Code Agent Enhancement Layer / Agent Reliability Layer**.
+OpenCode++ is an **external reliability harness for OpenCode**.
 
-It is not another coding agent. Codex, Claude Code, Cursor, OpenCode, and MiMoCode remain responsible for reading code, editing files, and running commands. Code Agent++ wraps those tools with a bounded harness-led control loop.
+OpenCode++ is not affiliated with, endorsed by, or built by the OpenCode team. OpenCode remains the coding agent runtime; OpenCode++ adds context, edit boundaries, execution evidence, policy gates, impact analysis, and repair/finalize decision reports around the OpenCode workflow.
+
+The same harness primitives can also be used with Codex, Claude Code, Cursor, and MiMoCode through CLI or MCP integrations, but the default product path is OpenCode transparent sidecar mode.
 
 ```txt
 User task
@@ -32,7 +34,7 @@ User task
 
 ## Two Integration Modes
 
-- Agent-led mode: the external code agent calls Code Agent++ CLI or MCP tools. Gates are advisory unless the host agent follows them.
-- Harness-led mode: Code Agent++ invokes a configured executor, collects evidence, evaluates gates, and writes decision reports.
+- Agent-led mode: the external code agent calls OpenCode++ CLI or MCP tools. Gates are advisory unless the host agent follows them.
+- Harness-led mode: OpenCode++ invokes a configured executor, collects evidence, evaluates gates, and writes decision reports.
 
 See [Integration Modes](integration-modes.md).

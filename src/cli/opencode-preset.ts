@@ -11,7 +11,7 @@ export {
   type OpencodeInitReport
 } from "../integrations/opencode/project-init.js";
 
-export const OPENCODE_DEFAULT_EXECUTOR_COMMAND = 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."';
+export const OPENCODE_DEFAULT_EXECUTOR_COMMAND = 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."';
 
 export type OpencodeDoctorStatus = "pass" | "warn" | "fail";
 
@@ -131,7 +131,7 @@ export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, comm
   const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
   const warnings = report.gates.gates.filter((gate) => gate.status === "warning");
   return [
-    "Code Agent++ OpenCode Run",
+    "OpenCode++ OpenCode Run",
     "",
     `Task: ${report.task}`,
     `Decision: ${report.decision.action}`,
@@ -154,7 +154,7 @@ export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, comm
 export function renderOpencodeRepairGuidance(report: HarnessOrchestratorReport, commandName = "capp"): string {
   const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
   return [
-    "Code Agent++ OpenCode Repair",
+    "OpenCode++ OpenCode Repair",
     "",
     `Task: ${report.task}`,
     `Decision: ${report.decision.action}`,

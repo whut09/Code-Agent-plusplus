@@ -169,10 +169,10 @@ export function renderAgentBehaviorBenchmark(result: AgentBehaviorBenchmarkResul
     "- A no-context: task only.",
     "- B AGENTS.md: task plus root operating guide.",
     "- C context-pack: task plus task-aware pack and edit boundary.",
-    "- D harness-led: Code Agent++ owns the loop and the code agent is only the executor.",
+    "- D harness-led: OpenCode++ owns the loop and the code agent is only the executor.",
     "- `mock` and `--dry-run` validate the benchmark harness without editing fixtures.",
     "- Core Phase 6 metrics: wrong files changed, forbidden files changed, tests missing, tests failed, hallucinated commands, iterations to finish, final decision accuracy, and human review needed.",
-    '- Real OpenCode runs can be recorded with `--executor opencode --executor-command "opencode run --format json --dir {repo} --file {prompt} \\"Follow the attached Code Agent++ task prompt.\\""`.'
+    '- Real OpenCode runs can be recorded with `--executor opencode --executor-command "opencode run --format json --dir {repo} --file {prompt} \\"Follow the attached OpenCode++ task prompt.\\""`.'
   ].join("\n");
 }
 
@@ -500,7 +500,7 @@ function initBaseline(repo: string, base: string): void {
   runGit(repo, ["init"]);
   runGit(repo, ["checkout", "-b", base]);
   runGit(repo, ["config", "user.email", "code-agent-plusplus@example.com"]);
-  runGit(repo, ["config", "user.name", "Code Agent++ Benchmark"]);
+  runGit(repo, ["config", "user.name", "OpenCode++ Benchmark"]);
   runGit(repo, ["add", "."]);
   runGit(repo, ["commit", "-m", "benchmark baseline"]);
 }

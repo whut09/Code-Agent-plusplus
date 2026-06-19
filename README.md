@@ -1,30 +1,32 @@
-# Code Agent++
+# OpenCode++
 
 中文 | [English](README.en.md)
 
-**面向 AI 编程 Agent 的外挂式增强与可靠性工程层。**
+**为 OpenCode 增加上下文、边界、证据、验证与修复闭环的可靠性增强层。**
 
-Code Agent++ 不做另一个代码生成 Agent，也不替代 Codex、OpenCode、Claude Code、Cursor、MiMoCode 写代码。它让你像平常一样使用 OpenCode 聊天，同时在外层透明提供上下文、边界、命令前置阻断、执行后证据采集、增量验证、影响分析、回归防护和最终报告。
+OpenCode++ 不是 OpenCode 官方项目，也不替代 OpenCode。OpenCode 负责聊天、读代码、改代码、跑命令；OpenCode++ 负责上下文增强、编辑边界、命令证据、策略门禁、影响分析和修复/完成决策报告。
+
+当前 npm 包名、CLI 命令和配置文件仍沿用过渡名称 `code-agent-plusplus` / `capp` / `code-agent-plusplus.config.yml`。
 
 ```txt
-Code Agent 负责读代码、改代码、跑命令。
-Code Agent++ 负责上下文、边界、证据、门禁、影响分析和验证报告。
+OpenCode 负责聊天、读代码、改代码、跑命令。
+OpenCode++ 负责上下文、边界、证据、门禁、影响分析和修复/完成决策报告。
 ```
 
 ## 30 秒开始
 
-当前 `code-agent-plusplus` 还没有发布到 npm，不能直接 `npm i -g code-agent-plusplus`。先用源码安装本工具，并全局链接 `capp`：
+当前 `code-agent-plusplus` 还没有发布到 npm，不能直接 `npm i -g code-agent-plusplus`。先用源码安装 OpenCode++，并全局链接 `capp`：
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/Code-Agent-plusplus.git
-cd Code-Agent-plusplus
+git clone https://github.com/whut09/OpenCode-plusplus.git
+cd OpenCode-plusplus
 npm install
 npm run build
 npm link
 ```
 
-然后进入你要使用 Code Agent++ 的目标代码仓库：
+然后进入你要使用 OpenCode++ 的目标代码仓库：
 
 ```bash
 cd your-repo
@@ -45,7 +47,7 @@ npm i -g code-agent-plusplus opencode-ai
 重构这个函数并保持行为不变
 ```
 
-Code Agent++ 会在外层自动完成：
+OpenCode++ 会在外层自动完成：
 
 - 上下文初始化与增量更新
 - 编辑边界检查
@@ -62,11 +64,11 @@ Code Agent++ 会在外层自动完成：
 ## 日常命令
 
 ```bash
-capp          # 进入 OpenCode 聊天模式，自动启用 Code Agent++ sidecar
+capp          # 进入 OpenCode 聊天模式，自动启用 OpenCode++ sidecar
 capp report   # 查看最近一次检查结果
 capp status   # 查看 sidecar 是否 active
 capp doctor   # 诊断 OpenCode / auth / git / context / plugin
-capp --pure   # 纯 OpenCode，不启用 Code Agent++
+capp --pure   # 纯 OpenCode，不启用 OpenCode++
 ```
 
 `capp` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/code-agent-plusplus.ts`，准备 OpenCode commands/agent，先打印 3 行短状态，然后进入当前仓库的 OpenCode TUI。Sidecar plugin 会监听 `tool.execute.before`、`tool.execute.after`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；工具执行结束后会记录 command、exit code、stdout/stderr hash、working tree hash 和 touched files；OpenCode 空闲且有 dirty diff 时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
@@ -82,12 +84,12 @@ capp --pure   # 纯 OpenCode，不启用 Code Agent++
 
 ## 与相关项目的关系
 
-| 项目                          | 主要职责                              | 与 Code Agent++ 的关系                                       |
-| ----------------------------- | ------------------------------------- | ------------------------------------------------------------ |
-| Codex / Claude Code / Cursor  | 读代码、改代码、跑命令                | 作为 executor，Code Agent++ 提供外层验证和约束               |
-| OpenCode / MiMoCode           | 开源 coding agent runtime / assistant | 重点 executor 接入方向，Code Agent++ 补充 harness gate       |
-| CodeGraph                     | 代码图谱 / symbol / call graph / MCP  | 可作为可选深度代码理解 backend                               |
-| OpenHarness / Oh My OpenAgent | 通用 agent harness / workflow         | 同属 harness 方向，Code Agent++ 更聚焦 coding agent 可靠闭环 |
+| 项目                          | 主要职责                              | 与 OpenCode++ 的关系                                       |
+| ----------------------------- | ------------------------------------- | ---------------------------------------------------------- |
+| Codex / Claude Code / Cursor  | 读代码、改代码、跑命令                | 作为 executor，OpenCode++ 提供外层验证和约束               |
+| OpenCode / MiMoCode           | 开源 coding agent runtime / assistant | 重点 executor 接入方向，OpenCode++ 补充 harness gate       |
+| CodeGraph                     | 代码图谱 / symbol / call graph / MCP  | 可作为可选深度代码理解 backend                             |
+| OpenHarness / Oh My OpenAgent | 通用 agent harness / workflow         | 同属 harness 方向，OpenCode++ 更聚焦 coding agent 可靠闭环 |
 
 ## 解决什么问题
 
@@ -140,4 +142,4 @@ capp --pure   # 纯 OpenCode，不启用 Code Agent++
 
 ## 致谢
 
-Code Agent++ 的设计受到 [OpenAI Codex](https://github.com/openai/codex)、[OpenCode](https://github.com/anomalyco/opencode)、[MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code)、[CodeGraph](https://github.com/colbymchenry/codegraph)、[Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent)、[OpenHarness](https://github.com/HKUDS/OpenHarness) 和 [OpenClaw](https://github.com/openclaw/openclaw) 等项目启发。
+OpenCode++ 的设计受到 [OpenAI Codex](https://github.com/openai/codex)、[OpenCode](https://github.com/anomalyco/opencode)、[MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code)、[CodeGraph](https://github.com/colbymchenry/codegraph)、[Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent)、[OpenHarness](https://github.com/HKUDS/OpenHarness) 和 [OpenClaw](https://github.com/openclaw/openclaw) 等项目启发。

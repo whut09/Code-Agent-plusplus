@@ -1,17 +1,17 @@
 # OpenCode Transparent Sidecar Mode
 
-OpenCode Transparent Sidecar Mode is the default `capp` experience. Users keep working in the normal OpenCode TUI while Code Agent++ runs as a quiet reliability layer around the session.
+OpenCode Transparent Sidecar Mode is the default `capp` experience. Users keep working in the normal OpenCode TUI while OpenCode++ runs as a quiet reliability layer around the session.
 
-Code Agent++ does not replace OpenCode. OpenCode reads, edits, and runs tools; Code Agent++ prepares repository context, installs the sidecar plugin, records execution evidence, blocks unsafe commands or paths, and writes verification reports.
+OpenCode++ does not replace OpenCode. OpenCode reads, edits, and runs tools; OpenCode++ prepares repository context, installs the sidecar plugin, records execution evidence, blocks unsafe commands or paths, and writes verification reports.
 
 ## User Experience
 
-`code-agent-plusplus` has not been published to npm yet. Install OpenCode from npm, then install Code Agent++ from source and link `capp` globally:
+`code-agent-plusplus` has not been published to npm yet. Install OpenCode from npm, then install OpenCode++ from source and link `capp` globally:
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/Code-Agent-plusplus.git
-cd Code-Agent-plusplus
+git clone https://github.com/whut09/OpenCode-plusplus.git
+cd OpenCode-plusplus
 npm install
 npm run build
 npm link
@@ -29,7 +29,7 @@ After the package is published to npm, the install step will become `npm i -g co
 `capp` runs preflight, prints a compact readiness summary, and then launches OpenCode:
 
 ```txt
-Code Agent++ sidecar ready
+OpenCode++ sidecar ready
 - Context: ready (.agent-context already exists)
 - Plugin: ready (.opencode/plugins/code-agent-plusplus.ts generated)
 - Report: .agent-context/sidecar/latest.md
@@ -110,13 +110,13 @@ capp sidecar verify
 
 ## Difference From Batch Mode
 
-| Mode                | Command                                        | Best for                                                   | Who drives the loop                                               |
-| ------------------- | ---------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------- |
-| Transparent Sidecar | `capp`                                         | Daily OpenCode-style chat coding                           | OpenCode drives editing; Code Agent++ quietly guards and verifies |
-| Batch Harness       | `capp oc "task"`                               | Benchmark, CI-like runs, scripted repair, repeatable demos | Code Agent++ drives plan / execute / evaluate / repair            |
-| Core Harness        | `code-agent-plusplus verify/policy/impact/...` | Advanced manual verification and automation                | User or CI calls specific guard commands                          |
+| Mode                | Command                                        | Best for                                                   | Who drives the loop                                             |
+| ------------------- | ---------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
+| Transparent Sidecar | `capp`                                         | Daily OpenCode-style chat coding                           | OpenCode drives editing; OpenCode++ quietly guards and verifies |
+| Batch Harness       | `capp oc "task"`                               | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
+| Core Harness        | `code-agent-plusplus verify/policy/impact/...` | Advanced manual verification and automation                | User or CI calls specific guard commands                        |
 
-Transparent Sidecar mode optimizes for a natural interactive coding experience. Batch Harness mode optimizes for repeatability and stronger Code Agent++ control.
+Transparent Sidecar mode optimizes for a natural interactive coding experience. Batch Harness mode optimizes for repeatability and stronger OpenCode++ control.
 
 ## Troubleshooting
 
@@ -134,7 +134,7 @@ capp tui . --force-plugin --dry-run
 capp
 ```
 
-If you want to use OpenCode without Code Agent++ for a session:
+If you want to use OpenCode without OpenCode++ for a session:
 
 ```bash
 capp --pure

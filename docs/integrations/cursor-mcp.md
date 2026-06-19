@@ -1,6 +1,6 @@
 # Cursor MCP Integration
 
-This guide connects Cursor to Code Agent++ through the stdio MCP server. Cursor remains the editor and coding agent; Code Agent++ provides task-aware context, edit boundaries, evidence gates, and loop decision reports.
+This guide connects Cursor to OpenCode++ through the stdio MCP server. Cursor remains the editor and coding agent; OpenCode++ provides task-aware context, edit boundaries, evidence gates, and loop decision reports.
 
 ## Configuration
 
@@ -30,7 +30,7 @@ For local development:
   "mcpServers": {
     "code-agent-plusplus": {
       "command": "node",
-      "args": ["path/to/Code-Agent-plusplus/dist/mcp/server.js"]
+      "args": ["path/to/OpenCode-plusplus/dist/mcp/server.js"]
     }
   }
 }
@@ -133,7 +133,7 @@ Example:
 }
 ```
 
-`passed: true` plus `blocking: false` is the signal that Code Agent++ considers the task ready for review.
+`passed: true` plus `blocking: false` is the signal that OpenCode++ considers the task ready for review.
 
 ## Limitations
 

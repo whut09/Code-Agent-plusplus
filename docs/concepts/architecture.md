@@ -1,6 +1,6 @@
 # Architecture
 
-Code Agent++ is a problem-driven enhancement layer for coding agents. It does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode as the coding agent; it adds context enhancement, edit boundaries, regression guards, impact analysis, test-evidence validation, and repair/finalize decision reports around them.
+OpenCode++ is a problem-driven enhancement layer for coding agents. It does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode as the coding agent; it adds context enhancement, edit boundaries, regression guards, impact analysis, test-evidence validation, and repair/finalize decision reports around them.
 
 The core product is no longer just documentation generation or context-pack compilation. It is a static but verifiable Agent Reliability Layer:
 
@@ -14,7 +14,7 @@ Current boundary: this is not a fully autonomous coding agent. It is a context, 
 
 ## Reliability Layer Model
 
-Code Agent++ is organized as a set of Guard modules around existing coding agents:
+OpenCode++ is organized as a set of Guard modules around existing coding agents:
 
 ```txt
 Code Agent failure mode
@@ -115,12 +115,12 @@ The v2 architecture is organized around five responsibilities:
 - Agent Harness Layer: exposes task execution constraints through `run`, `plan`, edit boundaries, `verify`, impact reports, regression guards, and the harness-led `orchestrate` command.
 - Integration Layer: exposes the same planning and retrieval contracts through the CLI, stdio MCP server, and retriever adapters. The MCP stdio server and core tools exist today as a foundation; editor and agent-client integrations are adapter targets that still need per-client validation. Current MCP tools include `code_agent_plusplus_build`, `code_agent_plusplus_plan`, `code_agent_plusplus_pack`, `code_agent_plusplus_retrieve`, `code_agent_plusplus_tests`, `code_agent_plusplus_impact`, `code_agent_plusplus_verify`, `code_agent_plusplus_explain`, plus experimental runtime loop tools for start/evaluate/repair/finalize flows.
 
-- External Agent Executor Layer: generic command adapters for Codex, Claude Code, Cursor, OpenCode, MiMoCode / MiMoCodex, and other scriptable code agents. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs can be wired through argv-style `--executor-command` templates with placeholders such as `{prompt}`, `{task}`, `{repo}`, and `{runDir}`. Executor commands and trace commands run without a shell, preserve quoted paths, and reject shell control operators. The first native event normalizer supports OpenCode `run --format json` stdout, optional OpenCode transcript files through `--opencode-transcript`, and generic stdout/stderr fallback. MiMoCode, Codex JSONL, and Claude Code transcript normalizers remain adapter work. These code agents own file reading, code edits, command execution, and their own tools. Code Agent++ orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decision reports around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
+- External Agent Executor Layer: generic command adapters for Codex, Claude Code, Cursor, OpenCode, MiMoCode / MiMoCodex, and other scriptable code agents. The deterministic `mock` executor is implemented for CI and tests; real code-agent CLIs can be wired through argv-style `--executor-command` templates with placeholders such as `{prompt}`, `{task}`, `{repo}`, and `{runDir}`. Executor commands and trace commands run without a shell, preserve quoted paths, and reject shell control operators. The first native event normalizer supports OpenCode `run --format json` stdout, optional OpenCode transcript files through `--opencode-transcript`, and generic stdout/stderr fallback. MiMoCode, Codex JSONL, and Claude Code transcript normalizers remain adapter work. These code agents own file reading, code edits, command execution, and their own tools. OpenCode++ orchestrates context packs, edit boundaries, trace evidence, policy checks, impact analysis, test recommendations, and repair/finalize decision reports around those executors. OpenCode and MiMoCode are priority integration targets because they are open-source code-agent runtimes.
 
 The integration model has two modes:
 
-- Agent-led mode: a code agent calls Code Agent++ tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
-- Harness-led mode: Code Agent++ runs a bounded loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision report`. Decision reports are `finalize`, `repair`, `repack`, `block`, `rollback`, or `require human review`. `code-agent-plusplus orchestrate` now runs a bounded multi-loop controller and writes each turn under `.agent-context/runs/<task-id>/iterations/<nnn>/`; `--checkpoint git-worktree` runs executors in an isolated temporary worktree and exports patches back to the host run directory. `code-agent-plusplus agent run` remains the one-pass executor wrapper. Native MiMoCode, Codex, and Claude event parsing remains adapter work.
+- Agent-led mode: a code agent calls OpenCode++ tools through MCP or CLI. This gives the agent plan/pack/retrieve/tests/impact/verify/evaluate/repair/finalize capabilities, but the agent still decides whether to call them and whether to obey the result.
+- Harness-led mode: OpenCode++ runs a bounded loop and treats the code agent as an executor. The flow is `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> policy/contracts/tests/impact/verify -> decision report`. Decision reports are `finalize`, `repair`, `repack`, `block`, `rollback`, or `require human review`. `code-agent-plusplus orchestrate` now runs a bounded multi-loop controller and writes each turn under `.agent-context/runs/<task-id>/iterations/<nnn>/`; `--checkpoint git-worktree` runs executors in an isolated temporary worktree and exports patches back to the host run directory. `code-agent-plusplus agent run` remains the one-pass executor wrapper. Native MiMoCode, Codex, and Claude event parsing remains adapter work.
 
 This keeps the project distinct from repo summarizers, README generators, and raw RAG loaders. The goal is to help coding agents safely complete concrete changes, not just read a repository.
 
@@ -377,11 +377,11 @@ code-agent-plusplus impact . --backend codegraph
 code-agent-plusplus tests . --backend codegraph
 ```
 
-The adapter checks for `.codegraph`, calls `codegraph affected <changed-files> --json`, then merges any returned dependents or test files with the internal graph result. If CodeGraph is not initialized, missing from PATH, or returns invalid JSON, Code Agent++ keeps the internal result and prints the fallback reason. The boundary is deliberate:
+The adapter checks for `.codegraph`, calls `codegraph affected <changed-files> --json`, then merges any returned dependents or test files with the internal graph result. If CodeGraph is not initialized, missing from PATH, or returns invalid JSON, OpenCode++ keeps the internal result and prints the fallback reason. The boundary is deliberate:
 
 - Internal graph = portable foundation.
 - CodeGraph backend = optional deep code intelligence.
-- Harness gate decisions = produced by Code Agent++; real edits still happen in the external executor.
+- Harness gate decisions = produced by OpenCode++; real edits still happen in the external executor.
 
 ## RAG Adapter
 

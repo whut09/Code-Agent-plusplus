@@ -86,17 +86,17 @@ const program = new Command();
 const executableName = path.basename(process.argv[1] ?? "code-agent-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
 const invokedName = executableName && executableName !== "index" ? executableName : "code-agent-plusplus";
 
-program.name(invokedName).description("Code Agent++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
+program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
 program
   .command("tui", { hidden: invokedName !== "capp" })
   .argument("[repo]", "repository path", ".")
   .option("--force-plugin", "overwrite .opencode/plugins/code-agent-plusplus.ts")
   .option("--skip-context", "do not generate .agent-context before launching OpenCode")
-  .option("--pure", "launch plain OpenCode without Code Agent++ context or sidecar")
+  .option("--pure", "launch plain OpenCode without OpenCode++ context or sidecar")
   .option("--dry-run", "run preflight and show what would launch without opening OpenCode")
   .option("--json", "print machine-readable launcher report")
-  .description("Launch OpenCode TUI with the Code Agent++ sidecar plugin.")
+  .description("Launch OpenCode TUI with the OpenCode++ sidecar plugin.")
   .action(async (repo: string, options: { forcePlugin?: boolean; skipContext?: boolean; pure?: boolean; dryRun?: boolean; json?: boolean }) => {
     const result = await launchOpencodeTui({
       repo,
@@ -121,7 +121,7 @@ program
     if (typeof result.exitCode === "number" && result.exitCode !== 0) process.exitCode = result.exitCode;
   });
 
-const sidecar = program.command("sidecar").description("Inspect and verify Code Agent++ sidecar integrations.");
+const sidecar = program.command("sidecar").description("Inspect and verify OpenCode++ sidecar integrations.");
 
 sidecar
   .command("verify")
@@ -214,7 +214,7 @@ program
   .command("report")
   .argument("[repo]", "repository path", ".")
   .option("--json", "print report metadata and markdown content as JSON")
-  .description("Show the latest Code Agent++ sidecar report.")
+  .description("Show the latest OpenCode++ sidecar report.")
   .action((repo: string, options: { json?: boolean }) => {
     const report = readCappReport(repo);
     console.log(options.json ? JSON.stringify(report, null, 2) : report.content);
@@ -225,7 +225,7 @@ program
   .command("status")
   .argument("[repo]", "repository path", ".")
   .option("--json", "print machine-readable status")
-  .description("Show whether the Code Agent++ OpenCode sidecar is active.")
+  .description("Show whether the OpenCode++ OpenCode sidecar is active.")
   .action((repo: string, options: { json?: boolean }) => {
     const report = getCappStatus(repo);
     console.log(options.json ? JSON.stringify(report, null, 2) : renderCappStatus(report));
@@ -236,7 +236,7 @@ program
   .command("doctor")
   .argument("[repo]", "repository path", ".")
   .option("--json", "print machine-readable doctor report")
-  .description("Check OpenCode, auth, git, context, and Code Agent++ sidecar readiness.")
+  .description("Check OpenCode, auth, git, context, and OpenCode++ sidecar readiness.")
   .action(async (repo: string, options: { json?: boolean }) => {
     const report = await runCappDoctor(repo);
     console.log(options.json ? JSON.stringify(report, null, 2) : renderCappDoctor(report));
@@ -1232,7 +1232,7 @@ function addOpencodeInitCommand(parent: Command): void {
     .option("--force", "overwrite existing OpenCode command and agent files")
     .option("--dry-run", "show which OpenCode files would be written without changing files")
     .option("--json", "print machine-readable init report")
-    .description("Initialize OpenCode commands and agent files for Code Agent++.")
+    .description("Initialize OpenCode commands and agent files for OpenCode++.")
     .action((repo: string, options: OpencodeInitCliOptions) => {
       const report = initOpencodeProject(repo, { force: options.force, dryRun: options.dryRun });
       console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeInitReport(report));

@@ -1,15 +1,15 @@
 # Getting Started
 
-This guide gets Code Agent++ running in OpenCode chat mode in about five minutes.
+This guide gets OpenCode++ running in OpenCode chat mode in about five minutes.
 
 ## Install
 
-`code-agent-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone Code Agent++, build it, and link the `capp` command globally:
+`code-agent-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone OpenCode++, build it, and link the `capp` command globally:
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/Code-Agent-plusplus.git
-cd Code-Agent-plusplus
+git clone https://github.com/whut09/OpenCode-plusplus.git
+cd OpenCode-plusplus
 npm install
 npm run build
 npm link
@@ -22,7 +22,7 @@ cd your-repo
 capp
 ```
 
-After Code Agent++ is published to npm, this will become:
+After OpenCode++ is published to npm, this will become:
 
 ```bash
 npm i -g code-agent-plusplus opencode-ai
@@ -112,7 +112,7 @@ code-agent-plusplus policy . --base main --fail-on required
 
 ## Advanced: Batch Harness Mode
 
-Use the OpenCode preset when Code Agent++ should call OpenCode in batch mode and evaluate the result:
+Use the OpenCode preset when OpenCode++ should call OpenCode in batch mode and evaluate the result:
 
 ```bash
 capp oc init .

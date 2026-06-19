@@ -1,6 +1,6 @@
 # Roadmap 中文
 
-Code Agent++ 的路线图围绕一条主线展开：
+OpenCode++ 的路线图围绕一条主线展开：
 
 ```txt
 执行前上下文

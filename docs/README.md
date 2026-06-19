@@ -1,6 +1,6 @@
-# Code Agent++ Documentation
+# OpenCode++ Documentation
 
-This is the documentation map for Code Agent++. Start with the path that matches your role.
+This is the documentation map for OpenCode++. Start with the path that matches your role.
 
 ## Reader Paths
 

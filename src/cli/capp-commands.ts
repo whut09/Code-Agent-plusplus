@@ -29,7 +29,7 @@ export function readCappReport(repo = "."): { path: string; content: string; exi
     return {
       path: reportPath,
       content: [
-        "Code Agent++ report is not available yet.",
+        "OpenCode++ report is not available yet.",
         "",
         "Run `capp` to start OpenCode with the sidecar, or run `capp sidecar verify .` once to generate the first report."
       ].join("\n"),
@@ -70,7 +70,7 @@ export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
   const sidecarChecks: OpencodeDoctorCheck[] = [
     {
       id: "sidecar-plugin",
-      label: "Code Agent++ sidecar plugin",
+      label: "OpenCode++ sidecar plugin",
       status: sidecar.checks.some((check) => check.name === OPENCODE_SIDECAR_PLUGIN_PATH && check.status === "pass") ? "pass" : "fail",
       details: sidecar.checks.find((check) => check.name === OPENCODE_SIDECAR_PLUGIN_PATH)?.details ?? "sidecar plugin check unavailable"
     },
@@ -95,7 +95,7 @@ export async function runCappDoctor(repo = "."): Promise<CappDoctorReport> {
 
 export function renderCappStatus(report: CappStatusReport): string {
   return [
-    "Code Agent++ Status",
+    "OpenCode++ Status",
     "",
     `Repo: ${report.repo}`,
     `Sidecar: ${report.active ? "active" : "not active"}`,
@@ -117,7 +117,7 @@ export function renderCappStatus(report: CappStatusReport): string {
 
 export function renderCappDoctor(report: CappDoctorReport): string {
   return [
-    "Code Agent++ Doctor",
+    "OpenCode++ Doctor",
     "",
     `Repo: ${report.repo}`,
     "",

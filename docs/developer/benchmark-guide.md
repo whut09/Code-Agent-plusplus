@@ -1,6 +1,6 @@
 # Benchmark Guide
 
-Code Agent++ benchmarks compare context and harness modes.
+OpenCode++ benchmarks compare context and harness modes.
 
 ## Static Benchmark
 
@@ -39,7 +39,7 @@ Use the generic executor hook for real-agent comparisons:
 ```bash
 code-agent-plusplus benchmark-agent benchmarks \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \
   --fail-on required
 ```

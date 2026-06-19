@@ -1,6 +1,6 @@
 # Claude Code MCP Integration
 
-This guide connects Claude Code to Code Agent++ as an MCP reliability backend. Claude Code performs code edits; Code Agent++ returns repository context, boundaries, evidence requirements, and loop decision reports.
+This guide connects Claude Code to OpenCode++ as an MCP reliability backend. Claude Code performs code edits; OpenCode++ returns repository context, boundaries, evidence requirements, and loop decision reports.
 
 ## Configuration
 
@@ -30,7 +30,7 @@ For repository-local development:
   "mcpServers": {
     "code-agent-plusplus": {
       "command": "node",
-      "args": ["path/to/Code-Agent-plusplus/dist/mcp/server.js"]
+      "args": ["path/to/OpenCode-plusplus/dist/mcp/server.js"]
     }
   }
 }
@@ -111,7 +111,7 @@ The important fields are `blocking`, `nextAction`, `requiredCommands`, `missingE
 
 ## Repair
 
-Call `code_agent_plusplus_repair` after a blocked evaluation. Use the returned `requiredActions` as the repair prompt. If the issue is missing context or high impact, ask Code Agent++ to repack or expand context before editing more files.
+Call `code_agent_plusplus_repair` after a blocked evaluation. Use the returned `requiredActions` as the repair prompt. If the issue is missing context or high impact, ask OpenCode++ to repack or expand context before editing more files.
 
 ## Finalize
 
@@ -138,6 +138,6 @@ Only report the task as ready when `passed` is true and `blocking` is false.
 ## Limitations
 
 - Claude Code can ignore advisory tool output unless your workflow treats `blocking` as mandatory.
-- `CLAUDE.md` and `AGENTS.md` may both exist; Code Agent++ task runs are the source of task-specific boundaries and evidence.
+- `CLAUDE.md` and `AGENTS.md` may both exist; OpenCode++ task runs are the source of task-specific boundaries and evidence.
 - MCP `step` records actions but does not prove a command ran unless the host captures command evidence.
 - End-to-end Claude Code behavior should be validated per client release.

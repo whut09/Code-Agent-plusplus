@@ -42,7 +42,7 @@ export function renderOpencodeInitReport(report: OpencodeInitReport): string {
   const skipped = report.files.filter((file) => file.status === "skipped");
   const wouldWrite = report.files.filter((file) => file.status === "would-write");
   return [
-    "Code Agent++ OpenCode Init",
+    "OpenCode++ OpenCode Init",
     "",
     `Repo: ${report.repo}`,
     "",
@@ -63,14 +63,14 @@ function opencodeInitTemplates(): Array<{ path: string; content: string }> {
     {
       path: ".opencode/commands/capp.md",
       content: `---
-description: Run a coding task through Code Agent++ with OpenCode as the executor
+description: Run a coding task through OpenCode++ with OpenCode as the executor
 ---
 
-# Code Agent++ Task Harness
+# OpenCode++ Task Harness
 
 Task: $ARGUMENTS
 
-Use Code Agent++ as the external harness control plane for this coding task.
+Use OpenCode++ as the external harness control plane for this coding task.
 
 1. Run \`capp oc doctor .\` if this repository has not been checked yet.
 2. Run \`capp oc "$ARGUMENTS" .\`.
@@ -78,17 +78,17 @@ Use Code Agent++ as the external harness control plane for this coding task.
 4. If the decision is blocking, follow the listed \`Next\` commands before claiming completion.
 5. Prefer \`capp oc report --last\` for the full report and \`capp oc repair\` for repair guidance.
 
-Do not manually declare the task complete when Code Agent++ reports \`repair\`, \`repack\`, \`block\`, \`rollback\`, or \`human-review\`.`
+Do not manually declare the task complete when OpenCode++ reports \`repair\`, \`repack\`, \`block\`, \`rollback\`, or \`human-review\`.`
     },
     {
       path: ".opencode/commands/capp-verify.md",
       content: `---
-description: Verify the latest Code Agent++ OpenCode run
+description: Verify the latest OpenCode++ OpenCode run
 ---
 
-# Code Agent++ Verification
+# OpenCode++ Verification
 
-Verify the latest Code Agent++ run before finalizing.
+Verify the latest OpenCode++ run before finalizing.
 
 1. Run \`capp oc report --last --summary\`.
 2. Run \`capp verify --diff .\`.
@@ -99,20 +99,20 @@ Verify the latest Code Agent++ run before finalizing.
     {
       path: ".opencode/agents/code-agent-plusplus.md",
       content: `---
-description: Use OpenCode as the executor under the Code Agent++ reliability harness
+description: Use OpenCode as the executor under the OpenCode++ reliability harness
 ---
 
-# Code Agent++ Executor Agent
+# OpenCode++ Executor Agent
 
-You are operating as a coding-agent executor under Code Agent++.
+You are operating as a coding-agent executor under OpenCode++.
 
-Code Agent++ owns context packaging, edit boundaries, trace evidence, policy checks, impact analysis, verification, and the final decision report. OpenCode owns reading source files, editing code, and running commands.
+OpenCode++ owns context packaging, edit boundaries, trace evidence, policy checks, impact analysis, verification, and the final decision report. OpenCode owns reading source files, editing code, and running commands.
 
 Operating rules:
 
 - Start concrete coding tasks with \`capp oc "$TASK" .\` or the \`/capp\` command.
 - Read source files before behavior-changing edits; generated summaries are guidance, not source of truth.
-- Keep edits inside the Code Agent++ edit boundary unless the report explicitly requires expansion.
+- Keep edits inside the OpenCode++ edit boundary unless the report explicitly requires expansion.
 - Treat \`finalize\` as ready for review, not automatic merge.
 - Treat \`repair\`, \`repack\`, \`run-tests\`, \`block\`, \`rollback\`, and \`human-review\` as active gates.
 - Use \`capp oc report --last\` for details and \`capp oc repair\` for the next repair checklist.

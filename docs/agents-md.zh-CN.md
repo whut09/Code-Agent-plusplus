@@ -2,11 +2,11 @@
 
 中文 | [English](agents-md.md)
 
-`AGENTS.md` 是给 AI 编程 Agent 阅读的普通 Markdown 指南。Code Agent++ 默认把它生成为很短的操作约束文件，只放必须遵守的规则、入口、命令和生成上下文索引。
+`AGENTS.md` 是给 AI 编程 Agent 阅读的普通 Markdown 指南。OpenCode++ 默认把它生成为很短的操作约束文件，只放必须遵守的规则、入口、命令和生成上下文索引。
 
-Code Agent++ 会生成根目录 `AGENTS.md`，并把更详细的上下文放到 `.agent-context/`。
+OpenCode++ 会生成根目录 `AGENTS.md`，并把更详细的上下文放到 `.agent-context/`。
 
-在 Code Agent++ 架构里，`AGENTS.md` 是 Context Guard 的一种输出。它应该保持短小；Boundary、Evidence、Impact、Regression、Hallucination 和 Loop 检查会通过 `.agent-context/` 下的 contracts、traces、policy reports、verify reports 和 task runs 承载。
+在 OpenCode++ 架构里，`AGENTS.md` 是 Context Guard 的一种输出。它应该保持短小；Boundary、Evidence、Impact、Regression、Hallucination 和 Loop 检查会通过 `.agent-context/` 下的 contracts、traces、policy reports、verify reports 和 task runs 承载。
 
 根目录说明现在有明确分层：
 
@@ -60,10 +60,10 @@ Generated context is split into L0-L3 so agents do not load the full `.agent-con
 
 ## 让 AI Agent 帮你生成
 
-你不一定要手动运行 CLI，也可以直接让编程 Agent 使用 [whut09/Code-Agent-plusplus](https://github.com/whut09/Code-Agent-plusplus) 去处理另一个仓库：
+你不一定要手动运行 CLI，也可以直接让编程 Agent 使用 [whut09/OpenCode-plusplus](https://github.com/whut09/OpenCode-plusplus) 去处理另一个仓库：
 
 ```txt
-使用 https://github.com/whut09/Code-Agent-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具。请强制启用 LLM 摘要：在目标仓库创建或更新 code-agent-plusplus.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置或我提供的 key/baseUrl/model；如果缺少配置，请先问我。然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件和 LLM 摘要模式是否成功。
+使用 https://github.com/whut09/OpenCode-plusplus 对 xxx 项目生成 AGENTS.md 和 .agent-context 上下文包。请先检查目标仓库结构，再按需安装或克隆该工具。请强制启用 LLM 摘要：在目标仓库创建或更新 code-agent-plusplus.local.yml，不要提交该文件，优先使用当前 AI 工具环境里可用的模型 API 配置或我提供的 key/baseUrl/model；如果缺少配置，请先问我。然后运行 code-agent-plusplus build <目标仓库> --target codex --llm，再运行 code-agent-plusplus validate <目标仓库>，最后说明生成了哪些文件和 LLM 摘要模式是否成功。
 ```
 
 把 `xxx 项目` 替换成本地路径、GitHub 仓库或当前工作区名称即可。这种方式在 Codex 里尤其自然，因为 Codex 可以在工作区运行命令，并在后续修改代码前读取生成的 `AGENTS.md`。

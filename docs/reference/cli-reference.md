@@ -72,7 +72,7 @@ code-agent-plusplus agent run "<task>" [repo] --executor mock
 code-agent-plusplus orchestrate "<task>" [repo] --executor mock --max-loops 3
 ```
 
-When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode <repo>`.
+When invoked as `capp` with no arguments, OpenCode++ runs OpenCode TUI preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, and launches `opencode <repo>`.
 
 `capp --pure` launches plain OpenCode without generating `.agent-context` or injecting the sidecar.
 
@@ -82,7 +82,7 @@ When invoked as `capp` with no arguments, Code Agent++ runs OpenCode TUI preflig
 
 `capp doctor` checks OpenCode, `opencode auth list`, git, `.agent-context`, the sidecar plugin, and latest report readiness.
 
-`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `tool.execute.after`, `file.edited`, and `session.idle`, and can write/read its event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It then runs the shared Code Agent++ guard stack: contracts, hallucination guard, regression guard, impact analysis, test selection, task verify, and policy engine. The current result is written to:
+`capp sidecar verify` checks that the OpenCode sidecar plugin exists, listens for `tool.execute.after`, `file.edited`, and `session.idle`, and can write/read its event log at `.agent-context/traces/opencode-sidecar-events.jsonl`. It then runs the shared OpenCode++ guard stack: contracts, hallucination guard, regression guard, impact analysis, test selection, task verify, and policy engine. The current result is written to:
 
 ```txt
 .agent-context/sidecar/latest.json
@@ -123,7 +123,7 @@ capp oc repair
 `opencode run` and `oc` default to:
 
 ```bash
-opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."
 ```
 
 `opencode run` and `oc` print a compact summary by default. Use `--full-report` for the full report, `--json` for machine-readable output, or `oc report --last` after a run.

@@ -177,7 +177,7 @@ export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecar
   const checks: OpenCodeSidecarVerifyCheck[] = [];
 
   checks.push(checkGitRepo(root));
-  checks.push(checkExists(".agent-context", path.join(root, ".agent-context"), "Code Agent++ context directory exists"));
+  checks.push(checkExists(".agent-context", path.join(root, ".agent-context"), "OpenCode++ context directory exists"));
   checks.push(checkExists(OPENCODE_SIDECAR_PLUGIN_PATH, pluginPath, "OpenCode sidecar plugin exists"));
 
   if (existsSync(pluginPath)) {
@@ -339,7 +339,7 @@ export function recordOpencodeSidecarTool(repo = ".", input: OpenCodeSidecarTool
 
 export function renderOpencodeSidecarCommandCheck(result: OpenCodeSidecarCommandCheckResult): string {
   return [
-    "Code Agent++ Sidecar Command Check",
+    "OpenCode++ Sidecar Command Check",
     "",
     `Command: ${result.command ?? "none"}`,
     `Paths: ${result.paths.length ? result.paths.join(", ") : "none"}`,
@@ -352,7 +352,7 @@ export function renderOpencodeSidecarCommandCheck(result: OpenCodeSidecarCommand
 
 export function renderOpencodeSidecarToolRecord(result: OpenCodeSidecarToolRecordResult): string {
   return [
-    "Code Agent++ Sidecar Tool Record",
+    "OpenCode++ Sidecar Tool Record",
     "",
     `Tool: ${result.event.tool}`,
     `Command: ${result.event.command ?? "none"}`,
@@ -367,7 +367,7 @@ export function renderOpencodeSidecarToolRecord(result: OpenCodeSidecarToolRecor
 
 export function renderOpencodeSidecarVerifyReport(result: OpenCodeSidecarVerifyResult): string {
   return [
-    "Code Agent++ OpenCode Sidecar Verify",
+    "OpenCode++ OpenCode Sidecar Verify",
     "",
     `Repo: ${result.repo}`,
     `Plugin: ${path.relative(result.repo, result.pluginPath)}`,
@@ -394,7 +394,7 @@ export function renderOpencodeSidecarVerifyReport(result: OpenCodeSidecarVerifyR
 
 export function renderOpencodeSidecarLatestMarkdown(result: OpenCodeSidecarVerifyResult): string {
   return [
-    "# Code Agent++ Sidecar Latest",
+    "# OpenCode++ Sidecar Latest",
     "",
     `Generated: ${result.generatedAt}`,
     `Result: ${result.ok ? "ready" : "blocked"}`,

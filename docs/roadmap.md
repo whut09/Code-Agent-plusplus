@@ -1,6 +1,6 @@
 # Roadmap
 
-Code Agent++ is evolving from “generate files that help an agent read a repo” into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. Code Agent++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
+OpenCode++ is evolving from “generate files that help an agent read a repo” into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. OpenCode++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
 
 The roadmap is organized around the harness lifecycle:
 
@@ -16,10 +16,10 @@ The long-term product shape:
 
 ```txt
 User task
-  -> Code Agent++ Context / Boundary / Regression preparation
+  -> OpenCode++ Context / Boundary / Regression preparation
   -> choose executor: Codex / Claude Code / Cursor / OpenCode / MiMoCode
   -> code agent edits code
-  -> Code Agent++ collects diff / trace / test evidence
+  -> OpenCode++ collects diff / trace / test evidence
   -> Guard modules evaluate the run
   -> Loop Guard reports finalize / repair / repack / block / human review
 ```
@@ -74,7 +74,7 @@ Status: implemented foundation; `orchestrate` now runs multiple bounded iteratio
 
 ## v0.5: Executor Adapter Layer
 
-Goal: make Code Agent++ work as an external control plane for multiple code agents.
+Goal: make OpenCode++ work as an external control plane for multiple code agents.
 
 - `AgentExecutor` interface for external coding agents:
 
@@ -159,14 +159,14 @@ Status: structured Regression Guard MVP implemented; richer history ingestion re
 
 ## v0.8: MCP and Agent-Native Runtime
 
-Goal: let coding agents call Code Agent++ as a native reliability backend.
+Goal: let coding agents call OpenCode++ as a native reliability backend.
 
 - MCP tools for build, plan, pack, retrieve, tests, impact, verify, evaluate, repair, finalize.
 - Verifiable MCP runtime fields: `nextAction`, `blocking`, `requiredCommands`, `mustInspect`, `allowedEditGlobs`, `avoidEditGlobs`, and `missingEvidence`.
 - Client usage guides for Codex, OpenCode, Claude Code, and Cursor under `docs/integrations/`.
 - OpenCode / MiMoCode / MiMoCodex MCP usage guide and native event validation.
-- Agent-led mode documentation: code agent calls Code Agent++ tools, with documented limitations that gates are advisory unless the host agent follows them.
-- Harness-led mode documentation: Code Agent++ invokes the executor, evaluates bounded gates, and writes decision reports.
+- Agent-led mode documentation: code agent calls OpenCode++ tools, with documented limitations that gates are advisory unless the host agent follows them.
+- Harness-led mode documentation: OpenCode++ invokes the executor, evaluates bounded gates, and writes decision reports.
 - Codex and Claude Code adapters.
 - Cursor integration guide.
 - Unified retriever adapters for static, ripgrep, LightRAG, embedding, and hybrid retrieval.
@@ -175,7 +175,7 @@ Status: MCP stdio server, core tools, structured runtime gate fields, and Codex/
 
 ## v0.9: Orchestrator Loop
 
-Goal: make Code Agent++ a bounded runtime controller while the code agent remains a replaceable executor.
+Goal: make OpenCode++ a bounded runtime controller while the code agent remains a replaceable executor.
 
 - `code-agent-plusplus opencode doctor .`
 - `code-agent-plusplus opencode run "<task>" . --max-loops 3 --checkpoint git-worktree --fail-on required`
@@ -237,7 +237,7 @@ OpenCode example:
 ```bash
 code-agent-plusplus benchmark-agent benchmarks \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \
   --fail-on required
 ```

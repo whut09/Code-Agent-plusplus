@@ -15,7 +15,7 @@ import {
 } from "../src/cli/opencode-preset.js";
 
 test("OpenCode preset uses the requested default executor command", () => {
-  assert.equal(OPENCODE_DEFAULT_EXECUTOR_COMMAND, 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."');
+  assert.equal(OPENCODE_DEFAULT_EXECUTOR_COMMAND, 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."');
 });
 
 test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, and clean tree checks pass", () => {
@@ -64,7 +64,7 @@ test("OpenCode init writes commands and agent files without overwriting by defau
     assert.ok(existsSync(path.join(root, ".opencode", "commands", "capp.md")));
     assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp.md"), "utf8").includes('capp oc "$ARGUMENTS" .'));
     assert.ok(readFileSync(path.join(root, ".opencode", "commands", "capp-verify.md"), "utf8").includes("capp oc report --last --summary"));
-    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "code-agent-plusplus.md"), "utf8").includes("Code Agent++ Executor Agent"));
+    assert.ok(readFileSync(path.join(root, ".opencode", "agents", "code-agent-plusplus.md"), "utf8").includes("OpenCode++ Executor Agent"));
 
     writeFileSync(path.join(root, ".opencode", "commands", "capp.md"), "custom\n", "utf8");
     const second = initOpencodeProject(root);
@@ -89,7 +89,7 @@ test("OpenCode init dry-run reports files without writing them", () => {
 
     assert.ok(report.files.every((file) => file.status === "would-write"));
     assert.equal(existsSync(path.join(root, ".opencode")), false);
-    assert.match(rendered, /Code Agent\+\+ OpenCode Init/);
+    assert.match(rendered, /OpenCode\+\+ OpenCode Init/);
     assert.match(rendered, /\/capp <task>/);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -100,7 +100,7 @@ test("OpenCode run summary keeps the terminal output compact and actionable", ()
   const report = createReportFixture();
   const rendered = renderOpencodeRunSummary(report);
 
-  assert.match(rendered, /Code Agent\+\+ OpenCode Run/);
+  assert.match(rendered, /OpenCode\+\+ OpenCode Run/);
   assert.match(rendered, /Task: fix login timeout bug/);
   assert.match(rendered, /Decision: repair/);
   assert.match(rendered, /Confidence: 0\.72/);

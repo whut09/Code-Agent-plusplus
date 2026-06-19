@@ -52,7 +52,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
   });
 
   if (options.pure) {
-    steps.push({ name: "mode", status: "skipped", details: "pure OpenCode mode; Code Agent++ sidecar disabled" });
+    steps.push({ name: "mode", status: "skipped", details: "pure OpenCode mode; OpenCode++ sidecar disabled" });
     const command = ["opencode", repo];
     if (!opencode.ok) return { repo, steps, command, launched: false, exitCode: 1 };
     if (options.dryRun) return { repo, steps, command, launched: false, exitCode: 0 };
@@ -111,7 +111,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
 
 export function renderOpenCodeLauncherResult(result: OpenCodeLauncherResult): string {
   return [
-    "Code Agent++ OpenCode TUI",
+    "OpenCode++ OpenCode TUI",
     "",
     `Repo: ${result.repo}`,
     "",
@@ -127,7 +127,7 @@ export function renderOpenCodeLauncherPreflight(result: OpenCodeLauncherPrefligh
   const context = result.steps.find((step) => step.name === "context");
   const plugin = result.steps.find((step) => step.name === "sidecar-plugin");
   const mode = result.steps.find((step) => step.name === "mode");
-  const title = mode?.status === "skipped" ? "Code Agent++ launching pure OpenCode" : "Code Agent++ sidecar ready";
+  const title = mode?.status === "skipped" ? "OpenCode++ launching pure OpenCode" : "OpenCode++ sidecar ready";
   return [
     title,
     `- Context: ${statusWord(context)}${context ? ` (${context.details})` : ""}`,

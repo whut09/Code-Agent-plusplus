@@ -1,13 +1,13 @@
 # Executor CLI Integration
 
-Use this path when Code Agent++ should drive a bounded harness-led loop while an external coding agent performs edits.
+Use this path when OpenCode++ should drive a bounded harness-led loop while an external coding agent performs edits.
 
 ## OpenCode TUI Sidecar
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/Code-Agent-plusplus.git
-cd Code-Agent-plusplus
+git clone https://github.com/whut09/OpenCode-plusplus.git
+cd OpenCode-plusplus
 npm install
 npm run build
 npm link
@@ -15,7 +15,7 @@ cd your-repo
 capp
 ```
 
-`capp` starts the OpenCode TUI for the current repository after preflight and injects the Code Agent++ sidecar plugin. It is the default transparent chat mode for daily coding.
+`capp` starts the OpenCode TUI for the current repository after preflight and injects the OpenCode++ sidecar plugin. It is the default transparent chat mode for daily coding.
 
 Read the full sidecar flow in [OpenCode Transparent Sidecar Mode](opencode-sidecar.md).
 
@@ -33,7 +33,7 @@ capp oc repair
 The preset uses the built-in command template:
 
 ```bash
-opencode run --format json --dir {repo} --file {prompt} "Follow the attached Code Agent++ task prompt."
+opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."
 ```
 
 `opencode doctor` checks OpenCode installation, `opencode run`, `opencode auth list`, git repository status, `.agent-context`, and working-tree cleanliness.
@@ -46,12 +46,12 @@ opencode run --format json --dir {repo} --file {prompt} "Follow the attached Cod
 .opencode/agents/code-agent-plusplus.md
 ```
 
-Inside OpenCode, use `/capp <task>` to start a Code Agent++ harness-led run and `/capp-verify` before finalizing.
+Inside OpenCode, use `/capp <task>` to start a OpenCode++ harness-led run and `/capp-verify` before finalizing.
 
 OpenCode preset runs print a compact terminal summary by default:
 
 ```txt
-Code Agent++ OpenCode Run
+OpenCode++ OpenCode Run
 
 Task: fix login timeout bug
 Decision: repair
@@ -74,7 +74,7 @@ Next:
 ```bash
 code-agent-plusplus orchestrate "fix login timeout bug" . \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached Code Agent++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \
   --checkpoint git-worktree \
   --fail-on required
@@ -94,11 +94,11 @@ task
 
 ## Placeholders
 
-- `{prompt}`: path to the per-iteration prompt file supplied by Code Agent++.
+- `{prompt}`: path to the per-iteration prompt file supplied by OpenCode++.
 - `{task}`: original task text.
 - `{repo}`: repository path.
 - `{runDir}`: `.agent-context/runs/<task-id>/`.
 
 ## Sandbox
 
-`--checkpoint git-worktree` runs the executor in a temporary worktree and exports patches back to the run directory. Code Agent++ records rollback decisions and checkpoint evidence, but it does not destructively reset the user's working tree.
+`--checkpoint git-worktree` runs the executor in a temporary worktree and exports patches back to the run directory. OpenCode++ records rollback decisions and checkpoint evidence, but it does not destructively reset the user's working tree.

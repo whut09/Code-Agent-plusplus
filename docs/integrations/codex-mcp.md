@@ -1,6 +1,6 @@
 # Codex MCP Integration
 
-This guide wires Code Agent++ into Codex through the stdio MCP server. The MCP flow is agent-led: Codex edits code, while Code Agent++ returns context, edit boundaries, evidence requirements, and loop decision reports.
+This guide wires OpenCode++ into Codex through the stdio MCP server. The MCP flow is agent-led: Codex edits code, while OpenCode++ returns context, edit boundaries, evidence requirements, and loop decision reports.
 
 ## Configuration
 
@@ -30,7 +30,7 @@ For local development without a global install, point Codex at the built server:
   "mcpServers": {
     "code-agent-plusplus": {
       "command": "node",
-      "args": ["path/to/Code-Agent-plusplus/dist/mcp/server.js"]
+      "args": ["path/to/OpenCode-plusplus/dist/mcp/server.js"]
     }
   }
 }
@@ -141,7 +141,7 @@ Use it only after tests, contracts, policy, and evidence are satisfied:
 }
 ```
 
-`passed: true` and `blocking: false` mean Code Agent++ considers the loop ready for review.
+`passed: true` and `blocking: false` mean OpenCode++ considers the loop ready for review.
 
 ## Limitations
 

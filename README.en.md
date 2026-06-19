@@ -1,30 +1,32 @@
-# Code Agent++
+# OpenCode++
 
 [中文](README.md) | English
 
-**An external enhancement and reliability engineering layer for coding agents.**
+**A reliability enhancement layer that adds context, boundaries, evidence, verification, and repair loops to OpenCode.**
 
-Code Agent++ is not another code-generation agent and does not replace Codex, OpenCode, Claude Code, Cursor, or MiMoCode. It is a bounded harness-led control loop: it compiles repositories into task-aware context, generates edit boundaries, records post-tool execution evidence, runs policy / contracts / tests / impact / verify checks, and returns `finalize / repair / repack / block / require-human-review` decision reports.
+OpenCode++ is not affiliated with, endorsed by, or built by the OpenCode team. OpenCode remains the coding agent runtime; OpenCode++ adds an external reliability harness, sidecar, and verification gates.
+
+The current npm package, CLI command, and config file names still use the transitional names `code-agent-plusplus` / `capp` / `code-agent-plusplus.config.yml`.
 
 ```txt
-Coding agents read code, edit code, and run commands.
-Code Agent++ provides context, boundaries, evidence, gates, impact analysis, and decision reports.
+OpenCode chats, reads code, edits files, and runs commands.
+OpenCode++ provides context, boundaries, evidence, gates, impact analysis, and repair/finalize reports.
 ```
 
 ## 30-Second Start
 
-`code-agent-plusplus` has not been published to npm yet, so `npm i -g code-agent-plusplus` does not work today. Install the tool from source and link the `capp` command globally:
+`code-agent-plusplus` has not been published to npm yet, so `npm i -g code-agent-plusplus` does not work today. Install OpenCode++ from source and link the `capp` command globally:
 
 ```bash
 npm i -g opencode-ai
-git clone https://github.com/whut09/Code-Agent-plusplus.git
-cd Code-Agent-plusplus
+git clone https://github.com/whut09/OpenCode-plusplus.git
+cd OpenCode-plusplus
 npm install
 npm run build
 npm link
 ```
 
-Then enter the target repository where you want Code Agent++ to run:
+Then enter the target repository where you want OpenCode++ to run:
 
 ```bash
 cd your-repo
@@ -45,7 +47,7 @@ Add tests for this module.
 Refactor this function while preserving behavior.
 ```
 
-Code Agent++ runs quietly around the chat loop:
+OpenCode++ runs quietly around the chat loop:
 
 - initializes and refreshes repository context
 - checks edit boundaries
@@ -62,11 +64,11 @@ It stays quiet by default and only interrupts the TUI when blockers are found.
 ## Daily Commands
 
 ```bash
-capp          # OpenCode chat mode with the Code Agent++ sidecar
+capp          # OpenCode chat mode with the OpenCode++ sidecar
 capp report   # show the latest sidecar check
 capp status   # show whether the sidecar is active
 capp doctor   # diagnose OpenCode / auth / git / context / plugin
-capp --pure   # plain OpenCode without Code Agent++
+capp --pure   # plain OpenCode without OpenCode++
 ```
 
 `capp` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/code-agent-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact 3-line readiness summary, then opens the OpenCode TUI for the current repository. The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle`: it blocks dangerous or hallucinated commands before execution, records command result evidence after tool execution, and runs dirty/debounced incremental verification when OpenCode becomes idle.
@@ -82,12 +84,12 @@ The README main path intentionally recommends only `capp`. Batch Harness Mode, C
 
 ## Relationship To Related Projects
 
-| Project                       | Main role                                    | Relationship to Code Agent++                                                     |
-| ----------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| Codex / Claude Code / Cursor  | Read, edit, and run code                     | Executors; Code Agent++ adds external validation and constraints                 |
-| OpenCode / MiMoCode           | Open-source coding agent runtime / assistant | Priority executor targets; Code Agent++ adds harness gates                       |
-| CodeGraph                     | Code graph, symbols, call graph, MCP         | Optional deep code-intelligence backend                                          |
-| OpenHarness / Oh My OpenAgent | General agent harness / workflow             | Same broad harness space; Code Agent++ focuses on coding-agent reliability loops |
+| Project                       | Main role                                    | Relationship to OpenCode++                                                     |
+| ----------------------------- | -------------------------------------------- | ------------------------------------------------------------------------------ |
+| Codex / Claude Code / Cursor  | Read, edit, and run code                     | Executors; OpenCode++ adds external validation and constraints                 |
+| OpenCode / MiMoCode           | Open-source coding agent runtime / assistant | Priority executor targets; OpenCode++ adds harness gates                       |
+| CodeGraph                     | Code graph, symbols, call graph, MCP         | Optional deep code-intelligence backend                                        |
+| OpenHarness / Oh My OpenAgent | General agent harness / workflow             | Same broad harness space; OpenCode++ focuses on coding-agent reliability loops |
 
 ## What It Solves
 
@@ -140,4 +142,4 @@ See the [documentation home](docs/README.md) for full maturity notes.
 
 ## Acknowledgements
 
-Code Agent++ is inspired by [OpenAI Codex](https://github.com/openai/codex), [OpenCode](https://github.com/anomalyco/opencode), [MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code), [CodeGraph](https://github.com/colbymchenry/codegraph), [Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent), [OpenHarness](https://github.com/HKUDS/OpenHarness), and [OpenClaw](https://github.com/openclaw/openclaw).
+OpenCode++ is inspired by [OpenAI Codex](https://github.com/openai/codex), [OpenCode](https://github.com/anomalyco/opencode), [MiMo-Code](https://github.com/XiaomiMiMo/MiMo-Code), [CodeGraph](https://github.com/colbymchenry/codegraph), [Oh My OpenAgent](https://github.com/code-yeongyu/oh-my-openagent), [OpenHarness](https://github.com/HKUDS/OpenHarness), and [OpenClaw](https://github.com/openclaw/openclaw).

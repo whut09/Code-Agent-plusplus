@@ -1,6 +1,6 @@
 # Artifacts Reference
 
-Code Agent++ writes human-readable Markdown and machine-readable JSON.
+OpenCode++ writes human-readable Markdown and machine-readable JSON.
 
 ```txt
 AGENTS.md

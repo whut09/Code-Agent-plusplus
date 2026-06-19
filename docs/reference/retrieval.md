@@ -1,6 +1,6 @@
 # Retrieval Providers
 
-Code Agent++ retrieval is a provider protocol, not a single RAG framework.
+OpenCode++ retrieval is a provider protocol, not a single RAG framework.
 
 ## Providers
 
