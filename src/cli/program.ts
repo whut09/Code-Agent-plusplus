@@ -1,0 +1,49 @@
+import path from "node:path";
+import { Command } from "commander";
+import { resolveDefaultCommandArgs } from "./default-command.js";
+import { registerBenchmarkCommands } from "./commands/benchmark.js";
+import { registerContextCommands } from "./commands/context.js";
+import { registerDoctorCommand } from "./commands/doctor.js";
+import { registerGuardCommands } from "./commands/guards.js";
+import { registerMemoryCommands } from "./commands/memory.js";
+import { registerOpencodeCommands } from "./commands/opencode.js";
+import { registerOrchestrateCommands } from "./commands/orchestrate.js";
+import { registerPolicyCommand } from "./commands/policy.js";
+import { registerRagCommands } from "./commands/rag.js";
+import { registerReportCommand } from "./commands/report.js";
+import { registerSidecarCommands } from "./commands/sidecar.js";
+import { registerStatusCommand } from "./commands/status.js";
+import { registerTaskCommands } from "./commands/task.js";
+import { registerTraceCommands } from "./commands/trace.js";
+import { registerTuiCommand } from "./commands/tui.js";
+
+export async function runCli(argv = process.argv): Promise<void> {
+  const program = new Command();
+  const executableName = path.basename(argv[1] ?? "opencode-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
+  const invokedName = executableName && executableName !== "index" ? executableName : "opencode-plusplus";
+
+  program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
+
+  registerTuiCommand(program, invokedName);
+  registerSidecarCommands(program);
+  registerReportCommand(program);
+  registerStatusCommand(program);
+  registerDoctorCommand(program);
+  registerOpencodeCommands(program);
+  registerContextCommands(program);
+  registerTaskCommands(program);
+  registerPolicyCommand(program);
+  registerGuardCommands(program);
+  registerMemoryCommands(program);
+  registerTraceCommands(program);
+  registerRagCommands(program);
+  registerOrchestrateCommands(program);
+  registerBenchmarkCommands(program);
+
+  const parseArgs = resolveDefaultCommandArgs({ invokedName, argv });
+
+  await program.parseAsync(parseArgs).catch((error: unknown) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
+}

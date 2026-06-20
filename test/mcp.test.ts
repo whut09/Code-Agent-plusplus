@@ -109,7 +109,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     const started = await executeOpenCodePlusplusMcpTool("opencode_plusplus_start_loop", {
       repo: root,
       task: "fix login timeout bug",
-      agent: "codex",
+      agent: "opencode",
       type: "bugfix",
       base: "main"
     });
@@ -129,7 +129,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     const step = await executeOpenCodePlusplusMcpTool("opencode_plusplus_step", {
       repo: root,
       traceId,
-      agent: "codex",
+      agent: "opencode",
       action: "edit",
       files: ["src/auth/session.ts"],
       reason: "timeout logic"
@@ -178,7 +178,7 @@ test("mcp runtime tools drive an agent loop with trace and policy evidence", asy
     });
     await executeOpenCodePlusplusMcpTool("opencode_plusplus_build", {
       repo: root,
-      target: "codex"
+      target: "opencode"
     });
 
     const finalized = await executeOpenCodePlusplusMcpTool("opencode_plusplus_finalize", {
