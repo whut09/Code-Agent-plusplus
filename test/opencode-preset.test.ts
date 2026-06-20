@@ -112,8 +112,8 @@ test("OpenCode run summary keeps the terminal output compact and actionable", ()
   assert.match(rendered, /Confidence: 0\.72/);
   assert.match(rendered, /- src\/auth\/session\.ts/);
   assert.match(rendered, /- Evidence Guard: no test command after last edit/);
-  assert.match(rendered, /  opencode-plusplus oc repair/);
-  assert.match(rendered, /  opencode-plusplus oc report --last/);
+  assert.match(rendered, / {2}opencode-plusplus oc repair/);
+  assert.match(rendered, / {2}opencode-plusplus oc report --last/);
 });
 
 test("OpenCode report lookup returns the latest OpenCode orchestrator report", () => {

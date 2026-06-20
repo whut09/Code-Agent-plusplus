@@ -1,7 +1,7 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
-import { runOpencodeDoctor, type OpencodeDoctorCheck, type OpencodeDoctorReport } from "./opencode-preset.js";
-import { OPENCODE_SIDECAR_PLUGIN_PATH } from "../integrations/opencode/sidecar-plugin-template.js";
+import { runOpencodeDoctor, type OpencodeDoctorCheck } from "./opencode-preset.js";
+import { OPENCODE_SIDECAR_PLUGIN_PATH } from "../integrations/opencode/plugin-template.js";
 import { verifyOpencodeSidecar } from "../integrations/opencode/sidecar.js";
 
 export interface OpenCodePlusplusStatusReport {

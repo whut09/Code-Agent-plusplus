@@ -20,7 +20,7 @@ import { buildChangeImpactReport, type ChangeImpactReport } from "../../outputs/
 import { validateContracts, type ContractValidationReport } from "../../outputs/contract-validator.js";
 import { buildTestSelection, type TestSelectionReport } from "../../outputs/test-selector.js";
 import { renderTaskVerify } from "../../outputs/task-harness.js";
-import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "./sidecar-plugin-template.js";
+import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "./plugin-template.js";
 
 export interface OpenCodeSidecarEnsureOptions {
   force?: boolean;
@@ -183,10 +183,19 @@ export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecar
 
   if (existsSync(pluginPath)) {
     const source = readFileSync(pluginPath, "utf8");
-    checks.push(checkSource("plugin-export", source, /CodeAgentPlusPlusSidecar/, "exports CodeAgentPlusPlusSidecar"));
-    checks.push(checkSource("file.edited hook", source, /file\.edited/, "listens for file.edited events"));
-    checks.push(checkSource("session.idle hook", source, /session\.idle/, "listens for session.idle events"));
-    checks.push(checkSource("tool.execute.after hook", source, /tool\.execute\.after/, "records post-tool evidence"));
+    checks.push(checkSource("plugin-export", source, /OpenCodePlusplusSidecar/, "exports OpenCodePlusplusSidecar"));
+    checks.push(checkSource("file.edited hook", source, /createOpenCodePlusplusSidecar|file\.edited/, "delegates file.edited handling to the sidecar runtime"));
+    checks.push(
+      checkSource("session.idle hook", source, /createOpenCodePlusplusSidecar|session\.idle/, "delegates session.idle handling to the sidecar runtime")
+    );
+    checks.push(
+      checkSource(
+        "tool.execute.after hook",
+        source,
+        /createOpenCodePlusplusSidecar|tool\.execute\.after/,
+        "delegates post-tool evidence to the sidecar runtime"
+      )
+    );
   }
 
   checks.push(

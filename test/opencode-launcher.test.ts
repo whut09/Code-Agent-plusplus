@@ -7,7 +7,9 @@ import { buildContextPackage } from "../src/core/context-builder.js";
 import { runGit } from "../src/core/git.js";
 import { writeContextPackage } from "../src/outputs/renderers/writer.js";
 import { launchOpenCodeWithSidecar, renderOpenCodeLauncherPreflight } from "../src/integrations/opencode/launcher.js";
-import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/sidecar-plugin-template.js";
+import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "../src/integrations/opencode/plugin-template.js";
+import { exitCodeFromOutput, hashText, outputText } from "../src/integrations/opencode/plugin-runtime/evidence.js";
+import { commandFromTool, pathsFromTool } from "../src/integrations/opencode/plugin-runtime/paths.js";
 import {
   checkOpencodeSidecarCommand,
   ensureOpencodeSidecarPlugin,
@@ -88,42 +90,28 @@ test("OpenCode launcher emits a compact preflight before opening the TUI", async
 });
 
 test("OpenCode sidecar plugin template uses the project plugin export shape", () => {
-  const source = opencodeSidecarPluginTemplate();
+  const source = opencodeSidecarPluginTemplate("./runtime.js");
 
-  assert.match(source, /export const CodeAgentPlusPlusSidecar/);
-  assert.match(source, /event: async/);
-  assert.match(source, /session\.created/);
-  assert.match(source, /file\.edited/);
-  assert.match(source, /file\.watcher\.updated/);
-  assert.match(source, /session\.idle/);
-  assert.match(source, /sidecar", "verify"/);
-  assert.match(source, /spawnSync\("opencode-plusplus"/);
-  assert.match(source, /--quiet/);
-  assert.match(source, /tool\.execute\.before/);
-  assert.match(source, /tool\.execute\.after/);
-  assert.match(source, /sidecar", "check-command"/);
-  assert.match(source, /sidecar",\s*"record-tool"/);
-  assert.match(source, /rememberToolStart/);
-  assert.match(source, /recordToolAfter/);
-  assert.match(source, /currentWorkingTreeHash/);
-  assert.match(source, /client\?\.app\?\.log/);
-  assert.match(source, /VERIFY_DEBOUNCE_MS/);
-  assert.match(source, /let dirty = false/);
-  assert.match(source, /let verifying = false/);
-  assert.match(source, /let lastVerifyAt = 0/);
-  assert.match(source, /function markDirty/);
-  assert.match(source, /function maybeVerifyOnIdle/);
-  assert.match(source, /if \(!dirty\)/);
-  assert.match(source, /if \(verifying\)/);
-  assert.match(source, /now - lastVerifyAt < VERIFY_DEBOUNCE_MS/);
-  assert.match(source, /dirty = false/);
-  assert.match(source, /maybeVerifyOnIdle\(\)/);
-  assert.match(source, /markDirty\("file\.edited"/);
-  assert.match(source, /markDirty\("file\.watcher\.updated"/);
+  assert.match(source, /import \{ createOpenCodePlusplusSidecar \}/);
+  assert.match(source, /export const OpenCodePlusplusSidecar/);
+  assert.match(source, /export default OpenCodePlusplusSidecar/);
+  assert.doesNotMatch(source, /CodeAgentPlusPlusSidecar/);
+  assert.doesNotMatch(source, /function commandFromTool/);
+  assert.doesNotMatch(source, /function pathsFromTool/);
+  assert.doesNotMatch(source, /function maybeVerifyOnIdle/);
   assert.doesNotMatch(source, /sidecar noticed an edit/);
   assert.doesNotMatch(source, /sidecar active\./);
-  assert.match(source, /sidecar verification blocked/);
-  assert.match(source, /console\.log\(output\)/);
+});
+
+test("OpenCode sidecar runtime extracts commands, paths, output, and hashes", () => {
+  assert.equal(commandFromTool("bash", { input: "npm test" }), "npm test");
+  assert.equal(commandFromTool("write", { command: "node test.js" }), "node test.js");
+  assert.equal(commandFromTool("edit", { input: "not a command" }), null);
+  assert.deepEqual(pathsFromTool({ path: "src/a.ts", filePath: "src/b.ts", files: ["test/a.test.ts", 1] }), ["src/a.ts", "src/b.ts", "test/a.test.ts"]);
+  assert.equal(exitCodeFromOutput({ properties: { status: "2" } }), 2);
+  assert.equal(exitCodeFromOutput({ exitCode: 0 }), 0);
+  assert.equal(outputText({ properties: { stdout: "ok" } }, ["stdout"]), "ok");
+  assert.match(hashText("ok"), /^[a-f0-9]{64}$/);
 });
 
 test("OpenCode sidecar plugin uses the OpenCode++ path", () => {
