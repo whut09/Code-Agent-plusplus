@@ -133,6 +133,7 @@ See the [documentation home](docs/README.md) for full maturity notes.
 - [Agent-led vs Harness-led](docs/concepts/integration-modes.md)
 - [Loop Engineering Code Path](docs/concepts/loop-engineering.md)
 - [CLI Reference](docs/reference/cli-reference.md)
+- [Generated Files and Commit Policy](docs/reference/generated-files.md)
 - [Artifacts Reference](docs/reference/artifacts.md)
 - [Executor Adapters](docs/reference/executor-adapters.md)
 - [Benchmark Guide](docs/developer/benchmark-guide.md)

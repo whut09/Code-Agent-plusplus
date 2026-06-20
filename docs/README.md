@@ -4,17 +4,17 @@ This is the documentation map for OpenCode++. Start with the path that matches y
 
 ## Reader Paths
 
-| I want to...                          | Read                                                                                               |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Try the tool in 5 minutes             | [Getting Started](getting-started.md)                                                              |
-| Understand the product positioning    | [Positioning](concepts/positioning.md)                                                             |
-| Understand the runtime architecture   | [Architecture](concepts/architecture.md)                                                           |
-| Choose Agent-led or Harness-led usage | [Integration Modes](concepts/integration-modes.md)                                                 |
-| Use OpenCode chat with sidecar guards | [OpenCode Transparent Sidecar](integrations/opencode-sidecar.md)                                   |
-| Integrate an executor CLI             | [Executor CLI Integration](integrations/executor-cli.md)                                           |
-| Use MCP tools                         | [MCP Tools](reference/mcp-tools.md) and [MCP Troubleshooting](integrations/mcp-troubleshooting.md) |
-| Understand generated files            | [Artifacts Reference](reference/artifacts.md)                                                      |
-| Extend or debug the runtime           | [Developer Docs](#developer-docs)                                                                  |
+| I want to...                          | Read                                                                                                     |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Try the tool in 5 minutes             | [Getting Started](getting-started.md)                                                                    |
+| Understand the product positioning    | [Positioning](concepts/positioning.md)                                                                   |
+| Understand the runtime architecture   | [Architecture](concepts/architecture.md)                                                                 |
+| Choose Agent-led or Harness-led usage | [Integration Modes](concepts/integration-modes.md)                                                       |
+| Use OpenCode chat with sidecar guards | [OpenCode Transparent Sidecar](integrations/opencode-sidecar.md)                                         |
+| Integrate an executor CLI             | [Executor CLI Integration](integrations/executor-cli.md)                                                 |
+| Use MCP tools                         | [MCP Tools](reference/mcp-tools.md) and [MCP Troubleshooting](integrations/mcp-troubleshooting.md)       |
+| Understand generated files            | [Generated Files Policy](reference/generated-files.md) and [Artifacts Reference](reference/artifacts.md) |
+| Extend or debug the runtime           | [Developer Docs](#developer-docs)                                                                        |
 
 ## Concepts
 
@@ -34,6 +34,7 @@ Chinese concept pages:
 
 - [CLI Reference](reference/cli-reference.md)
 - [MCP Tools](reference/mcp-tools.md)
+- [Generated Files and Commit Policy](reference/generated-files.md)
 - [Artifacts](reference/artifacts.md)
 - [Configuration](reference/config.md)
 - [Executor Adapters](reference/executor-adapters.md)

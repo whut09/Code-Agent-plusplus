@@ -132,6 +132,7 @@ opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 - [Agent-led vs Harness-led](docs/concepts/integration-modes.zh-CN.md)
 - [Loop Engineering 源码链路](docs/concepts/loop-engineering.zh-CN.md)
 - [CLI 命令参考](docs/reference/cli-reference.md)
+- [生成文件与提交策略](docs/reference/generated-files.md)
 - [输出结构说明](docs/reference/artifacts.md)
 - [Executor Adapter 状态](docs/reference/executor-adapters.md)
 - [Benchmark 指南](docs/developer/benchmark-guide.md)

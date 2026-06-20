@@ -2,6 +2,8 @@
 
 OpenCode++ writes human-readable Markdown and machine-readable JSON.
 
+For whether each generated file should be committed, see [Generated Files and Commit Policy](generated-files.md).
+
 ```txt
 AGENTS.md
 .agent-context/
