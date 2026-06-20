@@ -176,6 +176,36 @@ test("OpenCode++ doctor reports CLI/plugin version consistency", async () => {
   }
 });
 
+test("OpenCode++ doctor treats a missing sidecar plugin as first-run warning", async () => {
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-doctor-first-run-"));
+  const bin = path.join(root, "bin");
+  const oldPath = process.env.PATH;
+  try {
+    mkdirSync(bin, { recursive: true });
+    writeFakeOpenCode(bin);
+    process.env.PATH = `${bin}${path.delimiter}${oldPath ?? ""}`;
+    mkdirSync(path.join(root, ".agent-context"), { recursive: true });
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
+    runGit(root, ["init"]);
+    runGit(root, ["checkout", "-b", "main"]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
+    runGit(root, ["add", "."]);
+    runGit(root, ["commit", "-m", "initial"]);
+
+    const report = await runOpenCodePlusplusDoctor(root);
+
+    assert.equal(report.checks.filter((check) => check.id.startsWith("sidecar-") && check.status === "fail").length, 0);
+    assert.equal(report.checks.find((check) => check.id === "opencode-plusplus-version")?.status, "warn");
+    assert.equal(report.checks.find((check) => check.id === "sidecar-plugin")?.status, "warn");
+    assert.equal(report.checks.find((check) => check.id === "sidecar-hooks")?.status, "warn");
+    assert.match(report.checks.find((check) => check.id === "sidecar-plugin")?.details ?? "", /run `opencode-plusplus`/);
+  } finally {
+    process.env.PATH = oldPath;
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test("OpenCode sidecar records tool execution evidence into event logs and traces", () => {
   const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-sidecar-record-tool-"));
   try {

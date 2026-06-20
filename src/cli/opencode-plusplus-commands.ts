@@ -72,21 +72,28 @@ export async function runOpenCodePlusplusDoctor(repo = "."): Promise<OpenCodePlu
   const sidecarPluginCheck = sidecar.checks.find((check) => check.name.endsWith("opencode-plusplus.ts"));
   const pluginPath = path.join(root, OPENCODE_SIDECAR_PLUGIN_PATH);
   const versionCheck = buildOpenCodePlusplusVersionCheck(pluginPath);
+  const pluginExists = existsSync(pluginPath);
+  const hookChecks = sidecar.checks.filter((check) => ["file.edited hook", "session.idle hook", "tool.execute.after hook"].includes(check.name));
   const sidecarChecks: OpencodeDoctorCheck[] = [
     versionCheck,
     {
       id: "sidecar-plugin",
       label: "OpenCode++ sidecar plugin",
-      status: sidecarPluginCheck?.status === "pass" ? "pass" : "fail",
-      details: sidecarPluginCheck?.details ?? "sidecar plugin check unavailable"
+      status: sidecarPluginCheck?.status === "pass" ? "pass" : pluginExists ? "fail" : "warn",
+      details:
+        sidecarPluginCheck?.status === "pass"
+          ? sidecarPluginCheck.details
+          : pluginExists
+            ? (sidecarPluginCheck?.details ?? "sidecar plugin check unavailable")
+            : `not generated yet; run \`opencode-plusplus\` to create ${OPENCODE_SIDECAR_PLUGIN_PATH}`
     },
     {
       id: "sidecar-hooks",
       label: "Sidecar hooks",
-      status: sidecar.checks.filter((check) => ["file.edited hook", "session.idle hook"].includes(check.name)).every((check) => check.status === "pass")
-        ? "pass"
-        : "fail",
-      details: "checks file.edited and session.idle hooks"
+      status: pluginExists ? (hookChecks.length > 0 && hookChecks.every((check) => check.status === "pass") ? "pass" : "fail") : "warn",
+      details: pluginExists
+        ? "checks file.edited, session.idle, and tool.execute.after hooks"
+        : "plugin not generated yet; hooks unavailable until first launch"
     },
     {
       id: "sidecar-latest",
