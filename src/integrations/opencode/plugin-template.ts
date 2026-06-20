@@ -11,7 +11,6 @@ export function opencodeSidecarPluginTemplate(runtimeImport = opencodeSidecarRun
 import { createOpenCodePlusPlusSidecar } from ${JSON.stringify(runtimeImport)};
 
 export const OpenCodePlusPlusSidecar = createOpenCodePlusPlusSidecar;
-export const CodeAgentPlusPlusSidecar = OpenCodePlusPlusSidecar;
 export default OpenCodePlusPlusSidecar;
 `;
 }
