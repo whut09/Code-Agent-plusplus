@@ -115,14 +115,17 @@ test("OpenCode sidecar runtime extracts commands, paths, output, and hashes", ()
   assert.match(hashText("ok"), /^[a-f0-9]{64}$/);
 });
 
-test("OpenCode sidecar runtime records after-tool evidence through input JSON", () => {
-  const runtimeSource = readFileSync(path.join(import.meta.dirname, "..", "src", "integrations", "opencode", "plugin-runtime", "index.ts"), "utf8");
+test("generated sidecar uses input-json evidence file", () => {
+  const code = [
+    opencodeSidecarPluginTemplate("./runtime.js"),
+    readFileSync(path.join(import.meta.dirname, "..", "src", "integrations", "opencode", "plugin-runtime", "index.ts"), "utf8")
+  ].join("\n");
 
-  assert.match(runtimeSource, /"--input-json", inputJson/);
-  assert.doesNotMatch(runtimeSource, /"--stdout"/);
-  assert.doesNotMatch(runtimeSource, /"--stderr"/);
-  assert.doesNotMatch(runtimeSource, /exitCodeFromOutput\(output\)\s*\?\?\s*0/);
-  assert.doesNotMatch(runtimeSource, /String\(exitCodeFromOutput\(output\)\s*\?\?\s*0\)/);
+  assert.match(code, /--input-json/);
+  assert.doesNotMatch(code, /--stdout/);
+  assert.doesNotMatch(code, /--stderr/);
+  assert.doesNotMatch(code, /\?\?\s*0/);
+  assert.match(code, /OpenCodePlusPlusSidecar/);
 });
 
 test("OpenCode sidecar plugin uses the OpenCode++ path", () => {
