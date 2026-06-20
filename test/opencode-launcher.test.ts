@@ -92,10 +92,10 @@ test("OpenCode launcher emits a compact preflight before opening the TUI", async
 test("OpenCode sidecar plugin template uses the project plugin export shape", () => {
   const source = opencodeSidecarPluginTemplate("./runtime.js");
 
-  assert.match(source, /import \{ createOpenCodePlusplusSidecar \}/);
-  assert.match(source, /export const OpenCodePlusplusSidecar/);
-  assert.match(source, /export default OpenCodePlusplusSidecar/);
-  assert.doesNotMatch(source, /CodeAgentPlusPlusSidecar/);
+  assert.match(source, /import \{ createOpenCodePlusPlusSidecar \}/);
+  assert.match(source, /export const OpenCodePlusPlusSidecar/);
+  assert.match(source, /export const CodeAgentPlusPlusSidecar = OpenCodePlusPlusSidecar/);
+  assert.match(source, /export default OpenCodePlusPlusSidecar/);
   assert.doesNotMatch(source, /function commandFromTool/);
   assert.doesNotMatch(source, /function pathsFromTool/);
   assert.doesNotMatch(source, /function maybeVerifyOnIdle/);

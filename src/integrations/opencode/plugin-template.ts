@@ -8,10 +8,11 @@ export function opencodeSidecarPluginTemplate(runtimeImport = opencodeSidecarRun
  * presents the OpenCode++ harness inside this repository.
  */
 
-import { createOpenCodePlusplusSidecar } from ${JSON.stringify(runtimeImport)};
+import { createOpenCodePlusPlusSidecar } from ${JSON.stringify(runtimeImport)};
 
-export const OpenCodePlusplusSidecar = createOpenCodePlusplusSidecar;
-export default OpenCodePlusplusSidecar;
+export const OpenCodePlusPlusSidecar = createOpenCodePlusPlusSidecar;
+export const CodeAgentPlusPlusSidecar = OpenCodePlusPlusSidecar;
+export default OpenCodePlusPlusSidecar;
 `;
 }
 

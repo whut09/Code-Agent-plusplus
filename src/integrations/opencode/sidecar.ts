@@ -183,16 +183,16 @@ export async function verifyOpencodeSidecar(repo = "."): Promise<OpenCodeSidecar
 
   if (existsSync(pluginPath)) {
     const source = readFileSync(pluginPath, "utf8");
-    checks.push(checkSource("plugin-export", source, /OpenCodePlusplusSidecar/, "exports OpenCodePlusplusSidecar"));
-    checks.push(checkSource("file.edited hook", source, /createOpenCodePlusplusSidecar|file\.edited/, "delegates file.edited handling to the sidecar runtime"));
+    checks.push(checkSource("plugin-export", source, /OpenCodePlusPlusSidecar/, "exports OpenCodePlusPlusSidecar"));
+    checks.push(checkSource("file.edited hook", source, /createOpenCodePlusPlusSidecar|file\.edited/, "delegates file.edited handling to the sidecar runtime"));
     checks.push(
-      checkSource("session.idle hook", source, /createOpenCodePlusplusSidecar|session\.idle/, "delegates session.idle handling to the sidecar runtime")
+      checkSource("session.idle hook", source, /createOpenCodePlusPlusSidecar|session\.idle/, "delegates session.idle handling to the sidecar runtime")
     );
     checks.push(
       checkSource(
         "tool.execute.after hook",
         source,
-        /createOpenCodePlusplusSidecar|tool\.execute\.after/,
+        /createOpenCodePlusPlusSidecar|tool\.execute\.after/,
         "delegates post-tool evidence to the sidecar runtime"
       )
     );

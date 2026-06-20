@@ -6,11 +6,11 @@ import { createIdleVerifier } from "./idle-verify.js";
 import { commandFromTool, pathsFromTool } from "./paths.js";
 import { currentSidecarWorkingTreeHash } from "./worktree-hash.js";
 
-export async function OpenCodePlusplusSidecar(context: OpenCodeSidecarRuntimeContext): Promise<Record<string, unknown>> {
-  return createOpenCodePlusplusSidecar(context);
+export async function OpenCodePlusPlusSidecar(context: OpenCodeSidecarRuntimeContext): Promise<Record<string, unknown>> {
+  return createOpenCodePlusPlusSidecar(context);
 }
 
-export async function createOpenCodePlusplusSidecar(context: OpenCodeSidecarRuntimeContext): Promise<Record<string, unknown>> {
+export async function createOpenCodePlusPlusSidecar(context: OpenCodeSidecarRuntimeContext): Promise<Record<string, unknown>> {
   const recorder = createSidecarRecorder(context);
   const idle = createIdleVerifier(context.directory, recorder);
   const toolStarts = new Map<string, { startedAt: string; workingTreeHashBefore: string }>();
