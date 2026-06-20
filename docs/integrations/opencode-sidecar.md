@@ -49,6 +49,31 @@ The sidecar stays quiet by default. It only surfaces a TUI message when a blocke
 
 ## Workflow
 
+```mermaid
+flowchart TD
+  User["User"] --> CLI["opencode-plusplus"]
+  CLI --> TUI["OpenCode TUI"]
+  TUI --> Plugin[".opencode/plugins/opencode-plusplus.ts"]
+
+  Plugin --> Before["tool.execute.before"]
+  Plugin --> After["tool.execute.after"]
+  Plugin --> Idle["session.idle"]
+
+  Before --> CommandGuard["Command Guard"]
+  Before --> BoundaryGuard["Boundary Guard"]
+  After --> EvidenceRecorder["Evidence Recorder"]
+  Idle --> IncrementalVerify["Incremental Verify"]
+
+  CommandGuard --> Latest[".agent-context/sidecar/latest.md"]
+  BoundaryGuard --> Latest
+  EvidenceRecorder --> Latest
+  IncrementalVerify --> Latest
+
+  Latest --> Report["opencode-plusplus report"]
+  Latest --> Status["opencode-plusplus status"]
+  Latest --> Doctor["opencode-plusplus doctor"]
+```
+
 ```txt
 opencode-plusplus
   -> preflight

@@ -71,6 +71,31 @@ opencode-plusplus --pure   # plain OpenCode without OpenCode++
 
 `opencode-plusplus` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/opencode-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact 3-line readiness summary, then opens the OpenCode TUI for the current repository. The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle`: it blocks dangerous or hallucinated commands before execution, records command result evidence after tool execution, and runs dirty/debounced incremental verification when OpenCode becomes idle.
 
+```mermaid
+flowchart TD
+  User["User"] --> CLI["opencode-plusplus"]
+  CLI --> TUI["OpenCode TUI"]
+  TUI --> Plugin[".opencode/plugins/opencode-plusplus.ts"]
+
+  Plugin --> Before["tool.execute.before"]
+  Plugin --> After["tool.execute.after"]
+  Plugin --> Idle["session.idle"]
+
+  Before --> CommandGuard["Command Guard"]
+  Before --> BoundaryGuard["Boundary Guard"]
+  After --> EvidenceRecorder["Evidence Recorder"]
+  Idle --> IncrementalVerify["Incremental Verify"]
+
+  CommandGuard --> Latest[".agent-context/sidecar/latest.md"]
+  BoundaryGuard --> Latest
+  EvidenceRecorder --> Latest
+  IncrementalVerify --> Latest
+
+  Latest --> Report["opencode-plusplus report"]
+  Latest --> Status["opencode-plusplus status"]
+  Latest --> Doctor["opencode-plusplus doctor"]
+```
+
 ## Advanced Usage
 
 The README main path intentionally recommends only `opencode-plusplus`. Batch Harness Mode, CI-like executors, manual `verify / policy / impact`, MCP, and retrieval commands are still available for advanced users:

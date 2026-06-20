@@ -12,6 +12,35 @@ The generated context remains important, but it is one part of the enhancement l
 
 Current boundary: this is not a fully autonomous coding agent. It is a context, policy, trace, and runtime-state control plane with a bounded harness-led loop. The controller consumes repository state and trace evidence, persists `.agent-context/runs/<task-id>/state.json`, and reports the next allowed action, while an external coding agent or user still executes edits and commands. Harness-led mode can invoke an executor, but the real code changes still happen inside that external executor.
 
+## OpenCode Sidecar Flow
+
+```mermaid
+flowchart TD
+  User["User"] --> CLI["opencode-plusplus"]
+  CLI --> TUI["OpenCode TUI"]
+  TUI --> Plugin[".opencode/plugins/opencode-plusplus.ts"]
+
+  Plugin --> Before["tool.execute.before"]
+  Plugin --> After["tool.execute.after"]
+  Plugin --> Idle["session.idle"]
+
+  Before --> CommandGuard["Command Guard"]
+  Before --> BoundaryGuard["Boundary Guard"]
+  After --> EvidenceRecorder["Evidence Recorder"]
+  Idle --> IncrementalVerify["Incremental Verify"]
+
+  CommandGuard --> Latest[".agent-context/sidecar/latest.md"]
+  BoundaryGuard --> Latest
+  EvidenceRecorder --> Latest
+  IncrementalVerify --> Latest
+
+  Latest --> Report["opencode-plusplus report"]
+  Latest --> Status["opencode-plusplus status"]
+  Latest --> Doctor["opencode-plusplus doctor"]
+```
+
+This is the default product path: OpenCode owns chat, code reading, edits, and tool execution; OpenCode++ owns the surrounding sidecar, evidence, guards, verification reports, and diagnostics.
+
 ## Reliability Layer Model
 
 OpenCode++ is organized as a set of Guard modules around existing coding agents:
