@@ -64,7 +64,7 @@ OpenCode++ 会在外层安静运行：
 opencode-plusplus          # 进入 OpenCode 聊天模式，并自动启用 OpenCode++ sidecar
 opencode-plusplus report   # 查看最近一次检查结果
 opencode-plusplus status   # 查看 sidecar 是否 active
-opencode-plusplus doctor   # 诊断 OpenCode / auth / git / context / plugin
+opencode-plusplus doctor   # 诊断 OpenCode / auth / git / context / plugin version
 opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 ```
 

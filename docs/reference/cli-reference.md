@@ -34,17 +34,17 @@ opencode-plusplus orchestrate "task" .
 | `opencode-plusplus sidecar record-tool`   | Record OpenCode tool.execute.after evidence into sidecar event logs and execution traces.                      |
 | `opencode-plusplus report`                | Show the latest OpenCode++ sidecar report.                                                                     |
 | `opencode-plusplus status`                | Show whether the OpenCode++ OpenCode sidecar is active.                                                        |
-| `opencode-plusplus doctor`                | Check OpenCode, auth, git, context, and OpenCode++ sidecar readiness.                                          |
+| `opencode-plusplus doctor`                | Check OpenCode, auth, git, context, plugin version, and OpenCode++ sidecar readiness.                          |
 | `opencode-plusplus opencode`              | OpenCode preset commands.                                                                                      |
 | `opencode-plusplus opencode run`          | Run the harness-led OpenCode preset: plan/pack -> opencode run -> trace/policy/verify -> decision.             |
 | `opencode-plusplus opencode init`         | Initialize OpenCode commands and agent files for OpenCode++.                                                   |
-| `opencode-plusplus opencode doctor`       | Check whether OpenCode and the current repository are ready for the OpenCode preset.                           |
+| `opencode-plusplus opencode doctor`       | Check whether OpenCode, plugin version, and the current repository are ready for the OpenCode preset.          |
 | `opencode-plusplus opencode report`       | Show the latest OpenCode orchestrator report without opening .agent-context manually.                          |
 | `opencode-plusplus opencode repair`       | Print repair guidance from the latest OpenCode decision.                                                       |
 | `opencode-plusplus oc`                    | Shortcut for OpenCode preset commands.                                                                         |
 | `opencode-plusplus oc run`                | Alias for `opencode-plusplus opencode run`.                                                                    |
 | `opencode-plusplus oc init`               | Initialize OpenCode commands and agent files for OpenCode++.                                                   |
-| `opencode-plusplus oc doctor`             | Check whether OpenCode and the current repository are ready for the OpenCode preset.                           |
+| `opencode-plusplus oc doctor`             | Check whether OpenCode, plugin version, and the current repository are ready for the OpenCode preset.          |
 | `opencode-plusplus oc report`             | Show the latest OpenCode orchestrator report without opening .agent-context manually.                          |
 | `opencode-plusplus oc repair`             | Print repair guidance from the latest OpenCode decision.                                                       |
 | `opencode-plusplus build`                 | Generate AGENTS.md and .agent-context outputs.                                                                 |
@@ -113,7 +113,7 @@ Commands:
   sidecar                                   Inspect and verify OpenCode++ sidecar integrations.
   report [options] [repo]                   Show the latest OpenCode++ sidecar report.
   status [options] [repo]                   Show whether the OpenCode++ OpenCode sidecar is active.
-  doctor [options] [repo]                   Check OpenCode, auth, git, context, and OpenCode++ sidecar readiness.
+  doctor [options] [repo]                   Check OpenCode, auth, git, context, plugin version, and OpenCode++ sidecar readiness.
   opencode                                  OpenCode preset commands.
   oc                                        Shortcut for OpenCode preset commands.
   build [options] [repo]                    Generate AGENTS.md and .agent-context outputs.
@@ -297,7 +297,8 @@ Options:
 ```txt
 Usage: opencode-plusplus doctor [options] [repo]
 
-Check OpenCode, auth, git, context, and OpenCode++ sidecar readiness.
+Check OpenCode, auth, git, context, plugin version, and OpenCode++ sidecar
+readiness.
 
 Arguments:
   repo        repository path (default: ".")
@@ -322,8 +323,8 @@ Commands:
                            opencode run -> trace/policy/verify -> decision.
   init [options] [repo]    Initialize OpenCode commands and agent files for
                            OpenCode++.
-  doctor [options] [repo]  Check whether OpenCode and the current repository are
-                           ready for the OpenCode preset.
+  doctor [options] [repo]  Check whether OpenCode, plugin version, and the
+                           current repository are ready for the OpenCode preset.
   report [options] [repo]  Show the latest OpenCode orchestrator report without
                            opening .agent-context manually.
   repair [options] [repo]  Print repair guidance from the latest OpenCode
@@ -394,8 +395,8 @@ Options:
 ```txt
 Usage: opencode-plusplus opencode doctor [options] [repo]
 
-Check whether OpenCode and the current repository are ready for the OpenCode
-preset.
+Check whether OpenCode, plugin version, and the current repository are ready for
+the OpenCode preset.
 
 Arguments:
   repo        repository path (default: ".")
@@ -456,8 +457,8 @@ Commands:
   run [options] <args...>  Alias for `opencode-plusplus opencode run`.
   init [options] [repo]    Initialize OpenCode commands and agent files for
                            OpenCode++.
-  doctor [options] [repo]  Check whether OpenCode and the current repository are
-                           ready for the OpenCode preset.
+  doctor [options] [repo]  Check whether OpenCode, plugin version, and the
+                           current repository are ready for the OpenCode preset.
   report [options] [repo]  Show the latest OpenCode orchestrator report without
                            opening .agent-context manually.
   repair [options] [repo]  Print repair guidance from the latest OpenCode
@@ -527,8 +528,8 @@ Options:
 ```txt
 Usage: opencode-plusplus oc doctor [options] [repo]
 
-Check whether OpenCode and the current repository are ready for the OpenCode
-preset.
+Check whether OpenCode, plugin version, and the current repository are ready for
+the OpenCode preset.
 
 Arguments:
   repo        repository path (default: ".")

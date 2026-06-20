@@ -130,7 +130,7 @@ opencode-plusplus sidecar verify
 
 `opencode-plusplus report` opens `.agent-context/sidecar/latest.md`.
 
-`opencode-plusplus doctor` checks OpenCode, auth, git, context, plugin, and sidecar readiness.
+`opencode-plusplus doctor` checks OpenCode, auth, git, context, sidecar plugin readiness, and CLI/plugin version consistency.
 
 `opencode-plusplus sidecar verify` runs the shared guard stack and writes the latest sidecar report. It is also what the plugin runs automatically on idle when the repository is dirty.
 

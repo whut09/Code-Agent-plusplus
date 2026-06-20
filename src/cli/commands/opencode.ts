@@ -119,7 +119,7 @@ function addOpencodeDoctorCommand(parent: Command): void {
     .command("doctor")
     .argument("[repo]", "repository path", ".")
     .option("--json", "print machine-readable doctor report")
-    .description("Check whether OpenCode and the current repository are ready for the OpenCode preset.")
+    .description("Check whether OpenCode, plugin version, and the current repository are ready for the OpenCode preset.")
     .action((repo: string, options: { json?: boolean }) => {
       const report = runOpencodeDoctor(repo);
       console.log(options.json ? JSON.stringify(report, null, 2) : renderOpencodeDoctorReport(report));

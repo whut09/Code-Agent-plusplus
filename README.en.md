@@ -65,7 +65,7 @@ It stays quiet by default and only interrupts the TUI when blockers are found.
 opencode-plusplus          # OpenCode chat mode with the OpenCode++ sidecar
 opencode-plusplus report   # show the latest sidecar check
 opencode-plusplus status   # show whether the sidecar is active
-opencode-plusplus doctor   # diagnose OpenCode / auth / git / context / plugin
+opencode-plusplus doctor   # diagnose OpenCode / auth / git / context / plugin version
 opencode-plusplus --pure   # plain OpenCode without OpenCode++
 ```
 
