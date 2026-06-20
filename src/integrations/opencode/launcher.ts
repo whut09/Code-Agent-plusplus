@@ -1,4 +1,4 @@
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { buildContextPackage } from "../../core/context-builder.js";
@@ -57,7 +57,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
     if (!opencode.ok) return { repo, steps, command, launched: false, exitCode: 1 };
     if (options.dryRun) return { repo, steps, command, launched: false, exitCode: 0 };
     options.onPreflight?.({ repo, steps, command });
-    const result = spawnOpenCodeTui(repo);
+    const result = await spawnOpenCodeTui(repo);
     return { repo, steps, command, launched: true, exitCode: typeof result.status === "number" ? result.status : result.error ? 1 : null };
   }
 
@@ -105,7 +105,7 @@ export async function launchOpenCodeWithSidecar(options: OpenCodeLauncherOptions
   }
 
   options.onPreflight?.({ repo, steps, command });
-  const result = spawnOpenCodeTui(repo);
+  const result = await spawnOpenCodeTui(repo);
   return { repo, steps, command, launched: true, exitCode: typeof result.status === "number" ? result.status : result.error ? 1 : null };
 }
 
@@ -162,10 +162,29 @@ function checkGitRepo(repo: string): { ok: boolean; error: string } {
   }
 }
 
-function spawnOpenCodeTui(repo: string): ReturnType<typeof spawnSync> {
-  const result = spawnSync("opencode", [repo], { cwd: repo, stdio: "inherit", shell: false });
+async function spawnOpenCodeTui(repo: string): Promise<{ status: number | null; error?: Error }> {
+  const result = await spawnOpenCodeProcess("opencode", [repo], repo);
   if (!shouldTryWindowsCmdFallback(result.error)) return result;
-  return spawnSync("cmd.exe", ["/d", "/s", "/c", `opencode.cmd ${windowsCmdQuote(repo)}`], { cwd: repo, stdio: "inherit", shell: false });
+  return spawnOpenCodeProcess("cmd.exe", ["/d", "/s", "/c", `opencode.cmd ${windowsCmdQuote(repo)}`], repo);
+}
+
+function spawnOpenCodeProcess(command: string, args: string[], cwd: string): Promise<{ status: number | null; error?: Error }> {
+  return new Promise((resolve) => {
+    const child = spawn(command, args, { cwd, stdio: "inherit", shell: false });
+    let settled = false;
+
+    child.once("error", (error) => {
+      if (settled) return;
+      settled = true;
+      resolve({ status: null, error });
+    });
+
+    child.once("close", (code) => {
+      if (settled) return;
+      settled = true;
+      resolve({ status: code });
+    });
+  });
 }
 
 function shouldTryWindowsCmdFallback(error: Error | undefined): boolean {

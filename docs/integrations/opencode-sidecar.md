@@ -165,3 +165,5 @@ If you want to use OpenCode without OpenCode++ for a session:
 ```bash
 opencode-plusplus --pure
 ```
+
+If copy/paste feels intercepted inside the OpenCode TUI, use your terminal-level paste shortcut, such as `Ctrl+Shift+V`, right-click paste, or the terminal menu. OpenCode++ launches OpenCode with inherited stdio so terminal clipboard handling stays outside the sidecar.
