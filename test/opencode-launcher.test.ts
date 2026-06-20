@@ -110,8 +110,19 @@ test("OpenCode sidecar runtime extracts commands, paths, output, and hashes", ()
   assert.deepEqual(pathsFromTool({ path: "src/a.ts", filePath: "src/b.ts", files: ["test/a.test.ts", 1] }), ["src/a.ts", "src/b.ts", "test/a.test.ts"]);
   assert.equal(exitCodeFromOutput({ properties: { status: "2" } }), 2);
   assert.equal(exitCodeFromOutput({ exitCode: 0 }), 0);
+  assert.equal(exitCodeFromOutput({ properties: { stdout: "ok" } }), null);
   assert.equal(outputText({ properties: { stdout: "ok" } }, ["stdout"]), "ok");
   assert.match(hashText("ok"), /^[a-f0-9]{64}$/);
+});
+
+test("OpenCode sidecar runtime records after-tool evidence through input JSON", () => {
+  const runtimeSource = readFileSync(path.join(import.meta.dirname, "..", "src", "integrations", "opencode", "plugin-runtime", "index.ts"), "utf8");
+
+  assert.match(runtimeSource, /"--input-json", inputJson/);
+  assert.doesNotMatch(runtimeSource, /"--stdout"/);
+  assert.doesNotMatch(runtimeSource, /"--stderr"/);
+  assert.doesNotMatch(runtimeSource, /exitCodeFromOutput\(output\)\s*\?\?\s*0/);
+  assert.doesNotMatch(runtimeSource, /String\(exitCodeFromOutput\(output\)\s*\?\?\s*0\)/);
 });
 
 test("OpenCode sidecar plugin uses the OpenCode++ path", () => {
