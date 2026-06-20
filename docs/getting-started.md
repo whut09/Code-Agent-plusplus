@@ -48,7 +48,7 @@ opencode-plusplus --pure
 
 `opencode-plusplus` runs preflight, ensures `.agent-context`, writes `.opencode/plugins/opencode-plusplus.ts`, prepares OpenCode commands/agent files, prints a compact readiness summary, and launches `opencode .`.
 
-The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle` events. Before a tool runs, it blocks dangerous commands, hallucinated package scripts / Makefile targets, and protected / secret paths. After a tool runs, it records command evidence under `.agent-context/traces/`, including exit code, timestamps, stdout/stderr hashes, working-tree hashes, and touched files. On idle, it runs dirty/debounced incremental verification.
+The sidecar listens for `tool.execute.before`, `tool.execute.after`, `file.edited`, and `session.idle` events. Before a tool runs, it blocks dangerous commands, hallucinated package scripts / Makefile targets, and protected / secret paths. After a tool runs, it records command evidence under `.agent-context/traces/`, including exit code when available, timestamps, stdout/stderr hashes, sanitized and truncated output previews, working-tree hashes, and touched files. Long stdout/stderr is passed through a JSON evidence file instead of CLI arguments. On idle, it runs dirty/debounced incremental verification.
 
 For the full interactive flow, generated files, and mode comparison, read [OpenCode Transparent Sidecar Mode](integrations/opencode-sidecar.md).
 

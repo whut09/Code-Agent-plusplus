@@ -1,7 +1,10 @@
 import { spawnSync } from "node:child_process";
+import { mkdirSync, writeFileSync } from "node:fs";
+import path from "node:path";
+import { sanitizeToolOutput } from "../output-sanitizer.js";
 import { runCommandGuard } from "./command-guard.js";
 import { createSidecarRecorder, type OpenCodeSidecarRuntimeContext } from "./events.js";
-import { exitCodeFromOutput, outputText, toolKey } from "./evidence.js";
+import { exitCodeFromOutput, hashText, outputText, stableJson, toolKey } from "./evidence.js";
 import { createIdleVerifier } from "./idle-verify.js";
 import { commandFromTool, pathsFromTool } from "./paths.js";
 import { currentSidecarWorkingTreeHash } from "./worktree-hash.js";
@@ -37,32 +40,35 @@ export async function createOpenCodePlusPlusSidecar(context: OpenCodeSidecarRunt
       };
       toolStarts.delete(key);
 
-      const cliArgs = [
-        "sidecar",
-        "record-tool",
-        context.directory,
-        "--json",
-        "--tool",
-        String(tool),
-        "--exit-code",
-        String(exitCodeFromOutput(output) ?? 0),
-        "--started-at",
-        started.startedAt,
-        "--finished-at",
-        new Date().toISOString(),
-        "--working-tree-hash-before",
-        started.workingTreeHashBefore,
-        "--working-tree-hash-after",
-        currentSidecarWorkingTreeHash(context.directory)
-      ];
-      if (command) cliArgs.push("--command", command);
+      const finishedAt = new Date().toISOString();
+      const exitCode = exitCodeFromOutput(output);
       const sessionId = inputRecord.sessionID ?? inputRecord.sessionId ?? outputRecord.sessionID ?? outputRecord.sessionId;
-      if (sessionId) cliArgs.push("--session-id", String(sessionId));
       const stdout = outputText(output, ["stdout", "output", "text"]);
       const stderr = outputText(output, ["stderr", "error"]);
-      if (stdout) cliArgs.push("--stdout", stdout);
-      if (stderr) cliArgs.push("--stderr", stderr);
-      for (const file of paths) cliArgs.push("--path", file);
+      const stdoutEvidence = sanitizeToolOutput(stdout);
+      const stderrEvidence = sanitizeToolOutput(stderr);
+      const payload = {
+        tool: String(tool),
+        command,
+        exitCode,
+        startedAt: started.startedAt,
+        finishedAt,
+        workingTreeHashBefore: started.workingTreeHashBefore,
+        workingTreeHashAfter: currentSidecarWorkingTreeHash(context.directory),
+        sessionId: sessionId ? String(sessionId) : undefined,
+        paths,
+        stdoutHash: stdoutEvidence.hash,
+        stdoutPreview: stdoutEvidence.preview,
+        stdoutTruncated: stdoutEvidence.truncated,
+        stdoutRedacted: stdoutEvidence.redacted,
+        stderrHash: stderrEvidence.hash,
+        stderrPreview: stderrEvidence.preview,
+        stderrTruncated: stderrEvidence.truncated,
+        stderrRedacted: stderrEvidence.redacted
+      };
+      const inputJson = writeToolEvidenceInput(context.directory, tool, args, payload);
+
+      const cliArgs = ["sidecar", "record-tool", context.directory, "--json", "--input-json", inputJson];
 
       const recordResult = spawnSync("opencode-plusplus", cliArgs, {
         cwd: context.directory,
@@ -114,4 +120,12 @@ export async function createOpenCodePlusPlusSidecar(context: OpenCodeSidecarRunt
       }
     }
   };
+}
+
+function writeToolEvidenceInput(directory: string, tool: unknown, args: unknown, payload: Record<string, unknown>): string {
+  const dir = path.join(directory, ".agent-context", "traces", "tool-evidence");
+  mkdirSync(dir, { recursive: true });
+  const file = path.join(dir, `opencode-tool-${Date.now()}-${hashText(`${String(tool ?? "unknown")}:${stableJson(args)}`).slice(0, 12)}.json`);
+  writeFileSync(file, `${JSON.stringify(payload)}\n`, "utf8");
+  return file;
 }

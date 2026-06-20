@@ -64,7 +64,7 @@ opencode-plusplus
 The generated OpenCode plugin listens for:
 
 - `tool.execute.before`: blocks dangerous commands, hallucinated package scripts / Makefile targets, protected paths, and secret paths.
-- `tool.execute.after`: records command, exit code, timestamps, stdout/stderr hashes, working-tree hashes, and touched files.
+- `tool.execute.after`: records command, exit code when available, timestamps, stdout/stderr hashes, sanitized and truncated output previews, working-tree hashes, and touched files. Large output is passed to `record-tool` through a JSON evidence file instead of command-line arguments.
 - `file.edited` and `file.watcher.updated`: marks the repository dirty.
 - `session.idle`: runs dirty/debounced incremental verification.
 
@@ -82,10 +82,11 @@ The generated OpenCode plugin listens for:
 .agent-context/sidecar/hallucination.md
 .agent-context/sidecar/regression.md
 .agent-context/traces/opencode-sidecar-events.jsonl
+.agent-context/traces/tool-evidence/opencode-tool-*.json
 .agent-context/traces/opencode-session-<id>.json
 ```
 
-`.agent-context/traces/opencode-sidecar-events.jsonl` is the low-level event stream. `.agent-context/traces/opencode-session-<id>.json` is the normalized execution trace consumed by Evidence Guard and Policy Engine.
+`.agent-context/traces/opencode-sidecar-events.jsonl` is the low-level event stream. `.agent-context/traces/tool-evidence/opencode-tool-*.json` stores sanitized after-tool evidence payloads used by `record-tool`; it does not store raw long stdout/stderr. `.agent-context/traces/opencode-session-<id>.json` is the normalized execution trace consumed by Evidence Guard and Policy Engine.
 
 ## Common Commands
 

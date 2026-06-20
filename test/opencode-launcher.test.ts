@@ -167,9 +167,46 @@ test("OpenCode sidecar records tool execution evidence into event logs and trace
     assert.equal(step?.finishedAt, "2026-06-19T10:00:01.000Z");
     assert.match(step?.stdoutHash ?? "", /^[a-f0-9]{64}$/);
     assert.match(step?.stderrHash ?? "", /^[a-f0-9]{64}$/);
+    assert.equal(step?.stdoutPreview, "ok\n");
+    assert.equal(step?.stdoutTruncated, false);
+    assert.equal(step?.stdoutRedacted, false);
     assert.equal(step?.workingTreeHashBefore, "a".repeat(64));
     assert.equal(step?.workingTreeHashAfter, "b".repeat(64));
     assert.ok(step?.files.includes("src.ts"));
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("OpenCode sidecar records unknown exit code and sanitized output evidence", () => {
+  const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-sidecar-record-tool-safe-"));
+  try {
+    runGit(root, ["init"]);
+    runGit(root, ["checkout", "-b", "main"]);
+    writeFileSync(path.join(root, "package.json"), JSON.stringify({ scripts: { test: "node -e 1" } }), "utf8");
+    runGit(root, ["add", "."]);
+    runGit(root, ["config", "user.email", "opencode-plusplus@example.com"]);
+    runGit(root, ["config", "user.name", "OpenCode Plus Plus"]);
+    runGit(root, ["commit", "-m", "initial"]);
+
+    const result = recordOpencodeSidecarTool(root, {
+      tool: "bash",
+      command: "npm run test",
+      stdout: `TOKEN=super-secret-token-value\n${"x".repeat(1000)}`,
+      stderr: "Authorization: Bearer abcdefghijklmnopqrstuvwxyz012345",
+      startedAt: "2026-06-19T10:00:00.000Z",
+      finishedAt: "2026-06-19T10:00:01.000Z"
+    });
+
+    assert.equal(result.event.exitCode, null);
+    assert.equal(result.step.result, "unknown");
+    assert.notEqual(result.step.stdoutHash, undefined);
+    assert.doesNotMatch(result.step.stdoutPreview ?? "", /super-secret-token-value/);
+    assert.match(result.step.stdoutPreview ?? "", /\[REDACTED_SECRET\]/);
+    assert.equal(result.step.stdoutRedacted, true);
+    assert.equal(result.step.stdoutTruncated, true);
+    assert.doesNotMatch(result.step.stderrPreview ?? "", /abcdefghijklmnopqrstuvwxyz012345/);
+    assert.equal(result.step.stderrRedacted, true);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

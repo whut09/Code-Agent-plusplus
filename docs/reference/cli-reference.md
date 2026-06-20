@@ -97,7 +97,7 @@ Use `--quiet` for sidecar automation; it only prints when blockers are found.
 
 `opencode-plusplus sidecar check-command` is the pre-execution command guard used by the OpenCode sidecar `tool.execute.before` hook. It checks package scripts from `package.json`, Makefile targets, dangerous shell patterns, and protected / secret paths. It exits non-zero when execution should be blocked.
 
-`opencode-plusplus sidecar record-tool` is an internal post-execution evidence recorder used by the OpenCode sidecar `tool.execute.after` hook. It writes `.agent-context/traces/opencode-sidecar-events.jsonl` and `.agent-context/traces/opencode-session-<id>.json` with command, exit code, timestamps, stdout/stderr hashes, working-tree hashes, and touched files. Users normally do not call it manually.
+`opencode-plusplus sidecar record-tool` is an internal post-execution evidence recorder used by the OpenCode sidecar `tool.execute.after` hook. The sidecar normally calls it with `--input-json <path>` so long stdout/stderr is not exposed through command-line arguments. It writes `.agent-context/traces/opencode-sidecar-events.jsonl`, `.agent-context/traces/tool-evidence/opencode-tool-*.json`, and `.agent-context/traces/opencode-session-<id>.json` with command, exit code when available, timestamps, stdout/stderr hashes, sanitized/truncated output previews, working-tree hashes, and touched files. Missing exit code is recorded as `unknown`, not success. Users normally do not call it manually.
 
 ## OpenCode Preset
 

@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { appendFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { buildContextPackage } from "../../core/context-builder.js";
@@ -20,6 +19,7 @@ import { buildChangeImpactReport, type ChangeImpactReport } from "../../outputs/
 import { validateContracts, type ContractValidationReport } from "../../outputs/contract-validator.js";
 import { buildTestSelection, type TestSelectionReport } from "../../outputs/test-selector.js";
 import { renderTaskVerify } from "../../outputs/task-harness.js";
+import { sanitizeToolOutput } from "./output-sanitizer.js";
 import { OPENCODE_SIDECAR_PLUGIN_PATH, opencodeSidecarPluginTemplate } from "./plugin-template.js";
 
 export interface OpenCodeSidecarEnsureOptions {
@@ -118,6 +118,12 @@ export interface OpenCodeSidecarToolRecordInput {
   stderr?: string;
   stdoutHash?: string;
   stderrHash?: string;
+  stdoutPreview?: string;
+  stderrPreview?: string;
+  stdoutTruncated?: boolean;
+  stderrTruncated?: boolean;
+  stdoutRedacted?: boolean;
+  stderrRedacted?: boolean;
   workingTreeHashBefore?: string;
   workingTreeHashAfter?: string;
   sessionId?: string;
@@ -139,6 +145,12 @@ export interface OpenCodeSidecarToolRecordResult {
     finishedAt: string;
     stdoutHash: string;
     stderrHash: string;
+    stdoutPreview: string;
+    stderrPreview: string;
+    stdoutTruncated: boolean;
+    stderrTruncated: boolean;
+    stdoutRedacted: boolean;
+    stderrRedacted: boolean;
     workingTreeHashBefore: string;
     workingTreeHashAfter: string;
     filesTouched: string[];
@@ -290,8 +302,8 @@ export function recordOpencodeSidecarTool(repo = ".", input: OpenCodeSidecarTool
   const command = input.command?.trim() || null;
   const sessionId = normalizeSessionId(input.sessionId);
   const traceId = `opencode-session-${sessionId}`;
-  const stdoutHash = input.stdoutHash ?? hashText(input.stdout ?? "");
-  const stderrHash = input.stderrHash ?? hashText(input.stderr ?? "");
+  const stdout = normalizeToolOutputEvidence("stdout", input);
+  const stderr = normalizeToolOutputEvidence("stderr", input);
   const workingTreeHashBefore = input.workingTreeHashBefore ?? currentWorkingTreeHash(root);
   const workingTreeHashAfter = input.workingTreeHashAfter ?? currentWorkingTreeHash(root);
   const filesTouched = [...new Set([...(input.paths ?? []).map(normalizeToolPath).filter(Boolean), ...collectCurrentChangedFiles(root)])].sort();
@@ -303,8 +315,14 @@ export function recordOpencodeSidecarTool(repo = ".", input: OpenCodeSidecarTool
     exitCode: typeof input.exitCode === "number" ? input.exitCode : null,
     startedAt,
     finishedAt,
-    stdoutHash,
-    stderrHash,
+    stdoutHash: stdout.hash,
+    stderrHash: stderr.hash,
+    stdoutPreview: stdout.preview,
+    stderrPreview: stderr.preview,
+    stdoutTruncated: stdout.truncated,
+    stderrTruncated: stderr.truncated,
+    stdoutRedacted: stdout.redacted,
+    stderrRedacted: stderr.redacted,
     workingTreeHashBefore,
     workingTreeHashAfter,
     filesTouched,
@@ -331,8 +349,14 @@ export function recordOpencodeSidecarTool(repo = ".", input: OpenCodeSidecarTool
     exitCode: input.exitCode,
     startedAt,
     finishedAt,
-    stdoutHash,
-    stderrHash,
+    stdoutHash: stdout.hash,
+    stderrHash: stderr.hash,
+    stdoutPreview: stdout.preview,
+    stderrPreview: stderr.preview,
+    stdoutTruncated: stdout.truncated,
+    stderrTruncated: stderr.truncated,
+    stdoutRedacted: stdout.redacted,
+    stderrRedacted: stderr.redacted,
     workingTreeHashBefore,
     workingTreeHashAfter
   });
@@ -851,6 +875,50 @@ function normalizeSessionId(value: string | undefined): string {
   return normalized || "default";
 }
 
+function normalizeToolOutputEvidence(
+  kind: "stdout" | "stderr",
+  input: OpenCodeSidecarToolRecordInput
+): {
+  hash: string;
+  preview: string;
+  truncated: boolean;
+  redacted: boolean;
+} {
+  const text = kind === "stdout" ? input.stdout : input.stderr;
+  const explicitHash = kind === "stdout" ? input.stdoutHash : input.stderrHash;
+  const explicitPreview = kind === "stdout" ? input.stdoutPreview : input.stderrPreview;
+  const explicitTruncated = kind === "stdout" ? input.stdoutTruncated : input.stderrTruncated;
+  const explicitRedacted = kind === "stdout" ? input.stdoutRedacted : input.stderrRedacted;
+
+  if (typeof text === "string") {
+    const sanitized = sanitizeToolOutput(text);
+    return {
+      hash: explicitHash ?? sanitized.hash,
+      preview: sanitized.preview,
+      truncated: sanitized.truncated,
+      redacted: sanitized.redacted
+    };
+  }
+
+  if (typeof explicitPreview === "string") {
+    const sanitized = sanitizeToolOutput(explicitPreview);
+    return {
+      hash: explicitHash ?? sanitized.hash,
+      preview: sanitized.preview,
+      truncated: explicitTruncated ?? sanitized.truncated,
+      redacted: explicitRedacted ?? sanitized.redacted
+    };
+  }
+
+  const empty = sanitizeToolOutput("");
+  return {
+    hash: explicitHash ?? empty.hash,
+    preview: "",
+    truncated: explicitTruncated ?? false,
+    redacted: explicitRedacted ?? false
+  };
+}
+
 function inferToolAction(tool: string, command: string | null): string {
   const text = `${tool} ${command ?? ""}`.toLowerCase();
   if (/\b(test|vitest|jest|pytest|node --test)\b/.test(text)) return "run-test";
@@ -859,8 +927,4 @@ function inferToolAction(tool: string, command: string | null): string {
   if (/\b(build|compile)\b/.test(text)) return "build";
   if (/\b(write|edit|patch|apply)\b/.test(text)) return "edit";
   return "tool-execute";
-}
-
-function hashText(text: string): string {
-  return createHash("sha256").update(text).digest("hex");
 }

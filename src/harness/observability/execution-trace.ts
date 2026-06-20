@@ -28,6 +28,12 @@ export interface ExecutionTraceStep {
   finishedAt?: string;
   stdoutHash?: string;
   stderrHash?: string;
+  stdoutPreview?: string;
+  stderrPreview?: string;
+  stdoutTruncated?: boolean;
+  stderrTruncated?: boolean;
+  stdoutRedacted?: boolean;
+  stderrRedacted?: boolean;
   workingTreeHashBefore?: string;
   workingTreeHashAfter?: string;
 }
@@ -66,6 +72,12 @@ export interface TraceStepInput {
   finishedAt?: string;
   stdoutHash?: string;
   stderrHash?: string;
+  stdoutPreview?: string;
+  stderrPreview?: string;
+  stdoutTruncated?: boolean;
+  stderrTruncated?: boolean;
+  stdoutRedacted?: boolean;
+  stderrRedacted?: boolean;
   workingTreeHashBefore?: string;
   workingTreeHashAfter?: string;
 }
@@ -138,6 +150,12 @@ export function appendExecutionTraceStep(root: string, traceId: string, input: T
     finishedAt: input.finishedAt,
     stdoutHash: input.stdoutHash,
     stderrHash: input.stderrHash,
+    stdoutPreview: input.stdoutPreview,
+    stderrPreview: input.stderrPreview,
+    stdoutTruncated: input.stdoutTruncated,
+    stderrTruncated: input.stderrTruncated,
+    stdoutRedacted: input.stdoutRedacted,
+    stderrRedacted: input.stderrRedacted,
     workingTreeHashBefore: input.workingTreeHashBefore,
     workingTreeHashAfter: input.workingTreeHashAfter
   });
