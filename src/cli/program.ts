@@ -18,10 +18,20 @@ import { registerTraceCommands } from "./commands/trace.js";
 import { registerTuiCommand } from "./commands/tui.js";
 
 export async function runCli(argv = process.argv): Promise<void> {
-  const program = new Command();
   const executableName = path.basename(argv[1] ?? "opencode-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
   const invokedName = executableName && executableName !== "index" ? executableName : "opencode-plusplus";
+  const program = createCliProgram(invokedName);
 
+  const parseArgs = resolveDefaultCommandArgs({ invokedName, argv });
+
+  await program.parseAsync(parseArgs).catch((error: unknown) => {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  });
+}
+
+export function createCliProgram(invokedName = "opencode-plusplus"): Command {
+  const program = new Command();
   program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
   registerTuiCommand(program, invokedName);
@@ -40,10 +50,5 @@ export async function runCli(argv = process.argv): Promise<void> {
   registerOrchestrateCommands(program);
   registerBenchmarkCommands(program);
 
-  const parseArgs = resolveDefaultCommandArgs({ invokedName, argv });
-
-  await program.parseAsync(parseArgs).catch((error: unknown) => {
-    console.error(error instanceof Error ? error.message : String(error));
-    process.exitCode = 1;
-  });
+  return program;
 }

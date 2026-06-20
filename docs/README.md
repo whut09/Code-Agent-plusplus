@@ -33,6 +33,7 @@ Chinese concept pages:
 ## Reference
 
 - [CLI Reference](reference/cli-reference.md)
+- [CLI Help Snapshot](reference/cli-help-snapshot.md)
 - [MCP Tools](reference/mcp-tools.md)
 - [Generated Files and Commit Policy](reference/generated-files.md)
 - [Artifacts](reference/artifacts.md)
