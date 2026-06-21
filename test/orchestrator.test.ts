@@ -141,7 +141,7 @@ test("harness orchestrator writes multi-loop iteration artifacts before max-loop
   const root = createOrchestratorRepo();
   try {
     const source = Buffer.from("export function loginSession() { return 'fixed'; }\n").toString("base64");
-    const command = `node -e "require('fs').writeFileSync('src/auth/session.ts', Buffer.from('${source}', 'base64').toString())"`;
+    const command = `node -e "require('fs').writeFileSync('src/auth/session.ts', Buffer.from('${source}', 'base64').toString())" {prompt}`;
     const result = await runHarnessOrchestrator(root, "fix login timeout bug", {
       executor: "opencode",
       executorCommand: command,
@@ -160,6 +160,10 @@ test("harness orchestrator writes multi-loop iteration artifacts before max-loop
     assert.equal(result.report.sandbox.manifestPath, ".agent-context/worktrees/fix-login-timeout-bug/manifest.json");
     assert.equal(result.report.sandbox.patchPath, ".agent-context/worktrees/fix-login-timeout-bug/diff.patch");
     assert.equal(result.report.sandbox.applyCommand, "git apply .agent-context/worktrees/fix-login-timeout-bug/diff.patch");
+    assert.match(
+      result.report.iterations[0]?.executorResult.command ?? "",
+      /worktree[\\/]\.agent-context[\\/]executor-prompts[\\/]fix-login-timeout-bug[\\/]001/
+    );
     assert.ok(existsSync(path.join(root, ".agent-context", "worktrees", "fix-login-timeout-bug", "manifest.json")));
     assert.ok(existsSync(path.join(root, ".agent-context", "worktrees", "fix-login-timeout-bug", "diff.patch")));
     assert.equal(result.report.iterations.length, 2);

@@ -1060,8 +1060,9 @@ function createSandboxAdapter(mode: OrchestratorCheckpointMode): SandboxAdapter 
 function expandExecutorCommand(command: string, input: AgentExecutorInput): string {
   const promptFile = path.join(input.runDir, "executor-prompt.md");
   writeFileSync(promptFile, `${input.prompt.trim()}\n`, "utf8");
+  const executorPromptFile = writeExecutorPromptForRepo(input, promptFile);
   const replacements: Record<string, string> = {
-    "{prompt}": quote(promptFile),
+    "{prompt}": quote(executorPromptFile),
     "{task}": quote(input.task),
     "{repo}": quote(input.repo),
     "{runDir}": quote(input.runDir),
@@ -1070,6 +1071,15 @@ function expandExecutorCommand(command: string, input: AgentExecutorInput): stri
   let expanded = command;
   for (const [token, value] of Object.entries(replacements)) expanded = expanded.replaceAll(token, value);
   return expanded;
+}
+
+function writeExecutorPromptForRepo(input: AgentExecutorInput, hostPromptFile: string): string {
+  if (path.resolve(input.repo) === path.resolve(input.hostRepo)) return hostPromptFile;
+  const promptDir = path.join(input.repo, ".agent-context", "executor-prompts", input.runId);
+  mkdirSync(promptDir, { recursive: true });
+  const promptFile = path.join(promptDir, path.basename(input.runDir));
+  writeFileSync(promptFile, readFileSync(hostPromptFile, "utf8"), "utf8");
+  return promptFile;
 }
 
 function writeExecutorEvents(root: string, runDir: string, executor: AgentExecutorName, event: Record<string, string | number | null>): string {
