@@ -370,6 +370,11 @@ build/refresh pack
 当前 `src/cli/index.ts` 已经注册了主要 Harness 命令，包括：
 
 ```txt
+sidecar
+report
+status
+doctor
+opencode / oc run
 build
 savings
 rag export
@@ -380,6 +385,8 @@ graph
 readiness
 validate
 policy
+hallucination
+regression
 validate-contracts
 freshness
 drift
@@ -393,7 +400,10 @@ verify
 task
 tests
 impact
+orchestrate
+agent run
 benchmark
+benchmark-agent
 retrieve
 diff
 update

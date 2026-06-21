@@ -194,9 +194,12 @@ Each loop writes a durable iteration directory:
 The runtime is exposed through CLI commands, including:
 
 ```txt
-build, run, loop, plan, pack, verify, task, tests, impact,
-policy, validate-contracts, freshness, drift, delta, evolve,
-trace start/add/run/show, rag search, benchmark, retrieve, diff, update, explain
+sidecar, report, status, doctor, opencode/oc run, build, run,
+loop, plan, pack, verify, task, tests, impact, policy,
+hallucination, regression, validate-contracts, freshness, drift,
+delta, evolve, trace start/add/run/show, rag search, retrieve,
+orchestrate, agent run, benchmark, benchmark-agent, diff, update,
+explain
 ```
 
 The follow-up release check is to keep the npm package, `dist/`, CLI help, and docs aligned with this surface.

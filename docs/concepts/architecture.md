@@ -450,10 +450,10 @@ The report still includes retrieval signals such as Recall@K, Precision@K, token
 npm run build
 npm run check
 npm run lint
-npm run format
 npm run format:check
-npm test
+npm run docs:cli:check
+npm run test
 npm run benchmark
-npm run build
+npm run benchmark:agent
 npm run pack:dry-run
 ```
