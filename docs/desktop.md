@@ -53,6 +53,12 @@ apps/desktop/
 
 ## Development
 
+| Mode                    | Status                        | Commands / notes                                                                                                                                                                       |
+| ----------------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Development mode        | Supported                     | From the repo root, run `npm run build && npm link` first so the Desktop app can use the current CLI. Then run `cd apps/desktop`, `npm install`, `npm run build`, and `npm run start`. |
+| Packaged installer mode | Not provided yet              | Planned for a later `electron-builder` or `electron-forge` setup.                                                                                                                      |
+| CLI dependency          | Required for development mode | Development mode depends on the root CLI build/link step before starting the Electron shell.                                                                                           |
+
 Install the desktop app dependencies:
 
 ```bash
@@ -75,7 +81,7 @@ npm run start
 During source development, build the root CLI before starting the desktop app:
 
 ```bash
-npm run build
+npm run build && npm link
 cd apps/desktop
 npm run build
 npm run start
