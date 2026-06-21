@@ -98,9 +98,26 @@ flowchart TD
 
 ## Desktop MVP
 
-OpenCode++ also includes an experimental Desktop MVP in `apps/desktop`. The main reason for the desktop app is the copy/paste and long-input friction of terminal TUIs, especially on Windows: multiline tasks, quoted text, issue descriptions, and long command output are easier to handle in a normal desktop form and log panel.
+OpenCode++ Desktop is an experimental desktop entry point in `apps/desktop` for users who do not want to work through the OpenCode TUI or command line. The main reason for the desktop app is the copy/paste and long-input friction of terminal TUIs, especially on Windows: multiline tasks, quoted text, issue descriptions, and long command output are easier to handle in a normal desktop form and log panel.
 
-The Desktop MVP intentionally does not embed the OpenCode TUI. Instead, it provides a desktop control surface for selecting a repository, entering a task, running `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`, streaming stdout/stderr, stopping the current task, and opening the generated orchestrator report. OpenCode still acts as the executor; the desktop app provides a more reliable input/output surface and displays the OpenCode++ Harness result.
+Current capabilities:
+
+- Select a repository.
+- Enter a task.
+- Call the OpenCode++ Harness.
+- Stream stdout/stderr in real time.
+- Stop the current task.
+- Open the orchestrator report.
+
+Current limitations:
+
+- Still depends on a locally available `opencode-plusplus` CLI.
+- No packaged exe yet.
+- No built-in diff viewer yet.
+- No multi-session support yet.
+- Does not replace OpenCode Desktop.
+
+Development run: build and link the root CLI first, then install dependencies, build, and start the Electron shell from `apps/desktop`. The Desktop MVP intentionally does not embed the OpenCode TUI; it calls `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`. OpenCode still acts as the executor; the desktop app provides a more reliable input/output surface and displays the OpenCode++ Harness result.
 
 See [Desktop MVP](docs/desktop.md) for setup and architecture details.
 
