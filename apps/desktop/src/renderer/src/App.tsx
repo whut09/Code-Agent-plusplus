@@ -49,8 +49,8 @@ function App() {
 
   const commandPreview = useMemo(() => {
     const normalizedTask = normalizeTaskForCli(task);
-    if (!repo || !normalizedTask) return 'opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2';
-    return `opencode-plusplus.cmd oc run "${normalizedTask}" --repo "${repo}" --max-loops 2`;
+    if (!repo || !normalizedTask) return 'opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 -- "<task>"';
+    return `opencode-plusplus.cmd oc run --repo "${repo}" --max-loops 2 -- "${normalizedTask}"`;
   }, [repo, task]);
 
   if (!bridge) {
@@ -207,7 +207,7 @@ function quoteArg(value: string): string {
 }
 
 function normalizeTaskForCli(task: string): string {
-  return task.trim().replace(/\s+/gu, " ");
+  return task.trim().replace(/\s+/gu, " ").replaceAll('"', "'");
 }
 
 createRoot(document.getElementById("root") as HTMLElement).render(<App />);

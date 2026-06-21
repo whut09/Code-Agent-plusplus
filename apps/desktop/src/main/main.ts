@@ -72,7 +72,7 @@ function registerIpc(): void {
     if (!existsSync(repo)) return { error: `Repository does not exist: ${repo}` };
 
     const command = commandName();
-    const args = ["oc", "run", task, "--repo", repo, "--max-loops", "2"];
+    const args = ["oc", "run", "--repo", repo, "--max-loops", "2", "--", task];
     currentRepo = repo;
     currentTask = spawn(command, args, {
       cwd: repo,
@@ -158,7 +158,7 @@ function formatCommand(command: string, args: string[]): string {
 }
 
 function normalizeTaskForCli(task: string): string {
-  return task.trim().replace(/\s+/gu, " ");
+  return task.trim().replace(/\s+/gu, " ").replaceAll('"', "'");
 }
 
 function quoteArg(value: string): string {
