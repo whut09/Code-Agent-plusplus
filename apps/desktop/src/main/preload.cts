@@ -1,7 +1,15 @@
 import { contextBridge, ipcRenderer, type IpcRendererEvent } from "electron";
 
 type TaskOutputHandler = (event: { stream: "stdout" | "stderr" | "system"; text: string }) => void;
-type TaskExitHandler = (event: { code: number | null; signal: string | null; reportPath?: string; error?: string }) => void;
+type TaskExitHandler = (event: {
+  code: number | null;
+  signal: string | null;
+  reportPath?: string;
+  error?: string;
+  decision?: string;
+  blocking?: boolean;
+  changedFiles?: number;
+}) => void;
 
 contextBridge.exposeInMainWorld("openCodePlusPlus", {
   selectRepo: () => ipcRenderer.invoke("repo:select") as Promise<string | undefined>,
@@ -16,8 +24,18 @@ contextBridge.exposeInMainWorld("openCodePlusPlus", {
     return () => ipcRenderer.off("task:output", listener);
   },
   onTaskExit: (handler: TaskExitHandler) => {
-    const listener = (_event: IpcRendererEvent, payload: { code: number | null; signal: string | null; reportPath?: string; error?: string }) =>
-      handler(payload);
+    const listener = (
+      _event: IpcRendererEvent,
+      payload: {
+        code: number | null;
+        signal: string | null;
+        reportPath?: string;
+        error?: string;
+        decision?: string;
+        blocking?: boolean;
+        changedFiles?: number;
+      }
+    ) => handler(payload);
     ipcRenderer.on("task:exit", listener);
     return () => ipcRenderer.off("task:exit", listener);
   }

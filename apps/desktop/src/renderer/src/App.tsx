@@ -31,8 +31,19 @@ function App() {
         appendLog("stderr", `${event.error}\n`);
       }
       appendLog("system", `\nTask exited with ${event.code === null ? `signal ${event.signal ?? "unknown"}` : `code ${event.code}`}\n`);
+      if (event.decision) {
+        appendLog(
+          "system",
+          `Decision: ${event.decision}${event.blocking ? " (blocking)" : ""}${typeof event.changedFiles === "number" ? `, changed files: ${event.changedFiles}` : ""}\n`
+        );
+      }
+      if (event.reportPath) {
+        appendLog("system", `Report: ${event.reportPath}\n`);
+      }
       if (event.error) {
         setStatus(`Task failed to start: ${event.error}`);
+      } else if (event.decision) {
+        setStatus(`${event.blocking ? "Blocked" : "Finished"}: decision=${event.decision}. ${event.reportPath ? "Report is ready." : "No report found."}`);
       } else {
         setStatus(event.reportPath ? "Task finished. A report is ready to open." : "Task finished. No report was found yet.");
       }
@@ -49,8 +60,8 @@ function App() {
 
   const commandPreview = useMemo(() => {
     const normalizedTask = normalizeTaskForCli(task);
-    if (!repo || !normalizedTask) return 'opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 -- "<task>"';
-    return `opencode-plusplus.cmd oc run --repo "${repo}" --max-loops 2 -- "${normalizedTask}"`;
+    if (!repo || !normalizedTask) return 'opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"';
+    return `opencode-plusplus.cmd oc run --repo "${repo}" --max-loops 2 --stream-executor -- "${normalizedTask}"`;
   }, [repo, task]);
 
   if (!bridge) {

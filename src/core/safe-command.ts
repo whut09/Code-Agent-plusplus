@@ -1,9 +1,11 @@
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 
 export interface SafeCommandRunOptions {
   cwd: string;
   encoding?: BufferEncoding;
   maxBuffer?: number;
+  onStdout?: (text: string) => void;
+  onStderr?: (text: string) => void;
 }
 
 export interface SafeCommandRunResult {
@@ -36,6 +38,26 @@ export function runSafeCommand(command: string, options: SafeCommandRunOptions):
   };
 }
 
+export async function runSafeCommandStreaming(command: string, options: SafeCommandRunOptions): Promise<SafeCommandRunResult> {
+  const parsed = parseCommandLine(command);
+  const result = await runParsedCommandStreaming(parsed.file, parsed.args, options);
+  const fallback = shouldTryWindowsCmdFallback(parsed.file, result.error)
+    ? await runWindowsCmdCommandStreaming(`${parsed.file}.cmd`, parsed.args, options)
+    : undefined;
+  const finalResult = fallback && !fallback.error && fallback.status !== null ? fallback : result;
+  const file = fallback && !fallback.error ? `${parsed.file}.cmd` : parsed.file;
+  const stderr = finalResult.error ? `${finalResult.stderr}${finalResult.stderr ? "\n" : ""}${finalResult.error.message}` : finalResult.stderr;
+  return {
+    command,
+    file,
+    args: parsed.args,
+    stdout: finalResult.stdout,
+    stderr,
+    status: typeof finalResult.status === "number" ? finalResult.status : finalResult.error ? 1 : null,
+    error: finalResult.error
+  };
+}
+
 function runParsedCommand(file: string, args: string[], options: SafeCommandRunOptions): ReturnType<typeof spawnSync> {
   return spawnSync(file, args, {
     cwd: options.cwd,
@@ -52,6 +74,76 @@ function runWindowsCmdCommand(file: string, args: string[], options: SafeCommand
     shell: false,
     encoding: options.encoding ?? "utf8",
     maxBuffer: options.maxBuffer
+  });
+}
+
+async function runParsedCommandStreaming(
+  file: string,
+  args: string[],
+  options: SafeCommandRunOptions
+): Promise<{ stdout: string; stderr: string; status: number | null; error?: Error }> {
+  return runSpawnStreaming(file, args, options);
+}
+
+async function runWindowsCmdCommandStreaming(
+  file: string,
+  args: string[],
+  options: SafeCommandRunOptions
+): Promise<{ stdout: string; stderr: string; status: number | null; error?: Error }> {
+  const command = [file, ...args].map(windowsCmdQuote).join(" ");
+  return runSpawnStreaming("cmd.exe", ["/d", "/s", "/c", command], options);
+}
+
+async function runSpawnStreaming(
+  file: string,
+  args: string[],
+  options: SafeCommandRunOptions
+): Promise<{ stdout: string; stderr: string; status: number | null; error?: Error }> {
+  return new Promise((resolve) => {
+    const child = spawn(file, args, {
+      cwd: options.cwd,
+      shell: false,
+      windowsHide: true
+    });
+    const encoding = options.encoding ?? "utf8";
+    const maxBuffer = options.maxBuffer ?? 1024 * 1024;
+    let stdout = "";
+    let stderr = "";
+    let error: Error | undefined;
+    let settled = false;
+
+    child.stdout?.setEncoding(encoding);
+    child.stderr?.setEncoding(encoding);
+
+    child.stdout?.on("data", (chunk: string | Buffer) => {
+      const text = chunk.toString();
+      stdout += text;
+      options.onStdout?.(text);
+      if (stdout.length + stderr.length > maxBuffer && !error) {
+        error = new Error(`Command output exceeded maxBuffer (${maxBuffer} bytes).`);
+        child.kill();
+      }
+    });
+
+    child.stderr?.on("data", (chunk: string | Buffer) => {
+      const text = chunk.toString();
+      stderr += text;
+      options.onStderr?.(text);
+      if (stdout.length + stderr.length > maxBuffer && !error) {
+        error = new Error(`Command output exceeded maxBuffer (${maxBuffer} bytes).`);
+        child.kill();
+      }
+    });
+
+    child.once("error", (spawnError) => {
+      error = spawnError;
+    });
+
+    child.once("close", (status) => {
+      if (settled) return;
+      settled = true;
+      resolve({ stdout, stderr, status, error });
+    });
   });
 }
 
@@ -94,6 +186,11 @@ function tokenizeCommandLine(command: string): string[] {
     }
 
     if (char === "\\") {
+      const next = command[index + 1] ?? "";
+      if (next !== "'" && next !== '"' && next !== "\\" && (quote || !/\s/.test(next))) {
+        current += char;
+        continue;
+      }
       escaped = true;
       continue;
     }

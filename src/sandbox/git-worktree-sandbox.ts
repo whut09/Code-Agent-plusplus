@@ -1,8 +1,8 @@
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { runGit } from "../core/git.js";
-import { runSafeCommand } from "../core/safe-command.js";
-import type { ExecResult, SandboxAdapter, SandboxHandle } from "./sandbox-adapter.js";
+import { runSafeCommand, runSafeCommandStreaming } from "../core/safe-command.js";
+import type { ExecResult, SandboxAdapter, SandboxExecuteOptions, SandboxHandle } from "./sandbox-adapter.js";
 
 export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   private handle?: SandboxHandle;
@@ -43,13 +43,16 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
     return this.handle;
   }
 
-  async execute(command: string): Promise<ExecResult> {
+  async execute(command: string, options: SandboxExecuteOptions = {}): Promise<ExecResult> {
     const handle = this.requireHandle();
-    return runSafeCommand(command, {
+    const commandOptions = {
       cwd: handle.root,
       encoding: "utf8",
-      maxBuffer: 20 * 1024 * 1024
-    });
+      maxBuffer: 20 * 1024 * 1024,
+      onStdout: options.onStdout,
+      onStderr: options.onStderr
+    } as const;
+    return options.onStdout || options.onStderr ? runSafeCommandStreaming(command, commandOptions) : runSafeCommand(command, commandOptions);
   }
 
   async diff(): Promise<string> {

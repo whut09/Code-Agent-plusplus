@@ -48,6 +48,7 @@ export interface HarnessOrchestratorOptions {
   dryRun?: boolean;
   checkpoint?: OrchestratorCheckpointMode;
   opencodeTranscript?: string;
+  onExecutorOutput?: (event: { stream: "stdout" | "stderr"; text: string }) => void;
 }
 
 export interface AgentExecutorInput {
@@ -63,6 +64,7 @@ export interface AgentExecutorInput {
   agent?: string;
   executorCommand?: string;
   dryRun?: boolean;
+  onExecutorOutput?: (event: { stream: "stdout" | "stderr"; text: string }) => void;
 }
 
 export interface AgentExecutorResult {
@@ -221,7 +223,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         sandboxHandle,
         agent: options.agent,
         executorCommand: options.executorCommand,
-        dryRun: options.dryRun
+        dryRun: options.dryRun,
+        onExecutorOutput: options.onExecutorOutput
       });
 
       const normalized = normalizeAgentEvents({
@@ -664,7 +667,10 @@ async function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInp
   const startedAt = new Date().toISOString();
   let result: ExecResult;
   try {
-    result = await input.sandbox.execute(command);
+    result = await input.sandbox.execute(command, {
+      onStdout: (text) => input.onExecutorOutput?.({ stream: "stdout", text }),
+      onStderr: (text) => input.onExecutorOutput?.({ stream: "stderr", text })
+    });
   } catch (error) {
     result = {
       command,

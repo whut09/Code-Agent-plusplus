@@ -21,9 +21,14 @@ export interface SandboxHandle {
   applyCommand?: string;
 }
 
+export interface SandboxExecuteOptions {
+  onStdout?: (text: string) => void;
+  onStderr?: (text: string) => void;
+}
+
 export interface SandboxAdapter {
   prepare(runId: string, repo: string): Promise<SandboxHandle>;
-  execute(command: string): Promise<ExecResult>;
+  execute(command: string, options?: SandboxExecuteOptions): Promise<ExecResult>;
   diff(): Promise<string>;
   changedFiles(): Promise<string[]>;
   discard(): Promise<void>;

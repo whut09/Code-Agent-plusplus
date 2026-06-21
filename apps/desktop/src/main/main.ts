@@ -1,5 +1,5 @@
 import { spawn, type ChildProcess } from "node:child_process";
-import { existsSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { app, BrowserWindow, dialog, ipcMain, shell } from "electron";
@@ -20,6 +20,13 @@ interface RunTaskRejected {
 }
 
 type RunTaskResult = RunTaskStarted | RunTaskRejected;
+
+interface LatestReportSummary {
+  reportPath?: string;
+  decision?: string;
+  blocking?: boolean;
+  changedFiles?: number;
+}
 
 let mainWindow: BrowserWindow | undefined;
 let currentTask: ChildProcess | undefined;
@@ -72,7 +79,7 @@ function registerIpc(): void {
     if (!existsSync(repo)) return { error: `Repository does not exist: ${repo}` };
 
     const command = commandName();
-    const args = ["oc", "run", "--repo", repo, "--max-loops", "2", "--", task];
+    const args = ["oc", "run", "--repo", repo, "--max-loops", "2", "--stream-executor", "--", task];
     currentRepo = repo;
     currentTask = spawn(command, args, {
       cwd: repo,
@@ -106,12 +113,15 @@ function registerIpc(): void {
     currentTask.once("close", (code, signal) => {
       if (finished) return;
       finished = true;
-      const reportPath = currentRepo ? findLatestReport(currentRepo) : undefined;
+      const summary = currentRepo ? findLatestReportSummary(currentRepo) : {};
       currentTask = undefined;
       mainWindow?.webContents.send("task:exit", {
         code,
         signal,
-        reportPath
+        reportPath: summary.reportPath,
+        decision: summary.decision,
+        blocking: summary.blocking,
+        changedFiles: summary.changedFiles
       });
     });
 
@@ -142,15 +152,47 @@ function registerIpc(): void {
 }
 
 function findLatestReport(repo: string): string | undefined {
+  return findLatestReportSummary(repo).reportPath;
+}
+
+function findLatestReportSummary(repo: string): LatestReportSummary {
   const orchestratorDir = path.join(repo, ".agent-context", "orchestrator");
-  if (!existsSync(orchestratorDir)) return undefined;
+  if (!existsSync(orchestratorDir)) return {};
   const candidates = readdirSync(orchestratorDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => path.join(orchestratorDir, entry.name, "orchestrator.md"))
-    .filter((file) => existsSync(file))
-    .map((file) => ({ file, mtimeMs: statSync(file).mtimeMs }))
+    .map((entry) => {
+      const dir = path.join(orchestratorDir, entry.name);
+      return {
+        markdown: path.join(dir, "orchestrator.md"),
+        json: path.join(dir, "orchestrator.json")
+      };
+    })
+    .filter((candidate) => existsSync(candidate.markdown))
+    .map((candidate) => ({ ...candidate, mtimeMs: statSync(candidate.markdown).mtimeMs }))
     .sort((a, b) => b.mtimeMs - a.mtimeMs);
-  return candidates[0]?.file;
+  const latest = candidates[0];
+  if (!latest) return {};
+  return {
+    reportPath: latest.markdown,
+    ...readReportDecision(latest.json)
+  };
+}
+
+function readReportDecision(filePath: string): Omit<LatestReportSummary, "reportPath"> {
+  if (!existsSync(filePath)) return {};
+  try {
+    const parsed = JSON.parse(readFileSync(filePath, "utf8")) as {
+      decision?: { action?: unknown; blocking?: unknown };
+      changedFiles?: unknown[];
+    };
+    return {
+      decision: typeof parsed.decision?.action === "string" ? parsed.decision.action : undefined,
+      blocking: typeof parsed.decision?.blocking === "boolean" ? parsed.decision.blocking : undefined,
+      changedFiles: Array.isArray(parsed.changedFiles) ? parsed.changedFiles.length : undefined
+    };
+  } catch {
+    return {};
+  }
 }
 
 function formatCommand(command: string, args: string[]): string {

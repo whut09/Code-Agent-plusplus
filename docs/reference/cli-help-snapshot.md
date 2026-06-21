@@ -276,6 +276,8 @@ Options:
                                 "git-worktree")
   --dry-run                     exercise the harness using the mock executor
                                 without editing files
+  --stream-executor             stream executor stdout/stderr while the harness
+                                is running
   --full-report                 print the full orchestrator report instead of
                                 the compact OpenCode summary
   --json                        print machine-readable orchestrator report
@@ -409,6 +411,8 @@ Options:
                                 "git-worktree")
   --dry-run                     exercise the harness using the mock executor
                                 without editing files
+  --stream-executor             stream executor stdout/stderr while the harness
+                                is running
   --full-report                 print the full orchestrator report instead of
                                 the compact OpenCode summary
   --json                        print machine-readable orchestrator report

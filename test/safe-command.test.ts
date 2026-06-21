@@ -14,6 +14,12 @@ test("safe command parser rejects shell control syntax", () => {
   assert.throws(() => parseCommandLine("npm test `touch pwned.txt`"), /Unsupported shell control operator/);
 });
 
+test("safe command parser preserves Windows backslash paths", () => {
+  const parsed = parseCommandLine(`node 'C:\\Users\\dev\\AppData\\Local\\Temp\\script.cjs' --repo 'F:\\work repo\\app'`);
+
+  assert.deepEqual(parsed.args, ["C:\\Users\\dev\\AppData\\Local\\Temp\\script.cjs", "--repo", "F:\\work repo\\app"]);
+});
+
 test("shellQuote single-quotes substituted placeholder data", () => {
   assert.equal(shellQuote("can't $(touch pwned)"), "'can'\\''t $(touch pwned)'");
 });
