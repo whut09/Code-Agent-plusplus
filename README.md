@@ -72,7 +72,9 @@ opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 
 ## Desktop MVP
 
-OpenCode++ 现在新增了实验性的 Desktop MVP，代码位于 `apps/desktop`。它不嵌入 OpenCode TUI，而是提供一个桌面控制台：选择 repo、输入任务、调用 `opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2`、实时显示 stdout/stderr、停止当前任务，并打开生成的 report。
+OpenCode++ 现在新增了实验性的 Desktop MVP，代码位于 `apps/desktop`。做 Desktop 的主要原因，是 OpenCode TUI 在 Windows / 终端环境里复制粘贴、多行任务输入、长文本编辑和输出查看体验不稳定；尤其是从网页、文档或 issue 里复制大段任务时，容易出现换行、引号、快捷键和焦点问题。
+
+Desktop MVP 不嵌入 OpenCode TUI，而是提供一个桌面控制台：选择 repo、输入任务、调用 `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`、实时显示 stdout/stderr、停止当前任务，并打开生成的 report。OpenCode 仍然作为 executor 执行代码任务，OpenCode++ Desktop 负责提供更可靠的输入/输出界面和 Harness 结果展示。
 
 详见 [Desktop MVP](docs/desktop.md)。
 

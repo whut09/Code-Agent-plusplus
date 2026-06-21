@@ -98,7 +98,9 @@ flowchart TD
 
 ## Desktop MVP
 
-OpenCode++ also includes an experimental Desktop MVP in `apps/desktop`. It intentionally does not embed the OpenCode TUI. Instead, it provides a desktop control surface for selecting a repository, entering a task, running `opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2`, streaming stdout/stderr, stopping the current task, and opening the generated orchestrator report.
+OpenCode++ also includes an experimental Desktop MVP in `apps/desktop`. The main reason for the desktop app is the copy/paste and long-input friction of terminal TUIs, especially on Windows: multiline tasks, quoted text, issue descriptions, and long command output are easier to handle in a normal desktop form and log panel.
+
+The Desktop MVP intentionally does not embed the OpenCode TUI. Instead, it provides a desktop control surface for selecting a repository, entering a task, running `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`, streaming stdout/stderr, stopping the current task, and opening the generated orchestrator report. OpenCode still acts as the executor; the desktop app provides a more reliable input/output surface and displays the OpenCode++ Harness result.
 
 See [Desktop MVP](docs/desktop.md) for setup and architecture details.
 

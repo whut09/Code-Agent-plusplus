@@ -2,16 +2,18 @@
 
 OpenCode++ Desktop is a lightweight Electron UI for running the existing OpenCode++ harness from a desktop window. It does not embed the OpenCode TUI.
 
+The main motivation is practical: OpenCode's terminal TUI can be awkward for copy/paste-heavy workflows, especially on Windows. Pasting multiline tasks, issue descriptions, code snippets, quoted JSON, or long command plans into a terminal can break formatting or interact badly with terminal shortcuts and focus. The desktop app gives OpenCode++ a normal text area, log panel, stop button, and report opener while keeping OpenCode as the actual executor.
+
 ## Why Not Embed The OpenCode TUI
 
-OpenCode is already a terminal-native coding agent runtime. Embedding its TUI inside Electron would add a second terminal layer, which makes clipboard handling, keyboard shortcuts, shell behavior, focus, and platform-specific terminal emulation harder to make reliable.
+OpenCode is already a terminal-native coding agent runtime. Embedding its TUI inside Electron would add a second terminal layer, which makes the exact copy/paste problem worse: clipboard handling, keyboard shortcuts, shell behavior, focus, and platform-specific terminal emulation all become harder to make reliable.
 
 The Desktop MVP avoids that problem:
 
 ```txt
 Desktop UI
   -> child_process
-  -> opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2
+  -> opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"
   -> stdout/stderr stream
   -> generated report
 ```
@@ -22,7 +24,7 @@ OpenCode++ remains the harness. The desktop app only gives users a visual contro
 
 - Select a local repository directory.
 - Enter a task in a desktop form.
-- Run `opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2`.
+- Run `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`.
 - Stream stdout and stderr in real time.
 - Stop the current task.
 - Open the latest `.agent-context/orchestrator/<task-id>/orchestrator.md` report.
