@@ -1,0 +1,172 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import "./styles.css";
+
+interface LogEntry {
+  id: number;
+  stream: "stdout" | "stderr" | "system";
+  text: string;
+}
+
+function App() {
+  const [repo, setRepo] = useState("");
+  const [task, setTask] = useState("");
+  const [running, setRunning] = useState(false);
+  const [status, setStatus] = useState("Select a repository and describe the coding task.");
+  const [reportPath, setReportPath] = useState<string | undefined>();
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const nextLogId = useRef(1);
+  const logEndRef = useRef<HTMLSpanElement | null>(null);
+
+  useEffect(() => {
+    const offOutput = window.openCodePlusPlus.onTaskOutput((event) => {
+      appendLog(event.stream, event.text);
+    });
+    const offExit = window.openCodePlusPlus.onTaskExit((event) => {
+      setRunning(false);
+      setReportPath(event.reportPath);
+      appendLog("system", `\nTask exited with ${event.code === null ? `signal ${event.signal ?? "unknown"}` : `code ${event.code}`}\n`);
+      setStatus(event.reportPath ? "Task finished. A report is ready to open." : "Task finished. No report was found yet.");
+    });
+    return () => {
+      offOutput();
+      offExit();
+    };
+  }, []);
+
+  useEffect(() => {
+    logEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [logs]);
+
+  const commandPreview = useMemo(() => {
+    if (!repo || !task.trim()) return 'opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2';
+    return `opencode-plusplus.cmd oc run "${task.trim()}" --repo "${repo}" --max-loops 2`;
+  }, [repo, task]);
+
+  function appendLog(stream: LogEntry["stream"], text: string): void {
+    setLogs((current) => [...current, { id: nextLogId.current++, stream, text }]);
+  }
+
+  async function selectRepo(): Promise<void> {
+    const selected = await window.openCodePlusPlus.selectRepo();
+    if (!selected) return;
+    setRepo(selected);
+    setReportPath(await window.openCodePlusPlus.getLatestReport(selected));
+    setStatus("Repository selected.");
+  }
+
+  async function runTask(): Promise<void> {
+    setLogs([]);
+    setReportPath(undefined);
+    const result = await window.openCodePlusPlus.runTask({ repo, task });
+    if (result.error) {
+      appendLog("stderr", `${result.error}\n`);
+      setStatus(result.error);
+      return;
+    }
+    setRunning(true);
+    setStatus(`Running task with PID ${result.pid ?? "unknown"}.`);
+    appendLog("system", `$ ${result.command} ${(result.args ?? []).map(quoteArg).join(" ")}\n\n`);
+  }
+
+  async function stopTask(): Promise<void> {
+    const result = await window.openCodePlusPlus.stopTask();
+    if (result.stopped) {
+      appendLog("system", "\nStop requested.\n");
+      setStatus("Stop requested.");
+    }
+  }
+
+  async function openReport(): Promise<void> {
+    const result = await window.openCodePlusPlus.openLatestReport(repo);
+    if (result.opened) {
+      setReportPath(result.path);
+      setStatus("Report opened.");
+    } else {
+      setStatus(result.error ?? "No report found.");
+    }
+  }
+
+  return (
+    <main className="shell">
+      <section className="header">
+        <div>
+          <p className="eyebrow">OpenCode++ Desktop MVP</p>
+          <h1>Harness-led tasks without embedding the OpenCode TUI</h1>
+        </div>
+        <div className={`status ${running ? "running" : ""}`}>{running ? "Running" : "Idle"}</div>
+      </section>
+
+      <section className="controls">
+        <label className="field repo-field">
+          <span>Repository</span>
+          <div className="repo-row">
+            <input value={repo} onChange={(event) => setRepo(event.target.value)} placeholder="Select or paste a repository path" />
+            <button type="button" onClick={selectRepo} disabled={running}>
+              Browse
+            </button>
+          </div>
+        </label>
+
+        <label className="field">
+          <span>Task</span>
+          <textarea
+            value={task}
+            onChange={(event) => setTask(event.target.value)}
+            placeholder="Fix the login timeout bug and add the required regression test."
+          />
+        </label>
+
+        <div className="actions">
+          <button type="button" className="primary" onClick={runTask} disabled={running || !repo || !task.trim()}>
+            Run Task
+          </button>
+          <button type="button" onClick={stopTask} disabled={!running}>
+            Stop
+          </button>
+          <button type="button" onClick={openReport} disabled={!repo || running}>
+            Open Report
+          </button>
+        </div>
+      </section>
+
+      <section className="summary">
+        <div>
+          <span>Status</span>
+          <strong>{status}</strong>
+        </div>
+        <div>
+          <span>Command</span>
+          <code>{commandPreview}</code>
+        </div>
+        <div>
+          <span>Latest report</span>
+          <code>{reportPath ?? "Not generated yet"}</code>
+        </div>
+      </section>
+
+      <section className="log-panel" aria-label="Task output">
+        <div className="log-toolbar">
+          <span>stdout / stderr</span>
+          <button type="button" onClick={() => setLogs([])} disabled={running && logs.length === 0}>
+            Clear
+          </button>
+        </div>
+        <pre>
+          {logs.map((entry) => (
+            <span key={entry.id} className={entry.stream}>
+              {entry.text}
+            </span>
+          ))}
+          <span ref={logEndRef} />
+        </pre>
+      </section>
+    </main>
+  );
+}
+
+function quoteArg(value: string): string {
+  return /\s/.test(value) ? `"${value.replaceAll('"', '\\"')}"` : value;
+}
+
+createRoot(document.getElementById("root") as HTMLElement).render(<App />);

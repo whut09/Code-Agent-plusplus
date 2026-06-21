@@ -3,15 +3,23 @@ import tseslint from "typescript-eslint";
 
 export default [
   {
-    ignores: ["dist/**", "node_modules/**", "coverage/**", ".agent-context/**"]
+    ignores: ["dist/**", "node_modules/**", "coverage/**", ".agent-context/**", "apps/desktop/dist/**", ".opencode/**"]
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ["src/**/*.ts", "test/**/*.ts"],
+    files: ["src/**/*.ts", "test/**/*.ts", "apps/desktop/src/**/*.ts", "apps/desktop/src/**/*.tsx"],
     languageOptions: {
       ecmaVersion: "latest",
-      sourceType: "module"
+      sourceType: "module",
+      globals: {
+        Buffer: "readonly",
+        console: "readonly",
+        document: "readonly",
+        Electron: "readonly",
+        process: "readonly",
+        window: "readonly"
+      }
     },
     rules: {
       "no-console": "off",

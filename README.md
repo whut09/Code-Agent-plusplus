@@ -70,11 +70,18 @@ opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 
 `opencode-plusplus` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/opencode-plusplus.ts`，准备 OpenCode commands/agent 文件，先打印简短状态，再进入当前仓库的 OpenCode TUI。sidecar plugin 会监听 `tool.execute.before`、`tool.execute.after`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；工具执行结束后会记录 command、exit code、stdout/stderr hash、working tree hash 和 touched files；OpenCode 空闲且有 dirty diff 时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
 
+## Desktop MVP
+
+OpenCode++ 现在新增了实验性的 Desktop MVP，代码位于 `apps/desktop`。它不嵌入 OpenCode TUI，而是提供一个桌面控制台：选择 repo、输入任务、调用 `opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2`、实时显示 stdout/stderr、停止当前任务，并打开生成的 report。
+
+详见 [Desktop MVP](docs/desktop.md)。
+
 ## 高级用法
 
 首页主路径只推荐 `opencode-plusplus`。批处理 Harness Mode、CI-like executor、手动 `verify / policy / impact`、MCP 和 retrieval 等内核能力保留给高级用户：
 
 - [OpenCode Transparent Sidecar Mode](docs/integrations/opencode-sidecar.md)
+- [Desktop MVP](docs/desktop.md)
 - [Executor CLI Integration](docs/integrations/executor-cli.md)
 - [CLI Reference](docs/reference/cli-reference.md)
 - [MCP Tools](docs/reference/mcp-tools.md)

@@ -96,10 +96,17 @@ flowchart TD
   Latest --> Doctor["opencode-plusplus doctor"]
 ```
 
+## Desktop MVP
+
+OpenCode++ also includes an experimental Desktop MVP in `apps/desktop`. It intentionally does not embed the OpenCode TUI. Instead, it provides a desktop control surface for selecting a repository, entering a task, running `opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2`, streaming stdout/stderr, stopping the current task, and opening the generated orchestrator report.
+
+See [Desktop MVP](docs/desktop.md) for setup and architecture details.
+
 ## Advanced Usage
 
 The README main path intentionally recommends only `opencode-plusplus`. Batch Harness Mode, CI-like executors, manual `verify / policy / impact`, MCP, and retrieval commands are still available for advanced users:
 
+- [Desktop MVP](docs/desktop.md)
 - [OpenCode Transparent Sidecar Mode](docs/integrations/opencode-sidecar.md)
 - [Executor CLI Integration](docs/integrations/executor-cli.md)
 - [CLI Reference](docs/reference/cli-reference.md)
@@ -125,33 +132,35 @@ The README main path intentionally recommends only `opencode-plusplus`. Batch Ha
 
 ## Current Maturity
 
-| Capability                                       | Current status   | Notes                                                                                                   |
-| ------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------- |
-| `opencode-plusplus` OpenCode TUI launcher        | MVP              | Runs preflight, prints compact readiness, launches OpenCode TUI, and supports `--pure`                  |
-| OpenCode transparent sidecar plugin              | MVP              | Injects `.opencode/plugins/opencode-plusplus.ts` and listens for session/file/tool events               |
-| sidecar command guard                            | MVP+             | Blocks dangerous commands, unknown package scripts / Makefile targets, and protected / secret paths     |
-| sidecar post-tool evidence                       | Foundation       | Uses `tool.execute.after` to record exit code, timestamps, output hashes, and working-tree hashes       |
-| sidecar verify / shared guard stack              | Foundation       | Reuses contracts, hallucination, regression, impact, tests, and policy; needs more real-repo validation |
-| `opencode-plusplus report/status/doctor`         | Foundation       | Reads sidecar reports, checks active state, and diagnoses OpenCode / auth / git / context               |
-| batch OpenCode executor / `opencode-plusplus oc` | Foundation       | Best for benchmarks, CI-like runs, non-interactive tasks, and repeatable demos                          |
-| bounded harness-led orchestrator / `orchestrate` | Foundation       | Supports multi-loop artifacts, checkpoints, executor commands, and decision reports                     |
-| `build` / `AGENTS.md` / `.agent-context`         | Stable           | Stable repository context compiler and generated artifacts                                              |
-| task plan / pack / run                           | Stable           | Stable task context, boundaries, prompts, and trace files                                               |
-| TypeScript Compiler API analyzer                 | Stable           | Main TypeScript / JavaScript analyzer path is stable                                                    |
-| Python AST / optional Tree-sitter analyzer       | Foundation       | Python analyzer is usable; Tree-sitter remains optional                                                 |
-| Hallucination Guard                              | MVP              | Deterministic checks for missing files, commands, dependencies, config, and symbols                     |
-| Regression Guard / memory candidates             | MVP / Foundation | Structured regression memory and candidate flow are implemented                                         |
-| MCP stdio server + core tools                    | Foundation       | Core MCP tools work; end-to-end client integrations still need per-client validation                    |
-| MCP Agent Native Runtime tools                   | Experimental     | start/step/evaluate/repair/finalize remain experimental                                                 |
-| MiMoCode / Codex / Claude native normalizers     | Planned          | More real agent transcript / JSONL normalizers are planned                                              |
-| RAG export / retriever provider interface        | Foundation       | Export and provider interfaces are implemented                                                          |
-| direct LightRAG server sync                      | Planned          | Planned                                                                                                 |
+| Capability                                       | Current status   | Notes                                                                                                    |
+| ------------------------------------------------ | ---------------- | -------------------------------------------------------------------------------------------------------- |
+| `opencode-plusplus` OpenCode TUI launcher        | MVP              | Runs preflight, prints compact readiness, launches OpenCode TUI, and supports `--pure`                   |
+| OpenCode transparent sidecar plugin              | MVP              | Injects `.opencode/plugins/opencode-plusplus.ts` and listens for session/file/tool events                |
+| sidecar command guard                            | MVP+             | Blocks dangerous commands, unknown package scripts / Makefile targets, and protected / secret paths      |
+| sidecar post-tool evidence                       | Foundation       | Uses `tool.execute.after` to record exit code, timestamps, output hashes, and working-tree hashes        |
+| sidecar verify / shared guard stack              | Foundation       | Reuses contracts, hallucination, regression, impact, tests, and policy; needs more real-repo validation  |
+| `opencode-plusplus report/status/doctor`         | Foundation       | Reads sidecar reports, checks active state, and diagnoses OpenCode / auth / git / context                |
+| Electron Desktop MVP                             | MVP              | Selects a repo, runs harness-led tasks through the CLI, streams stdout/stderr, stops tasks, opens report |
+| batch OpenCode executor / `opencode-plusplus oc` | Foundation       | Best for benchmarks, CI-like runs, non-interactive tasks, and repeatable demos                           |
+| bounded harness-led orchestrator / `orchestrate` | Foundation       | Supports multi-loop artifacts, checkpoints, executor commands, and decision reports                      |
+| `build` / `AGENTS.md` / `.agent-context`         | Stable           | Stable repository context compiler and generated artifacts                                               |
+| task plan / pack / run                           | Stable           | Stable task context, boundaries, prompts, and trace files                                                |
+| TypeScript Compiler API analyzer                 | Stable           | Main TypeScript / JavaScript analyzer path is stable                                                     |
+| Python AST / optional Tree-sitter analyzer       | Foundation       | Python analyzer is usable; Tree-sitter remains optional                                                  |
+| Hallucination Guard                              | MVP              | Deterministic checks for missing files, commands, dependencies, config, and symbols                      |
+| Regression Guard / memory candidates             | MVP / Foundation | Structured regression memory and candidate flow are implemented                                          |
+| MCP stdio server + core tools                    | Foundation       | Core MCP tools work; end-to-end client integrations still need per-client validation                     |
+| MCP Agent Native Runtime tools                   | Experimental     | start/step/evaluate/repair/finalize remain experimental                                                  |
+| MiMoCode / Codex / Claude native normalizers     | Planned          | More real agent transcript / JSONL normalizers are planned                                               |
+| RAG export / retriever provider interface        | Foundation       | Export and provider interfaces are implemented                                                           |
+| direct LightRAG server sync                      | Planned          | Planned                                                                                                  |
 
 See the [documentation home](docs/README.md) for full maturity notes.
 
 ## Documentation
 
 - [Getting Started](docs/getting-started.md)
+- [Desktop MVP](docs/desktop.md)
 - [Positioning](docs/concepts/positioning.md)
 - [Architecture](docs/concepts/architecture.md)
 - [Guard Modules](docs/concepts/guard-modules.md)
