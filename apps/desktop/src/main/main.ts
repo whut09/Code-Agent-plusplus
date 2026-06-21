@@ -1,4 +1,4 @@
-import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
+import { spawn, type ChildProcess } from "node:child_process";
 import { existsSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -22,7 +22,7 @@ interface RunTaskRejected {
 type RunTaskResult = RunTaskStarted | RunTaskRejected;
 
 let mainWindow: BrowserWindow | undefined;
-let currentTask: ChildProcessWithoutNullStreams | undefined;
+let currentTask: ChildProcess | undefined;
 let currentRepo: string | undefined;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -66,7 +66,7 @@ function registerIpc(): void {
   ipcMain.handle("task:run", (_event, input: RunTaskInput): RunTaskResult => {
     if (currentTask) return { error: "A task is already running." };
     const repo = input.repo.trim();
-    const task = input.task.trim();
+    const task = normalizeTaskForCli(input.task);
     if (!repo) return { error: "Select a repository first." };
     if (!task) return { error: "Enter a task first." };
     if (!existsSync(repo)) return { error: `Repository does not exist: ${repo}` };
@@ -76,23 +76,36 @@ function registerIpc(): void {
     currentRepo = repo;
     currentTask = spawn(command, args, {
       cwd: repo,
-      shell: false,
+      env: process.env,
+      shell: process.platform === "win32",
       windowsHide: true
     });
 
-    currentTask.stdout.on("data", (chunk: Buffer) => {
+    mainWindow?.webContents.send("task:output", { stream: "system", text: `Starting: ${formatCommand(command, args)}\n` });
+
+    currentTask.stdout?.on("data", (chunk: Buffer) => {
       mainWindow?.webContents.send("task:output", { stream: "stdout", text: chunk.toString("utf8") });
     });
 
-    currentTask.stderr.on("data", (chunk: Buffer) => {
+    currentTask.stderr?.on("data", (chunk: Buffer) => {
       mainWindow?.webContents.send("task:output", { stream: "stderr", text: chunk.toString("utf8") });
     });
 
+    let finished = false;
     currentTask.once("error", (error) => {
+      finished = true;
+      currentTask = undefined;
       mainWindow?.webContents.send("task:output", { stream: "stderr", text: `${error.message}\n` });
+      mainWindow?.webContents.send("task:exit", {
+        code: null,
+        signal: "spawn-error",
+        error: error.message
+      });
     });
 
     currentTask.once("close", (code, signal) => {
+      if (finished) return;
+      finished = true;
       const reportPath = currentRepo ? findLatestReport(currentRepo) : undefined;
       currentTask = undefined;
       mainWindow?.webContents.send("task:exit", {
@@ -138,6 +151,18 @@ function findLatestReport(repo: string): string | undefined {
     .map((file) => ({ file, mtimeMs: statSync(file).mtimeMs }))
     .sort((a, b) => b.mtimeMs - a.mtimeMs);
   return candidates[0]?.file;
+}
+
+function formatCommand(command: string, args: string[]): string {
+  return [command, ...args].map(quoteArg).join(" ");
+}
+
+function normalizeTaskForCli(task: string): string {
+  return task.trim().replace(/\s+/gu, " ");
+}
+
+function quoteArg(value: string): string {
+  return /[\s"]/u.test(value) ? `"${value.replaceAll('"', '\\"').replaceAll("\n", "\\n")}"` : value;
 }
 
 registerIpc();

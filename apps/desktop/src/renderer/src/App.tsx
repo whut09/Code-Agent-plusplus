@@ -27,8 +27,15 @@ function App() {
     const offExit = bridge.onTaskExit((event) => {
       setRunning(false);
       setReportPath(event.reportPath);
+      if (event.error) {
+        appendLog("stderr", `${event.error}\n`);
+      }
       appendLog("system", `\nTask exited with ${event.code === null ? `signal ${event.signal ?? "unknown"}` : `code ${event.code}`}\n`);
-      setStatus(event.reportPath ? "Task finished. A report is ready to open." : "Task finished. No report was found yet.");
+      if (event.error) {
+        setStatus(`Task failed to start: ${event.error}`);
+      } else {
+        setStatus(event.reportPath ? "Task finished. A report is ready to open." : "Task finished. No report was found yet.");
+      }
     });
     return () => {
       offOutput();
@@ -41,8 +48,9 @@ function App() {
   }, [logs]);
 
   const commandPreview = useMemo(() => {
-    if (!repo || !task.trim()) return 'opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2';
-    return `opencode-plusplus.cmd oc run "${task.trim()}" --repo "${repo}" --max-loops 2`;
+    const normalizedTask = normalizeTaskForCli(task);
+    if (!repo || !normalizedTask) return 'opencode-plusplus.cmd oc run "<task>" --repo "<repo>" --max-loops 2';
+    return `opencode-plusplus.cmd oc run "${normalizedTask}" --repo "${repo}" --max-loops 2`;
   }, [repo, task]);
 
   if (!bridge) {
@@ -77,15 +85,25 @@ function App() {
   async function runTask(): Promise<void> {
     setLogs([]);
     setReportPath(undefined);
-    const result = await bridge.runTask({ repo, task });
-    if (result.error) {
-      appendLog("stderr", `${result.error}\n`);
-      setStatus(result.error);
-      return;
-    }
     setRunning(true);
-    setStatus(`Running task with PID ${result.pid ?? "unknown"}.`);
-    appendLog("system", `$ ${result.command} ${(result.args ?? []).map(quoteArg).join(" ")}\n\n`);
+    setStatus("Starting task...");
+    appendLog("system", "Starting task...\n");
+    try {
+      const result = await bridge.runTask({ repo, task });
+      if (result.error) {
+        setRunning(false);
+        appendLog("stderr", `${result.error}\n`);
+        setStatus(result.error);
+        return;
+      }
+      setStatus(`Running task with PID ${result.pid ?? "unknown"}.`);
+      appendLog("system", `$ ${result.command} ${(result.args ?? []).map(quoteArg).join(" ")}\n\n`);
+    } catch (error) {
+      setRunning(false);
+      const message = error instanceof Error ? error.message : String(error);
+      appendLog("stderr", `${message}\n`);
+      setStatus(`Task failed to start: ${message}`);
+    }
   }
 
   async function stopTask(): Promise<void> {
@@ -185,7 +203,11 @@ function App() {
 }
 
 function quoteArg(value: string): string {
-  return /\s/.test(value) ? `"${value.replaceAll('"', '\\"')}"` : value;
+  return /\s/u.test(value) ? `"${value.replaceAll('"', '\\"').replaceAll("\n", "\\n")}"` : value;
+}
+
+function normalizeTaskForCli(task: string): string {
+  return task.trim().replace(/\s+/gu, " ");
 }
 
 createRoot(document.getElementById("root") as HTMLElement).render(<App />);

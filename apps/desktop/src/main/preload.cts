@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer, type IpcRendererEvent } from "electron";
 
-type TaskOutputHandler = (event: { stream: "stdout" | "stderr"; text: string }) => void;
-type TaskExitHandler = (event: { code: number | null; signal: string | null; reportPath?: string }) => void;
+type TaskOutputHandler = (event: { stream: "stdout" | "stderr" | "system"; text: string }) => void;
+type TaskExitHandler = (event: { code: number | null; signal: string | null; reportPath?: string; error?: string }) => void;
 
 contextBridge.exposeInMainWorld("openCodePlusPlus", {
   selectRepo: () => ipcRenderer.invoke("repo:select") as Promise<string | undefined>,
@@ -11,12 +11,13 @@ contextBridge.exposeInMainWorld("openCodePlusPlus", {
   getLatestReport: (repo: string) => ipcRenderer.invoke("report:latest", repo) as Promise<string | undefined>,
   openLatestReport: (repo: string) => ipcRenderer.invoke("report:open", repo) as Promise<{ opened: boolean; path?: string; error?: string }>,
   onTaskOutput: (handler: TaskOutputHandler) => {
-    const listener = (_event: IpcRendererEvent, payload: { stream: "stdout" | "stderr"; text: string }) => handler(payload);
+    const listener = (_event: IpcRendererEvent, payload: { stream: "stdout" | "stderr" | "system"; text: string }) => handler(payload);
     ipcRenderer.on("task:output", listener);
     return () => ipcRenderer.off("task:output", listener);
   },
   onTaskExit: (handler: TaskExitHandler) => {
-    const listener = (_event: IpcRendererEvent, payload: { code: number | null; signal: string | null; reportPath?: string }) => handler(payload);
+    const listener = (_event: IpcRendererEvent, payload: { code: number | null; signal: string | null; reportPath?: string; error?: string }) =>
+      handler(payload);
     ipcRenderer.on("task:exit", listener);
     return () => ipcRenderer.off("task:exit", listener);
   }
