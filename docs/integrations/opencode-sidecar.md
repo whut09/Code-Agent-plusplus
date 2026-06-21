@@ -139,7 +139,7 @@ opencode-plusplus sidecar verify
 | Mode                | Command                                      | Best for                                                   | Who drives the loop                                             |
 | ------------------- | -------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
 | Transparent Sidecar | `opencode-plusplus`                          | Daily OpenCode-style chat coding                           | OpenCode drives editing; OpenCode++ quietly guards and verifies |
-| Batch Harness       | `opencode-plusplus oc "task"`                | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
+| Batch Harness       | `opencode-plusplus oc run "task"`            | Benchmark, CI-like runs, scripted repair, repeatable demos | OpenCode++ drives plan / execute / evaluate / repair            |
 | Core Harness        | `opencode-plusplus verify/policy/impact/...` | Advanced manual verification and automation                | User or CI calls specific guard commands                        |
 
 Transparent Sidecar mode optimizes for a natural interactive coding experience. Batch Harness mode optimizes for repeatability and stronger OpenCode++ control.

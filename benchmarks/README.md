@@ -118,7 +118,7 @@ OpenCode example:
 ```bash
 opencode-plusplus benchmark-agent benchmarks \
   --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --max-loops 3 \
   --fail-on required
 ```
@@ -130,7 +130,7 @@ opencode-plusplus benchmark-agent benchmarks \
   --task fix-login-timeout \
   --modes no-context,agents-md,context-pack,loop-enabled-harness \
   --executor opencode \
-  --executor-command "opencode run --format json {prompt}" \
+  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
   --keep-workdirs
 ```
 

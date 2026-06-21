@@ -116,7 +116,7 @@ Use the OpenCode preset when OpenCode++ should call OpenCode in batch mode and e
 
 ```bash
 opencode-plusplus oc init .
-opencode-plusplus oc "fix login timeout bug" .
+opencode-plusplus oc run "fix login timeout bug" .
 opencode-plusplus oc report --last
 opencode-plusplus oc repair
 ```

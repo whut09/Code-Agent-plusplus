@@ -363,7 +363,7 @@ build/refresh pack
 
 `executor.events.jsonl` 保存归一化后的 `AgentEvent` 记录。OpenCode 当前支持 `opencode run --format json` stdout、可选 transcript 文件，以及普通 stdout/stderr fallback；后续 MiMoCode、Codex、Claude Code、Cursor adapter 也会输出同一套事件模型。
 
-当 decision 是 `repair` 或 `repack` 时，orchestrator 会进入下一轮，直到 `finalize`、`block`、`rollback`、`human-review`，或达到 `--max-loops`。`--checkpoint git-worktree` 现在会为 executor 创建临时 git worktree sandbox，把每轮 patch 导出回主仓库 run 目录，并在最终 gate 后 discard sandbox；OpenCode++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
+当 decision 是 `repair` 或 `repack` 时，orchestrator 会进入下一轮，直到 `finalize`、`block`、`rollback`、`human-review`，或达到 `--max-loops`。`--checkpoint git-worktree` 现在会在 `.agent-context/worktrees/<run-id>/` 下为 executor 创建 git worktree sandbox，把 patch 导出到 `.agent-context/worktrees/<run-id>/diff.patch`，并把每轮 patch 镜像到 run 目录；OpenCode++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
 
 ## 10. CLI 接入状态
 
@@ -373,7 +373,8 @@ build/refresh pack
 build
 savings
 rag export
-trace start/add/run/show/search
+trace start/add/run/show
+rag search
 init
 graph
 readiness

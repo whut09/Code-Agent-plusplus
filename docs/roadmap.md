@@ -179,7 +179,7 @@ Goal: make OpenCode++ a bounded runtime controller while the code agent remains 
 
 - `opencode-plusplus opencode doctor .`
 - `opencode-plusplus opencode run "<task>" . --max-loops 3 --checkpoint git-worktree --fail-on required`
-- `opencode-plusplus oc "<task>" .`
+- `opencode-plusplus oc run "<task>" .`
 - `opencode-plusplus orchestrate "<task>" . --executor mimocode --executor-command "mimocode run {prompt}" --max-loops 3 --checkpoint git-worktree --fail-on required`
 - Flow: `user task -> plan/pack -> choose executor -> execute -> collect diff/trace/test evidence -> guard gates -> decision report`.
 - Decision reports: `finalize`, `repair`, `repack`, `block`, `rollback`, `require human review`.

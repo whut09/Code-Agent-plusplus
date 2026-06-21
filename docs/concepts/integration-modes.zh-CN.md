@@ -137,7 +137,7 @@ opencode-plusplus agent run "fix login timeout bug" . --executor mimocode --exec
 - 可以保证每次执行后都收集 diff、trace 和 executor 事件。
 - 可以保证通过 Guard findings、policy / contracts / tests / impact / verify 生成统一 gate。
 - 可以保证输出明确 decision report：`finalize`、`repair`、`repack`、`block`、`rollback` 或 `require-human-review`。
-- `--checkpoint git-worktree` 会在系统临时目录创建 git worktree sandbox，让 executor 在隔离 checkout 中运行，把每轮 patch 导出回 `.agent-context/runs/<task-id>/iterations/<nnn>/`，然后 discard worktree。OpenCode++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
+- `--checkpoint git-worktree` 会在 `.agent-context/worktrees/<run-id>/` 下创建 git worktree sandbox，让 executor 在隔离 checkout 中运行，把 gateway patch 导出到 `.agent-context/worktrees/<run-id>/diff.patch`，并把每轮 patch 镜像到 `.agent-context/runs/<task-id>/iterations/<nnn>/`，然后 discard worktree。OpenCode++ 会记录 rollback 决策和 checkpoint 证据，但不会在用户工作区自动执行破坏性回滚命令。
 - 不能保证外部 executor 本身一定能正确改代码；它保证的是执行后的 gate 和下一步 decision report 可审计。
 
 ## 选择建议

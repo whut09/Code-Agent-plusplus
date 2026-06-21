@@ -196,7 +196,7 @@ The runtime is exposed through CLI commands, including:
 ```txt
 build, run, loop, plan, pack, verify, task, tests, impact,
 policy, validate-contracts, freshness, drift, delta, evolve,
-trace start/add/run/show/search, benchmark, retrieve, diff, update, explain
+trace start/add/run/show, rag search, benchmark, retrieve, diff, update, explain
 ```
 
 The follow-up release check is to keep the npm package, `dist/`, CLI help, and docs aligned with this surface.

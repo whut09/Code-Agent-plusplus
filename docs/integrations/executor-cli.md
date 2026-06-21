@@ -25,7 +25,7 @@ Read the full sidecar flow in [OpenCode Transparent Sidecar Mode](opencode-sidec
 opencode-plusplus oc init .
 opencode-plusplus opencode doctor .
 opencode-plusplus opencode run "fix login timeout bug" .
-opencode-plusplus oc "fix login timeout bug" .
+opencode-plusplus oc run "fix login timeout bug" .
 opencode-plusplus oc report --last
 opencode-plusplus oc repair
 ```
@@ -36,16 +36,14 @@ The preset uses the built-in command template:
 opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."
 ```
 
-`opencode doctor` checks OpenCode installation, `opencode run`, `opencode auth list`, git repository status, `.agent-context`, and working-tree cleanliness.
+`opencode-plusplus opencode doctor` checks OpenCode installation, `opencode run`, `opencode auth list`, git repository status, `.agent-context`, and working-tree cleanliness.
 
-`oc init` creates OpenCode-native commands and an agent profile:
+`opencode-plusplus oc init` creates OpenCode-native commands and an agent profile:
 
 ```txt
 .opencode/commands/opencode-plusplus.md
 .opencode/commands/opencode-plusplus-verify.md
 .opencode/agents/opencode-plusplus.md
-.opencode/commands/opencode-plusplus.md
-.opencode/commands/opencode-plusplus-verify.md
 ```
 
 Inside OpenCode, use `/opencode-plusplus <task>` to start an OpenCode++ harness-led run and `/opencode-plusplus-verify` before finalizing.
@@ -100,6 +98,7 @@ task
 - `{task}`: original task text.
 - `{repo}`: repository path.
 - `{runDir}`: `.agent-context/runs/<task-id>/`.
+- `{agent}`: executor-specific agent/profile value.
 
 ## Sandbox
 

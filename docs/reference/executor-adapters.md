@@ -8,7 +8,7 @@ Executor adapters let OpenCode++ treat external code agents as replaceable codin
 | ----------------------------------------- | ---------- | ------------------------------------------------------------------------------------ |
 | `mock`                                    | Stable     | Deterministic demo and CI executor.                                                  |
 | `opencode-plusplus` OpenCode TUI launcher | Foundation | Starts OpenCode TUI after context, command, agent, and sidecar plugin preflight.     |
-| OpenCode preset                           | Foundation | `opencode doctor`, `opencode run`, and `oc` with the default OpenCode command.       |
+| OpenCode preset                           | Foundation | OpenCode++ `opencode` / `oc` subcommands with the default `opencode run` command.    |
 | generic `--executor-command`              | Foundation | Calls scriptable CLIs such as OpenCode, Codex, Claude Code, Cursor, and MiMoCode.    |
 | OpenCode event normalizer                 | Foundation | Supports `opencode run --format json`, transcript files, and stdout/stderr fallback. |
 | MiMoCode native normalizer                | Planned    | Native event format support is planned.                                              |
@@ -25,7 +25,7 @@ opencode-plusplus
 opencode-plusplus oc init .
 opencode-plusplus opencode doctor .
 opencode-plusplus opencode run "<task>" .
-opencode-plusplus oc "<task>" .
+opencode-plusplus oc run "<task>" .
 opencode-plusplus oc report --last
 opencode-plusplus oc repair
 ```
@@ -51,5 +51,6 @@ Placeholders:
 - `{task}`
 - `{repo}`
 - `{runDir}`
+- `{agent}`
 
 Executor commands are parsed as argv-style commands and run without a shell.

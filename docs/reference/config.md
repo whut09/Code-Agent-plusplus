@@ -18,7 +18,7 @@ Do not commit `opencode-plusplus.local.yml`.
 
 ```yaml
 target: opencode
-tokenBudget: 100000
+tokenBudget: 60000
 
 include:
   - "**/*"
@@ -31,20 +31,45 @@ exclude:
   - .next/**
   - .venv/**
 
+tokenizer:
+  mode: chars_approx
+  # mode: cl100k_base
+  # model: gpt-4.1
+
 agents:
   mode: minimal
   maxTokens: 1200
+  manualSources:
+    - AGENTS.manual.md
+  include:
+    - commands
+    - safety
+    - entrypoints
+    - contextLinks
 
 llm:
   enabled: false
-  baseUrl: "xx"
-  apiKey: "xx"
-  model: "xx"
+  provider: openai-compatible
+  baseUrl: xx
+  apiKey: xx
+  model: xx
+  temperature: 0.2
+  maxTokens: 1200
 
 rag:
   provider: lightrag
   chunkTokenLimit: 900
+
+outputs:
+  agents: true
+  modules: true
+  graph: true
+  tasks: true
+  readiness: true
+  rag: true
 ```
+
+Config files use `tokenizer.mode: chars_approx`; the CLI option `--tokenizer chars-approx` is accepted and normalized for command-line convenience.
 
 ## LLM Credentials
 
