@@ -1,4 +1,4 @@
-import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { chmodSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { runGit } from "../core/git.js";
 import { runSafeCommand, runSafeCommandStreaming } from "../core/safe-command.js";
@@ -8,9 +8,8 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   private handle?: SandboxHandle;
 
   async prepare(runId: string, repo: string): Promise<SandboxHandle> {
-    const gatewayDir = path.join(repo, ".agent-context", "worktrees", safeSegment(runId));
+    const gatewayDir = prepareGatewayDirectory(repo, runId);
     const root = path.join(gatewayDir, "worktree");
-    rmSync(gatewayDir, { recursive: true, force: true });
     mkdirSync(gatewayDir, { recursive: true });
     runGit(repo, ["worktree", "add", "--detach", root, "HEAD"]);
 
@@ -89,7 +88,7 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
     try {
       runGit(handle.hostRepo, ["worktree", "remove", "--force", handle.root]);
     } catch {
-      rmSync(handle.root, { recursive: true, force: true });
+      removeDirectoryWithRetry(handle.root);
     }
     writeManifest(handle, "discarded");
     this.handle = undefined;
@@ -102,6 +101,39 @@ export class GitWorktreeSandboxAdapter implements SandboxAdapter {
   private requireHandle(): SandboxHandle {
     if (!this.handle) throw new Error("Sandbox gateway has not been prepared.");
     return this.handle;
+  }
+}
+
+function prepareGatewayDirectory(repo: string, runId: string): string {
+  const worktreesDir = path.join(repo, ".agent-context", "worktrees");
+  const baseSegment = safeSegment(runId);
+  const primaryGatewayDir = path.join(worktreesDir, baseSegment);
+  const primaryRoot = path.join(primaryGatewayDir, "worktree");
+  if (cleanupExistingGateway(repo, primaryGatewayDir, primaryRoot)) {
+    return primaryGatewayDir;
+  }
+
+  const fallbackGatewayDir = path.join(worktreesDir, `${baseSegment}-${Date.now().toString(36)}`);
+  cleanupExistingGateway(repo, fallbackGatewayDir, path.join(fallbackGatewayDir, "worktree"));
+  return fallbackGatewayDir;
+}
+
+function cleanupExistingGateway(repo: string, gatewayDir: string, root: string): boolean {
+  try {
+    runGit(repo, ["worktree", "remove", "--force", root]);
+  } catch {
+    // The worktree may already be half-deleted or prunable.
+  }
+  try {
+    runGit(repo, ["worktree", "prune"]);
+  } catch {
+    // Prune is best effort; directory cleanup below is the final authority.
+  }
+  try {
+    removeDirectoryWithRetry(gatewayDir);
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -120,6 +152,40 @@ function safeSegment(value: string): string {
 function isInside(child: string, parent: string): boolean {
   const relative = path.relative(parent, child);
   return Boolean(relative) && !relative.startsWith("..") && !path.isAbsolute(relative);
+}
+
+function removeDirectoryWithRetry(dir: string): void {
+  const maxAttempts = 5;
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      rmSync(dir, { recursive: true, force: true, maxRetries: 3, retryDelay: 80 });
+      return;
+    } catch (error) {
+      if (attempt === 1) makeWritableRecursive(dir);
+      if (attempt === maxAttempts) {
+        throw new Error(`Unable to remove sandbox directory ${dir}: ${error instanceof Error ? error.message : String(error)}`);
+      }
+      sleepSync(80 * attempt);
+    }
+  }
+}
+
+function makeWritableRecursive(target: string): void {
+  try {
+    const stats = statSync(target);
+    chmodSync(target, 0o700);
+    if (!stats.isDirectory()) return;
+    for (const entry of readdirSync(target)) {
+      makeWritableRecursive(path.join(target, entry));
+    }
+  } catch {
+    // Best effort: rmSync will report the real failure if permissions remain blocked.
+  }
+}
+
+function sleepSync(ms: number): void {
+  const view = new Int32Array(new SharedArrayBuffer(4));
+  Atomics.wait(view, 0, 0, ms);
 }
 
 function markUntrackedForDiff(root: string): void {

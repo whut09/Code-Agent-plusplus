@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import type { ContextPackage } from "../../core/types.js";
 import { buildContextManifest } from "../../core/freshness.js";
@@ -343,14 +343,17 @@ function sanitizeIndexedFile(file: ContextPackage["index"]["files"][number]): Om
 
 function writeTextFile(filePath: string, content: string): void {
   mkdirSync(path.dirname(filePath), { recursive: true });
-  const maxAttempts = 5;
+  const maxAttempts = 10;
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    const tempPath = `${filePath}.${process.pid}.${attempt}.tmp`;
     try {
-      writeFileSync(filePath, content, "utf8");
+      writeFileSync(tempPath, content, "utf8");
+      renameSync(tempPath, filePath);
       return;
     } catch (error) {
+      rmSync(tempPath, { force: true });
       if (attempt === maxAttempts || !isRetryableWriteError(error)) throw error;
-      sleepSync(40 * attempt);
+      sleepSync(100 * attempt);
     }
   }
 }

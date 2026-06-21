@@ -34,6 +34,7 @@ let currentRepo: string | undefined;
 let currentTaskHeartbeat: NodeJS.Timeout | undefined;
 let currentTaskStartedAt = 0;
 let currentTaskLastOutputAt = 0;
+let currentTaskStartedWallClock = 0;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,6 +87,7 @@ function registerIpc(): void {
     currentRepo = repo;
     currentTaskStartedAt = Date.now();
     currentTaskLastOutputAt = currentTaskStartedAt;
+    currentTaskStartedWallClock = currentTaskStartedAt;
     currentTask = spawn(command, args, {
       cwd: repo,
       env: process.env,
@@ -128,7 +130,7 @@ function registerIpc(): void {
       if (finished) return;
       finished = true;
       stopTaskHeartbeat();
-      const summary = currentRepo ? findLatestReportSummary(currentRepo) : {};
+      const summary = currentRepo ? findLatestReportSummary(currentRepo, { sinceMs: currentTaskStartedWallClock }) : {};
       currentTask = undefined;
       mainWindow?.webContents.send("task:exit", {
         code,
@@ -195,7 +197,7 @@ function findLatestReport(repo: string): string | undefined {
   return findLatestReportSummary(repo).reportPath;
 }
 
-function findLatestReportSummary(repo: string): LatestReportSummary {
+function findLatestReportSummary(repo: string, options: { sinceMs?: number } = {}): LatestReportSummary {
   const orchestratorDir = path.join(repo, ".agent-context", "orchestrator");
   if (!existsSync(orchestratorDir)) return {};
   const candidates = readdirSync(orchestratorDir, { withFileTypes: true })
@@ -209,6 +211,7 @@ function findLatestReportSummary(repo: string): LatestReportSummary {
     })
     .filter((candidate) => existsSync(candidate.markdown))
     .map((candidate) => ({ ...candidate, mtimeMs: statSync(candidate.markdown).mtimeMs }))
+    .filter((candidate) => !options.sinceMs || candidate.mtimeMs >= options.sinceMs - 1000)
     .sort((a, b) => b.mtimeMs - a.mtimeMs);
   const latest = candidates[0];
   if (!latest) return {};
