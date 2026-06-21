@@ -26,6 +26,7 @@ interface CliCommand {
   argsPrefix: string[];
   source: string;
   details: string;
+  shell: boolean;
 }
 
 interface LatestReportSummary {
@@ -96,6 +97,8 @@ function registerIpc(): void {
       "--max-loops",
       "2",
       "--stream-executor",
+      "--executor-command",
+      desktopOpenCodeExecutorCommand(),
       "--executor-idle-timeout-ms",
       "180000",
       "--executor-timeout-ms",
@@ -113,7 +116,7 @@ function registerIpc(): void {
       cwd: repo,
       env: process.env,
       stdio: ["ignore", "pipe", "pipe"],
-      shell: process.platform === "win32",
+      shell: cli.shell,
       windowsHide: true
     });
 
@@ -200,7 +203,8 @@ function resolveCliCommand(): CliCommand {
       command: explicit,
       argsPrefix: [],
       source: "OPENCODE_PLUSPLUS_BIN",
-      details: explicit
+      details: explicit,
+      shell: shouldUseShellForCommand(explicit)
     };
   }
 
@@ -211,7 +215,8 @@ function resolveCliCommand(): CliCommand {
       command: process.env.OPENCODE_PLUSPLUS_NODE?.trim() || "node",
       argsPrefix: [localCli],
       source: "local dist CLI",
-      details: localCli
+      details: localCli,
+      shell: false
     };
   }
 
@@ -220,8 +225,17 @@ function resolveCliCommand(): CliCommand {
     command: fallback,
     argsPrefix: [],
     source: "PATH fallback",
-    details: `${fallback} from PATH`
+    details: `${fallback} from PATH`,
+    shell: shouldUseShellForCommand(fallback)
   };
+}
+
+function desktopOpenCodeExecutorCommand(): string {
+  return 'opencode run --pure --print-logs --log-level INFO --format json --dir {repo} "Follow the attached OpenCode++ task prompt." --file {prompt}';
+}
+
+function shouldUseShellForCommand(command: string): boolean {
+  return process.platform === "win32" && /\.(cmd|bat)$/i.test(command);
 }
 
 function findOpenCodePlusPlusRoot(startDir: string): string | undefined {

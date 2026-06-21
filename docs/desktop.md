@@ -27,6 +27,7 @@ OpenCode++ remains the harness. The desktop app only gives users a visual contro
 - Enter a task in a desktop form.
 - Run the local built CLI when available, or `OPENCODE_PLUSPLUS_BIN` when explicitly configured.
 - Pass `oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"` to the CLI.
+- Use a Desktop-specific OpenCode executor command with `--pure --print-logs --log-level INFO --format json` so OpenCode logs are visible in the desktop output panel.
 - Stream stdout and stderr in real time.
 - Show a running heartbeat when the harness or OpenCode is still alive but has not emitted output yet.
 - Stop stalled executor runs when OpenCode produces no real output for the configured idle timeout.

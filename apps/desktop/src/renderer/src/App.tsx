@@ -69,7 +69,8 @@ function App() {
 
   const commandPreview = useMemo(() => {
     const normalizedTask = normalizeTaskForCli(task);
-    const flags = "--max-loops 2 --stream-executor --executor-idle-timeout-ms 180000 --executor-timeout-ms 1200000";
+    const executor = '--executor-command "opencode run --pure --print-logs --log-level INFO --format json --dir {repo} <message> --file {prompt}"';
+    const flags = `--max-loops 2 --stream-executor ${executor} --executor-idle-timeout-ms 180000 --executor-timeout-ms 1200000`;
     if (!repo || !normalizedTask) return `OpenCode++ local CLI or OPENCODE_PLUSPLUS_BIN -> oc run --repo "<repo>" ${flags} -- "<task>"`;
     return `OpenCode++ local CLI or OPENCODE_PLUSPLUS_BIN -> oc run --repo "${repo}" ${flags} -- "${normalizedTask}"`;
   }, [repo, task]);
