@@ -17,12 +17,14 @@ function App() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const nextLogId = useRef(1);
   const logEndRef = useRef<HTMLSpanElement | null>(null);
+  const bridge = window.openCodePlusPlus;
 
   useEffect(() => {
-    const offOutput = window.openCodePlusPlus.onTaskOutput((event) => {
+    if (!bridge) return;
+    const offOutput = bridge.onTaskOutput((event) => {
       appendLog(event.stream, event.text);
     });
-    const offExit = window.openCodePlusPlus.onTaskExit((event) => {
+    const offExit = bridge.onTaskExit((event) => {
       setRunning(false);
       setReportPath(event.reportPath);
       appendLog("system", `\nTask exited with ${event.code === null ? `signal ${event.signal ?? "unknown"}` : `code ${event.code}`}\n`);
@@ -32,7 +34,7 @@ function App() {
       offOutput();
       offExit();
     };
-  }, []);
+  }, [bridge]);
 
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -43,22 +45,39 @@ function App() {
     return `opencode-plusplus.cmd oc run "${task.trim()}" --repo "${repo}" --max-loops 2`;
   }, [repo, task]);
 
+  if (!bridge) {
+    return (
+      <main className="shell">
+        <section className="header">
+          <div>
+            <p className="eyebrow">OpenCode++ Desktop MVP</p>
+            <h1>Desktop bridge failed to load</h1>
+          </div>
+          <div className="status">Error</div>
+        </section>
+        <section className="controls">
+          <p className="error-text">The Electron preload bridge is unavailable. Rebuild the desktop app and restart it from `apps/desktop`.</p>
+        </section>
+      </main>
+    );
+  }
+
   function appendLog(stream: LogEntry["stream"], text: string): void {
     setLogs((current) => [...current, { id: nextLogId.current++, stream, text }]);
   }
 
   async function selectRepo(): Promise<void> {
-    const selected = await window.openCodePlusPlus.selectRepo();
+    const selected = await bridge.selectRepo();
     if (!selected) return;
     setRepo(selected);
-    setReportPath(await window.openCodePlusPlus.getLatestReport(selected));
+    setReportPath(await bridge.getLatestReport(selected));
     setStatus("Repository selected.");
   }
 
   async function runTask(): Promise<void> {
     setLogs([]);
     setReportPath(undefined);
-    const result = await window.openCodePlusPlus.runTask({ repo, task });
+    const result = await bridge.runTask({ repo, task });
     if (result.error) {
       appendLog("stderr", `${result.error}\n`);
       setStatus(result.error);
@@ -70,7 +89,7 @@ function App() {
   }
 
   async function stopTask(): Promise<void> {
-    const result = await window.openCodePlusPlus.stopTask();
+    const result = await bridge.stopTask();
     if (result.stopped) {
       appendLog("system", "\nStop requested.\n");
       setStatus("Stop requested.");
@@ -78,7 +97,7 @@ function App() {
   }
 
   async function openReport(): Promise<void> {
-    const result = await window.openCodePlusPlus.openLatestReport(repo);
+    const result = await bridge.openLatestReport(repo);
     if (result.opened) {
       setReportPath(result.path);
       setStatus("Report opened.");

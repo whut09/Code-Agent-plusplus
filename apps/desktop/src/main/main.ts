@@ -36,7 +36,7 @@ async function createWindow(): Promise<void> {
     minHeight: 620,
     title: "OpenCode++ Desktop",
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "preload.cjs"),
       contextIsolation: true,
       nodeIntegration: false
     }
