@@ -117,6 +117,29 @@ test("OpenCode run summary keeps the terminal output compact and actionable", ()
   assert.match(rendered, / {2}opencode-plusplus oc report --last/);
 });
 
+test("OpenCode run summary explains executor failures", () => {
+  const report = createReportFixture();
+  report.executorResult.exitCode = 1;
+  report.executorResult.stderr = "Command produced no output for 180000ms.";
+  report.changedFiles = [];
+  report.gates.gates = [];
+  report.decision = {
+    action: "block",
+    blocking: true,
+    confidence: 0.94,
+    reasons: ["The selected executor failed before the harness could trust the result."],
+    requiredCommands: [],
+    artifacts: []
+  };
+
+  const rendered = renderOpencodeRunSummary(report);
+
+  assert.match(rendered, /Executor failure:/);
+  assert.match(rendered, /stderr: Command produced no output for 180000ms/);
+  assert.match(rendered, /- Executor: failed before OpenCode\+\+ could trust the result/);
+  assert.doesNotMatch(rendered, /Blocking gates:\n- none/);
+});
+
 test("OpenCode report lookup returns the latest OpenCode orchestrator report", () => {
   const root = mkdtempSync(path.join(tmpdir(), "opencode-plusplus-opencode-report-"));
   try {

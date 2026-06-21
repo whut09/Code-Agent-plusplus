@@ -130,18 +130,32 @@ export function renderOpencodeDoctorReport(report: OpencodeDoctorReport): string
 export function renderOpencodeRunSummary(report: HarnessOrchestratorReport, commandName = "opencode-plusplus"): string {
   const blockingGates = report.gates.gates.filter((gate) => gate.status === "blocked");
   const warnings = report.gates.gates.filter((gate) => gate.status === "warning");
+  const executorFailed = report.executorResult.exitCode !== 0;
+  const executorFailure = executorFailed
+    ? [
+        "",
+        "Executor failure:",
+        `- exit code: ${report.executorResult.exitCode ?? "unknown"}`,
+        `- command: ${report.executorResult.command ?? "unknown"}`,
+        `- stderr: ${firstLine(report.executorResult.stderr) || "empty"}`
+      ]
+    : [];
   return [
     "OpenCode++ OpenCode Run",
     "",
     `Task: ${report.task}`,
     `Decision: ${report.decision.action}`,
     `Confidence: ${report.decision.confidence.toFixed(2)}`,
+    ...executorFailure,
     "",
     "Changed files:",
     ...formatList(report.changedFiles),
     "",
     "Blocking gates:",
-    ...formatList(blockingGates.map((gate) => `${formatGuardName(gate.guard)}: ${gate.condition}`)),
+    ...formatList([
+      ...(executorFailed ? [`Executor: failed before OpenCode++ could trust the result (${firstLine(report.executorResult.stderr) || "no stderr"})`] : []),
+      ...blockingGates.map((gate) => `${formatGuardName(gate.guard)}: ${gate.condition}`)
+    ]),
     ...(warnings.length ? ["", "Warnings:", ...formatList(warnings.map((gate) => `${formatGuardName(gate.guard)}: ${gate.condition}`))] : []),
     "",
     "Next:",

@@ -55,7 +55,7 @@ export async function runSafeCommandStreaming(command: string, options: SafeComm
     args: parsed.args,
     stdout: finalResult.stdout,
     stderr,
-    status: typeof finalResult.status === "number" ? finalResult.status : finalResult.error ? 1 : null,
+    status: finalResult.error ? 1 : typeof finalResult.status === "number" ? finalResult.status : null,
     error: finalResult.error
   };
 }
@@ -128,6 +128,8 @@ async function runSpawnStreaming(
     const killWithTimeout = (timeoutError: Error) => {
       if (settled) return;
       error = timeoutError;
+      stderr += `${stderr ? "\n" : ""}${timeoutError.message}\n`;
+      options.onStderr?.(`${timeoutError.message}\n`);
       terminateChildProcess(child.pid);
     };
 
