@@ -22,6 +22,8 @@ export class HostSandboxAdapter implements SandboxAdapter {
       cwd: handle.root,
       encoding: "utf8",
       maxBuffer: 20 * 1024 * 1024,
+      timeoutMs: options.timeoutMs,
+      idleTimeoutMs: options.idleTimeoutMs,
       onStdout: options.onStdout,
       onStderr: options.onStderr
     } as const;

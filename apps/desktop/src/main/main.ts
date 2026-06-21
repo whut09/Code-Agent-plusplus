@@ -34,6 +34,7 @@ let currentRepo: string | undefined;
 let currentTaskHeartbeat: NodeJS.Timeout | undefined;
 let currentTaskStartedAt = 0;
 let currentTaskLastOutputAt = 0;
+let currentTaskLastRealOutputAt = 0;
 let currentTaskStartedWallClock = 0;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -83,10 +84,25 @@ function registerIpc(): void {
     if (!existsSync(repo)) return { error: `Repository does not exist: ${repo}` };
 
     const command = commandName();
-    const args = ["oc", "run", "--repo", repo, "--max-loops", "2", "--stream-executor", "--", task];
+    const args = [
+      "oc",
+      "run",
+      "--repo",
+      repo,
+      "--max-loops",
+      "2",
+      "--stream-executor",
+      "--executor-idle-timeout-ms",
+      "180000",
+      "--executor-timeout-ms",
+      "1200000",
+      "--",
+      task
+    ];
     currentRepo = repo;
     currentTaskStartedAt = Date.now();
     currentTaskLastOutputAt = currentTaskStartedAt;
+    currentTaskLastRealOutputAt = currentTaskStartedAt;
     currentTaskStartedWallClock = currentTaskStartedAt;
     currentTask = spawn(command, args, {
       cwd: repo,
@@ -105,11 +121,13 @@ function registerIpc(): void {
 
     currentTask.stdout?.on("data", (chunk: Buffer) => {
       currentTaskLastOutputAt = Date.now();
+      currentTaskLastRealOutputAt = currentTaskLastOutputAt;
       mainWindow?.webContents.send("task:output", { stream: "stdout", text: chunk.toString("utf8") });
     });
 
     currentTask.stderr?.on("data", (chunk: Buffer) => {
       currentTaskLastOutputAt = Date.now();
+      currentTaskLastRealOutputAt = currentTaskLastOutputAt;
       mainWindow?.webContents.send("task:output", { stream: "stderr", text: chunk.toString("utf8") });
     });
 
@@ -177,11 +195,14 @@ function startTaskHeartbeat(): void {
       return;
     }
     const now = Date.now();
-    const silenceMs = now - currentTaskLastOutputAt;
-    if (silenceMs < 8000) return;
+    const heartbeatSilenceMs = now - currentTaskLastOutputAt;
+    if (heartbeatSilenceMs < 8000) return;
+    const realSilenceMs = now - currentTaskLastRealOutputAt;
+    const staleHint =
+      realSilenceMs >= 60000 ? " No real CLI output for over a minute; OpenCode may be waiting on auth/model/network input or a long-running tool." : "";
     mainWindow?.webContents.send("task:output", {
       stream: "system",
-      text: `Still running (${formatDuration(now - currentTaskStartedAt)} elapsed, no output for ${formatDuration(silenceMs)}). Waiting for harness/OpenCode output...\n`
+      text: `Still running (${formatDuration(now - currentTaskStartedAt)} elapsed, no real output for ${formatDuration(realSilenceMs)}). Waiting for harness/OpenCode output...${staleHint}\n`
     });
     currentTaskLastOutputAt = now;
   }, 8000);

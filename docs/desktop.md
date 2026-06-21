@@ -27,6 +27,7 @@ OpenCode++ remains the harness. The desktop app only gives users a visual contro
 - Run `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`.
 - Stream stdout and stderr in real time.
 - Show a running heartbeat when the harness or OpenCode is still alive but has not emitted output yet.
+- Stop stalled executor runs when OpenCode produces no real output for the configured idle timeout.
 - Stop the current task.
 - Open the latest `.agent-context/orchestrator/<task-id>/orchestrator.md` report.
 

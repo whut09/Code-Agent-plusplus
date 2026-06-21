@@ -22,6 +22,8 @@ export interface SandboxHandle {
 }
 
 export interface SandboxExecuteOptions {
+  timeoutMs?: number;
+  idleTimeoutMs?: number;
   onStdout?: (text: string) => void;
   onStderr?: (text: string) => void;
 }

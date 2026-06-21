@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseCommandLine, shellQuote } from "../src/core/safe-command.js";
+import { parseCommandLine, runSafeCommandStreaming, shellQuote } from "../src/core/safe-command.js";
 
 test("safe command parser preserves spaces and non-ASCII paths", () => {
   const parsed = parseCommandLine(`node "目录 带 空格/script.js" --repo '项目 路径/服务 A'`);
@@ -22,4 +22,15 @@ test("safe command parser preserves Windows backslash paths", () => {
 
 test("shellQuote single-quotes substituted placeholder data", () => {
   assert.equal(shellQuote("can't $(touch pwned)"), "'can'\\''t $(touch pwned)'");
+});
+
+test("streaming command stops after idle timeout", async () => {
+  const result = await runSafeCommandStreaming(`node -e "setInterval(function(){}, 60000)"`, {
+    cwd: process.cwd(),
+    idleTimeoutMs: 100,
+    timeoutMs: 5000
+  });
+
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /no output/i);
 });

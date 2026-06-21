@@ -30,6 +30,8 @@ interface OpencodeRunCliOptions {
   json?: boolean;
   fullReport?: boolean;
   streamExecutor?: boolean;
+  executorTimeoutMs?: number;
+  executorIdleTimeoutMs?: number;
 }
 
 interface OpencodeReportCliOptions {
@@ -98,6 +100,8 @@ function addOpencodeRunOptions(command: Command): Command {
     .option("--checkpoint <mode>", "checkpoint mode: none, git-worktree", parseOrchestratorCheckpoint, "git-worktree")
     .option("--dry-run", "exercise the harness using the mock executor without editing files")
     .option("--stream-executor", "stream executor stdout/stderr while the harness is running")
+    .option("--executor-timeout-ms <ms>", "maximum executor runtime before the harness stops it", parseInteger)
+    .option("--executor-idle-timeout-ms <ms>", "maximum executor silence before the harness stops it", parseInteger)
     .option("--full-report", "print the full orchestrator report instead of the compact OpenCode summary")
     .option("--json", "print machine-readable orchestrator report");
 }
@@ -188,6 +192,8 @@ async function runOpencodePreset(args: string[], options: OpencodeRunCliOptions)
     failOn: options.failOn,
     checkpoint: options.checkpoint,
     dryRun: options.dryRun,
+    executorTimeoutMs: options.executorTimeoutMs,
+    executorIdleTimeoutMs: options.executorIdleTimeoutMs,
     onExecutorOutput:
       options.streamExecutor && !options.json
         ? (event) => {

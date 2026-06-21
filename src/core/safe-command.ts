@@ -4,6 +4,8 @@ export interface SafeCommandRunOptions {
   cwd: string;
   encoding?: BufferEncoding;
   maxBuffer?: number;
+  timeoutMs?: number;
+  idleTimeoutMs?: number;
   onStdout?: (text: string) => void;
   onStderr?: (text: string) => void;
 }
@@ -63,7 +65,8 @@ function runParsedCommand(file: string, args: string[], options: SafeCommandRunO
     cwd: options.cwd,
     shell: false,
     encoding: options.encoding ?? "utf8",
-    maxBuffer: options.maxBuffer
+    maxBuffer: options.maxBuffer,
+    timeout: options.timeoutMs
   });
 }
 
@@ -73,7 +76,8 @@ function runWindowsCmdCommand(file: string, args: string[], options: SafeCommand
     cwd: options.cwd,
     shell: false,
     encoding: options.encoding ?? "utf8",
-    maxBuffer: options.maxBuffer
+    maxBuffer: options.maxBuffer,
+    timeout: options.timeoutMs
   });
 }
 
@@ -111,6 +115,36 @@ async function runSpawnStreaming(
     let stderr = "";
     let error: Error | undefined;
     let settled = false;
+    let totalTimer: NodeJS.Timeout | undefined;
+    let idleTimer: NodeJS.Timeout | undefined;
+
+    const clearTimers = () => {
+      if (totalTimer) clearTimeout(totalTimer);
+      if (idleTimer) clearTimeout(idleTimer);
+      totalTimer = undefined;
+      idleTimer = undefined;
+    };
+
+    const killWithTimeout = (timeoutError: Error) => {
+      if (settled) return;
+      error = timeoutError;
+      terminateChildProcess(child.pid);
+    };
+
+    const resetIdleTimer = () => {
+      if (!options.idleTimeoutMs) return;
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        killWithTimeout(new Error(`Command produced no output for ${options.idleTimeoutMs}ms.`));
+      }, options.idleTimeoutMs);
+    };
+
+    if (options.timeoutMs) {
+      totalTimer = setTimeout(() => {
+        killWithTimeout(new Error(`Command exceeded timeout (${options.timeoutMs}ms).`));
+      }, options.timeoutMs);
+    }
+    resetIdleTimer();
 
     child.stdout?.setEncoding(encoding);
     child.stderr?.setEncoding(encoding);
@@ -118,6 +152,7 @@ async function runSpawnStreaming(
     child.stdout?.on("data", (chunk: string | Buffer) => {
       const text = chunk.toString();
       stdout += text;
+      resetIdleTimer();
       options.onStdout?.(text);
       if (stdout.length + stderr.length > maxBuffer && !error) {
         error = new Error(`Command output exceeded maxBuffer (${maxBuffer} bytes).`);
@@ -128,6 +163,7 @@ async function runSpawnStreaming(
     child.stderr?.on("data", (chunk: string | Buffer) => {
       const text = chunk.toString();
       stderr += text;
+      resetIdleTimer();
       options.onStderr?.(text);
       if (stdout.length + stderr.length > maxBuffer && !error) {
         error = new Error(`Command output exceeded maxBuffer (${maxBuffer} bytes).`);
@@ -142,9 +178,27 @@ async function runSpawnStreaming(
     child.once("close", (status) => {
       if (settled) return;
       settled = true;
+      clearTimers();
       resolve({ stdout, stderr, status, error });
     });
   });
+}
+
+function terminateChildProcess(pid: number | undefined): void {
+  if (!pid) return;
+  if (process.platform === "win32") {
+    spawnSync("taskkill", ["/pid", String(pid), "/t", "/f"], { windowsHide: true });
+    return;
+  }
+  try {
+    process.kill(-pid, "SIGTERM");
+  } catch {
+    try {
+      process.kill(pid, "SIGTERM");
+    } catch {
+      // The process may already have exited.
+    }
+  }
 }
 
 function shouldTryWindowsCmdFallback(file: string, error: Error | undefined): boolean {

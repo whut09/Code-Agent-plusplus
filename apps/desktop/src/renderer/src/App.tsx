@@ -69,8 +69,9 @@ function App() {
 
   const commandPreview = useMemo(() => {
     const normalizedTask = normalizeTaskForCli(task);
-    if (!repo || !normalizedTask) return 'opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"';
-    return `opencode-plusplus.cmd oc run --repo "${repo}" --max-loops 2 --stream-executor -- "${normalizedTask}"`;
+    const flags = "--max-loops 2 --stream-executor --executor-idle-timeout-ms 180000 --executor-timeout-ms 1200000";
+    if (!repo || !normalizedTask) return `opencode-plusplus.cmd oc run --repo "<repo>" ${flags} -- "<task>"`;
+    return `opencode-plusplus.cmd oc run --repo "${repo}" ${flags} -- "${normalizedTask}"`;
   }, [repo, task]);
 
   if (!bridge) {

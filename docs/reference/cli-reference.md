@@ -341,38 +341,43 @@ Run the harness-led OpenCode preset: plan/pack -> opencode run ->
 trace/policy/verify -> decision.
 
 Arguments:
-  args                          task description and optional repository path
+  args                             task description and optional repository path
 
 Options:
-  --repo <repo...>              repository path; accepts multiple words when the
-                                path contains spaces or non-ASCII characters
-  --executor-command <command>  OpenCode command template; supports {prompt},
-                                {task}, {repo}, {runDir}, {agent} (default:
-                                "opencode run --format json --dir {repo}
-                                \"Follow the attached OpenCode++ task prompt.\"
-                                --file {prompt}")
-  --opencode-transcript <path>  optional OpenCode session transcript file to
-                                normalize into the execution trace
-  --agent <agent>               OpenCode agent/profile name
-  --max-loops <count>           maximum orchestrator iterations before requiring
-                                human review (default: 3)
-  --type <type>                 task type: auto, bugfix, feature, refactor
-                                (default: "auto")
-  -b, --token-budget <tokens>   task context token budget
-  --base <ref>                  base git ref for diff, policy, tests, impact,
-                                and verify (default: "main")
-  --fail-on <level>             policy failure threshold: forbidden, required,
-                                risk (default: "required")
-  --checkpoint <mode>           checkpoint mode: none, git-worktree (default:
-                                "git-worktree")
-  --dry-run                     exercise the harness using the mock executor
-                                without editing files
-  --stream-executor             stream executor stdout/stderr while the harness
-                                is running
-  --full-report                 print the full orchestrator report instead of
-                                the compact OpenCode summary
-  --json                        print machine-readable orchestrator report
-  -h, --help                    display help for command
+  --repo <repo...>                 repository path; accepts multiple words when
+                                   the path contains spaces or non-ASCII
+                                   characters
+  --executor-command <command>     OpenCode command template; supports {prompt},
+                                   {task}, {repo}, {runDir}, {agent} (default:
+                                   "opencode run --format json --dir {repo}
+                                   \"Follow the attached OpenCode++ task
+                                   prompt.\" --file {prompt}")
+  --opencode-transcript <path>     optional OpenCode session transcript file to
+                                   normalize into the execution trace
+  --agent <agent>                  OpenCode agent/profile name
+  --max-loops <count>              maximum orchestrator iterations before
+                                   requiring human review (default: 3)
+  --type <type>                    task type: auto, bugfix, feature, refactor
+                                   (default: "auto")
+  -b, --token-budget <tokens>      task context token budget
+  --base <ref>                     base git ref for diff, policy, tests, impact,
+                                   and verify (default: "main")
+  --fail-on <level>                policy failure threshold: forbidden,
+                                   required, risk (default: "required")
+  --checkpoint <mode>              checkpoint mode: none, git-worktree (default:
+                                   "git-worktree")
+  --dry-run                        exercise the harness using the mock executor
+                                   without editing files
+  --stream-executor                stream executor stdout/stderr while the
+                                   harness is running
+  --executor-timeout-ms <ms>       maximum executor runtime before the harness
+                                   stops it
+  --executor-idle-timeout-ms <ms>  maximum executor silence before the harness
+                                   stops it
+  --full-report                    print the full orchestrator report instead of
+                                   the compact OpenCode summary
+  --json                           print machine-readable orchestrator report
+  -h, --help                       display help for command
 ```
 
 ### `opencode-plusplus opencode init`
@@ -476,38 +481,43 @@ Usage: opencode-plusplus oc run [options] <args...>
 Alias for `opencode-plusplus opencode run`.
 
 Arguments:
-  args                          task description and optional repository path
+  args                             task description and optional repository path
 
 Options:
-  --repo <repo...>              repository path; accepts multiple words when the
-                                path contains spaces or non-ASCII characters
-  --executor-command <command>  OpenCode command template; supports {prompt},
-                                {task}, {repo}, {runDir}, {agent} (default:
-                                "opencode run --format json --dir {repo}
-                                \"Follow the attached OpenCode++ task prompt.\"
-                                --file {prompt}")
-  --opencode-transcript <path>  optional OpenCode session transcript file to
-                                normalize into the execution trace
-  --agent <agent>               OpenCode agent/profile name
-  --max-loops <count>           maximum orchestrator iterations before requiring
-                                human review (default: 3)
-  --type <type>                 task type: auto, bugfix, feature, refactor
-                                (default: "auto")
-  -b, --token-budget <tokens>   task context token budget
-  --base <ref>                  base git ref for diff, policy, tests, impact,
-                                and verify (default: "main")
-  --fail-on <level>             policy failure threshold: forbidden, required,
-                                risk (default: "required")
-  --checkpoint <mode>           checkpoint mode: none, git-worktree (default:
-                                "git-worktree")
-  --dry-run                     exercise the harness using the mock executor
-                                without editing files
-  --stream-executor             stream executor stdout/stderr while the harness
-                                is running
-  --full-report                 print the full orchestrator report instead of
-                                the compact OpenCode summary
-  --json                        print machine-readable orchestrator report
-  -h, --help                    display help for command
+  --repo <repo...>                 repository path; accepts multiple words when
+                                   the path contains spaces or non-ASCII
+                                   characters
+  --executor-command <command>     OpenCode command template; supports {prompt},
+                                   {task}, {repo}, {runDir}, {agent} (default:
+                                   "opencode run --format json --dir {repo}
+                                   \"Follow the attached OpenCode++ task
+                                   prompt.\" --file {prompt}")
+  --opencode-transcript <path>     optional OpenCode session transcript file to
+                                   normalize into the execution trace
+  --agent <agent>                  OpenCode agent/profile name
+  --max-loops <count>              maximum orchestrator iterations before
+                                   requiring human review (default: 3)
+  --type <type>                    task type: auto, bugfix, feature, refactor
+                                   (default: "auto")
+  -b, --token-budget <tokens>      task context token budget
+  --base <ref>                     base git ref for diff, policy, tests, impact,
+                                   and verify (default: "main")
+  --fail-on <level>                policy failure threshold: forbidden,
+                                   required, risk (default: "required")
+  --checkpoint <mode>              checkpoint mode: none, git-worktree (default:
+                                   "git-worktree")
+  --dry-run                        exercise the harness using the mock executor
+                                   without editing files
+  --stream-executor                stream executor stdout/stderr while the
+                                   harness is running
+  --executor-timeout-ms <ms>       maximum executor runtime before the harness
+                                   stops it
+  --executor-idle-timeout-ms <ms>  maximum executor silence before the harness
+                                   stops it
+  --full-report                    print the full orchestrator report instead of
+                                   the compact OpenCode summary
+  --json                           print machine-readable orchestrator report
+  -h, --help                       display help for command
 ```
 
 ### `opencode-plusplus oc init`

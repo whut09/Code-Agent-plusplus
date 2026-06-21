@@ -48,6 +48,8 @@ export interface HarnessOrchestratorOptions {
   dryRun?: boolean;
   checkpoint?: OrchestratorCheckpointMode;
   opencodeTranscript?: string;
+  executorTimeoutMs?: number;
+  executorIdleTimeoutMs?: number;
   onExecutorOutput?: (event: { stream: "stdout" | "stderr"; text: string }) => void;
   onProgress?: (event: HarnessProgressEvent) => void;
 }
@@ -72,6 +74,8 @@ export interface AgentExecutorInput {
   agent?: string;
   executorCommand?: string;
   dryRun?: boolean;
+  executorTimeoutMs?: number;
+  executorIdleTimeoutMs?: number;
   onExecutorOutput?: (event: { stream: "stdout" | "stderr"; text: string }) => void;
   onProgress?: (event: HarnessProgressEvent) => void;
 }
@@ -244,6 +248,8 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         agent: options.agent,
         executorCommand: options.executorCommand,
         dryRun: options.dryRun,
+        executorTimeoutMs: options.executorTimeoutMs,
+        executorIdleTimeoutMs: options.executorIdleTimeoutMs,
         onExecutorOutput: options.onExecutorOutput,
         onProgress: options.onProgress
       });
@@ -689,11 +695,14 @@ async function runMockExecutor(name: AgentExecutorName, input: AgentExecutorInpu
 
 async function runShellExecutor(name: AgentExecutorName, input: AgentExecutorInput): Promise<AgentExecutorResult> {
   const command = expandExecutorCommand(input.executorCommand ?? "", input);
+  input.onProgress?.({ at: new Date().toISOString(), phase: "execute", message: `executor command: ${command}` });
   const startedHash = currentWorkingTreeHash(input.repo);
   const startedAt = new Date().toISOString();
   let result: ExecResult;
   try {
     result = await input.sandbox.execute(command, {
+      timeoutMs: input.executorTimeoutMs,
+      idleTimeoutMs: input.executorIdleTimeoutMs,
       onStdout: (text) => input.onExecutorOutput?.({ stream: "stdout", text }),
       onStderr: (text) => input.onExecutorOutput?.({ stream: "stderr", text })
     });
