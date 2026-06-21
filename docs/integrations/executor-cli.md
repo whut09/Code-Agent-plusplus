@@ -33,7 +33,7 @@ opencode-plusplus oc repair
 The preset uses the built-in command template:
 
 ```bash
-opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."
+opencode run --format json --dir {repo} "Follow the attached OpenCode++ task prompt." --file {prompt}
 ```
 
 `opencode-plusplus opencode doctor` checks OpenCode installation, `opencode run`, `opencode auth list`, git repository status, `.agent-context`, and working-tree cleanliness.
@@ -74,7 +74,7 @@ Next:
 ```bash
 opencode-plusplus orchestrate "fix login timeout bug" . \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} \"Follow the attached OpenCode++ task prompt.\" --file {prompt}" \
   --max-loops 3 \
   --checkpoint git-worktree \
   --fail-on required

@@ -11,7 +11,7 @@ export {
   type OpencodeInitReport
 } from "../integrations/opencode/project-init.js";
 
-export const OPENCODE_DEFAULT_EXECUTOR_COMMAND = 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."';
+export const OPENCODE_DEFAULT_EXECUTOR_COMMAND = 'opencode run --format json --dir {repo} "Follow the attached OpenCode++ task prompt." --file {prompt}';
 
 export type OpencodeDoctorStatus = "pass" | "warn" | "fail";
 

@@ -257,9 +257,9 @@ Options:
                                 path contains spaces or non-ASCII characters
   --executor-command <command>  OpenCode command template; supports {prompt},
                                 {task}, {repo}, {runDir}, {agent} (default:
-                                "opencode run --format json --dir {repo} --file
-                                {prompt} \"Follow the attached OpenCode++ task
-                                prompt.\"")
+                                "opencode run --format json --dir {repo}
+                                \"Follow the attached OpenCode++ task prompt.\"
+                                --file {prompt}")
   --opencode-transcript <path>  optional OpenCode session transcript file to
                                 normalize into the execution trace
   --agent <agent>               OpenCode agent/profile name
@@ -392,9 +392,9 @@ Options:
                                 path contains spaces or non-ASCII characters
   --executor-command <command>  OpenCode command template; supports {prompt},
                                 {task}, {repo}, {runDir}, {agent} (default:
-                                "opencode run --format json --dir {repo} --file
-                                {prompt} \"Follow the attached OpenCode++ task
-                                prompt.\"")
+                                "opencode run --format json --dir {repo}
+                                \"Follow the attached OpenCode++ task prompt.\"
+                                --file {prompt}")
   --opencode-transcript <path>  optional OpenCode session transcript file to
                                 normalize into the execution trace
   --agent <agent>               OpenCode agent/profile name

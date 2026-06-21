@@ -39,7 +39,7 @@ Use the generic executor hook for real-agent comparisons:
 ```bash
 opencode-plusplus benchmark-agent benchmarks \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} \"Follow the attached OpenCode++ task prompt.\" --file {prompt}" \
   --max-loops 3 \
   --fail-on required
 ```

@@ -1,6 +1,6 @@
 # Roadmap
 
-OpenCode++ is evolving from “generate files that help an agent read a repo” into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. OpenCode++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
+OpenCode++ is evolving from 鈥済enerate files that help an agent read a repo鈥?into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. OpenCode++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
 
 The roadmap is organized around the harness lifecycle:
 
@@ -61,7 +61,7 @@ Status: implemented foundation.
 
 ## v0.4: Loop Guard and Runtime State
 
-Goal: stop trusting the agent’s “done” claim and make the next action explicit.
+Goal: stop trusting the agent鈥檚 鈥渄one鈥?claim and make the next action explicit.
 
 - Runtime state persisted under `.agent-context/runs/<task-id>/state.json`.
 - Loop decisions with priority, confidence, blocking state, and signals.
@@ -118,7 +118,7 @@ Implemented outputs:
 - `.agent-context/runs/<task-id>/hallucination.md`
 - policy findings for missing commands, missing symbols, missing local import files, missing dependencies, missing config keys, and missing file references.
 - evidence references and repair suggestions.
-- “verify existence first” prompts
+- 鈥渧erify existence first鈥?prompts
 
 Planned expansion:
 
@@ -237,7 +237,7 @@ OpenCode example:
 ```bash
 opencode-plusplus benchmark-agent benchmarks \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} \"Follow the attached OpenCode++ task prompt.\" --file {prompt}" \
   --max-loops 3 \
   --fail-on required
 ```

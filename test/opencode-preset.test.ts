@@ -15,7 +15,8 @@ import {
 } from "../src/cli/opencode-preset.js";
 
 test("OpenCode preset uses the requested default executor command", () => {
-  assert.equal(OPENCODE_DEFAULT_EXECUTOR_COMMAND, 'opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."');
+  assert.equal(OPENCODE_DEFAULT_EXECUTOR_COMMAND, 'opencode run --format json --dir {repo} "Follow the attached OpenCode++ task prompt." --file {prompt}');
+  assert.ok(OPENCODE_DEFAULT_EXECUTOR_COMMAND.indexOf('"Follow the attached OpenCode++ task prompt."') < OPENCODE_DEFAULT_EXECUTOR_COMMAND.indexOf("--file"));
 });
 
 test("OpenCode doctor reports a ready repo when OpenCode, auth, git, context, and clean tree checks pass", () => {

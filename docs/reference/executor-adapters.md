@@ -33,7 +33,7 @@ opencode-plusplus oc repair
 The preset expands to:
 
 ```bash
-opencode run --format json --dir {repo} --file {prompt} "Follow the attached OpenCode++ task prompt."
+opencode run --format json --dir {repo} "Follow the attached OpenCode++ task prompt." --file {prompt}
 ```
 
 Use the generic adapter for other executors or custom OpenCode commands:
@@ -41,7 +41,7 @@ Use the generic adapter for other executors or custom OpenCode commands:
 ```bash
 opencode-plusplus orchestrate "<task>" . \
   --executor opencode \
-  --executor-command "opencode run --format json --dir {repo} --file {prompt} \"Follow the attached OpenCode++ task prompt.\"" \
+  --executor-command "opencode run --format json --dir {repo} \"Follow the attached OpenCode++ task prompt.\" --file {prompt}" \
   --max-loops 3
 ```
 
