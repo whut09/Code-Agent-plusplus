@@ -21,6 +21,13 @@ interface RunTaskRejected {
 
 type RunTaskResult = RunTaskStarted | RunTaskRejected;
 
+interface CliCommand {
+  command: string;
+  argsPrefix: string[];
+  source: string;
+  details: string;
+}
+
 interface LatestReportSummary {
   reportPath?: string;
   decision?: string;
@@ -62,10 +69,6 @@ async function createWindow(): Promise<void> {
   }
 }
 
-function commandName(): string {
-  return process.platform === "win32" ? "opencode-plusplus.cmd" : "opencode-plusplus";
-}
-
 function registerIpc(): void {
   ipcMain.handle("repo:select", async () => {
     const result = await dialog.showOpenDialog({
@@ -83,8 +86,9 @@ function registerIpc(): void {
     if (!task) return { error: "Enter a task first." };
     if (!existsSync(repo)) return { error: `Repository does not exist: ${repo}` };
 
-    const command = commandName();
-    const args = [
+    const cli = resolveCliCommand();
+    const command = cli.command;
+    const cliArgs = [
       "oc",
       "run",
       "--repo",
@@ -99,6 +103,7 @@ function registerIpc(): void {
       "--",
       task
     ];
+    const args = [...cli.argsPrefix, ...cliArgs];
     currentRepo = repo;
     currentTaskStartedAt = Date.now();
     currentTaskLastOutputAt = currentTaskStartedAt;
@@ -112,6 +117,7 @@ function registerIpc(): void {
       windowsHide: true
     });
 
+    mainWindow?.webContents.send("task:output", { stream: "system", text: `CLI: ${cli.source} (${cli.details})\n` });
     mainWindow?.webContents.send("task:output", { stream: "system", text: `Starting: ${formatCommand(command, args)}\n` });
     mainWindow?.webContents.send("task:output", {
       stream: "system",
@@ -185,6 +191,56 @@ function registerIpc(): void {
     const error = await shell.openPath(reportPath);
     return error ? { opened: false, error } : { opened: true, path: reportPath };
   });
+}
+
+function resolveCliCommand(): CliCommand {
+  const explicit = process.env.OPENCODE_PLUSPLUS_BIN?.trim();
+  if (explicit) {
+    return {
+      command: explicit,
+      argsPrefix: [],
+      source: "OPENCODE_PLUSPLUS_BIN",
+      details: explicit
+    };
+  }
+
+  const projectRoot = findOpenCodePlusPlusRoot(__dirname);
+  const localCli = projectRoot ? path.join(projectRoot, "dist", "cli", "index.js") : undefined;
+  if (localCli && existsSync(localCli)) {
+    return {
+      command: process.env.OPENCODE_PLUSPLUS_NODE?.trim() || "node",
+      argsPrefix: [localCli],
+      source: "local dist CLI",
+      details: localCli
+    };
+  }
+
+  const fallback = process.platform === "win32" ? "opencode-plusplus.cmd" : "opencode-plusplus";
+  return {
+    command: fallback,
+    argsPrefix: [],
+    source: "PATH fallback",
+    details: `${fallback} from PATH`
+  };
+}
+
+function findOpenCodePlusPlusRoot(startDir: string): string | undefined {
+  let current = path.resolve(startDir);
+  for (let depth = 0; depth < 8; depth += 1) {
+    const packageJson = path.join(current, "package.json");
+    if (existsSync(packageJson)) {
+      try {
+        const parsed = JSON.parse(readFileSync(packageJson, "utf8")) as { name?: unknown };
+        if (parsed.name === "opencode-plusplus") return current;
+      } catch {
+        // Keep walking upward.
+      }
+    }
+    const parent = path.dirname(current);
+    if (parent === current) break;
+    current = parent;
+  }
+  return undefined;
 }
 
 function startTaskHeartbeat(): void {

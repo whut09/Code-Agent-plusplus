@@ -13,7 +13,8 @@ The Desktop MVP avoids that problem:
 ```txt
 Desktop UI
   -> child_process
-  -> opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"
+  -> local dist CLI or OPENCODE_PLUSPLUS_BIN
+  -> opencode-plusplus oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"
   -> stdout/stderr stream
   -> generated report
 ```
@@ -24,7 +25,8 @@ OpenCode++ remains the harness. The desktop app only gives users a visual contro
 
 - Select a local repository directory.
 - Enter a task in a desktop form.
-- Run `opencode-plusplus.cmd oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"`.
+- Run the local built CLI when available, or `OPENCODE_PLUSPLUS_BIN` when explicitly configured.
+- Pass `oc run --repo "<repo>" --max-loops 2 --stream-executor -- "<task>"` to the CLI.
 - Stream stdout and stderr in real time.
 - Show a running heartbeat when the harness or OpenCode is still alive but has not emitted output yet.
 - Stop stalled executor runs when OpenCode produces no real output for the configured idle timeout.
@@ -69,4 +71,13 @@ Run the built shell:
 npm run start
 ```
 
-The desktop app expects the `opencode-plusplus.cmd` command to be available on Windows. During source development, build the root CLI and run `npm link` from the repository root before starting the desktop app.
+During source development, build the root CLI before starting the desktop app:
+
+```bash
+npm run build
+cd apps/desktop
+npm run build
+npm run start
+```
+
+The desktop app first looks for the repository root from its compiled main process and runs the local `dist/cli/index.js` with Node. Set `OPENCODE_PLUSPLUS_BIN` only when you intentionally want Desktop to use a different installed CLI.
