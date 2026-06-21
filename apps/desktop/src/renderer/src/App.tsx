@@ -15,6 +15,8 @@ function App() {
   const [status, setStatus] = useState("Select a repository and describe the coding task.");
   const [reportPath, setReportPath] = useState<string | undefined>();
   const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [runStartedAt, setRunStartedAt] = useState<number | undefined>();
+  const [now, setNow] = useState(Date.now());
   const nextLogId = useRef(1);
   const logEndRef = useRef<HTMLSpanElement | null>(null);
   const bridge = window.openCodePlusPlus;
@@ -26,6 +28,7 @@ function App() {
     });
     const offExit = bridge.onTaskExit((event) => {
       setRunning(false);
+      setRunStartedAt(undefined);
       setReportPath(event.reportPath);
       if (event.error) {
         appendLog("stderr", `${event.error}\n`);
@@ -57,6 +60,12 @@ function App() {
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [logs]);
+
+  useEffect(() => {
+    if (!running) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [running]);
 
   const commandPreview = useMemo(() => {
     const normalizedTask = normalizeTaskForCli(task);
@@ -97,12 +106,15 @@ function App() {
     setLogs([]);
     setReportPath(undefined);
     setRunning(true);
+    setRunStartedAt(Date.now());
+    setNow(Date.now());
     setStatus("Starting task...");
     appendLog("system", "Starting task...\n");
     try {
       const result = await bridge.runTask({ repo, task });
       if (result.error) {
         setRunning(false);
+        setRunStartedAt(undefined);
         appendLog("stderr", `${result.error}\n`);
         setStatus(result.error);
         return;
@@ -111,6 +123,7 @@ function App() {
       appendLog("system", `$ ${result.command} ${(result.args ?? []).map(quoteArg).join(" ")}\n\n`);
     } catch (error) {
       setRunning(false);
+      setRunStartedAt(undefined);
       const message = error instanceof Error ? error.message : String(error);
       appendLog("stderr", `${message}\n`);
       setStatus(`Task failed to start: ${message}`);
@@ -142,7 +155,7 @@ function App() {
           <p className="eyebrow">OpenCode++ Desktop MVP</p>
           <h1>Harness-led tasks without embedding the OpenCode TUI</h1>
         </div>
-        <div className={`status ${running ? "running" : ""}`}>{running ? "Running" : "Idle"}</div>
+        <div className={`status ${running ? "running" : ""}`}>{running ? `Running ${formatElapsed(now - (runStartedAt ?? now))}` : "Idle"}</div>
       </section>
 
       <section className="controls">
@@ -219,6 +232,13 @@ function quoteArg(value: string): string {
 
 function normalizeTaskForCli(task: string): string {
   return task.trim().replace(/\s+/gu, " ").replaceAll('"', "'");
+}
+
+function formatElapsed(milliseconds: number): string {
+  const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 createRoot(document.getElementById("root") as HTMLElement).render(<App />);

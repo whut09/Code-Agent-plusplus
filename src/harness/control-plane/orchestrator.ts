@@ -49,6 +49,14 @@ export interface HarnessOrchestratorOptions {
   checkpoint?: OrchestratorCheckpointMode;
   opencodeTranscript?: string;
   onExecutorOutput?: (event: { stream: "stdout" | "stderr"; text: string }) => void;
+  onProgress?: (event: HarnessProgressEvent) => void;
+}
+
+export interface HarnessProgressEvent {
+  at: string;
+  phase: "context" | "plan" | "sandbox" | "execute" | "collect" | "evaluate" | "decision" | "write";
+  message: string;
+  loop?: number;
 }
 
 export interface AgentExecutorInput {
@@ -65,6 +73,7 @@ export interface AgentExecutorInput {
   executorCommand?: string;
   dryRun?: boolean;
   onExecutorOutput?: (event: { stream: "stdout" | "stderr"; text: string }) => void;
+  onProgress?: (event: HarnessProgressEvent) => void;
 }
 
 export interface AgentExecutorResult {
@@ -171,21 +180,29 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
   const executorName = options.executor ?? "mock";
   const maxLoops = Math.max(1, options.maxLoops ?? 1);
   const root = path.resolve(repo);
+  const progress = (phase: HarnessProgressEvent["phase"], message: string, loop?: number) => {
+    options.onProgress?.({ at: new Date().toISOString(), phase, message, loop });
+  };
 
+  progress("context", `building repository context for ${root}`);
   const preContext = await buildContextPackage(root);
+  progress("context", "writing context package");
   const contextWrite = writeContextPackage(preContext);
   const executor = createAgentExecutor(executorName);
+  progress("plan", "writing task run and edit boundary");
   const taskRun = writeTaskRun(preContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
   const dir = path.join(root, ".agent-context", "orchestrator", taskRun.runId);
   mkdirSync(dir, { recursive: true });
   const checkpoint = createCheckpoint(root, taskRun.runId, taskRun.dir, options.checkpoint ?? "none");
   const sandbox = createSandboxAdapter(options.checkpoint ?? "none");
+  progress("sandbox", `preparing ${options.checkpoint ?? "none"} sandbox`);
   const sandboxHandle = await sandbox.prepare(taskRun.runId, root);
   let sandboxDiscarded = sandboxHandle.mode === "host";
   const iterations: OrchestratorIterationReport[] = [];
   let previousDecision: HarnessOrchestratorReport["decision"] | undefined;
   let latestContext = preContext;
   if (sandboxHandle.mode === "git-worktree") {
+    progress("context", "building context inside git-worktree sandbox");
     latestContext = await buildContextPackage(sandboxHandle.root);
     writeContextPackage(latestContext);
     writeTaskRun(latestContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
@@ -200,7 +217,9 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
 
   try {
     for (let loopIndex = 1; loopIndex <= maxLoops; loopIndex += 1) {
+      progress("plan", `starting loop ${loopIndex} of ${maxLoops}`, loopIndex);
       if (loopIndex > 1 || previousDecision?.action === "repack") {
+        progress("context", "refreshing context for next loop", loopIndex);
         latestContext = await buildContextPackage(sandboxHandle.root);
         writeContextPackage(latestContext);
         writeTaskRun(latestContext, task, { base, type: options.type ?? "auto", tokenBudget: options.tokenBudget, preserveTrace: true });
@@ -211,6 +230,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       mkdirSync(iterationDir, { recursive: true });
       const prompt = buildExecutorPrompt(latestContext, taskRun, executorName, options, previousDecision, loopIndex);
       const promptFile = write(path.join(iterationDir, "prompt.md"), prompt);
+      progress("execute", `launching ${executorName} executor`, loopIndex);
       const executorResult = await executor({
         repo: sandboxHandle.root,
         hostRepo: root,
@@ -224,9 +244,12 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
         agent: options.agent,
         executorCommand: options.executorCommand,
         dryRun: options.dryRun,
-        onExecutorOutput: options.onExecutorOutput
+        onExecutorOutput: options.onExecutorOutput,
+        onProgress: options.onProgress
       });
+      progress("collect", `${executorName} executor finished with exit code ${executorResult.exitCode ?? "unknown"}`, loopIndex);
 
+      progress("collect", "normalizing executor events", loopIndex);
       const normalized = normalizeAgentEvents({
         executor: executorName,
         stdout: executorResult.stdout,
@@ -246,6 +269,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       appendExecutorTrace(root, taskRun.runId, executorName, executorResult, loopIndex, normalized.warnings);
       mirrorTraceForEvaluation(root, sandboxHandle.root, taskRun.runId);
 
+      progress("evaluate", "running hallucination, regression, impact, policy, and verify checks", loopIndex);
       const postContext = await buildContextPackage(sandboxHandle.root);
       const hallucination = buildHallucinationReport(postContext, { base, traceId: taskRun.runId, task });
       writeHallucinationReport(postContext, hallucination);
@@ -298,6 +322,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
       } else {
         latestDecision = decision;
       }
+      progress("decision", `decision: ${latestDecision.action}`, loopIndex);
 
       const iterationFiles = writeIterationArtifacts(root, iterationDir, {
         runId: taskRun.runId,
@@ -438,6 +463,7 @@ export async function runHarnessOrchestrator(repo: string, task: string, options
     ];
     report.artifacts.orchestratorFiles = files.map((file) => path.relative(root, file).replaceAll("\\", "/"));
     writeFileSync(path.join(dir, "orchestrator.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
+    progress("write", `wrote orchestrator report to ${path.relative(root, path.join(dir, "orchestrator.md")).replaceAll("\\", "/")}`);
 
     return { report, files };
   } finally {

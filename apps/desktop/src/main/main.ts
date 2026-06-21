@@ -31,6 +31,9 @@ interface LatestReportSummary {
 let mainWindow: BrowserWindow | undefined;
 let currentTask: ChildProcess | undefined;
 let currentRepo: string | undefined;
+let currentTaskHeartbeat: NodeJS.Timeout | undefined;
+let currentTaskStartedAt = 0;
+let currentTaskLastOutputAt = 0;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -81,26 +84,37 @@ function registerIpc(): void {
     const command = commandName();
     const args = ["oc", "run", "--repo", repo, "--max-loops", "2", "--stream-executor", "--", task];
     currentRepo = repo;
+    currentTaskStartedAt = Date.now();
+    currentTaskLastOutputAt = currentTaskStartedAt;
     currentTask = spawn(command, args, {
       cwd: repo,
       env: process.env,
+      stdio: ["ignore", "pipe", "pipe"],
       shell: process.platform === "win32",
       windowsHide: true
     });
 
     mainWindow?.webContents.send("task:output", { stream: "system", text: `Starting: ${formatCommand(command, args)}\n` });
+    mainWindow?.webContents.send("task:output", {
+      stream: "system",
+      text: `Process started with PID ${currentTask.pid ?? "unknown"}. Waiting for harness progress and OpenCode output...\n`
+    });
+    startTaskHeartbeat();
 
     currentTask.stdout?.on("data", (chunk: Buffer) => {
+      currentTaskLastOutputAt = Date.now();
       mainWindow?.webContents.send("task:output", { stream: "stdout", text: chunk.toString("utf8") });
     });
 
     currentTask.stderr?.on("data", (chunk: Buffer) => {
+      currentTaskLastOutputAt = Date.now();
       mainWindow?.webContents.send("task:output", { stream: "stderr", text: chunk.toString("utf8") });
     });
 
     let finished = false;
     currentTask.once("error", (error) => {
       finished = true;
+      stopTaskHeartbeat();
       currentTask = undefined;
       mainWindow?.webContents.send("task:output", { stream: "stderr", text: `${error.message}\n` });
       mainWindow?.webContents.send("task:exit", {
@@ -113,6 +127,7 @@ function registerIpc(): void {
     currentTask.once("close", (code, signal) => {
       if (finished) return;
       finished = true;
+      stopTaskHeartbeat();
       const summary = currentRepo ? findLatestReportSummary(currentRepo) : {};
       currentTask = undefined;
       mainWindow?.webContents.send("task:exit", {
@@ -131,6 +146,7 @@ function registerIpc(): void {
   ipcMain.handle("task:stop", async () => {
     if (!currentTask) return { stopped: false };
     const pid = currentTask.pid;
+    mainWindow?.webContents.send("task:output", { stream: "system", text: `Stopping task PID ${pid ?? "unknown"}...\n` });
     if (process.platform === "win32" && pid) {
       spawn("taskkill", ["/pid", String(pid), "/t", "/f"], { windowsHide: true });
     } else {
@@ -149,6 +165,30 @@ function registerIpc(): void {
     const error = await shell.openPath(reportPath);
     return error ? { opened: false, error } : { opened: true, path: reportPath };
   });
+}
+
+function startTaskHeartbeat(): void {
+  stopTaskHeartbeat();
+  currentTaskHeartbeat = setInterval(() => {
+    if (!currentTask) {
+      stopTaskHeartbeat();
+      return;
+    }
+    const now = Date.now();
+    const silenceMs = now - currentTaskLastOutputAt;
+    if (silenceMs < 8000) return;
+    mainWindow?.webContents.send("task:output", {
+      stream: "system",
+      text: `Still running (${formatDuration(now - currentTaskStartedAt)} elapsed, no output for ${formatDuration(silenceMs)}). Waiting for harness/OpenCode output...\n`
+    });
+    currentTaskLastOutputAt = now;
+  }, 8000);
+}
+
+function stopTaskHeartbeat(): void {
+  if (!currentTaskHeartbeat) return;
+  clearInterval(currentTaskHeartbeat);
+  currentTaskHeartbeat = undefined;
 }
 
 function findLatestReport(repo: string): string | undefined {
@@ -205,6 +245,13 @@ function normalizeTaskForCli(task: string): string {
 
 function quoteArg(value: string): string {
   return /[\s"]/u.test(value) ? `"${value.replaceAll('"', '\\"').replaceAll("\n", "\\n")}"` : value;
+}
+
+function formatDuration(milliseconds: number): string {
+  const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 registerIpc();

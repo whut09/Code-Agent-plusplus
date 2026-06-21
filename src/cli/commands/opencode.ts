@@ -194,6 +194,12 @@ async function runOpencodePreset(args: string[], options: OpencodeRunCliOptions)
             const target = event.stream === "stderr" ? process.stderr : process.stdout;
             target.write(event.text);
           }
+        : undefined,
+    onProgress:
+      options.streamExecutor && !options.json
+        ? (event) => {
+            process.stdout.write(`[OpenCode++ ${event.phase}${event.loop ? `:${event.loop}` : ""}] ${event.message}\n`);
+          }
         : undefined
   });
   console.log(
