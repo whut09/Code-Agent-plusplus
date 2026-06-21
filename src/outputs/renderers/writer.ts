@@ -342,6 +342,7 @@ function sanitizeIndexedFile(file: ContextPackage["index"]["files"][number]): Om
 }
 
 function writeTextFile(filePath: string, content: string): void {
+  mkdirSync(path.dirname(filePath), { recursive: true });
   const maxAttempts = 5;
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     try {
