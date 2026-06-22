@@ -5,6 +5,7 @@ import {
   renderOpenCodeLauncherPreflight,
   renderOpenCodeLauncherResult
 } from "../../integrations/opencode/launcher.js";
+import { windowsEditorHint } from "../tui-input.js";
 
 export function registerTuiCommand(program: Command, invokedName: string): void {
   program
@@ -17,6 +18,8 @@ export function registerTuiCommand(program: Command, invokedName: string): void 
     .option("--json", "print machine-readable launcher report")
     .description("Launch OpenCode TUI with the OpenCode++ sidecar plugin.")
     .action(async (repo: string, options: { forcePlugin?: boolean; skipContext?: boolean; pure?: boolean; dryRun?: boolean; json?: boolean }) => {
+      const hint = options.json || options.dryRun ? null : windowsEditorHint();
+      if (hint) console.log(hint);
       const result = await launchOpencodeTui({
         repo,
         forcePlugin: options.forcePlugin,

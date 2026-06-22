@@ -61,6 +61,16 @@ The latest sidecar result is written to:
 
 The TUI only receives a sidecar message when blockers are detected.
 
+## TUI Input Methods
+
+OpenCode++ keeps using OpenCode's native TUI. It does not embed the TUI and does not require Desktop. Use one of three input methods:
+
+1. Direct input for short prompts.
+2. `/editor` or `Ctrl+X E` for long prompts. On Windows, run `opencode-plusplus setup-editor` once to persist `EDITOR=code --wait`, falling back to `cursor --wait` or `notepad`.
+3. `/clip` for pasted long text: run `opencode-plusplus install-commands`, copy text, run `opencode-plusplus clip`, then invoke `/clip` in OpenCode TUI.
+
+More details: [TUI paste guide](tui-paste.md).
+
 ## Local Development
 
 Inside this repository:

@@ -70,6 +70,16 @@ opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 
 `opencode-plusplus` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/opencode-plusplus.ts`，准备 OpenCode commands/agent 文件，先打印简短状态，再进入当前仓库的 OpenCode TUI。sidecar plugin 会监听 `tool.execute.before`、`tool.execute.after`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；工具执行结束后会记录 command、exit code、stdout/stderr hash、working tree hash 和 touched files；OpenCode 空闲且有 dirty diff 时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
 
+## Windows / TUI ?????
+
+OpenCode++ ???? OpenCode ?? TUI??? Desktop????? TUI?????????????
+
+1. ?????? prompt ??? OpenCode TUI ????
+2. `/editor`???? `opencode-plusplus setup-editor`?Windows ??? `code --wait`?`cursor --wait`?`notepad` ????????? `EDITOR`???? TUI ??? `/editor` ? `Ctrl+X E`?
+3. `/clip`???? `opencode-plusplus install-commands` ?? `.opencode/commands/clip.md`????????? `opencode-plusplus clip`?????? `.opencode-plusplus/clipboard/latest.md`??? TUI ??? `/clip`?
+
+?? [TUI ????](docs/tui-paste.md)?
+
 ## Desktop MVP
 
 OpenCode++ Desktop 是实验性桌面入口，代码位于 `apps/desktop`，适合不想使用 OpenCode TUI / 命令行的用户。做 Desktop 的主要原因，是 OpenCode TUI 在 Windows / 终端环境里复制粘贴、多行任务输入、长文本编辑和输出查看体验不稳定；尤其是从网页、文档或 issue 里复制大段任务时，容易出现换行、引号、快捷键和焦点问题。

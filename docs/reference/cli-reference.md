@@ -28,6 +28,9 @@ opencode-plusplus orchestrate "task" .
 | Command                                   | Description                                                                                                    |
 | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | `opencode-plusplus tui`                   | Launch OpenCode TUI with the OpenCode++ sidecar plugin.                                                        |
+| `opencode-plusplus setup-editor`          | Configure EDITOR for OpenCode TUI /editor input.                                                               |
+| `opencode-plusplus clip`                  | Write clipboard or piped text to .opencode-plusplus/clipboard/latest.md.                                       |
+| `opencode-plusplus install-commands`      | Install OpenCode slash commands for OpenCode++ helpers.                                                        |
 | `opencode-plusplus sidecar`               | Inspect and verify OpenCode++ sidecar integrations.                                                            |
 | `opencode-plusplus sidecar verify`        | Verify the OpenCode sidecar plugin and event log readiness.                                                    |
 | `opencode-plusplus sidecar check-command` | Preflight-check a command or edit path before OpenCode executes it.                                            |
@@ -110,6 +113,9 @@ Options:
 
 Commands:
   tui [options] [repo]                      Launch OpenCode TUI with the OpenCode++ sidecar plugin.
+  setup-editor                              Configure EDITOR for OpenCode TUI /editor input.
+  clip [repo]                               Write clipboard or piped text to .opencode-plusplus/clipboard/latest.md.
+  install-commands [repo]                   Install OpenCode slash commands for OpenCode++ helpers.
   sidecar                                   Inspect and verify OpenCode++ sidecar integrations.
   report [options] [repo]                   Show the latest OpenCode++ sidecar report.
   status [options] [repo]                   Show whether the OpenCode++ OpenCode sidecar is active.
@@ -170,6 +176,45 @@ Options:
                   OpenCode
   --json          print machine-readable launcher report
   -h, --help      display help for command
+```
+
+### `opencode-plusplus setup-editor`
+
+```txt
+Usage: opencode-plusplus setup-editor [options]
+
+Configure EDITOR for OpenCode TUI /editor input.
+
+Options:
+  -h, --help  display help for command
+```
+
+### `opencode-plusplus clip`
+
+```txt
+Usage: opencode-plusplus clip [options] [repo]
+
+Write clipboard or piped text to .opencode-plusplus/clipboard/latest.md.
+
+Arguments:
+  repo        repository path (default: ".")
+
+Options:
+  -h, --help  display help for command
+```
+
+### `opencode-plusplus install-commands`
+
+```txt
+Usage: opencode-plusplus install-commands [options] [repo]
+
+Install OpenCode slash commands for OpenCode++ helpers.
+
+Arguments:
+  repo        repository path (default: ".")
+
+Options:
+  -h, --help  display help for command
 ```
 
 ### `opencode-plusplus sidecar`

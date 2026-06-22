@@ -96,6 +96,16 @@ flowchart TD
   Latest --> Doctor["opencode-plusplus doctor"]
 ```
 
+## Windows / TUI Long Input
+
+OpenCode++ keeps using the native OpenCode TUI. It does not build a Desktop replacement and does not embed the TUI. Use one of three input methods for long text:
+
+1. Direct input: type short prompts directly in OpenCode TUI.
+2. `/editor`: run `opencode-plusplus setup-editor` first. On Windows it persists user-level `EDITOR` with `code --wait`, then `cursor --wait`, then `notepad`. Then use `/editor` or `Ctrl+X E` in the TUI.
+3. `/clip`: run `opencode-plusplus install-commands` to install `.opencode/commands/clip.md`, copy long text, run `opencode-plusplus clip`, then invoke `/clip` in the TUI. The payload is stored at `.opencode-plusplus/clipboard/latest.md`.
+
+See [TUI paste guide](docs/tui-paste.md).
+
 ## Desktop MVP
 
 OpenCode++ Desktop is an experimental desktop entry point in `apps/desktop` for users who do not want to work through the OpenCode TUI or command line. The main reason for the desktop app is the copy/paste and long-input friction of terminal TUIs, especially on Windows: multiline tasks, quoted text, issue descriptions, and long command output are easier to handle in a normal desktop form and log panel.

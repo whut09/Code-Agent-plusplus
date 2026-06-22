@@ -16,6 +16,7 @@ import { registerStatusCommand } from "./commands/status.js";
 import { registerTaskCommands } from "./commands/task.js";
 import { registerTraceCommands } from "./commands/trace.js";
 import { registerTuiCommand } from "./commands/tui.js";
+import { registerTuiInputCommands } from "./commands/tui-input.js";
 
 export async function runCli(argv = process.argv): Promise<void> {
   const executableName = path.basename(argv[1] ?? "opencode-plusplus").replace(/\.(js|cmd|ps1)$/i, "");
@@ -35,6 +36,7 @@ export function createCliProgram(invokedName = "opencode-plusplus"): Command {
   program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
 
   registerTuiCommand(program, invokedName);
+  registerTuiInputCommands(program);
   registerSidecarCommands(program);
   registerReportCommand(program);
   registerStatusCommand(program);
