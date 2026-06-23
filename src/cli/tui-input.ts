@@ -60,7 +60,7 @@ export function windowsEditorHint(runtime: CliInputRuntime = {}): string | null 
   const platform = runtime.platform ?? process.platform;
   const env = runtime.env ?? process.env;
   if (platform !== "win32" || env.EDITOR) return null;
-  return "Windows \u8f93\u5165\u63d0\u793a\uff1a\u957f\u6587\u672c\u8bf7\u7528 /editor \u6216 Ctrl+X E\u3002\u53ef\u8fd0\u884c `opencode-plusplus setup-editor` \u6301\u4e45\u5316 EDITOR\u3002";
+  return "Windows input hint: for long text, use /editor or ctrl+x e. Run `opencode-plusplus setup-editor` to persist EDITOR.";
 }
 
 export function writeClipboardLatest(repo: string, text: string): FileWriteResult {

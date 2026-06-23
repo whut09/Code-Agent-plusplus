@@ -38,7 +38,7 @@ test("setup-editor writes Windows user EDITOR and prints export elsewhere", () =
 test("Windows TUI hint appears only when EDITOR is missing", () => {
   const hint = windowsEditorHint({ platform: "win32", env: {} }) ?? "";
   assert.equal(hint.includes("/editor"), true);
-  assert.equal(hint.includes("Ctrl+X E"), true);
+  assert.equal(hint.includes("ctrl+x e"), true);
   assert.equal(windowsEditorHint({ platform: "win32", env: { EDITOR: "code --wait" } }), null);
   assert.equal(windowsEditorHint({ platform: "linux", env: {} }), null);
 });

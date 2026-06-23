@@ -70,15 +70,15 @@ opencode-plusplus --pure   # 纯 OpenCode，不启用 OpenCode++
 
 `opencode-plusplus` 会执行 preflight，确保 `.agent-context`，写入 `.opencode/plugins/opencode-plusplus.ts`，准备 OpenCode commands/agent 文件，先打印简短状态，再进入当前仓库的 OpenCode TUI。sidecar plugin 会监听 `tool.execute.before`、`tool.execute.after`、`file.edited` 和 `session.idle`：执行危险命令、幻觉 package script / Makefile target、触碰 protected / secret path 时会前置阻断；工具执行结束后会记录 command、exit code、stdout/stderr hash、working tree hash 和 touched files；OpenCode 空闲且有 dirty diff 时会自动运行增量验证，写入 `.agent-context/sidecar/latest.json` 和 `.agent-context/sidecar/latest.md`。
 
-## Windows / TUI ?????
+## Windows / TUI 长文本输入
 
-OpenCode++ ???? OpenCode ?? TUI??? Desktop????? TUI?????????????
+OpenCode++ 继续使用 OpenCode 原生 TUI，不做 Desktop 替代，也不嵌入 TUI。长文本输入有三种方式：
 
-1. ?????? prompt ??? OpenCode TUI ????
-2. `/editor`???? `opencode-plusplus setup-editor`?Windows ??? `code --wait`?`cursor --wait`?`notepad` ????????? `EDITOR`???? TUI ??? `/editor` ? `Ctrl+X E`?
-3. `/clip`???? `opencode-plusplus install-commands` ?? `.opencode/commands/clip.md`????????? `opencode-plusplus clip`?????? `.opencode-plusplus/clipboard/latest.md`??? TUI ??? `/clip`?
+1. 直接输入：短 prompt 直接在 OpenCode TUI 里输入。
+2. `/editor`：先运行 `opencode-plusplus setup-editor`。Windows 下会按 `code --wait`、`cursor --wait`、`notepad` 的优先级写入用户级 `EDITOR` 环境变量；然后在 TUI 里使用 `/editor` 或 `Ctrl+X E`。
+3. `/clip`：先运行 `opencode-plusplus install-commands` 写入 `.opencode/commands/clip.md`，复制长文本后运行 `opencode-plusplus clip`，内容会写入 `.opencode-plusplus/clipboard/latest.md`，再在 TUI 里执行 `/clip`。
 
-?? [TUI ????](docs/tui-paste.md)?
+详见 [TUI 粘贴指南](docs/tui-paste.md)。
 
 ## Desktop MVP
 
