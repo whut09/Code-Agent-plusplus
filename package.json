@@ -17,8 +17,19 @@
     "README.zh-CN.md",
     "opencode-plusplus.config.example.yml",
     "opencode-plusplus.local.example.yml",
-    "benchmarks",
-    "apps"
+    "benchmarks/README.md",
+    "benchmarks/agent-runs",
+    "benchmarks/expected",
+    "benchmarks/tasks",
+    "benchmarks/fixtures/fastapi-app",
+    "benchmarks/fixtures/monorepo",
+    "benchmarks/fixtures/react-app",
+    "benchmarks/fixtures/small-ts-app/.agent-context/regression",
+    "benchmarks/fixtures/small-ts-app/package.json",
+    "benchmarks/fixtures/small-ts-app/src",
+    "benchmarks/fixtures/small-ts-app/test",
+    "apps/desktop/dist",
+    "apps/desktop/package.json"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -34,7 +45,7 @@
     "benchmark": "tsx src/cli/index.ts benchmark benchmarks --top-k 8",
     "benchmark:agent": "tsx src/cli/index.ts benchmark-agent benchmarks --executor mock --dry-run",
     "pack:dry-run": "npm pack --dry-run",
-    "prepublishOnly": "npm run check && npm run lint && npm run format:check && npm run docs:cli:check && npm test && npm run benchmark && npm run benchmark:agent && npm run build"
+    "prepublishOnly": "npm run check && npm run lint && npm run format:check && npm run docs:cli:check && npm test && npm run benchmark && npm run benchmark:agent && npm run build && npm run pack:dry-run"
   },
   "engines": {
     "node": ">=20"

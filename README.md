@@ -37,6 +37,32 @@ opencode-plusplus
 npm i -g opencode-plusplus opencode-ai
 ```
 
+## 最近里程碑：v0.1.0 npm 发布
+
+当前最重要的产品化里程碑不是继续增加新 Guard，而是发布 `opencode-plusplus@0.1.0` 到 npm。发布完成后，首页安装路径会直接切换为：
+
+```bash
+npm i -g opencode-plusplus opencode-ai
+cd your-repo
+opencode-plusplus
+```
+
+发布前必须通过的检查：
+
+```bash
+npm run check
+npm run lint
+npm run format:check
+npm run docs:cli:check
+npm test
+npm run benchmark
+npm run benchmark:agent
+npm run build
+npm run pack:dry-run
+```
+
+CI 已覆盖这些基础检查；`prepublishOnly` 也会执行同一组发布门禁。详见 [Release Checklist](docs/release.md)。
+
 然后像使用 OpenCode 一样聊天：
 
 ```txt

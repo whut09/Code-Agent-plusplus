@@ -37,6 +37,32 @@ After the package is published to npm, installation will become:
 npm i -g opencode-plusplus opencode-ai
 ```
 
+## Near-Term Milestone: v0.1.0 npm Release
+
+The most important productization milestone now is publishing `opencode-plusplus@0.1.0` to npm, not adding another guard module. After that release, the README install path will become:
+
+```bash
+npm i -g opencode-plusplus opencode-ai
+cd your-repo
+opencode-plusplus
+```
+
+The release gate must pass:
+
+```bash
+npm run check
+npm run lint
+npm run format:check
+npm run docs:cli:check
+npm test
+npm run benchmark
+npm run benchmark:agent
+npm run build
+npm run pack:dry-run
+```
+
+CI already covers this baseline, and `prepublishOnly` runs the same publish gate. See [Release Checklist](docs/release.md).
+
 Then chat like you normally would in OpenCode:
 
 ```txt

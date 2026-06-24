@@ -11,6 +11,7 @@ This is the documentation map for OpenCode++. Start with the path that matches y
 | Understand the runtime architecture   | [Architecture](concepts/architecture.md)                                                                 |
 | Choose Agent-led or Harness-led usage | [Integration Modes](concepts/integration-modes.md)                                                       |
 | Use OpenCode chat with sidecar guards | [OpenCode Transparent Sidecar](integrations/opencode-sidecar.md)                                         |
+| Prepare the v0.1.0 npm release        | [Release Checklist](release.md)                                                                          |
 | Use the desktop MVP shell             | [Desktop MVP](desktop.md)                                                                                |
 | Integrate an executor CLI             | [Executor CLI Integration](integrations/executor-cli.md)                                                 |
 | Use MCP tools                         | [MCP Tools](reference/mcp-tools.md) and [MCP Troubleshooting](integrations/mcp-troubleshooting.md)       |
@@ -41,6 +42,7 @@ Chinese concept pages:
 - [Configuration](reference/config.md)
 - [Executor Adapters](reference/executor-adapters.md)
 - [Retrieval Providers](reference/retrieval.md)
+- [Release Checklist](release.md)
 
 ## Integrations
 

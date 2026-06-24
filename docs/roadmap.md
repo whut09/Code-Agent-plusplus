@@ -1,6 +1,6 @@
 # Roadmap
 
-OpenCode++ is evolving from 鈥済enerate files that help an agent read a repo鈥?into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. OpenCode++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
+OpenCode++ is evolving from "generate files that help an agent read a repo" into a **Code Agent Enhancement Layer / Agent Reliability Layer**. It does not compete with Codex, Claude Code, Cursor, OpenCode, or MiMoCode. Those tools own code execution. OpenCode++ provides a bounded reliability loop around them: context, boundaries, evidence, impact, regression protection, hallucination checks, gate evaluation, and repair/finalize decision reports.
 
 The roadmap is organized around the harness lifecycle:
 
@@ -23,6 +23,34 @@ User task
   -> Guard modules evaluate the run
   -> Loop Guard reports finalize / repair / repack / block / human review
 ```
+
+## v0.1.0: npm Package Release
+
+Goal: make OpenCode++ installable and testable by external users without cloning the repository.
+
+This is the nearest milestone. The project already has enough MVP surface to demonstrate the OpenCode sidecar, batch executor, guard reports, benchmark harness, and generated context package. The next unlock is distribution:
+
+```bash
+npm i -g opencode-plusplus opencode-ai
+cd your-repo
+opencode-plusplus
+```
+
+Release gate:
+
+- `npm run check`
+- `npm run lint`
+- `npm run format:check`
+- `npm run docs:cli:check`
+- `npm test`
+- `npm run benchmark`
+- `npm run benchmark:agent`
+- `npm run build`
+- `npm run pack:dry-run`
+
+CI already runs the same baseline. `prepublishOnly` also runs the publish gate so the npm package cannot be published without regenerated CLI docs, passing tests, benchmark smoke checks, a build, and a dry-run package inspection.
+
+Status: next release milestone.
 
 ## v0.2: Context Guard Foundation
 

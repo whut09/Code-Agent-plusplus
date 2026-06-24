@@ -11,11 +11,38 @@ OpenCode++ 的路线图围绕一条主线展开：
 
 ## 近期重点
 
+- 把 `opencode-plusplus@0.1.0` 发布到 npm，让外部用户不再需要 clone 源码和 `npm link`。
 - 收敛 README，把细节迁入 docs。
 - 稳定 bounded harness-led orchestrator。
 - 强化 OpenCode executor 和事件 normalizer。
 - 完善 Hallucination Guard、Regression Guard、Evidence Guard 的阻断条件。
 - 让 MCP core tools 和 runtime tools 的状态更清晰。
+
+### v0.1.0 npm 发布门禁
+
+发布前必须通过：
+
+```bash
+npm run check
+npm run lint
+npm run format:check
+npm run docs:cli:check
+npm test
+npm run benchmark
+npm run benchmark:agent
+npm run build
+npm run pack:dry-run
+```
+
+CI 已覆盖同一组基础检查，`prepublishOnly` 也会执行同一组发布门禁。发布成功之后，首页安装路径会切换为：
+
+```bash
+npm i -g opencode-plusplus opencode-ai
+cd your-repo
+opencode-plusplus
+```
+
+发布前不要在文档里声称 npm 包已经可用。详细步骤见 [Release Checklist](release.md)。
 
 ## 中期目标
 
