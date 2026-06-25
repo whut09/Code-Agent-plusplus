@@ -33,7 +33,7 @@ export async function runCli(argv = process.argv): Promise<void> {
 
 export function createCliProgram(invokedName = "opencode-plusplus"): Command {
   const program = new Command();
-  program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.0");
+  program.name(invokedName).description("OpenCode++: add context, boundaries, evidence, and verification gates to coding agents.").version("0.1.1");
 
   registerTuiCommand(program, invokedName);
   registerTuiInputCommands(program);

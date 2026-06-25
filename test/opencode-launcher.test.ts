@@ -169,7 +169,7 @@ test("OpenCode++ doctor reports CLI/plugin version consistency", async () => {
 
     assert.equal(versionCheck?.status, "pass");
     assert.equal(versionCheck?.label, "CLI/plugin version");
-    assert.match(versionCheck?.details ?? "", /^0\.1\.0 \(generated at /);
+    assert.match(versionCheck?.details ?? "", /^0\.1\.1 \(generated at /);
   } finally {
     process.env.PATH = oldPath;
     rmSync(root, { recursive: true, force: true });

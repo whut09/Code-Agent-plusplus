@@ -4,15 +4,10 @@ This guide gets OpenCode++ running in OpenCode chat mode in about five minutes.
 
 ## Install
 
-`opencode-plusplus` has not been published to npm yet. For now, install OpenCode from npm, clone OpenCode++, build it, and link the `opencode-plusplus` command globally:
+Install OpenCode++ and OpenCode globally:
 
 ```bash
-npm i -g opencode-ai
-git clone https://github.com/whut09/opencode-plusplus.git
-cd opencode-plusplus
-npm install
-npm run build
-npm link
+npm i -g opencode-plusplus opencode-ai
 ```
 
 Then enter the repository you want to work on:
@@ -20,12 +15,6 @@ Then enter the repository you want to work on:
 ```bash
 cd your-repo
 opencode-plusplus
-```
-
-After OpenCode++ is published to npm, this will become:
-
-```bash
-npm i -g opencode-plusplus opencode-ai
 ```
 
 Then chat normally:

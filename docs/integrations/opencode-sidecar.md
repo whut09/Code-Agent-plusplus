@@ -6,15 +6,10 @@ OpenCode++ does not replace OpenCode. OpenCode reads, edits, and runs tools; Ope
 
 ## User Experience
 
-`opencode-plusplus` has not been published to npm yet. Install OpenCode from npm, then install OpenCode++ from source and link `opencode-plusplus` globally:
+Install OpenCode++ and OpenCode globally:
 
 ```bash
-npm i -g opencode-ai
-git clone https://github.com/whut09/opencode-plusplus.git
-cd opencode-plusplus
-npm install
-npm run build
-npm link
+npm i -g opencode-plusplus opencode-ai
 ```
 
 Then enter the repository where you want the sidecar:
@@ -23,8 +18,6 @@ Then enter the repository where you want the sidecar:
 cd your-repo
 opencode-plusplus
 ```
-
-After the package is published to npm, the install step will become `npm i -g opencode-plusplus opencode-ai`.
 
 `opencode-plusplus` runs preflight, prints a compact readiness summary, and then launches OpenCode:
 

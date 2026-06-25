@@ -22,7 +22,7 @@ test("freshness is fresh after build and stale after source changes", async () =
 
     const freshContext = await buildContextPackage(root);
     const fresh = assessFreshness(freshContext);
-    assert.equal(readContextManifest(root)?.toolVersion, "0.1.0");
+    assert.equal(readContextManifest(root)?.toolVersion, "0.1.1");
     assert.equal(fresh.status, "fresh");
 
     writeFileSync(path.join(root, "src", "index.ts"), "export const value = 2;\n", "utf8");

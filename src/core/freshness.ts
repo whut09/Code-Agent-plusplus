@@ -7,7 +7,7 @@ import { buildRepoContracts } from "../outputs/contracts.js";
 import { buildTaskPack } from "../outputs/task-context.js";
 import { bullet, code, heading } from "../outputs/renderers/markdown.js";
 
-const TOOL_VERSION = "0.1.0";
+const TOOL_VERSION = "0.1.1";
 const MANIFEST_PATH = ".agent-context/manifest.json";
 
 export interface ContextManifest {

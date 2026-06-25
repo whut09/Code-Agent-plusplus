@@ -50,7 +50,7 @@ Release gate:
 
 CI already runs the same baseline. `prepublishOnly` also runs the publish gate so the npm package cannot be published without regenerated CLI docs, passing tests, benchmark smoke checks, a build, and a dry-run package inspection.
 
-Status: next release milestone.
+Status: published on npm; patch releases keep the public install path and package metadata aligned.
 
 ## v0.2: Context Guard Foundation
 

@@ -13,15 +13,10 @@ OpenCode++ provides context, boundaries, evidence, gates, impact analysis, and r
 
 ## 30-Second Start
 
-`opencode-plusplus` has not been published to npm yet, so `npm i -g opencode-plusplus` does not work today. Install OpenCode++ from source and link the `opencode-plusplus` command globally:
+Install OpenCode++ and OpenCode globally from your local terminal:
 
 ```bash
-npm i -g opencode-ai
-git clone https://github.com/whut09/opencode-plusplus.git
-cd opencode-plusplus
-npm install
-npm run build
-npm link
+npm i -g opencode-plusplus opencode-ai
 ```
 
 Then enter the target repository where you want OpenCode++ to run:
@@ -29,12 +24,6 @@ Then enter the target repository where you want OpenCode++ to run:
 ```bash
 cd your-repo
 opencode-plusplus
-```
-
-After the package is published to npm, installation will become:
-
-```bash
-npm i -g opencode-plusplus opencode-ai
 ```
 
 Then chat like you normally would in OpenCode:
